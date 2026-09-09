@@ -7,9 +7,11 @@ import type { Question } from '../../lib/types'
 
 const ALL_TABLES = Array.from({ length: 30 }, (_, i) => i + 1)
 const QUESTION_COUNTS = [10, 20, 30, 50, 100]
+const MULTIPLIER_MAXES = [10, 20, 30]
 
 export default function TablesPractice() {
   const [selected, setSelected] = useState<Set<number>>(new Set([11, 12, 13, 14, 15, 16, 17, 18, 19, 20]))
+  const [multiplierMax, setMultiplierMax] = useState(30)
   const [count, setCount] = useState(20)
   const [questions, setQuestions] = useState<Question[] | null>(null)
   const [sessionKey, setSessionKey] = useState(0)
@@ -28,7 +30,7 @@ export default function TablesPractice() {
   }
 
   function newQuestions() {
-    return generateTablesQuestions([...selected].sort((a, b) => a - b), 30, count)
+    return generateTablesQuestions([...selected].sort((a, b) => a - b), multiplierMax, count)
   }
 
   function start() {
@@ -60,7 +62,7 @@ export default function TablesPractice() {
       </Link>
       <h1 className="mt-2 text-3xl font-extrabold text-slate-900">Tables Practice</h1>
       <p className="mt-2 text-slate-500">
-        Pick which tables to practice (e.g. 28's table = 28 × 1, 28 × 2 … 28 × 30). Don't know a table well? Just skip it during the round.
+        Pick which tables to practice (e.g. 28's table = 28 × 1, 28 × 2 … 28 × 30) and how far to multiply. Don't know a table well? Just skip it during the round.
       </p>
 
       <div className="mt-8 rounded-3xl bg-white p-6 shadow-sm ring-1 ring-slate-200">
@@ -90,6 +92,22 @@ export default function TablesPractice() {
           ))}
         </div>
 
+        <h2 className="mt-6 font-semibold text-slate-800">Multiply up to</h2>
+        <div className="mt-3 flex flex-wrap gap-2">
+          {MULTIPLIER_MAXES.map((m) => (
+            <button
+              key={m}
+              onClick={() => setMultiplierMax(m)}
+              className={[
+                'rounded-lg px-4 py-2 text-sm font-semibold transition',
+                multiplierMax === m ? 'bg-indigo-600 text-white' : 'bg-slate-100 text-slate-600 hover:bg-slate-200',
+              ].join(' ')}
+            >
+              × {m}
+            </button>
+          ))}
+        </div>
+
         <h2 className="mt-6 font-semibold text-slate-800">Number of questions</h2>
         <div className="mt-3 flex flex-wrap gap-2">
           {QUESTION_COUNTS.map((c) => (
@@ -111,7 +129,9 @@ export default function TablesPractice() {
           disabled={selected.size === 0}
           className="mt-8 w-full rounded-xl bg-indigo-600 px-4 py-3 font-semibold text-white shadow-sm transition hover:bg-indigo-500 active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-40"
         >
-          {selected.size === 0 ? 'Select at least one table' : `Start · ${selected.size} table${selected.size > 1 ? 's' : ''} · ${count} questions`}
+          {selected.size === 0
+            ? 'Select at least one table'
+            : `Start · ${selected.size} table${selected.size > 1 ? 's' : ''} · up to ×${multiplierMax} · ${count} questions`}
         </button>
       </div>
     </div>
