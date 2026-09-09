@@ -9,6 +9,14 @@ const modules = [
     gameCount: 3,
     icon: '⚡',
   },
+  {
+    id: 'english',
+    title: 'English',
+    description: 'Build your vocabulary with a browsable word bank and a hint-powered quiz across three difficulty levels.',
+    to: '/english',
+    gameCount: 1,
+    icon: '📚',
+  },
 ]
 
 export default function Home() {
@@ -39,7 +47,7 @@ export default function Home() {
         <div className="rounded-3xl border-2 border-dashed border-slate-200 p-6 text-slate-400">
           <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-slate-50 text-2xl">🚧</div>
           <h2 className="mt-4 text-xl font-bold text-slate-400">More modules</h2>
-          <p className="mt-1 text-sm">Reasoning, vocabulary and general awareness modules are coming soon.</p>
+          <p className="mt-1 text-sm">Reasoning and general awareness modules are coming soon.</p>
         </div>
       </div>
     </div>

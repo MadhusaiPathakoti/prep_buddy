@@ -1,4 +1,5 @@
 import type { Question } from './types'
+import { VOCAB_BANK, type VocabDifficulty } from '../data/vocabulary'
 
 export function shuffle<T>(arr: T[]): T[] {
   const a = [...arr]
@@ -67,4 +68,30 @@ export function generateRatioQuestions(maxDenominator: number, difficulty: Ratio
 
 function gcd(a: number, b: number): number {
   return b === 0 ? a : gcd(b, a % b)
+}
+
+export interface VocabQuestion {
+  id: string
+  word: string
+  correctMeaning: string
+  options: string[]
+  hint: string
+}
+
+/** MCQ questions: pick a word from the bank at the chosen difficulty, with 3 wrong meanings as distractors. */
+export function generateVocabQuestions(difficulty: VocabDifficulty, count: number): VocabQuestion[] {
+  const pool = VOCAB_BANK.filter((w) => w.difficulty === difficulty)
+  const chosen = shuffle(pool).slice(0, Math.min(count, pool.length))
+  return chosen.map((w) => {
+    const distractors = shuffle(pool.filter((x) => x.id !== w.id))
+      .slice(0, 3)
+      .map((x) => x.meaning)
+    return {
+      id: w.id,
+      word: w.word,
+      correctMeaning: w.meaning,
+      options: shuffle([w.meaning, ...distractors]),
+      hint: w.hint,
+    }
+  })
 }

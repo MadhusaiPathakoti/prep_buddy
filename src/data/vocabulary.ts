@@ -1,0 +1,78 @@
+export type VocabDifficulty = 'easy' | 'medium' | 'hard'
+
+export interface VocabWord {
+  id: string
+  word: string
+  meaning: string
+  difficulty: VocabDifficulty
+  hint: string
+  example: string
+}
+
+export const VOCAB_BANK: VocabWord[] = [
+  // Easy
+  { id: 'abundant', word: 'Abundant', meaning: 'Existing in large quantities; plentiful', difficulty: 'easy', hint: 'Opposite of scarce', example: 'The region has abundant natural resources.' },
+  { id: 'benevolent', word: 'Benevolent', meaning: 'Kind and generous', difficulty: 'easy', hint: 'Think of a "benefactor"', example: 'She was known for her benevolent nature.' },
+  { id: 'candid', word: 'Candid', meaning: 'Truthful and straightforward; frank', difficulty: 'easy', hint: 'Opposite of secretive', example: 'He gave a candid opinion about the movie.' },
+  { id: 'diligent', word: 'Diligent', meaning: 'Showing care and effort in work', difficulty: 'easy', hint: 'A synonym is "hardworking"', example: 'The diligent student finished her homework early.' },
+  { id: 'eager', word: 'Eager', meaning: 'Keen or enthusiastic to do something', difficulty: 'easy', hint: 'Opposite of reluctant', example: 'He was eager to start his new job.' },
+  { id: 'fragile', word: 'Fragile', meaning: 'Easily broken or damaged', difficulty: 'easy', hint: 'Think of glass', example: 'Handle the fragile vase with care.' },
+  { id: 'genuine', word: 'Genuine', meaning: 'Truly what it is said to be; authentic', difficulty: 'easy', hint: 'Opposite of fake', example: 'She showed genuine concern for his health.' },
+  { id: 'humble', word: 'Humble', meaning: 'Having a modest opinion of oneself', difficulty: 'easy', hint: 'Opposite of arrogant', example: 'Despite his success, he remained humble.' },
+  { id: 'immense', word: 'Immense', meaning: 'Extremely large or great', difficulty: 'easy', hint: 'Synonym of huge', example: 'The project required immense effort.' },
+  { id: 'joyful', word: 'Joyful', meaning: 'Feeling or expressing great happiness', difficulty: 'easy', hint: 'Synonym of cheerful', example: 'The children were joyful during the festival.' },
+  { id: 'keen', word: 'Keen', meaning: 'Having or showing eagerness or intense interest', difficulty: 'easy', hint: 'Synonym of enthusiastic', example: 'She has a keen interest in painting.' },
+  { id: 'lenient', word: 'Lenient', meaning: 'More merciful or tolerant than expected; not strict', difficulty: 'easy', hint: 'Opposite of strict', example: 'The teacher was lenient about late submissions.' },
+  { id: 'modest', word: 'Modest', meaning: "Unassuming in the estimation of one's abilities", difficulty: 'easy', hint: 'Opposite of boastful', example: 'He gave a modest account of his achievements.' },
+  { id: 'notorious', word: 'Notorious', meaning: 'Famous for some bad quality or deed', difficulty: 'easy', hint: 'Famous for the wrong reason', example: 'The area is notorious for traffic jams.' },
+  { id: 'obedient', word: 'Obedient', meaning: 'Complying with an order or request; submissive', difficulty: 'easy', hint: 'Opposite of defiant', example: 'The obedient dog followed every command.' },
+  { id: 'patient', word: 'Patient', meaning: 'Able to accept delay without becoming annoyed', difficulty: 'easy', hint: 'Opposite of impatient', example: 'You must be patient while waiting in line.' },
+  { id: 'rigid', word: 'Rigid', meaning: 'Unable to bend or change; strict', difficulty: 'easy', hint: 'Synonym of stiff', example: 'The rules here are quite rigid.' },
+  { id: 'sincere', word: 'Sincere', meaning: 'Free from pretense; genuine', difficulty: 'easy', hint: 'Synonym of honest', example: 'He offered a sincere apology.' },
+  { id: 'timid', word: 'Timid', meaning: 'Showing a lack of courage or confidence; shy', difficulty: 'easy', hint: 'Opposite of bold', example: 'The timid cat hid under the bed.' },
+  { id: 'vivid', word: 'Vivid', meaning: 'Producing powerful feelings or clear images in the mind', difficulty: 'easy', hint: 'Think of bright colors', example: 'She has vivid memories of her childhood.' },
+
+  // Medium
+  { id: 'ambiguous', word: 'Ambiguous', meaning: 'Open to more than one interpretation; unclear', difficulty: 'medium', hint: 'Opposite of clear-cut', example: "The contract's wording was ambiguous." },
+  { id: 'cryptic', word: 'Cryptic', meaning: 'Having a meaning that is mysterious or obscure', difficulty: 'medium', hint: 'Think of a puzzle', example: 'He left a cryptic note before leaving.' },
+  { id: 'deceive', word: 'Deceive', meaning: 'To cause someone to believe something untrue; mislead', difficulty: 'medium', hint: 'Synonym of trick', example: 'He tried to deceive the investors.' },
+  { id: 'eloquent', word: 'Eloquent', meaning: 'Fluent and persuasive in speaking or writing', difficulty: 'medium', hint: 'Think of a great speaker', example: 'She gave an eloquent speech at the ceremony.' },
+  { id: 'frugal', word: 'Frugal', meaning: 'Sparing or economical with money or food', difficulty: 'medium', hint: 'Opposite of wasteful', example: 'He lived a frugal life despite his wealth.' },
+  { id: 'gregarious', word: 'Gregarious', meaning: 'Fond of company; sociable', difficulty: 'medium', hint: 'Opposite of reclusive', example: 'Her gregarious nature made her popular.' },
+  { id: 'hostile', word: 'Hostile', meaning: 'Unfriendly; antagonistic', difficulty: 'medium', hint: 'Opposite of friendly', example: 'The crowd grew hostile toward the referee.' },
+  { id: 'impartial', word: 'Impartial', meaning: 'Treating all rivals or viewpoints equally; unbiased', difficulty: 'medium', hint: 'Synonym of neutral', example: 'A judge must remain impartial.' },
+  { id: 'jubilant', word: 'Jubilant', meaning: 'Feeling or expressing great happiness and triumph', difficulty: 'medium', hint: 'Think of celebrating a victory', example: 'The team was jubilant after winning the cup.' },
+  { id: 'lucid', word: 'Lucid', meaning: 'Expressed clearly; easy to understand', difficulty: 'medium', hint: 'Opposite of confusing', example: 'He gave a lucid explanation of the theory.' },
+  { id: 'meticulous', word: 'Meticulous', meaning: 'Showing great attention to detail; very careful', difficulty: 'medium', hint: 'Synonym of thorough', example: 'She is meticulous in her research work.' },
+  { id: 'nostalgic', word: 'Nostalgic', meaning: 'Feeling a sentimental longing for the past', difficulty: 'medium', hint: 'Think of missing old days', example: 'The old song made him nostalgic.' },
+  { id: 'obsolete', word: 'Obsolete', meaning: 'No longer produced or used; out of date', difficulty: 'medium', hint: 'Opposite of modern', example: 'That software is now obsolete.' },
+  { id: 'pragmatic', word: 'Pragmatic', meaning: 'Dealing with things sensibly and realistically', difficulty: 'medium', hint: 'Opposite of idealistic', example: 'He took a pragmatic approach to the problem.' },
+  { id: 'quaint', word: 'Quaint', meaning: 'Attractively unusual or old-fashioned', difficulty: 'medium', hint: 'Think of a charming old village', example: 'They stayed in a quaint little cottage.' },
+  { id: 'resilient', word: 'Resilient', meaning: 'Able to recover quickly from difficulties; tough', difficulty: 'medium', hint: 'Think of bouncing back', example: 'The economy proved resilient after the crisis.' },
+  { id: 'skeptical', word: 'Skeptical', meaning: 'Not easily convinced; having doubts', difficulty: 'medium', hint: 'Opposite of gullible', example: 'She was skeptical of his excuse.' },
+  { id: 'tedious', word: 'Tedious', meaning: 'Too long, slow, or dull; tiresome', difficulty: 'medium', hint: 'Synonym of monotonous', example: 'Filling out the forms was a tedious task.' },
+  { id: 'unanimous', word: 'Unanimous', meaning: 'Fully in agreement', difficulty: 'medium', hint: 'Think of "everyone agrees"', example: 'The decision was unanimous among the board members.' },
+  { id: 'volatile', word: 'Volatile', meaning: 'Liable to change rapidly and unpredictably', difficulty: 'medium', hint: 'Think of an unstable market', example: 'The stock market has been volatile this week.' },
+
+  // Hard
+  { id: 'abrogate', word: 'Abrogate', meaning: 'To repeal or do away with a law or agreement', difficulty: 'hard', hint: 'Think of officially cancelling something', example: 'The new government moved to abrogate the old treaty.' },
+  { id: 'cacophony', word: 'Cacophony', meaning: 'A harsh, discordant mixture of sounds', difficulty: 'hard', hint: 'Opposite of harmony', example: 'The cacophony of car horns filled the street.' },
+  { id: 'deleterious', word: 'Deleterious', meaning: 'Causing harm or damage', difficulty: 'hard', hint: 'Synonym of harmful', example: 'Smoking has deleterious effects on health.' },
+  { id: 'ephemeral', word: 'Ephemeral', meaning: 'Lasting for a very short time', difficulty: 'hard', hint: 'Opposite of permanent', example: 'Fame in showbiz can be ephemeral.' },
+  { id: 'fastidious', word: 'Fastidious', meaning: 'Very attentive to detail; hard to please', difficulty: 'hard', hint: 'Think of a picky perfectionist', example: 'He is fastidious about his appearance.' },
+  { id: 'garrulous', word: 'Garrulous', meaning: 'Excessively talkative', difficulty: 'hard', hint: 'Synonym of chatty', example: 'The garrulous old man told stories for hours.' },
+  { id: 'iconoclast', word: 'Iconoclast', meaning: 'A person who attacks cherished beliefs or institutions', difficulty: 'hard', hint: 'Think of someone who challenges tradition', example: 'The artist was seen as an iconoclast of his time.' },
+  { id: 'juxtapose', word: 'Juxtapose', meaning: 'To place things side by side for contrasting effect', difficulty: 'hard', hint: 'Think of comparing two things placed together', example: 'The exhibit juxtaposes old and new architecture.' },
+  { id: 'laconic', word: 'Laconic', meaning: 'Using very few words; concise', difficulty: 'hard', hint: 'Opposite of wordy', example: 'His laconic reply surprised everyone.' },
+  { id: 'magnanimous', word: 'Magnanimous', meaning: 'Generous or forgiving toward a rival or less powerful person', difficulty: 'hard', hint: 'Think of a gracious winner', example: 'She was magnanimous in victory.' },
+  { id: 'nefarious', word: 'Nefarious', meaning: 'Wicked or criminal', difficulty: 'hard', hint: 'Synonym of villainous', example: 'The spy uncovered their nefarious plot.' },
+  { id: 'obfuscate', word: 'Obfuscate', meaning: 'To make unclear or difficult to understand; confuse', difficulty: 'hard', hint: 'Opposite of clarify', example: 'The report seemed designed to obfuscate the facts.' },
+  { id: 'panacea', word: 'Panacea', meaning: 'A solution or remedy for all difficulties', difficulty: 'hard', hint: 'Think of a "cure-all"', example: 'There is no panacea for unemployment.' },
+  { id: 'quixotic', word: 'Quixotic', meaning: 'Extremely idealistic and unrealistic', difficulty: 'hard', hint: 'Think of chasing impossible dreams', example: 'His quixotic plan to reform the system failed.' },
+  { id: 'recalcitrant', word: 'Recalcitrant', meaning: 'Having an obstinate resistance to authority', difficulty: 'hard', hint: 'Synonym of defiant', example: 'The recalcitrant student refused to follow rules.' },
+  { id: 'sycophant', word: 'Sycophant', meaning: 'A person who acts obsequiously to gain advantage', difficulty: 'hard', hint: 'Think of a flatterer', example: 'The king was surrounded by sycophants.' },
+  { id: 'taciturn', word: 'Taciturn', meaning: 'Reserved or uncommunicative in speech', difficulty: 'hard', hint: 'Synonym of quiet, reticent', example: 'He remained taciturn throughout the meeting.' },
+  { id: 'ubiquitous', word: 'Ubiquitous', meaning: 'Present, appearing, or found everywhere', difficulty: 'hard', hint: 'Think of something seen all over', example: 'Smartphones have become ubiquitous today.' },
+  { id: 'vociferous', word: 'Vociferous', meaning: 'Vehement or clamorous; loud and forceful', difficulty: 'hard', hint: 'Synonym of loud, outspoken', example: 'The vociferous crowd demanded justice.' },
+  { id: 'zealous', word: 'Zealous', meaning: 'Having great energy or enthusiasm for a cause', difficulty: 'hard', hint: 'Synonym of passionate', example: 'He was a zealous supporter of the campaign.' },
+]

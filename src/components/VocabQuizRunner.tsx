@@ -1,44 +1,33 @@
 import { useEffect, useRef, useState } from 'react'
-import type { CheckResult, Question } from '../lib/types'
+import type { VocabQuestion } from '../lib/generators'
 import { addSession } from '../lib/storage'
 import { formatTime } from '../lib/format'
 import Stat from './Stat'
 import ReviewList, { type ReviewItem } from './ReviewList'
 
-type Feedback = 'idle' | 'correct' | 'wrong'
-
-interface QuizRunnerProps {
+interface VocabQuizRunnerProps {
   gameId: string
-  questions: Question[]
-  validate: (raw: string, answer: number) => CheckResult
-  inputMode?: 'numeric' | 'decimal'
-  answerHint?: string
+  questions: VocabQuestion[]
   onExit: () => void
   onRestart: () => void
 }
 
-export default function QuizRunner({
-  gameId,
-  questions,
-  validate,
-  inputMode = 'numeric',
-  answerHint,
-  onExit,
-  onRestart,
-}: QuizRunnerProps) {
+export default function VocabQuizRunner({ gameId, questions, onExit, onRestart }: VocabQuizRunnerProps) {
   const [index, setIndex] = useState(0)
-  const [input, setInput] = useState('')
+  const [eliminated, setEliminated] = useState<Set<string>>(new Set())
+  const [justCorrect, setJustCorrect] = useState<string | null>(null)
+  const [flashWrong, setFlashWrong] = useState<string | null>(null)
+  const [hintShown, setHintShown] = useState(false)
+  const [revealAnswer, setRevealAnswer] = useState(false)
+  const [locked, setLocked] = useState(false)
   const [correct, setCorrect] = useState(0)
   const [wrongAttempts, setWrongAttempts] = useState(0)
   const [skipped, setSkipped] = useState(0)
-  const [feedback, setFeedback] = useState<Feedback>('idle')
-  const [revealAnswer, setRevealAnswer] = useState<string | null>(null)
   const [finished, setFinished] = useState(false)
   const [startTime] = useState(() => Date.now())
   const [elapsedMs, setElapsedMs] = useState(0)
   const [reviewItems, setReviewItems] = useState<ReviewItem[]>([])
 
-  const inputRef = useRef<HTMLInputElement>(null)
   const savedRef = useRef(false)
 
   useEffect(() => {
@@ -46,12 +35,6 @@ export default function QuizRunner({
     const id = setInterval(() => setElapsedMs(Date.now() - startTime), 250)
     return () => clearInterval(id)
   }, [finished, startTime])
-
-  useEffect(() => {
-    if (!finished && revealAnswer === null) {
-      inputRef.current?.focus()
-    }
-  }, [index, finished, revealAnswer])
 
   useEffect(() => {
     if (finished && !savedRef.current) {
@@ -74,68 +57,47 @@ export default function QuizRunner({
     setReviewItems((items) =>
       items.some((i) => i.id === current.id)
         ? items
-        : [...items, { id: current.id, prompt: current.prompt, displayAnswer: current.displayAnswer, skipped }],
+        : [...items, { id: current.id, prompt: current.word, displayAnswer: current.correctMeaning, skipped }],
     )
   }
 
   function advance() {
-    setInput('')
-    setFeedback('idle')
-    setRevealAnswer(null)
     if (index + 1 >= total) {
       setFinished(true)
-    } else {
-      setIndex((i) => i + 1)
+      return
     }
+    setIndex((i) => i + 1)
+    setEliminated(new Set())
+    setJustCorrect(null)
+    setFlashWrong(null)
+    setHintShown(false)
+    setRevealAnswer(false)
+    setLocked(false)
   }
 
-  function handleChange(raw: string) {
-    if (feedback !== 'idle' || revealAnswer !== null) return
-    // keep only digits and a single decimal point
-    const cleaned = inputMode === 'decimal' ? raw.replace(/[^0-9.]/g, '') : raw.replace(/[^0-9]/g, '')
-    setInput(cleaned)
-    const result = validate(cleaned, current.answer)
-    if (result === 'correct') {
-      setFeedback('correct')
+  function handleOptionClick(option: string) {
+    if (locked || revealAnswer || eliminated.has(option)) return
+    if (option === current.correctMeaning) {
+      setLocked(true)
+      setJustCorrect(option)
       setCorrect((c) => c + 1)
-      setTimeout(advance, 260)
-    } else if (result === 'wrong') {
-      setFeedback('wrong')
-      setWrongAttempts((w) => w + 1)
-      recordMiss(false)
-      setTimeout(() => {
-        setInput('')
-        setFeedback('idle')
-      }, 380)
-    }
-  }
-
-  function handleKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
-    if (e.key !== 'Enter') return
-    e.preventDefault()
-    if (feedback !== 'idle' || revealAnswer !== null || input.trim() === '') return
-    const result = validate(input, current.answer)
-    if (result === 'correct') {
-      setFeedback('correct')
-      setCorrect((c) => c + 1)
-      setTimeout(advance, 260)
+      setTimeout(advance, 500)
     } else {
-      setFeedback('wrong')
+      setEliminated((prev) => new Set(prev).add(option))
       setWrongAttempts((w) => w + 1)
       recordMiss(false)
-      setTimeout(() => {
-        setInput('')
-        setFeedback('idle')
-      }, 380)
+      setFlashWrong(option)
+      setTimeout(() => setFlashWrong(null), 300)
     }
   }
 
   function handleSkip() {
-    if (revealAnswer !== null) return
+    if (locked || revealAnswer) return
+    setLocked(true)
     setSkipped((s) => s + 1)
     recordMiss(true)
-    setRevealAnswer(current.displayAnswer)
-    setTimeout(advance, 700)
+    setRevealAnswer(true)
+    setTimeout(advance, 900)
   }
 
   if (finished) {
@@ -189,10 +151,7 @@ export default function QuizRunner({
       </div>
 
       <div className="h-2 w-full overflow-hidden rounded-full bg-slate-200">
-        <div
-          className="h-full rounded-full bg-indigo-500 transition-all duration-300"
-          style={{ width: `${progressPct}%` }}
-        />
+        <div className="h-full rounded-full bg-indigo-500 transition-all duration-300" style={{ width: `${progressPct}%` }} />
       </div>
 
       <div className="mt-4 flex justify-center gap-4 text-xs font-medium text-slate-500">
@@ -201,46 +160,51 @@ export default function QuizRunner({
         <span className="text-rose-600">✕ {wrongAttempts}</span>
       </div>
 
-      <div
-        className={[
-          'mt-8 rounded-3xl bg-white p-10 text-center shadow-sm ring-1 transition-colors',
-          feedback === 'correct' ? 'ring-emerald-400 animate-pop' : '',
-          feedback === 'wrong' ? 'ring-rose-400 animate-shake' : '',
-          feedback === 'idle' ? 'ring-slate-200' : '',
-        ].join(' ')}
-      >
-        <div className="font-mono text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl">
-          {current.prompt}
-          <span className="text-slate-300"> = </span>
+      <div className="mt-8 rounded-3xl bg-white p-8 shadow-sm ring-1 ring-slate-200">
+        <div className="text-center">
+          <div className="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">{current.word}</div>
+
+          {!hintShown && !revealAnswer && (
+            <button
+              onClick={() => setHintShown(true)}
+              className="mt-3 rounded-full bg-amber-50 px-3 py-1 text-xs font-semibold text-amber-700 transition hover:bg-amber-100"
+            >
+              💡 Show a hint
+            </button>
+          )}
+          {hintShown && <p className="mt-3 text-sm italic text-amber-700">Hint: {current.hint}</p>}
         </div>
 
-        {revealAnswer !== null ? (
-          <div className="mt-6 text-2xl font-semibold text-amber-600">{revealAnswer}</div>
-        ) : (
-          <input
-            ref={inputRef}
-            value={input}
-            onChange={(e) => handleChange(e.target.value)}
-            onKeyDown={handleKeyDown}
-            inputMode={inputMode === 'decimal' ? 'decimal' : 'numeric'}
-            autoComplete="off"
-            autoCorrect="off"
-            spellCheck={false}
-            placeholder={answerHint ?? '?'}
-            className={[
-              'mt-6 w-40 rounded-xl border-2 bg-slate-50 px-4 py-3 text-center font-mono text-3xl font-bold text-slate-900 outline-none transition-colors',
-              feedback === 'correct' ? 'border-emerald-400 bg-emerald-50' : '',
-              feedback === 'wrong' ? 'border-rose-400 bg-rose-50' : '',
-              feedback === 'idle' ? 'border-slate-200 focus:border-indigo-400' : '',
-            ].join(' ')}
-          />
-        )}
+        <div className="mt-6 flex flex-col gap-2.5">
+          {current.options.map((option) => {
+            const isEliminated = eliminated.has(option)
+            const isCorrectAnswer = option === current.correctMeaning
+            const showAsCorrect = justCorrect === option || (revealAnswer && isCorrectAnswer)
+            const showAsWrong = flashWrong === option
+            return (
+              <button
+                key={option}
+                onClick={() => handleOptionClick(option)}
+                disabled={isEliminated || locked || revealAnswer}
+                className={[
+                  'rounded-xl border-2 px-4 py-3 text-left text-sm font-medium transition-colors',
+                  showAsCorrect ? 'border-emerald-400 bg-emerald-50 text-emerald-800 animate-pop' : '',
+                  showAsWrong ? 'border-rose-400 bg-rose-50 text-rose-800 animate-shake' : '',
+                  !showAsCorrect && !showAsWrong && isEliminated ? 'border-slate-100 bg-slate-50 text-slate-300 line-through' : '',
+                  !showAsCorrect && !showAsWrong && !isEliminated ? 'border-slate-200 bg-white text-slate-700 hover:border-indigo-300 hover:bg-indigo-50' : '',
+                ].join(' ')}
+              >
+                {option}
+              </button>
+            )
+          })}
+        </div>
       </div>
 
       <div className="mt-6 flex justify-center">
         <button
           onClick={handleSkip}
-          disabled={revealAnswer !== null}
+          disabled={locked || revealAnswer}
           className="rounded-full bg-slate-100 px-6 py-2 text-sm font-semibold text-slate-600 transition hover:bg-slate-200 disabled:opacity-50"
         >
           Skip →
