@@ -1,0 +1,43 @@
+@import "tailwindcss";
+
+:root {
+  color-scheme: light;
+}
+
+html, body, #root {
+  height: 100%;
+}
+
+body {
+  background: #f4f5fb;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Numeric inputs: hide the native up/down spinners so the answer box stays clean */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+@keyframes shake {
+  10%, 90% { transform: translateX(-2px); }
+  20%, 80% { transform: translateX(4px); }
+  30%, 50%, 70% { transform: translateX(-8px); }
+  40%, 60% { transform: translateX(8px); }
+}
+.animate-shake {
+  animation: shake 0.4s ease-in-out;
+}
+
+@keyframes pop {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.04); }
+  100% { transform: scale(1); }
+}
+.animate-pop {
+  animation: pop 0.25s ease-in-out;
+}
