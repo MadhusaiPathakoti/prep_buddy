@@ -23,6 +23,4 @@ npm run dev
 
 ## Deployment
 
-Pushing to `main` builds the app and deploys it to GitHub Pages via `.github/workflows/deploy.yml`. One-time setup: in the repo's **Settings → Pages**, set **Source** to **GitHub Actions**.
-
-The Vite `base` in `vite.config.ts` is set to `/prep_buddy/` to match this repo's GitHub Pages URL. If you fork or rename the repo, update `base` to match.
+Hosted on [Vercel](https://vercel.com) (free Hobby plan): import this GitHub repo at [vercel.com/new](https://vercel.com/new), it auto-detects Vite (build command `npm run build`, output `dist`) — no extra config needed. Every push to `main` redeploys automatically; every other branch/PR gets its own preview URL.
