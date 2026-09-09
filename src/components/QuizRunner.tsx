@@ -4,6 +4,13 @@ import { addSession } from '../lib/storage'
 
 type Feedback = 'idle' | 'correct' | 'wrong'
 
+interface ReviewItem {
+  id: string
+  prompt: string
+  displayAnswer: string
+  skipped: boolean
+}
+
 interface QuizRunnerProps {
   gameId: string
   questions: Question[]
@@ -40,6 +47,7 @@ export default function QuizRunner({
   const [finished, setFinished] = useState(false)
   const [startTime] = useState(() => Date.now())
   const [elapsedMs, setElapsedMs] = useState(0)
+  const [reviewItems, setReviewItems] = useState<ReviewItem[]>([])
 
   const inputRef = useRef<HTMLInputElement>(null)
   const savedRef = useRef(false)
@@ -73,6 +81,14 @@ export default function QuizRunner({
   const total = questions.length
   const current = questions[index]
 
+  function recordMiss(skipped: boolean) {
+    setReviewItems((items) =>
+      items.some((i) => i.id === current.id)
+        ? items
+        : [...items, { id: current.id, prompt: current.prompt, displayAnswer: current.displayAnswer, skipped }],
+    )
+  }
+
   function advance() {
     setInput('')
     setFeedback('idle')
@@ -97,6 +113,7 @@ export default function QuizRunner({
     } else if (result === 'wrong') {
       setFeedback('wrong')
       setWrongAttempts((w) => w + 1)
+      recordMiss(false)
       setTimeout(() => {
         setInput('')
         setFeedback('idle')
@@ -116,6 +133,7 @@ export default function QuizRunner({
     } else {
       setFeedback('wrong')
       setWrongAttempts((w) => w + 1)
+      recordMiss(false)
       setTimeout(() => {
         setInput('')
         setFeedback('idle')
@@ -126,6 +144,7 @@ export default function QuizRunner({
   function handleSkip() {
     if (revealAnswer !== null) return
     setSkipped((s) => s + 1)
+    recordMiss(true)
     setRevealAnswer(current.displayAnswer)
     setTimeout(advance, 700)
   }
@@ -147,6 +166,29 @@ export default function QuizRunner({
             <Stat label="Mistakes" value={String(wrongAttempts)} accent="text-rose-600" />
             <Stat label="Avg / question" value={`${(avgMs / 1000).toFixed(1)}s`} accent="text-slate-900" />
           </div>
+
+          {reviewItems.length > 0 && (
+            <div className="mt-6">
+              <h3 className="text-sm font-semibold text-slate-700">Review these</h3>
+              <div className="mt-2 max-h-56 divide-y divide-slate-100 overflow-y-auto rounded-2xl bg-slate-50">
+                {reviewItems.map((item) => (
+                  <div key={item.id} className="flex items-center justify-between gap-3 px-4 py-2.5">
+                    <span className="font-mono text-sm font-semibold text-slate-800">
+                      {item.prompt} = {item.displayAnswer}
+                    </span>
+                    <span
+                      className={[
+                        'shrink-0 rounded-full px-2 py-0.5 text-xs font-semibold',
+                        item.skipped ? 'bg-amber-100 text-amber-700' : 'bg-rose-100 text-rose-700',
+                      ].join(' ')}
+                    >
+                      {item.skipped ? 'Skipped' : 'Wrong'}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
 
           <div className="mt-8 flex flex-col gap-3">
             <button
