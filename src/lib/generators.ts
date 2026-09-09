@@ -24,9 +24,9 @@ export function generateTablesQuestions(tables: number[], multiplierMax: number,
 
 export type SquareCubeMode = 'square' | 'cube' | 'mixed'
 
-export function generateSquaresCubesQuestions(max: number, mode: SquareCubeMode, count: number): Question[] {
+export function generateSquaresCubesQuestions(min: number, max: number, mode: SquareCubeMode, count: number): Question[] {
   const pool: Question[] = []
-  for (let n = 1; n <= max; n++) {
+  for (let n = min; n <= max; n++) {
     if (mode === 'square' || mode === 'mixed') {
       const answer = n * n
       pool.push({ id: `sq-${n}`, prompt: `${n}²`, answer, displayAnswer: String(answer) })
