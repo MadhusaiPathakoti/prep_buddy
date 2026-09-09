@@ -9,6 +9,13 @@ const games = [
     to: '/english/vocabulary',
     icon: '📚',
   },
+  {
+    id: 'idioms',
+    title: 'Idioms',
+    description: 'Learn common idioms and phrases, then test yourself at easy, medium, or hard.',
+    to: '/english/idioms',
+    icon: '💬',
+  },
 ]
 
 export default function English() {

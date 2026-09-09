@@ -1,18 +1,18 @@
 import { useEffect, useRef, useState } from 'react'
-import type { VocabQuestion } from '../lib/generators'
+import type { MCQQuestion } from '../lib/generators'
 import { addSession } from '../lib/storage'
 import { formatTime } from '../lib/format'
 import Stat from './Stat'
 import ReviewList, { type ReviewItem } from './ReviewList'
 
-interface VocabQuizRunnerProps {
+interface MCQQuizRunnerProps {
   gameId: string
-  questions: VocabQuestion[]
+  questions: MCQQuestion[]
   onExit: () => void
   onRestart: () => void
 }
 
-export default function VocabQuizRunner({ gameId, questions, onExit, onRestart }: VocabQuizRunnerProps) {
+export default function MCQQuizRunner({ gameId, questions, onExit, onRestart }: MCQQuizRunnerProps) {
   const [index, setIndex] = useState(0)
   const [eliminated, setEliminated] = useState<Set<string>>(new Set())
   const [justCorrect, setJustCorrect] = useState<string | null>(null)
@@ -57,7 +57,7 @@ export default function VocabQuizRunner({ gameId, questions, onExit, onRestart }
     setReviewItems((items) =>
       items.some((i) => i.id === current.id)
         ? items
-        : [...items, { id: current.id, prompt: current.word, displayAnswer: current.correctMeaning, skipped }],
+        : [...items, { id: current.id, prompt: current.term, displayAnswer: current.correctMeaning, skipped }],
     )
   }
 
@@ -162,7 +162,7 @@ export default function VocabQuizRunner({ gameId, questions, onExit, onRestart }
 
       <div className="mt-8 rounded-3xl bg-white p-8 shadow-sm ring-1 ring-slate-200">
         <div className="text-center">
-          <div className="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">{current.word}</div>
+          <div className="text-2xl font-bold leading-snug tracking-tight text-slate-900 sm:text-3xl">{current.term}</div>
 
           {!hintShown && !revealAnswer && (
             <button

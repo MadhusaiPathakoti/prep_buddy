@@ -16,3 +16,15 @@ export interface SessionRecord {
   total: number
   timeMs: number
 }
+
+export type Difficulty = 'easy' | 'medium' | 'hard'
+
+/** A learnable entry for an MCQ "term -> meaning" game (vocabulary word, idiom, etc). */
+export interface BankEntry {
+  id: string
+  term: string
+  meaning: string
+  difficulty: Difficulty
+  hint: string
+  example: string
+}
