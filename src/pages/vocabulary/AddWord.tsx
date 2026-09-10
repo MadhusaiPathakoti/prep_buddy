@@ -33,16 +33,17 @@ export default function AddWord() {
     const trimmed = word.trim()
     if (trimmed === '') return
 
-    const existing = getFullVocabBank().find((w) => w.term.toLowerCase() === trimmed.toLowerCase())
-    if (existing) {
-      setStatus('error')
-      setErrorMessage(`"${existing.term}" is already in your vocabulary bank.`)
-      return
-    }
-
     setStatus('loading')
     setErrorMessage('')
     try {
+      const existingBank = await getFullVocabBank()
+      const existing = existingBank.find((w) => w.term.toLowerCase() === trimmed.toLowerCase())
+      if (existing) {
+        setStatus('error')
+        setErrorMessage(`"${existing.term}" is already in the vocabulary bank.`)
+        return
+      }
+
       const { meaning, example, hint } = await lookupWord(trimmed)
       const entry: BankEntry = {
         id: `custom-${slugify(trimmed)}`,
@@ -52,7 +53,7 @@ export default function AddWord() {
         hint,
         difficulty,
       }
-      addCustomWord(entry)
+      await addCustomWord(entry)
       setAdded(entry)
       setStatus('success')
       setWord('')
@@ -69,7 +70,8 @@ export default function AddWord() {
       </Link>
       <h1 className="mt-2 text-3xl font-extrabold text-slate-900">Add a Word</h1>
       <p className="mt-2 text-slate-500">
-        Type a word — we'll look up its meaning and an example sentence and save it to your vocabulary bank for good.
+        Type a word — we'll look up its meaning and an example sentence and add it to the shared vocabulary bank for
+        everyone, for good.
       </p>
 
       <form onSubmit={handleSubmit} className="mt-8 rounded-3xl bg-white p-6 shadow-sm ring-1 ring-slate-200">
@@ -120,7 +122,7 @@ export default function AddWord() {
 
       {status === 'success' && added && (
         <div className="mt-6 rounded-3xl bg-emerald-50 p-6 ring-1 ring-emerald-200">
-          <p className="text-sm font-semibold text-emerald-700">Added to your vocabulary bank!</p>
+          <p className="text-sm font-semibold text-emerald-700">Added to the shared vocabulary bank for everyone!</p>
           <div className="mt-3 flex items-center gap-2">
             <h3 className="text-xl font-bold text-slate-900">{added.term}</h3>
             <span className="rounded-full bg-emerald-100 px-2 py-0.5 text-xs font-semibold capitalize text-emerald-700">

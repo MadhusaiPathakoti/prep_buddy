@@ -12,7 +12,44 @@ Every game auto-advances on a correct answer, clears the box for another try on 
 
 ## Tech
 
-Vite + React + TypeScript + Tailwind CSS, client-only (no backend). Routing uses `HashRouter` so it works on any static host without server-side rewrite rules.
+Vite + React + TypeScript + Tailwind CSS. Routing uses `HashRouter` so it works on any static host without server-side rewrite rules. Most game data is bundled statically with no backend; the Vocabulary module's word bank is the one exception — see below.
+
+### Vocabulary: shared word bank (Firebase Firestore)
+
+Anyone can add a word in Vocabulary → Add a Word; it's looked up via Wiktionary's free API and saved to a shared [Firebase Firestore](https://firebase.google.com) database, visible to every visitor. Deleting a word (built-in or user-added) is also permanent and global. This needs a free Firebase project of your own:
+
+1. Create a project at the [Firebase Console](https://console.firebase.google.com) (free Spark plan, no card required).
+2. Build → Firestore Database → Create database → start in **production mode**.
+3. In the Rules tab, paste:
+
+   ```
+   rules_version = '2';
+   service cloud.firestore {
+     match /databases/{database}/documents {
+       match /vocabularyCustomWords/{wordId} {
+         allow read: if true;
+         allow create: if request.resource.data.keys().hasAll(['id', 'term', 'meaning', 'difficulty', 'hint', 'example'])
+                       && request.resource.data.term is string && request.resource.data.term.size() > 0 && request.resource.data.term.size() < 100
+                       && request.resource.data.meaning is string && request.resource.data.meaning.size() < 2000
+                       && request.resource.data.example is string && request.resource.data.example.size() < 2000
+                       && request.resource.data.hint is string && request.resource.data.hint.size() < 300
+                       && request.resource.data.difficulty in ['easy', 'medium', 'hard'];
+         allow update: if false;
+         allow delete: if true;
+       }
+       match /vocabularyHiddenSeedWords/{wordId} {
+         allow read: if true;
+         allow create: if true;
+         allow update: if false;
+         allow delete: if false;
+       }
+     }
+   }
+   ```
+
+4. Project settings → Your apps → add a Web app → copy the `firebaseConfig` object into `src/lib/firebase.ts` (this config is safe to commit; it's not a secret — access is controlled by the rules above, not by hiding these values).
+
+There are no accounts in this app, so with no login system these rules intentionally allow anyone to add or delete any word. That's a deliberate trade-off for a fully static, backend-free deploy — don't reuse this Firebase project for anything that needs real access control.
 
 ## Development
 
