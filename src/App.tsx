@@ -12,6 +12,9 @@ import VocabQuiz from './pages/vocabulary/VocabQuiz'
 import IdiomsHub from './pages/idioms/IdiomsHub'
 import IdiomLibrary from './pages/idioms/IdiomLibrary'
 import IdiomQuiz from './pages/idioms/IdiomQuiz'
+import OneWordHub from './pages/onewordsub/OneWordHub'
+import OneWordLibrary from './pages/onewordsub/OneWordLibrary'
+import OneWordQuiz from './pages/onewordsub/OneWordQuiz'
 
 export default function App() {
   return (
@@ -30,6 +33,9 @@ export default function App() {
           <Route path="/english/idioms" element={<IdiomsHub />} />
           <Route path="/english/idioms/library" element={<IdiomLibrary />} />
           <Route path="/english/idioms/quiz" element={<IdiomQuiz />} />
+          <Route path="/english/one-word-substitution" element={<OneWordHub />} />
+          <Route path="/english/one-word-substitution/library" element={<OneWordLibrary />} />
+          <Route path="/english/one-word-substitution/quiz" element={<OneWordQuiz />} />
         </Route>
       </Routes>
     </HashRouter>

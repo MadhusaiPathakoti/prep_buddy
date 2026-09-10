@@ -16,6 +16,13 @@ const games = [
     to: '/english/idioms',
     icon: '💬',
   },
+  {
+    id: 'one-word-substitution',
+    title: 'One Word Substitution',
+    description: 'Learn phrases and their one-word replacements, then test yourself at easy, medium, or hard.',
+    to: '/english/one-word-substitution',
+    icon: '🔤',
+  },
 ]
 
 export default function English() {
