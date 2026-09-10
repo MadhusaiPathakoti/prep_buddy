@@ -16,10 +16,10 @@ Vite + React + TypeScript + Tailwind CSS. Routing uses `HashRouter` so it works 
 
 ### Shared banks (Firebase Firestore)
 
-Vocabulary and Idioms are backed by [Firebase Firestore](https://firebase.google.com) instead of static data, via the generic helper in `src/lib/sharedBank.ts`:
+All four English games are backed by [Firebase Firestore](https://firebase.google.com) instead of static data, via the generic helper in `src/lib/sharedBank.ts`:
 
 - **Vocabulary** — anyone can add a word in Vocabulary → Add a Word (looked up via Wiktionary's free API); it's saved to Firestore and visible to every visitor. Deleting a word (built-in or user-added) is permanent and global.
-- **Idioms** — no add feature, but deleting an idiom is likewise permanent and global.
+- **Idioms, One Word Substitution, Phrasal Verbs** — no add feature, but deleting an entry is likewise permanent and global.
 
 This needs a free Firebase project of your own:
 
@@ -54,13 +54,25 @@ This needs a free Firebase project of your own:
          allow update: if false;
          allow delete: if false;
        }
+       match /oneWordSubstitutionHiddenSeedWords/{wordId} {
+         allow read: if true;
+         allow create: if true;
+         allow update: if false;
+         allow delete: if false;
+       }
+       match /phrasalVerbsHiddenSeedWords/{wordId} {
+         allow read: if true;
+         allow create: if true;
+         allow update: if false;
+         allow delete: if false;
+       }
      }
    }
    ```
 
 4. Project settings → Your apps → add a Web app → copy the `firebaseConfig` object into `src/lib/firebase.ts` (this config is safe to commit; it's not a secret — access is controlled by the rules above, not by hiding these values).
 
-There are no accounts in this app, so with no login system these rules intentionally allow anyone to add or delete any word/idiom. That's a deliberate trade-off for a fully static, backend-free deploy — don't reuse this Firebase project for anything that needs real access control.
+There are no accounts in this app, so with no login system these rules intentionally allow anyone to add or delete any entry. That's a deliberate trade-off for a fully static, backend-free deploy — don't reuse this Firebase project for anything that needs real access control.
 
 ## Development
 
