@@ -20,6 +20,7 @@ import AddIdiom from './pages/idioms/AddIdiom'
 import OneWordHub from './pages/onewordsub/OneWordHub'
 import OneWordLibrary from './pages/onewordsub/OneWordLibrary'
 import OneWordQuiz from './pages/onewordsub/OneWordQuiz'
+import AddOneWord from './pages/onewordsub/AddOneWord'
 import PhrasalVerbsHub from './pages/phrasalverbs/PhrasalVerbsHub'
 import PhrasalVerbsLibrary from './pages/phrasalverbs/PhrasalVerbsLibrary'
 import PhrasalVerbsQuiz from './pages/phrasalverbs/PhrasalVerbsQuiz'
@@ -49,6 +50,7 @@ export default function App() {
           <Route path="/english/one-word-substitution" element={<OneWordHub />} />
           <Route path="/english/one-word-substitution/library" element={<OneWordLibrary />} />
           <Route path="/english/one-word-substitution/quiz" element={<OneWordQuiz />} />
+          <Route path="/english/one-word-substitution/add" element={<AddOneWord />} />
           <Route path="/english/phrasal-verbs" element={<PhrasalVerbsHub />} />
           <Route path="/english/phrasal-verbs/library" element={<PhrasalVerbsLibrary />} />
           <Route path="/english/phrasal-verbs/quiz" element={<PhrasalVerbsQuiz />} />

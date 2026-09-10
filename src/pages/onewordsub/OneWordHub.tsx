@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 import FeatureHub from '../../components/FeatureHub'
 import { getFullOneWordBank } from '../../lib/oneWordStore'
 
@@ -35,6 +36,12 @@ export default function OneWordHub() {
       quizTo="/english/one-word-substitution/quiz"
       quizTitle="Play the quiz"
       quizDescription="Pick easy, medium, or hard and test what you know. Hints included."
-    />
+    >
+      <div className="mt-6 text-center">
+        <Link to="/english/one-word-substitution/add" className="text-sm font-semibold text-indigo-600 hover:underline">
+          + Add your own word to the bank
+        </Link>
+      </div>
+    </FeatureHub>
   )
 }

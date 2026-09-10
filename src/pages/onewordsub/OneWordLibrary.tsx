@@ -57,6 +57,7 @@ export default function OneWordLibrary() {
       backLabel="One Word Substitution"
       title="Phrase Bank"
       nounPlural="phrases"
+      addAction={{ to: '/english/one-word-substitution/add', label: '+ Add a word' }}
       onDelete={handleDelete}
     />
   )
