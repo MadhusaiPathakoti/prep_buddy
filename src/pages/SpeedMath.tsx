@@ -17,6 +17,13 @@ const games = [
     icon: '➖',
   },
   {
+    id: 'division',
+    title: 'Division',
+    description: 'Pick a digit length for dividend and divisor, e.g. double ÷ single digit gives 84 ÷ 7.',
+    to: '/speed-math/division',
+    icon: '➗',
+  },
+  {
     id: 'tables',
     title: 'Tables Practice',
     description: 'Multiplication tables from 1× up to 30×, e.g. 28 × 17.',

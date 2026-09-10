@@ -123,6 +123,36 @@ export function generateSubtractionQuestions(lhsDigits: DigitLength, rhsDigits: 
   return questions
 }
 
+/**
+ * Division questions with independently chosen digit lengths for the dividend (lhs) and
+ * divisor (rhs), e.g. double ÷ single: 84 ÷ 7 = 12. A divisor and quotient are picked
+ * first, then the dividend is derived as their product so it always divides evenly and
+ * still fits the chosen dividend digit length, since the numeric input only accepts
+ * whole-number digits.
+ */
+export function generateDivisionQuestions(lhsDigits: DigitLength, rhsDigits: DigitLength, count: number): Question[] {
+  const dividendMin = lhsDigits === 1 ? 1 : 10 ** (lhsDigits - 1)
+  const dividendMax = 10 ** lhsDigits - 1
+  const seen = new Set<string>()
+  const questions: Question[] = []
+  let attempts = 0
+  const maxAttempts = count * 40
+  while (questions.length < count && attempts < maxAttempts) {
+    attempts++
+    const divisor = randomForDigitLength(rhsDigits)
+    const qMin = Math.max(1, Math.ceil(dividendMin / divisor))
+    const qMax = Math.floor(dividendMax / divisor)
+    if (qMax < qMin) continue
+    const quotient = Math.floor(Math.random() * (qMax - qMin + 1)) + qMin
+    const dividend = divisor * quotient
+    const key = `${dividend}/${divisor}`
+    if (seen.has(key)) continue
+    seen.add(key)
+    questions.push({ id: key, prompt: `${dividend} ÷ ${divisor}`, answer: quotient, displayAnswer: String(quotient) })
+  }
+  return questions
+}
+
 export interface MCQQuestion {
   id: string
   term: string

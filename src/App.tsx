@@ -4,6 +4,7 @@ import Home from './pages/Home'
 import SpeedMath from './pages/SpeedMath'
 import AdditionsPractice from './pages/games/AdditionsPractice'
 import SubtractionPractice from './pages/games/SubtractionPractice'
+import DivisionPractice from './pages/games/DivisionPractice'
 import TablesPractice from './pages/games/TablesPractice'
 import SquaresCubes from './pages/games/SquaresCubes'
 import RatioPercent from './pages/games/RatioPercent'
@@ -30,6 +31,7 @@ export default function App() {
           <Route path="/speed-math" element={<SpeedMath />} />
           <Route path="/speed-math/additions" element={<AdditionsPractice />} />
           <Route path="/speed-math/subtraction" element={<SubtractionPractice />} />
+          <Route path="/speed-math/division" element={<DivisionPractice />} />
           <Route path="/speed-math/tables" element={<TablesPractice />} />
           <Route path="/speed-math/squares-cubes" element={<SquaresCubes />} />
           <Route path="/speed-math/ratios" element={<RatioPercent />} />
