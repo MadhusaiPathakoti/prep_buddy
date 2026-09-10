@@ -47,6 +47,7 @@ export default function IdiomQuiz() {
   return (
     <BankQuiz
       gameId="idioms"
+      bankKey="idioms"
       bank={bank}
       backTo="/english/idioms"
       backLabel="Idioms"

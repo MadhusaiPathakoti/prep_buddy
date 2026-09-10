@@ -47,6 +47,7 @@ export default function OneWordQuiz() {
   return (
     <BankQuiz
       gameId="one-word-substitution"
+      bankKey="one-word-substitution"
       bank={bank}
       backTo="/english/one-word-substitution"
       backLabel="One Word Substitution"

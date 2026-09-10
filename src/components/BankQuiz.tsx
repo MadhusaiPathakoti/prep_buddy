@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import MCQQuizRunner from './MCQQuizRunner'
 import { generateMCQQuestions, type MCQQuestion } from '../lib/generators'
+import { getFavoriteIds } from '../lib/favorites'
 import type { BankEntry, Difficulty } from '../lib/types'
 
 const DIFFICULTIES: { id: Difficulty; label: string }[] = [
@@ -13,6 +14,7 @@ const QUESTION_COUNTS = [5, 10, 15, 20]
 
 interface BankQuizProps {
   gameId: string
+  bankKey: string
   bank: BankEntry[]
   backTo: string
   backLabel: string
@@ -21,16 +23,21 @@ interface BankQuizProps {
   noun: string
 }
 
-export default function BankQuiz({ gameId, bank, backTo, backLabel, title, description, noun }: BankQuizProps) {
+export default function BankQuiz({ gameId, bankKey, bank, backTo, backLabel, title, description, noun }: BankQuizProps) {
   const [difficulty, setDifficulty] = useState<Difficulty>('easy')
   const [count, setCount] = useState(10)
+  const [favoritesOnly, setFavoritesOnly] = useState(false)
   const [questions, setQuestions] = useState<MCQQuestion[] | null>(null)
   const [sessionKey, setSessionKey] = useState(0)
 
-  const poolSize = bank.filter((w) => w.difficulty === difficulty).length
+  const favoriteIds = getFavoriteIds(bankKey)
+  const hasFavorites = favoriteIds.size > 0
+  const activeBank = favoritesOnly ? bank.filter((w) => favoriteIds.has(w.id)) : bank
+  const poolSize = activeBank.filter((w) => w.difficulty === difficulty).length
+  const canStart = poolSize > 0
 
   function generate() {
-    return generateMCQQuestions(bank, difficulty, count)
+    return generateMCQQuestions(activeBank, difficulty, count)
   }
 
   function start() {
@@ -78,6 +85,23 @@ export default function BankQuiz({ gameId, bank, backTo, backLabel, title, descr
           ))}
         </div>
 
+        <h2 className="mt-6 font-semibold text-slate-800">Source</h2>
+        <button
+          onClick={() => setFavoritesOnly((v) => !v)}
+          className={[
+            'mt-3 flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-semibold transition',
+            favoritesOnly ? 'bg-indigo-600 text-white' : 'bg-slate-100 text-slate-600 hover:bg-slate-200',
+          ].join(' ')}
+        >
+          <span>★</span> Quiz only from favourites
+        </button>
+        {favoritesOnly && !hasFavorites && (
+          <p className="mt-3 rounded-lg bg-amber-50 px-4 py-3 text-sm text-amber-700">
+            You haven't added any {noun} to favourites yet. Go to the library and tap ☆ on the ones you want to
+            revise, then come back to quiz yourself on them.
+          </p>
+        )}
+
         <h2 className="mt-6 font-semibold text-slate-800">Number of questions</h2>
         <div className="mt-3 flex flex-wrap gap-2">
           {QUESTION_COUNTS.map((c) => (
@@ -95,14 +119,20 @@ export default function BankQuiz({ gameId, bank, backTo, backLabel, title, descr
           ))}
         </div>
         <p className="mt-2 text-xs text-slate-400">
-          {poolSize} {noun} available at {difficulty} difficulty.
+          {poolSize} {favoritesOnly ? 'favourite ' : ''}
+          {noun} available at {difficulty} difficulty.
         </p>
 
         <button
           onClick={start}
-          className="mt-8 w-full rounded-xl bg-indigo-600 px-4 py-3 font-semibold text-white shadow-sm transition hover:bg-indigo-500 active:scale-[0.99]"
+          disabled={!canStart}
+          className="mt-8 w-full rounded-xl bg-indigo-600 px-4 py-3 font-semibold text-white shadow-sm transition hover:bg-indigo-500 active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-40"
         >
-          Start · {difficulty} · {Math.min(count, poolSize)} questions
+          {canStart
+            ? `Start · ${difficulty} · ${Math.min(count, poolSize)} questions`
+            : favoritesOnly && !hasFavorites
+              ? 'Add favourites first'
+              : `No ${favoritesOnly ? 'favourite ' : ''}${noun} at ${difficulty} difficulty`}
         </button>
       </div>
     </div>

@@ -47,6 +47,7 @@ export default function VocabQuiz() {
   return (
     <BankQuiz
       gameId="vocabulary"
+      bankKey="vocabulary"
       bank={bank}
       backTo="/english/vocabulary"
       backLabel="Vocabulary"

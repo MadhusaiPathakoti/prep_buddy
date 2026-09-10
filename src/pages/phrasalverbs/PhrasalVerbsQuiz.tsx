@@ -47,6 +47,7 @@ export default function PhrasalVerbsQuiz() {
   return (
     <BankQuiz
       gameId="phrasal-verbs"
+      bankKey="phrasal-verbs"
       bank={bank}
       backTo="/english/phrasal-verbs"
       backLabel="Phrasal Verbs"
