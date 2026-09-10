@@ -91,7 +91,7 @@ export async function lookupWord(word: string): Promise<WordLookupResult> {
   }
 
   const meaning = stripHtml(chosenDef.definition)
-  const example = chosenDef.examples?.[0] ? stripHtml(chosenDef.examples[0]) : `Try using "${word}" in a sentence of your own.`
+  const example = chosenDef.examples?.[0] ? stripHtml(chosenDef.examples[0]) : ''
   const hint = `Part of speech: ${chosenPos.toLowerCase()}`
 
   return { meaning, example, hint }

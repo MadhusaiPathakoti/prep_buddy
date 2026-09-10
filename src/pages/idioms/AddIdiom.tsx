@@ -130,7 +130,11 @@ export default function AddIdiom() {
             </span>
           </div>
           <p className="mt-1 text-sm text-slate-600">{added.meaning}</p>
-          <p className="mt-2 text-xs italic text-slate-400">"{added.example}"</p>
+          {added.example ? (
+            <p className="mt-2 text-xs italic text-slate-400">"{added.example}"</p>
+          ) : (
+            <p className="mt-2 text-xs text-slate-400">No example sentence found for this one — feel free to add your own when studying it.</p>
+          )}
           <div className="mt-4 flex flex-wrap gap-4">
             <Link to="/english/idioms/library" className="text-sm font-semibold text-indigo-600 hover:underline">
               View in library →

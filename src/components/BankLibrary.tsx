@@ -123,7 +123,11 @@ export default function BankLibrary({ bank, bankKey, backTo, backLabel, title, n
                 </div>
               </div>
               <p className="mt-1 text-sm text-slate-600">{w.meaning}</p>
-              <p className="mt-2 text-xs italic text-slate-400">"{w.example}"</p>
+              {w.example ? (
+                <p className="mt-2 text-xs italic text-slate-400">"{w.example}"</p>
+              ) : (
+                <p className="mt-2 text-xs text-slate-300">No example sentence yet — try writing your own.</p>
+              )}
               {onDelete && (
                 <div className="mt-3 flex items-center justify-end gap-3">
                   {confirmingId === w.id ? (
