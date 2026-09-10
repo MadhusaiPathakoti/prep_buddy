@@ -15,6 +15,9 @@ import IdiomQuiz from './pages/idioms/IdiomQuiz'
 import OneWordHub from './pages/onewordsub/OneWordHub'
 import OneWordLibrary from './pages/onewordsub/OneWordLibrary'
 import OneWordQuiz from './pages/onewordsub/OneWordQuiz'
+import PhrasalVerbsHub from './pages/phrasalverbs/PhrasalVerbsHub'
+import PhrasalVerbsLibrary from './pages/phrasalverbs/PhrasalVerbsLibrary'
+import PhrasalVerbsQuiz from './pages/phrasalverbs/PhrasalVerbsQuiz'
 
 export default function App() {
   return (
@@ -36,6 +39,9 @@ export default function App() {
           <Route path="/english/one-word-substitution" element={<OneWordHub />} />
           <Route path="/english/one-word-substitution/library" element={<OneWordLibrary />} />
           <Route path="/english/one-word-substitution/quiz" element={<OneWordQuiz />} />
+          <Route path="/english/phrasal-verbs" element={<PhrasalVerbsHub />} />
+          <Route path="/english/phrasal-verbs/library" element={<PhrasalVerbsLibrary />} />
+          <Route path="/english/phrasal-verbs/quiz" element={<PhrasalVerbsQuiz />} />
         </Route>
       </Routes>
     </HashRouter>

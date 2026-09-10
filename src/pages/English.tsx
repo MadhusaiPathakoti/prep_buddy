@@ -23,6 +23,13 @@ const games = [
     to: '/english/one-word-substitution',
     icon: '🔤',
   },
+  {
+    id: 'phrasal-verbs',
+    title: 'Phrasal Verbs',
+    description: 'Learn common phrasal verbs, then test yourself at easy, medium, or hard.',
+    to: '/english/phrasal-verbs',
+    icon: '🔀',
+  },
 ]
 
 export default function English() {
