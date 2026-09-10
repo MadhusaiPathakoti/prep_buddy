@@ -10,6 +10,13 @@ const games = [
     icon: '➕',
   },
   {
+    id: 'subtraction',
+    title: 'Subtraction',
+    description: 'Pick a digit length for each side, e.g. double − single digit gives 45 − 7.',
+    to: '/speed-math/subtraction',
+    icon: '➖',
+  },
+  {
     id: 'tables',
     title: 'Tables Practice',
     description: 'Multiplication tables from 1× up to 30×, e.g. 28 × 17.',

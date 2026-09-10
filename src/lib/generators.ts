@@ -96,6 +96,33 @@ export function generateAdditionQuestions(lhsDigits: DigitLength, rhsDigits: Dig
   return questions
 }
 
+/**
+ * Subtraction questions with independently chosen digit lengths for each side, e.g.
+ * double − single: 45 − 7. The larger of the two sampled numbers is always used as the
+ * minuend (swapped if needed) so the result never goes negative, since the numeric input
+ * only accepts digits.
+ */
+export function generateSubtractionQuestions(lhsDigits: DigitLength, rhsDigits: DigitLength, count: number): Question[] {
+  const seen = new Set<string>()
+  const questions: Question[] = []
+  let attempts = 0
+  const maxAttempts = count * 25
+  while (questions.length < count && attempts < maxAttempts) {
+    attempts++
+    let a = randomForDigitLength(lhsDigits)
+    let b = randomForDigitLength(rhsDigits)
+    if (a < b) {
+      ;[a, b] = [b, a]
+    }
+    const key = `${a}-${b}`
+    if (seen.has(key)) continue
+    seen.add(key)
+    const answer = a - b
+    questions.push({ id: key, prompt: `${a} − ${b}`, answer, displayAnswer: String(answer) })
+  }
+  return questions
+}
+
 export interface MCQQuestion {
   id: string
   term: string
