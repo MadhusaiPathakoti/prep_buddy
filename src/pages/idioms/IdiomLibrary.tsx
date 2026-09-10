@@ -57,6 +57,7 @@ export default function IdiomLibrary() {
       backLabel="Idioms"
       title="Idiom Bank"
       nounPlural="idioms"
+      addAction={{ to: '/english/idioms/add', label: '+ Add an idiom' }}
       onDelete={handleDelete}
     />
   )

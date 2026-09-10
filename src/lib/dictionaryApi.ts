@@ -29,30 +29,43 @@ function stripHtml(html: string): string {
   return (div.textContent ?? '').replace(/\s+/g, ' ').trim()
 }
 
-/**
- * Looks up a word via Wiktionary's free, keyless REST API (CORS-enabled for browser use,
- * unlike most other free dictionary APIs) and picks the best definition + example.
- */
-export async function lookupWord(word: string): Promise<WordLookupResult> {
-  const cleaned = word.trim().toLowerCase()
+async function fetchDefinitionEntries(phrase: string): Promise<WiktionaryEntry[] | null> {
   let res: Response
   try {
-    res = await fetch(`https://en.wiktionary.org/api/rest_v1/page/definition/${encodeURIComponent(cleaned)}`)
+    res = await fetch(`https://en.wiktionary.org/api/rest_v1/page/definition/${encodeURIComponent(phrase)}`)
   } catch {
     throw new Error('Could not reach the dictionary service. Check your connection and try again.')
   }
 
+  if (res.status === 404) return null
   if (!res.ok) {
-    if (res.status === 404) {
-      throw new Error(`No definition found for "${word}". Check the spelling and try again.`)
-    }
     throw new Error('Something went wrong looking up that word. Please try again.')
   }
 
   const data = (await res.json()) as WiktionaryResponse
-  const entries = data.en
+  return data.en ?? null
+}
+
+/**
+ * Looks up a word or phrase via Wiktionary's free, keyless REST API (CORS-enabled for
+ * browser use, unlike most other free dictionary APIs) and picks the best definition +
+ * example.
+ */
+export async function lookupWord(word: string): Promise<WordLookupResult> {
+  const cleaned = word.trim().toLowerCase()
+  let entries = await fetchDefinitionEntries(cleaned)
+
+  // Wiktionary often titles idiom pages without a leading article (e.g. "blessing in
+  // disguise" rather than "a blessing in disguise"), so retry without one before giving up.
+  if (!entries) {
+    const withoutArticle = cleaned.replace(/^(a|an|the)\s+/, '')
+    if (withoutArticle !== cleaned) {
+      entries = await fetchDefinitionEntries(withoutArticle)
+    }
+  }
+
   if (!entries || entries.length === 0) {
-    throw new Error(`No English definition found for "${word}".`)
+    throw new Error(`No definition found for "${word}". Check the spelling and try again.`)
   }
 
   // Prefer a definition that already has an example sentence; fall back to the first definition.
