@@ -22,11 +22,13 @@ interface BankLibraryProps {
   title: string
   nounPlural: string
   addAction?: { to: string; label: string }
+  onDelete?: (entry: BankEntry) => void
 }
 
-export default function BankLibrary({ bank, backTo, backLabel, title, nounPlural, addAction }: BankLibraryProps) {
+export default function BankLibrary({ bank, backTo, backLabel, title, nounPlural, addAction, onDelete }: BankLibraryProps) {
   const [filter, setFilter] = useState<Difficulty | 'all'>('all')
   const [query, setQuery] = useState('')
+  const [confirmingId, setConfirmingId] = useState<string | null>(null)
 
   const entries = useMemo(() => {
     const q = query.trim().toLowerCase()
@@ -95,6 +97,37 @@ export default function BankLibrary({ bank, backTo, backLabel, title, nounPlural
             </div>
             <p className="mt-1 text-sm text-slate-600">{w.meaning}</p>
             <p className="mt-2 text-xs italic text-slate-400">"{w.example}"</p>
+            {onDelete && (
+              <div className="mt-3 flex items-center justify-end gap-3">
+                {confirmingId === w.id ? (
+                  <>
+                    <span className="text-xs text-slate-400">Delete permanently?</span>
+                    <button
+                      onClick={() => setConfirmingId(null)}
+                      className="text-xs font-semibold text-slate-500 hover:text-slate-700 hover:underline"
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      onClick={() => {
+                        onDelete(w)
+                        setConfirmingId(null)
+                      }}
+                      className="text-xs font-semibold text-rose-600 hover:text-rose-700 hover:underline"
+                    >
+                      Yes, delete
+                    </button>
+                  </>
+                ) : (
+                  <button
+                    onClick={() => setConfirmingId(w.id)}
+                    className="text-xs font-semibold text-rose-500 hover:text-rose-700 hover:underline"
+                  >
+                    Delete
+                  </button>
+                )}
+              </div>
+            )}
           </div>
         ))}
         {entries.length === 0 && <p className="text-slate-400">No {nounPlural} match your search.</p>}

@@ -22,6 +22,10 @@ interface WiktionaryResponse {
 function stripHtml(html: string): string {
   const div = document.createElement('div')
   div.innerHTML = html
+  // Wiktionary sometimes embeds TemplateStyles <style> blocks (e.g. for "(dated)" qualifiers)
+  // inside the definition/example markup. textContent walks into them since a <style>
+  // element's content model is text, so its CSS would otherwise leak into the plain text.
+  div.querySelectorAll('style, script').forEach((el) => el.remove())
   return (div.textContent ?? '').replace(/\s+/g, ' ').trim()
 }
 
