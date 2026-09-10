@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react'
 import { Link } from 'react-router-dom'
 
 interface FeatureHubProps {
@@ -11,6 +12,7 @@ interface FeatureHubProps {
   quizTo: string
   quizTitle: string
   quizDescription: string
+  children?: ReactNode
 }
 
 export default function FeatureHub({
@@ -24,6 +26,7 @@ export default function FeatureHub({
   quizTo,
   quizTitle,
   quizDescription,
+  children,
 }: FeatureHubProps) {
   return (
     <div className="mx-auto max-w-3xl px-4 py-10">
@@ -56,6 +59,8 @@ export default function FeatureHub({
           <div className="mt-4 text-sm font-semibold text-indigo-600 group-hover:translate-x-0.5 transition">Play →</div>
         </Link>
       </div>
+
+      {children}
     </div>
   )
 }

@@ -21,9 +21,10 @@ interface BankLibraryProps {
   backLabel: string
   title: string
   nounPlural: string
+  addAction?: { to: string; label: string }
 }
 
-export default function BankLibrary({ bank, backTo, backLabel, title, nounPlural }: BankLibraryProps) {
+export default function BankLibrary({ bank, backTo, backLabel, title, nounPlural, addAction }: BankLibraryProps) {
   const [filter, setFilter] = useState<Difficulty | 'all'>('all')
   const [query, setQuery] = useState('')
 
@@ -37,9 +38,19 @@ export default function BankLibrary({ bank, backTo, backLabel, title, nounPlural
 
   return (
     <div className="mx-auto max-w-3xl px-4 py-10">
-      <Link to={backTo} className="text-sm text-slate-400 hover:text-slate-600">
-        ← {backLabel}
-      </Link>
+      <div className="flex items-center justify-between gap-3">
+        <Link to={backTo} className="text-sm text-slate-400 hover:text-slate-600">
+          ← {backLabel}
+        </Link>
+        {addAction && (
+          <Link
+            to={addAction.to}
+            className="rounded-lg bg-indigo-600 px-3 py-1.5 text-sm font-semibold text-white transition hover:bg-indigo-500"
+          >
+            {addAction.label}
+          </Link>
+        )}
+      </div>
       <h1 className="mt-2 text-3xl font-extrabold text-slate-900">{title}</h1>
       <p className="mt-2 text-slate-500">
         Browse and learn before you play. {bank.length} {nounPlural} across three difficulty levels.
@@ -73,9 +84,14 @@ export default function BankLibrary({ bank, backTo, backLabel, title, nounPlural
           <div key={w.id} className="rounded-2xl bg-white p-4 shadow-sm ring-1 ring-slate-200">
             <div className="flex items-center justify-between gap-2">
               <h3 className="text-lg font-bold text-slate-900">{w.term}</h3>
-              <span className={`shrink-0 rounded-full px-2 py-0.5 text-xs font-semibold capitalize ${difficultyBadge(w.difficulty)}`}>
-                {w.difficulty}
-              </span>
+              <div className="flex shrink-0 items-center gap-1.5">
+                {w.id.startsWith('custom-') && (
+                  <span className="rounded-full bg-indigo-100 px-2 py-0.5 text-xs font-semibold text-indigo-700">Yours</span>
+                )}
+                <span className={`rounded-full px-2 py-0.5 text-xs font-semibold capitalize ${difficultyBadge(w.difficulty)}`}>
+                  {w.difficulty}
+                </span>
+              </div>
             </div>
             <p className="mt-1 text-sm text-slate-600">{w.meaning}</p>
             <p className="mt-2 text-xs italic text-slate-400">"{w.example}"</p>

@@ -12,6 +12,7 @@ import English from './pages/English'
 import VocabularyHub from './pages/vocabulary/VocabularyHub'
 import VocabLibrary from './pages/vocabulary/VocabLibrary'
 import VocabQuiz from './pages/vocabulary/VocabQuiz'
+import AddWord from './pages/vocabulary/AddWord'
 import IdiomsHub from './pages/idioms/IdiomsHub'
 import IdiomLibrary from './pages/idioms/IdiomLibrary'
 import IdiomQuiz from './pages/idioms/IdiomQuiz'
@@ -39,6 +40,7 @@ export default function App() {
           <Route path="/english/vocabulary" element={<VocabularyHub />} />
           <Route path="/english/vocabulary/library" element={<VocabLibrary />} />
           <Route path="/english/vocabulary/quiz" element={<VocabQuiz />} />
+          <Route path="/english/vocabulary/add" element={<AddWord />} />
           <Route path="/english/idioms" element={<IdiomsHub />} />
           <Route path="/english/idioms/library" element={<IdiomLibrary />} />
           <Route path="/english/idioms/quiz" element={<IdiomQuiz />} />

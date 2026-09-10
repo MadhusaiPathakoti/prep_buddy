@@ -1,11 +1,11 @@
 import BankQuiz from '../../components/BankQuiz'
-import { VOCAB_BANK } from '../../data/vocabulary'
+import { getFullVocabBank } from '../../lib/vocabularyStore'
 
 export default function VocabQuiz() {
   return (
     <BankQuiz
       gameId="vocabulary"
-      bank={VOCAB_BANK}
+      bank={getFullVocabBank()}
       backTo="/english/vocabulary"
       backLabel="Vocabulary"
       title="Vocabulary Quiz"
