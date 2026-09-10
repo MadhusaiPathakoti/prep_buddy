@@ -12,11 +12,16 @@ Every game auto-advances on a correct answer, clears the box for another try on 
 
 ## Tech
 
-Vite + React + TypeScript + Tailwind CSS. Routing uses `HashRouter` so it works on any static host without server-side rewrite rules. Most game data is bundled statically with no backend; the Vocabulary module's word bank is the one exception — see below.
+Vite + React + TypeScript + Tailwind CSS. Routing uses `HashRouter` so it works on any static host without server-side rewrite rules. Most game data is bundled statically with no backend; Vocabulary and Idioms are the exceptions — see below.
 
-### Vocabulary: shared word bank (Firebase Firestore)
+### Shared banks (Firebase Firestore)
 
-Anyone can add a word in Vocabulary → Add a Word; it's looked up via Wiktionary's free API and saved to a shared [Firebase Firestore](https://firebase.google.com) database, visible to every visitor. Deleting a word (built-in or user-added) is also permanent and global. This needs a free Firebase project of your own:
+Vocabulary and Idioms are backed by [Firebase Firestore](https://firebase.google.com) instead of static data, via the generic helper in `src/lib/sharedBank.ts`:
+
+- **Vocabulary** — anyone can add a word in Vocabulary → Add a Word (looked up via Wiktionary's free API); it's saved to Firestore and visible to every visitor. Deleting a word (built-in or user-added) is permanent and global.
+- **Idioms** — no add feature, but deleting an idiom is likewise permanent and global.
+
+This needs a free Firebase project of your own:
 
 1. Create a project at the [Firebase Console](https://console.firebase.google.com) (free Spark plan, no card required).
 2. Build → Firestore Database → Create database → start in **production mode**.
@@ -43,13 +48,19 @@ Anyone can add a word in Vocabulary → Add a Word; it's looked up via Wiktionar
          allow update: if false;
          allow delete: if false;
        }
+       match /idiomsHiddenSeedWords/{wordId} {
+         allow read: if true;
+         allow create: if true;
+         allow update: if false;
+         allow delete: if false;
+       }
      }
    }
    ```
 
 4. Project settings → Your apps → add a Web app → copy the `firebaseConfig` object into `src/lib/firebase.ts` (this config is safe to commit; it's not a secret — access is controlled by the rules above, not by hiding these values).
 
-There are no accounts in this app, so with no login system these rules intentionally allow anyone to add or delete any word. That's a deliberate trade-off for a fully static, backend-free deploy — don't reuse this Firebase project for anything that needs real access control.
+There are no accounts in this app, so with no login system these rules intentionally allow anyone to add or delete any word/idiom. That's a deliberate trade-off for a fully static, backend-free deploy — don't reuse this Firebase project for anything that needs real access control.
 
 ## Development
 
