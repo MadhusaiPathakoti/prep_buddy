@@ -52,6 +52,7 @@ export default function VocabLibrary() {
   return (
     <BankLibrary
       bank={bank}
+      bankKey="vocabulary"
       backTo="/english/vocabulary"
       backLabel="Vocabulary"
       title="Word Bank"

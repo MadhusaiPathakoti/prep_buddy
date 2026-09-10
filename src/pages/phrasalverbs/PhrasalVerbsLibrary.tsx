@@ -52,6 +52,7 @@ export default function PhrasalVerbsLibrary() {
   return (
     <BankLibrary
       bank={bank}
+      bankKey="phrasal-verbs"
       backTo="/english/phrasal-verbs"
       backLabel="Phrasal Verbs"
       title="Phrasal Verb Bank"

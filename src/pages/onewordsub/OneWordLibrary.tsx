@@ -52,6 +52,7 @@ export default function OneWordLibrary() {
   return (
     <BankLibrary
       bank={bank}
+      bankKey="one-word-substitution"
       backTo="/english/one-word-substitution"
       backLabel="One Word Substitution"
       title="Phrase Bank"

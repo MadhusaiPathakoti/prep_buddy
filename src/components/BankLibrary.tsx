@@ -1,12 +1,16 @@
 import { useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
+import { getFavoriteIds, toggleFavorite } from '../lib/favorites'
 import type { BankEntry, Difficulty } from '../lib/types'
 
-const FILTERS: { id: Difficulty | 'all'; label: string }[] = [
+type FilterId = Difficulty | 'all' | 'favorites'
+
+const FILTERS: { id: FilterId; label: string }[] = [
   { id: 'all', label: 'All' },
   { id: 'easy', label: 'Easy' },
   { id: 'medium', label: 'Medium' },
   { id: 'hard', label: 'Hard' },
+  { id: 'favorites', label: '★ Favourites' },
 ]
 
 function difficultyBadge(d: Difficulty) {
@@ -17,6 +21,7 @@ function difficultyBadge(d: Difficulty) {
 
 interface BankLibraryProps {
   bank: BankEntry[]
+  bankKey: string
   backTo: string
   backLabel: string
   title: string
@@ -25,18 +30,27 @@ interface BankLibraryProps {
   onDelete?: (entry: BankEntry) => void
 }
 
-export default function BankLibrary({ bank, backTo, backLabel, title, nounPlural, addAction, onDelete }: BankLibraryProps) {
-  const [filter, setFilter] = useState<Difficulty | 'all'>('all')
+export default function BankLibrary({ bank, bankKey, backTo, backLabel, title, nounPlural, addAction, onDelete }: BankLibraryProps) {
+  const [filter, setFilter] = useState<FilterId>('all')
   const [query, setQuery] = useState('')
   const [confirmingId, setConfirmingId] = useState<string | null>(null)
+  const [favorites, setFavorites] = useState<Set<string>>(() => getFavoriteIds(bankKey))
+
+  function handleToggleFavorite(id: string) {
+    setFavorites((prev) => toggleFavorite(bankKey, id, prev))
+  }
 
   const entries = useMemo(() => {
     const q = query.trim().toLowerCase()
     return bank
-      .filter((w) => filter === 'all' || w.difficulty === filter)
+      .filter((w) => {
+        if (filter === 'all') return true
+        if (filter === 'favorites') return favorites.has(w.id)
+        return w.difficulty === filter
+      })
       .filter((w) => q === '' || w.term.toLowerCase().includes(q) || w.meaning.toLowerCase().includes(q))
       .sort((a, b) => a.term.localeCompare(b.term))
-  }, [bank, filter, query])
+  }, [bank, filter, query, favorites])
 
   return (
     <div className="mx-auto max-w-3xl px-4 py-10">
@@ -55,7 +69,8 @@ export default function BankLibrary({ bank, backTo, backLabel, title, nounPlural
       </div>
       <h1 className="mt-2 text-3xl font-extrabold text-slate-900">{title}</h1>
       <p className="mt-2 text-slate-500">
-        Browse and learn before you play. {bank.length} {nounPlural} across three difficulty levels.
+        Browse and learn before you play. {bank.length} {nounPlural} across three difficulty levels. Star any {nounPlural.replace(/s$/, '')} to
+        save it for daily revision.
       </p>
 
       <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
@@ -82,55 +97,71 @@ export default function BankLibrary({ bank, backTo, backLabel, title, nounPlural
       </div>
 
       <div className="mt-6 grid gap-3 sm:grid-cols-2">
-        {entries.map((w) => (
-          <div key={w.id} className="rounded-2xl bg-white p-4 shadow-sm ring-1 ring-slate-200">
-            <div className="flex items-center justify-between gap-2">
-              <h3 className="text-lg font-bold text-slate-900">{w.term}</h3>
-              <div className="flex shrink-0 items-center gap-1.5">
-                {w.id.startsWith('custom-') && (
-                  <span className="rounded-full bg-indigo-100 px-2 py-0.5 text-xs font-semibold text-indigo-700">Yours</span>
-                )}
-                <span className={`rounded-full px-2 py-0.5 text-xs font-semibold capitalize ${difficultyBadge(w.difficulty)}`}>
-                  {w.difficulty}
-                </span>
-              </div>
-            </div>
-            <p className="mt-1 text-sm text-slate-600">{w.meaning}</p>
-            <p className="mt-2 text-xs italic text-slate-400">"{w.example}"</p>
-            {onDelete && (
-              <div className="mt-3 flex items-center justify-end gap-3">
-                {confirmingId === w.id ? (
-                  <>
-                    <span className="text-xs text-slate-400">Delete permanently?</span>
-                    <button
-                      onClick={() => setConfirmingId(null)}
-                      className="text-xs font-semibold text-slate-500 hover:text-slate-700 hover:underline"
-                    >
-                      Cancel
-                    </button>
-                    <button
-                      onClick={() => {
-                        onDelete(w)
-                        setConfirmingId(null)
-                      }}
-                      className="text-xs font-semibold text-rose-600 hover:text-rose-700 hover:underline"
-                    >
-                      Yes, delete
-                    </button>
-                  </>
-                ) : (
+        {entries.map((w) => {
+          const isFavorite = favorites.has(w.id)
+          return (
+            <div key={w.id} className="rounded-2xl bg-white p-4 shadow-sm ring-1 ring-slate-200">
+              <div className="flex items-center justify-between gap-2">
+                <h3 className="text-lg font-bold text-slate-900">{w.term}</h3>
+                <div className="flex shrink-0 items-center gap-1.5">
                   <button
-                    onClick={() => setConfirmingId(w.id)}
-                    className="text-xs font-semibold text-rose-500 hover:text-rose-700 hover:underline"
+                    onClick={() => handleToggleFavorite(w.id)}
+                    aria-label={isFavorite ? 'Remove from favourites' : 'Add to favourites'}
+                    className={[
+                      'text-lg leading-none transition',
+                      isFavorite ? 'text-amber-400 hover:text-amber-500' : 'text-slate-200 hover:text-amber-300',
+                    ].join(' ')}
                   >
-                    Delete
+                    {isFavorite ? '★' : '☆'}
                   </button>
-                )}
+                  {w.id.startsWith('custom-') && (
+                    <span className="rounded-full bg-indigo-100 px-2 py-0.5 text-xs font-semibold text-indigo-700">Yours</span>
+                  )}
+                  <span className={`rounded-full px-2 py-0.5 text-xs font-semibold capitalize ${difficultyBadge(w.difficulty)}`}>
+                    {w.difficulty}
+                  </span>
+                </div>
               </div>
-            )}
-          </div>
-        ))}
-        {entries.length === 0 && <p className="text-slate-400">No {nounPlural} match your search.</p>}
+              <p className="mt-1 text-sm text-slate-600">{w.meaning}</p>
+              <p className="mt-2 text-xs italic text-slate-400">"{w.example}"</p>
+              {onDelete && (
+                <div className="mt-3 flex items-center justify-end gap-3">
+                  {confirmingId === w.id ? (
+                    <>
+                      <span className="text-xs text-slate-400">Delete permanently?</span>
+                      <button
+                        onClick={() => setConfirmingId(null)}
+                        className="text-xs font-semibold text-slate-500 hover:text-slate-700 hover:underline"
+                      >
+                        Cancel
+                      </button>
+                      <button
+                        onClick={() => {
+                          onDelete(w)
+                          setConfirmingId(null)
+                        }}
+                        className="text-xs font-semibold text-rose-600 hover:text-rose-700 hover:underline"
+                      >
+                        Yes, delete
+                      </button>
+                    </>
+                  ) : (
+                    <button
+                      onClick={() => setConfirmingId(w.id)}
+                      className="text-xs font-semibold text-rose-500 hover:text-rose-700 hover:underline"
+                    >
+                      Delete
+                    </button>
+                  )}
+                </div>
+              )}
+            </div>
+          )
+        })}
+        {entries.length === 0 && filter === 'favorites' && (
+          <p className="text-slate-400">No favourites yet — tap the ☆ on any card to save it here for daily revision.</p>
+        )}
+        {entries.length === 0 && filter !== 'favorites' && <p className="text-slate-400">No {nounPlural} match your search.</p>}
       </div>
     </div>
   )

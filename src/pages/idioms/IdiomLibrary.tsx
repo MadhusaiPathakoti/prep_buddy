@@ -50,6 +50,14 @@ export default function IdiomLibrary() {
   }
 
   return (
-    <BankLibrary bank={bank} backTo="/english/idioms" backLabel="Idioms" title="Idiom Bank" nounPlural="idioms" onDelete={handleDelete} />
+    <BankLibrary
+      bank={bank}
+      bankKey="idioms"
+      backTo="/english/idioms"
+      backLabel="Idioms"
+      title="Idiom Bank"
+      nounPlural="idioms"
+      onDelete={handleDelete}
+    />
   )
 }
