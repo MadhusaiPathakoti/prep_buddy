@@ -3,6 +3,13 @@ import { getSummary } from '../lib/storage'
 
 const games = [
   {
+    id: 'additions',
+    title: 'Additions',
+    description: 'Pick a digit length for each side, e.g. double + single digit gives 23 + 9.',
+    to: '/speed-math/additions',
+    icon: '➕',
+  },
+  {
     id: 'tables',
     title: 'Tables Practice',
     description: 'Multiplication tables from 1× up to 30×, e.g. 28 × 17.',

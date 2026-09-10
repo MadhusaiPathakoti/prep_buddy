@@ -69,6 +69,33 @@ function gcd(a: number, b: number): number {
   return b === 0 ? a : gcd(b, a % b)
 }
 
+export type DigitLength = 1 | 2 | 3
+
+function randomForDigitLength(digits: DigitLength): number {
+  const min = digits === 1 ? 1 : 10 ** (digits - 1)
+  const max = 10 ** digits - 1
+  return Math.floor(Math.random() * (max - min + 1)) + min
+}
+
+/** Addition questions with independently chosen digit lengths for each side, e.g. double + single: 23 + 9. */
+export function generateAdditionQuestions(lhsDigits: DigitLength, rhsDigits: DigitLength, count: number): Question[] {
+  const seen = new Set<string>()
+  const questions: Question[] = []
+  let attempts = 0
+  const maxAttempts = count * 25
+  while (questions.length < count && attempts < maxAttempts) {
+    attempts++
+    const a = randomForDigitLength(lhsDigits)
+    const b = randomForDigitLength(rhsDigits)
+    const key = `${a}+${b}`
+    if (seen.has(key)) continue
+    seen.add(key)
+    const answer = a + b
+    questions.push({ id: key, prompt: `${a} + ${b}`, answer, displayAnswer: String(answer) })
+  }
+  return questions
+}
+
 export interface MCQQuestion {
   id: string
   term: string
