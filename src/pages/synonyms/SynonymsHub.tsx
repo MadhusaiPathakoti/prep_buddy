@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 import FeatureHub from '../../components/FeatureHub'
 import { getFullSynonymsBank } from '../../lib/synonymsStore'
 
@@ -33,6 +34,12 @@ export default function SynonymsHub() {
       quizTo="/english/synonyms/quiz"
       quizTitle="Play the quiz"
       quizDescription="Pick easy, medium, or hard and find the matching synonym. Hints included."
-    />
+    >
+      <div className="mt-6 text-center">
+        <Link to="/english/synonyms/add" className="text-sm font-semibold text-indigo-600 hover:underline">
+          + Add your own word to the bank
+        </Link>
+      </div>
+    </FeatureHub>
   )
 }

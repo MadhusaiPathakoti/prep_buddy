@@ -27,9 +27,11 @@ import PhrasalVerbsQuiz from './pages/phrasalverbs/PhrasalVerbsQuiz'
 import SynonymsHub from './pages/synonyms/SynonymsHub'
 import SynonymsLibrary from './pages/synonyms/SynonymsLibrary'
 import SynonymsQuiz from './pages/synonyms/SynonymsQuiz'
+import AddSynonym from './pages/synonyms/AddSynonym'
 import AntonymsHub from './pages/antonyms/AntonymsHub'
 import AntonymsLibrary from './pages/antonyms/AntonymsLibrary'
 import AntonymsQuiz from './pages/antonyms/AntonymsQuiz'
+import AddAntonym from './pages/antonyms/AddAntonym'
 
 export default function App() {
   return (
@@ -63,9 +65,11 @@ export default function App() {
           <Route path="/english/synonyms" element={<SynonymsHub />} />
           <Route path="/english/synonyms/library" element={<SynonymsLibrary />} />
           <Route path="/english/synonyms/quiz" element={<SynonymsQuiz />} />
+          <Route path="/english/synonyms/add" element={<AddSynonym />} />
           <Route path="/english/antonyms" element={<AntonymsHub />} />
           <Route path="/english/antonyms/library" element={<AntonymsLibrary />} />
           <Route path="/english/antonyms/quiz" element={<AntonymsQuiz />} />
+          <Route path="/english/antonyms/add" element={<AddAntonym />} />
         </Route>
       </Routes>
     </HashRouter>

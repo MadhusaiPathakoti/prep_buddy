@@ -57,6 +57,7 @@ export default function SynonymsLibrary() {
       backLabel="Synonyms"
       title="Synonyms Bank"
       nounPlural="words"
+      addAction={{ to: '/english/synonyms/add', label: '+ Add a word' }}
       onDelete={handleDelete}
       answerLabel="Synonym"
     />

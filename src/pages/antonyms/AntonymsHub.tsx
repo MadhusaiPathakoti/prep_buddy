@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 import FeatureHub from '../../components/FeatureHub'
 import { getFullAntonymsBank } from '../../lib/antonymsStore'
 
@@ -33,6 +34,12 @@ export default function AntonymsHub() {
       quizTo="/english/antonyms/quiz"
       quizTitle="Play the quiz"
       quizDescription="Pick easy, medium, or hard and find the opposite word. Hints included."
-    />
+    >
+      <div className="mt-6 text-center">
+        <Link to="/english/antonyms/add" className="text-sm font-semibold text-indigo-600 hover:underline">
+          + Add your own word to the bank
+        </Link>
+      </div>
+    </FeatureHub>
   )
 }

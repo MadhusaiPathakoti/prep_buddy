@@ -57,6 +57,7 @@ export default function AntonymsLibrary() {
       backLabel="Antonyms"
       title="Antonyms Bank"
       nounPlural="words"
+      addAction={{ to: '/english/antonyms/add', label: '+ Add a word' }}
       onDelete={handleDelete}
       answerLabel="Opposite"
     />
