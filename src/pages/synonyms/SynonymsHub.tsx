@@ -1,0 +1,38 @@
+import { useEffect, useState } from 'react'
+import FeatureHub from '../../components/FeatureHub'
+import { getFullSynonymsBank } from '../../lib/synonymsStore'
+
+export default function SynonymsHub() {
+  const [count, setCount] = useState<number | null>(null)
+
+  useEffect(() => {
+    let cancelled = false
+    getFullSynonymsBank()
+      .then((full) => {
+        if (!cancelled) setCount(full.length)
+      })
+      .catch(() => {
+        // Leave count as null; the description falls back to a generic line below.
+      })
+    return () => {
+      cancelled = true
+    }
+  }, [])
+
+  return (
+    <FeatureHub
+      backTo="/english"
+      backLabel="English"
+      title="Synonyms"
+      description="Learn words and their synonyms, then test yourself with a quiz at your chosen difficulty."
+      libraryTo="/english/synonyms/library"
+      libraryTitle="Study the synonyms bank"
+      libraryDescription={
+        count === null ? 'Words with their synonyms and examples, easy to hard.' : `${count} words with their synonyms and examples, easy to hard.`
+      }
+      quizTo="/english/synonyms/quiz"
+      quizTitle="Play the quiz"
+      quizDescription="Pick easy, medium, or hard and find the matching synonym. Hints included."
+    />
+  )
+}

@@ -30,6 +30,20 @@ const games = [
     to: '/english/phrasal-verbs',
     icon: '🔀',
   },
+  {
+    id: 'synonyms',
+    title: 'Synonyms',
+    description: 'Learn words and their synonyms, then test yourself at easy, medium, or hard.',
+    to: '/english/synonyms',
+    icon: '🟰',
+  },
+  {
+    id: 'antonyms',
+    title: 'Antonyms',
+    description: 'Learn words and their opposites, then test yourself at easy, medium, or hard.',
+    to: '/english/antonyms',
+    icon: '↔️',
+  },
 ]
 
 export default function English() {

@@ -24,6 +24,12 @@ import AddOneWord from './pages/onewordsub/AddOneWord'
 import PhrasalVerbsHub from './pages/phrasalverbs/PhrasalVerbsHub'
 import PhrasalVerbsLibrary from './pages/phrasalverbs/PhrasalVerbsLibrary'
 import PhrasalVerbsQuiz from './pages/phrasalverbs/PhrasalVerbsQuiz'
+import SynonymsHub from './pages/synonyms/SynonymsHub'
+import SynonymsLibrary from './pages/synonyms/SynonymsLibrary'
+import SynonymsQuiz from './pages/synonyms/SynonymsQuiz'
+import AntonymsHub from './pages/antonyms/AntonymsHub'
+import AntonymsLibrary from './pages/antonyms/AntonymsLibrary'
+import AntonymsQuiz from './pages/antonyms/AntonymsQuiz'
 
 export default function App() {
   return (
@@ -54,6 +60,12 @@ export default function App() {
           <Route path="/english/phrasal-verbs" element={<PhrasalVerbsHub />} />
           <Route path="/english/phrasal-verbs/library" element={<PhrasalVerbsLibrary />} />
           <Route path="/english/phrasal-verbs/quiz" element={<PhrasalVerbsQuiz />} />
+          <Route path="/english/synonyms" element={<SynonymsHub />} />
+          <Route path="/english/synonyms/library" element={<SynonymsLibrary />} />
+          <Route path="/english/synonyms/quiz" element={<SynonymsQuiz />} />
+          <Route path="/english/antonyms" element={<AntonymsHub />} />
+          <Route path="/english/antonyms/library" element={<AntonymsLibrary />} />
+          <Route path="/english/antonyms/quiz" element={<AntonymsQuiz />} />
         </Route>
       </Routes>
     </HashRouter>

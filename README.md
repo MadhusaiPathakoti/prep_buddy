@@ -16,10 +16,10 @@ Vite + React + TypeScript + Tailwind CSS. Routing uses `HashRouter` so it works 
 
 ### Shared banks (Firebase Firestore)
 
-All four English games are backed by [Firebase Firestore](https://firebase.google.com) instead of static data, via the generic helper in `src/lib/sharedBank.ts`:
+All six English games are backed by [Firebase Firestore](https://firebase.google.com) instead of static data, via the generic helper in `src/lib/sharedBank.ts`:
 
 - **Vocabulary, Idioms, One Word Substitution** — anyone can add an entry (looked up via Wiktionary's free API); it's saved to Firestore and visible to every visitor. Deleting an entry (built-in or user-added) is permanent and global. One Word Substitution's add flow takes just the single word and swaps the looked-up fields, since that bank stores the phrase as `term` and the word as `meaning` (reversed from the other two, to match the real exam format).
-- **Phrasal Verbs** — no add feature, but deleting an entry is likewise permanent and global.
+- **Phrasal Verbs, Synonyms, Antonyms** — no add feature, but deleting an entry is likewise permanent and global. Synonyms and Antonyms store the word as `term` and the matching synonym/antonym word as `meaning`.
 
 This needs a free Firebase project of your own:
 
@@ -83,6 +83,18 @@ This needs a free Firebase project of your own:
          allow delete: if false;
        }
        match /phrasalVerbsHiddenSeedWords/{wordId} {
+         allow read: if true;
+         allow create: if true;
+         allow update: if false;
+         allow delete: if false;
+       }
+       match /synonymsHiddenSeedWords/{wordId} {
+         allow read: if true;
+         allow create: if true;
+         allow update: if false;
+         allow delete: if false;
+       }
+       match /antonymsHiddenSeedWords/{wordId} {
          allow read: if true;
          allow create: if true;
          allow update: if false;
