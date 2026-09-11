@@ -58,6 +58,7 @@ export default function SynonymsLibrary() {
       title="Synonyms Bank"
       nounPlural="words"
       onDelete={handleDelete}
+      answerLabel="Synonym"
     />
   )
 }
