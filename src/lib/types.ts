@@ -29,4 +29,10 @@ export interface BankEntry {
   example: string
   /** Abbreviated part of speech (e.g. "v", "n", "adj", "adv"), shown after the word. Vocabulary only. */
   partOfSpeech?: string
+  /**
+   * The word's own definition, shown alongside `meaning` when `meaning` itself holds a
+   * related word rather than a definition (e.g. Synonyms/Antonyms, where `meaning` is the
+   * matching synonym/antonym word).
+   */
+  definition?: string
 }

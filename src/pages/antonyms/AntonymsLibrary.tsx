@@ -58,6 +58,7 @@ export default function AntonymsLibrary() {
       title="Antonyms Bank"
       nounPlural="words"
       onDelete={handleDelete}
+      answerLabel="Opposite"
     />
   )
 }

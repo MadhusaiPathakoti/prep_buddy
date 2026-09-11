@@ -28,9 +28,11 @@ interface BankLibraryProps {
   nounPlural: string
   addAction?: { to: string; label: string }
   onDelete?: (entry: BankEntry) => void
+  /** Label for the `meaning` field when an entry also has its own `definition` (e.g. "Opposite", "Synonym"). */
+  answerLabel?: string
 }
 
-export default function BankLibrary({ bank, bankKey, backTo, backLabel, title, nounPlural, addAction, onDelete }: BankLibraryProps) {
+export default function BankLibrary({ bank, bankKey, backTo, backLabel, title, nounPlural, addAction, onDelete, answerLabel }: BankLibraryProps) {
   const [filter, setFilter] = useState<FilterId>('all')
   const [query, setQuery] = useState('')
   const [confirmingId, setConfirmingId] = useState<string | null>(null)
@@ -125,7 +127,16 @@ export default function BankLibrary({ bank, bankKey, backTo, backLabel, title, n
                   </span>
                 </div>
               </div>
-              <p className="mt-1 text-sm text-slate-600">{w.meaning}</p>
+              {w.definition ? (
+                <>
+                  <p className="mt-1 text-sm text-slate-600">{w.definition}</p>
+                  <p className="mt-1 text-sm font-semibold text-indigo-600">
+                    {answerLabel ?? 'Answer'}: {w.meaning}
+                  </p>
+                </>
+              ) : (
+                <p className="mt-1 text-sm text-slate-600">{w.meaning}</p>
+              )}
               {w.example ? (
                 <p className="mt-2 text-xs italic text-slate-400">"{w.example}"</p>
               ) : (
