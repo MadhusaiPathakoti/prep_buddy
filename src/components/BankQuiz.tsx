@@ -5,10 +5,13 @@ import { generateMCQQuestions, type MCQQuestion } from '../lib/generators'
 import { getFavoriteIds } from '../lib/favorites'
 import type { BankEntry, Difficulty } from '../lib/types'
 
-const DIFFICULTIES: { id: Difficulty; label: string }[] = [
+type Toughness = Difficulty | 'mixed'
+
+const DIFFICULTIES: { id: Toughness; label: string }[] = [
   { id: 'easy', label: 'Easy' },
   { id: 'medium', label: 'Medium' },
   { id: 'hard', label: 'Hard' },
+  { id: 'mixed', label: 'Mixed' },
 ]
 const QUESTION_COUNTS = [5, 10, 15, 20]
 
@@ -24,7 +27,7 @@ interface BankQuizProps {
 }
 
 export default function BankQuiz({ gameId, bankKey, bank, backTo, backLabel, title, description, noun }: BankQuizProps) {
-  const [difficulty, setDifficulty] = useState<Difficulty>('easy')
+  const [difficulty, setDifficulty] = useState<Toughness>('easy')
   const [count, setCount] = useState(10)
   const [favoritesOnly, setFavoritesOnly] = useState(false)
   const [questions, setQuestions] = useState<MCQQuestion[] | null>(null)
@@ -33,8 +36,9 @@ export default function BankQuiz({ gameId, bankKey, bank, backTo, backLabel, tit
   const favoriteIds = getFavoriteIds(bankKey)
   const hasFavorites = favoriteIds.size > 0
   const activeBank = favoritesOnly ? bank.filter((w) => favoriteIds.has(w.id)) : bank
-  const poolSize = activeBank.filter((w) => w.difficulty === difficulty).length
+  const poolSize = difficulty === 'mixed' ? activeBank.length : activeBank.filter((w) => w.difficulty === difficulty).length
   const canStart = poolSize > 0
+  const difficultyLabel = difficulty === 'mixed' ? 'all difficulties' : `${difficulty} difficulty`
 
   function generate() {
     return generateMCQQuestions(activeBank, difficulty, count)
@@ -120,7 +124,7 @@ export default function BankQuiz({ gameId, bankKey, bank, backTo, backLabel, tit
         </div>
         <p className="mt-2 text-xs text-slate-400">
           {poolSize} {favoritesOnly ? 'favourite ' : ''}
-          {noun} available at {difficulty} difficulty.
+          {noun} available at {difficultyLabel}.
         </p>
 
         <button
@@ -132,7 +136,7 @@ export default function BankQuiz({ gameId, bankKey, bank, backTo, backLabel, tit
             ? `Start · ${difficulty} · ${Math.min(count, poolSize)} questions`
             : favoritesOnly && !hasFavorites
               ? 'Add favourites first'
-              : `No ${favoritesOnly ? 'favourite ' : ''}${noun} at ${difficulty} difficulty`}
+              : `No ${favoritesOnly ? 'favourite ' : ''}${noun} at ${difficultyLabel}`}
         </button>
       </div>
     </div>

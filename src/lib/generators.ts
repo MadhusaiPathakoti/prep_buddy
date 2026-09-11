@@ -161,9 +161,9 @@ export interface MCQQuestion {
   hint: string
 }
 
-/** MCQ questions: pick an entry from a bank (vocabulary, idioms, ...) at the chosen difficulty, with 3 wrong meanings as distractors. */
-export function generateMCQQuestions(bank: BankEntry[], difficulty: Difficulty, count: number): MCQQuestion[] {
-  const pool = bank.filter((w) => w.difficulty === difficulty)
+/** MCQ questions: pick an entry from a bank (vocabulary, idioms, ...) at the chosen difficulty (or 'mixed' for all difficulties), with 3 wrong meanings as distractors. */
+export function generateMCQQuestions(bank: BankEntry[], difficulty: Difficulty | 'mixed', count: number): MCQQuestion[] {
+  const pool = difficulty === 'mixed' ? bank : bank.filter((w) => w.difficulty === difficulty)
   const chosen = shuffle(pool).slice(0, Math.min(count, pool.length))
   return chosen.map((w) => {
     const distractors = shuffle(pool.filter((x) => x.id !== w.id))
