@@ -102,7 +102,10 @@ export default function BankLibrary({ bank, bankKey, backTo, backLabel, title, n
           return (
             <div key={w.id} className="rounded-2xl bg-white p-4 shadow-sm ring-1 ring-slate-200">
               <div className="flex items-center justify-between gap-2">
-                <h3 className="text-lg font-bold text-slate-900">{w.term}</h3>
+                <h3 className="text-lg font-bold text-slate-900">
+                  {w.term}
+                  {w.partOfSpeech && <span className="ml-1 font-normal text-slate-400">({w.partOfSpeech})</span>}
+                </h3>
                 <div className="flex shrink-0 items-center gap-1.5">
                   <button
                     onClick={() => handleToggleFavorite(w.id)}

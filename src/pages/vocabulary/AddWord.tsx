@@ -44,7 +44,7 @@ export default function AddWord() {
         return
       }
 
-      const { meaning, example, hint } = await lookupWord(trimmed)
+      const { meaning, example, hint, partOfSpeech } = await lookupWord(trimmed)
       const entry: BankEntry = {
         id: `custom-${slugify(trimmed)}`,
         term: trimmed.charAt(0).toUpperCase() + trimmed.slice(1),
@@ -52,6 +52,7 @@ export default function AddWord() {
         example,
         hint,
         difficulty,
+        ...(partOfSpeech ? { partOfSpeech } : {}),
       }
       await addCustomWord(entry)
       setAdded(entry)
@@ -124,7 +125,10 @@ export default function AddWord() {
         <div className="mt-6 rounded-3xl bg-emerald-50 p-6 ring-1 ring-emerald-200">
           <p className="text-sm font-semibold text-emerald-700">Added to the shared vocabulary bank for everyone!</p>
           <div className="mt-3 flex items-center gap-2">
-            <h3 className="text-xl font-bold text-slate-900">{added.term}</h3>
+            <h3 className="text-xl font-bold text-slate-900">
+              {added.term}
+              {added.partOfSpeech && <span className="ml-1 font-normal text-slate-400">({added.partOfSpeech})</span>}
+            </h3>
             <span className="rounded-full bg-emerald-100 px-2 py-0.5 text-xs font-semibold capitalize text-emerald-700">
               {added.difficulty}
             </span>

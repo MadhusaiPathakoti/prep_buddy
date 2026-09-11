@@ -2,6 +2,21 @@ export interface WordLookupResult {
   meaning: string
   example: string
   hint: string
+  partOfSpeech: string
+}
+
+const POS_ABBREVIATIONS: Record<string, string> = {
+  noun: 'n',
+  verb: 'v',
+  adjective: 'adj',
+  adverb: 'adv',
+  'proper noun': 'n',
+  conjunction: 'conj',
+  preposition: 'prep',
+  pronoun: 'pron',
+  interjection: 'interj',
+  determiner: 'det',
+  numeral: 'num',
 }
 
 interface WiktionaryDefinition {
@@ -93,6 +108,7 @@ export async function lookupWord(word: string): Promise<WordLookupResult> {
   const meaning = stripHtml(chosenDef.definition)
   const example = chosenDef.examples?.[0] ? stripHtml(chosenDef.examples[0]) : ''
   const hint = `Part of speech: ${chosenPos.toLowerCase()}`
+  const partOfSpeech = POS_ABBREVIATIONS[chosenPos.toLowerCase()] ?? ''
 
-  return { meaning, example, hint }
+  return { meaning, example, hint, partOfSpeech }
 }

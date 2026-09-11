@@ -27,4 +27,6 @@ export interface BankEntry {
   difficulty: Difficulty
   hint: string
   example: string
+  /** Abbreviated part of speech (e.g. "v", "n", "adj", "adv"), shown after the word. Vocabulary only. */
+  partOfSpeech?: string
 }
