@@ -3,9 +3,9 @@ import { Link } from 'react-router-dom'
 import { getFavoriteIds, toggleFavorite } from '../lib/favorites'
 import type { BankEntry, Difficulty } from '../lib/types'
 
-type FilterId = Difficulty | 'all' | 'favorites'
+type FilterId = Difficulty | 'all' | 'favorites' | 'yours'
 
-const FILTERS: { id: FilterId; label: string }[] = [
+const BASE_FILTERS: { id: FilterId; label: string }[] = [
   { id: 'all', label: 'All' },
   { id: 'easy', label: 'Easy' },
   { id: 'medium', label: 'Medium' },
@@ -42,12 +42,15 @@ export default function BankLibrary({ bank, bankKey, backTo, backLabel, title, n
     setFavorites((prev) => toggleFavorite(bankKey, id, prev))
   }
 
+  const filters = addAction ? [...BASE_FILTERS, { id: 'yours' as const, label: 'Yours' }] : BASE_FILTERS
+
   const entries = useMemo(() => {
     const q = query.trim().toLowerCase()
     return bank
       .filter((w) => {
         if (filter === 'all') return true
         if (filter === 'favorites') return favorites.has(w.id)
+        if (filter === 'yours') return w.id.startsWith('custom-')
         return w.difficulty === filter
       })
       .filter((w) => q === '' || w.term.toLowerCase().includes(q) || w.meaning.toLowerCase().includes(q))
@@ -77,7 +80,7 @@ export default function BankLibrary({ bank, bankKey, backTo, backLabel, title, n
 
       <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div className="flex flex-wrap gap-2">
-          {FILTERS.map((f) => (
+          {filters.map((f) => (
             <button
               key={f.id}
               onClick={() => setFilter(f.id)}
@@ -179,7 +182,12 @@ export default function BankLibrary({ bank, bankKey, backTo, backLabel, title, n
         {entries.length === 0 && filter === 'favorites' && (
           <p className="text-slate-400">No favourites yet — tap the ☆ on any card to save it here for daily revision.</p>
         )}
-        {entries.length === 0 && filter !== 'favorites' && <p className="text-slate-400">No {nounPlural} match your search.</p>}
+        {entries.length === 0 && filter === 'yours' && (
+          <p className="text-slate-400">You haven't added any {nounPlural} yet — use "+ Add" above to add one.</p>
+        )}
+        {entries.length === 0 && filter !== 'favorites' && filter !== 'yours' && (
+          <p className="text-slate-400">No {nounPlural} match your search.</p>
+        )}
       </div>
     </div>
   )
