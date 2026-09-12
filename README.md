@@ -149,7 +149,7 @@ The Gemini API key must **never** be shipped to the browser (unlike the Firebase
 
 1. Get a free API key at [Google AI Studio](https://aistudio.google.com/apikey).
 2. In the Vercel project, go to Settings → Environment Variables and add `GEMINI_API_KEY` (all environments), then redeploy.
-3. Optional: set `GEMINI_MODEL` to override the default (`gemini-2.0-flash`) if Google renames or deprecates it.
+3. Optional: set `GEMINI_MODEL` to override the default (`gemini-3.5-flash-lite`) if Google renames or deprecates it — Google retires Gemini model names fairly often, so check [ai.google.dev/gemini-api/docs/models](https://ai.google.dev/gemini-api/docs/models) if lookups start failing.
 
 Without this env var configured, `api/lookup.js` returns a clear 500 error and every "Add" flow simply falls back to the original "No definition found" message — nothing breaks, the fallback is just inactive. Note that `api/lookup.js` only runs as a real serverless function once deployed on Vercel; `npm run dev` (Vite) serves it as a static file instead, so the fallback can't be exercised locally without the Vercel CLI (`vercel dev`).
 

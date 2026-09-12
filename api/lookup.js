@@ -23,7 +23,7 @@ export default async function handler(req, res) {
     return
   }
 
-  const model = process.env.GEMINI_MODEL || 'gemini-2.0-flash'
+  const model = process.env.GEMINI_MODEL || 'gemini-3.5-flash-lite'
   const prompt = `You are a dictionary for a competitive-exam English study app. Define the English word, idiom, or phrase: "${term}".
 Respond with ONLY a JSON object (no markdown fences, no extra text) in exactly this shape:
 {"meaning": "a single clear one-sentence definition", "example": "one natural sentence that uses the exact phrase \\"${term}\\"", "partOfSpeech": "noun, verb, adjective, or adverb - or an empty string if it's an idiom or multi-word phrase with no single part of speech"}
@@ -45,7 +45,8 @@ If "${term}" is not a real, recognizable English word, idiom, or phrase, respond
   }
 
   if (!geminiRes.ok) {
-    res.status(502).json({ error: `Gemini request failed (${geminiRes.status}).` })
+    const detail = await geminiRes.text().catch(() => '')
+    res.status(502).json({ error: `Gemini request failed (${geminiRes.status}).`, detail: detail.slice(0, 500) })
     return
   }
 
