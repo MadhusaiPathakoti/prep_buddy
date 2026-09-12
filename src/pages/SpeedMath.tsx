@@ -51,6 +51,13 @@ const games = [
     to: '/speed-math/percent-to-ratio',
     icon: '⅟',
   },
+  {
+    id: 'pythagorean-triplets',
+    title: 'Pythagorean Triplets',
+    description: 'Fill in the missing number in a triplet, e.g. (3, 4, _) or (_, 4, 5).',
+    to: '/speed-math/pythagorean-triplets',
+    icon: '△',
+  },
 ]
 
 export default function SpeedMath() {

@@ -40,6 +40,38 @@ export function generateSquaresCubesQuestions(min: number, max: number, mode: Sq
   return count >= shuffled.length ? shuffled : shuffled.slice(0, count)
 }
 
+/**
+ * Pythagorean triplet questions: finds every integer triple (a, b, c) with a² + b² = c²
+ * where the smallest leg `a` falls in [minA, maxA] (the user-selected range), then blanks
+ * one randomly-chosen position for the user to fill in, e.g. "(3, 4, _)" or "(_, 4, 5)".
+ * Includes scaled (non-primitive) triples like (6, 8, 10), not just primitives.
+ */
+export function generatePythagoreanQuestions(minA: number, maxA: number, count: number): Question[] {
+  const CAP = 500 // keeps b/c to at most 3 digits, comfortable to type
+  const triples: [number, number, number][] = []
+  for (let a = minA; a <= maxA; a++) {
+    for (let b = a + 1; b < CAP; b++) {
+      const c = Math.sqrt(a * a + b * b)
+      if (c >= CAP) break
+      if (Number.isInteger(c)) triples.push([a, b, c])
+    }
+  }
+  const shuffled = shuffle(triples)
+  const chosen = count >= shuffled.length ? shuffled : shuffled.slice(0, count)
+  return chosen.map(([a, b, c], i) => {
+    const values = [a, b, c]
+    const blankIndex = Math.floor(Math.random() * 3)
+    const answer = values[blankIndex]
+    const prompt = `(${values.map((v, idx) => (idx === blankIndex ? '_' : v)).join(', ')})`
+    return {
+      id: `${a}-${b}-${c}-${i}`,
+      prompt,
+      answer,
+      displayAnswer: String(answer),
+    }
+  })
+}
+
 export type RatioDifficulty = 'basic' | 'advanced'
 
 /** Fraction -> percentage questions, e.g. 1/9 -> 11.11 */
