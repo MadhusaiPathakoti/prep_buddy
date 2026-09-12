@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import { getSummary } from '../lib/storage'
 
-const games = [
+export const ENGLISH_GAMES = [
   {
     id: 'vocabulary',
     title: 'Vocabulary',
@@ -58,7 +58,7 @@ export default function English() {
       </div>
 
       <div className="grid gap-5 sm:grid-cols-2">
-        {games.map((g) => {
+        {ENGLISH_GAMES.map((g) => {
           const summary = getSummary(g.id)
           return (
             <Link

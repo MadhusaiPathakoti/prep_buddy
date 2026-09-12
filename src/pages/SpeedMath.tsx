@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import { getSummary } from '../lib/storage'
 
-const games = [
+export const SPEED_MATH_GAMES = [
   {
     id: 'additions',
     title: 'Additions',
@@ -72,7 +72,7 @@ export default function SpeedMath() {
       </div>
 
       <div className="grid gap-5 sm:grid-cols-2">
-        {games.map((g) => {
+        {SPEED_MATH_GAMES.map((g) => {
           const summary = getSummary(g.id)
           return (
             <Link

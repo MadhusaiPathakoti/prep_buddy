@@ -1,4 +1,6 @@
 import { Link } from 'react-router-dom'
+import { SPEED_MATH_GAMES } from './SpeedMath'
+import { ENGLISH_GAMES } from './English'
 
 const modules = [
   {
@@ -6,7 +8,7 @@ const modules = [
     title: 'Speed Math',
     description: 'Tables, squares, cubes and fraction-to-percentage drills to sharpen your calculation speed and accuracy.',
     to: '/speed-math',
-    gameCount: 3,
+    gameCount: SPEED_MATH_GAMES.length,
     icon: '⚡',
   },
   {
@@ -14,7 +16,7 @@ const modules = [
     title: 'English',
     description: 'Build your vocabulary with a browsable word bank and a hint-powered quiz across three difficulty levels.',
     to: '/english',
-    gameCount: 1,
+    gameCount: ENGLISH_GAMES.length,
     icon: '📚',
   },
 ]
