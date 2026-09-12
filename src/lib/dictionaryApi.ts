@@ -61,10 +61,47 @@ async function fetchDefinitionEntries(phrase: string): Promise<WiktionaryEntry[]
   return data.en ?? null
 }
 
+interface GeminiLookupResponse {
+  meaning?: string
+  example?: string
+  partOfSpeech?: string
+  error?: string
+}
+
+/**
+ * Falls back to a Gemini-backed serverless function (api/lookup.js) when Wiktionary has no
+ * page for the phrase — Wiktionary only matches exact page titles, so it misses many real
+ * idioms and loosely-worded phrases that an LLM can still define. Returns null (rather than
+ * throwing) on any failure so the caller can fall through to the original "not found" error.
+ */
+async function fetchFromGemini(word: string): Promise<WordLookupResult | null> {
+  let data: GeminiLookupResponse
+  try {
+    const res = await fetch(`/api/lookup?term=${encodeURIComponent(word)}`)
+    if (!res.ok) return null
+    data = (await res.json()) as GeminiLookupResponse
+  } catch {
+    // Covers network failures and non-JSON responses — e.g. in local `vite dev`, this route
+    // isn't a real serverless function, so it 200s with the file's raw source instead of JSON.
+    return null
+  }
+  if (data.error || !data.meaning || !data.example) return null
+
+  const chosenPos = (data.partOfSpeech ?? '').toLowerCase()
+  return {
+    meaning: data.meaning,
+    example: data.example,
+    hint: chosenPos ? `Part of speech: ${chosenPos}` : '',
+    partOfSpeech: POS_ABBREVIATIONS[chosenPos] ?? '',
+  }
+}
+
 /**
  * Looks up a word or phrase via Wiktionary's free, keyless REST API (CORS-enabled for
  * browser use, unlike most other free dictionary APIs) and picks the best definition +
- * example.
+ * example. Falls back to a Gemini-backed lookup (api/lookup.js) when Wiktionary has no page
+ * for it at all, since Wiktionary only matches exact titles and misses many real idioms and
+ * loosely-worded phrases.
  */
 export async function lookupWord(word: string): Promise<WordLookupResult> {
   const cleaned = word.trim().toLowerCase()
@@ -80,6 +117,8 @@ export async function lookupWord(word: string): Promise<WordLookupResult> {
   }
 
   if (!entries || entries.length === 0) {
+    const fromGemini = await fetchFromGemini(word)
+    if (fromGemini) return fromGemini
     throw new Error(`No definition found for "${word}". Check the spelling and try again.`)
   }
 
