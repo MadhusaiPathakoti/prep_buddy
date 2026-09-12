@@ -62,13 +62,16 @@ export default function AddSynonym() {
         return
       }
 
-      const { meaning: definition, example, hint } = await lookupWord(trimmedWord)
+      const { meaning: definition, example } = await lookupWord(trimmedWord)
       const entry: BankEntry = {
         id: `custom-${slugify(trimmedWord)}`,
         term: capitalize(trimmedWord),
         meaning: capitalize(trimmedSynonym),
         definition,
-        hint,
+        // The quiz hint should be the word's own meaning (matching the seed data convention),
+        // not lookupWord's generic "Part of speech: x" — that's meant for banks without their
+        // own definition field.
+        hint: definition,
         example,
         difficulty,
       }
