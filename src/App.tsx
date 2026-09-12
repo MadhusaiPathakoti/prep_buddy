@@ -8,6 +8,7 @@ import DivisionPractice from './pages/games/DivisionPractice'
 import TablesPractice from './pages/games/TablesPractice'
 import SquaresCubes from './pages/games/SquaresCubes'
 import RatioPercent from './pages/games/RatioPercent'
+import PercentToRatio from './pages/games/PercentToRatio'
 import English from './pages/English'
 import VocabularyHub from './pages/vocabulary/VocabularyHub'
 import VocabLibrary from './pages/vocabulary/VocabLibrary'
@@ -47,6 +48,7 @@ export default function App() {
           <Route path="/speed-math/tables" element={<TablesPractice />} />
           <Route path="/speed-math/squares-cubes" element={<SquaresCubes />} />
           <Route path="/speed-math/ratios" element={<RatioPercent />} />
+          <Route path="/speed-math/percent-to-ratio" element={<PercentToRatio />} />
           <Route path="/english" element={<English />} />
           <Route path="/english/vocabulary" element={<VocabularyHub />} />
           <Route path="/english/vocabulary/library" element={<VocabLibrary />} />

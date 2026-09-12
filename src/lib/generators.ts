@@ -69,6 +69,39 @@ function gcd(a: number, b: number): number {
   return b === 0 ? a : gcd(b, a % b)
 }
 
+export interface RatioAnswerQuestion {
+  id: string
+  prompt: string
+  numerator: number
+  denominator: number
+  displayAnswer: string
+}
+
+/** Percentage -> fraction questions, e.g. 25% -> 1/4. The answer must be in lowest terms. */
+export function generatePercentToRatioQuestions(maxDenominator: number, difficulty: RatioDifficulty, count: number): RatioAnswerQuestion[] {
+  const pool: RatioAnswerQuestion[] = []
+  for (let d = 2; d <= maxDenominator; d++) {
+    const numerators = difficulty === 'basic' ? [1] : Array.from({ length: d - 1 }, (_, i) => i + 1)
+    for (const n of numerators) {
+      if (n >= d) continue
+      const gcdVal = gcd(n, d)
+      if (gcdVal !== 1) continue // keep fractions in lowest terms, avoid duplicates like 2/4
+      const raw = (n / d) * 100
+      const percent = Math.round(raw * 100) / 100
+      const promptPercent = Number.isInteger(percent) ? String(percent) : percent.toFixed(2)
+      pool.push({
+        id: `${n}/${d}`,
+        prompt: `${promptPercent}%`,
+        numerator: n,
+        denominator: d,
+        displayAnswer: `${n}/${d}`,
+      })
+    }
+  }
+  const shuffled = shuffle(pool)
+  return count >= shuffled.length ? shuffled : shuffled.slice(0, count)
+}
+
 export type DigitLength = 1 | 2 | 3
 
 function randomForDigitLength(digits: DigitLength): number {

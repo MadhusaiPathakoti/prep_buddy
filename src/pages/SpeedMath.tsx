@@ -33,7 +33,7 @@ const games = [
   {
     id: 'squares-cubes',
     title: 'Squares & Cubes',
-    description: 'Squares and cubes of numbers from 1 to 30.',
+    description: 'Squares and cubes of numbers from 1 to 150.',
     to: '/speed-math/squares-cubes',
     icon: '²³',
   },
@@ -43,6 +43,13 @@ const games = [
     description: 'Convert fractions to percentages, e.g. 1/9 = 11.11%.',
     to: '/speed-math/ratios',
     icon: '%',
+  },
+  {
+    id: 'percent-to-ratio',
+    title: 'Percentage to Ratio',
+    description: 'Convert percentages to fractions in lowest terms, e.g. 25% = 1/4.',
+    to: '/speed-math/percent-to-ratio',
+    icon: '⅟',
   },
 ]
 
