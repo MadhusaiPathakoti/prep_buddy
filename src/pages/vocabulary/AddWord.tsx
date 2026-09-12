@@ -3,7 +3,10 @@ import type { FormEvent } from 'react'
 import { Link } from 'react-router-dom'
 import { lookupWord } from '../../lib/dictionaryApi'
 import { addCustomWord, getFullVocabBank } from '../../lib/vocabularyStore'
+import { getFavoriteIds, toggleFavorite } from '../../lib/favorites'
 import type { BankEntry, Difficulty } from '../../lib/types'
+
+const BANK_KEY = 'vocabulary'
 
 const DIFFICULTIES: { id: Difficulty; label: string }[] = [
   { id: 'easy', label: 'Easy' },
@@ -27,6 +30,13 @@ export default function AddWord() {
   const [status, setStatus] = useState<Status>('idle')
   const [errorMessage, setErrorMessage] = useState('')
   const [added, setAdded] = useState<BankEntry | null>(null)
+  const [isFavorite, setIsFavorite] = useState(false)
+
+  function handleToggleFavorite() {
+    if (!added) return
+    const next = toggleFavorite(BANK_KEY, added.id, getFavoriteIds(BANK_KEY))
+    setIsFavorite(next.has(added.id))
+  }
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault()
@@ -56,6 +66,7 @@ export default function AddWord() {
       }
       await addCustomWord(entry)
       setAdded(entry)
+      setIsFavorite(getFavoriteIds(BANK_KEY).has(entry.id))
       setStatus('success')
       setWord('')
     } catch (err) {
@@ -139,7 +150,13 @@ export default function AddWord() {
           ) : (
             <p className="mt-2 text-xs text-slate-400">No example sentence found for this one — feel free to add your own when studying it.</p>
           )}
-          <div className="mt-4 flex flex-wrap gap-4">
+          <div className="mt-4 flex flex-wrap items-center gap-4">
+            <button
+              onClick={handleToggleFavorite}
+              className={['text-sm font-semibold hover:underline', isFavorite ? 'text-amber-600' : 'text-indigo-600'].join(' ')}
+            >
+              {isFavorite ? '★ Added to favourites' : '☆ Add to favourites'}
+            </button>
             <Link to="/english/vocabulary/library" className="text-sm font-semibold text-indigo-600 hover:underline">
               View in library →
             </Link>
