@@ -69,10 +69,11 @@ interface GeminiLookupResponse {
 }
 
 /**
- * Falls back to a Gemini-backed serverless function (api/lookup.js) when Wiktionary has no
- * page for the phrase — Wiktionary only matches exact page titles, so it misses many real
- * idioms and loosely-worded phrases that an LLM can still define. Returns null (rather than
- * throwing) on any failure so the caller can fall through to the original "not found" error.
+ * Looks up a word/idiom/phrase via a Gemini-backed serverless function (api/lookup.js).
+ * Unlike Wiktionary — which only matches exact page titles and often lacks an example for a
+ * given sense — Gemini reliably returns both a meaning and a natural example together, so
+ * this is tried first. Returns null (rather than throwing) on any failure — missing API key,
+ * network error, malformed response — so the caller can fall through to Wiktionary.
  */
 async function fetchFromGemini(word: string): Promise<WordLookupResult | null> {
   let data: GeminiLookupResponse
@@ -97,13 +98,16 @@ async function fetchFromGemini(word: string): Promise<WordLookupResult | null> {
 }
 
 /**
- * Looks up a word or phrase via Wiktionary's free, keyless REST API (CORS-enabled for
- * browser use, unlike most other free dictionary APIs) and picks the best definition +
- * example. Falls back to a Gemini-backed lookup (api/lookup.js) when Wiktionary has no page
- * for it at all, since Wiktionary only matches exact titles and misses many real idioms and
- * loosely-worded phrases.
+ * Looks up a word, idiom, or phrase for the "Add" flow of every bank (Vocabulary, Idioms,
+ * One Word Substitution, Phrasal Verbs, and the word half of Synonyms/Antonyms). Tries
+ * Gemini first (api/lookup.js) since it consistently returns both a meaning and an example;
+ * falls back to Wiktionary's free, keyless REST API only if Gemini is unavailable (no API
+ * key configured, network error) or genuinely can't find the phrase.
  */
 export async function lookupWord(word: string): Promise<WordLookupResult> {
+  const fromGemini = await fetchFromGemini(word)
+  if (fromGemini) return fromGemini
+
   const cleaned = word.trim().toLowerCase()
   let entries = await fetchDefinitionEntries(cleaned)
 
@@ -117,8 +121,6 @@ export async function lookupWord(word: string): Promise<WordLookupResult> {
   }
 
   if (!entries || entries.length === 0) {
-    const fromGemini = await fetchFromGemini(word)
-    if (fromGemini) return fromGemini
     throw new Error(`No definition found for "${word}". Check the spelling and try again.`)
   }
 

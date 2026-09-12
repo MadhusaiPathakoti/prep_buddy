@@ -141,9 +141,9 @@ This needs a free Firebase project of your own:
 
 There are no accounts in this app, so with no login system these rules intentionally allow anyone to add or delete any entry. That's a deliberate trade-off for a fully static, backend-free deploy — don't reuse this Firebase project for anything that needs real access control.
 
-### AI-assisted lookup fallback (Gemini)
+### AI-assisted lookups (Gemini)
 
-Wiktionary only matches exact page titles, so it misses plenty of real idioms and loosely-worded phrases (e.g. it has no page for some valid idiom phrasings even though a general web search would explain them). When Wiktionary finds nothing at all, every "Add" flow now falls back to a small serverless function — `api/lookup.js` — that asks Google's Gemini API for the definition instead. This applies wherever `lookupWord()` is used: Vocabulary, Idioms, One Word Substitution, Phrasal Verbs, and the word half of Synonyms/Antonyms.
+Every "Add" flow looks up its word/idiom/phrase via `lookupWord()` in `src/lib/dictionaryApi.ts`, which tries a Gemini-backed serverless function (`api/lookup.js`) **first**, since Gemini reliably returns both a meaning and a natural example together. Wiktionary's free REST API is the fallback — used only if Gemini is unavailable (no key configured, network error) or genuinely finds nothing — since on its own it has real gaps: it only matches exact page titles (missing many real idioms and loosely-worded phrases) and, even when it finds a definition, often has no example sentence for that particular sense. This benefits every bank that shares `lookupWord()`: Vocabulary, Idioms, One Word Substitution, Phrasal Verbs, and the word half of Synonyms/Antonyms.
 
 The Gemini API key must **never** be shipped to the browser (unlike the Firebase config above, it's a real secret), so the call happens server-side in a Vercel serverless function rather than directly from the React app:
 
@@ -151,7 +151,7 @@ The Gemini API key must **never** be shipped to the browser (unlike the Firebase
 2. In the Vercel project, go to Settings → Environment Variables and add `GEMINI_API_KEY` (all environments), then redeploy.
 3. Optional: set `GEMINI_MODEL` to override the default (`gemini-3.5-flash-lite`) if Google renames or deprecates it — Google retires Gemini model names fairly often, so check [ai.google.dev/gemini-api/docs/models](https://ai.google.dev/gemini-api/docs/models) if lookups start failing.
 
-Without this env var configured, `api/lookup.js` returns a clear 500 error and every "Add" flow simply falls back to the original "No definition found" message — nothing breaks, the fallback is just inactive. Note that `api/lookup.js` only runs as a real serverless function once deployed on Vercel; `npm run dev` (Vite) serves it as a static file instead, so the fallback can't be exercised locally without the Vercel CLI (`vercel dev`).
+Without this env var configured, `api/lookup.js` returns a clear 500 error and every "Add" flow transparently falls back to Wiktionary (and from there to the original "No definition found" message if that fails too) — nothing breaks, Gemini is just skipped. Note that `api/lookup.js` only runs as a real serverless function once deployed on Vercel; `npm run dev` (Vite) serves it as a static file instead, so only the Wiktionary path can be exercised locally without the Vercel CLI (`vercel dev`).
 
 ## Development
 
