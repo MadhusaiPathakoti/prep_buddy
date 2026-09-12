@@ -57,6 +57,7 @@ export default function PhrasalVerbsLibrary() {
       backLabel="Phrasal Verbs"
       title="Phrasal Verb Bank"
       nounPlural="phrasal verbs"
+      addAction={{ to: '/english/phrasal-verbs/add', label: '+ Add a phrasal verb' }}
       onDelete={handleDelete}
     />
   )

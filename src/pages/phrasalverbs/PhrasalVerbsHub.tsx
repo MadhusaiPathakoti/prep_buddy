@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 import FeatureHub from '../../components/FeatureHub'
 import { getFullPhrasalVerbsBank } from '../../lib/phrasalVerbsStore'
 
@@ -33,6 +34,12 @@ export default function PhrasalVerbsHub() {
       quizTo="/english/phrasal-verbs/quiz"
       quizTitle="Play the quiz"
       quizDescription="Pick easy, medium, or hard and test what you know. Hints included."
-    />
+    >
+      <div className="mt-6 text-center">
+        <Link to="/english/phrasal-verbs/add" className="text-sm font-semibold text-indigo-600 hover:underline">
+          + Add your own phrasal verb to the bank
+        </Link>
+      </div>
+    </FeatureHub>
   )
 }

@@ -18,8 +18,7 @@ Vite + React + TypeScript + Tailwind CSS. Routing uses `HashRouter` so it works 
 
 All six English games are backed by [Firebase Firestore](https://firebase.google.com) instead of static data, via the generic helper in `src/lib/sharedBank.ts`:
 
-- **Vocabulary, Idioms, One Word Substitution** — anyone can add an entry (looked up via Wiktionary's free API); it's saved to Firestore and visible to every visitor. Deleting an entry (built-in or user-added) is permanent and global. One Word Substitution's add flow takes just the single word and swaps the looked-up fields, since that bank stores the phrase as `term` and the word as `meaning` (reversed from the other two, to match the real exam format).
-- **Phrasal Verbs** — no add feature, but deleting an entry is permanent and global.
+- **Vocabulary, Idioms, One Word Substitution, Phrasal Verbs** — anyone can add an entry (looked up via Wiktionary's free API); it's saved to Firestore and visible to every visitor. Deleting an entry (built-in or user-added) is permanent and global. One Word Substitution's add flow takes just the single word and swaps the looked-up fields, since that bank stores the phrase as `term` and the word as `meaning` (reversed from the others, to match the real exam format).
 - **Synonyms, Antonyms** — anyone can add a word + its synonym/antonym pair. Since Wiktionary's API can't look up synonyms or antonyms directly, the add flow looks up only the word's own definition (stored as `definition`) and the user types the matching synonym/antonym word by hand (stored as `meaning`, same convention as the other banks' answer field). Deleting an entry is permanent and global.
 
 This needs a free Firebase project of your own:
@@ -82,6 +81,17 @@ This needs a free Firebase project of your own:
          allow create: if true;
          allow update: if false;
          allow delete: if false;
+       }
+       match /phrasalVerbsCustomWords/{wordId} {
+         allow read: if true;
+         allow create: if request.resource.data.keys().hasAll(['id', 'term', 'meaning', 'difficulty', 'hint', 'example'])
+                       && request.resource.data.term is string && request.resource.data.term.size() > 0 && request.resource.data.term.size() < 100
+                       && request.resource.data.meaning is string && request.resource.data.meaning.size() < 2000
+                       && request.resource.data.example is string && request.resource.data.example.size() < 2000
+                       && request.resource.data.hint is string && request.resource.data.hint.size() < 300
+                       && request.resource.data.difficulty in ['easy', 'medium', 'hard'];
+         allow update: if false;
+         allow delete: if true;
        }
        match /phrasalVerbsHiddenSeedWords/{wordId} {
          allow read: if true;
