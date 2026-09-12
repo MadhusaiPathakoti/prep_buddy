@@ -1,13 +1,18 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import RatioQuizRunner from '../../components/RatioQuizRunner'
-import { generatePercentToRatioQuestions, type RatioAnswerQuestion, type RatioDifficulty } from '../../lib/generators'
+import { generatePercentToRatioQuestions, type RatioAnswerQuestion, type PercentToRatioDifficulty } from '../../lib/generators'
 
 const QUESTION_COUNTS = [10, 15, 20, 30]
 const MAX_DENOMINATORS = [10, 15, 20, 30]
+const DIFFICULTIES: { id: PercentToRatioDifficulty; label: string }[] = [
+  { id: 'basic', label: 'Basic (1/n)' },
+  { id: 'advanced', label: 'Advanced (n/d)' },
+  { id: 'mixed', label: 'Mixed' },
+]
 
 export default function PercentToRatio() {
-  const [difficulty, setDifficulty] = useState<RatioDifficulty>('basic')
+  const [difficulty, setDifficulty] = useState<PercentToRatioDifficulty>('basic')
   const [maxDenominator, setMaxDenominator] = useState(20)
   const [count, setCount] = useState(15)
   const [questions, setQuestions] = useState<RatioAnswerQuestion[] | null>(null)
@@ -50,24 +55,18 @@ export default function PercentToRatio() {
       <div className="mt-8 rounded-3xl bg-white p-6 shadow-sm ring-1 ring-slate-200">
         <h2 className="font-semibold text-slate-800">Difficulty</h2>
         <div className="mt-3 flex flex-wrap gap-2">
-          <button
-            onClick={() => setDifficulty('basic')}
-            className={[
-              'rounded-lg px-4 py-2 text-sm font-semibold transition',
-              difficulty === 'basic' ? 'bg-indigo-600 text-white' : 'bg-slate-100 text-slate-600 hover:bg-slate-200',
-            ].join(' ')}
-          >
-            Basic (1/n)
-          </button>
-          <button
-            onClick={() => setDifficulty('advanced')}
-            className={[
-              'rounded-lg px-4 py-2 text-sm font-semibold transition',
-              difficulty === 'advanced' ? 'bg-indigo-600 text-white' : 'bg-slate-100 text-slate-600 hover:bg-slate-200',
-            ].join(' ')}
-          >
-            Advanced (n/d)
-          </button>
+          {DIFFICULTIES.map((d) => (
+            <button
+              key={d.id}
+              onClick={() => setDifficulty(d.id)}
+              className={[
+                'rounded-lg px-4 py-2 text-sm font-semibold transition',
+                difficulty === d.id ? 'bg-indigo-600 text-white' : 'bg-slate-100 text-slate-600 hover:bg-slate-200',
+              ].join(' ')}
+            >
+              {d.label}
+            </button>
+          ))}
         </div>
 
         <h2 className="mt-6 font-semibold text-slate-800">Denominators up to</h2>

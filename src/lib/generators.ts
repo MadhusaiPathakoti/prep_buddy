@@ -77,11 +77,22 @@ export interface RatioAnswerQuestion {
   displayAnswer: string
 }
 
-/** Percentage -> fraction questions, e.g. 25% -> 1/4. The answer must be in lowest terms. */
-export function generatePercentToRatioQuestions(maxDenominator: number, difficulty: RatioDifficulty, count: number): RatioAnswerQuestion[] {
+export type PercentToRatioDifficulty = 'basic' | 'advanced' | 'mixed'
+
+/**
+ * Percentage -> fraction questions, e.g. 25% -> 1/4. The answer must be in lowest terms.
+ * Basic (1/n) and Advanced (n/d, n>1) are a clean partition so Mixed (n/d, any n) is their
+ * union rather than a duplicate of Advanced.
+ */
+export function generatePercentToRatioQuestions(maxDenominator: number, difficulty: PercentToRatioDifficulty, count: number): RatioAnswerQuestion[] {
   const pool: RatioAnswerQuestion[] = []
   for (let d = 2; d <= maxDenominator; d++) {
-    const numerators = difficulty === 'basic' ? [1] : Array.from({ length: d - 1 }, (_, i) => i + 1)
+    const numerators =
+      difficulty === 'basic'
+        ? [1]
+        : difficulty === 'advanced'
+          ? Array.from({ length: d - 2 }, (_, i) => i + 2)
+          : Array.from({ length: d - 1 }, (_, i) => i + 1)
     for (const n of numerators) {
       if (n >= d) continue
       const gcdVal = gcd(n, d)
