@@ -6,7 +6,7 @@ import { validateInteger } from '../../lib/validators'
 import type { Question } from '../../lib/types'
 
 const QUESTION_COUNTS = [10, 20, 30, 50, 60]
-const NUMBERS = Array.from({ length: 30 }, (_, i) => i + 1)
+const NUMBERS = Array.from({ length: 150 }, (_, i) => i + 1)
 const MODES: { id: SquareCubeMode; label: string }[] = [
   { id: 'square', label: 'Squares only' },
   { id: 'cube', label: 'Cubes only' },
@@ -62,7 +62,7 @@ export default function SquaresCubes() {
         ← Speed Math
       </Link>
       <h1 className="mt-2 text-3xl font-extrabold text-slate-900">Squares & Cubes</h1>
-      <p className="mt-2 text-slate-500">Squares and cubes of numbers from 1 to 30, e.g. 17² or 12³. Pick a range to focus on, like 5 to 15.</p>
+      <p className="mt-2 text-slate-500">Squares and cubes of numbers from 1 to 150, e.g. 17² or 12³. Pick a range to focus on, like 5 to 15.</p>
 
       <div className="mt-8 rounded-3xl bg-white p-6 shadow-sm ring-1 ring-slate-200">
         <h2 className="font-semibold text-slate-800">Mode</h2>
