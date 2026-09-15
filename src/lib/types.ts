@@ -35,6 +35,11 @@ export interface BankEntry {
    * matching synonym/antonym word).
    */
   definition?: string
+  /**
+   * ISO timestamp of when this entry was added. Optional since older banks/entries predate
+   * this field; a missing value is treated as "not recent" by freshness filtering.
+   */
+  createdAt?: string
 }
 
 /**

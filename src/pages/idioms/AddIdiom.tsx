@@ -62,6 +62,7 @@ export default function AddIdiom() {
         example,
         hint,
         difficulty,
+        createdAt: new Date().toISOString(),
       }
       await addCustomIdiom(entry)
       setAdded(entry)

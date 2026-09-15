@@ -69,6 +69,7 @@ export default function AddOneWord() {
         hint,
         example,
         difficulty,
+        createdAt: new Date().toISOString(),
       }
       await addCustomOneWordEntry(entry)
       setAdded(entry)
