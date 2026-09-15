@@ -36,3 +36,23 @@ export interface BankEntry {
    */
   definition?: string
 }
+
+/**
+ * A single shared word bank backing both the Synonyms and Antonyms games — one entry per
+ * word, carrying every synonym and antonym known for it, so the two games are just two
+ * different ways of quizzing the same underlying data (unlike BankEntry's one-answer shape).
+ */
+export interface WordEntry {
+  id: string
+  word: string
+  /** Abbreviated part of speech (e.g. "v", "n", "adj", "adv"). */
+  partOfSpeech: string
+  /** The word's own definition. */
+  meaning: string
+  example: string
+  synonyms: string[]
+  antonyms: string[]
+  difficulty: Difficulty
+  /** ISO timestamp of when this entry was added. */
+  createdAt: string
+}

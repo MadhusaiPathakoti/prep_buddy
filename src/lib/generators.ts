@@ -1,4 +1,4 @@
-import type { BankEntry, Difficulty, Question } from './types'
+import type { BankEntry, Difficulty, Question, WordEntry } from './types'
 
 export function shuffle<T>(arr: T[]): T[] {
   const a = [...arr]
@@ -251,6 +251,38 @@ export function generateMCQQuestions(bank: BankEntry[], difficulty: Difficulty |
       correctMeaning: w.meaning,
       options: shuffle([w.meaning, ...distractors]),
       hint: w.hint,
+    }
+  })
+}
+
+/**
+ * MCQ questions from the shared word bank: the correct answer is one of the word's own
+ * synonyms or antonyms (whichever `field` the game asks for), with distractors drawn from
+ * other words' lists for that same field. Words with an empty list for `field` are excluded,
+ * since there's nothing to quiz for them in that mode.
+ */
+export function generateWordMCQQuestions(
+  bank: WordEntry[],
+  field: 'synonyms' | 'antonyms',
+  difficulty: Difficulty | 'mixed',
+  count: number,
+): MCQQuestion[] {
+  const byDifficulty = difficulty === 'mixed' ? bank : bank.filter((w) => w.difficulty === difficulty)
+  const pool = byDifficulty.filter((w) => w[field].length > 0)
+  const chosen = shuffle(pool).slice(0, Math.min(count, pool.length))
+  return chosen.map((w) => {
+    const correctMeaning = w[field][Math.floor(Math.random() * w[field].length)]
+    const otherValues = pool
+      .filter((x) => x.id !== w.id)
+      .flatMap((x) => x[field])
+      .filter((v) => v.toLowerCase() !== correctMeaning.toLowerCase())
+    const distractors = shuffle([...new Set(otherValues)]).slice(0, 3)
+    return {
+      id: w.id,
+      term: w.word,
+      correctMeaning,
+      options: shuffle([correctMeaning, ...distractors]),
+      hint: w.meaning,
     }
   })
 }

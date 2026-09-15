@@ -19,7 +19,7 @@ Vite + React + TypeScript + Tailwind CSS. Routing uses `HashRouter` so it works 
 All six English games are backed by [Firebase Firestore](https://firebase.google.com) instead of static data, via the generic helper in `src/lib/sharedBank.ts`:
 
 - **Vocabulary, Idioms, One Word Substitution, Phrasal Verbs** — anyone can add an entry (looked up via Wiktionary's free API); it's saved to Firestore and visible to every visitor. Deleting an entry (built-in or user-added) is permanent and global. One Word Substitution's add flow takes just the single word and swaps the looked-up fields, since that bank stores the phrase as `term` and the word as `meaning` (reversed from the others, to match the real exam format) — its security rule's size limits are swapped to match (`term` gets the generous 2000-char cap since it holds the full descriptive phrase, `meaning` gets the tight 100-char cap since it's just the one word).
-- **Synonyms, Antonyms** — anyone can add a word + its synonym/antonym pair. Since Wiktionary's API can't look up synonyms or antonyms directly, the add flow looks up only the word's own definition (stored as `definition`) and the user types the matching synonym/antonym word by hand (stored as `meaning`, same convention as the other banks' answer field). Deleting an entry is permanent and global.
+- **Synonyms, Antonyms** — these two games share a single **word bank** (`src/data/wordBank.ts`, `src/lib/wordBankStore.ts`) rather than each having its own: one entry per word carries its own meaning/example/part of speech *and* a full list of synonyms *and* a full list of antonyms (`WordEntry` in `src/lib/types.ts`), so the Synonyms and Antonyms games are just two different quizzes over the same underlying data. Anyone can add a word — the add flow looks up the word's own meaning, part of speech, and example automatically, and the user types the synonym/antonym lists by hand (comma-separated) since Wiktionary/Gemini can't be relied on to enumerate them. A new word is starred as a favourite automatically. Deleting an entry is permanent and global.
 
 This needs a free Firebase project of your own:
 
@@ -99,35 +99,21 @@ This needs a free Firebase project of your own:
          allow update: if false;
          allow delete: if false;
        }
-       match /synonymsCustomWords/{wordId} {
+       match /wordBankCustomWords/{wordId} {
          allow read: if true;
-         allow create: if request.resource.data.keys().hasAll(['id', 'term', 'meaning', 'difficulty', 'hint', 'example'])
-                       && request.resource.data.term is string && request.resource.data.term.size() > 0 && request.resource.data.term.size() < 100
+         allow create: if request.resource.data.keys().hasAll(['id', 'word', 'partOfSpeech', 'meaning', 'example', 'synonyms', 'antonyms', 'difficulty', 'createdAt'])
+                       && request.resource.data.word is string && request.resource.data.word.size() > 0 && request.resource.data.word.size() < 100
                        && request.resource.data.meaning is string && request.resource.data.meaning.size() < 2000
                        && request.resource.data.example is string && request.resource.data.example.size() < 2000
-                       && request.resource.data.hint is string && request.resource.data.hint.size() < 300
-                       && request.resource.data.difficulty in ['easy', 'medium', 'hard'];
+                       && request.resource.data.partOfSpeech is string && request.resource.data.partOfSpeech.size() < 30
+                       && request.resource.data.synonyms is list && request.resource.data.synonyms.size() < 20
+                       && request.resource.data.antonyms is list && request.resource.data.antonyms.size() < 20
+                       && request.resource.data.difficulty in ['easy', 'medium', 'hard']
+                       && request.resource.data.createdAt is string;
          allow update: if false;
          allow delete: if true;
        }
-       match /synonymsHiddenSeedWords/{wordId} {
-         allow read: if true;
-         allow create: if true;
-         allow update: if false;
-         allow delete: if false;
-       }
-       match /antonymsCustomWords/{wordId} {
-         allow read: if true;
-         allow create: if request.resource.data.keys().hasAll(['id', 'term', 'meaning', 'difficulty', 'hint', 'example'])
-                       && request.resource.data.term is string && request.resource.data.term.size() > 0 && request.resource.data.term.size() < 100
-                       && request.resource.data.meaning is string && request.resource.data.meaning.size() < 2000
-                       && request.resource.data.example is string && request.resource.data.example.size() < 2000
-                       && request.resource.data.hint is string && request.resource.data.hint.size() < 300
-                       && request.resource.data.difficulty in ['easy', 'medium', 'hard'];
-         allow update: if false;
-         allow delete: if true;
-       }
-       match /antonymsHiddenSeedWords/{wordId} {
+       match /wordBankHiddenSeedWords/{wordId} {
          allow read: if true;
          allow create: if true;
          allow update: if false;
@@ -136,6 +122,8 @@ This needs a free Firebase project of your own:
      }
    }
    ```
+
+   The `synonymsCustomWords`, `synonymsHiddenSeedWords`, `antonymsCustomWords`, and `antonymsHiddenSeedWords` collections/rules from the old separate Synonyms/Antonyms banks are no longer read or written by the app (superseded by `wordBank*` above) — safe to delete from your rules whenever convenient, or just leave them as harmless dead rules.
 
 4. Project settings → Your apps → add a Web app → copy the `firebaseConfig` object into `src/lib/firebase.ts` (this config is safe to commit; it's not a secret — access is controlled by the rules above, not by hiding these values).
 

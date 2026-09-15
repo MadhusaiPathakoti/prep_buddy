@@ -1,6 +1,5 @@
 import { collection, deleteDoc, doc, getDocs, setDoc } from 'firebase/firestore'
 import { db } from './firebase'
-import type { BankEntry } from './types'
 
 const REQUEST_TIMEOUT_MS = 10000
 
@@ -18,19 +17,20 @@ function withTimeout<T>(promise: Promise<T>, message: string): Promise<T> {
 }
 
 /**
- * A Firestore-backed bank of BankEntry data shared across every visitor: a seed list
- * bundled with the app, plus (optionally) entries visitors can add, minus anything any
- * visitor has permanently deleted. Deleting a seed entry can't edit the bundled code, so
- * it's recorded as "hidden" instead and filtered out of every future read.
+ * A Firestore-backed bank of entry data shared across every visitor: a seed list bundled
+ * with the app, plus (optionally) entries visitors can add, minus anything any visitor has
+ * permanently deleted. Deleting a seed entry can't edit the bundled code, so it's recorded
+ * as "hidden" instead and filtered out of every future read. Works with any entry shape
+ * that has a string `id` (BankEntry, WordEntry, ...).
  */
-export function createSharedBank(seedBank: BankEntry[], hiddenCollection: string, customCollection: string | null = null) {
-  async function getCustomEntries(): Promise<BankEntry[]> {
+export function createSharedBank<T extends { id: string }>(seedBank: T[], hiddenCollection: string, customCollection: string | null = null) {
+  async function getCustomEntries(): Promise<T[]> {
     if (!customCollection) return []
     const snapshot = await withTimeout(getDocs(collection(db, customCollection)), 'Timed out loading shared entries.')
-    return snapshot.docs.map((d) => d.data() as BankEntry)
+    return snapshot.docs.map((d) => d.data() as T)
   }
 
-  async function addCustomEntry(entry: BankEntry): Promise<void> {
+  async function addCustomEntry(entry: T): Promise<void> {
     if (!customCollection) throw new Error('Adding entries is not supported for this bank.')
     await withTimeout(setDoc(doc(db, customCollection, entry.id), entry), 'Timed out saving your entry.')
   }
@@ -49,7 +49,7 @@ export function createSharedBank(seedBank: BankEntry[], hiddenCollection: string
     }
   }
 
-  async function getFullBank(): Promise<BankEntry[]> {
+  async function getFullBank(): Promise<T[]> {
     const [customEntries, hiddenIds] = await Promise.all([getCustomEntries(), getHiddenIds()])
     return [...customEntries, ...seedBank.filter((w) => !hiddenIds.has(w.id))]
   }

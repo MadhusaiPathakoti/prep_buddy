@@ -1,16 +1,16 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import FeatureHub from '../../components/FeatureHub'
-import { getFullSynonymsBank } from '../../lib/synonymsStore'
+import { getFullWordBank } from '../../lib/wordBankStore'
 
 export default function SynonymsHub() {
   const [count, setCount] = useState<number | null>(null)
 
   useEffect(() => {
     let cancelled = false
-    getFullSynonymsBank()
+    getFullWordBank()
       .then((full) => {
-        if (!cancelled) setCount(full.length)
+        if (!cancelled) setCount(full.filter((w) => w.synonyms.length > 0).length)
       })
       .catch(() => {
         // Leave count as null; the description falls back to a generic line below.
@@ -26,17 +26,17 @@ export default function SynonymsHub() {
       backLabel="English"
       title="Synonyms"
       description="Learn words and their synonyms, then test yourself with a quiz at your chosen difficulty."
-      libraryTo="/english/synonyms/library"
-      libraryTitle="Study the synonyms bank"
+      libraryTo="/english/word-bank/library"
+      libraryTitle="Study the word bank"
       libraryDescription={
-        count === null ? 'Words with their synonyms and examples, easy to hard.' : `${count} words with their synonyms and examples, easy to hard.`
+        count === null ? 'Words with their synonyms and examples, easy to hard.' : `${count} words with synonyms recorded, easy to hard.`
       }
       quizTo="/english/synonyms/quiz"
       quizTitle="Play the quiz"
       quizDescription="Pick easy, medium, or hard and find the matching synonym. Hints included."
     >
       <div className="mt-6 text-center">
-        <Link to="/english/synonyms/add" className="text-sm font-semibold text-indigo-600 hover:underline">
+        <Link to="/english/word-bank/add" className="text-sm font-semibold text-indigo-600 hover:underline">
           + Add your own word to the bank
         </Link>
       </div>

@@ -1,16 +1,16 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import FeatureHub from '../../components/FeatureHub'
-import { getFullAntonymsBank } from '../../lib/antonymsStore'
+import { getFullWordBank } from '../../lib/wordBankStore'
 
 export default function AntonymsHub() {
   const [count, setCount] = useState<number | null>(null)
 
   useEffect(() => {
     let cancelled = false
-    getFullAntonymsBank()
+    getFullWordBank()
       .then((full) => {
-        if (!cancelled) setCount(full.length)
+        if (!cancelled) setCount(full.filter((w) => w.antonyms.length > 0).length)
       })
       .catch(() => {
         // Leave count as null; the description falls back to a generic line below.
@@ -26,17 +26,17 @@ export default function AntonymsHub() {
       backLabel="English"
       title="Antonyms"
       description="Learn words and their opposites, then test yourself with a quiz at your chosen difficulty."
-      libraryTo="/english/antonyms/library"
-      libraryTitle="Study the antonyms bank"
+      libraryTo="/english/word-bank/library"
+      libraryTitle="Study the word bank"
       libraryDescription={
-        count === null ? 'Words with their antonyms and examples, easy to hard.' : `${count} words with their antonyms and examples, easy to hard.`
+        count === null ? 'Words with their antonyms and examples, easy to hard.' : `${count} words with antonyms recorded, easy to hard.`
       }
       quizTo="/english/antonyms/quiz"
       quizTitle="Play the quiz"
       quizDescription="Pick easy, medium, or hard and find the opposite word. Hints included."
     >
       <div className="mt-6 text-center">
-        <Link to="/english/antonyms/add" className="text-sm font-semibold text-indigo-600 hover:underline">
+        <Link to="/english/word-bank/add" className="text-sm font-semibold text-indigo-600 hover:underline">
           + Add your own word to the bank
         </Link>
       </div>

@@ -1,21 +1,21 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import BankQuiz from '../../components/BankQuiz'
-import { getFullSynonymsBank } from '../../lib/synonymsStore'
-import type { BankEntry } from '../../lib/types'
+import WordBankQuiz from '../../components/WordBankQuiz'
+import { getFullWordBank } from '../../lib/wordBankStore'
+import type { WordEntry } from '../../lib/types'
 
 export default function SynonymsQuiz() {
-  const [bank, setBank] = useState<BankEntry[] | null>(null)
+  const [bank, setBank] = useState<WordEntry[] | null>(null)
   const [error, setError] = useState('')
 
   useEffect(() => {
     let cancelled = false
-    getFullSynonymsBank()
+    getFullWordBank()
       .then((full) => {
         if (!cancelled) setBank(full)
       })
       .catch(() => {
-        if (!cancelled) setError('Could not load the shared synonyms bank. Check your connection and try again.')
+        if (!cancelled) setError('Could not load the shared word bank. Check your connection and try again.')
       })
     return () => {
       cancelled = true
@@ -39,15 +39,15 @@ export default function SynonymsQuiz() {
         <Link to="/english/synonyms" className="text-sm text-slate-400 hover:text-slate-600">
           ← Synonyms
         </Link>
-        <p className="mt-6 text-slate-400">Loading the shared synonyms bank…</p>
+        <p className="mt-6 text-slate-400">Loading the shared word bank…</p>
       </div>
     )
   }
 
   return (
-    <BankQuiz
+    <WordBankQuiz
       gameId="synonyms"
-      bankKey="synonyms"
+      field="synonyms"
       bank={bank}
       backTo="/english/synonyms"
       backLabel="Synonyms"

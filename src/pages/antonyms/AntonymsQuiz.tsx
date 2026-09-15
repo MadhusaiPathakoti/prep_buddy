@@ -1,21 +1,21 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import BankQuiz from '../../components/BankQuiz'
-import { getFullAntonymsBank } from '../../lib/antonymsStore'
-import type { BankEntry } from '../../lib/types'
+import WordBankQuiz from '../../components/WordBankQuiz'
+import { getFullWordBank } from '../../lib/wordBankStore'
+import type { WordEntry } from '../../lib/types'
 
 export default function AntonymsQuiz() {
-  const [bank, setBank] = useState<BankEntry[] | null>(null)
+  const [bank, setBank] = useState<WordEntry[] | null>(null)
   const [error, setError] = useState('')
 
   useEffect(() => {
     let cancelled = false
-    getFullAntonymsBank()
+    getFullWordBank()
       .then((full) => {
         if (!cancelled) setBank(full)
       })
       .catch(() => {
-        if (!cancelled) setError('Could not load the shared antonyms bank. Check your connection and try again.')
+        if (!cancelled) setError('Could not load the shared word bank. Check your connection and try again.')
       })
     return () => {
       cancelled = true
@@ -39,15 +39,15 @@ export default function AntonymsQuiz() {
         <Link to="/english/antonyms" className="text-sm text-slate-400 hover:text-slate-600">
           ← Antonyms
         </Link>
-        <p className="mt-6 text-slate-400">Loading the shared antonyms bank…</p>
+        <p className="mt-6 text-slate-400">Loading the shared word bank…</p>
       </div>
     )
   }
 
   return (
-    <BankQuiz
+    <WordBankQuiz
       gameId="antonyms"
-      bankKey="antonyms"
+      field="antonyms"
       bank={bank}
       backTo="/english/antonyms"
       backLabel="Antonyms"
