@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import type { FormEvent } from 'react'
 import { Link } from 'react-router-dom'
-import { lookupWord } from '../../lib/dictionaryApi'
+import { lookupWordBankEntry } from '../../lib/dictionaryApi'
 import { addCustomWordEntry, getFullWordBank } from '../../lib/wordBankStore'
 import { getFavoriteIds, toggleFavorite } from '../../lib/favorites'
 import type { Difficulty, WordEntry } from '../../lib/types'
@@ -49,6 +49,7 @@ export default function AddWordBankEntry() {
   const [status, setStatus] = useState<Status>('idle')
   const [errorMessage, setErrorMessage] = useState('')
   const [added, setAdded] = useState<WordEntry | null>(null)
+  const [corrections, setCorrections] = useState<string[]>([])
 
   const canSubmit = word.trim() !== '' && synonymsInput.trim() !== '' && antonymsInput.trim() !== ''
 
@@ -61,6 +62,7 @@ export default function AddWordBankEntry() {
 
     setStatus('loading')
     setErrorMessage('')
+    setCorrections([])
     try {
       const existingBank = await getFullWordBank()
       const existing = existingBank.find((w) => w.word.toLowerCase() === trimmedWord.toLowerCase())
@@ -70,15 +72,19 @@ export default function AddWordBankEntry() {
         return
       }
 
-      const { meaning, example, partOfSpeech } = await lookupWord(trimmedWord)
+      // Gemini checks the proposed lists too — dropping words that don't actually belong
+      // (including ones in the wrong list, or both), fixing misspellings, and topping up a
+      // thin list — rather than trusting free-form input verbatim.
+      const { meaning, example, partOfSpeech, synonyms: checkedSynonyms, antonyms: checkedAntonyms, corrections: notes } =
+        await lookupWordBankEntry(trimmedWord, synonyms, antonyms)
       const entry: WordEntry = {
         id: `custom-${slugify(trimmedWord)}`,
         word: capitalize(trimmedWord),
         partOfSpeech,
         meaning,
         example,
-        synonyms,
-        antonyms,
+        synonyms: checkedSynonyms,
+        antonyms: checkedAntonyms,
         difficulty,
         createdAt: new Date().toISOString(),
       }
@@ -86,6 +92,7 @@ export default function AddWordBankEntry() {
       // New words are automatically starred for daily revision.
       toggleFavorite(BANK_KEY, entry.id, getFavoriteIds(BANK_KEY))
       setAdded(entry)
+      setCorrections(notes)
       setStatus('success')
       setWord('')
       setSynonymsInput('')
@@ -160,8 +167,8 @@ export default function AddWordBankEntry() {
           className="mt-2 w-full rounded-lg border border-slate-200 bg-slate-50 px-4 py-3 text-lg text-slate-900 outline-none focus:border-indigo-400"
         />
         <p className="mt-2 text-xs text-slate-400">
-          We can't look up synonyms or antonyms automatically, so type them yourself — separate multiple words with
-          commas.
+          We can't look these up automatically, so type them yourself — separate multiple words with commas. We'll
+          double-check them and fix or remove anything that's wrong before saving.
         </p>
 
         <h2 className="mt-6 text-sm font-semibold text-slate-800">Difficulty</h2>
@@ -214,6 +221,16 @@ export default function AddWordBankEntry() {
             <span className="font-semibold text-rose-600">Antonyms: </span>
             {added.antonyms.join(', ')}
           </p>
+          {corrections.length > 0 && (
+            <div className="mt-3 rounded-lg bg-amber-50 px-3 py-2 text-xs text-amber-700">
+              <p className="font-semibold">We adjusted your lists:</p>
+              <ul className="mt-1 list-disc pl-4">
+                {corrections.map((note) => (
+                  <li key={note}>{note}</li>
+                ))}
+              </ul>
+            </div>
+          )}
           <div className="mt-4 flex flex-wrap items-center gap-4">
             <Link to="/english/word-bank/library" className="text-sm font-semibold text-indigo-600 hover:underline">
               View in library →

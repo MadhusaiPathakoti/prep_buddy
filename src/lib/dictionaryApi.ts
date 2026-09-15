@@ -153,3 +153,78 @@ export async function lookupWord(word: string): Promise<WordLookupResult> {
 
   return { meaning, example, hint, partOfSpeech }
 }
+
+export interface WordBankLookupResult {
+  meaning: string
+  example: string
+  partOfSpeech: string
+  synonyms: string[]
+  antonyms: string[]
+  /** Plain-English notes on anything Gemini changed in the proposed lists (empty if verification wasn't available). */
+  corrections: string[]
+}
+
+interface GeminiListLookupResponse extends GeminiLookupResponse {
+  synonyms?: string[]
+  antonyms?: string[]
+  corrections?: string[]
+}
+
+/** Removes a word that appears (case-insensitively) in both lists, since it can't be both. */
+function dedupeConflicts(synonyms: string[], antonyms: string[]): { synonyms: string[]; antonyms: string[]; conflicts: string[] } {
+  const antonymSet = new Set(antonyms.map((a) => a.toLowerCase()))
+  const conflicts = synonyms.filter((s) => antonymSet.has(s.toLowerCase()))
+  const conflictSet = new Set(conflicts.map((c) => c.toLowerCase()))
+  return {
+    synonyms: synonyms.filter((s) => !conflictSet.has(s.toLowerCase())),
+    antonyms: antonyms.filter((a) => !conflictSet.has(a.toLowerCase())),
+    conflicts,
+  }
+}
+
+/**
+ * Looks up a word for the shared Synonyms/Antonyms word bank, and — unlike `lookupWord` —
+ * also asks Gemini to verify the user-typed synonym/antonym lists: dropping words that don't
+ * actually belong (including ones listed under the wrong side, or in both), fixing obvious
+ * misspellings, and topping up a thin list with well-known correct words. Falls back to
+ * Wiktionary for meaning/example/part of speech and a client-side same-word-in-both-lists
+ * check (the one thing that needs no AI) if Gemini is unavailable.
+ */
+export async function lookupWordBankEntry(word: string, synonyms: string[], antonyms: string[]): Promise<WordBankLookupResult> {
+  const params = new URLSearchParams({ term: word })
+  if (synonyms.length) params.set('synonyms', synonyms.join(','))
+  if (antonyms.length) params.set('antonyms', antonyms.join(','))
+
+  let data: GeminiListLookupResponse | null = null
+  try {
+    const res = await fetch(`/api/lookup?${params.toString()}`)
+    if (res.ok) data = (await res.json()) as GeminiListLookupResponse
+  } catch {
+    // Covers network failures and non-JSON responses (e.g. local `vite dev`, see fetchFromGemini above).
+    data = null
+  }
+
+  if (data && !data.error && data.meaning && data.example) {
+    return {
+      meaning: data.meaning,
+      example: data.example,
+      partOfSpeech: POS_ABBREVIATIONS[(data.partOfSpeech ?? '').toLowerCase()] ?? '',
+      synonyms: data.synonyms ?? synonyms,
+      antonyms: data.antonyms ?? antonyms,
+      corrections: data.corrections ?? [],
+    }
+  }
+
+  const { meaning, example, partOfSpeech } = await lookupWord(word)
+  const { synonyms: cleanSynonyms, antonyms: cleanAntonyms, conflicts } = dedupeConflicts(synonyms, antonyms)
+  return {
+    meaning,
+    example,
+    partOfSpeech,
+    synonyms: cleanSynonyms,
+    antonyms: cleanAntonyms,
+    corrections: conflicts.length
+      ? [`Removed ${conflicts.join(', ')} — listed as both a synonym and an antonym. AI verification wasn't available to check the rest of your lists.`]
+      : [],
+  }
+}
