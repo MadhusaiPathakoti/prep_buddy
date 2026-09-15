@@ -286,3 +286,65 @@ export function generateWordMCQQuestions(
     }
   })
 }
+
+export type AlphaNumSystem = 'forward' | 'reverse' | 'mixed'
+export type AlphaNumDirection = 'alpha-to-num' | 'num-to-alpha' | 'mixed'
+
+export interface AlphaNumQuestion {
+  id: string
+  prompt: string
+  kind: 'alpha-to-num' | 'num-to-alpha'
+  /** The expected typed answer: a numeric string (e.g. "-24") or a single uppercase letter. */
+  answer: string
+  displayAnswer: string
+}
+
+const ALPHABET = Array.from({ length: 26 }, (_, i) => String.fromCharCode(65 + i))
+
+/** A=1, B=2, ... Z=26 for 'forward'; Z=-1, Y=-2, ... A=-26 for 'reverse'. */
+function alphaNumValue(letterPosition: number, system: 'forward' | 'reverse'): number {
+  return system === 'forward' ? letterPosition : letterPosition - 27
+}
+
+/**
+ * Alpha Numeric Test questions: convert between a letter and its position number under the
+ * chosen numbering system(s). 'mixed' system means each question independently picks forward
+ * or reverse; 'mixed' direction means each question independently asks alphabet->number or
+ * number->alphabet. A number's sign alone identifies its system (reverse is always negative),
+ * so number->alphabet questions need no extra label; alphabet->number questions show which
+ * system applies directly in the prompt since the same letter maps to two different numbers.
+ */
+export function generateAlphaNumericQuestions(system: AlphaNumSystem, direction: AlphaNumDirection, count: number): AlphaNumQuestion[] {
+  const systems: ('forward' | 'reverse')[] = system === 'mixed' ? ['forward', 'reverse'] : [system]
+  const directions: ('alpha-to-num' | 'num-to-alpha')[] = direction === 'mixed' ? ['alpha-to-num', 'num-to-alpha'] : [direction]
+
+  const pool: AlphaNumQuestion[] = []
+  for (let position = 1; position <= 26; position++) {
+    const letter = ALPHABET[position - 1]
+    for (const sys of systems) {
+      const value = alphaNumValue(position, sys)
+      for (const dir of directions) {
+        if (dir === 'alpha-to-num') {
+          const sysLabel = sys === 'forward' ? 'A=1 … Z=26' : 'Z=-1 … A=-26'
+          pool.push({
+            id: `${letter}-${sys}-a2n`,
+            prompt: `${letter}   (${sysLabel})`,
+            kind: 'alpha-to-num',
+            answer: String(value),
+            displayAnswer: String(value),
+          })
+        } else {
+          pool.push({
+            id: `${letter}-${sys}-n2a`,
+            prompt: String(value),
+            kind: 'num-to-alpha',
+            answer: letter,
+            displayAnswer: letter,
+          })
+        }
+      }
+    }
+  }
+  const shuffled = shuffle(pool)
+  return count >= shuffled.length ? shuffled : shuffled.slice(0, count)
+}

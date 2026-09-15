@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import { SPEED_MATH_GAMES } from './SpeedMath'
 import { ENGLISH_GAMES } from './English'
+import { REASONING_GAMES } from './Reasoning'
 
 const modules = [
   {
@@ -18,6 +19,14 @@ const modules = [
     to: '/english',
     gameCount: ENGLISH_GAMES.length,
     icon: '📚',
+  },
+  {
+    id: 'reasoning',
+    title: 'Reasoning',
+    description: 'Alphanumeric and logic drills to sharpen your reasoning speed and accuracy.',
+    to: '/reasoning',
+    gameCount: REASONING_GAMES.length,
+    icon: '🧩',
   },
 ]
 
@@ -49,7 +58,7 @@ export default function Home() {
         <div className="rounded-3xl border-2 border-dashed border-slate-200 p-6 text-slate-400">
           <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-slate-50 text-2xl">🚧</div>
           <h2 className="mt-4 text-xl font-bold text-slate-400">More modules</h2>
-          <p className="mt-1 text-sm">Reasoning and general awareness modules are coming soon.</p>
+          <p className="mt-1 text-sm">General awareness modules are coming soon.</p>
         </div>
       </div>
     </div>

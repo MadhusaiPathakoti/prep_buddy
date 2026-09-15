@@ -10,6 +10,8 @@ import SquaresCubes from './pages/games/SquaresCubes'
 import RatioPercent from './pages/games/RatioPercent'
 import PercentToRatio from './pages/games/PercentToRatio'
 import PythagoreanTriplets from './pages/games/PythagoreanTriplets'
+import Reasoning from './pages/Reasoning'
+import AlphaNumericTest from './pages/games/AlphaNumericTest'
 import English from './pages/English'
 import VocabularyHub from './pages/vocabulary/VocabularyHub'
 import VocabLibrary from './pages/vocabulary/VocabLibrary'
@@ -49,6 +51,8 @@ export default function App() {
           <Route path="/speed-math/ratios" element={<RatioPercent />} />
           <Route path="/speed-math/percent-to-ratio" element={<PercentToRatio />} />
           <Route path="/speed-math/pythagorean-triplets" element={<PythagoreanTriplets />} />
+          <Route path="/reasoning" element={<Reasoning />} />
+          <Route path="/reasoning/alpha-numeric-test" element={<AlphaNumericTest />} />
           <Route path="/english" element={<English />} />
           <Route path="/english/vocabulary" element={<VocabularyHub />} />
           <Route path="/english/vocabulary/library" element={<VocabLibrary />} />
