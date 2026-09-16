@@ -62,6 +62,7 @@ export default function AddWord() {
         example,
         hint,
         difficulty,
+        createdAt: new Date().toISOString(),
         ...(partOfSpeech ? { partOfSpeech } : {}),
       }
       await addCustomWord(entry)

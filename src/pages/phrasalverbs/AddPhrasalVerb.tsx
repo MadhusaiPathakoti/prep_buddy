@@ -62,6 +62,7 @@ export default function AddPhrasalVerb() {
         example,
         hint,
         difficulty,
+        createdAt: new Date().toISOString(),
       }
       await addCustomPhrasalVerb(entry)
       setAdded(entry)
