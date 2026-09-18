@@ -287,6 +287,108 @@ export function generateWordMCQQuestions(
   })
 }
 
+export type DivisibilityDifficulty = 'easy' | 'medium' | 'hard' | 'mixed'
+
+interface DivisorSpec {
+  divisor: number
+  digits: number
+  /** Max distance from the correct answer when picking distractors — smaller means options sit closer together and are harder to eliminate by estimation. */
+  offsetMax: number
+}
+
+// Divisor choice and number size scale up with difficulty; distractor spacing tightens too,
+// so "hard" options cluster close enough together that only the actual divisibility rule
+// (not rough estimation) can tell them apart — matching SBI PO Mains-level rigor.
+const EASY_DIVISOR_SPECS: DivisorSpec[] = [3, 4, 6, 9, 11].map((divisor) => ({ divisor, digits: 4, offsetMax: 50 }))
+const MEDIUM_DIVISOR_SPECS: DivisorSpec[] = [7, 8, 12, 13, 16].map((divisor) => ({ divisor, digits: 5, offsetMax: 30 }))
+const HARD_DIVISOR_SPECS: DivisorSpec[] = [7, 11, 13, 17, 19, 23].map((divisor) => ({ divisor, digits: 6, offsetMax: 15 }))
+
+function divisorSpecsFor(difficulty: DivisibilityDifficulty): DivisorSpec[] {
+  if (difficulty === 'easy') return EASY_DIVISOR_SPECS
+  if (difficulty === 'medium') return MEDIUM_DIVISOR_SPECS
+  if (difficulty === 'hard') return HARD_DIVISOR_SPECS
+  return [...EASY_DIVISOR_SPECS, ...MEDIUM_DIVISOR_SPECS, ...HARD_DIVISOR_SPECS]
+}
+
+const DIVISIBILITY_HINTS: Record<number, string> = {
+  3: 'Add all the digits — if that sum is divisible by 3, so is the number.',
+  4: 'Look at just the last two digits as a number — if that’s divisible by 4, so is the whole number.',
+  6: 'The number must pass both the rule for 2 (it’s even) and the rule for 3 (digit sum divisible by 3).',
+  7: 'Double the last digit and subtract it from the rest of the number. Repeat until the result is small enough to check directly — if it’s divisible by 7 (or 0), so is the original.',
+  8: 'Look at just the last three digits as a number — if that’s divisible by 8, so is the whole number.',
+  9: 'Add all the digits — if that sum is divisible by 9, so is the number.',
+  11: 'Starting from the right, alternately add and subtract digits. If the result is 0 or divisible by 11, so is the number.',
+  12: 'The number must pass both the rule for 3 (digit sum) and the rule for 4 (last two digits).',
+  13: 'Multiply the last digit by 4 and add it to the rest of the number. Repeat until small enough to check — if divisible by 13, so is the original.',
+  16: 'Look at just the last four digits as a number — if that’s divisible by 16, so is the whole number.',
+  17: 'Multiply the last digit by 5 and subtract it from the rest of the number. Repeat until small enough to check — if divisible by 17, so is the original.',
+  19: 'Multiply the last digit by 2 and add it to the rest of the number. Repeat until small enough to check — if divisible by 19, so is the original.',
+  23: 'Multiply the last digit by 7 and add it to the rest of the number. Repeat until small enough to check — if divisible by 23, so is the original.',
+}
+
+function randomInt(min: number, max: number): number {
+  return min + Math.floor(Math.random() * (max - min + 1))
+}
+
+/**
+ * One "which of these is divisible by N?" question: the correct option is a genuine multiple
+ * of the divisor at the target digit length; the three distractors are numbers of the same
+ * length sampled close to the correct answer (within offsetMax) so options can't be told
+ * apart by rough size alone — only by actually applying the divisibility rule.
+ */
+function generateDivisibilityQuestion(spec: DivisorSpec, uniqueSuffix: number): MCQQuestion {
+  const { divisor, digits, offsetMax } = spec
+  const min = 10 ** (digits - 1)
+  const max = 10 ** digits - 1
+  const minK = Math.ceil(min / divisor)
+  const maxK = Math.floor(max / divisor)
+  const correct = randomInt(minK, maxK) * divisor
+
+  const used = new Set<number>([correct])
+  const distractors: number[] = []
+  let attempts = 0
+  while (distractors.length < 3 && attempts < 200) {
+    attempts++
+    const candidate = correct + randomInt(1, offsetMax) * (Math.random() < 0.5 ? -1 : 1)
+    if (candidate < min || candidate > max || candidate % divisor === 0 || used.has(candidate)) continue
+    used.add(candidate)
+    distractors.push(candidate)
+  }
+  while (distractors.length < 3) {
+    const candidate = randomInt(min, max)
+    if (candidate % divisor !== 0 && !used.has(candidate)) {
+      used.add(candidate)
+      distractors.push(candidate)
+    }
+  }
+
+  const correctMeaning = correct.toLocaleString('en-IN')
+  return {
+    id: `div-${divisor}-${correct}-${uniqueSuffix}`,
+    term: `Which of the following numbers is exactly divisible by ${divisor}?`,
+    correctMeaning,
+    options: shuffle([correct, ...distractors]).map((n) => n.toLocaleString('en-IN')),
+    hint: DIVISIBILITY_HINTS[divisor],
+  }
+}
+
+export function generateDivisibilityQuestions(difficulty: DivisibilityDifficulty, count: number): MCQQuestion[] {
+  const specs = divisorSpecsFor(difficulty)
+  const seen = new Set<string>()
+  const questions: MCQQuestion[] = []
+  let attempts = 0
+  const maxAttempts = count * 25
+  while (questions.length < count && attempts < maxAttempts) {
+    attempts++
+    const spec = specs[randomInt(0, specs.length - 1)]
+    const question = generateDivisibilityQuestion(spec, attempts)
+    if (seen.has(question.correctMeaning)) continue
+    seen.add(question.correctMeaning)
+    questions.push(question)
+  }
+  return questions
+}
+
 export type AlphaNumSystem = 'forward' | 'reverse' | 'mixed'
 export type AlphaNumDirection = 'alpha-to-num' | 'num-to-alpha' | 'mixed'
 

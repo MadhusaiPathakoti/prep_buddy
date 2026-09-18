@@ -13,6 +13,8 @@ import PythagoreanTriplets from './pages/games/PythagoreanTriplets'
 import TwinNumberProducts from './pages/games/TwinNumberProducts'
 import Reasoning from './pages/Reasoning'
 import AlphaNumericTest from './pages/games/AlphaNumericTest'
+import Quant from './pages/Quant'
+import Divisibility from './pages/games/Divisibility'
 import English from './pages/English'
 import VocabularyHub from './pages/vocabulary/VocabularyHub'
 import VocabLibrary from './pages/vocabulary/VocabLibrary'
@@ -55,6 +57,8 @@ export default function App() {
           <Route path="/speed-math/twin-number-products" element={<TwinNumberProducts />} />
           <Route path="/reasoning" element={<Reasoning />} />
           <Route path="/reasoning/alpha-numeric-test" element={<AlphaNumericTest />} />
+          <Route path="/quant" element={<Quant />} />
+          <Route path="/quant/divisibility" element={<Divisibility />} />
           <Route path="/english" element={<English />} />
           <Route path="/english/vocabulary" element={<VocabularyHub />} />
           <Route path="/english/vocabulary/library" element={<VocabLibrary />} />

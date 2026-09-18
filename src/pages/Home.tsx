@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom'
 import { SPEED_MATH_GAMES } from './SpeedMath'
 import { ENGLISH_GAMES } from './English'
 import { REASONING_GAMES } from './Reasoning'
+import { QUANT_GAMES } from './Quant'
 
 const modules = [
   {
@@ -27,6 +28,14 @@ const modules = [
     to: '/reasoning',
     gameCount: REASONING_GAMES.length,
     icon: '🧩',
+  },
+  {
+    id: 'quant',
+    title: 'Quant',
+    description: 'Exam-calibrated quantitative aptitude drills, starting with divisibility rules.',
+    to: '/quant',
+    gameCount: QUANT_GAMES.length,
+    icon: '📊',
   },
 ]
 
