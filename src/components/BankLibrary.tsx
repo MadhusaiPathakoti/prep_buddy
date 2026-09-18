@@ -13,6 +13,26 @@ const BASE_FILTERS: { id: FilterId; label: string }[] = [
   { id: 'favorites', label: '★ Favourites' },
 ]
 
+type SortField = 'alphabetical' | 'added' | 'difficulty'
+type SortDirection = 'asc' | 'desc'
+
+const SORT_FIELDS: { id: SortField; label: string }[] = [
+  { id: 'alphabetical', label: 'Alphabetical' },
+  { id: 'added', label: 'Added date' },
+  { id: 'difficulty', label: 'Difficulty' },
+]
+
+const DIFFICULTY_RANK: Record<Difficulty, number> = { easy: 0, medium: 1, hard: 2 }
+
+/** Entries without `createdAt` sort as the oldest, in either direction. */
+function compareEntries(a: BankEntry, b: BankEntry, field: SortField): number {
+  if (field === 'alphabetical') return a.term.localeCompare(b.term)
+  if (field === 'difficulty') return DIFFICULTY_RANK[a.difficulty] - DIFFICULTY_RANK[b.difficulty]
+  const aTime = a.createdAt ? new Date(a.createdAt).getTime() : 0
+  const bTime = b.createdAt ? new Date(b.createdAt).getTime() : 0
+  return aTime - bTime
+}
+
 function difficultyBadge(d: Difficulty) {
   if (d === 'easy') return 'bg-emerald-100 text-emerald-700'
   if (d === 'medium') return 'bg-amber-100 text-amber-700'
@@ -35,6 +55,8 @@ interface BankLibraryProps {
 export default function BankLibrary({ bank, bankKey, backTo, backLabel, title, nounPlural, addAction, onDelete, answerLabel }: BankLibraryProps) {
   const [filter, setFilter] = useState<FilterId>('all')
   const [query, setQuery] = useState('')
+  const [sortField, setSortField] = useState<SortField>('alphabetical')
+  const [sortDirection, setSortDirection] = useState<SortDirection>('asc')
   const [confirmingId, setConfirmingId] = useState<string | null>(null)
   const [favorites, setFavorites] = useState<Set<string>>(() => getFavoriteIds(bankKey))
 
@@ -54,8 +76,11 @@ export default function BankLibrary({ bank, bankKey, backTo, backLabel, title, n
         return w.difficulty === filter
       })
       .filter((w) => q === '' || w.term.toLowerCase().includes(q) || w.meaning.toLowerCase().includes(q))
-      .sort((a, b) => a.term.localeCompare(b.term))
-  }, [bank, filter, query, favorites])
+      .sort((a, b) => {
+        const cmp = compareEntries(a, b, sortField)
+        return sortDirection === 'asc' ? cmp : -cmp
+      })
+  }, [bank, filter, query, favorites, sortField, sortDirection])
 
   return (
     <div className="mx-auto max-w-3xl px-4 py-10">
@@ -99,6 +124,29 @@ export default function BankLibrary({ bank, bankKey, backTo, backLabel, title, n
           placeholder={`Search ${nounPlural} or meanings…`}
           className="rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-700 outline-none focus:border-indigo-400"
         />
+      </div>
+
+      <div className="mt-4 flex flex-wrap items-center gap-2">
+        <span className="text-sm font-semibold text-slate-800">Sort by</span>
+        {SORT_FIELDS.map((s) => (
+          <button
+            key={s.id}
+            onClick={() => setSortField(s.id)}
+            className={[
+              'rounded-lg px-3 py-1.5 text-sm font-semibold transition',
+              sortField === s.id ? 'bg-indigo-600 text-white' : 'bg-slate-100 text-slate-600 hover:bg-slate-200',
+            ].join(' ')}
+          >
+            {s.label}
+          </button>
+        ))}
+        <button
+          onClick={() => setSortDirection((d) => (d === 'asc' ? 'desc' : 'asc'))}
+          aria-label={sortDirection === 'asc' ? 'Switch to descending order' : 'Switch to ascending order'}
+          className="rounded-lg bg-slate-100 px-3 py-1.5 text-sm font-semibold text-slate-600 transition hover:bg-slate-200"
+        >
+          {sortDirection === 'asc' ? '↑ Ascending' : '↓ Descending'}
+        </button>
       </div>
 
       <div className="mt-6 grid gap-3 sm:grid-cols-2">

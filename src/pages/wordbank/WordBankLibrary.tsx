@@ -23,6 +23,23 @@ function difficultyBadge(d: Difficulty) {
   return 'bg-rose-100 text-rose-700'
 }
 
+type SortField = 'alphabetical' | 'added' | 'difficulty'
+type SortDirection = 'asc' | 'desc'
+
+const SORT_FIELDS: { id: SortField; label: string }[] = [
+  { id: 'alphabetical', label: 'Alphabetical' },
+  { id: 'added', label: 'Added date' },
+  { id: 'difficulty', label: 'Difficulty' },
+]
+
+const DIFFICULTY_RANK: Record<Difficulty, number> = { easy: 0, medium: 1, hard: 2 }
+
+function compareEntries(a: WordEntry, b: WordEntry, field: SortField): number {
+  if (field === 'alphabetical') return a.word.localeCompare(b.word)
+  if (field === 'difficulty') return DIFFICULTY_RANK[a.difficulty] - DIFFICULTY_RANK[b.difficulty]
+  return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+}
+
 function formatDate(iso: string): string {
   try {
     return new Date(iso).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' })
@@ -36,6 +53,8 @@ export default function WordBankLibrary() {
   const [error, setError] = useState('')
   const [filter, setFilter] = useState<FilterId>('all')
   const [query, setQuery] = useState('')
+  const [sortField, setSortField] = useState<SortField>('alphabetical')
+  const [sortDirection, setSortDirection] = useState<SortDirection>('asc')
   const [confirmingId, setConfirmingId] = useState<string | null>(null)
   const [favorites, setFavorites] = useState<Set<string>>(() => getFavoriteIds(BANK_KEY))
 
@@ -79,8 +98,11 @@ export default function WordBankLibrary() {
           w.synonyms.some((s) => s.toLowerCase().includes(q)) ||
           w.antonyms.some((a) => a.toLowerCase().includes(q)),
       )
-      .sort((a, b) => a.word.localeCompare(b.word))
-  }, [bank, filter, query, favorites])
+      .sort((a, b) => {
+        const cmp = compareEntries(a, b, sortField)
+        return sortDirection === 'asc' ? cmp : -cmp
+      })
+  }, [bank, filter, query, favorites, sortField, sortDirection])
 
   if (error) {
     return (
@@ -144,6 +166,29 @@ export default function WordBankLibrary() {
           placeholder="Search words, synonyms, or antonyms…"
           className="rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-700 outline-none focus:border-indigo-400"
         />
+      </div>
+
+      <div className="mt-4 flex flex-wrap items-center gap-2">
+        <span className="text-sm font-semibold text-slate-800">Sort by</span>
+        {SORT_FIELDS.map((s) => (
+          <button
+            key={s.id}
+            onClick={() => setSortField(s.id)}
+            className={[
+              'rounded-lg px-3 py-1.5 text-sm font-semibold transition',
+              sortField === s.id ? 'bg-indigo-600 text-white' : 'bg-slate-100 text-slate-600 hover:bg-slate-200',
+            ].join(' ')}
+          >
+            {s.label}
+          </button>
+        ))}
+        <button
+          onClick={() => setSortDirection((d) => (d === 'asc' ? 'desc' : 'asc'))}
+          aria-label={sortDirection === 'asc' ? 'Switch to descending order' : 'Switch to ascending order'}
+          className="rounded-lg bg-slate-100 px-3 py-1.5 text-sm font-semibold text-slate-600 transition hover:bg-slate-200"
+        >
+          {sortDirection === 'asc' ? '↑ Ascending' : '↓ Descending'}
+        </button>
       </div>
 
       <div className="mt-6 grid gap-3 sm:grid-cols-2">
