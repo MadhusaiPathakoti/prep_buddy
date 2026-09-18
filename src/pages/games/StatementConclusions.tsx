@@ -6,10 +6,10 @@ import { generateStatementConclusionQuestions, type MCQQuestion, type StatementC
 const QUESTION_COUNTS = [10, 15, 20, 30]
 
 const DIFFICULTIES: { id: StatementConclusionDifficulty; label: string; description: string }[] = [
-  { id: 'easy', label: 'Easy', description: '5-element chains' },
-  { id: 'medium', label: 'Medium', description: '6-element chains' },
-  { id: 'hard', label: 'Hard', description: '7-element chains' },
-  { id: 'mixed', label: 'Mixed', description: 'A blend of all three' },
+  { id: 'easy', label: 'Easy', description: '3-4 element chains, or two 3-letter broken clauses' },
+  { id: 'medium', label: 'Medium', description: '5-7 element chains, or three 3-4 letter broken clauses' },
+  { id: 'hard', label: 'Hard', description: '8-10 element chains, or four 4-5 letter broken clauses' },
+  { id: 'mixed', label: 'Mixed', description: 'A blend of all three, picked per question' },
 ]
 
 export default function StatementConclusions() {
@@ -50,8 +50,10 @@ export default function StatementConclusions() {
       <h1 className="mt-2 text-3xl font-extrabold text-slate-900">Statement & Conclusions</h1>
       <p className="mt-2 text-slate-500">
         A chain of elements linked by <span className="font-mono">&gt;, ≥, =, ≤, &lt;</span> is given, e.g.{' '}
-        <span className="font-mono">F &gt; R ≥ T = E &gt; W ≤ Q</span>, followed by two conclusions. Every question
-        uses the same five answers:
+        <span className="font-mono">F &gt; R ≥ T = E &gt; W ≤ Q</span>, followed by two conclusions. About two-thirds
+        of questions instead give a "broken" statement — separate clauses sharing a linking element, e.g.{' '}
+        <span className="font-mono">L ≤ M &lt; N; O ≥ P = N</span> — that you first need to splice together. Every
+        question uses the same five answers:
       </p>
       <ul className="mt-3 space-y-1 text-sm text-slate-500">
         <li>(a) If only conclusion I follows.</li>

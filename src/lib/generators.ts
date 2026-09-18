@@ -517,8 +517,8 @@ interface ChainDescriptor {
   elements: string[]
   relations: InequalityRelation[]
   statementsText: string
-  /** Present only for a "broken" (two-clause) chain: how many of `elements` (from index 0) belong to the first clause, including the shared link element. */
-  clauseASize?: number
+  /** Present only for a "broken" (multi-clause) chain: the [start, end) index range within `elements` each clause contributes, in display order. Adjacent ranges overlap by one index at their shared linking element. */
+  blocks?: { start: number; end: number }[]
 }
 
 function buildSimpleChain(length: number): ChainDescriptor {
@@ -528,33 +528,42 @@ function buildSimpleChain(length: number): ChainDescriptor {
 }
 
 /**
- * A "broken" statement: two separate chains that each end in the same shared element, e.g.
- * "L ≤ M < N; O ≥ P = N" (N links them). Solving still needs one continuous chain, so the
- * second clause is reversed and its relations flipped, then spliced onto the first at the
- * shared element — e.g. here that gives the combined chain L ≤ M < N = P ≤ O — and the
- * existing single-chain solver runs on that as usual. Only the display text keeps the two
- * clauses visually separate.
+ * A "broken" statement: a necklace of separate clauses where each one ends in an element
+ * shared with the previous clause, e.g. "L ≤ M < N; O ≥ P = N; Q > R ≥ O" (N links clause 1
+ * and 2, O links clause 2 and 3). Solving still needs one continuous chain, so each clause
+ * after the first is reversed and its relations flipped, then spliced onto the growing chain
+ * at the shared element — e.g. clause 2 here splices in as "= P ≤ O", giving the combined
+ * chain L ≤ M < N = P ≤ O ≥ R > Q — and the existing single-chain solver runs on that as
+ * usual. Only the display text keeps every clause visually separate.
  */
-function buildBrokenChain(totalLength: number): ChainDescriptor {
-  const half = Math.floor((totalLength + 1) / 2)
-  const clauseASize = randomInt(Math.max(2, half - 1), Math.min(totalLength - 2, half + 1))
-  const clauseBSize = totalLength - clauseASize + 1
+function buildBrokenChain(blockSizes: number[]): ChainDescriptor {
+  const totalUnique = blockSizes.reduce((sum, size) => sum + size, 0) - (blockSizes.length - 1)
+  const pool = shuffle(Array.from({ length: 26 }, (_, i) => String.fromCharCode(65 + i))).slice(0, totalUnique)
+  let poolIndex = 0
+  const takeLetters = (n: number) => pool.slice(poolIndex, (poolIndex += n))
 
-  const letters = shuffle(Array.from({ length: 26 }, (_, i) => String.fromCharCode(65 + i))).slice(0, totalLength)
-  const shared = letters[0]
-  const restA = letters.slice(1, clauseASize)
-  const restB = letters.slice(clauseASize, clauseASize + clauseBSize - 1)
+  const firstElements = takeLetters(blockSizes[0])
+  const firstRelations = randomRelations(blockSizes[0] - 1)
 
-  const clauseAElements = [...restA, shared]
-  const clauseBElements = [...restB, shared]
-  const clauseARelations = randomRelations(clauseAElements.length - 1)
-  const clauseBRelations = randomRelations(clauseBElements.length - 1)
+  let elements = [...firstElements]
+  let relations = [...firstRelations]
+  const blocks = [{ start: 0, end: firstElements.length }]
+  const clauseTexts = [formatChainText(firstElements, firstRelations)]
 
-  const elements = [...clauseAElements, ...clauseBElements.slice(0, -1).reverse()]
-  const relations = [...clauseARelations, ...clauseBRelations.slice().reverse().map(flipRelation)]
-  const statementsText = `${formatChainText(clauseAElements, clauseARelations)}; ${formatChainText(clauseBElements, clauseBRelations)}`
+  for (let i = 1; i < blockSizes.length; i++) {
+    const anchor = elements[elements.length - 1]
+    const fresh = takeLetters(blockSizes[i] - 1)
+    const blockElements = [...fresh, anchor]
+    const blockRelations = randomRelations(blockSizes[i] - 1)
+    clauseTexts.push(formatChainText(blockElements, blockRelations))
 
-  return { elements, relations, statementsText, clauseASize: clauseAElements.length }
+    const start = elements.length - 1
+    elements = elements.concat(blockElements.slice(0, -1).reverse())
+    relations = relations.concat(blockRelations.slice().reverse().map(flipRelation))
+    blocks.push({ start, end: elements.length })
+  }
+
+  return { elements, relations, statementsText: clauseTexts.join('; '), blocks }
 }
 
 /**
@@ -636,18 +645,20 @@ function randomPair(length: number): { a: number; b: number } {
   return { a, b }
 }
 
-/** A pair with one element from each clause of a broken chain, so the conclusion actually exercises the shared link rather than staying within one clause. */
-function randomCrossClausePair(clauseASize: number, totalLength: number): { a: number; b: number } {
-  const a = randomInt(0, clauseASize - 1)
-  const b = randomInt(clauseASize, totalLength - 1)
-  return Math.random() < 0.5 ? { a, b } : { a: b, b: a }
+/** A pair with one element from each of two distinct clauses of a broken chain, so the conclusion actually exercises a shared link rather than staying within one clause. */
+function randomCrossBlockPair(blocks: { start: number; end: number }[]): { a: number; b: number } {
+  const i = randomInt(0, blocks.length - 1)
+  let j = randomInt(0, blocks.length - 1)
+  while (j === i) j = randomInt(0, blocks.length - 1)
+  const a = randomInt(blocks[i].start, blocks[i].end - 1)
+  const b = randomInt(blocks[j].start, blocks[j].end - 1)
+  return { a, b }
 }
 
 function generateOneStatementQuestion(chain: ChainDescriptor, uniqueSuffix: number): MCQQuestion {
-  const { elements, relations, statementsText, clauseASize } = chain
+  const { elements, relations, statementsText, blocks } = chain
   const chainLength = elements.length
-  const pickPair = () =>
-    clauseASize !== undefined && Math.random() < 0.7 ? randomCrossClausePair(clauseASize, chainLength) : randomPair(chainLength)
+  const pickPair = () => (blocks && Math.random() < 0.7 ? randomCrossBlockPair(blocks) : randomPair(chainLength))
 
   const posI = pickPair()
   const useSamePair = Math.random() < 0.55
@@ -693,21 +704,37 @@ function generateOneStatementQuestion(chain: ChainDescriptor, uniqueSuffix: numb
   }
 }
 
-function chainLengthFor(difficulty: StatementConclusionDifficulty): number {
-  if (difficulty === 'easy') return 5
-  if (difficulty === 'medium') return 6
-  return 7
+type StatementTier = 'easy' | 'medium' | 'hard'
+
+/** Chain length for a plain (non-broken) statement: 3-4 elements (easy) up to 8-10 (hard). */
+function simpleChainLengthFor(tier: StatementTier): number {
+  if (tier === 'easy') return randomInt(3, 4)
+  if (tier === 'medium') return randomInt(5, 7)
+  return randomInt(8, 10)
 }
+
+/**
+ * Clause sizes for a broken statement: easy is always two 3-element clauses (matching the
+ * simplest real exam form); medium is three clauses each mixing 3-4 elements; hard is four
+ * clauses each with more than three elements.
+ */
+function brokenBlockSizesFor(tier: StatementTier): number[] {
+  if (tier === 'easy') return [3, 3]
+  if (tier === 'medium') return [randomInt(3, 4), randomInt(3, 4), randomInt(3, 4)]
+  return [randomInt(4, 5), randomInt(4, 5), randomInt(4, 5), randomInt(4, 5)]
+}
+
+const STATEMENT_TIERS: StatementTier[] = ['easy', 'medium', 'hard']
 
 /**
  * "Statements & Conclusions" (coded inequality) questions: a chain of elements linked by >,
  * ≥, =, ≤, < is given, followed by two conclusions comparing some pair of elements from it.
- * About 40% of questions instead give a "broken" statement — two separate chains sharing one
- * linking element, e.g. "L ≤ M < N; O ≥ P = N" — which must be spliced together before the
- * same transitivity rules apply. The answer is always one of the five standard options (only
- * I / only II / either / neither / both), matching the fixed answer key used for this
- * question type in exams like SBI PO Mains. Chain length (and therefore difficulty) scales
- * from 5 elements (easy) to 7 (hard).
+ * About two-thirds of questions instead give a "broken" statement — several separate clauses
+ * each sharing one linking element with the next, e.g. "L ≤ M < N; O ≥ P = N" — which must be
+ * spliced together before the same transitivity rules apply. The answer is always one of the
+ * five standard options (only I / only II / either / neither / both), matching the fixed
+ * answer key used for this question type in exams like SBI PO Mains. 'mixed' picks a tier
+ * independently for each question rather than blending the ranges together.
  */
 export function generateStatementConclusionQuestions(difficulty: StatementConclusionDifficulty, count: number): MCQQuestion[] {
   const seen = new Set<string>()
@@ -716,8 +743,8 @@ export function generateStatementConclusionQuestions(difficulty: StatementConclu
   const maxAttempts = count * 30
   while (questions.length < count && attempts < maxAttempts) {
     attempts++
-    const length = difficulty === 'mixed' ? randomInt(5, 7) : chainLengthFor(difficulty)
-    const chain = Math.random() < 0.4 ? buildBrokenChain(length) : buildSimpleChain(length)
+    const tier = difficulty === 'mixed' ? STATEMENT_TIERS[randomInt(0, STATEMENT_TIERS.length - 1)] : difficulty
+    const chain = Math.random() < 2 / 3 ? buildBrokenChain(brokenBlockSizesFor(tier)) : buildSimpleChain(simpleChainLengthFor(tier))
     const question = generateOneStatementQuestion(chain, attempts)
     if (seen.has(question.term)) continue
     seen.add(question.term)
