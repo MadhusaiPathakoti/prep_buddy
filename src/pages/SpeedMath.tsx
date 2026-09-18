@@ -58,6 +58,13 @@ export const SPEED_MATH_GAMES = [
     to: '/speed-math/pythagorean-triplets',
     icon: '△',
   },
+  {
+    id: 'twin-number-products',
+    title: 'Twin Number Products',
+    description: 'Products of consecutive numbers, e.g. 4 × 5 = 20, or find the starting number from the product.',
+    to: '/speed-math/twin-number-products',
+    icon: '⨯',
+  },
 ]
 
 export default function SpeedMath() {

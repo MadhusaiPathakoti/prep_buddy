@@ -348,3 +348,34 @@ export function generateAlphaNumericQuestions(system: AlphaNumSystem, direction:
   const shuffled = shuffle(pool)
   return count >= shuffled.length ? shuffled : shuffled.slice(0, count)
 }
+
+export type TwinProductKind = 'product' | 'start'
+
+export interface TwinProductQuestion {
+  id: string
+  prompt: string
+  kind: TwinProductKind
+  /** The expected typed answer: the product for 'product', the starting number for 'start'. */
+  answer: string
+  /** The full equation, e.g. "7 × 8 = 56" — shown on skip, and as a confirmation after a correct 'start' answer. */
+  displayAnswer: string
+}
+
+/**
+ * Twin (consecutive integer) product questions: n × (n+1) for n in [min, max], e.g. 4×5=20.
+ * 'product' questions give both numbers and ask for the product; 'start' questions give only
+ * the product and ask for the smaller of the two consecutive numbers, since the product alone
+ * doesn't reveal which one is missing without solving for it.
+ */
+export function generateTwinProductQuestions(min: number, max: number, count: number): TwinProductQuestion[] {
+  const pool: TwinProductQuestion[] = []
+  for (let n = min; n <= max; n++) {
+    const next = n + 1
+    const product = n * next
+    const equation = `${n} × ${next} = ${product}`
+    pool.push({ id: `${n}-product`, kind: 'product', prompt: `${n} × ${next}`, answer: String(product), displayAnswer: equation })
+    pool.push({ id: `${n}-start`, kind: 'start', prompt: `_ × _ = ${product}`, answer: String(n), displayAnswer: equation })
+  }
+  const shuffled = shuffle(pool)
+  return count >= shuffled.length ? shuffled : shuffled.slice(0, count)
+}
