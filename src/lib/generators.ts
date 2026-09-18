@@ -505,10 +505,56 @@ function flipRelation(r: InequalityRelation): InequalityRelation {
   return '='
 }
 
-function randomChain(length: number): { elements: string[]; relations: InequalityRelation[] } {
+function randomRelations(count: number): InequalityRelation[] {
+  return Array.from({ length: count }, () => RELATION_SYMBOLS[randomInt(0, RELATION_SYMBOLS.length - 1)])
+}
+
+function formatChainText(elements: string[], relations: InequalityRelation[]): string {
+  return elements.map((el, idx) => (idx < relations.length ? `${el} ${relations[idx]} ` : el)).join('')
+}
+
+interface ChainDescriptor {
+  elements: string[]
+  relations: InequalityRelation[]
+  statementsText: string
+  /** Present only for a "broken" (two-clause) chain: how many of `elements` (from index 0) belong to the first clause, including the shared link element. */
+  clauseASize?: number
+}
+
+function buildSimpleChain(length: number): ChainDescriptor {
   const elements = shuffle(Array.from({ length: 26 }, (_, i) => String.fromCharCode(65 + i))).slice(0, length)
-  const relations = Array.from({ length: length - 1 }, () => RELATION_SYMBOLS[randomInt(0, RELATION_SYMBOLS.length - 1)])
-  return { elements, relations }
+  const relations = randomRelations(length - 1)
+  return { elements, relations, statementsText: formatChainText(elements, relations) }
+}
+
+/**
+ * A "broken" statement: two separate chains that each end in the same shared element, e.g.
+ * "L ≤ M < N; O ≥ P = N" (N links them). Solving still needs one continuous chain, so the
+ * second clause is reversed and its relations flipped, then spliced onto the first at the
+ * shared element — e.g. here that gives the combined chain L ≤ M < N = P ≤ O — and the
+ * existing single-chain solver runs on that as usual. Only the display text keeps the two
+ * clauses visually separate.
+ */
+function buildBrokenChain(totalLength: number): ChainDescriptor {
+  const half = Math.floor((totalLength + 1) / 2)
+  const clauseASize = randomInt(Math.max(2, half - 1), Math.min(totalLength - 2, half + 1))
+  const clauseBSize = totalLength - clauseASize + 1
+
+  const letters = shuffle(Array.from({ length: 26 }, (_, i) => String.fromCharCode(65 + i))).slice(0, totalLength)
+  const shared = letters[0]
+  const restA = letters.slice(1, clauseASize)
+  const restB = letters.slice(clauseASize, clauseASize + clauseBSize - 1)
+
+  const clauseAElements = [...restA, shared]
+  const clauseBElements = [...restB, shared]
+  const clauseARelations = randomRelations(clauseAElements.length - 1)
+  const clauseBRelations = randomRelations(clauseBElements.length - 1)
+
+  const elements = [...clauseAElements, ...clauseBElements.slice(0, -1).reverse()]
+  const relations = [...clauseARelations, ...clauseBRelations.slice().reverse().map(flipRelation)]
+  const statementsText = `${formatChainText(clauseAElements, clauseARelations)}; ${formatChainText(clauseBElements, clauseBRelations)}`
+
+  return { elements, relations, statementsText, clauseASize: clauseAElements.length }
 }
 
 /**
@@ -590,11 +636,22 @@ function randomPair(length: number): { a: number; b: number } {
   return { a, b }
 }
 
-function generateOneStatementQuestion(chainLength: number, uniqueSuffix: number): MCQQuestion {
-  const { elements, relations } = randomChain(chainLength)
-  const posI = randomPair(chainLength)
+/** A pair with one element from each clause of a broken chain, so the conclusion actually exercises the shared link rather than staying within one clause. */
+function randomCrossClausePair(clauseASize: number, totalLength: number): { a: number; b: number } {
+  const a = randomInt(0, clauseASize - 1)
+  const b = randomInt(clauseASize, totalLength - 1)
+  return Math.random() < 0.5 ? { a, b } : { a: b, b: a }
+}
+
+function generateOneStatementQuestion(chain: ChainDescriptor, uniqueSuffix: number): MCQQuestion {
+  const { elements, relations, statementsText, clauseASize } = chain
+  const chainLength = elements.length
+  const pickPair = () =>
+    clauseASize !== undefined && Math.random() < 0.7 ? randomCrossClausePair(clauseASize, chainLength) : randomPair(chainLength)
+
+  const posI = pickPair()
   const useSamePair = Math.random() < 0.55
-  const posII = useSamePair ? (Math.random() < 0.5 ? { a: posI.a, b: posI.b } : { a: posI.b, b: posI.a }) : randomPair(chainLength)
+  const posII = useSamePair ? (Math.random() < 0.5 ? { a: posI.a, b: posI.b } : { a: posI.b, b: posI.a }) : pickPair()
 
   const derivedI = deriveChainRelation(relations, posI.a, posI.b)
   let relI: InequalityRelation
@@ -622,9 +679,8 @@ function generateOneStatementQuestion(chainLength: number, uniqueSuffix: number)
   const conclusionII: ConclusionSpec = { a: posII.a, b: posII.b, relation: relII }
   const answer = resolveStatementAnswer(relations, conclusionI, conclusionII)
 
-  const chain = elements.map((el, idx) => (idx < relations.length ? `${el} ${relations[idx]} ` : el)).join('')
   const term =
-    `Statements:\n${chain}\n\n` +
+    `Statements:\n${statementsText}\n\n` +
     `Conclusions:\nI. ${elements[conclusionI.a]} ${conclusionI.relation} ${elements[conclusionI.b]}` +
     `\nII. ${elements[conclusionII.a]} ${conclusionII.relation} ${elements[conclusionII.b]}`
 
@@ -646,9 +702,12 @@ function chainLengthFor(difficulty: StatementConclusionDifficulty): number {
 /**
  * "Statements & Conclusions" (coded inequality) questions: a chain of elements linked by >,
  * ≥, =, ≤, < is given, followed by two conclusions comparing some pair of elements from it.
- * The answer is always one of the five standard options (only I / only II / either / neither
- * / both), matching the fixed answer key used for this question type in exams like SBI PO
- * Mains. Chain length (and therefore difficulty) scales from 5 elements (easy) to 7 (hard).
+ * About 40% of questions instead give a "broken" statement — two separate chains sharing one
+ * linking element, e.g. "L ≤ M < N; O ≥ P = N" — which must be spliced together before the
+ * same transitivity rules apply. The answer is always one of the five standard options (only
+ * I / only II / either / neither / both), matching the fixed answer key used for this
+ * question type in exams like SBI PO Mains. Chain length (and therefore difficulty) scales
+ * from 5 elements (easy) to 7 (hard).
  */
 export function generateStatementConclusionQuestions(difficulty: StatementConclusionDifficulty, count: number): MCQQuestion[] {
   const seen = new Set<string>()
@@ -658,7 +717,8 @@ export function generateStatementConclusionQuestions(difficulty: StatementConclu
   while (questions.length < count && attempts < maxAttempts) {
     attempts++
     const length = difficulty === 'mixed' ? randomInt(5, 7) : chainLengthFor(difficulty)
-    const question = generateOneStatementQuestion(length, attempts)
+    const chain = Math.random() < 0.4 ? buildBrokenChain(length) : buildSimpleChain(length)
+    const question = generateOneStatementQuestion(chain, attempts)
     if (seen.has(question.term)) continue
     seen.add(question.term)
     questions.push(question)
