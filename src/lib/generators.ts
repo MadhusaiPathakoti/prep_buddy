@@ -481,3 +481,187 @@ export function generateTwinProductQuestions(min: number, max: number, count: nu
   const shuffled = shuffle(pool)
   return count >= shuffled.length ? shuffled : shuffled.slice(0, count)
 }
+
+// ---- Statement & Conclusions (coded inequality chains, SBI PO Mains style) ----
+
+export type InequalityRelation = '>' | '≥' | '=' | '≤' | '<'
+export type StatementConclusionDifficulty = 'easy' | 'medium' | 'hard' | 'mixed'
+
+const RELATION_SYMBOLS: InequalityRelation[] = ['>', '≥', '=', '≤', '<']
+
+const ANSWER_OPTIONS = [
+  'Only conclusion I follows',
+  'Only conclusion II follows',
+  'Either conclusion I or II follows',
+  'Neither conclusion I nor II follows',
+  'Both conclusions I and II follow',
+] as const
+
+function flipRelation(r: InequalityRelation): InequalityRelation {
+  if (r === '>') return '<'
+  if (r === '<') return '>'
+  if (r === '≥') return '≤'
+  if (r === '≤') return '≥'
+  return '='
+}
+
+function randomChain(length: number): { elements: string[]; relations: InequalityRelation[] } {
+  const elements = shuffle(Array.from({ length: 26 }, (_, i) => String.fromCharCode(65 + i))).slice(0, length)
+  const relations = Array.from({ length: length - 1 }, () => RELATION_SYMBOLS[randomInt(0, RELATION_SYMBOLS.length - 1)])
+  return { elements, relations }
+}
+
+/**
+ * The certain relationship between chain positions a and b, found by transitivity: if every
+ * link between them is a non-increasing one ('>', '≥', or '='), the left side is definitely
+ * >= the right (and strictly > if any link is a strict '>'); symmetrically for non-decreasing
+ * links. If the segment contains links pointing BOTH ways (a "peak" or "valley" between a and
+ * b), nothing can be inferred — this is the classic trap in these questions. Returns 'none'
+ * for that indeterminate case.
+ */
+function deriveChainRelation(relations: InequalityRelation[], a: number, b: number): InequalityRelation | 'none' {
+  if (a === b) return '='
+  const lo = Math.min(a, b)
+  const hi = Math.max(a, b)
+  const segment = relations.slice(lo, hi)
+  const hasDown = segment.some((r) => r === '>' || r === '≥')
+  const hasUp = segment.some((r) => r === '<' || r === '≤')
+  let result: InequalityRelation
+  if (hasDown && hasUp) return 'none'
+  if (hasDown) result = segment.some((r) => r === '>') ? '>' : '≥'
+  else if (hasUp) result = segment.some((r) => r === '<') ? '<' : '≤'
+  else result = '='
+  return a === lo ? result : flipRelation(result)
+}
+
+/** Whether a stated conclusion is guaranteed true given the certain derived relation between the same two elements. */
+function conclusionFollows(derived: InequalityRelation | 'none', stated: InequalityRelation): boolean {
+  if (derived === 'none') return false
+  if (derived === stated) return true
+  if (derived === '>' && stated === '≥') return true
+  if (derived === '<' && stated === '≤') return true
+  if (derived === '=' && (stated === '≥' || stated === '≤')) return true
+  return false
+}
+
+interface ConclusionSpec {
+  a: number
+  b: number
+  relation: InequalityRelation
+}
+
+/**
+ * Combines the truth of both conclusions into one of the five standard answer options,
+ * including the "either follows" special case: when neither conclusion is individually
+ * guaranteed, but they state the same pair of elements with the two relations that exactly
+ * split an ambiguous '≥' (i.e. '>' and '=') or '≤' (i.e. '<' and '=') derived relation, one of
+ * them must be true even though we can't tell which.
+ */
+function resolveStatementAnswer(relations: InequalityRelation[], I: ConclusionSpec, II: ConclusionSpec): string {
+  const derivedI = deriveChainRelation(relations, I.a, I.b)
+  const derivedII = deriveChainRelation(relations, II.a, II.b)
+  const trueI = conclusionFollows(derivedI, I.relation)
+  const trueII = conclusionFollows(derivedII, II.relation)
+
+  if (trueI && trueII) return ANSWER_OPTIONS[4]
+  if (trueI) return ANSWER_OPTIONS[0]
+  if (trueII) return ANSWER_OPTIONS[1]
+
+  const samePair = (I.a === II.a && I.b === II.b) || (I.a === II.b && I.b === II.a)
+  if (samePair) {
+    const relIINormalized = I.a === II.a ? II.relation : flipRelation(II.relation)
+    const pairSet = new Set([I.relation, relIINormalized])
+    if (derivedI === '≥' && pairSet.size === 2 && pairSet.has('>') && pairSet.has('=')) return ANSWER_OPTIONS[2]
+    if (derivedI === '≤' && pairSet.size === 2 && pairSet.has('<') && pairSet.has('=')) return ANSWER_OPTIONS[2]
+  }
+  return ANSWER_OPTIONS[3]
+}
+
+function relationClause(elements: string[], relations: InequalityRelation[], a: number, b: number): string {
+  const derived = deriveChainRelation(relations, a, b)
+  if (derived === 'none') return `${elements[a]} vs ${elements[b]}: the chain changes direction between them, so no certain relationship can be derived.`
+  return `${elements[a]} vs ${elements[b]}: the chain gives ${elements[a]} ${derived} ${elements[b]}.`
+}
+
+function randomPair(length: number): { a: number; b: number } {
+  const a = randomInt(0, length - 1)
+  let b = randomInt(0, length - 1)
+  while (b === a) b = randomInt(0, length - 1)
+  return { a, b }
+}
+
+function generateOneStatementQuestion(chainLength: number, uniqueSuffix: number): MCQQuestion {
+  const { elements, relations } = randomChain(chainLength)
+  const posI = randomPair(chainLength)
+  const useSamePair = Math.random() < 0.55
+  const posII = useSamePair ? (Math.random() < 0.5 ? { a: posI.a, b: posI.b } : { a: posI.b, b: posI.a }) : randomPair(chainLength)
+
+  const derivedI = deriveChainRelation(relations, posI.a, posI.b)
+  let relI: InequalityRelation
+  let relII: InequalityRelation
+
+  if (useSamePair && (derivedI === '≥' || derivedI === '≤') && Math.random() < 0.6) {
+    // Deliberately bait the classic "either follows" case fairly often, since it's rare by pure chance.
+    const pair = shuffle<InequalityRelation>(derivedI === '≥' ? ['>', '='] : ['<', '='])
+    relI = pair[0]
+    relII = posII.a === posI.a ? pair[1] : flipRelation(pair[1])
+  } else {
+    relI = RELATION_SYMBOLS[randomInt(0, RELATION_SYMBOLS.length - 1)]
+    relII = RELATION_SYMBOLS[randomInt(0, RELATION_SYMBOLS.length - 1)]
+    if (useSamePair) {
+      const normalizedRelII = posII.a === posI.a ? relII : flipRelation(relII)
+      if (normalizedRelII === relI) {
+        const alt = RELATION_SYMBOLS.filter((r) => r !== normalizedRelII)
+        const picked = alt[randomInt(0, alt.length - 1)]
+        relII = posII.a === posI.a ? picked : flipRelation(picked)
+      }
+    }
+  }
+
+  const conclusionI: ConclusionSpec = { a: posI.a, b: posI.b, relation: relI }
+  const conclusionII: ConclusionSpec = { a: posII.a, b: posII.b, relation: relII }
+  const answer = resolveStatementAnswer(relations, conclusionI, conclusionII)
+
+  const chain = elements.map((el, idx) => (idx < relations.length ? `${el} ${relations[idx]} ` : el)).join('')
+  const term =
+    `Statements:\n${chain}\n\n` +
+    `Conclusions:\nI. ${elements[conclusionI.a]} ${conclusionI.relation} ${elements[conclusionI.b]}` +
+    `\nII. ${elements[conclusionII.a]} ${conclusionII.relation} ${elements[conclusionII.b]}`
+
+  return {
+    id: `stmt-${uniqueSuffix}-${elements.join('')}`,
+    term,
+    correctMeaning: answer,
+    options: [...ANSWER_OPTIONS],
+    hint: `${relationClause(elements, relations, conclusionI.a, conclusionI.b)} ${relationClause(elements, relations, conclusionII.a, conclusionII.b)}`,
+  }
+}
+
+function chainLengthFor(difficulty: StatementConclusionDifficulty): number {
+  if (difficulty === 'easy') return 5
+  if (difficulty === 'medium') return 6
+  return 7
+}
+
+/**
+ * "Statements & Conclusions" (coded inequality) questions: a chain of elements linked by >,
+ * ≥, =, ≤, < is given, followed by two conclusions comparing some pair of elements from it.
+ * The answer is always one of the five standard options (only I / only II / either / neither
+ * / both), matching the fixed answer key used for this question type in exams like SBI PO
+ * Mains. Chain length (and therefore difficulty) scales from 5 elements (easy) to 7 (hard).
+ */
+export function generateStatementConclusionQuestions(difficulty: StatementConclusionDifficulty, count: number): MCQQuestion[] {
+  const seen = new Set<string>()
+  const questions: MCQQuestion[] = []
+  let attempts = 0
+  const maxAttempts = count * 30
+  while (questions.length < count && attempts < maxAttempts) {
+    attempts++
+    const length = difficulty === 'mixed' ? randomInt(5, 7) : chainLengthFor(difficulty)
+    const question = generateOneStatementQuestion(length, attempts)
+    if (seen.has(question.term)) continue
+    seen.add(question.term)
+    questions.push(question)
+  }
+  return questions
+}

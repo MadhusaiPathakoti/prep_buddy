@@ -162,7 +162,7 @@ export default function MCQQuizRunner({ gameId, questions, onExit, onRestart }: 
 
       <div className="mt-8 rounded-3xl bg-white p-8 shadow-sm ring-1 ring-slate-200">
         <div className="text-center">
-          <div className="text-2xl font-bold leading-snug tracking-tight text-slate-900 sm:text-3xl">{current.term}</div>
+          <div className="whitespace-pre-line text-2xl font-bold leading-snug tracking-tight text-slate-900 sm:text-3xl">{current.term}</div>
 
           {!hintShown && !revealAnswer && (
             <button

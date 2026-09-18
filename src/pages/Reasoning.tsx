@@ -9,6 +9,13 @@ export const REASONING_GAMES = [
     to: '/reasoning/alpha-numeric-test',
     icon: 'A1',
   },
+  {
+    id: 'statement-conclusions',
+    title: 'Statement & Conclusions',
+    description: 'Coded inequality chains, e.g. F > R ≥ T = E — decide which conclusions definitely follow.',
+    to: '/reasoning/statement-conclusions',
+    icon: '≥',
+  },
 ]
 
 export default function Reasoning() {
