@@ -10,9 +10,11 @@ interface MCQQuizRunnerProps {
   questions: MCQQuestion[]
   onExit: () => void
   onRestart: () => void
+  /** When true, a question answered correctly (with no prior wrong attempt) is also listed in the review, below the wrong/skipped ones. */
+  showCorrectInReview?: boolean
 }
 
-export default function MCQQuizRunner({ gameId, questions, onExit, onRestart }: MCQQuizRunnerProps) {
+export default function MCQQuizRunner({ gameId, questions, onExit, onRestart, showCorrectInReview = false }: MCQQuizRunnerProps) {
   const [index, setIndex] = useState(0)
   const [eliminated, setEliminated] = useState<Set<string>>(new Set())
   const [justCorrect, setJustCorrect] = useState<string | null>(null)
@@ -27,6 +29,7 @@ export default function MCQQuizRunner({ gameId, questions, onExit, onRestart }: 
   const [startTime] = useState(() => Date.now())
   const [elapsedMs, setElapsedMs] = useState(0)
   const [reviewItems, setReviewItems] = useState<ReviewItem[]>([])
+  const [correctItems, setCorrectItems] = useState<ReviewItem[]>([])
 
   const savedRef = useRef(false)
 
@@ -61,6 +64,16 @@ export default function MCQQuizRunner({ gameId, questions, onExit, onRestart }: 
     )
   }
 
+  /** Only logs a correct-first-try question — one already shown as wrong/skipped stays there rather than also appearing here. */
+  function recordCorrect() {
+    if (!showCorrectInReview || reviewItems.some((i) => i.id === current.id)) return
+    setCorrectItems((items) =>
+      items.some((i) => i.id === current.id)
+        ? items
+        : [...items, { id: current.id, prompt: current.term, displayAnswer: current.correctMeaning, skipped: false, correct: true }],
+    )
+  }
+
   function advance() {
     if (index + 1 >= total) {
       setFinished(true)
@@ -81,6 +94,7 @@ export default function MCQQuizRunner({ gameId, questions, onExit, onRestart }: 
       setLocked(true)
       setJustCorrect(option)
       setCorrect((c) => c + 1)
+      recordCorrect()
       setTimeout(advance, 500)
     } else {
       setEliminated((prev) => new Set(prev).add(option))
@@ -118,7 +132,7 @@ export default function MCQQuizRunner({ gameId, questions, onExit, onRestart }: 
             <Stat label="Avg / question" value={`${(avgMs / 1000).toFixed(1)}s`} accent="text-slate-900" />
           </div>
 
-          <ReviewList items={reviewItems} />
+          <ReviewList items={[...reviewItems, ...correctItems]} />
 
           <div className="mt-8 flex flex-col gap-3">
             <button

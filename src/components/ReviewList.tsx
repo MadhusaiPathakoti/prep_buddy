@@ -3,6 +3,8 @@ export interface ReviewItem {
   prompt: string
   displayAnswer: string
   skipped: boolean
+  /** True for a correctly-answered entry, shown with its own badge. Optional — other callers never set it, so their items keep showing as Wrong/Skipped as before. */
+  correct?: boolean
 }
 
 export default function ReviewList({ items }: { items: ReviewItem[] }) {
@@ -19,10 +21,10 @@ export default function ReviewList({ items }: { items: ReviewItem[] }) {
             <span
               className={[
                 'shrink-0 rounded-full px-2 py-0.5 text-xs font-semibold',
-                item.skipped ? 'bg-amber-100 text-amber-700' : 'bg-rose-100 text-rose-700',
+                item.correct ? 'bg-emerald-100 text-emerald-700' : item.skipped ? 'bg-amber-100 text-amber-700' : 'bg-rose-100 text-rose-700',
               ].join(' ')}
             >
-              {item.skipped ? 'Skipped' : 'Wrong'}
+              {item.correct ? 'Correct' : item.skipped ? 'Skipped' : 'Wrong'}
             </span>
           </div>
         ))}

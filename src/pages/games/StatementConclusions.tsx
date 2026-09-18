@@ -33,6 +33,7 @@ export default function StatementConclusions() {
         key={sessionKey}
         gameId="statement-conclusions"
         questions={questions}
+        showCorrectInReview
         onExit={() => setQuestions(null)}
         onRestart={() => {
           setQuestions(generate())
