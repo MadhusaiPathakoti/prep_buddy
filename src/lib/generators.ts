@@ -23,17 +23,38 @@ export function generateTablesQuestions(tables: number[], multiplierMax: number,
 }
 
 export type SquareCubeMode = 'square' | 'cube' | 'mixed'
+/** 'forward' asks for n² or n³ given n; 'reverse' asks for n given √n² or ∛n³ (its root). */
+export type SquareCubeDirection = 'forward' | 'reverse' | 'mixed'
 
-export function generateSquaresCubesQuestions(min: number, max: number, mode: SquareCubeMode, count: number): Question[] {
+export function generateSquaresCubesQuestions(
+  min: number,
+  max: number,
+  mode: SquareCubeMode,
+  direction: SquareCubeDirection,
+  count: number,
+): Question[] {
+  const directions: ('forward' | 'reverse')[] = direction === 'mixed' ? ['forward', 'reverse'] : [direction]
   const pool: Question[] = []
   for (let n = min; n <= max; n++) {
     if (mode === 'square' || mode === 'mixed') {
-      const answer = n * n
-      pool.push({ id: `sq-${n}`, prompt: `${n}²`, answer, displayAnswer: String(answer) })
+      const value = n * n
+      for (const dir of directions) {
+        pool.push(
+          dir === 'forward'
+            ? { id: `sq-${n}-f`, prompt: `${n}²`, answer: value, displayAnswer: String(value) }
+            : { id: `sq-${n}-r`, prompt: `√${value}`, answer: n, displayAnswer: String(n) },
+        )
+      }
     }
     if (mode === 'cube' || mode === 'mixed') {
-      const answer = n * n * n
-      pool.push({ id: `cb-${n}`, prompt: `${n}³`, answer, displayAnswer: String(answer) })
+      const value = n * n * n
+      for (const dir of directions) {
+        pool.push(
+          dir === 'forward'
+            ? { id: `cb-${n}-f`, prompt: `${n}³`, answer: value, displayAnswer: String(value) }
+            : { id: `cb-${n}-r`, prompt: `∛${value}`, answer: n, displayAnswer: String(n) },
+        )
+      }
     }
   }
   const shuffled = shuffle(pool)

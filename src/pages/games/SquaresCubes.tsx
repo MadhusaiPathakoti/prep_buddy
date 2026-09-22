@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import QuizRunner from '../../components/QuizRunner'
-import { generateSquaresCubesQuestions, type SquareCubeMode } from '../../lib/generators'
+import { generateSquaresCubesQuestions, type SquareCubeMode, type SquareCubeDirection } from '../../lib/generators'
 import { validateInteger } from '../../lib/validators'
 import type { Question } from '../../lib/types'
 
@@ -12,9 +12,15 @@ const MODES: { id: SquareCubeMode; label: string }[] = [
   { id: 'cube', label: 'Cubes only' },
   { id: 'mixed', label: 'Mixed' },
 ]
+const DIRECTIONS: { id: SquareCubeDirection; label: string }[] = [
+  { id: 'forward', label: 'Square/cube it' },
+  { id: 'reverse', label: 'Find the root' },
+  { id: 'mixed', label: 'Mixed' },
+]
 
 export default function SquaresCubes() {
   const [mode, setMode] = useState<SquareCubeMode>('mixed')
+  const [direction, setDirection] = useState<SquareCubeDirection>('forward')
   const [rangeFrom, setRangeFrom] = useState(1)
   const [rangeTo, setRangeTo] = useState(30)
   const [count, setCount] = useState(20)
@@ -32,7 +38,7 @@ export default function SquaresCubes() {
   }
 
   function generate() {
-    return generateSquaresCubesQuestions(rangeFrom, rangeTo, mode, count)
+    return generateSquaresCubesQuestions(rangeFrom, rangeTo, mode, direction, count)
   }
 
   function start() {
@@ -62,7 +68,11 @@ export default function SquaresCubes() {
         ← Speed Math
       </Link>
       <h1 className="mt-2 text-3xl font-extrabold text-slate-900">Squares & Cubes</h1>
-      <p className="mt-2 text-slate-500">Squares and cubes of numbers from 1 to 150, e.g. 17² or 12³. Pick a range to focus on, like 5 to 15.</p>
+      <p className="mt-2 text-slate-500">
+        Squares and cubes of numbers from 1 to 150, e.g. 17² or 12³ — or the other way round, e.g.{' '}
+        <span className="font-mono">√121</span> or <span className="font-mono">∛27</span>, find the root. Pick a
+        range to focus on, like 5 to 15.
+      </p>
 
       <div className="mt-8 rounded-3xl bg-white p-6 shadow-sm ring-1 ring-slate-200">
         <h2 className="font-semibold text-slate-800">Mode</h2>
@@ -77,6 +87,22 @@ export default function SquaresCubes() {
               ].join(' ')}
             >
               {m.label}
+            </button>
+          ))}
+        </div>
+
+        <h2 className="mt-6 font-semibold text-slate-800">Direction</h2>
+        <div className="mt-3 flex flex-wrap gap-2">
+          {DIRECTIONS.map((d) => (
+            <button
+              key={d.id}
+              onClick={() => setDirection(d.id)}
+              className={[
+                'rounded-lg px-4 py-2 text-sm font-semibold transition',
+                direction === d.id ? 'bg-indigo-600 text-white' : 'bg-slate-100 text-slate-600 hover:bg-slate-200',
+              ].join(' ')}
+            >
+              {d.label}
             </button>
           ))}
         </div>
