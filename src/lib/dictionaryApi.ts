@@ -137,10 +137,20 @@ export async function lookupWord(word: string): Promise<WordLookupResult> {
       }
     }
   }
+  // Wiktionary sometimes lists a blank "sense" entry (just a grouping/qualifier with no text
+  // of its own) ahead of the real definition — e.g. "arable" (Adjective) starts with one. Skip
+  // those rather than picking entries[0].definitions[0] blindly, which would hand back an
+  // empty meaning and silently fail Firestore's non-empty-field rules downstream.
   if (!chosenDef) {
-    const entry = entries[0]
-    chosenDef = entry.definitions[0]
-    chosenPos = entry.partOfSpeech
+    fallback: for (const entry of entries) {
+      for (const d of entry.definitions) {
+        if (stripHtml(d.definition) !== '') {
+          chosenDef = d
+          chosenPos = entry.partOfSpeech
+          break fallback
+        }
+      }
+    }
   }
   if (!chosenDef) {
     throw new Error(`No definition found for "${word}".`)
