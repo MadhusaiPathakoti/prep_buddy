@@ -13,11 +13,18 @@ const DIRECTIONS: { id: PercentDegreeDirection; label: string }[] = [
   { id: 'mixed', label: 'Mixed' },
 ]
 
+/** Every 5%-step conversion the game can ask about — the same pool generatePercentDegreeQuestions draws from. */
+const CONVERSIONS = Array.from({ length: 20 }, (_, i) => {
+  const percent = (i + 1) * 5
+  return { percent, degrees: percent * 3.6 }
+})
+
 export default function PercentDegree() {
   const [direction, setDirection] = useState<PercentDegreeDirection>('mixed')
   const [count, setCount] = useState(15)
   const [questions, setQuestions] = useState<Question[] | null>(null)
   const [sessionKey, setSessionKey] = useState(0)
+  const [showLearn, setShowLearn] = useState(false)
 
   const poolSize = useMemo(() => generatePercentDegreeQuestions(direction, Number.MAX_SAFE_INTEGER).length, [direction])
   const canStart = poolSize > 0
@@ -47,12 +54,51 @@ export default function PercentDegree() {
     )
   }
 
+  if (showLearn) {
+    return (
+      <div className="mx-auto max-w-2xl px-4 py-10">
+        <Link to="/quant" className="text-sm text-slate-400 hover:text-slate-600">
+          ← Quant
+        </Link>
+        <h1 className="mt-2 text-3xl font-extrabold text-slate-900">Percentage ↔ Degree</h1>
+        <p className="mt-2 text-slate-500">Every 5%-step conversion the game can ask about. Learn these, then practice.</p>
+
+        <div className="mt-8 rounded-3xl bg-white p-6 shadow-sm ring-1 ring-slate-200">
+          <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-4">
+            {CONVERSIONS.map((c) => (
+              <div key={c.percent} className="rounded-xl bg-slate-50 px-3 py-2.5 text-center">
+                <div className="font-mono text-sm font-bold text-slate-800">{c.percent}%</div>
+                <div className="text-xs text-slate-300">=</div>
+                <div className="font-mono text-sm font-bold text-indigo-600">{c.degrees}°</div>
+              </div>
+            ))}
+          </div>
+
+          <button
+            onClick={() => setShowLearn(false)}
+            className="mt-8 w-full rounded-xl bg-indigo-600 px-4 py-3 font-semibold text-white shadow-sm transition hover:bg-indigo-500 active:scale-[0.99]"
+          >
+            Done · Start practicing
+          </button>
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div className="mx-auto max-w-2xl px-4 py-10">
       <Link to="/quant" className="text-sm text-slate-400 hover:text-slate-600">
         ← Quant
       </Link>
-      <h1 className="mt-2 text-3xl font-extrabold text-slate-900">Percentage ↔ Degree</h1>
+      <div className="mt-2 flex items-start justify-between gap-3">
+        <h1 className="text-3xl font-extrabold text-slate-900">Percentage ↔ Degree</h1>
+        <button
+          onClick={() => setShowLearn(true)}
+          className="shrink-0 rounded-lg bg-indigo-50 px-3 py-1.5 text-sm font-semibold text-indigo-600 transition hover:bg-indigo-100"
+        >
+          📖 Learn
+        </button>
+      </div>
       <p className="mt-2 text-slate-500">
         A full circle is 360° = 100%, so 1% = 3.6°. Convert between the two, e.g.{' '}
         <span className="font-mono">10% = 36°</span> or <span className="font-mono">108° = 30%</span> — handy for
