@@ -773,3 +773,27 @@ export function generateStatementConclusionQuestions(difficulty: StatementConclu
   }
   return questions
 }
+
+export type PercentDegreeDirection = 'percent-to-degree' | 'degree-to-percent' | 'mixed'
+
+/**
+ * Percentage <-> degree conversions for pie-chart-style questions: a full circle is 360deg =
+ * 100%, so 1% = 3.6deg. Restricted to 5%-step percentages (5, 10, ..., 100) since those are
+ * exactly the ones that convert to a whole number of degrees in both directions.
+ */
+export function generatePercentDegreeQuestions(direction: PercentDegreeDirection, count: number): Question[] {
+  const directions: ('percent-to-degree' | 'degree-to-percent')[] = direction === 'mixed' ? ['percent-to-degree', 'degree-to-percent'] : [direction]
+  const pool: Question[] = []
+  for (let percent = 5; percent <= 100; percent += 5) {
+    const degrees = (percent / 5) * 18
+    for (const dir of directions) {
+      pool.push(
+        dir === 'percent-to-degree'
+          ? { id: `p2d-${percent}`, prompt: `${percent}%`, answer: degrees, displayAnswer: `${degrees}°` }
+          : { id: `d2p-${percent}`, prompt: `${degrees}°`, answer: percent, displayAnswer: `${percent}%` },
+      )
+    }
+  }
+  const shuffled = shuffle(pool)
+  return count >= shuffled.length ? shuffled : shuffled.slice(0, count)
+}

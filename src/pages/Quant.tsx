@@ -9,6 +9,13 @@ export const QUANT_GAMES = [
     to: '/quant/divisibility',
     icon: '÷',
   },
+  {
+    id: 'percent-degree',
+    title: 'Percentage ↔ Degree',
+    description: 'Convert between percentages and degrees of a circle, e.g. 10% = 36°.',
+    to: '/quant/percent-degree',
+    icon: '°',
+  },
 ]
 
 export default function Quant() {

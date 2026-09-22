@@ -16,6 +16,7 @@ import AlphaNumericTest from './pages/games/AlphaNumericTest'
 import StatementConclusions from './pages/games/StatementConclusions'
 import Quant from './pages/Quant'
 import Divisibility from './pages/games/Divisibility'
+import PercentDegree from './pages/games/PercentDegree'
 import English from './pages/English'
 import VocabularyHub from './pages/vocabulary/VocabularyHub'
 import VocabLibrary from './pages/vocabulary/VocabLibrary'
@@ -61,6 +62,7 @@ export default function App() {
           <Route path="/reasoning/statement-conclusions" element={<StatementConclusions />} />
           <Route path="/quant" element={<Quant />} />
           <Route path="/quant/divisibility" element={<Divisibility />} />
+          <Route path="/quant/percent-degree" element={<PercentDegree />} />
           <Route path="/english" element={<English />} />
           <Route path="/english/vocabulary" element={<VocabularyHub />} />
           <Route path="/english/vocabulary/library" element={<VocabLibrary />} />
