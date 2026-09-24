@@ -776,21 +776,45 @@ export function generateStatementConclusionQuestions(difficulty: StatementConclu
 
 export type PercentDegreeDirection = 'percent-to-degree' | 'degree-to-percent' | 'mixed'
 
+/** 5%-step percentages (5, 10, ..., 100) — every one converts to a whole number of degrees. */
+const WHOLE_DEGREE_PERCENTAGES = Array.from({ length: 20 }, (_, i) => (i + 1) * 5)
+
+/** Extra, less-predictable percentages (including some over 100%) that convert to a one-decimal-place number of degrees, so the game isn't just "multiply by 3.6" on round numbers. */
+const EXTRA_PERCENTAGES = [1, 2, 1.5, 2.5, 3, 12, 22, 16, 27, 21, 28, 24, 108, 72, 36]
+
+const PERCENT_DEGREE_VALUES = [...WHOLE_DEGREE_PERCENTAGES, ...EXTRA_PERCENTAGES]
+
+/** Rounds to 1 decimal place and drops a trailing ".0" so whole results print as e.g. "36" rather than "36.0". */
+export function formatPercentDegreeNumber(value: number): string {
+  const rounded = Math.round(value * 10) / 10
+  return Number.isInteger(rounded) ? String(rounded) : rounded.toFixed(1)
+}
+
+/** Every percentage this game can ask about, paired with its exact degree conversion — the same pool generatePercentDegreeQuestions draws from, sorted for a reference table. */
+export function getPercentDegreeConversions(): { percent: number; degrees: number }[] {
+  return [...PERCENT_DEGREE_VALUES]
+    .sort((a, b) => a - b)
+    .map((percent) => ({ percent, degrees: Math.round(percent * 3.6 * 10) / 10 }))
+}
+
 /**
  * Percentage <-> degree conversions for pie-chart-style questions: a full circle is 360deg =
- * 100%, so 1% = 3.6deg. Restricted to 5%-step percentages (5, 10, ..., 100) since those are
- * exactly the ones that convert to a whole number of degrees in both directions.
+ * 100%, so 1% = 3.6deg. Most percentages here are 5%-steps, which convert to a whole number of
+ * degrees; a smaller set of less-predictable percentages (including a few over 100%) convert
+ * to one-decimal-place degrees instead, so answers aren't always a round number.
  */
 export function generatePercentDegreeQuestions(direction: PercentDegreeDirection, count: number): Question[] {
   const directions: ('percent-to-degree' | 'degree-to-percent')[] = direction === 'mixed' ? ['percent-to-degree', 'degree-to-percent'] : [direction]
   const pool: Question[] = []
-  for (let percent = 5; percent <= 100; percent += 5) {
-    const degrees = (percent / 5) * 18
+  for (const percent of PERCENT_DEGREE_VALUES) {
+    const degrees = Math.round(percent * 3.6 * 10) / 10
+    const percentText = formatPercentDegreeNumber(percent)
+    const degreesText = formatPercentDegreeNumber(degrees)
     for (const dir of directions) {
       pool.push(
         dir === 'percent-to-degree'
-          ? { id: `p2d-${percent}`, prompt: `${percent}%`, answer: degrees, displayAnswer: `${degrees}°` }
-          : { id: `d2p-${percent}`, prompt: `${degrees}°`, answer: percent, displayAnswer: `${percent}%` },
+          ? { id: `p2d-${percent}`, prompt: `${percentText}%`, answer: degrees, displayAnswer: `${degreesText}°` }
+          : { id: `d2p-${percent}`, prompt: `${degreesText}°`, answer: percent, displayAnswer: `${percentText}%` },
       )
     }
   }

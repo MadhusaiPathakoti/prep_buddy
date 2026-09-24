@@ -1,8 +1,8 @@
 import { useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import QuizRunner from '../../components/QuizRunner'
-import { generatePercentDegreeQuestions, type PercentDegreeDirection } from '../../lib/generators'
-import { validateInteger } from '../../lib/validators'
+import { generatePercentDegreeQuestions, getPercentDegreeConversions, formatPercentDegreeNumber, type PercentDegreeDirection } from '../../lib/generators'
+import { validateDecimal } from '../../lib/validators'
 import type { Question } from '../../lib/types'
 
 const QUESTION_COUNTS = [10, 15, 20, 30]
@@ -13,11 +13,8 @@ const DIRECTIONS: { id: PercentDegreeDirection; label: string }[] = [
   { id: 'mixed', label: 'Mixed' },
 ]
 
-/** Every 5%-step conversion the game can ask about — the same pool generatePercentDegreeQuestions draws from. */
-const CONVERSIONS = Array.from({ length: 20 }, (_, i) => {
-  const percent = (i + 1) * 5
-  return { percent, degrees: percent * 3.6 }
-})
+/** Every conversion the game can ask about — the same pool generatePercentDegreeQuestions draws from. */
+const CONVERSIONS = getPercentDegreeConversions()
 
 export default function PercentDegree() {
   const [direction, setDirection] = useState<PercentDegreeDirection>('mixed')
@@ -44,7 +41,9 @@ export default function PercentDegree() {
         key={sessionKey}
         gameId="percent-degree"
         questions={questions}
-        validate={validateInteger}
+        validate={validateDecimal}
+        inputMode="decimal"
+        answerHint="e.g. 3.6"
         onExit={() => setQuestions(null)}
         onRestart={() => {
           setQuestions(generate())
@@ -61,15 +60,15 @@ export default function PercentDegree() {
           ← Quant
         </Link>
         <h1 className="mt-2 text-3xl font-extrabold text-slate-900">Percentage ↔ Degree</h1>
-        <p className="mt-2 text-slate-500">Every 5%-step conversion the game can ask about. Learn these, then practice.</p>
+        <p className="mt-2 text-slate-500">Every conversion the game can ask about. Learn these, then practice.</p>
 
         <div className="mt-8 rounded-3xl bg-white p-6 shadow-sm ring-1 ring-slate-200">
           <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-4">
             {CONVERSIONS.map((c) => (
               <div key={c.percent} className="rounded-xl bg-slate-50 px-3 py-2.5 text-center">
-                <div className="font-mono text-sm font-bold text-slate-800">{c.percent}%</div>
+                <div className="font-mono text-sm font-bold text-slate-800">{formatPercentDegreeNumber(c.percent)}%</div>
                 <div className="text-xs text-slate-300">=</div>
-                <div className="font-mono text-sm font-bold text-indigo-600">{c.degrees}°</div>
+                <div className="font-mono text-sm font-bold text-indigo-600">{formatPercentDegreeNumber(c.degrees)}°</div>
               </div>
             ))}
           </div>
