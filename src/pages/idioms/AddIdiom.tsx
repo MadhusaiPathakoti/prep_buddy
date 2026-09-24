@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import type { FormEvent } from 'react'
 import { Link } from 'react-router-dom'
+import VoiceInputButton from '../../components/VoiceInputButton'
 import { lookupWord } from '../../lib/dictionaryApi'
 import { addCustomIdiom, getCustomIdiomById } from '../../lib/idiomsStore'
 import { getFavoriteIds, toggleFavorite } from '../../lib/favorites'
@@ -100,19 +101,27 @@ export default function AddIdiom() {
         <label htmlFor="new-idiom" className="block text-sm font-semibold text-slate-800">
           Idiom
         </label>
-        <input
-          id="new-idiom"
-          value={idiom}
-          onChange={(e) => {
-            setIdiom(e.target.value)
-            if (status !== 'idle') setStatus('idle')
-          }}
-          placeholder="e.g. spill the beans"
-          autoComplete="off"
-          autoCorrect="off"
-          spellCheck={false}
-          className="mt-2 w-full rounded-lg border border-slate-200 bg-slate-50 px-4 py-3 text-lg text-slate-900 outline-none focus:border-indigo-400"
-        />
+        <div className="mt-2 flex items-center gap-2">
+          <input
+            id="new-idiom"
+            value={idiom}
+            onChange={(e) => {
+              setIdiom(e.target.value)
+              if (status !== 'idle') setStatus('idle')
+            }}
+            placeholder="e.g. spill the beans"
+            autoComplete="off"
+            autoCorrect="off"
+            spellCheck={false}
+            className="w-full rounded-lg border border-slate-200 bg-slate-50 px-4 py-3 text-lg text-slate-900 outline-none focus:border-indigo-400"
+          />
+          <VoiceInputButton
+            onResult={(text) => {
+              setIdiom(text)
+              if (status !== 'idle') setStatus('idle')
+            }}
+          />
+        </div>
 
         <h2 className="mt-6 text-sm font-semibold text-slate-800">Difficulty</h2>
         <div className="mt-3 flex flex-wrap gap-2">

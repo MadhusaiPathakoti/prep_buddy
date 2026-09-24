@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import type { FormEvent } from 'react'
 import { Link } from 'react-router-dom'
+import VoiceInputButton from '../../components/VoiceInputButton'
 import { lookupWord } from '../../lib/dictionaryApi'
 import { addCustomPhrasalVerb, getCustomPhrasalVerbById } from '../../lib/phrasalVerbsStore'
 import { getFavoriteIds, toggleFavorite } from '../../lib/favorites'
@@ -100,19 +101,27 @@ export default function AddPhrasalVerb() {
         <label htmlFor="new-phrasal-verb" className="block text-sm font-semibold text-slate-800">
           Phrasal verb
         </label>
-        <input
-          id="new-phrasal-verb"
-          value={phrasalVerb}
-          onChange={(e) => {
-            setPhrasalVerb(e.target.value)
-            if (status !== 'idle') setStatus('idle')
-          }}
-          placeholder="e.g. iron out"
-          autoComplete="off"
-          autoCorrect="off"
-          spellCheck={false}
-          className="mt-2 w-full rounded-lg border border-slate-200 bg-slate-50 px-4 py-3 text-lg text-slate-900 outline-none focus:border-indigo-400"
-        />
+        <div className="mt-2 flex items-center gap-2">
+          <input
+            id="new-phrasal-verb"
+            value={phrasalVerb}
+            onChange={(e) => {
+              setPhrasalVerb(e.target.value)
+              if (status !== 'idle') setStatus('idle')
+            }}
+            placeholder="e.g. iron out"
+            autoComplete="off"
+            autoCorrect="off"
+            spellCheck={false}
+            className="w-full rounded-lg border border-slate-200 bg-slate-50 px-4 py-3 text-lg text-slate-900 outline-none focus:border-indigo-400"
+          />
+          <VoiceInputButton
+            onResult={(text) => {
+              setPhrasalVerb(text)
+              if (status !== 'idle') setStatus('idle')
+            }}
+          />
+        </div>
 
         <h2 className="mt-6 text-sm font-semibold text-slate-800">Difficulty</h2>
         <div className="mt-3 flex flex-wrap gap-2">

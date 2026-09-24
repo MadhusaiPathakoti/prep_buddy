@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import type { FormEvent } from 'react'
 import { Link } from 'react-router-dom'
+import VoiceInputButton from '../../components/VoiceInputButton'
 import { lookupWordBankEntry } from '../../lib/dictionaryApi'
 import { addCustomWordEntry, getCustomWordEntryById } from '../../lib/wordBankStore'
 import { getFavoriteIds, toggleFavorite } from '../../lib/favorites'
@@ -25,6 +26,11 @@ function slugify(word: string): string {
 
 function capitalize(text: string): string {
   return text.length === 0 ? text : text.charAt(0).toUpperCase() + text.slice(1)
+}
+
+/** Appends a spoken word/phrase onto a comma-separated list input, rather than replacing it. */
+function appendToList(prev: string, spoken: string): string {
+  return prev.trim() === '' ? spoken : `${prev.trim()}, ${spoken}`
 }
 
 /** Splits a comma-separated list into trimmed, capitalized, deduplicated words. */
@@ -136,53 +142,79 @@ export default function AddWordBankEntry() {
         <label htmlFor="new-word" className="block text-sm font-semibold text-slate-800">
           Word
         </label>
-        <input
-          id="new-word"
-          value={word}
-          onChange={(e) => {
-            setWord(e.target.value)
-            if (status !== 'idle') setStatus('idle')
-          }}
-          placeholder="e.g. radiant"
-          autoComplete="off"
-          autoCorrect="off"
-          spellCheck={false}
-          className="mt-2 w-full rounded-lg border border-slate-200 bg-slate-50 px-4 py-3 text-lg text-slate-900 outline-none focus:border-indigo-400"
-        />
+        <div className="mt-2 flex items-center gap-2">
+          <input
+            id="new-word"
+            value={word}
+            onChange={(e) => {
+              setWord(e.target.value)
+              if (status !== 'idle') setStatus('idle')
+            }}
+            placeholder="e.g. radiant"
+            autoComplete="off"
+            autoCorrect="off"
+            spellCheck={false}
+            className="w-full rounded-lg border border-slate-200 bg-slate-50 px-4 py-3 text-lg text-slate-900 outline-none focus:border-indigo-400"
+          />
+          <VoiceInputButton
+            onResult={(text) => {
+              setWord(text)
+              if (status !== 'idle') setStatus('idle')
+            }}
+          />
+        </div>
 
         <label htmlFor="new-word-synonyms" className="mt-6 block text-sm font-semibold text-slate-800">
           Synonyms
         </label>
-        <input
-          id="new-word-synonyms"
-          value={synonymsInput}
-          onChange={(e) => {
-            setSynonymsInput(e.target.value)
-            if (status !== 'idle') setStatus('idle')
-          }}
-          placeholder="e.g. glowing, bright, luminous"
-          autoComplete="off"
-          autoCorrect="off"
-          spellCheck={false}
-          className="mt-2 w-full rounded-lg border border-slate-200 bg-slate-50 px-4 py-3 text-lg text-slate-900 outline-none focus:border-indigo-400"
-        />
+        <div className="mt-2 flex items-center gap-2">
+          <input
+            id="new-word-synonyms"
+            value={synonymsInput}
+            onChange={(e) => {
+              setSynonymsInput(e.target.value)
+              if (status !== 'idle') setStatus('idle')
+            }}
+            placeholder="e.g. glowing, bright, luminous"
+            autoComplete="off"
+            autoCorrect="off"
+            spellCheck={false}
+            className="w-full rounded-lg border border-slate-200 bg-slate-50 px-4 py-3 text-lg text-slate-900 outline-none focus:border-indigo-400"
+          />
+          <VoiceInputButton
+            label="Speak a synonym to add it"
+            onResult={(text) => {
+              setSynonymsInput((prev) => appendToList(prev, text))
+              if (status !== 'idle') setStatus('idle')
+            }}
+          />
+        </div>
 
         <label htmlFor="new-word-antonyms" className="mt-6 block text-sm font-semibold text-slate-800">
           Antonyms
         </label>
-        <input
-          id="new-word-antonyms"
-          value={antonymsInput}
-          onChange={(e) => {
-            setAntonymsInput(e.target.value)
-            if (status !== 'idle') setStatus('idle')
-          }}
-          placeholder="e.g. dull, dim, gloomy"
-          autoComplete="off"
-          autoCorrect="off"
-          spellCheck={false}
-          className="mt-2 w-full rounded-lg border border-slate-200 bg-slate-50 px-4 py-3 text-lg text-slate-900 outline-none focus:border-indigo-400"
-        />
+        <div className="mt-2 flex items-center gap-2">
+          <input
+            id="new-word-antonyms"
+            value={antonymsInput}
+            onChange={(e) => {
+              setAntonymsInput(e.target.value)
+              if (status !== 'idle') setStatus('idle')
+            }}
+            placeholder="e.g. dull, dim, gloomy"
+            autoComplete="off"
+            autoCorrect="off"
+            spellCheck={false}
+            className="w-full rounded-lg border border-slate-200 bg-slate-50 px-4 py-3 text-lg text-slate-900 outline-none focus:border-indigo-400"
+          />
+          <VoiceInputButton
+            label="Speak an antonym to add it"
+            onResult={(text) => {
+              setAntonymsInput((prev) => appendToList(prev, text))
+              if (status !== 'idle') setStatus('idle')
+            }}
+          />
+        </div>
         <p className="mt-2 text-xs text-slate-400">
           We can't look these up automatically, so type them yourself — separate multiple words with commas. We'll
           double-check them and fix or remove anything that's wrong before saving.
