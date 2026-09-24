@@ -2,8 +2,9 @@ import { useState } from 'react'
 import type { FormEvent } from 'react'
 import { Link } from 'react-router-dom'
 import { lookupWord } from '../../lib/dictionaryApi'
-import { addCustomIdiom, getFullIdiomsBank } from '../../lib/idiomsStore'
+import { addCustomIdiom, getCustomIdiomById } from '../../lib/idiomsStore'
 import { getFavoriteIds, toggleFavorite } from '../../lib/favorites'
+import { IDIOMS_BANK } from '../../data/idioms'
 import type { BankEntry, Difficulty } from '../../lib/types'
 
 const BANK_KEY = 'idioms'
@@ -39,15 +40,19 @@ export default function AddIdiom() {
     setStatus('loading')
     setErrorMessage('')
     try {
-      const existingBank = await getFullIdiomsBank()
-      const existing = existingBank.find((w) => w.term.toLowerCase() === trimmed.toLowerCase())
+      const seedMatch = IDIOMS_BANK.find((w) => w.term.toLowerCase() === trimmed.toLowerCase())
+      const [existingCustom, lookupResult] = await Promise.all([
+        seedMatch ? Promise.resolve(null) : getCustomIdiomById(`custom-${slugify(trimmed)}`),
+        lookupWord(trimmed),
+      ])
+      const existing = seedMatch ?? existingCustom
       if (existing) {
         setStatus('error')
         setErrorMessage(`"${existing.term}" is already in the idiom bank.`)
         return
       }
 
-      const { meaning, example, hint } = await lookupWord(trimmed)
+      const { meaning, example, hint } = lookupResult
       const entry: BankEntry = {
         id: `custom-${slugify(trimmed)}`,
         term: trimmed.charAt(0).toUpperCase() + trimmed.slice(1),

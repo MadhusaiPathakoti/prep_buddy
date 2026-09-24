@@ -2,8 +2,9 @@ import { useState } from 'react'
 import type { FormEvent } from 'react'
 import { Link } from 'react-router-dom'
 import { lookupWordBankEntry } from '../../lib/dictionaryApi'
-import { addCustomWordEntry, getFullWordBank } from '../../lib/wordBankStore'
+import { addCustomWordEntry, getCustomWordEntryById } from '../../lib/wordBankStore'
 import { getFavoriteIds, toggleFavorite } from '../../lib/favorites'
+import { WORD_BANK } from '../../data/wordBank'
 import type { Difficulty, WordEntry } from '../../lib/types'
 
 const BANK_KEY = 'word-bank'
@@ -64,19 +65,24 @@ export default function AddWordBankEntry() {
     setErrorMessage('')
     setCorrections([])
     try {
-      const existingBank = await getFullWordBank()
-      const existing = existingBank.find((w) => w.word.toLowerCase() === trimmedWord.toLowerCase())
+      const seedMatch = WORD_BANK.find((w) => w.word.toLowerCase() === trimmedWord.toLowerCase())
+      // Gemini checks the proposed lists too — dropping words that don't actually belong
+      // (including ones in the wrong list, or both), fixing misspellings, and topping up a
+      // thin list — rather than trusting free-form input verbatim. Run alongside the existing-
+      // entry check (a single targeted doc read, not a scan of the whole growing collection)
+      // since the two don't depend on each other.
+      const [existingCustom, lookupResult] = await Promise.all([
+        seedMatch ? Promise.resolve(null) : getCustomWordEntryById(`custom-${slugify(trimmedWord)}`),
+        lookupWordBankEntry(trimmedWord, synonyms, antonyms),
+      ])
+      const existing = seedMatch ?? existingCustom
       if (existing) {
         setStatus('error')
         setErrorMessage(`"${existing.word}" is already in the word bank.`)
         return
       }
 
-      // Gemini checks the proposed lists too — dropping words that don't actually belong
-      // (including ones in the wrong list, or both), fixing misspellings, and topping up a
-      // thin list — rather than trusting free-form input verbatim.
-      const { meaning, example, partOfSpeech, synonyms: checkedSynonyms, antonyms: checkedAntonyms, corrections: notes } =
-        await lookupWordBankEntry(trimmedWord, synonyms, antonyms)
+      const { meaning, example, partOfSpeech, synonyms: checkedSynonyms, antonyms: checkedAntonyms, corrections: notes } = lookupResult
       const entry: WordEntry = {
         id: `custom-${slugify(trimmedWord)}`,
         word: capitalize(trimmedWord),

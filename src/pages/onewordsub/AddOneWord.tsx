@@ -2,8 +2,9 @@ import { useState } from 'react'
 import type { FormEvent } from 'react'
 import { Link } from 'react-router-dom'
 import { lookupWord } from '../../lib/dictionaryApi'
-import { addCustomOneWordEntry, getFullOneWordBank } from '../../lib/oneWordStore'
+import { addCustomOneWordEntry, getCustomOneWordById } from '../../lib/oneWordStore'
 import { getFavoriteIds, toggleFavorite } from '../../lib/favorites'
+import { ONE_WORD_BANK } from '../../data/oneWordSubstitutes'
 import type { BankEntry, Difficulty } from '../../lib/types'
 
 const BANK_KEY = 'one-word-substitution'
@@ -43,8 +44,12 @@ export default function AddOneWord() {
     setStatus('loading')
     setErrorMessage('')
     try {
-      const existingBank = await getFullOneWordBank()
-      const existing = existingBank.find((w) => w.meaning.toLowerCase() === trimmed.toLowerCase())
+      const seedMatch = ONE_WORD_BANK.find((w) => w.meaning.toLowerCase() === trimmed.toLowerCase())
+      const [existingCustom, lookupResult] = await Promise.all([
+        seedMatch ? Promise.resolve(null) : getCustomOneWordById(`custom-${slugify(trimmed)}`),
+        lookupWord(trimmed),
+      ])
+      const existing = seedMatch ?? existingCustom
       if (existing) {
         setStatus('error')
         setErrorMessage(`"${existing.meaning}" is already in the phrase bank.`)
@@ -54,7 +59,7 @@ export default function AddOneWord() {
       // Unlike Vocabulary/Idioms, here the phrase (term) is the definition and the
       // single word is the meaning being tested - so the fields from a normal word
       // lookup are swapped when building the entry.
-      const { meaning: definition, example, hint } = await lookupWord(trimmed)
+      const { meaning: definition, example, hint } = lookupResult
       const entry: BankEntry = {
         id: `custom-${slugify(trimmed)}`,
         term: capitalize(definition),

@@ -2,8 +2,9 @@ import { useState } from 'react'
 import type { FormEvent } from 'react'
 import { Link } from 'react-router-dom'
 import { lookupWord } from '../../lib/dictionaryApi'
-import { addCustomWord, getFullVocabBank } from '../../lib/vocabularyStore'
+import { addCustomWord, getCustomWordById } from '../../lib/vocabularyStore'
 import { getFavoriteIds, toggleFavorite } from '../../lib/favorites'
+import { VOCAB_BANK } from '../../data/vocabulary'
 import type { BankEntry, Difficulty } from '../../lib/types'
 
 const BANK_KEY = 'vocabulary'
@@ -39,15 +40,23 @@ export default function AddWord() {
     setStatus('loading')
     setErrorMessage('')
     try {
-      const existingBank = await getFullVocabBank()
-      const existing = existingBank.find((w) => w.term.toLowerCase() === trimmed.toLowerCase())
+      // The seed bank is checked in memory (no network call); the custom collection is
+      // checked by a single targeted doc read rather than fetching the whole (and growing)
+      // collection — and run alongside the dictionary lookup, since the two don't depend on
+      // each other.
+      const seedMatch = VOCAB_BANK.find((w) => w.term.toLowerCase() === trimmed.toLowerCase())
+      const [existingCustom, lookupResult] = await Promise.all([
+        seedMatch ? Promise.resolve(null) : getCustomWordById(`custom-${slugify(trimmed)}`),
+        lookupWord(trimmed),
+      ])
+      const existing = seedMatch ?? existingCustom
       if (existing) {
         setStatus('error')
         setErrorMessage(`"${existing.term}" is already in the vocabulary bank.`)
         return
       }
 
-      const { meaning, example, hint, partOfSpeech } = await lookupWord(trimmed)
+      const { meaning, example, hint, partOfSpeech } = lookupResult
       const entry: BankEntry = {
         id: `custom-${slugify(trimmed)}`,
         term: trimmed.charAt(0).toUpperCase() + trimmed.slice(1),

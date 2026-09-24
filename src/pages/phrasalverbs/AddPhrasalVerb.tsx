@@ -2,8 +2,9 @@ import { useState } from 'react'
 import type { FormEvent } from 'react'
 import { Link } from 'react-router-dom'
 import { lookupWord } from '../../lib/dictionaryApi'
-import { addCustomPhrasalVerb, getFullPhrasalVerbsBank } from '../../lib/phrasalVerbsStore'
+import { addCustomPhrasalVerb, getCustomPhrasalVerbById } from '../../lib/phrasalVerbsStore'
 import { getFavoriteIds, toggleFavorite } from '../../lib/favorites'
+import { PHRASAL_VERBS_BANK } from '../../data/phrasalVerbs'
 import type { BankEntry, Difficulty } from '../../lib/types'
 
 const BANK_KEY = 'phrasal-verbs'
@@ -39,15 +40,19 @@ export default function AddPhrasalVerb() {
     setStatus('loading')
     setErrorMessage('')
     try {
-      const existingBank = await getFullPhrasalVerbsBank()
-      const existing = existingBank.find((w) => w.term.toLowerCase() === trimmed.toLowerCase())
+      const seedMatch = PHRASAL_VERBS_BANK.find((w) => w.term.toLowerCase() === trimmed.toLowerCase())
+      const [existingCustom, lookupResult] = await Promise.all([
+        seedMatch ? Promise.resolve(null) : getCustomPhrasalVerbById(`custom-${slugify(trimmed)}`),
+        lookupWord(trimmed),
+      ])
+      const existing = seedMatch ?? existingCustom
       if (existing) {
         setStatus('error')
         setErrorMessage(`"${existing.term}" is already in the phrasal verb bank.`)
         return
       }
 
-      const { meaning, example, hint } = await lookupWord(trimmed)
+      const { meaning, example, hint } = lookupResult
       const entry: BankEntry = {
         id: `custom-${slugify(trimmed)}`,
         term: trimmed.charAt(0).toUpperCase() + trimmed.slice(1),

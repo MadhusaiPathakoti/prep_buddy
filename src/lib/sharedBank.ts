@@ -1,4 +1,4 @@
-import { collection, deleteDoc, doc, getDocs, setDoc } from 'firebase/firestore'
+import { collection, deleteDoc, doc, getDoc, getDocs, setDoc } from 'firebase/firestore'
 import { db } from './firebase'
 
 const REQUEST_TIMEOUT_MS = 10000
@@ -35,6 +35,17 @@ export function createSharedBank<T extends { id: string }>(seedBank: T[], hidden
     await withTimeout(setDoc(doc(db, customCollection, entry.id), entry), 'Timed out saving your entry.')
   }
 
+  /**
+   * Looks up a single custom entry by id — a targeted read that stays fast regardless of how
+   * large the custom collection has grown, unlike fetching the whole collection (getFullBank)
+   * just to check whether one entry already exists.
+   */
+  async function getCustomEntryById(id: string): Promise<T | null> {
+    if (!customCollection) return null
+    const snapshot = await withTimeout(getDoc(doc(db, customCollection, id)), 'Timed out checking for an existing entry.')
+    return snapshot.exists() ? (snapshot.data() as T) : null
+  }
+
   async function getHiddenIds(): Promise<Set<string>> {
     const snapshot = await withTimeout(getDocs(collection(db, hiddenCollection)), 'Timed out loading shared entries.')
     return new Set(snapshot.docs.map((d) => d.id))
@@ -54,5 +65,5 @@ export function createSharedBank<T extends { id: string }>(seedBank: T[], hidden
     return [...customEntries, ...seedBank.filter((w) => !hiddenIds.has(w.id))]
   }
 
-  return { getCustomEntries, addCustomEntry, deleteEntry, getFullBank }
+  return { getCustomEntries, addCustomEntry, getCustomEntryById, deleteEntry, getFullBank }
 }
