@@ -51,8 +51,16 @@ export default function AddWordBankEntry() {
   const [errorMessage, setErrorMessage] = useState('')
   const [added, setAdded] = useState<WordEntry | null>(null)
   const [corrections, setCorrections] = useState<string[]>([])
+  const [duplicate, setDuplicate] = useState<WordEntry | null>(null)
+  const [duplicateIsFavorite, setDuplicateIsFavorite] = useState(false)
 
   const canSubmit = word.trim() !== '' && synonymsInput.trim() !== '' && antonymsInput.trim() !== ''
+
+  function handleToggleDuplicateFavorite() {
+    if (!duplicate) return
+    const next = toggleFavorite(BANK_KEY, duplicate.id, getFavoriteIds(BANK_KEY))
+    setDuplicateIsFavorite(next.has(duplicate.id))
+  }
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault()
@@ -64,6 +72,7 @@ export default function AddWordBankEntry() {
     setStatus('loading')
     setErrorMessage('')
     setCorrections([])
+    setDuplicate(null)
     try {
       const seedMatch = WORD_BANK.find((w) => w.word.toLowerCase() === trimmedWord.toLowerCase())
       // Gemini checks the proposed lists too — dropping words that don't actually belong
@@ -79,6 +88,8 @@ export default function AddWordBankEntry() {
       if (existing) {
         setStatus('error')
         setErrorMessage(`"${existing.word}" is already in the word bank.`)
+        setDuplicate(existing)
+        setDuplicateIsFavorite(getFavoriteIds(BANK_KEY).has(existing.id))
         return
       }
 
@@ -202,7 +213,20 @@ export default function AddWordBankEntry() {
           {status === 'loading' ? 'Looking up…' : 'Look up & add'}
         </button>
 
-        {status === 'error' && <p className="mt-4 rounded-lg bg-rose-50 px-4 py-3 text-sm text-rose-700">{errorMessage}</p>}
+        {status === 'error' && (
+          <div className="mt-4 flex flex-wrap items-center justify-between gap-2 rounded-lg bg-rose-50 px-4 py-3 text-sm text-rose-700">
+            <span>{errorMessage}</span>
+            {duplicate && (
+              <button
+                type="button"
+                onClick={handleToggleDuplicateFavorite}
+                className={['shrink-0 whitespace-nowrap font-semibold hover:underline', duplicateIsFavorite ? 'text-amber-600' : 'text-indigo-600'].join(' ')}
+              >
+                {duplicateIsFavorite ? '★ Added to favourites' : '☆ Add to favourites'}
+              </button>
+            )}
+          </div>
+        )}
       </form>
 
       {status === 'success' && added && (

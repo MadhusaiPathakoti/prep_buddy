@@ -35,6 +35,14 @@ export default function AddOneWord() {
   const [status, setStatus] = useState<Status>('idle')
   const [errorMessage, setErrorMessage] = useState('')
   const [added, setAdded] = useState<BankEntry | null>(null)
+  const [duplicate, setDuplicate] = useState<BankEntry | null>(null)
+  const [duplicateIsFavorite, setDuplicateIsFavorite] = useState(false)
+
+  function handleToggleDuplicateFavorite() {
+    if (!duplicate) return
+    const next = toggleFavorite(BANK_KEY, duplicate.id, getFavoriteIds(BANK_KEY))
+    setDuplicateIsFavorite(next.has(duplicate.id))
+  }
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault()
@@ -43,6 +51,7 @@ export default function AddOneWord() {
 
     setStatus('loading')
     setErrorMessage('')
+    setDuplicate(null)
     try {
       const seedMatch = ONE_WORD_BANK.find((w) => w.meaning.toLowerCase() === trimmed.toLowerCase())
       const [existingCustom, lookupResult] = await Promise.all([
@@ -53,6 +62,8 @@ export default function AddOneWord() {
       if (existing) {
         setStatus('error')
         setErrorMessage(`"${existing.meaning}" is already in the phrase bank.`)
+        setDuplicate(existing)
+        setDuplicateIsFavorite(getFavoriteIds(BANK_KEY).has(existing.id))
         return
       }
 
@@ -135,7 +146,20 @@ export default function AddOneWord() {
           {status === 'loading' ? 'Looking up…' : 'Look up & add'}
         </button>
 
-        {status === 'error' && <p className="mt-4 rounded-lg bg-rose-50 px-4 py-3 text-sm text-rose-700">{errorMessage}</p>}
+        {status === 'error' && (
+          <div className="mt-4 flex flex-wrap items-center justify-between gap-2 rounded-lg bg-rose-50 px-4 py-3 text-sm text-rose-700">
+            <span>{errorMessage}</span>
+            {duplicate && (
+              <button
+                type="button"
+                onClick={handleToggleDuplicateFavorite}
+                className={['shrink-0 whitespace-nowrap font-semibold hover:underline', duplicateIsFavorite ? 'text-amber-600' : 'text-indigo-600'].join(' ')}
+              >
+                {duplicateIsFavorite ? '★ Added to favourites' : '☆ Add to favourites'}
+              </button>
+            )}
+          </div>
+        )}
       </form>
 
       {status === 'success' && added && (
