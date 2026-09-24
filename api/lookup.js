@@ -67,6 +67,13 @@ export default async function handler(req, res) {
   const model = process.env.GEMINI_MODEL || 'gemini-3.5-flash-lite'
   const prompt = buildPrompt(term, candidateSynonyms, candidateAntonyms)
 
+  // Without this, a slow/stuck Gemini response has nothing to cut it off — the request would
+  // just ride all the way up to Vercel's own platform-level function timeout (up to 60s),
+  // which is what a "taking way too long" report usually turns out to be.
+  const GEMINI_TIMEOUT_MS = 8000
+  const controller = new AbortController()
+  const timeoutId = setTimeout(() => controller.abort(), GEMINI_TIMEOUT_MS)
+
   let geminiRes
   try {
     geminiRes = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`, {
@@ -76,10 +83,14 @@ export default async function handler(req, res) {
         contents: [{ parts: [{ text: prompt }] }],
         generationConfig: { responseMimeType: 'application/json', temperature: 0.2 },
       }),
+      signal: controller.signal,
     })
-  } catch {
-    res.status(502).json({ error: 'Could not reach Gemini.' })
+  } catch (err) {
+    const timedOut = err && err.name === 'AbortError'
+    res.status(504).json({ error: timedOut ? 'Gemini took too long to respond.' : 'Could not reach Gemini.' })
     return
+  } finally {
+    clearTimeout(timeoutId)
   }
 
   if (!geminiRes.ok) {
