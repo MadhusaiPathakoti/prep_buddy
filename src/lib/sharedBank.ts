@@ -1,4 +1,4 @@
-import { collection, deleteDoc, doc, getDoc, getDocs, setDoc } from 'firebase/firestore'
+import { collection, deleteDoc, doc, getCountFromServer, getDoc, getDocs, limit, query, setDoc } from 'firebase/firestore'
 import { db } from './firebase'
 
 const REQUEST_TIMEOUT_MS = 5000
@@ -16,6 +16,16 @@ function withTimeout<T>(promise: Promise<T>, message: string): Promise<T> {
   ])
 }
 
+const CACHE_TTL_MS = 60000
+
+/** More than enough distinct custom entries to draw a good random quiz sample from, regardless of how large the pool eventually grows — see getFullBankCapped. */
+const QUIZ_POOL_CAP = 1000
+
+interface CacheEntry<T> {
+  data: T
+  expiresAt: number
+}
+
 /**
  * A Firestore-backed bank of entry data shared across every visitor: a seed list bundled
  * with the app, plus (optionally) entries visitors can add, minus anything any visitor has
@@ -24,15 +34,43 @@ function withTimeout<T>(promise: Promise<T>, message: string): Promise<T> {
  * that has a string `id` (BankEntry, WordEntry, ...).
  */
 export function createSharedBank<T extends { id: string }>(seedBank: T[], hiddenCollection: string, customCollection: string | null = null) {
+  // The custom collection only grows (more visitors adding entries over time), so fetching it
+  // in full is the one thing here that gets slower as the bank does — caching for a minute
+  // means clicking between Library, Quiz, and Add during one visit doesn't re-download it
+  // every single time. Invalidated immediately on this session's own add/delete so your own
+  // change is never hidden behind a stale cache; other visitors' changes show up once the TTL
+  // lapses, without needing a full page reload.
+  let customCache: CacheEntry<T[]> | null = null
+  let hiddenCache: CacheEntry<Set<string>> | null = null
+
   async function getCustomEntries(): Promise<T[]> {
     if (!customCollection) return []
+    if (customCache && customCache.expiresAt > Date.now()) return customCache.data
     const snapshot = await withTimeout(getDocs(collection(db, customCollection)), 'Timed out loading shared entries.')
+    const data = snapshot.docs.map((d) => d.data() as T)
+    customCache = { data, expiresAt: Date.now() + CACHE_TTL_MS }
+    return data
+  }
+
+  /**
+   * Like getCustomEntries, but capped to `maxCount` documents — for a use (like sampling quiz
+   * questions) that just needs a big-enough pool to draw from, not literally every entry ever
+   * added. Bounds fetch time and payload size no matter how large the collection grows;
+   * uncached and unaffected by getCustomEntries' cache, since it's a different, smaller query.
+   */
+  async function getCustomEntriesCapped(maxCount: number): Promise<T[]> {
+    if (!customCollection) return []
+    const snapshot = await withTimeout(
+      getDocs(query(collection(db, customCollection), limit(maxCount))),
+      'Timed out loading shared entries.',
+    )
     return snapshot.docs.map((d) => d.data() as T)
   }
 
   async function addCustomEntry(entry: T): Promise<void> {
     if (!customCollection) throw new Error('Adding entries is not supported for this bank.')
     await withTimeout(setDoc(doc(db, customCollection, entry.id), entry), 'Timed out saving your entry.')
+    customCache = null
   }
 
   /**
@@ -47,17 +85,37 @@ export function createSharedBank<T extends { id: string }>(seedBank: T[], hidden
   }
 
   async function getHiddenIds(): Promise<Set<string>> {
+    if (hiddenCache && hiddenCache.expiresAt > Date.now()) return hiddenCache.data
     const snapshot = await withTimeout(getDocs(collection(db, hiddenCollection)), 'Timed out loading shared entries.')
-    return new Set(snapshot.docs.map((d) => d.id))
+    const data = new Set(snapshot.docs.map((d) => d.id))
+    hiddenCache = { data, expiresAt: Date.now() + CACHE_TTL_MS }
+    return data
   }
 
   /** Permanently removes an entry from the shared bank for every visitor. */
   async function deleteEntry(id: string): Promise<void> {
     if (customCollection && id.startsWith('custom-')) {
       await withTimeout(deleteDoc(doc(db, customCollection, id)), 'Timed out deleting that entry.')
+      customCache = null
     } else {
       await withTimeout(setDoc(doc(db, hiddenCollection, id), { hiddenAt: Date.now() }), 'Timed out deleting that entry.')
+      hiddenCache = null
     }
+  }
+
+  /**
+   * The total entry count (seed - hidden + custom) without downloading a single document's
+   * data — just for a "N words in this bank" display, which doesn't need the actual entries.
+   * Uses Firestore's server-side count aggregation for the two collections, so this stays
+   * just as fast at 100,000 custom entries as it is at 100.
+   */
+  async function getTotalCount(): Promise<number> {
+    if (!customCollection) return seedBank.length
+    const [customCountSnap, hiddenCountSnap] = await Promise.all([
+      withTimeout(getCountFromServer(collection(db, customCollection)), 'Timed out counting shared entries.'),
+      withTimeout(getCountFromServer(collection(db, hiddenCollection)), 'Timed out counting shared entries.'),
+    ])
+    return seedBank.length - hiddenCountSnap.data().count + customCountSnap.data().count
   }
 
   async function getFullBank(): Promise<T[]> {
@@ -65,5 +123,11 @@ export function createSharedBank<T extends { id: string }>(seedBank: T[], hidden
     return [...customEntries, ...seedBank.filter((w) => !hiddenIds.has(w.id))]
   }
 
-  return { getCustomEntries, addCustomEntry, getCustomEntryById, deleteEntry, getFullBank }
+  /** Like getFullBank, but the custom half is capped — for building a quiz's question pool, which doesn't need every entry ever added, just enough to draw a good random sample from. */
+  async function getFullBankCapped(): Promise<T[]> {
+    const [customEntries, hiddenIds] = await Promise.all([getCustomEntriesCapped(QUIZ_POOL_CAP), getHiddenIds()])
+    return [...customEntries, ...seedBank.filter((w) => !hiddenIds.has(w.id))]
+  }
+
+  return { getCustomEntries, addCustomEntry, getCustomEntryById, deleteEntry, getFullBank, getFullBankCapped, getTotalCount }
 }

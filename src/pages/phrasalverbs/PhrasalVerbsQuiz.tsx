@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import BankQuiz from '../../components/BankQuiz'
-import { getFullPhrasalVerbsBank } from '../../lib/phrasalVerbsStore'
+import { getFullPhrasalVerbsBankCapped } from '../../lib/phrasalVerbsStore'
 import type { BankEntry } from '../../lib/types'
 
 export default function PhrasalVerbsQuiz() {
@@ -10,7 +10,7 @@ export default function PhrasalVerbsQuiz() {
 
   useEffect(() => {
     let cancelled = false
-    getFullPhrasalVerbsBank()
+    getFullPhrasalVerbsBankCapped()
       .then((full) => {
         if (!cancelled) setBank(full)
       })

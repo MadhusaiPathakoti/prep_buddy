@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import WordBankQuiz from '../../components/WordBankQuiz'
-import { getFullWordBank } from '../../lib/wordBankStore'
+import { getFullWordBankCapped } from '../../lib/wordBankStore'
 import type { WordEntry } from '../../lib/types'
 
 export default function SynonymsQuiz() {
@@ -10,7 +10,7 @@ export default function SynonymsQuiz() {
 
   useEffect(() => {
     let cancelled = false
-    getFullWordBank()
+    getFullWordBankCapped()
       .then((full) => {
         if (!cancelled) setBank(full)
       })

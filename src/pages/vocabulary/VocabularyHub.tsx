@@ -1,16 +1,16 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import FeatureHub from '../../components/FeatureHub'
-import { getFullVocabBank } from '../../lib/vocabularyStore'
+import { getVocabCount } from '../../lib/vocabularyStore'
 
 export default function VocabularyHub() {
   const [count, setCount] = useState<number | null>(null)
 
   useEffect(() => {
     let cancelled = false
-    getFullVocabBank()
-      .then((full) => {
-        if (!cancelled) setCount(full.length)
+    getVocabCount()
+      .then((total) => {
+        if (!cancelled) setCount(total)
       })
       .catch(() => {
         // Leave count as null; the description falls back to a generic line below.

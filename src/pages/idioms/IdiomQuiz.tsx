@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import BankQuiz from '../../components/BankQuiz'
-import { getFullIdiomsBank } from '../../lib/idiomsStore'
+import { getFullIdiomsBankCapped } from '../../lib/idiomsStore'
 import type { BankEntry } from '../../lib/types'
 
 export default function IdiomQuiz() {
@@ -10,7 +10,7 @@ export default function IdiomQuiz() {
 
   useEffect(() => {
     let cancelled = false
-    getFullIdiomsBank()
+    getFullIdiomsBankCapped()
       .then((full) => {
         if (!cancelled) setBank(full)
       })

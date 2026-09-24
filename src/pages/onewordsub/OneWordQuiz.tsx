@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import BankQuiz from '../../components/BankQuiz'
-import { getFullOneWordBank } from '../../lib/oneWordStore'
+import { getFullOneWordBankCapped } from '../../lib/oneWordStore'
 import type { BankEntry } from '../../lib/types'
 
 export default function OneWordQuiz() {
@@ -10,7 +10,7 @@ export default function OneWordQuiz() {
 
   useEffect(() => {
     let cancelled = false
-    getFullOneWordBank()
+    getFullOneWordBankCapped()
       .then((full) => {
         if (!cancelled) setBank(full)
       })

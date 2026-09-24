@@ -1,16 +1,16 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import FeatureHub from '../../components/FeatureHub'
-import { getFullOneWordBank } from '../../lib/oneWordStore'
+import { getOneWordCount } from '../../lib/oneWordStore'
 
 export default function OneWordHub() {
   const [count, setCount] = useState<number | null>(null)
 
   useEffect(() => {
     let cancelled = false
-    getFullOneWordBank()
-      .then((full) => {
-        if (!cancelled) setCount(full.length)
+    getOneWordCount()
+      .then((total) => {
+        if (!cancelled) setCount(total)
       })
       .catch(() => {
         // Leave count as null; the description falls back to a generic line below.

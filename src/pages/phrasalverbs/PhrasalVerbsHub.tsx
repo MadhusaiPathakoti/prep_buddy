@@ -1,16 +1,16 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import FeatureHub from '../../components/FeatureHub'
-import { getFullPhrasalVerbsBank } from '../../lib/phrasalVerbsStore'
+import { getPhrasalVerbsCount } from '../../lib/phrasalVerbsStore'
 
 export default function PhrasalVerbsHub() {
   const [count, setCount] = useState<number | null>(null)
 
   useEffect(() => {
     let cancelled = false
-    getFullPhrasalVerbsBank()
-      .then((full) => {
-        if (!cancelled) setCount(full.length)
+    getPhrasalVerbsCount()
+      .then((total) => {
+        if (!cancelled) setCount(total)
       })
       .catch(() => {
         // Leave count as null; the description falls back to a generic line below.
