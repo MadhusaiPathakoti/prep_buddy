@@ -19,7 +19,10 @@ const POS_ABBREVIATIONS: Record<string, string> = {
   numeral: 'num',
 }
 
-const FETCH_TIMEOUT_MS = 10000
+// Kept tight: the whole add-a-word flow needs to land well under 5s, and both Wiktionary and
+// our own /api/lookup are normally fast, so a slow response is worth cutting off quickly and
+// moving on rather than waiting it out.
+const FETCH_TIMEOUT_MS = 2500
 
 /** Aborts the request after `timeoutMs` rather than leaving it to hang indefinitely — a slow or stuck response otherwise has nothing to cut it off. */
 function fetchWithTimeout(url: string, timeoutMs: number = FETCH_TIMEOUT_MS): Promise<Response> {
@@ -87,9 +90,10 @@ interface GeminiLookupResponse {
 async function fetchFromGemini(word: string): Promise<WordLookupResult | null> {
   let data: GeminiLookupResponse
   try {
-    // A little longer than api/lookup.js's own internal Gemini timeout, so that timeout gets a
-    // chance to fire first and return a proper error response instead of this cutting it off.
-    const res = await fetchWithTimeout(`/api/lookup?term=${encodeURIComponent(word)}`, 12000)
+    // A little longer than api/lookup.js's own internal Gemini timeout (both models are raced
+    // there, not tried one after another, so its own worst case is ~4s), so that timeout gets
+    // a chance to fire first and return a proper error response instead of this cutting it off.
+    const res = await fetchWithTimeout(`/api/lookup?term=${encodeURIComponent(word)}`, 5000)
     if (!res.ok) return null
     data = (await res.json()) as GeminiLookupResponse
   } catch {
@@ -218,7 +222,9 @@ export async function lookupWordBankEntry(word: string, synonyms: string[], anto
 
   let data: GeminiListLookupResponse | null = null
   try {
-    const res = await fetchWithTimeout(`/api/lookup?${params.toString()}`, 12000)
+    // A bit more room than the plain lookup: this prompt also asks Gemini to validate the
+    // proposed synonym/antonym lists, a heavier request than a one-line definition.
+    const res = await fetchWithTimeout(`/api/lookup?${params.toString()}`, 6000)
     if (res.ok) data = (await res.json()) as GeminiListLookupResponse
   } catch {
     // Covers network failures and non-JSON responses (e.g. local `vite dev`, see fetchFromGemini above).

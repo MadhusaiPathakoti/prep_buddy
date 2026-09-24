@@ -1,7 +1,7 @@
 import { collection, deleteDoc, doc, getDoc, getDocs, setDoc } from 'firebase/firestore'
 import { db } from './firebase'
 
-const REQUEST_TIMEOUT_MS = 10000
+const REQUEST_TIMEOUT_MS = 5000
 
 /**
  * Firestore can hang rather than reject when it's unreachable (bad config, network down,

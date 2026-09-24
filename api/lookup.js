@@ -45,18 +45,20 @@ Respond with ONLY a JSON object (no markdown fences, no extra text) in exactly t
 If "${term}" is not a real, recognizable English word, respond with exactly: {"error": "not found"}`
 }
 
-// Without an explicit override, try the fuller "flash" model first — it handles trickier
-// cases (like an idiom with a pronoun swapped or verb conjugated, e.g. "cash in one's chips"
-// typed as "cashed in his chips") better than the lite tier — falling back to the lite model
-// (the one this app has already confirmed works) if the first one errors, times out, or comes
-// back malformed. A lone "not found" verdict from the first model is retried on the second
-// too, since that call is itself a real chance the FIRST model was simply wrong about it.
+// Without an explicit override, ask the fuller "flash" model and the lite tier (the one this
+// app has already confirmed works) AT THE SAME TIME rather than one after the other — a
+// sequential retry after the first one fails or times out was exactly what pushed a single
+// lookup past 12 seconds. Racing them means the total cost is whichever one answers first,
+// not the sum of both. A lone "not found" verdict from one doesn't end the race by itself,
+// since that's a real chance THAT model was simply wrong about it — only if every candidate
+// comes back empty-handed does the whole lookup fail.
 const MODEL_CANDIDATES = process.env.GEMINI_MODEL ? [process.env.GEMINI_MODEL] : ['gemini-3.5-flash', 'gemini-3.5-flash-lite']
 
 // Without a timeout, a slow/stuck Gemini response has nothing to cut it off — the request
 // would just ride all the way up to Vercel's own platform-level function limit (up to 60s),
-// which is what a "taking way too long" report usually turns out to be.
-const GEMINI_TIMEOUT_MS = 8000
+// which is what a "taking way too long" report usually turns out to be. Kept tight since the
+// whole add-a-word flow (this call, then a Firestore write) needs to land well under 5s.
+const GEMINI_TIMEOUT_MS = 4000
 
 /** Calls one Gemini model. Returns {ok:true, parsed} on a usable answer, or {ok:false, ...} for any failure — including a "not found" verdict, which is also worth retrying on a different model. */
 async function callGeminiModel(model, apiKey, prompt) {
@@ -104,6 +106,25 @@ async function callGeminiModel(model, apiKey, prompt) {
   return { ok: true, parsed }
 }
 
+/** Resolves as soon as any promise settles with {ok:true}; only resolves with a failure once every one of them has failed (the last failure wins, arbitrarily — they're all just as unusable). */
+function firstSuccessful(promises) {
+  return new Promise((resolve) => {
+    let remaining = promises.length
+    let lastFailure
+    for (const p of promises) {
+      p.then((outcome) => {
+        if (outcome.ok) {
+          resolve(outcome)
+          return
+        }
+        lastFailure = outcome
+        remaining -= 1
+        if (remaining === 0) resolve(lastFailure)
+      })
+    }
+  })
+}
+
 export default async function handler(req, res) {
   if (req.method !== 'GET') {
     res.status(405).json({ error: 'Method not allowed' })
@@ -127,11 +148,7 @@ export default async function handler(req, res) {
 
   const prompt = buildPrompt(term, candidateSynonyms, candidateAntonyms)
 
-  let outcome
-  for (const model of MODEL_CANDIDATES) {
-    outcome = await callGeminiModel(model, apiKey, prompt)
-    if (outcome.ok) break
-  }
+  const outcome = await firstSuccessful(MODEL_CANDIDATES.map((model) => callGeminiModel(model, apiKey, prompt)))
 
   if (!outcome.ok) {
     const { status, error, detail } = outcome
