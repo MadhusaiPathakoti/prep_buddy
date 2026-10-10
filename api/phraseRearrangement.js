@@ -20,7 +20,7 @@ const GENRES = Object.keys(GENRE_INSTRUCTIONS)
 function buildPrompt(genre, difficulty, count) {
   const lengthHint =
     difficulty === 'hard'
-      ? '28 to 38 words, containing at least one subordinate or relative clause, for an advanced-level reader'
+      ? '35 to 50 words, containing at least two subordinate or relative clauses, for an advanced-level reader'
       : '20 to 28 words, moderately complex, for a competitive-exam aspirant at intermediate level'
 
   return `You write English "Phrase Rearrangement" practice questions for Indian competitive bank/government exams (like SBI PO/IBPS), where a sentence is split into 5 jumbled parts that the test-taker must reorder.
@@ -30,7 +30,7 @@ Each sentence must be ${lengthHint}, factually plausible, grammatically complete
 
 For each sentence, split it into exactly 5 ordered parts/clauses (in correct reading order) such that:
 - Concatenating the 5 parts with a single space in order 1-5 reproduces the exact original sentence, including punctuation (a comma may fall at the end of a part).
-- Each part is a self-contained phrase or clause of roughly 4 to 9 words — never a single word, never half a word.
+- Each part is a self-contained phrase or clause of roughly 5 to 12 words (longer for the "hard" sentence length) — never a single word, never half a word.
 - The parts are not ordered in an obviously-only-one-way manner that makes reconstruction trivial by word count alone — vary where the subject, verb, and modifying clauses fall across the 5 parts.
 - Part 1 starts with a capital letter; the final part ends with the sentence's closing punctuation (usually a period).
 
@@ -43,11 +43,13 @@ The "sentences" array must have exactly ${count} items, every item's "parts" arr
 // than falling back sequentially after a failure/timeout.
 const MODEL_CANDIDATES = process.env.GEMINI_MODEL ? [process.env.GEMINI_MODEL] : ['gemini-3.5-flash', 'gemini-3.5-flash-lite']
 
-// Generating several structured sentences takes longer than a single word lookup, but each
-// request must still land well inside Vercel's default serverless function limit — the client
-// compensates by splitting a large question count into several small, parallel batches rather
-// than asking for all of them in one slow call.
-const GEMINI_TIMEOUT_MS = 7000
+// Generating several structured sentences takes longer than a single word lookup, and hard
+// sentences (35-50 words each) take longer still — but each request must land well inside
+// Vercel's default serverless function limit. The client compensates by splitting a large
+// question count into several small batches (smaller still for hard) rather than asking for
+// everything in one slow call, and caps how many batches run at once (see
+// src/lib/phraseRearrangementApi.ts) so a big session doesn't trip Gemini's rate limit either.
+const GEMINI_TIMEOUT_MS = 8500
 
 /** Calls one Gemini model. Returns {ok:true, sentences} on a usable batch, or {ok:false, ...} otherwise. */
 async function callGeminiModel(model, apiKey, prompt, count) {

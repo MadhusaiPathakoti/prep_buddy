@@ -17,7 +17,7 @@ const GENRES: { id: PhraseGenre; label: string; icon: string }[] = [
 
 const DIFFICULTIES: { id: PhraseDifficulty; label: string; description: string }[] = [
   { id: 'medium', label: 'Medium', description: '20-28 word sentences' },
-  { id: 'hard', label: 'Hard', description: '28-38 words, with subordinate clauses' },
+  { id: 'hard', label: 'Hard', description: '35-50 words, with subordinate clauses' },
 ]
 
 const QUESTION_COUNTS = [5, 10, 15, 20, 25, 30]
