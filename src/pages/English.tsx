@@ -58,6 +58,13 @@ export const ENGLISH_GAMES = [
     to: '/english/fillers',
     icon: '✏️',
   },
+  {
+    id: 'error-detection',
+    title: 'Error Detection',
+    description: 'Spot the one part with a grammar error in a 4-part sentence, against the clock — then learn why from a full explanation.',
+    to: '/english/error-detection',
+    icon: '🔍',
+  },
 ]
 
 export default function English() {
