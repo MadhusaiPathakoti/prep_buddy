@@ -44,6 +44,13 @@ export const ENGLISH_GAMES = [
     to: '/english/antonyms',
     icon: '↔️',
   },
+  {
+    id: 'phrase-rearrangement',
+    title: 'Phrase Rearrangement',
+    description: 'Reorder 5 jumbled parts of a sentence against the clock. Pick your genre, question count, and time per question.',
+    to: '/english/phrase-rearrangement',
+    icon: '🧩',
+  },
 ]
 
 export default function English() {
