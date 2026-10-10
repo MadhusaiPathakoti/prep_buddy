@@ -65,6 +65,13 @@ export const ENGLISH_GAMES = [
     to: '/english/error-detection',
     icon: '🔍',
   },
+  {
+    id: 'cloze-test',
+    title: 'Cloze Test',
+    description: 'Fill each blank in a passage with the word that keeps it coherent, against the clock — with an explanation for every blank.',
+    to: '/english/cloze-test',
+    icon: '📝',
+  },
 ]
 
 export default function English() {

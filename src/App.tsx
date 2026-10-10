@@ -43,6 +43,7 @@ import AddWordBankEntry from './pages/wordbank/AddWordBankEntry'
 import PhraseRearrangement from './pages/games/PhraseRearrangement'
 import Fillers from './pages/games/Fillers'
 import ErrorDetection from './pages/games/ErrorDetection'
+import ClozeTest from './pages/games/ClozeTest'
 
 export default function App() {
   return (
@@ -92,6 +93,7 @@ export default function App() {
           <Route path="/english/phrase-rearrangement" element={<PhraseRearrangement />} />
           <Route path="/english/fillers" element={<Fillers />} />
           <Route path="/english/error-detection" element={<ErrorDetection />} />
+          <Route path="/english/cloze-test" element={<ClozeTest />} />
         </Route>
       </Routes>
     </HashRouter>
