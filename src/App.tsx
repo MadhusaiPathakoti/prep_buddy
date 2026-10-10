@@ -41,6 +41,7 @@ import AntonymsQuiz from './pages/antonyms/AntonymsQuiz'
 import WordBankLibrary from './pages/wordbank/WordBankLibrary'
 import AddWordBankEntry from './pages/wordbank/AddWordBankEntry'
 import PhraseRearrangement from './pages/games/PhraseRearrangement'
+import Fillers from './pages/games/Fillers'
 
 export default function App() {
   return (
@@ -88,6 +89,7 @@ export default function App() {
           <Route path="/english/word-bank/library" element={<WordBankLibrary />} />
           <Route path="/english/word-bank/add" element={<AddWordBankEntry />} />
           <Route path="/english/phrase-rearrangement" element={<PhraseRearrangement />} />
+          <Route path="/english/fillers" element={<Fillers />} />
         </Route>
       </Routes>
     </HashRouter>

@@ -51,6 +51,13 @@ export const ENGLISH_GAMES = [
     to: '/english/phrase-rearrangement',
     icon: '🧩',
   },
+  {
+    id: 'fillers',
+    title: 'Fillers',
+    description: 'Judge which of 3 candidate words fit a sentence\'s blank, against the clock. Pick your genre, question count, and time per question.',
+    to: '/english/fillers',
+    icon: '✏️',
+  },
 ]
 
 export default function English() {
