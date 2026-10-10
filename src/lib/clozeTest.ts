@@ -11,7 +11,7 @@ export interface ClozeQuestion {
   timeLimitSec: number
 }
 
-export type ClozeToken = { kind: 'text'; text: string } | { kind: 'blank'; text: string; active: boolean }
+export type ClozeToken = { kind: 'text'; text: string } | { kind: 'blank'; text: string; state: 'active' | 'answered' | 'upcoming' }
 
 function parseParagraph(paragraph: string, blankCount: number): string[] | null {
   const segments = paragraph.split(/\{\{\d+\}\}/)
@@ -36,13 +36,22 @@ export function buildClozeTestQuestions(passages: ClozeRawPassage[], timeLimitSe
   return all.slice(0, totalCount)
 }
 
-/** Breaks a question's passage into displayable tokens: plain text, and each blank — the active one masked, the rest shown filled in with their correct word for readability. */
+/**
+ * Breaks a question's passage into displayable tokens: plain text, and each blank. Only blanks
+ * already passed (earlier than the active one) reveal their correct word — the active blank is
+ * masked, and every blank still ahead stays masked too, so later answers are never spoiled.
+ */
 export function tokenizePassage(question: ClozeQuestion): ClozeToken[] {
   const tokens: ClozeToken[] = []
   question.blanks.forEach((blank, i) => {
     if (question.textSegments[i]) tokens.push({ kind: 'text', text: question.textSegments[i] })
-    const active = i === question.activeBlankIndex
-    tokens.push({ kind: 'blank', text: active ? '_____' : blank.options[blank.correctIndex], active })
+    if (i < question.activeBlankIndex) {
+      tokens.push({ kind: 'blank', text: blank.options[blank.correctIndex], state: 'answered' })
+    } else if (i === question.activeBlankIndex) {
+      tokens.push({ kind: 'blank', text: '_____', state: 'active' })
+    } else {
+      tokens.push({ kind: 'blank', text: '_____', state: 'upcoming' })
+    }
   })
   const last = question.textSegments[question.textSegments.length - 1]
   if (last) tokens.push({ kind: 'text', text: last })

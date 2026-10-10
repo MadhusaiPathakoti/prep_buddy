@@ -232,19 +232,28 @@ export default function ClozeTestRunner({ questions, onExit, onRestart }: ClozeT
       <div className="mt-6 rounded-3xl bg-white p-6 shadow-sm ring-1 ring-slate-200">
         <span className="text-xs font-semibold uppercase tracking-wide text-indigo-500">{current.topic}</span>
         <p className="mt-3 text-sm leading-relaxed text-slate-700">
-          {tokens.map((t, i) =>
-            t.kind === 'text' ? (
-              <span key={i}>{t.text}</span>
-            ) : t.active ? (
-              <span key={i} className="font-bold text-indigo-600 underline decoration-indigo-300">
+          {tokens.map((t, i) => {
+            if (t.kind === 'text') return <span key={i}>{t.text}</span>
+            if (t.state === 'active') {
+              return (
+                <span key={i} className="font-bold text-indigo-600 underline decoration-indigo-300">
+                  {t.text}
+                </span>
+              )
+            }
+            if (t.state === 'answered') {
+              return (
+                <span key={i} className="italic text-slate-400">
+                  {t.text}
+                </span>
+              )
+            }
+            return (
+              <span key={i} className="font-semibold text-slate-300">
                 {t.text}
               </span>
-            ) : (
-              <span key={i} className="italic text-slate-400">
-                {t.text}
-              </span>
-            ),
-          )}
+            )
+          })}
         </p>
         <p className="mt-3 text-xs text-slate-400">
           Which of the following fits blank <span className="font-semibold text-indigo-500">({current.activeBlankIndex + 1})</span>?
