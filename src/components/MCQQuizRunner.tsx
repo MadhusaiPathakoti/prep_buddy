@@ -119,17 +119,17 @@ export default function MCQQuizRunner({ gameId, questions, onExit, onRestart, sh
     const avgMs = total > 0 ? elapsedMs / total : 0
     return (
       <div className="mx-auto max-w-md px-4 py-10">
-        <div className="rounded-3xl bg-white p-8 shadow-sm ring-1 ring-slate-200">
-          <h2 className="text-2xl font-bold text-slate-900">Session complete</h2>
-          <p className="mt-1 text-sm text-slate-500">Here's how you did.</p>
+        <div className="rounded-3xl bg-white dark:bg-slate-800 p-8 shadow-sm ring-1 ring-slate-200 dark:ring-slate-700">
+          <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-100">Session complete</h2>
+          <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">Here's how you did.</p>
 
           <div className="mt-6 grid grid-cols-2 gap-4">
-            <Stat label="Accuracy" value={`${accuracy}%`} accent="text-indigo-600" />
-            <Stat label="Time taken" value={formatTime(elapsedMs)} accent="text-slate-900" />
-            <Stat label="Correct" value={String(correct)} accent="text-emerald-600" />
-            <Stat label="Skipped" value={String(skipped)} accent="text-amber-600" />
-            <Stat label="Mistakes" value={String(wrongAttempts)} accent="text-rose-600" />
-            <Stat label="Avg / question" value={`${(avgMs / 1000).toFixed(1)}s`} accent="text-slate-900" />
+            <Stat label="Accuracy" value={`${accuracy}%`} accent="text-indigo-600 dark:text-indigo-400" />
+            <Stat label="Time taken" value={formatTime(elapsedMs)} accent="text-slate-900 dark:text-slate-100" />
+            <Stat label="Correct" value={String(correct)} accent="text-emerald-600 dark:text-emerald-400" />
+            <Stat label="Skipped" value={String(skipped)} accent="text-amber-600 dark:text-amber-400" />
+            <Stat label="Mistakes" value={String(wrongAttempts)} accent="text-rose-600 dark:text-rose-400" />
+            <Stat label="Avg / question" value={`${(avgMs / 1000).toFixed(1)}s`} accent="text-slate-900 dark:text-slate-100" />
           </div>
 
           <ReviewList items={[...reviewItems, ...correctItems]} />
@@ -143,7 +143,7 @@ export default function MCQQuizRunner({ gameId, questions, onExit, onRestart, sh
             </button>
             <button
               onClick={onExit}
-              className="w-full rounded-xl bg-slate-100 px-4 py-3 font-semibold text-slate-700 transition hover:bg-slate-200 active:scale-[0.99]"
+              className="w-full rounded-xl bg-slate-100 dark:bg-slate-700 px-4 py-3 font-semibold text-slate-700 dark:text-slate-300 transition hover:bg-slate-200 active:scale-[0.99]"
             >
               Change settings
             </button>
@@ -157,36 +157,36 @@ export default function MCQQuizRunner({ gameId, questions, onExit, onRestart, sh
 
   return (
     <div className="mx-auto max-w-md px-4 py-6">
-      <div className="mb-4 flex items-center justify-between text-sm text-slate-500">
+      <div className="mb-4 flex items-center justify-between text-sm text-slate-500 dark:text-slate-400">
         <span>
-          Question <span className="font-semibold text-slate-700">{index + 1}</span> / {total}
+          Question <span className="font-semibold text-slate-700 dark:text-slate-300">{index + 1}</span> / {total}
         </span>
         <span className="font-mono tabular-nums">{formatTime(elapsedMs)}</span>
       </div>
 
-      <div className="h-2 w-full overflow-hidden rounded-full bg-slate-200">
+      <div className="h-2 w-full overflow-hidden rounded-full bg-slate-200 dark:bg-slate-600">
         <div className="h-full rounded-full bg-indigo-500 transition-all duration-300" style={{ width: `${progressPct}%` }} />
       </div>
 
-      <div className="mt-4 flex justify-center gap-4 text-xs font-medium text-slate-500">
-        <span className="text-emerald-600">✓ {correct}</span>
-        <span className="text-amber-600">⏭ {skipped}</span>
-        <span className="text-rose-600">✕ {wrongAttempts}</span>
+      <div className="mt-4 flex justify-center gap-4 text-xs font-medium text-slate-500 dark:text-slate-400">
+        <span className="text-emerald-600 dark:text-emerald-400">✓ {correct}</span>
+        <span className="text-amber-600 dark:text-amber-400">⏭ {skipped}</span>
+        <span className="text-rose-600 dark:text-rose-400">✕ {wrongAttempts}</span>
       </div>
 
-      <div className="mt-8 rounded-3xl bg-white p-8 shadow-sm ring-1 ring-slate-200">
+      <div className="mt-8 rounded-3xl bg-white dark:bg-slate-800 p-8 shadow-sm ring-1 ring-slate-200 dark:ring-slate-700">
         <div className="text-center">
-          <div className="whitespace-pre-line text-2xl font-bold leading-snug tracking-tight text-slate-900 sm:text-3xl">{current.term}</div>
+          <div className="whitespace-pre-line text-2xl font-bold leading-snug tracking-tight text-slate-900 dark:text-slate-100 sm:text-3xl">{current.term}</div>
 
           {!hintShown && !revealAnswer && (
             <button
               onClick={() => setHintShown(true)}
-              className="mt-3 rounded-full bg-amber-50 px-3 py-1 text-xs font-semibold text-amber-700 transition hover:bg-amber-100"
+              className="mt-3 rounded-full bg-amber-50 dark:bg-amber-500/10 px-3 py-1 text-xs font-semibold text-amber-700 dark:text-amber-300 transition hover:bg-amber-100"
             >
               💡 Show a hint
             </button>
           )}
-          {hintShown && <p className="mt-3 text-sm italic text-amber-700">Hint: {current.hint}</p>}
+          {hintShown && <p className="mt-3 text-sm italic text-amber-700 dark:text-amber-300">Hint: {current.hint}</p>}
         </div>
 
         <div className="mt-6 flex flex-col gap-2.5">
@@ -202,10 +202,10 @@ export default function MCQQuizRunner({ gameId, questions, onExit, onRestart, sh
                 disabled={isEliminated || locked || revealAnswer}
                 className={[
                   'rounded-xl border-2 px-4 py-3 text-left text-sm font-medium transition-colors',
-                  showAsCorrect ? 'border-emerald-400 bg-emerald-50 text-emerald-800 animate-pop' : '',
-                  showAsWrong ? 'border-rose-400 bg-rose-50 text-rose-800 animate-shake' : '',
-                  !showAsCorrect && !showAsWrong && isEliminated ? 'border-slate-100 bg-slate-50 text-slate-300 line-through' : '',
-                  !showAsCorrect && !showAsWrong && !isEliminated ? 'border-slate-200 bg-white text-slate-700 hover:border-indigo-300 hover:bg-indigo-50' : '',
+                  showAsCorrect ? 'border-emerald-400 bg-emerald-50 dark:bg-emerald-500/10 text-emerald-800 dark:text-emerald-300 animate-pop' : '',
+                  showAsWrong ? 'border-rose-400 bg-rose-50 dark:bg-rose-500/10 text-rose-800 dark:text-rose-300 animate-shake' : '',
+                  !showAsCorrect && !showAsWrong && isEliminated ? 'border-slate-100 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-300 dark:text-slate-600 line-through' : '',
+                  !showAsCorrect && !showAsWrong && !isEliminated ? 'border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:border-indigo-300 hover:bg-indigo-50' : '',
                 ].join(' ')}
               >
                 {option}
@@ -219,14 +219,14 @@ export default function MCQQuizRunner({ gameId, questions, onExit, onRestart, sh
         <button
           onClick={handleSkip}
           disabled={locked || revealAnswer}
-          className="rounded-full bg-slate-100 px-6 py-2 text-sm font-semibold text-slate-600 transition hover:bg-slate-200 disabled:opacity-50"
+          className="rounded-full bg-slate-100 dark:bg-slate-700 px-6 py-2 text-sm font-semibold text-slate-600 dark:text-slate-300 transition hover:bg-slate-200 disabled:opacity-50"
         >
           Skip →
         </button>
       </div>
 
       <div className="mt-6 text-center">
-        <button onClick={onExit} className="text-sm text-slate-400 underline-offset-2 hover:text-slate-600 hover:underline">
+        <button onClick={onExit} className="text-sm text-slate-400 dark:text-slate-500 underline-offset-2 hover:text-slate-600 hover:underline">
           End session
         </button>
       </div>

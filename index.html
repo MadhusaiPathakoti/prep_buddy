@@ -7,6 +7,16 @@
     <meta name="description" content="PrepBuddy — practice games for competitive exam aspirants. Speed math drills for tables, squares, cubes, and fraction-to-percentage conversions." />
     <meta name="theme-color" content="#4338ca" />
     <title>PrepBuddy — Speed Math Practice</title>
+    <script>
+      // Applied before first paint so there's no light-mode flash for users who prefer dark.
+      (function () {
+        try {
+          var stored = localStorage.getItem('prepbuddy:theme')
+          var dark = stored ? stored === 'dark' : window.matchMedia('(prefers-color-scheme: dark)').matches
+          if (dark) document.documentElement.classList.add('dark')
+        } catch (e) {}
+      })()
+    </script>
   </head>
   <body>
     <div id="root"></div>

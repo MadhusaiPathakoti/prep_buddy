@@ -1,7 +1,15 @@
 @import "tailwindcss";
 
+/* Tailwind v4 defaults dark: to prefers-color-scheme; redefine it to key off a `.dark` class
+   on <html> instead, so the toggle in Layout.tsx can override the system preference. */
+@custom-variant dark (&:where(.dark, .dark *));
+
 :root {
   color-scheme: light;
+}
+
+:root.dark {
+  color-scheme: dark;
 }
 
 html, body, #root {
@@ -11,6 +19,10 @@ html, body, #root {
 body {
   background: #f4f5fb;
   -webkit-tap-highlight-color: transparent;
+}
+
+.dark body {
+  background: #0f1117;
 }
 
 /* Numeric inputs: hide the native up/down spinners so the answer box stays clean */

@@ -18,9 +18,9 @@ const FILTERS: { id: FilterId; label: string }[] = [
 ]
 
 function difficultyBadge(d: Difficulty) {
-  if (d === 'easy') return 'bg-emerald-100 text-emerald-700'
-  if (d === 'medium') return 'bg-amber-100 text-amber-700'
-  return 'bg-rose-100 text-rose-700'
+  if (d === 'easy') return 'bg-emerald-100 dark:bg-emerald-500/15 text-emerald-700 dark:text-emerald-300'
+  if (d === 'medium') return 'bg-amber-100 dark:bg-amber-500/15 text-amber-700 dark:text-amber-300'
+  return 'bg-rose-100 dark:bg-rose-500/15 text-rose-700 dark:text-rose-300'
 }
 
 type SortField = 'alphabetical' | 'added' | 'difficulty'
@@ -107,10 +107,10 @@ export default function WordBankLibrary() {
   if (error) {
     return (
       <div className="mx-auto max-w-3xl px-4 py-10">
-        <Link to="/english" className="text-sm text-slate-400 hover:text-slate-600">
+        <Link to="/english" className="text-sm text-slate-400 dark:text-slate-500 hover:text-slate-600">
           ← English
         </Link>
-        <p className="mt-6 rounded-lg bg-rose-50 px-4 py-3 text-sm text-rose-700">{error}</p>
+        <p className="mt-6 rounded-lg bg-rose-50 dark:bg-rose-500/10 px-4 py-3 text-sm text-rose-700 dark:text-rose-300">{error}</p>
       </div>
     )
   }
@@ -118,10 +118,10 @@ export default function WordBankLibrary() {
   if (!bank) {
     return (
       <div className="mx-auto max-w-3xl px-4 py-10">
-        <Link to="/english" className="text-sm text-slate-400 hover:text-slate-600">
+        <Link to="/english" className="text-sm text-slate-400 dark:text-slate-500 hover:text-slate-600">
           ← English
         </Link>
-        <p className="mt-6 text-slate-400">Loading the shared word bank…</p>
+        <p className="mt-6 text-slate-400 dark:text-slate-500">Loading the shared word bank…</p>
       </div>
     )
   }
@@ -129,7 +129,7 @@ export default function WordBankLibrary() {
   return (
     <div className="mx-auto max-w-3xl px-4 py-10">
       <div className="flex items-center justify-between gap-3">
-        <Link to="/english" className="text-sm text-slate-400 hover:text-slate-600">
+        <Link to="/english" className="text-sm text-slate-400 dark:text-slate-500 hover:text-slate-600">
           ← English
         </Link>
         <Link
@@ -139,8 +139,8 @@ export default function WordBankLibrary() {
           + Add a word
         </Link>
       </div>
-      <h1 className="mt-2 text-3xl font-extrabold text-slate-900">Word Bank</h1>
-      <p className="mt-2 text-slate-500">
+      <h1 className="mt-2 text-3xl font-extrabold text-slate-900 dark:text-slate-100">Word Bank</h1>
+      <p className="mt-2 text-slate-500 dark:text-slate-400">
         Shared by both the Synonyms and Antonyms games. {bank.length} words across three difficulty levels. Star any
         word to save it for daily revision.
       </p>
@@ -153,7 +153,7 @@ export default function WordBankLibrary() {
               onClick={() => setFilter(f.id)}
               className={[
                 'rounded-lg px-3 py-1.5 text-sm font-semibold transition',
-                filter === f.id ? 'bg-indigo-600 text-white' : 'bg-slate-100 text-slate-600 hover:bg-slate-200',
+                filter === f.id ? 'bg-indigo-600 text-white' : 'bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-200',
               ].join(' ')}
             >
               {f.label}
@@ -164,19 +164,19 @@ export default function WordBankLibrary() {
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           placeholder="Search words, synonyms, or antonyms…"
-          className="rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-700 outline-none focus:border-indigo-400"
+          className="rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-3 py-2 text-sm text-slate-700 dark:text-slate-300 outline-none focus:border-indigo-400"
         />
       </div>
 
       <div className="mt-4 flex flex-wrap items-center gap-2">
-        <span className="text-sm font-semibold text-slate-800">Sort by</span>
+        <span className="text-sm font-semibold text-slate-800 dark:text-slate-200">Sort by</span>
         {SORT_FIELDS.map((s) => (
           <button
             key={s.id}
             onClick={() => setSortField(s.id)}
             className={[
               'rounded-lg px-3 py-1.5 text-sm font-semibold transition',
-              sortField === s.id ? 'bg-indigo-600 text-white' : 'bg-slate-100 text-slate-600 hover:bg-slate-200',
+              sortField === s.id ? 'bg-indigo-600 text-white' : 'bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-200',
             ].join(' ')}
           >
             {s.label}
@@ -185,7 +185,7 @@ export default function WordBankLibrary() {
         <button
           onClick={() => setSortDirection((d) => (d === 'asc' ? 'desc' : 'asc'))}
           aria-label={sortDirection === 'asc' ? 'Switch to descending order' : 'Switch to ascending order'}
-          className="rounded-lg bg-slate-100 px-3 py-1.5 text-sm font-semibold text-slate-600 transition hover:bg-slate-200"
+          className="rounded-lg bg-slate-100 dark:bg-slate-700 px-3 py-1.5 text-sm font-semibold text-slate-600 dark:text-slate-300 transition hover:bg-slate-200"
         >
           {sortDirection === 'asc' ? '↑ Ascending' : '↓ Descending'}
         </button>
@@ -195,11 +195,11 @@ export default function WordBankLibrary() {
         {entries.map((w) => {
           const isFavorite = favorites.has(w.id)
           return (
-            <div key={w.id} className="rounded-2xl bg-white p-4 shadow-sm ring-1 ring-slate-200">
+            <div key={w.id} className="rounded-2xl bg-white dark:bg-slate-800 p-4 shadow-sm ring-1 ring-slate-200 dark:ring-slate-700">
               <div className="flex items-center justify-between gap-2">
-                <h3 className="text-lg font-bold text-slate-900">
+                <h3 className="text-lg font-bold text-slate-900 dark:text-slate-100">
                   {w.word}
-                  {w.partOfSpeech && <span className="ml-1 font-normal text-slate-400">({w.partOfSpeech})</span>}
+                  {w.partOfSpeech && <span className="ml-1 font-normal text-slate-400 dark:text-slate-500">({w.partOfSpeech})</span>}
                 </h3>
                 <div className="flex shrink-0 items-center gap-1.5">
                   <button
@@ -207,42 +207,42 @@ export default function WordBankLibrary() {
                     aria-label={isFavorite ? 'Remove from favourites' : 'Add to favourites'}
                     className={[
                       'text-lg leading-none transition',
-                      isFavorite ? 'text-amber-400 hover:text-amber-500' : 'text-slate-200 hover:text-amber-300',
+                      isFavorite ? 'text-amber-400 hover:text-amber-500' : 'text-slate-200 dark:text-slate-700 hover:text-amber-300',
                     ].join(' ')}
                   >
                     {isFavorite ? '★' : '☆'}
                   </button>
                   {w.id.startsWith('custom-') && (
-                    <span className="rounded-full bg-indigo-100 px-2 py-0.5 text-xs font-semibold text-indigo-700">Yours</span>
+                    <span className="rounded-full bg-indigo-100 dark:bg-indigo-500/15 px-2 py-0.5 text-xs font-semibold text-indigo-700 dark:text-indigo-300">Yours</span>
                   )}
                   <span className={`rounded-full px-2 py-0.5 text-xs font-semibold capitalize ${difficultyBadge(w.difficulty)}`}>
                     {w.difficulty}
                   </span>
                 </div>
               </div>
-              <p className="mt-1 text-sm text-slate-600">{w.meaning}</p>
-              {w.example && <p className="mt-2 text-xs italic text-slate-400">"{w.example}"</p>}
+              <p className="mt-1 text-sm text-slate-600 dark:text-slate-300">{w.meaning}</p>
+              {w.example && <p className="mt-2 text-xs italic text-slate-400 dark:text-slate-500">"{w.example}"</p>}
 
               <div className="mt-3 flex flex-col gap-1.5 text-sm">
                 <p>
-                  <span className="font-semibold text-indigo-600">Synonyms: </span>
-                  <span className="text-slate-600">{w.synonyms.length ? w.synonyms.join(', ') : '—'}</span>
+                  <span className="font-semibold text-indigo-600 dark:text-indigo-400">Synonyms: </span>
+                  <span className="text-slate-600 dark:text-slate-300">{w.synonyms.length ? w.synonyms.join(', ') : '—'}</span>
                 </p>
                 <p>
-                  <span className="font-semibold text-rose-600">Antonyms: </span>
-                  <span className="text-slate-600">{w.antonyms.length ? w.antonyms.join(', ') : '—'}</span>
+                  <span className="font-semibold text-rose-600 dark:text-rose-400">Antonyms: </span>
+                  <span className="text-slate-600 dark:text-slate-300">{w.antonyms.length ? w.antonyms.join(', ') : '—'}</span>
                 </p>
               </div>
 
               <div className="mt-3 flex items-center justify-between">
-                <span className="text-xs text-slate-300">Added {formatDate(w.createdAt)}</span>
+                <span className="text-xs text-slate-300 dark:text-slate-600">Added {formatDate(w.createdAt)}</span>
                 <div className="flex items-center gap-3">
                   {confirmingId === w.id ? (
                     <>
-                      <span className="text-xs text-slate-400">Delete permanently?</span>
+                      <span className="text-xs text-slate-400 dark:text-slate-500">Delete permanently?</span>
                       <button
                         onClick={() => setConfirmingId(null)}
-                        className="text-xs font-semibold text-slate-500 hover:text-slate-700 hover:underline"
+                        className="text-xs font-semibold text-slate-500 dark:text-slate-400 hover:text-slate-700 hover:underline"
                       >
                         Cancel
                       </button>
@@ -251,7 +251,7 @@ export default function WordBankLibrary() {
                           handleDelete(w)
                           setConfirmingId(null)
                         }}
-                        className="text-xs font-semibold text-rose-600 hover:text-rose-700 hover:underline"
+                        className="text-xs font-semibold text-rose-600 dark:text-rose-400 hover:text-rose-700 hover:underline"
                       >
                         Yes, delete
                       </button>
@@ -259,7 +259,7 @@ export default function WordBankLibrary() {
                   ) : (
                     <button
                       onClick={() => setConfirmingId(w.id)}
-                      className="text-xs font-semibold text-rose-500 hover:text-rose-700 hover:underline"
+                      className="text-xs font-semibold text-rose-500 dark:text-rose-400 hover:text-rose-700 hover:underline"
                     >
                       Delete
                     </button>
@@ -270,13 +270,13 @@ export default function WordBankLibrary() {
           )
         })}
         {entries.length === 0 && filter === 'favorites' && (
-          <p className="text-slate-400">No favourites yet — tap the ☆ on any card to save it here for daily revision.</p>
+          <p className="text-slate-400 dark:text-slate-500">No favourites yet — tap the ☆ on any card to save it here for daily revision.</p>
         )}
         {entries.length === 0 && filter === 'yours' && (
-          <p className="text-slate-400">You haven't added any words yet — use "+ Add a word" above to add one.</p>
+          <p className="text-slate-400 dark:text-slate-500">You haven't added any words yet — use "+ Add a word" above to add one.</p>
         )}
         {entries.length === 0 && filter !== 'favorites' && filter !== 'yours' && (
-          <p className="text-slate-400">No words match your search.</p>
+          <p className="text-slate-400 dark:text-slate-500">No words match your search.</p>
         )}
       </div>
     </div>

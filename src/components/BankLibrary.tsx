@@ -34,9 +34,9 @@ function compareEntries(a: BankEntry, b: BankEntry, field: SortField): number {
 }
 
 function difficultyBadge(d: Difficulty) {
-  if (d === 'easy') return 'bg-emerald-100 text-emerald-700'
-  if (d === 'medium') return 'bg-amber-100 text-amber-700'
-  return 'bg-rose-100 text-rose-700'
+  if (d === 'easy') return 'bg-emerald-100 dark:bg-emerald-500/15 text-emerald-700 dark:text-emerald-300'
+  if (d === 'medium') return 'bg-amber-100 dark:bg-amber-500/15 text-amber-700 dark:text-amber-300'
+  return 'bg-rose-100 dark:bg-rose-500/15 text-rose-700 dark:text-rose-300'
 }
 
 interface BankLibraryProps {
@@ -85,7 +85,7 @@ export default function BankLibrary({ bank, bankKey, backTo, backLabel, title, n
   return (
     <div className="mx-auto max-w-3xl px-4 py-10">
       <div className="flex items-center justify-between gap-3">
-        <Link to={backTo} className="text-sm text-slate-400 hover:text-slate-600">
+        <Link to={backTo} className="text-sm text-slate-400 dark:text-slate-500 hover:text-slate-600">
           ← {backLabel}
         </Link>
         {addAction && (
@@ -97,8 +97,8 @@ export default function BankLibrary({ bank, bankKey, backTo, backLabel, title, n
           </Link>
         )}
       </div>
-      <h1 className="mt-2 text-3xl font-extrabold text-slate-900">{title}</h1>
-      <p className="mt-2 text-slate-500">
+      <h1 className="mt-2 text-3xl font-extrabold text-slate-900 dark:text-slate-100">{title}</h1>
+      <p className="mt-2 text-slate-500 dark:text-slate-400">
         Browse and learn before you play. {bank.length} {nounPlural} across three difficulty levels. Star any {nounPlural.replace(/s$/, '')} to
         save it for daily revision.
       </p>
@@ -111,7 +111,7 @@ export default function BankLibrary({ bank, bankKey, backTo, backLabel, title, n
               onClick={() => setFilter(f.id)}
               className={[
                 'rounded-lg px-3 py-1.5 text-sm font-semibold transition',
-                filter === f.id ? 'bg-indigo-600 text-white' : 'bg-slate-100 text-slate-600 hover:bg-slate-200',
+                filter === f.id ? 'bg-indigo-600 text-white' : 'bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-200',
               ].join(' ')}
             >
               {f.label}
@@ -122,19 +122,19 @@ export default function BankLibrary({ bank, bankKey, backTo, backLabel, title, n
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           placeholder={`Search ${nounPlural} or meanings…`}
-          className="rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-700 outline-none focus:border-indigo-400"
+          className="rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-3 py-2 text-sm text-slate-700 dark:text-slate-300 outline-none focus:border-indigo-400"
         />
       </div>
 
       <div className="mt-4 flex flex-wrap items-center gap-2">
-        <span className="text-sm font-semibold text-slate-800">Sort by</span>
+        <span className="text-sm font-semibold text-slate-800 dark:text-slate-200">Sort by</span>
         {SORT_FIELDS.map((s) => (
           <button
             key={s.id}
             onClick={() => setSortField(s.id)}
             className={[
               'rounded-lg px-3 py-1.5 text-sm font-semibold transition',
-              sortField === s.id ? 'bg-indigo-600 text-white' : 'bg-slate-100 text-slate-600 hover:bg-slate-200',
+              sortField === s.id ? 'bg-indigo-600 text-white' : 'bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-200',
             ].join(' ')}
           >
             {s.label}
@@ -143,7 +143,7 @@ export default function BankLibrary({ bank, bankKey, backTo, backLabel, title, n
         <button
           onClick={() => setSortDirection((d) => (d === 'asc' ? 'desc' : 'asc'))}
           aria-label={sortDirection === 'asc' ? 'Switch to descending order' : 'Switch to ascending order'}
-          className="rounded-lg bg-slate-100 px-3 py-1.5 text-sm font-semibold text-slate-600 transition hover:bg-slate-200"
+          className="rounded-lg bg-slate-100 dark:bg-slate-700 px-3 py-1.5 text-sm font-semibold text-slate-600 dark:text-slate-300 transition hover:bg-slate-200"
         >
           {sortDirection === 'asc' ? '↑ Ascending' : '↓ Descending'}
         </button>
@@ -153,11 +153,11 @@ export default function BankLibrary({ bank, bankKey, backTo, backLabel, title, n
         {entries.map((w) => {
           const isFavorite = favorites.has(w.id)
           return (
-            <div key={w.id} className="rounded-2xl bg-white p-4 shadow-sm ring-1 ring-slate-200">
+            <div key={w.id} className="rounded-2xl bg-white dark:bg-slate-800 p-4 shadow-sm ring-1 ring-slate-200 dark:ring-slate-700">
               <div className="flex items-center justify-between gap-2">
-                <h3 className="text-lg font-bold text-slate-900">
+                <h3 className="text-lg font-bold text-slate-900 dark:text-slate-100">
                   {w.term}
-                  {w.partOfSpeech && <span className="ml-1 font-normal text-slate-400">({w.partOfSpeech})</span>}
+                  {w.partOfSpeech && <span className="ml-1 font-normal text-slate-400 dark:text-slate-500">({w.partOfSpeech})</span>}
                 </h3>
                 <div className="flex shrink-0 items-center gap-1.5">
                   <button
@@ -165,13 +165,13 @@ export default function BankLibrary({ bank, bankKey, backTo, backLabel, title, n
                     aria-label={isFavorite ? 'Remove from favourites' : 'Add to favourites'}
                     className={[
                       'text-lg leading-none transition',
-                      isFavorite ? 'text-amber-400 hover:text-amber-500' : 'text-slate-200 hover:text-amber-300',
+                      isFavorite ? 'text-amber-400 hover:text-amber-500' : 'text-slate-200 dark:text-slate-700 hover:text-amber-300',
                     ].join(' ')}
                   >
                     {isFavorite ? '★' : '☆'}
                   </button>
                   {w.id.startsWith('custom-') && (
-                    <span className="rounded-full bg-indigo-100 px-2 py-0.5 text-xs font-semibold text-indigo-700">Yours</span>
+                    <span className="rounded-full bg-indigo-100 dark:bg-indigo-500/15 px-2 py-0.5 text-xs font-semibold text-indigo-700 dark:text-indigo-300">Yours</span>
                   )}
                   <span className={`rounded-full px-2 py-0.5 text-xs font-semibold capitalize ${difficultyBadge(w.difficulty)}`}>
                     {w.difficulty}
@@ -180,27 +180,27 @@ export default function BankLibrary({ bank, bankKey, backTo, backLabel, title, n
               </div>
               {w.definition ? (
                 <>
-                  <p className="mt-1 text-sm text-slate-600">{w.definition}</p>
-                  <p className="mt-1 text-sm font-semibold text-indigo-600">
+                  <p className="mt-1 text-sm text-slate-600 dark:text-slate-300">{w.definition}</p>
+                  <p className="mt-1 text-sm font-semibold text-indigo-600 dark:text-indigo-400">
                     {answerLabel ?? 'Answer'}: {w.meaning}
                   </p>
                 </>
               ) : (
-                <p className="mt-1 text-sm text-slate-600">{w.meaning}</p>
+                <p className="mt-1 text-sm text-slate-600 dark:text-slate-300">{w.meaning}</p>
               )}
               {w.example ? (
-                <p className="mt-2 text-xs italic text-slate-400">"{w.example}"</p>
+                <p className="mt-2 text-xs italic text-slate-400 dark:text-slate-500">"{w.example}"</p>
               ) : (
-                <p className="mt-2 text-xs text-slate-300">No example sentence yet — try writing your own.</p>
+                <p className="mt-2 text-xs text-slate-300 dark:text-slate-600">No example sentence yet — try writing your own.</p>
               )}
               {onDelete && (
                 <div className="mt-3 flex items-center justify-end gap-3">
                   {confirmingId === w.id ? (
                     <>
-                      <span className="text-xs text-slate-400">Delete permanently?</span>
+                      <span className="text-xs text-slate-400 dark:text-slate-500">Delete permanently?</span>
                       <button
                         onClick={() => setConfirmingId(null)}
-                        className="text-xs font-semibold text-slate-500 hover:text-slate-700 hover:underline"
+                        className="text-xs font-semibold text-slate-500 dark:text-slate-400 hover:text-slate-700 hover:underline"
                       >
                         Cancel
                       </button>
@@ -209,7 +209,7 @@ export default function BankLibrary({ bank, bankKey, backTo, backLabel, title, n
                           onDelete(w)
                           setConfirmingId(null)
                         }}
-                        className="text-xs font-semibold text-rose-600 hover:text-rose-700 hover:underline"
+                        className="text-xs font-semibold text-rose-600 dark:text-rose-400 hover:text-rose-700 hover:underline"
                       >
                         Yes, delete
                       </button>
@@ -217,7 +217,7 @@ export default function BankLibrary({ bank, bankKey, backTo, backLabel, title, n
                   ) : (
                     <button
                       onClick={() => setConfirmingId(w.id)}
-                      className="text-xs font-semibold text-rose-500 hover:text-rose-700 hover:underline"
+                      className="text-xs font-semibold text-rose-500 dark:text-rose-400 hover:text-rose-700 hover:underline"
                     >
                       Delete
                     </button>
@@ -228,13 +228,13 @@ export default function BankLibrary({ bank, bankKey, backTo, backLabel, title, n
           )
         })}
         {entries.length === 0 && filter === 'favorites' && (
-          <p className="text-slate-400">No favourites yet — tap the ☆ on any card to save it here for daily revision.</p>
+          <p className="text-slate-400 dark:text-slate-500">No favourites yet — tap the ☆ on any card to save it here for daily revision.</p>
         )}
         {entries.length === 0 && filter === 'yours' && (
-          <p className="text-slate-400">You haven't added any {nounPlural} yet — use "+ Add" above to add one.</p>
+          <p className="text-slate-400 dark:text-slate-500">You haven't added any {nounPlural} yet — use "+ Add" above to add one.</p>
         )}
         {entries.length === 0 && filter !== 'favorites' && filter !== 'yours' && (
-          <p className="text-slate-400">No {nounPlural} match your search.</p>
+          <p className="text-slate-400 dark:text-slate-500">No {nounPlural} match your search.</p>
         )}
       </div>
     </div>

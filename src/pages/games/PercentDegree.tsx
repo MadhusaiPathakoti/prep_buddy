@@ -56,19 +56,19 @@ export default function PercentDegree() {
   if (showLearn) {
     return (
       <div className="mx-auto max-w-2xl px-4 py-10">
-        <Link to="/quant" className="text-sm text-slate-400 hover:text-slate-600">
+        <Link to="/quant" className="text-sm text-slate-400 dark:text-slate-500 hover:text-slate-600">
           ← Quant
         </Link>
-        <h1 className="mt-2 text-3xl font-extrabold text-slate-900">Percentage ↔ Degree</h1>
-        <p className="mt-2 text-slate-500">Every conversion the game can ask about. Learn these, then practice.</p>
+        <h1 className="mt-2 text-3xl font-extrabold text-slate-900 dark:text-slate-100">Percentage ↔ Degree</h1>
+        <p className="mt-2 text-slate-500 dark:text-slate-400">Every conversion the game can ask about. Learn these, then practice.</p>
 
-        <div className="mt-8 rounded-3xl bg-white p-6 shadow-sm ring-1 ring-slate-200">
+        <div className="mt-8 rounded-3xl bg-white dark:bg-slate-800 p-6 shadow-sm ring-1 ring-slate-200 dark:ring-slate-700">
           <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-4">
             {CONVERSIONS.map((c) => (
-              <div key={c.percent} className="rounded-xl bg-slate-50 px-3 py-2.5 text-center">
-                <div className="font-mono text-sm font-bold text-slate-800">{formatPercentDegreeNumber(c.percent)}%</div>
-                <div className="text-xs text-slate-300">=</div>
-                <div className="font-mono text-sm font-bold text-indigo-600">{formatPercentDegreeNumber(c.degrees)}°</div>
+              <div key={c.percent} className="rounded-xl bg-slate-50 dark:bg-slate-800 px-3 py-2.5 text-center">
+                <div className="font-mono text-sm font-bold text-slate-800 dark:text-slate-200">{formatPercentDegreeNumber(c.percent)}%</div>
+                <div className="text-xs text-slate-300 dark:text-slate-600">=</div>
+                <div className="font-mono text-sm font-bold text-indigo-600 dark:text-indigo-400">{formatPercentDegreeNumber(c.degrees)}°</div>
               </div>
             ))}
           </div>
@@ -86,26 +86,26 @@ export default function PercentDegree() {
 
   return (
     <div className="mx-auto max-w-2xl px-4 py-10">
-      <Link to="/quant" className="text-sm text-slate-400 hover:text-slate-600">
+      <Link to="/quant" className="text-sm text-slate-400 dark:text-slate-500 hover:text-slate-600">
         ← Quant
       </Link>
       <div className="mt-2 flex items-start justify-between gap-3">
-        <h1 className="text-3xl font-extrabold text-slate-900">Percentage ↔ Degree</h1>
+        <h1 className="text-3xl font-extrabold text-slate-900 dark:text-slate-100">Percentage ↔ Degree</h1>
         <button
           onClick={() => setShowLearn(true)}
-          className="shrink-0 rounded-lg bg-indigo-50 px-3 py-1.5 text-sm font-semibold text-indigo-600 transition hover:bg-indigo-100"
+          className="shrink-0 rounded-lg bg-indigo-50 dark:bg-indigo-500/10 px-3 py-1.5 text-sm font-semibold text-indigo-600 dark:text-indigo-400 transition hover:bg-indigo-100"
         >
           📖 Learn
         </button>
       </div>
-      <p className="mt-2 text-slate-500">
+      <p className="mt-2 text-slate-500 dark:text-slate-400">
         A full circle is 360° = 100%, so 1% = 3.6°. Convert between the two, e.g.{' '}
         <span className="font-mono">10% = 36°</span> or <span className="font-mono">108° = 30%</span> — handy for
         pie-chart data interpretation questions.
       </p>
 
-      <div className="mt-8 rounded-3xl bg-white p-6 shadow-sm ring-1 ring-slate-200">
-        <h2 className="font-semibold text-slate-800">Direction</h2>
+      <div className="mt-8 rounded-3xl bg-white dark:bg-slate-800 p-6 shadow-sm ring-1 ring-slate-200 dark:ring-slate-700">
+        <h2 className="font-semibold text-slate-800 dark:text-slate-200">Direction</h2>
         <div className="mt-3 flex flex-wrap gap-2">
           {DIRECTIONS.map((d) => (
             <button
@@ -113,7 +113,7 @@ export default function PercentDegree() {
               onClick={() => setDirection(d.id)}
               className={[
                 'rounded-lg px-4 py-2 text-sm font-semibold transition',
-                direction === d.id ? 'bg-indigo-600 text-white' : 'bg-slate-100 text-slate-600 hover:bg-slate-200',
+                direction === d.id ? 'bg-indigo-600 text-white' : 'bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-200',
               ].join(' ')}
             >
               {d.label}
@@ -121,7 +121,7 @@ export default function PercentDegree() {
           ))}
         </div>
 
-        <h2 className="mt-6 font-semibold text-slate-800">Number of questions</h2>
+        <h2 className="mt-6 font-semibold text-slate-800 dark:text-slate-200">Number of questions</h2>
         <div className="mt-3 flex flex-wrap gap-2">
           {QUESTION_COUNTS.map((c) => (
             <button
@@ -130,14 +130,14 @@ export default function PercentDegree() {
               disabled={c > poolSize}
               className={[
                 'rounded-lg px-4 py-2 text-sm font-semibold transition disabled:cursor-not-allowed disabled:opacity-40',
-                count === c ? 'bg-indigo-600 text-white' : 'bg-slate-100 text-slate-600 hover:bg-slate-200',
+                count === c ? 'bg-indigo-600 text-white' : 'bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-200',
               ].join(' ')}
             >
               {c}
             </button>
           ))}
         </div>
-        <p className="mt-2 text-xs text-slate-400">{poolSize} questions available for this direction.</p>
+        <p className="mt-2 text-xs text-slate-400 dark:text-slate-500">{poolSize} questions available for this direction.</p>
 
         <button
           onClick={start}

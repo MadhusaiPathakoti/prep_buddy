@@ -36,7 +36,7 @@ export default function SynonymsHub() {
       quizDescription="Pick easy, medium, or hard and find the matching synonym. Hints included."
     >
       <div className="mt-6 text-center">
-        <Link to="/english/word-bank/add" className="text-sm font-semibold text-indigo-600 hover:underline">
+        <Link to="/english/word-bank/add" className="text-sm font-semibold text-indigo-600 dark:text-indigo-400 hover:underline">
           + Add your own word to the bank
         </Link>
       </div>

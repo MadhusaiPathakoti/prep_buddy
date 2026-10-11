@@ -34,7 +34,7 @@ export default function IdiomsHub() {
       quizDescription="Pick easy, medium, or hard and test what you know. Hints included."
     >
       <div className="mt-6 text-center">
-        <Link to="/english/idioms/add" className="text-sm font-semibold text-indigo-600 hover:underline">
+        <Link to="/english/idioms/add" className="text-sm font-semibold text-indigo-600 dark:text-indigo-400 hover:underline">
           + Add your own idiom to the bank
         </Link>
       </div>

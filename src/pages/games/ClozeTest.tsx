@@ -73,18 +73,18 @@ export default function ClozeTest() {
 
   return (
     <div className="mx-auto max-w-2xl px-4 py-10">
-      <Link to="/english" className="text-sm text-slate-400 hover:text-slate-600">
+      <Link to="/english" className="text-sm text-slate-400 dark:text-slate-500 hover:text-slate-600">
         ← English
       </Link>
-      <h1 className="mt-2 text-3xl font-extrabold text-slate-900">Cloze Test</h1>
-      <p className="mt-2 text-slate-500">
+      <h1 className="mt-2 text-3xl font-extrabold text-slate-900 dark:text-slate-100">Cloze Test</h1>
+      <p className="mt-2 text-slate-500 dark:text-slate-400">
         A paragraph has a few blanks. For each one, 5 candidate words are given — pick the one that keeps the passage
         coherent. Every blank comes with an explanation in the review afterward. A fresh passage is generated for
         every session, in the genre you pick.
       </p>
 
-      <div className="mt-8 rounded-3xl bg-white p-6 shadow-sm ring-1 ring-slate-200">
-        <h2 className="font-semibold text-slate-800">Genre</h2>
+      <div className="mt-8 rounded-3xl bg-white dark:bg-slate-800 p-6 shadow-sm ring-1 ring-slate-200 dark:ring-slate-700">
+        <h2 className="font-semibold text-slate-800 dark:text-slate-200">Genre</h2>
         <div className="mt-3 flex flex-wrap gap-2">
           {GENRES.map((g) => (
             <button
@@ -92,7 +92,7 @@ export default function ClozeTest() {
               onClick={() => setGenre(g.id)}
               className={[
                 'rounded-lg px-4 py-2 text-sm font-semibold transition',
-                genre === g.id ? 'bg-indigo-600 text-white' : 'bg-slate-100 text-slate-600 hover:bg-slate-200',
+                genre === g.id ? 'bg-indigo-600 text-white' : 'bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-200',
               ].join(' ')}
             >
               {g.icon} {g.label}
@@ -100,7 +100,7 @@ export default function ClozeTest() {
           ))}
         </div>
 
-        <h2 className="mt-6 font-semibold text-slate-800">Difficulty</h2>
+        <h2 className="mt-6 font-semibold text-slate-800 dark:text-slate-200">Difficulty</h2>
         <div className="mt-3 flex flex-wrap gap-2">
           {DIFFICULTIES.map((d) => (
             <button
@@ -108,18 +108,18 @@ export default function ClozeTest() {
               onClick={() => setDifficulty(d.id)}
               className={[
                 'rounded-lg px-4 py-2 text-sm font-semibold transition',
-                difficulty === d.id ? 'bg-indigo-600 text-white' : 'bg-slate-100 text-slate-600 hover:bg-slate-200',
+                difficulty === d.id ? 'bg-indigo-600 text-white' : 'bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-200',
               ].join(' ')}
             >
               {d.label}
-              <span className={['ml-1.5 font-normal', difficulty === d.id ? 'text-indigo-100' : 'text-slate-400'].join(' ')}>
+              <span className={['ml-1.5 font-normal', difficulty === d.id ? 'text-indigo-100' : 'text-slate-400 dark:text-slate-500'].join(' ')}>
                 ({d.description})
               </span>
             </button>
           ))}
         </div>
 
-        <h2 className="mt-6 font-semibold text-slate-800">Number of questions</h2>
+        <h2 className="mt-6 font-semibold text-slate-800 dark:text-slate-200">Number of questions</h2>
         <div className="mt-3 flex flex-wrap gap-2">
           {QUESTION_COUNTS.map((c) => (
             <button
@@ -127,7 +127,7 @@ export default function ClozeTest() {
               onClick={() => setCount(c)}
               className={[
                 'rounded-lg px-4 py-2 text-sm font-semibold transition',
-                count === c ? 'bg-indigo-600 text-white' : 'bg-slate-100 text-slate-600 hover:bg-slate-200',
+                count === c ? 'bg-indigo-600 text-white' : 'bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-200',
               ].join(' ')}
             >
               {c}
@@ -135,7 +135,7 @@ export default function ClozeTest() {
           ))}
         </div>
 
-        <h2 className="mt-6 font-semibold text-slate-800">Time per question</h2>
+        <h2 className="mt-6 font-semibold text-slate-800 dark:text-slate-200">Time per question</h2>
         <div className="mt-3 flex flex-wrap gap-2">
           {TIME_OPTIONS.map((t) => (
             <button
@@ -143,7 +143,7 @@ export default function ClozeTest() {
               onClick={() => setTimePerQuestion(t)}
               className={[
                 'rounded-lg px-4 py-2 text-sm font-semibold transition',
-                timePerQuestion === t ? 'bg-indigo-600 text-white' : 'bg-slate-100 text-slate-600 hover:bg-slate-200',
+                timePerQuestion === t ? 'bg-indigo-600 text-white' : 'bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-200',
               ].join(' ')}
             >
               {t}s
@@ -151,7 +151,7 @@ export default function ClozeTest() {
           ))}
         </div>
 
-        {stage === 'error' && <p className="mt-4 rounded-lg bg-rose-50 px-4 py-3 text-sm text-rose-700">{errorMessage}</p>}
+        {stage === 'error' && <p className="mt-4 rounded-lg bg-rose-50 dark:bg-rose-500/10 px-4 py-3 text-sm text-rose-700 dark:text-rose-300">{errorMessage}</p>}
 
         <button
           onClick={start}

@@ -57,17 +57,17 @@ export default function TablesPractice() {
 
   return (
     <div className="mx-auto max-w-2xl px-4 py-10">
-      <Link to="/speed-math" className="text-sm text-slate-400 hover:text-slate-600">
+      <Link to="/speed-math" className="text-sm text-slate-400 dark:text-slate-500 hover:text-slate-600">
         ← Speed Math
       </Link>
-      <h1 className="mt-2 text-3xl font-extrabold text-slate-900">Tables Practice</h1>
-      <p className="mt-2 text-slate-500">
+      <h1 className="mt-2 text-3xl font-extrabold text-slate-900 dark:text-slate-100">Tables Practice</h1>
+      <p className="mt-2 text-slate-500 dark:text-slate-400">
         Pick which tables to practice (e.g. 28's table = 28 × 1, 28 × 2 … 28 × 30) and how far to multiply. Don't know a table well? Just skip it during the round.
       </p>
 
-      <div className="mt-8 rounded-3xl bg-white p-6 shadow-sm ring-1 ring-slate-200">
+      <div className="mt-8 rounded-3xl bg-white dark:bg-slate-800 p-6 shadow-sm ring-1 ring-slate-200 dark:ring-slate-700">
         <div className="flex items-center justify-between">
-          <h2 className="font-semibold text-slate-800">Choose tables</h2>
+          <h2 className="font-semibold text-slate-800 dark:text-slate-200">Choose tables</h2>
           <div className="flex flex-wrap gap-1.5 text-xs">
             <QuickButton onClick={() => selectRange(1, 10)}>1–10</QuickButton>
             <QuickButton onClick={() => selectRange(11, 20)}>11–20</QuickButton>
@@ -84,7 +84,7 @@ export default function TablesPractice() {
               onClick={() => toggle(n)}
               className={[
                 'rounded-lg py-2 text-sm font-semibold transition',
-                selected.has(n) ? 'bg-indigo-600 text-white' : 'bg-slate-100 text-slate-600 hover:bg-slate-200',
+                selected.has(n) ? 'bg-indigo-600 text-white' : 'bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-200',
               ].join(' ')}
             >
               {n}
@@ -92,7 +92,7 @@ export default function TablesPractice() {
           ))}
         </div>
 
-        <h2 className="mt-6 font-semibold text-slate-800">Multiply up to</h2>
+        <h2 className="mt-6 font-semibold text-slate-800 dark:text-slate-200">Multiply up to</h2>
         <div className="mt-3 flex flex-wrap gap-2">
           {MULTIPLIER_MAXES.map((m) => (
             <button
@@ -100,7 +100,7 @@ export default function TablesPractice() {
               onClick={() => setMultiplierMax(m)}
               className={[
                 'rounded-lg px-4 py-2 text-sm font-semibold transition',
-                multiplierMax === m ? 'bg-indigo-600 text-white' : 'bg-slate-100 text-slate-600 hover:bg-slate-200',
+                multiplierMax === m ? 'bg-indigo-600 text-white' : 'bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-200',
               ].join(' ')}
             >
               × {m}
@@ -108,7 +108,7 @@ export default function TablesPractice() {
           ))}
         </div>
 
-        <h2 className="mt-6 font-semibold text-slate-800">Number of questions</h2>
+        <h2 className="mt-6 font-semibold text-slate-800 dark:text-slate-200">Number of questions</h2>
         <div className="mt-3 flex flex-wrap gap-2">
           {QUESTION_COUNTS.map((c) => (
             <button
@@ -116,7 +116,7 @@ export default function TablesPractice() {
               onClick={() => setCount(c)}
               className={[
                 'rounded-lg px-4 py-2 text-sm font-semibold transition',
-                count === c ? 'bg-indigo-600 text-white' : 'bg-slate-100 text-slate-600 hover:bg-slate-200',
+                count === c ? 'bg-indigo-600 text-white' : 'bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-200',
               ].join(' ')}
             >
               {c}
@@ -140,7 +140,7 @@ export default function TablesPractice() {
 
 function QuickButton({ onClick, children }: { onClick: () => void; children: React.ReactNode }) {
   return (
-    <button onClick={onClick} className="rounded-full bg-slate-100 px-3 py-1 font-medium text-slate-600 hover:bg-slate-200">
+    <button onClick={onClick} className="rounded-full bg-slate-100 dark:bg-slate-700 px-3 py-1 font-medium text-slate-600 dark:text-slate-300 hover:bg-slate-200">
       {children}
     </button>
   )

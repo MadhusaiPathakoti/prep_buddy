@@ -141,42 +141,42 @@ export default function ClozeTestRunner({ questions, onExit, onRestart }: ClozeT
 
     return (
       <div className="mx-auto max-w-lg px-4 py-10">
-        <div className="rounded-3xl bg-white p-8 shadow-sm ring-1 ring-slate-200">
-          <h2 className="text-2xl font-bold text-slate-900">Session complete</h2>
-          <p className="mt-1 text-sm text-slate-500">Score rewards both getting it right and getting it right fast.</p>
+        <div className="rounded-3xl bg-white dark:bg-slate-800 p-8 shadow-sm ring-1 ring-slate-200 dark:ring-slate-700">
+          <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-100">Session complete</h2>
+          <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">Score rewards both getting it right and getting it right fast.</p>
 
           <div className="mt-6 grid grid-cols-2 gap-4">
-            <Stat label="Score" value={String(score)} accent="text-indigo-600" />
-            <Stat label="Accuracy" value={`${accuracy}%`} accent="text-slate-900" />
-            <Stat label="Correct" value={String(correctCount)} accent="text-emerald-600" />
-            <Stat label="Wrong" value={String(wrongCount)} accent="text-rose-600" />
-            <Stat label="Timed out" value={String(timedOutCount)} accent="text-amber-600" />
-            <Stat label="Avg / question" value={`${(avgMs / 1000).toFixed(1)}s`} accent="text-slate-900" />
+            <Stat label="Score" value={String(score)} accent="text-indigo-600 dark:text-indigo-400" />
+            <Stat label="Accuracy" value={`${accuracy}%`} accent="text-slate-900 dark:text-slate-100" />
+            <Stat label="Correct" value={String(correctCount)} accent="text-emerald-600 dark:text-emerald-400" />
+            <Stat label="Wrong" value={String(wrongCount)} accent="text-rose-600 dark:text-rose-400" />
+            <Stat label="Timed out" value={String(timedOutCount)} accent="text-amber-600 dark:text-amber-400" />
+            <Stat label="Avg / question" value={`${(avgMs / 1000).toFixed(1)}s`} accent="text-slate-900 dark:text-slate-100" />
           </div>
 
           {(toReview.length > 0 || toCelebrate.length > 0) && (
             <div className="mt-6">
-              <h3 className="text-sm font-semibold text-slate-700">Review these — with explanations</h3>
-              <div className="mt-2 max-h-96 divide-y divide-slate-100 overflow-y-auto rounded-2xl bg-slate-50">
+              <h3 className="text-sm font-semibold text-slate-700 dark:text-slate-300">Review these — with explanations</h3>
+              <div className="mt-2 max-h-96 divide-y divide-slate-100 dark:divide-slate-700 overflow-y-auto rounded-2xl bg-slate-50 dark:bg-slate-800">
                 {[...toReview, ...toCelebrate].map((r, i) => (
                   <div key={`${r.id}-${i}`} className="px-4 py-3">
                     <div className="flex items-center justify-between gap-2">
-                      <span className="text-xs font-semibold uppercase tracking-wide text-slate-400">{r.topic}</span>
+                      <span className="text-xs font-semibold uppercase tracking-wide text-slate-400 dark:text-slate-500">{r.topic}</span>
                       <span
                         className={[
                           'shrink-0 rounded-full px-2 py-0.5 text-xs font-semibold',
-                          r.correct ? 'bg-emerald-100 text-emerald-700' : r.timedOut ? 'bg-amber-100 text-amber-700' : 'bg-rose-100 text-rose-700',
+                          r.correct ? 'bg-emerald-100 dark:bg-emerald-500/15 text-emerald-700 dark:text-emerald-300' : r.timedOut ? 'bg-amber-100 dark:bg-amber-500/15 text-amber-700 dark:text-amber-300' : 'bg-rose-100 dark:bg-rose-500/15 text-rose-700 dark:text-rose-300',
                         ].join(' ')}
                       >
                         {r.correct ? 'Correct' : r.timedOut ? 'Timed out' : 'Wrong'}
                       </span>
                     </div>
-                    <p className="mt-1.5 text-sm italic leading-relaxed text-slate-600">{r.localContext}</p>
-                    <p className="mt-1 text-xs text-slate-500">
-                      Correct answer: <span className="font-semibold text-emerald-600">{r.options[r.correctIndex]}</span> · Your answer:{' '}
+                    <p className="mt-1.5 text-sm italic leading-relaxed text-slate-600 dark:text-slate-300">{r.localContext}</p>
+                    <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">
+                      Correct answer: <span className="font-semibold text-emerald-600 dark:text-emerald-400">{r.options[r.correctIndex]}</span> · Your answer:{' '}
                       {r.selectedIndex === null ? 'No answer — time ran out' : r.options[r.selectedIndex]}
                     </p>
-                    <p className="mt-2 rounded-lg bg-indigo-50 px-3 py-2 text-xs leading-relaxed text-indigo-800">{r.explanation}</p>
+                    <p className="mt-2 rounded-lg bg-indigo-50 dark:bg-indigo-500/10 px-3 py-2 text-xs leading-relaxed text-indigo-800 dark:text-indigo-200">{r.explanation}</p>
                   </div>
                 ))}
               </div>
@@ -192,7 +192,7 @@ export default function ClozeTestRunner({ questions, onExit, onRestart }: ClozeT
             </button>
             <button
               onClick={onExit}
-              className="w-full rounded-xl bg-slate-100 px-4 py-3 font-semibold text-slate-700 transition hover:bg-slate-200 active:scale-[0.99]"
+              className="w-full rounded-xl bg-slate-100 dark:bg-slate-700 px-4 py-3 font-semibold text-slate-700 dark:text-slate-300 transition hover:bg-slate-200 active:scale-[0.99]"
             >
               Change settings
             </button>
@@ -210,52 +210,52 @@ export default function ClozeTestRunner({ questions, onExit, onRestart }: ClozeT
 
   return (
     <div className="mx-auto max-w-2xl px-4 py-6">
-      <div className="mb-4 flex items-center justify-between text-sm text-slate-500">
+      <div className="mb-4 flex items-center justify-between text-sm text-slate-500 dark:text-slate-400">
         <span>
-          Question <span className="font-semibold text-slate-700">{index + 1}</span> / {total}
+          Question <span className="font-semibold text-slate-700 dark:text-slate-300">{index + 1}</span> / {total}
         </span>
-        <span className={['font-mono tabular-nums font-semibold', urgent ? 'text-rose-600' : 'text-slate-700'].join(' ')}>
+        <span className={['font-mono tabular-nums font-semibold', urgent ? 'text-rose-600 dark:text-rose-400' : 'text-slate-700 dark:text-slate-300'].join(' ')}>
           {Math.ceil(remainingMs / 1000)}s
         </span>
       </div>
 
-      <div className="h-2 w-full overflow-hidden rounded-full bg-slate-200">
+      <div className="h-2 w-full overflow-hidden rounded-full bg-slate-200 dark:bg-slate-600">
         <div className="h-full rounded-full bg-indigo-500 transition-all duration-300" style={{ width: `${progressPct}%` }} />
       </div>
-      <div className="mt-1.5 h-1 w-full overflow-hidden rounded-full bg-slate-100">
+      <div className="mt-1.5 h-1 w-full overflow-hidden rounded-full bg-slate-100 dark:bg-slate-700">
         <div
           className={['h-full rounded-full transition-all duration-100 linear', urgent ? 'bg-rose-500' : 'bg-amber-400'].join(' ')}
           style={{ width: `${Math.max(0, timeFraction) * 100}%` }}
         />
       </div>
 
-      <div className="mt-6 rounded-3xl bg-white p-6 shadow-sm ring-1 ring-slate-200">
+      <div className="mt-6 rounded-3xl bg-white dark:bg-slate-800 p-6 shadow-sm ring-1 ring-slate-200 dark:ring-slate-700">
         <span className="text-xs font-semibold uppercase tracking-wide text-indigo-500">{current.topic}</span>
-        <p className="mt-3 text-sm leading-relaxed text-slate-700">
+        <p className="mt-3 text-sm leading-relaxed text-slate-700 dark:text-slate-300">
           {tokens.map((t, i) => {
             if (t.kind === 'text') return <span key={i}>{t.text}</span>
             if (t.state === 'active') {
               return (
-                <span key={i} className="font-bold text-indigo-600 underline decoration-indigo-300">
+                <span key={i} className="font-bold text-indigo-600 dark:text-indigo-400 underline decoration-indigo-300">
                   {t.text}
                 </span>
               )
             }
             if (t.state === 'answered') {
               return (
-                <span key={i} className="italic text-slate-400">
+                <span key={i} className="italic text-slate-400 dark:text-slate-500">
                   {t.text}
                 </span>
               )
             }
             return (
-              <span key={i} className="font-semibold text-slate-300">
+              <span key={i} className="font-semibold text-slate-300 dark:text-slate-600">
                 {t.text}
               </span>
             )
           })}
         </p>
-        <p className="mt-3 text-xs text-slate-400">
+        <p className="mt-3 text-xs text-slate-400 dark:text-slate-500">
           Which of the following fits blank <span className="font-semibold text-indigo-500">({current.activeBlankIndex + 1})</span>?
         </p>
 
@@ -272,13 +272,13 @@ export default function ClozeTestRunner({ questions, onExit, onRestart }: ClozeT
                 disabled={locked}
                 className={[
                   'rounded-xl border-2 px-4 py-3 text-left text-sm font-medium transition-colors',
-                  showAsCorrect ? 'border-emerald-400 bg-emerald-50 text-emerald-800 animate-pop' : '',
-                  showAsWrong ? 'border-rose-400 bg-rose-50 text-rose-800 animate-shake' : '',
-                  !showAsCorrect && !showAsWrong ? 'border-slate-200 bg-white text-slate-700 hover:border-indigo-300 hover:bg-indigo-50' : '',
+                  showAsCorrect ? 'border-emerald-400 bg-emerald-50 dark:bg-emerald-500/10 text-emerald-800 dark:text-emerald-300 animate-pop' : '',
+                  showAsWrong ? 'border-rose-400 bg-rose-50 dark:bg-rose-500/10 text-rose-800 dark:text-rose-300 animate-shake' : '',
+                  !showAsCorrect && !showAsWrong ? 'border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:border-indigo-300 hover:bg-indigo-50' : '',
                   locked && !showAsCorrect && !showAsWrong ? 'opacity-50' : '',
                 ].join(' ')}
               >
-                <span className="font-semibold text-slate-400">({OPTION_LABELS[i]})</span> {option}
+                <span className="font-semibold text-slate-400 dark:text-slate-500">({OPTION_LABELS[i]})</span> {option}
               </button>
             )
           })}
@@ -286,12 +286,12 @@ export default function ClozeTestRunner({ questions, onExit, onRestart }: ClozeT
       </div>
 
       <div className="mt-6 text-center">
-        <button onClick={onExit} className="text-sm text-slate-400 underline-offset-2 hover:text-slate-600 hover:underline">
+        <button onClick={onExit} className="text-sm text-slate-400 dark:text-slate-500 underline-offset-2 hover:text-slate-600 hover:underline">
           End session
         </button>
       </div>
 
-      <p className="mt-4 text-center text-xs text-slate-400">Elapsed {formatTime(elapsedMs)}</p>
+      <p className="mt-4 text-center text-xs text-slate-400 dark:text-slate-500">Elapsed {formatTime(elapsedMs)}</p>
     </div>
   )
 }

@@ -25,10 +25,10 @@ export default function IdiomQuiz() {
   if (error) {
     return (
       <div className="mx-auto max-w-2xl px-4 py-10">
-        <Link to="/english/idioms" className="text-sm text-slate-400 hover:text-slate-600">
+        <Link to="/english/idioms" className="text-sm text-slate-400 dark:text-slate-500 hover:text-slate-600">
           ← Idioms
         </Link>
-        <p className="mt-6 rounded-lg bg-rose-50 px-4 py-3 text-sm text-rose-700">{error}</p>
+        <p className="mt-6 rounded-lg bg-rose-50 dark:bg-rose-500/10 px-4 py-3 text-sm text-rose-700 dark:text-rose-300">{error}</p>
       </div>
     )
   }
@@ -36,10 +36,10 @@ export default function IdiomQuiz() {
   if (!bank) {
     return (
       <div className="mx-auto max-w-2xl px-4 py-10">
-        <Link to="/english/idioms" className="text-sm text-slate-400 hover:text-slate-600">
+        <Link to="/english/idioms" className="text-sm text-slate-400 dark:text-slate-500 hover:text-slate-600">
           ← Idioms
         </Link>
-        <p className="mt-6 text-slate-400">Loading the shared idiom bank…</p>
+        <p className="mt-6 text-slate-400 dark:text-slate-500">Loading the shared idiom bank…</p>
       </div>
     )
   }

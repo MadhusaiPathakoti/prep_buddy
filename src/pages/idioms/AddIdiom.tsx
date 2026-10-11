@@ -88,17 +88,17 @@ export default function AddIdiom() {
 
   return (
     <div className="mx-auto max-w-2xl px-4 py-10">
-      <Link to="/english/idioms" className="text-sm text-slate-400 hover:text-slate-600">
+      <Link to="/english/idioms" className="text-sm text-slate-400 dark:text-slate-500 hover:text-slate-600">
         ← Idioms
       </Link>
-      <h1 className="mt-2 text-3xl font-extrabold text-slate-900">Add an Idiom</h1>
-      <p className="mt-2 text-slate-500">
+      <h1 className="mt-2 text-3xl font-extrabold text-slate-900 dark:text-slate-100">Add an Idiom</h1>
+      <p className="mt-2 text-slate-500 dark:text-slate-400">
         Type an idiom — we'll look up its meaning and an example sentence and add it to the shared idiom bank for
         everyone, for good.
       </p>
 
-      <form onSubmit={handleSubmit} className="mt-8 rounded-3xl bg-white p-6 shadow-sm ring-1 ring-slate-200">
-        <label htmlFor="new-idiom" className="block text-sm font-semibold text-slate-800">
+      <form onSubmit={handleSubmit} className="mt-8 rounded-3xl bg-white dark:bg-slate-800 p-6 shadow-sm ring-1 ring-slate-200 dark:ring-slate-700">
+        <label htmlFor="new-idiom" className="block text-sm font-semibold text-slate-800 dark:text-slate-200">
           Idiom
         </label>
         <div className="mt-2 flex items-center gap-2">
@@ -113,7 +113,7 @@ export default function AddIdiom() {
             autoComplete="off"
             autoCorrect="off"
             spellCheck={false}
-            className="w-full rounded-lg border border-slate-200 bg-slate-50 px-4 py-3 text-lg text-slate-900 outline-none focus:border-indigo-400"
+            className="w-full rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 px-4 py-3 text-lg text-slate-900 dark:text-slate-100 outline-none focus:border-indigo-400"
           />
           <VoiceInputButton
             onResult={(text) => {
@@ -123,7 +123,7 @@ export default function AddIdiom() {
           />
         </div>
 
-        <h2 className="mt-6 text-sm font-semibold text-slate-800">Difficulty</h2>
+        <h2 className="mt-6 text-sm font-semibold text-slate-800 dark:text-slate-200">Difficulty</h2>
         <div className="mt-3 flex flex-wrap gap-2">
           {DIFFICULTIES.map((d) => (
             <button
@@ -132,7 +132,7 @@ export default function AddIdiom() {
               onClick={() => setDifficulty(d.id)}
               className={[
                 'rounded-lg px-4 py-2 text-sm font-semibold transition',
-                difficulty === d.id ? 'bg-indigo-600 text-white' : 'bg-slate-100 text-slate-600 hover:bg-slate-200',
+                difficulty === d.id ? 'bg-indigo-600 text-white' : 'bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-200',
               ].join(' ')}
             >
               {d.label}
@@ -149,13 +149,13 @@ export default function AddIdiom() {
         </button>
 
         {status === 'error' && (
-          <div className="mt-4 flex flex-wrap items-center justify-between gap-2 rounded-lg bg-rose-50 px-4 py-3 text-sm text-rose-700">
+          <div className="mt-4 flex flex-wrap items-center justify-between gap-2 rounded-lg bg-rose-50 dark:bg-rose-500/10 px-4 py-3 text-sm text-rose-700 dark:text-rose-300">
             <span>{errorMessage}</span>
             {duplicate && (
               <button
                 type="button"
                 onClick={handleToggleDuplicateFavorite}
-                className={['shrink-0 whitespace-nowrap font-semibold hover:underline', duplicateIsFavorite ? 'text-amber-600' : 'text-indigo-600'].join(' ')}
+                className={['shrink-0 whitespace-nowrap font-semibold hover:underline', duplicateIsFavorite ? 'text-amber-600 dark:text-amber-400' : 'text-indigo-600 dark:text-indigo-400'].join(' ')}
               >
                 {duplicateIsFavorite ? '★ Added to favourites' : '☆ Add to favourites'}
               </button>
@@ -165,25 +165,25 @@ export default function AddIdiom() {
       </form>
 
       {status === 'success' && added && (
-        <div className="mt-6 rounded-3xl bg-emerald-50 p-6 ring-1 ring-emerald-200">
-          <p className="text-sm font-semibold text-emerald-700">Added to the shared idiom bank for everyone — and starred for daily revision!</p>
+        <div className="mt-6 rounded-3xl bg-emerald-50 dark:bg-emerald-500/10 p-6 ring-1 ring-emerald-200">
+          <p className="text-sm font-semibold text-emerald-700 dark:text-emerald-300">Added to the shared idiom bank for everyone — and starred for daily revision!</p>
           <div className="mt-3 flex items-center gap-2">
-            <h3 className="text-xl font-bold text-slate-900">{added.term}</h3>
-            <span className="rounded-full bg-emerald-100 px-2 py-0.5 text-xs font-semibold capitalize text-emerald-700">
+            <h3 className="text-xl font-bold text-slate-900 dark:text-slate-100">{added.term}</h3>
+            <span className="rounded-full bg-emerald-100 dark:bg-emerald-500/15 px-2 py-0.5 text-xs font-semibold capitalize text-emerald-700 dark:text-emerald-300">
               {added.difficulty}
             </span>
           </div>
-          <p className="mt-1 text-sm text-slate-600">{added.meaning}</p>
+          <p className="mt-1 text-sm text-slate-600 dark:text-slate-300">{added.meaning}</p>
           {added.example ? (
-            <p className="mt-2 text-xs italic text-slate-400">"{added.example}"</p>
+            <p className="mt-2 text-xs italic text-slate-400 dark:text-slate-500">"{added.example}"</p>
           ) : (
-            <p className="mt-2 text-xs text-slate-400">No example sentence found for this one — feel free to add your own when studying it.</p>
+            <p className="mt-2 text-xs text-slate-400 dark:text-slate-500">No example sentence found for this one — feel free to add your own when studying it.</p>
           )}
           <div className="mt-4 flex flex-wrap items-center gap-4">
-            <Link to="/english/idioms/library" className="text-sm font-semibold text-indigo-600 hover:underline">
+            <Link to="/english/idioms/library" className="text-sm font-semibold text-indigo-600 dark:text-indigo-400 hover:underline">
               View in library →
             </Link>
-            <Link to="/english/idioms/quiz" className="text-sm font-semibold text-indigo-600 hover:underline">
+            <Link to="/english/idioms/quiz" className="text-sm font-semibold text-indigo-600 dark:text-indigo-400 hover:underline">
               Play the quiz →
             </Link>
           </div>

@@ -36,7 +36,7 @@ export default function PhrasalVerbsHub() {
       quizDescription="Pick easy, medium, or hard and test what you know. Hints included."
     >
       <div className="mt-6 text-center">
-        <Link to="/english/phrasal-verbs/add" className="text-sm font-semibold text-indigo-600 hover:underline">
+        <Link to="/english/phrasal-verbs/add" className="text-sm font-semibold text-indigo-600 dark:text-indigo-400 hover:underline">
           + Add your own phrasal verb to the bank
         </Link>
       </div>
