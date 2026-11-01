@@ -79,6 +79,13 @@ export const ENGLISH_GAMES = [
     to: '/english/para-jumble',
     icon: '📑',
   },
+  {
+    id: 'sentence-improvement',
+    title: 'Sentence Improvement',
+    description: 'Replace the underlined part to fix the sentence — or spot that it needs no correction — against the clock.',
+    to: '/english/sentence-improvement',
+    icon: '🛠️',
+  },
 ]
 
 export default function English() {

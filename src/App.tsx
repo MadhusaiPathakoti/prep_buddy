@@ -46,6 +46,7 @@ import Fillers from './pages/games/Fillers'
 import ErrorDetection from './pages/games/ErrorDetection'
 import ClozeTest from './pages/games/ClozeTest'
 import ParaJumble from './pages/games/ParaJumble'
+import SentenceImprovement from './pages/games/SentenceImprovement'
 import LcmHcfSimplification from './pages/games/LcmHcfSimplification'
 
 export default function App() {
@@ -100,6 +101,7 @@ export default function App() {
           <Route path="/english/error-detection" element={<ErrorDetection />} />
           <Route path="/english/cloze-test" element={<ClozeTest />} />
           <Route path="/english/para-jumble" element={<ParaJumble />} />
+          <Route path="/english/sentence-improvement" element={<SentenceImprovement />} />
         </Route>
       </Routes>
     </HashRouter>
