@@ -44,6 +44,7 @@ import PhraseRearrangement from './pages/games/PhraseRearrangement'
 import Fillers from './pages/games/Fillers'
 import ErrorDetection from './pages/games/ErrorDetection'
 import ClozeTest from './pages/games/ClozeTest'
+import LcmHcfSimplification from './pages/games/LcmHcfSimplification'
 
 export default function App() {
   return (
@@ -61,6 +62,7 @@ export default function App() {
           <Route path="/speed-math/percent-to-ratio" element={<PercentToRatio />} />
           <Route path="/speed-math/pythagorean-triplets" element={<PythagoreanTriplets />} />
           <Route path="/speed-math/twin-number-products" element={<TwinNumberProducts />} />
+          <Route path="/speed-math/lcm-hcf-simplification" element={<LcmHcfSimplification />} />
           <Route path="/reasoning" element={<Reasoning />} />
           <Route path="/reasoning/alpha-numeric-test" element={<AlphaNumericTest />} />
           <Route path="/reasoning/statement-conclusions" element={<StatementConclusions />} />

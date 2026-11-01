@@ -65,6 +65,13 @@ export const SPEED_MATH_GAMES = [
     to: '/speed-math/twin-number-products',
     icon: '⨯',
   },
+  {
+    id: 'lcm-hcf-simplification',
+    title: 'LCM, HCF & Simplification',
+    description: 'LCM/HCF of 2-3 numbers and BODMAS simplification, e.g. LCM(12, 18) or 48 ÷ 6 + 7 × 3.',
+    to: '/speed-math/lcm-hcf-simplification',
+    icon: '∑',
+  },
 ]
 
 export default function SpeedMath() {
