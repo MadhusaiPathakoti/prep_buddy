@@ -9,11 +9,11 @@ export function shuffle<T>(arr: T[]): T[] {
   return a
 }
 
-/** Multiplication questions for the selected "tables" (e.g. 28's table) crossed with 1..30. */
-export function generateTablesQuestions(tables: number[], multiplierMax: number, count: number): Question[] {
+/** Multiplication questions for the selected "tables" (e.g. 28's table) crossed with the multiplier range multiplierMin..multiplierMax (e.g. 15 × 11 … 15 × 20). */
+export function generateTablesQuestions(tables: number[], multiplierMin: number, multiplierMax: number, count: number): Question[] {
   const pool: Question[] = []
   for (const a of tables) {
-    for (let b = 1; b <= multiplierMax; b++) {
+    for (let b = multiplierMin; b <= multiplierMax; b++) {
       const answer = a * b
       pool.push({ id: `${a}x${b}`, prompt: `${a} × ${b}`, answer, displayAnswer: String(answer) })
     }

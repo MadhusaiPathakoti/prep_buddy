@@ -7,10 +7,18 @@ import type { Question } from '../../lib/types'
 
 const ALL_TABLES = Array.from({ length: 30 }, (_, i) => i + 1)
 const QUESTION_COUNTS = [10, 20, 30, 50, 100]
-const MULTIPLIER_MAXES = [10, 20, 30]
+const MAX_MULTIPLIER = 30
+const MULTIPLIER_RANGES: [number, number][] = [
+  [1, 10],
+  [11, 20],
+  [21, 30],
+  [1, 20],
+  [1, 30],
+]
 
 export default function TablesPractice() {
   const [selected, setSelected] = useState<Set<number>>(new Set([11, 12, 13, 14, 15, 16, 17, 18, 19, 20]))
+  const [multiplierMin, setMultiplierMin] = useState(1)
   const [multiplierMax, setMultiplierMax] = useState(30)
   const [count, setCount] = useState(20)
   const [questions, setQuestions] = useState<Question[] | null>(null)
@@ -29,12 +37,15 @@ export default function TablesPractice() {
     setSelected(new Set(ALL_TABLES.slice(from - 1, to)))
   }
 
+  const rangeValid = multiplierMin >= 1 && multiplierMax <= MAX_MULTIPLIER && multiplierMin <= multiplierMax
+  const canStart = selected.size > 0 && rangeValid
+
   function newQuestions() {
-    return generateTablesQuestions([...selected].sort((a, b) => a - b), multiplierMax, count)
+    return generateTablesQuestions([...selected].sort((a, b) => a - b), multiplierMin, multiplierMax, count)
   }
 
   function start() {
-    if (selected.size === 0) return
+    if (!canStart) return
     setQuestions(newQuestions())
     setSessionKey((k) => k + 1)
   }
@@ -62,7 +73,7 @@ export default function TablesPractice() {
       </Link>
       <h1 className="mt-2 text-3xl font-extrabold text-slate-900 dark:text-slate-100">Tables Practice</h1>
       <p className="mt-2 text-slate-500 dark:text-slate-400">
-        Pick which tables to practice (e.g. 28's table = 28 × 1, 28 × 2 … 28 × 30) and how far to multiply. Don't know a table well? Just skip it during the round.
+        Pick which tables to practice (e.g. 28's table = 28 × 1, 28 × 2 … 28 × 30) and the multiplier range (e.g. 15 × 11 to 15 × 20). Don't know a table well? Just skip it during the round.
       </p>
 
       <div className="mt-8 rounded-3xl bg-white dark:bg-slate-800 p-6 shadow-sm ring-1 ring-slate-200 dark:ring-slate-700">
@@ -92,18 +103,31 @@ export default function TablesPractice() {
           ))}
         </div>
 
-        <h2 className="mt-6 font-semibold text-slate-800 dark:text-slate-200">Multiply up to</h2>
+        <h2 className="mt-6 font-semibold text-slate-800 dark:text-slate-200">Multiply range</h2>
+        <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
+          e.g. 11 to 20 practices 15 × 11 … 15 × 20
+        </p>
+        <div className="mt-3 flex items-center gap-2">
+          <RangeInput label="From" value={multiplierMin} onChange={setMultiplierMin} />
+          <span className="text-slate-500 dark:text-slate-400">to</span>
+          <RangeInput label="To" value={multiplierMax} onChange={setMultiplierMax} />
+        </div>
         <div className="mt-3 flex flex-wrap gap-2">
-          {MULTIPLIER_MAXES.map((m) => (
+          {MULTIPLIER_RANGES.map(([from, to]) => (
             <button
-              key={m}
-              onClick={() => setMultiplierMax(m)}
+              key={`${from}-${to}`}
+              onClick={() => {
+                setMultiplierMin(from)
+                setMultiplierMax(to)
+              }}
               className={[
                 'rounded-lg px-4 py-2 text-sm font-semibold transition',
-                multiplierMax === m ? 'bg-indigo-600 text-white' : 'bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-200',
+                multiplierMin === from && multiplierMax === to
+                  ? 'bg-indigo-600 text-white'
+                  : 'bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-200',
               ].join(' ')}
             >
-              × {m}
+              × {from}–{to}
             </button>
           ))}
         </div>
@@ -126,15 +150,32 @@ export default function TablesPractice() {
 
         <button
           onClick={start}
-          disabled={selected.size === 0}
+          disabled={!canStart}
           className="mt-8 w-full rounded-xl bg-indigo-600 px-4 py-3 font-semibold text-white shadow-sm transition hover:bg-indigo-500 active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-40"
         >
           {selected.size === 0
             ? 'Select at least one table'
-            : `Start · ${selected.size} table${selected.size > 1 ? 's' : ''} · up to ×${multiplierMax} · ${count} questions`}
+            : !rangeValid
+              ? `Pick a valid range (1–${MAX_MULTIPLIER}, start ≤ end)`
+              : `Start · ${selected.size} table${selected.size > 1 ? 's' : ''} · ×${multiplierMin} to ×${multiplierMax} · ${count} questions`}
         </button>
       </div>
     </div>
+  )
+}
+
+function RangeInput({ label, value, onChange }: { label: string; value: number; onChange: (n: number) => void }) {
+  return (
+    <input
+      type="number"
+      inputMode="numeric"
+      min={1}
+      max={MAX_MULTIPLIER}
+      aria-label={label}
+      value={Number.isNaN(value) ? '' : value}
+      onChange={(e) => onChange(e.target.value === '' ? NaN : Math.floor(Number(e.target.value)))}
+      className="w-20 rounded-lg bg-slate-100 dark:bg-slate-700 px-3 py-2 text-center text-sm font-semibold text-slate-800 dark:text-slate-100 outline-none ring-1 ring-slate-200 dark:ring-slate-600 focus:ring-2 focus:ring-indigo-500"
+    />
   )
 }
 
