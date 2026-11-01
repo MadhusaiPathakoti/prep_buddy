@@ -225,7 +225,9 @@ export function generateSubtractionQuestions(lhsDigits: DigitLength, rhsDigits: 
  * divisor (rhs), e.g. double ÷ single: 84 ÷ 7 = 12. A divisor and quotient are picked
  * first, then the dividend is derived as their product so it always divides evenly and
  * still fits the chosen dividend digit length, since the numeric input only accepts
- * whole-number digits.
+ * whole-number digits. The quotient is at least 2 so questions never degenerate into
+ * "N ÷ N" (which otherwise dominates when both sides have the same digit length, since
+ * large divisors only fit a quotient of 1); divisors too large for that are skipped.
  */
 export function generateDivisionQuestions(lhsDigits: DigitLength, rhsDigits: DigitLength, count: number): Question[] {
   const dividendMin = lhsDigits === 1 ? 1 : 10 ** (lhsDigits - 1)
@@ -237,7 +239,7 @@ export function generateDivisionQuestions(lhsDigits: DigitLength, rhsDigits: Dig
   while (questions.length < count && attempts < maxAttempts) {
     attempts++
     const divisor = randomForDigitLength(rhsDigits)
-    const qMin = Math.max(1, Math.ceil(dividendMin / divisor))
+    const qMin = Math.max(2, Math.ceil(dividendMin / divisor))
     const qMax = Math.floor(dividendMax / divisor)
     if (qMax < qMin) continue
     const quotient = Math.floor(Math.random() * (qMax - qMin + 1)) + qMin
