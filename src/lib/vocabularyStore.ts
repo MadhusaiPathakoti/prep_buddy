@@ -1,12 +1,13 @@
 import { createSharedBank } from './sharedBank'
 import { VOCAB_BANK } from '../data/vocabulary'
 
-const vocabBank = createSharedBank(VOCAB_BANK, 'vocabularyHiddenSeedWords', 'vocabularyCustomWords')
+const vocabBank = createSharedBank(VOCAB_BANK, 'vocabularyHiddenSeedWords', 'vocabularyCustomWords', 'vocabularyDifficultyOverrides')
 
 export const getCustomWords = vocabBank.getCustomEntries
 export const addCustomWord = vocabBank.addCustomEntry
 export const getCustomWordById = vocabBank.getCustomEntryById
 export const deleteWord = vocabBank.deleteEntry
+export const updateWordDifficulty = vocabBank.updateDifficulty
 /** The seed vocabulary bank plus every word any visitor has added, minus anything deleted — shared across all visitors. */
 export const getFullVocabBank = vocabBank.getFullBank
 /** Like getFullVocabBank, but the custom half is capped — for building a quiz's question pool. */

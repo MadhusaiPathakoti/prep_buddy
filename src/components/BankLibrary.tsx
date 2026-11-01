@@ -1,9 +1,12 @@
 import { useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { getFavoriteIds, toggleFavorite } from '../lib/favorites'
+import FavoriteRecencyChips from './FavoriteRecencyChips'
+import { formatFavoritedDate, getFavorites, isFavoritedWithin, toggleFavorite, type FavoriteMap } from '../lib/favorites'
 import type { BankEntry, Difficulty } from '../lib/types'
 
 type FilterId = Difficulty | 'all' | 'favorites' | 'yours'
+
+const DIFFICULTIES: Difficulty[] = ['easy', 'medium', 'hard']
 
 const BASE_FILTERS: { id: FilterId; label: string }[] = [
   { id: 'all', label: 'All' },
@@ -13,7 +16,7 @@ const BASE_FILTERS: { id: FilterId; label: string }[] = [
   { id: 'favorites', label: '★ Favourites' },
 ]
 
-type SortField = 'alphabetical' | 'added' | 'difficulty'
+type SortField = 'alphabetical' | 'added' | 'difficulty' | 'favorited'
 type SortDirection = 'asc' | 'desc'
 
 const SORT_FIELDS: { id: SortField; label: string }[] = [
@@ -21,16 +24,21 @@ const SORT_FIELDS: { id: SortField; label: string }[] = [
   { id: 'added', label: 'Added date' },
   { id: 'difficulty', label: 'Difficulty' },
 ]
+/** Only offered while viewing favourites, since other entries have no favourited date. */
+const FAVORITED_SORT_FIELD: { id: SortField; label: string } = { id: 'favorited', label: 'Favourited date' }
 
 const DIFFICULTY_RANK: Record<Difficulty, number> = { easy: 0, medium: 1, hard: 2 }
 
-/** Entries without `createdAt` sort as the oldest, in either direction. */
-function compareEntries(a: BankEntry, b: BankEntry, field: SortField): number {
+function timeOf(iso: string | null | undefined): number {
+  return iso ? new Date(iso).getTime() : 0
+}
+
+/** Entries without `createdAt` (or an unknown favourited date) sort as the oldest, in either direction. */
+function compareEntries(a: BankEntry, b: BankEntry, field: SortField, favorites: FavoriteMap): number {
   if (field === 'alphabetical') return a.term.localeCompare(b.term)
   if (field === 'difficulty') return DIFFICULTY_RANK[a.difficulty] - DIFFICULTY_RANK[b.difficulty]
-  const aTime = a.createdAt ? new Date(a.createdAt).getTime() : 0
-  const bTime = b.createdAt ? new Date(b.createdAt).getTime() : 0
-  return aTime - bTime
+  if (field === 'favorited') return timeOf(favorites.get(a.id)) - timeOf(favorites.get(b.id))
+  return timeOf(a.createdAt) - timeOf(b.createdAt)
 }
 
 function difficultyBadge(d: Difficulty) {
@@ -48,22 +56,53 @@ interface BankLibraryProps {
   nounPlural: string
   addAction?: { to: string; label: string }
   onDelete?: (entry: BankEntry) => void
+  /** When provided, each card's difficulty badge becomes a picker that calls this to save the new level. */
+  onChangeDifficulty?: (entry: BankEntry, difficulty: Difficulty) => Promise<void>
   /** Label for the `meaning` field when an entry also has its own `definition` (e.g. "Opposite", "Synonym"). */
   answerLabel?: string
 }
 
-export default function BankLibrary({ bank, bankKey, backTo, backLabel, title, nounPlural, addAction, onDelete, answerLabel }: BankLibraryProps) {
+export default function BankLibrary({ bank, bankKey, backTo, backLabel, title, nounPlural, addAction, onDelete, onChangeDifficulty, answerLabel }: BankLibraryProps) {
   const [filter, setFilter] = useState<FilterId>('all')
   const [query, setQuery] = useState('')
   const [sortField, setSortField] = useState<SortField>('alphabetical')
   const [sortDirection, setSortDirection] = useState<SortDirection>('asc')
   const [confirmingId, setConfirmingId] = useState<string | null>(null)
-  const [favorites, setFavorites] = useState<Set<string>>(() => getFavoriteIds(bankKey))
+  const [favorites, setFavorites] = useState<FavoriteMap>(() => getFavorites(bankKey))
+  const [favoriteRecency, setFavoriteRecency] = useState<number | null>(null)
+  const [savingDifficultyId, setSavingDifficultyId] = useState<string | null>(null)
+  const [difficultyError, setDifficultyError] = useState('')
 
   function handleToggleFavorite(id: string) {
     setFavorites((prev) => toggleFavorite(bankKey, id, prev))
   }
 
+  async function handleChangeDifficulty(entry: BankEntry, difficulty: Difficulty) {
+    if (!onChangeDifficulty || difficulty === entry.difficulty) return
+    setSavingDifficultyId(entry.id)
+    setDifficultyError('')
+    try {
+      await onChangeDifficulty(entry, difficulty)
+    } catch {
+      setDifficultyError(`Could not change the difficulty of "${entry.term}". Check your connection and try again.`)
+    } finally {
+      setSavingDifficultyId(null)
+    }
+  }
+
+  /** Favourites open newest-first (that's what you'd revise); leaving them drops the favourites-only sort. */
+  function selectFilter(next: FilterId) {
+    setFilter(next)
+    if (next === 'favorites') {
+      setSortField('favorited')
+      setSortDirection('desc')
+    } else if (sortField === 'favorited') {
+      setSortField('alphabetical')
+      setSortDirection('asc')
+    }
+  }
+
+  const sortFields = filter === 'favorites' ? [...SORT_FIELDS, FAVORITED_SORT_FIELD] : SORT_FIELDS
   const filters = addAction ? [...BASE_FILTERS, { id: 'yours' as const, label: 'Yours' }] : BASE_FILTERS
 
   const entries = useMemo(() => {
@@ -71,16 +110,16 @@ export default function BankLibrary({ bank, bankKey, backTo, backLabel, title, n
     return bank
       .filter((w) => {
         if (filter === 'all') return true
-        if (filter === 'favorites') return favorites.has(w.id)
+        if (filter === 'favorites') return isFavoritedWithin(favorites, w.id, favoriteRecency)
         if (filter === 'yours') return w.id.startsWith('custom-')
         return w.difficulty === filter
       })
       .filter((w) => q === '' || w.term.toLowerCase().includes(q) || w.meaning.toLowerCase().includes(q))
       .sort((a, b) => {
-        const cmp = compareEntries(a, b, sortField)
+        const cmp = compareEntries(a, b, sortField, favorites)
         return sortDirection === 'asc' ? cmp : -cmp
       })
-  }, [bank, filter, query, favorites, sortField, sortDirection])
+  }, [bank, filter, query, favorites, favoriteRecency, sortField, sortDirection])
 
   return (
     <div className="mx-auto max-w-3xl px-4 py-10">
@@ -108,7 +147,7 @@ export default function BankLibrary({ bank, bankKey, backTo, backLabel, title, n
           {filters.map((f) => (
             <button
               key={f.id}
-              onClick={() => setFilter(f.id)}
+              onClick={() => selectFilter(f.id)}
               className={[
                 'rounded-lg px-3 py-1.5 text-sm font-semibold transition',
                 filter === f.id ? 'bg-indigo-600 text-white' : 'bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-200',
@@ -126,9 +165,16 @@ export default function BankLibrary({ bank, bankKey, backTo, backLabel, title, n
         />
       </div>
 
+      {filter === 'favorites' && (
+        <div className="mt-4 flex flex-wrap items-center gap-2">
+          <span className="text-sm font-semibold text-slate-800 dark:text-slate-200">Favourited</span>
+          <FavoriteRecencyChips value={favoriteRecency} onChange={setFavoriteRecency} compact />
+        </div>
+      )}
+
       <div className="mt-4 flex flex-wrap items-center gap-2">
         <span className="text-sm font-semibold text-slate-800 dark:text-slate-200">Sort by</span>
-        {SORT_FIELDS.map((s) => (
+        {sortFields.map((s) => (
           <button
             key={s.id}
             onClick={() => setSortField(s.id)}
@@ -149,9 +195,14 @@ export default function BankLibrary({ bank, bankKey, backTo, backLabel, title, n
         </button>
       </div>
 
+      {difficultyError && (
+        <p className="mt-4 rounded-lg bg-rose-50 dark:bg-rose-500/10 px-4 py-3 text-sm text-rose-700 dark:text-rose-300">{difficultyError}</p>
+      )}
+
       <div className="mt-6 grid gap-3 sm:grid-cols-2">
         {entries.map((w) => {
           const isFavorite = favorites.has(w.id)
+          const favoritedAt = favorites.get(w.id)
           return (
             <div key={w.id} className="rounded-2xl bg-white dark:bg-slate-800 p-4 shadow-sm ring-1 ring-slate-200 dark:ring-slate-700">
               <div className="flex items-center justify-between gap-2">
@@ -173,11 +224,32 @@ export default function BankLibrary({ bank, bankKey, backTo, backLabel, title, n
                   {w.id.startsWith('custom-') && (
                     <span className="rounded-full bg-indigo-100 dark:bg-indigo-500/15 px-2 py-0.5 text-xs font-semibold text-indigo-700 dark:text-indigo-300">Yours</span>
                   )}
-                  <span className={`rounded-full px-2 py-0.5 text-xs font-semibold capitalize ${difficultyBadge(w.difficulty)}`}>
-                    {w.difficulty}
-                  </span>
+                  {onChangeDifficulty ? (
+                    <select
+                      value={w.difficulty}
+                      disabled={savingDifficultyId === w.id}
+                      onChange={(e) => handleChangeDifficulty(w, e.target.value as Difficulty)}
+                      aria-label={`Change difficulty of ${w.term}`}
+                      className={`cursor-pointer rounded-full px-2 py-0.5 text-xs font-semibold capitalize outline-none disabled:cursor-wait disabled:opacity-60 ${difficultyBadge(w.difficulty)}`}
+                    >
+                      {DIFFICULTIES.map((d) => (
+                        <option key={d} value={d} className="bg-white text-slate-800 dark:bg-slate-800 dark:text-slate-100">
+                          {d.charAt(0).toUpperCase() + d.slice(1)}
+                        </option>
+                      ))}
+                    </select>
+                  ) : (
+                    <span className={`rounded-full px-2 py-0.5 text-xs font-semibold capitalize ${difficultyBadge(w.difficulty)}`}>
+                      {w.difficulty}
+                    </span>
+                  )}
                 </div>
               </div>
+              {isFavorite && (
+                <p className="mt-1 text-xs text-amber-500 dark:text-amber-400">
+                  {favoritedAt ? `★ Favourited ${formatFavoritedDate(favoritedAt)}` : '★ Favourited earlier'}
+                </p>
+              )}
               {w.definition ? (
                 <>
                   <p className="mt-1 text-sm text-slate-600 dark:text-slate-300">{w.definition}</p>
@@ -228,7 +300,11 @@ export default function BankLibrary({ bank, bankKey, backTo, backLabel, title, n
           )
         })}
         {entries.length === 0 && filter === 'favorites' && (
-          <p className="text-slate-400 dark:text-slate-500">No favourites yet — tap the ☆ on any card to save it here for daily revision.</p>
+          <p className="text-slate-400 dark:text-slate-500">
+            {favoriteRecency !== null && favorites.size > 0
+              ? `Nothing favourited in the last ${favoriteRecency} ${favoriteRecency === 1 ? 'day' : 'days'} — try a longer window.`
+              : 'No favourites yet — tap the ☆ on any card to save it here for daily revision.'}
+          </p>
         )}
         {entries.length === 0 && filter === 'yours' && (
           <p className="text-slate-400 dark:text-slate-500">You haven't added any {nounPlural} yet — use "+ Add" above to add one.</p>

@@ -37,7 +37,7 @@ export default function AddIdiom() {
 
   function handleToggleDuplicateFavorite() {
     if (!duplicate) return
-    const next = toggleFavorite(BANK_KEY, duplicate.id, getFavoriteIds(BANK_KEY))
+    const next = toggleFavorite(BANK_KEY, duplicate.id)
     setDuplicateIsFavorite(next.has(duplicate.id))
   }
 
@@ -76,7 +76,7 @@ export default function AddIdiom() {
       }
       await addCustomIdiom(entry)
       // New idioms are automatically starred for daily revision.
-      toggleFavorite(BANK_KEY, entry.id, getFavoriteIds(BANK_KEY))
+      toggleFavorite(BANK_KEY, entry.id)
       setAdded(entry)
       setStatus('success')
       setIdiom('')

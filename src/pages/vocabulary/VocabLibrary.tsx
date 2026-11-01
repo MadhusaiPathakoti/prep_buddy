@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import BankLibrary from '../../components/BankLibrary'
-import { deleteWord, getFullVocabBank } from '../../lib/vocabularyStore'
-import type { BankEntry } from '../../lib/types'
+import { deleteWord, getFullVocabBank, updateWordDifficulty } from '../../lib/vocabularyStore'
+import type { BankEntry, Difficulty } from '../../lib/types'
 
 export default function VocabLibrary() {
   const [bank, setBank] = useState<BankEntry[] | null>(null)
@@ -25,6 +25,11 @@ export default function VocabLibrary() {
   async function handleDelete(entry: BankEntry) {
     await deleteWord(entry.id)
     setBank((prev) => (prev ? prev.filter((w) => w.id !== entry.id) : prev))
+  }
+
+  async function handleChangeDifficulty(entry: BankEntry, difficulty: Difficulty) {
+    await updateWordDifficulty(entry.id, difficulty)
+    setBank((prev) => (prev ? prev.map((w) => (w.id === entry.id ? { ...w, difficulty } : w)) : prev))
   }
 
   if (error) {
@@ -59,6 +64,7 @@ export default function VocabLibrary() {
       nounPlural="words"
       addAction={{ to: '/english/vocabulary/add', label: '+ Add a word' }}
       onDelete={handleDelete}
+      onChangeDifficulty={handleChangeDifficulty}
     />
   )
 }

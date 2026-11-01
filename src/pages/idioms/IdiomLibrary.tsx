@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import BankLibrary from '../../components/BankLibrary'
-import { deleteIdiom, getFullIdiomsBank } from '../../lib/idiomsStore'
-import type { BankEntry } from '../../lib/types'
+import { deleteIdiom, getFullIdiomsBank, updateIdiomDifficulty } from '../../lib/idiomsStore'
+import type { BankEntry, Difficulty } from '../../lib/types'
 
 export default function IdiomLibrary() {
   const [bank, setBank] = useState<BankEntry[] | null>(null)
@@ -25,6 +25,11 @@ export default function IdiomLibrary() {
   async function handleDelete(entry: BankEntry) {
     await deleteIdiom(entry.id)
     setBank((prev) => (prev ? prev.filter((w) => w.id !== entry.id) : prev))
+  }
+
+  async function handleChangeDifficulty(entry: BankEntry, difficulty: Difficulty) {
+    await updateIdiomDifficulty(entry.id, difficulty)
+    setBank((prev) => (prev ? prev.map((w) => (w.id === entry.id ? { ...w, difficulty } : w)) : prev))
   }
 
   if (error) {
@@ -59,6 +64,7 @@ export default function IdiomLibrary() {
       nounPlural="idioms"
       addAction={{ to: '/english/idioms/add', label: '+ Add an idiom' }}
       onDelete={handleDelete}
+      onChangeDifficulty={handleChangeDifficulty}
     />
   )
 }

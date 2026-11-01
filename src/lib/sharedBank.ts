@@ -1,5 +1,6 @@
-import { collection, deleteDoc, doc, getCountFromServer, getDoc, getDocs, limit, query, setDoc } from 'firebase/firestore'
+import { collection, deleteDoc, doc, getCountFromServer, getDoc, getDocs, limit, query, setDoc, updateDoc } from 'firebase/firestore'
 import { db } from './firebase'
+import type { Difficulty } from './types'
 
 const REQUEST_TIMEOUT_MS = 5000
 
@@ -31,9 +32,18 @@ interface CacheEntry<T> {
  * with the app, plus (optionally) entries visitors can add, minus anything any visitor has
  * permanently deleted. Deleting a seed entry can't edit the bundled code, so it's recorded
  * as "hidden" instead and filtered out of every future read. Works with any entry shape
- * that has a string `id` (BankEntry, WordEntry, ...).
+ * that has a string `id` and a `difficulty` (BankEntry, WordEntry, ...).
+ *
+ * Changing the difficulty of a seed entry is likewise recorded as an override (in
+ * `difficultyCollection`) that's applied on top of the bundled data on every read, while a
+ * custom entry just has its own document updated.
  */
-export function createSharedBank<T extends { id: string }>(seedBank: T[], hiddenCollection: string, customCollection: string | null = null) {
+export function createSharedBank<T extends { id: string; difficulty: Difficulty }>(
+  seedBank: T[],
+  hiddenCollection: string,
+  customCollection: string | null = null,
+  difficultyCollection: string | null = null,
+) {
   // The custom collection only grows (more visitors adding entries over time), so fetching it
   // in full is the one thing here that gets slower as the bank does — caching for a minute
   // means clicking between Library, Quiz, and Add during one visit doesn't re-download it
@@ -42,6 +52,7 @@ export function createSharedBank<T extends { id: string }>(seedBank: T[], hidden
   // lapses, without needing a full page reload.
   let customCache: CacheEntry<T[]> | null = null
   let hiddenCache: CacheEntry<Set<string>> | null = null
+  let difficultyCache: CacheEntry<Map<string, Difficulty>> | null = null
 
   async function getCustomEntries(): Promise<T[]> {
     if (!customCollection) return []
@@ -92,6 +103,46 @@ export function createSharedBank<T extends { id: string }>(seedBank: T[], hidden
     return data
   }
 
+  /**
+   * Difficulty changes made to seed entries, by id. A failed read just means "no overrides"
+   * (bundled difficulties) rather than failing the whole bank load, since this is a
+   * refinement on top of data that's still perfectly usable without it.
+   */
+  async function getDifficultyOverrides(): Promise<Map<string, Difficulty>> {
+    if (!difficultyCollection) return new Map()
+    if (difficultyCache && difficultyCache.expiresAt > Date.now()) return difficultyCache.data
+    try {
+      const snapshot = await withTimeout(getDocs(collection(db, difficultyCollection)), 'Timed out loading difficulty changes.')
+      const data = new Map<string, Difficulty>()
+      snapshot.docs.forEach((d) => {
+        const value = d.data().difficulty
+        if (value === 'easy' || value === 'medium' || value === 'hard') data.set(d.id, value)
+      })
+      difficultyCache = { data, expiresAt: Date.now() + CACHE_TTL_MS }
+      return data
+    } catch {
+      return new Map()
+    }
+  }
+
+  /** Seed entries (minus any hidden ones) with their shared difficulty changes applied. */
+  async function getVisibleSeedEntries(): Promise<T[]> {
+    const [hiddenIds, overrides] = await Promise.all([getHiddenIds(), getDifficultyOverrides()])
+    return seedBank.filter((w) => !hiddenIds.has(w.id)).map((w) => (overrides.has(w.id) ? { ...w, difficulty: overrides.get(w.id)! } : w))
+  }
+
+  /** Changes one entry's difficulty for every visitor. */
+  async function updateDifficulty(id: string, difficulty: Difficulty): Promise<void> {
+    if (customCollection && id.startsWith('custom-')) {
+      await withTimeout(updateDoc(doc(db, customCollection, id), { difficulty }), 'Timed out updating that entry.')
+      customCache = null
+    } else {
+      if (!difficultyCollection) throw new Error('Changing difficulty is not supported for this bank.')
+      await withTimeout(setDoc(doc(db, difficultyCollection, id), { difficulty, updatedAt: Date.now() }), 'Timed out updating that entry.')
+      difficultyCache = null
+    }
+  }
+
   /** Permanently removes an entry from the shared bank for every visitor. */
   async function deleteEntry(id: string): Promise<void> {
     if (customCollection && id.startsWith('custom-')) {
@@ -119,15 +170,15 @@ export function createSharedBank<T extends { id: string }>(seedBank: T[], hidden
   }
 
   async function getFullBank(): Promise<T[]> {
-    const [customEntries, hiddenIds] = await Promise.all([getCustomEntries(), getHiddenIds()])
-    return [...customEntries, ...seedBank.filter((w) => !hiddenIds.has(w.id))]
+    const [customEntries, seedEntries] = await Promise.all([getCustomEntries(), getVisibleSeedEntries()])
+    return [...customEntries, ...seedEntries]
   }
 
   /** Like getFullBank, but the custom half is capped — for building a quiz's question pool, which doesn't need every entry ever added, just enough to draw a good random sample from. */
   async function getFullBankCapped(): Promise<T[]> {
-    const [customEntries, hiddenIds] = await Promise.all([getCustomEntriesCapped(QUIZ_POOL_CAP), getHiddenIds()])
-    return [...customEntries, ...seedBank.filter((w) => !hiddenIds.has(w.id))]
+    const [customEntries, seedEntries] = await Promise.all([getCustomEntriesCapped(QUIZ_POOL_CAP), getVisibleSeedEntries()])
+    return [...customEntries, ...seedEntries]
   }
 
-  return { getCustomEntries, addCustomEntry, getCustomEntryById, deleteEntry, getFullBank, getFullBankCapped, getTotalCount }
+  return { getCustomEntries, addCustomEntry, getCustomEntryById, deleteEntry, updateDifficulty, getFullBank, getFullBankCapped, getTotalCount }
 }

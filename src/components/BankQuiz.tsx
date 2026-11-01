@@ -2,7 +2,8 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import MCQQuizRunner from './MCQQuizRunner'
 import { generateMCQQuestions, type MCQQuestion } from '../lib/generators'
-import { getFavoriteIds } from '../lib/favorites'
+import FavoriteRecencyChips from './FavoriteRecencyChips'
+import { getFavorites, isFavoritedWithin } from '../lib/favorites'
 import type { BankEntry, Difficulty } from '../lib/types'
 
 type Toughness = Difficulty | 'mixed'
@@ -52,24 +53,27 @@ export default function BankQuiz({ gameId, bankKey, bank, backTo, backLabel, tit
   const [difficulty, setDifficulty] = useState<Toughness>('easy')
   const [count, setCount] = useState(10)
   const [favoritesOnly, setFavoritesOnly] = useState(false)
+  const [favoriteRecency, setFavoriteRecency] = useState<number | null>(null)
   const [freshnessUnit, setFreshnessUnit] = useState<FreshnessUnit>('any')
   const [freshnessAmount, setFreshnessAmount] = useState(7)
   const [questions, setQuestions] = useState<MCQQuestion[] | null>(null)
   const [sessionKey, setSessionKey] = useState(0)
 
   const hasCreatedAt = bank.some((w) => w.createdAt)
-  const favoriteIds = getFavoriteIds(bankKey)
-  const hasFavorites = favoriteIds.size > 0
+  const favorites = getFavorites(bankKey)
+  const hasFavorites = favorites.size > 0
 
   const freshBank =
     freshnessUnit === 'any'
       ? bank
       : bank.filter((w) => w.createdAt && Date.now() - new Date(w.createdAt).getTime() <= freshnessWindowMs(freshnessUnit, freshnessAmount))
-  const activeBank = favoritesOnly ? freshBank.filter((w) => favoriteIds.has(w.id)) : freshBank
+  const activeBank = favoritesOnly ? freshBank.filter((w) => isFavoritedWithin(favorites, w.id, favoriteRecency)) : freshBank
   const poolSize = difficulty === 'mixed' ? activeBank.length : activeBank.filter((w) => w.difficulty === difficulty).length
   const canStart = poolSize > 0
   const difficultyLabel = difficulty === 'mixed' ? 'all difficulties' : `${difficulty} difficulty`
   const freshnessLabel = freshnessUnit === 'any' ? '' : ` added in the last ${freshnessAmount} ${freshnessUnit}`
+  const favoritedLabel =
+    favoritesOnly && favoriteRecency !== null ? ` favourited in the last ${favoriteRecency} ${favoriteRecency === 1 ? 'day' : 'days'}` : ''
 
   function changeFreshnessUnit(unit: FreshnessUnit) {
     setFreshnessUnit(unit)
@@ -141,6 +145,14 @@ export default function BankQuiz({ gameId, bankKey, bank, backTo, backLabel, tit
             revise, then come back to quiz yourself on them.
           </p>
         )}
+        {favoritesOnly && hasFavorites && (
+          <>
+            <h2 className="mt-6 font-semibold text-slate-800 dark:text-slate-200">Favourited within</h2>
+            <div className="mt-3">
+              <FavoriteRecencyChips value={favoriteRecency} onChange={setFavoriteRecency} />
+            </div>
+          </>
+        )}
 
         {hasCreatedAt && (
           <>
@@ -197,6 +209,7 @@ export default function BankQuiz({ gameId, bankKey, bank, backTo, backLabel, tit
         <p className="mt-2 text-xs text-slate-400 dark:text-slate-500">
           {poolSize} {favoritesOnly ? 'favourite ' : ''}
           {noun} available at {difficultyLabel}
+          {favoritedLabel}
           {freshnessLabel}.
         </p>
 
@@ -209,7 +222,7 @@ export default function BankQuiz({ gameId, bankKey, bank, backTo, backLabel, tit
             ? `Start · ${difficulty} · ${Math.min(count, poolSize)} questions`
             : favoritesOnly && !hasFavorites
               ? 'Add favourites first'
-              : `No ${favoritesOnly ? 'favourite ' : ''}${noun} at ${difficultyLabel}${freshnessLabel}`}
+              : `No ${favoritesOnly ? 'favourite ' : ''}${noun} at ${difficultyLabel}${favoritedLabel}${freshnessLabel}`}
         </button>
       </div>
     </div>

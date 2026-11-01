@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import BankLibrary from '../../components/BankLibrary'
-import { deleteOneWordEntry, getFullOneWordBank } from '../../lib/oneWordStore'
-import type { BankEntry } from '../../lib/types'
+import { deleteOneWordEntry, getFullOneWordBank, updateOneWordDifficulty } from '../../lib/oneWordStore'
+import type { BankEntry, Difficulty } from '../../lib/types'
 
 export default function OneWordLibrary() {
   const [bank, setBank] = useState<BankEntry[] | null>(null)
@@ -25,6 +25,11 @@ export default function OneWordLibrary() {
   async function handleDelete(entry: BankEntry) {
     await deleteOneWordEntry(entry.id)
     setBank((prev) => (prev ? prev.filter((w) => w.id !== entry.id) : prev))
+  }
+
+  async function handleChangeDifficulty(entry: BankEntry, difficulty: Difficulty) {
+    await updateOneWordDifficulty(entry.id, difficulty)
+    setBank((prev) => (prev ? prev.map((w) => (w.id === entry.id ? { ...w, difficulty } : w)) : prev))
   }
 
   if (error) {
@@ -59,6 +64,7 @@ export default function OneWordLibrary() {
       nounPlural="phrases"
       addAction={{ to: '/english/one-word-substitution/add', label: '+ Add a word' }}
       onDelete={handleDelete}
+      onChangeDifficulty={handleChangeDifficulty}
     />
   )
 }

@@ -1,10 +1,13 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { deleteWordEntry, getFullWordBank } from '../../lib/wordBankStore'
-import { getFavoriteIds, toggleFavorite } from '../../lib/favorites'
+import FavoriteRecencyChips from '../../components/FavoriteRecencyChips'
+import { deleteWordEntry, getFullWordBank, updateWordEntryDifficulty } from '../../lib/wordBankStore'
+import { formatFavoritedDate, getFavorites, isFavoritedWithin, toggleFavorite, type FavoriteMap } from '../../lib/favorites'
 import type { Difficulty, WordEntry } from '../../lib/types'
 
 const BANK_KEY = 'word-bank'
+
+const DIFFICULTIES: Difficulty[] = ['easy', 'medium', 'hard']
 
 type FilterId = Difficulty | 'all' | 'favorites' | 'yours'
 
@@ -23,7 +26,7 @@ function difficultyBadge(d: Difficulty) {
   return 'bg-rose-100 dark:bg-rose-500/15 text-rose-700 dark:text-rose-300'
 }
 
-type SortField = 'alphabetical' | 'added' | 'difficulty'
+type SortField = 'alphabetical' | 'added' | 'difficulty' | 'favorited'
 type SortDirection = 'asc' | 'desc'
 
 const SORT_FIELDS: { id: SortField; label: string }[] = [
@@ -31,12 +34,20 @@ const SORT_FIELDS: { id: SortField; label: string }[] = [
   { id: 'added', label: 'Added date' },
   { id: 'difficulty', label: 'Difficulty' },
 ]
+/** Only offered while viewing favourites, since other entries have no favourited date. */
+const FAVORITED_SORT_FIELD: { id: SortField; label: string } = { id: 'favorited', label: 'Favourited date' }
 
 const DIFFICULTY_RANK: Record<Difficulty, number> = { easy: 0, medium: 1, hard: 2 }
 
-function compareEntries(a: WordEntry, b: WordEntry, field: SortField): number {
+/** An unknown favourited date sorts as the oldest, in either direction. */
+function timeOf(iso: string | null | undefined): number {
+  return iso ? new Date(iso).getTime() : 0
+}
+
+function compareEntries(a: WordEntry, b: WordEntry, field: SortField, favorites: FavoriteMap): number {
   if (field === 'alphabetical') return a.word.localeCompare(b.word)
   if (field === 'difficulty') return DIFFICULTY_RANK[a.difficulty] - DIFFICULTY_RANK[b.difficulty]
+  if (field === 'favorited') return timeOf(favorites.get(a.id)) - timeOf(favorites.get(b.id))
   return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
 }
 
@@ -56,7 +67,10 @@ export default function WordBankLibrary() {
   const [sortField, setSortField] = useState<SortField>('alphabetical')
   const [sortDirection, setSortDirection] = useState<SortDirection>('asc')
   const [confirmingId, setConfirmingId] = useState<string | null>(null)
-  const [favorites, setFavorites] = useState<Set<string>>(() => getFavoriteIds(BANK_KEY))
+  const [favorites, setFavorites] = useState<FavoriteMap>(() => getFavorites(BANK_KEY))
+  const [favoriteRecency, setFavoriteRecency] = useState<number | null>(null)
+  const [savingDifficultyId, setSavingDifficultyId] = useState<string | null>(null)
+  const [difficultyError, setDifficultyError] = useState('')
 
   useEffect(() => {
     let cancelled = false
@@ -81,13 +95,41 @@ export default function WordBankLibrary() {
     setBank((prev) => (prev ? prev.filter((w) => w.id !== entry.id) : prev))
   }
 
+  async function handleChangeDifficulty(entry: WordEntry, difficulty: Difficulty) {
+    if (difficulty === entry.difficulty) return
+    setSavingDifficultyId(entry.id)
+    setDifficultyError('')
+    try {
+      await updateWordEntryDifficulty(entry.id, difficulty)
+      setBank((prev) => (prev ? prev.map((w) => (w.id === entry.id ? { ...w, difficulty } : w)) : prev))
+    } catch {
+      setDifficultyError(`Could not change the difficulty of "${entry.word}". Check your connection and try again.`)
+    } finally {
+      setSavingDifficultyId(null)
+    }
+  }
+
+  /** Favourites open newest-first (that's what you'd revise); leaving them drops the favourites-only sort. */
+  function selectFilter(next: FilterId) {
+    setFilter(next)
+    if (next === 'favorites') {
+      setSortField('favorited')
+      setSortDirection('desc')
+    } else if (sortField === 'favorited') {
+      setSortField('alphabetical')
+      setSortDirection('asc')
+    }
+  }
+
+  const sortFields = filter === 'favorites' ? [...SORT_FIELDS, FAVORITED_SORT_FIELD] : SORT_FIELDS
+
   const entries = useMemo(() => {
     if (!bank) return []
     const q = query.trim().toLowerCase()
     return bank
       .filter((w) => {
         if (filter === 'all') return true
-        if (filter === 'favorites') return favorites.has(w.id)
+        if (filter === 'favorites') return isFavoritedWithin(favorites, w.id, favoriteRecency)
         if (filter === 'yours') return w.id.startsWith('custom-')
         return w.difficulty === filter
       })
@@ -99,10 +141,10 @@ export default function WordBankLibrary() {
           w.antonyms.some((a) => a.toLowerCase().includes(q)),
       )
       .sort((a, b) => {
-        const cmp = compareEntries(a, b, sortField)
+        const cmp = compareEntries(a, b, sortField, favorites)
         return sortDirection === 'asc' ? cmp : -cmp
       })
-  }, [bank, filter, query, favorites, sortField, sortDirection])
+  }, [bank, filter, query, favorites, favoriteRecency, sortField, sortDirection])
 
   if (error) {
     return (
@@ -150,7 +192,7 @@ export default function WordBankLibrary() {
           {FILTERS.map((f) => (
             <button
               key={f.id}
-              onClick={() => setFilter(f.id)}
+              onClick={() => selectFilter(f.id)}
               className={[
                 'rounded-lg px-3 py-1.5 text-sm font-semibold transition',
                 filter === f.id ? 'bg-indigo-600 text-white' : 'bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-200',
@@ -168,9 +210,16 @@ export default function WordBankLibrary() {
         />
       </div>
 
+      {filter === 'favorites' && (
+        <div className="mt-4 flex flex-wrap items-center gap-2">
+          <span className="text-sm font-semibold text-slate-800 dark:text-slate-200">Favourited</span>
+          <FavoriteRecencyChips value={favoriteRecency} onChange={setFavoriteRecency} compact />
+        </div>
+      )}
+
       <div className="mt-4 flex flex-wrap items-center gap-2">
         <span className="text-sm font-semibold text-slate-800 dark:text-slate-200">Sort by</span>
-        {SORT_FIELDS.map((s) => (
+        {sortFields.map((s) => (
           <button
             key={s.id}
             onClick={() => setSortField(s.id)}
@@ -191,9 +240,14 @@ export default function WordBankLibrary() {
         </button>
       </div>
 
+      {difficultyError && (
+        <p className="mt-4 rounded-lg bg-rose-50 dark:bg-rose-500/10 px-4 py-3 text-sm text-rose-700 dark:text-rose-300">{difficultyError}</p>
+      )}
+
       <div className="mt-6 grid gap-3 sm:grid-cols-2">
         {entries.map((w) => {
           const isFavorite = favorites.has(w.id)
+          const favoritedAt = favorites.get(w.id)
           return (
             <div key={w.id} className="rounded-2xl bg-white dark:bg-slate-800 p-4 shadow-sm ring-1 ring-slate-200 dark:ring-slate-700">
               <div className="flex items-center justify-between gap-2">
@@ -215,11 +269,26 @@ export default function WordBankLibrary() {
                   {w.id.startsWith('custom-') && (
                     <span className="rounded-full bg-indigo-100 dark:bg-indigo-500/15 px-2 py-0.5 text-xs font-semibold text-indigo-700 dark:text-indigo-300">Yours</span>
                   )}
-                  <span className={`rounded-full px-2 py-0.5 text-xs font-semibold capitalize ${difficultyBadge(w.difficulty)}`}>
-                    {w.difficulty}
-                  </span>
+                  <select
+                    value={w.difficulty}
+                    disabled={savingDifficultyId === w.id}
+                    onChange={(e) => handleChangeDifficulty(w, e.target.value as Difficulty)}
+                    aria-label={`Change difficulty of ${w.word}`}
+                    className={`cursor-pointer rounded-full px-2 py-0.5 text-xs font-semibold capitalize outline-none disabled:cursor-wait disabled:opacity-60 ${difficultyBadge(w.difficulty)}`}
+                  >
+                    {DIFFICULTIES.map((d) => (
+                      <option key={d} value={d} className="bg-white text-slate-800 dark:bg-slate-800 dark:text-slate-100">
+                        {d.charAt(0).toUpperCase() + d.slice(1)}
+                      </option>
+                    ))}
+                  </select>
                 </div>
               </div>
+              {isFavorite && (
+                <p className="mt-1 text-xs text-amber-500 dark:text-amber-400">
+                  {favoritedAt ? `★ Favourited ${formatFavoritedDate(favoritedAt)}` : '★ Favourited earlier'}
+                </p>
+              )}
               <p className="mt-1 text-sm text-slate-600 dark:text-slate-300">{w.meaning}</p>
               {w.example && <p className="mt-2 text-xs italic text-slate-400 dark:text-slate-500">"{w.example}"</p>}
 
@@ -270,7 +339,11 @@ export default function WordBankLibrary() {
           )
         })}
         {entries.length === 0 && filter === 'favorites' && (
-          <p className="text-slate-400 dark:text-slate-500">No favourites yet — tap the ☆ on any card to save it here for daily revision.</p>
+          <p className="text-slate-400 dark:text-slate-500">
+            {favoriteRecency !== null && favorites.size > 0
+              ? `Nothing favourited in the last ${favoriteRecency} ${favoriteRecency === 1 ? 'day' : 'days'} — try a longer window.`
+              : 'No favourites yet — tap the ☆ on any card to save it here for daily revision.'}
+          </p>
         )}
         {entries.length === 0 && filter === 'yours' && (
           <p className="text-slate-400 dark:text-slate-500">You haven't added any words yet — use "+ Add a word" above to add one.</p>
