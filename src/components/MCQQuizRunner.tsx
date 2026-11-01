@@ -56,11 +56,13 @@ export default function MCQQuizRunner({ gameId, questions, onExit, onRestart, sh
   const total = questions.length
   const current = questions[index]
 
+  const reviewPrompt = current.instruction ? `${current.instruction}: ${current.term}` : current.term
+
   function recordMiss(skipped: boolean) {
     setReviewItems((items) =>
       items.some((i) => i.id === current.id)
         ? items
-        : [...items, { id: current.id, prompt: current.term, displayAnswer: current.correctMeaning, skipped }],
+        : [...items, { id: current.id, prompt: reviewPrompt, displayAnswer: current.correctMeaning, skipped, note: current.explanation }],
     )
   }
 
@@ -70,7 +72,7 @@ export default function MCQQuizRunner({ gameId, questions, onExit, onRestart, sh
     setCorrectItems((items) =>
       items.some((i) => i.id === current.id)
         ? items
-        : [...items, { id: current.id, prompt: current.term, displayAnswer: current.correctMeaning, skipped: false, correct: true }],
+        : [...items, { id: current.id, prompt: reviewPrompt, displayAnswer: current.correctMeaning, skipped: false, correct: true, note: current.explanation }],
     )
   }
 
@@ -176,6 +178,9 @@ export default function MCQQuizRunner({ gameId, questions, onExit, onRestart, sh
 
       <div className="mt-8 rounded-3xl bg-white dark:bg-slate-800 p-8 shadow-sm ring-1 ring-slate-200 dark:ring-slate-700">
         <div className="text-center">
+          {current.instruction && (
+            <div className="mb-2 text-xs font-semibold uppercase tracking-wide text-indigo-500 dark:text-indigo-400">{current.instruction}</div>
+          )}
           <div className="whitespace-pre-line text-2xl font-bold leading-snug tracking-tight text-slate-900 dark:text-slate-100 sm:text-3xl">{current.term}</div>
 
           {!hintShown && !revealAnswer && (

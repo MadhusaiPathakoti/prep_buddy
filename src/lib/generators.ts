@@ -258,6 +258,10 @@ export interface MCQQuestion {
   correctMeaning: string
   options: string[]
   hint: string
+  /** Short label shown above the term (e.g. "Find the next term"). Optional — other games just show the term. */
+  instruction?: string
+  /** Why the answer is right, shown under the question in the post-game review. Optional. */
+  explanation?: string
 }
 
 /** MCQ questions: pick an entry from a bank (vocabulary, idioms, ...) at the chosen difficulty (or 'mixed' for all difficulties), with 3 wrong meanings as distractors. */

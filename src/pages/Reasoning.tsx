@@ -16,6 +16,13 @@ export const REASONING_GAMES = [
     to: '/reasoning/statement-conclusions',
     icon: '≥',
   },
+  {
+    id: 'number-letter-series',
+    title: 'Number & Letter Series',
+    description: 'Find the next term or spot the wrong one, e.g. 3, 6, 12, 24, ? or B, D, G, K, ?',
+    to: '/reasoning/number-letter-series',
+    icon: '→?',
+  },
 ]
 
 export default function Reasoning() {

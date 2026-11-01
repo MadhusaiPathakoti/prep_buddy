@@ -14,6 +14,7 @@ import TwinNumberProducts from './pages/games/TwinNumberProducts'
 import Reasoning from './pages/Reasoning'
 import AlphaNumericTest from './pages/games/AlphaNumericTest'
 import StatementConclusions from './pages/games/StatementConclusions'
+import NumberLetterSeries from './pages/games/NumberLetterSeries'
 import Quant from './pages/Quant'
 import Divisibility from './pages/games/Divisibility'
 import PercentDegree from './pages/games/PercentDegree'
@@ -66,6 +67,7 @@ export default function App() {
           <Route path="/reasoning" element={<Reasoning />} />
           <Route path="/reasoning/alpha-numeric-test" element={<AlphaNumericTest />} />
           <Route path="/reasoning/statement-conclusions" element={<StatementConclusions />} />
+          <Route path="/reasoning/number-letter-series" element={<NumberLetterSeries />} />
           <Route path="/quant" element={<Quant />} />
           <Route path="/quant/divisibility" element={<Divisibility />} />
           <Route path="/quant/percent-degree" element={<PercentDegree />} />
