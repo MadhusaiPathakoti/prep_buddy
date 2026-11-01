@@ -72,6 +72,13 @@ export const ENGLISH_GAMES = [
     to: '/english/cloze-test',
     icon: '📝',
   },
+  {
+    id: 'para-jumble',
+    title: 'Para Jumbles',
+    description: 'Put 5-6 shuffled sentences back into a coherent paragraph, against the clock — with the clues explained afterward.',
+    to: '/english/para-jumble',
+    icon: '📑',
+  },
 ]
 
 export default function English() {

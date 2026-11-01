@@ -45,6 +45,7 @@ import PhraseRearrangement from './pages/games/PhraseRearrangement'
 import Fillers from './pages/games/Fillers'
 import ErrorDetection from './pages/games/ErrorDetection'
 import ClozeTest from './pages/games/ClozeTest'
+import ParaJumble from './pages/games/ParaJumble'
 import LcmHcfSimplification from './pages/games/LcmHcfSimplification'
 
 export default function App() {
@@ -98,6 +99,7 @@ export default function App() {
           <Route path="/english/fillers" element={<Fillers />} />
           <Route path="/english/error-detection" element={<ErrorDetection />} />
           <Route path="/english/cloze-test" element={<ClozeTest />} />
+          <Route path="/english/para-jumble" element={<ParaJumble />} />
         </Route>
       </Routes>
     </HashRouter>
