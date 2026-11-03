@@ -23,6 +23,13 @@ export const REASONING_GAMES = [
     to: '/reasoning/number-letter-series',
     icon: '→?',
   },
+  {
+    id: 'coding-decoding',
+    title: 'Coding–Decoding',
+    description: 'Coded statements share words and codes — work out which code is which, e.g. the code for \'having\'.',
+    to: '/reasoning/coding-decoding',
+    icon: '⌗',
+  },
 ]
 
 export default function Reasoning() {

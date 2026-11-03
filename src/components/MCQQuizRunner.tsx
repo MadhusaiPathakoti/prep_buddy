@@ -158,7 +158,7 @@ export default function MCQQuizRunner({ gameId, questions, onExit, onRestart, sh
   const progressPct = total > 0 ? (index / total) * 100 : 0
 
   return (
-    <div className="mx-auto max-w-md px-4 py-6">
+    <div className={['mx-auto px-4 py-6', current.context ? 'max-w-xl' : 'max-w-md'].join(' ')}>
       <div className="mb-4 flex items-center justify-between text-sm text-slate-500 dark:text-slate-400">
         <span>
           Question <span className="font-semibold text-slate-700 dark:text-slate-300">{index + 1}</span> / {total}
@@ -177,6 +177,11 @@ export default function MCQQuizRunner({ gameId, questions, onExit, onRestart, sh
       </div>
 
       <div className="mt-8 rounded-3xl bg-white dark:bg-slate-800 p-8 shadow-sm ring-1 ring-slate-200 dark:ring-slate-700">
+        {current.context && (
+          <div className="mb-6 whitespace-pre-line rounded-xl bg-slate-50 dark:bg-slate-900/40 px-4 py-3 text-left text-sm leading-relaxed text-slate-700 dark:text-slate-300">
+            {current.context}
+          </div>
+        )}
         <div className="text-center">
           {current.instruction && (
             <div className="mb-2 text-xs font-semibold uppercase tracking-wide text-indigo-500 dark:text-indigo-400">{current.instruction}</div>

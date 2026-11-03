@@ -262,6 +262,8 @@ export interface MCQQuestion {
   instruction?: string
   /** Why the answer is right, shown under the question in the post-game review. Optional. */
   explanation?: string
+  /** Background the question depends on (e.g. a set of coded statements), shown in a box above the term. Optional. */
+  context?: string
 }
 
 /** MCQ questions: pick an entry from a bank (vocabulary, idioms, ...) at the chosen difficulty (or 'mixed' for all difficulties), with 3 wrong meanings as distractors. */

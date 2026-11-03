@@ -15,6 +15,7 @@ import Reasoning from './pages/Reasoning'
 import AlphaNumericTest from './pages/games/AlphaNumericTest'
 import StatementConclusions from './pages/games/StatementConclusions'
 import NumberLetterSeries from './pages/games/NumberLetterSeries'
+import CodingDecoding from './pages/games/CodingDecoding'
 import Quant from './pages/Quant'
 import Divisibility from './pages/games/Divisibility'
 import PercentDegree from './pages/games/PercentDegree'
@@ -70,6 +71,7 @@ export default function App() {
           <Route path="/reasoning/alpha-numeric-test" element={<AlphaNumericTest />} />
           <Route path="/reasoning/statement-conclusions" element={<StatementConclusions />} />
           <Route path="/reasoning/number-letter-series" element={<NumberLetterSeries />} />
+          <Route path="/reasoning/coding-decoding" element={<CodingDecoding />} />
           <Route path="/quant" element={<Quant />} />
           <Route path="/quant/divisibility" element={<Divisibility />} />
           <Route path="/quant/percent-degree" element={<PercentDegree />} />

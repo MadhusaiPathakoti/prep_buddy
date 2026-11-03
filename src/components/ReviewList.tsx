@@ -14,14 +14,20 @@ export default function ReviewList({ items }: { items: ReviewItem[] }) {
   return (
     <div className="mt-6">
       <h3 className="text-sm font-semibold text-slate-700 dark:text-slate-300">Review these</h3>
-      <div className="mt-2 max-h-56 divide-y divide-slate-100 dark:divide-slate-700 overflow-y-auto rounded-2xl bg-slate-50 dark:bg-slate-800">
+      <div
+        className={[
+          'mt-2 divide-y divide-slate-100 dark:divide-slate-700 overflow-y-auto rounded-2xl bg-slate-50 dark:bg-slate-800',
+          // Entries with a worked explanation need more room than a one-line "prompt = answer".
+          items.some((i) => i.note) ? 'max-h-96' : 'max-h-56',
+        ].join(' ')}
+      >
         {items.map((item) => (
           <div key={item.id} className="flex items-center justify-between gap-3 px-4 py-2.5">
             <div className="min-w-0">
               <span className="text-sm font-semibold text-slate-800 dark:text-slate-200">
                 {item.prompt} = {item.displayAnswer}
               </span>
-              {item.note && <p className="mt-0.5 text-xs text-slate-500 dark:text-slate-400">{item.note}</p>}
+              {item.note && <p className="mt-0.5 whitespace-pre-line text-xs text-slate-500 dark:text-slate-400">{item.note}</p>}
             </div>
             <span
               className={[
