@@ -28,7 +28,7 @@
 // MOCK_ENGLISH_MAX_BUDGET_WAIT_MS (longest wait for a token budget reset, default 15 s),
 // MOCK_ENGLISH_MAX_TRANSIENT_COOLDOWN_MS (cap of the growing 5xx/timeout cooldown, default 10 minutes).
 
-export const config = { maxDuration: 30 }
+export const config = { maxDuration: 60 }
 
 const TOPIC_IDS = ['rc', 'cloze', 'error-detection', 'para-jumble', 'fillers', 'word-swap', 'phrase-replacement', 'match-column']
 const TOPIC_LABEL = {
@@ -48,10 +48,12 @@ const MAX_SOLVE_ITEMS = 24
 const GENERATE_TEMPERATURE = 0.8
 const SOLVE_TEMPERATURE = 0.1
 
-/** Per-call Gemini budgets (ms): generate ~20 s, solve ~15 s. The env knob overrides both (tests). */
-const geminiTimeoutMs = (kind) => Number(process.env.MOCK_ENGLISH_GEMINI_TIMEOUT_MS) || (kind === 'solve' ? 15000 : 20000)
-/** Whole-request budget: the function's maxDuration is 30 s and the client gives up at 28 s. */
-const requestDeadlineMs = () => Number(process.env.MOCK_ENGLISH_DEADLINE_MS) || 26000
+/** Per-call budgets (ms): generate 20 s, solve 15 s (40 s for thinking models). The env knob overrides all (tests). */
+/** "Thinking" models (gemini-3-flash-preview) need far longer than the others to solve a chunk. */
+const isThinkingModel = (id) => /gemini-3-flash-preview|thinking/i.test(id)
+const geminiTimeoutMs = (kind, id = '') => Number(process.env.MOCK_ENGLISH_GEMINI_TIMEOUT_MS) || (kind === 'solve' ? (isThinkingModel(id) ? 40000 : 15000) : 20000)
+/** Whole-request budget: the function's maxDuration is 60 s and the client gives up at 58 s. */
+const requestDeadlineMs = () => Number(process.env.MOCK_ENGLISH_DEADLINE_MS) || 56000
 const modelOverride = () => (process.env.GEMINI_MODEL || '').trim()
 
 // ---------------------------------------------------------------------------------------------------
@@ -274,7 +276,17 @@ Rules:
 - A vocabulary question's targetWord must be a single word that really occurs in the passage; its five options are single words (or two-word phrases), the target itself is not among them, and the key fits the word's meaning in that sentence.
 - Never cite an option by letter or number in an explanation (options are shuffled afterwards); quote the passage instead.
 - The passage must be ${difficulty === 'hard' ? 'at least 380' : 'at least 250'} words. Count carefully.
-- Put the key at varying positions (correctIndex 0-4).
+- Every question stem is a real question ending in "?" (or an unfinished sentence ending in ":"), never a statement. NEVER use True / False / Yes / No as options. All five options of a question have the same form and similar length (all full statements, or all short phrases).
+- Never repeat a sentence of the passage as the stem.
+- Put the key at varying positions (correctIndex 0-4).${
+    difficulty === 'hard'
+      ? `
+HARD-level requirements (PO prelims):
+- The passage is about 430 words (at least 380), dense and argumentative, with qualifications.
+- Every distractor must be a TEMPTING MISREADING: it reuses the passage's own words but overstates, reverses, generalises or misattributes a claim. No absurd, off-topic or obviously extreme options anywhere (tone options must all be plausible attitudes a careful reader could argue for).
+- At least 2 inference questions must require combining TWO different sentences of the passage; none may be answerable from one sentence alone.`
+      : ''
+  }
 
 Respond with ONLY a JSON object (no markdown fences) in exactly this shape:
 ${RC_SCHEMA}`
@@ -301,7 +313,7 @@ const ED_CATEGORIES = {
 }
 const ED_SCHEMA = `{"items":[{"variant":"parts","parts":["part (a)","part (b)","part (c)","part (d)"],"errorPartIndex":2,"explanation":"..."},{"variant":"sentences","sentences":["s1","s2","s3","s4","s5"],"correctIndex":3,"explanation":"..."}]}`
 
-function edPlan({ rng, difficulty, count }) {
+function edPlan({ rng, difficulty, count, noError }) {
   const cats = themeDealer(rng, ED_CATEGORIES[difficulty])
   const ctx = themeDealer(rng, SENTENCE_THEMES)
   const lines = []
@@ -309,7 +321,7 @@ function edPlan({ rng, difficulty, count }) {
     const r = rng.next()
     if (r < 0.2 && count >= 3) {
       lines.push(`Item ${i}: variant "sentences" - five versions of the same idea (context: ${ctx()}); exactly ONE is fully correct and each of the other four has a DIFFERENT clear grammatical error (e.g. ${cats()}; ${cats()}).`)
-    } else if (r < 0.4) {
+    } else if (r < 0.32 && noError !== false) {
       lines.push(`Item ${i}: variant "parts" - context: ${ctx()}; NO error: all four parts are fully correct (errorPartIndex null).`)
     } else {
       const part = rng.pick(['a', 'b', 'c', 'd'])
@@ -325,7 +337,7 @@ function edPrompt(ctx) {
   return `Write exactly ${count} Error Detection items. Plan:
 ${edPlan(ctx).join('\n')}
 
-Rules for variant "parts": the sentence (${length}) is split into 4 consecutive parts that join with single spaces into one complete sentence (the parts do NOT include end punctuation unless the sentence needs it; do not split inside a fixed phrase). Either exactly one part contains ONE unambiguous grammatical error (a rule about grammar, never style, spelling, punctuation or idiom preference, and not a matter on which standard English authorities differ), or no part does. The error must lie within a single part, and the other three parts must be flawless. Do not mark or flag the error in the text. In the explanation, name the rule, quote the faulty words and give the fix.
+Rules for variant "parts": the sentence (${length}) is split into 4 consecutive parts (each at least 2 words) that join with single spaces into ONE complete, natural sentence that starts with a capital letter and whose last part ends with the full stop (never a fragment, never an unnatural sentence; do not split inside a fixed phrase). Either exactly one part contains ONE unambiguous grammatical error (a rule about grammar, never style, spelling, punctuation or idiom preference, and not a matter on which standard English authorities differ), or no part does. The error must lie within a single part, and the other three parts must be flawless. Do not mark or flag the error in the text. In the explanation, name the rule, quote the faulty words and give the fix.
 Rules for variant "sentences": five complete sentences of 12 to 25 words about the same idea; exactly one is grammatically correct.
 Never produce an item where a careful reader could defend a second part as erroneous, or where "no error" could be debated.
 
@@ -390,9 +402,9 @@ ${FILLERS_SCHEMA}`
 
 const WS_SCHEMA = `{"items":[{"tokens":["The","government","has","launched","a","new","scheme."],"marked":["government","launched","new","scheme"],"swap":[0,2],"explanation":"..."},{"tokens":["..."],"marked":["...","...","...","..."],"swap":null,"explanation":"..."}]}`
 
-function wsPlan({ rng, count }) {
+function wsPlan({ rng, count, noError }) {
   const ctx = themeDealer(rng, SENTENCE_THEMES)
-  return Array.from({ length: count }, (_, i) => `Item ${i + 1}: ${rng.chance(0.18) ? 'NO interchange needed (swap null)' : 'one interchange needed'}, context: ${ctx()}.`)
+  return Array.from({ length: count }, (_, i) => `Item ${i + 1}: ${rng.chance(0.12) && noError !== false ? 'NO interchange needed (swap null)' : 'one interchange needed'}, context: ${ctx()}.`)
 }
 
 function wsPrompt(ctx) {
@@ -410,13 +422,13 @@ ${WS_SCHEMA}`
 
 const PR_SCHEMA = `{"items":[{"variant":"replace","before":"words before the phrase","phrase":"the phrase to be replaced","after":"words after the phrase, with the closing punctuation","options":["replacement 1","replacement 2","replacement 3","replacement 4"],"correctIndex":1,"explanation":"..."},{"variant":"usage","sentence":"sentence with one ______ blank","options":["phrase 1","phrase 2","phrase 3","phrase 4","phrase 5"],"correctIndex":0,"explanation":"..."}]}`
 
-function prPlan({ rng, count }) {
+function prPlan({ rng, count, noError }) {
   const ctx = themeDealer(rng, SENTENCE_THEMES)
   const lines = []
   for (let i = 1; i <= count; i++) {
     const r = rng.next()
     if (r < 0.2 && count >= 3) lines.push(`Item ${i}: variant "usage" - fill the blank with the right phrasal verb / fixed phrase, context: ${ctx()}.`)
-    else if (r < 0.4) lines.push(`Item ${i}: variant "replace" - the original phrase is ALREADY CORRECT (correctIndex null; all four options are worse), context: ${ctx()}.`)
+    else if (r < 0.32 && noError !== false) lines.push(`Item ${i}: variant "replace" - the original phrase is ALREADY CORRECT (correctIndex null; all four options are worse), context: ${ctx()}.`)
     else lines.push(`Item ${i}: variant "replace" - the original phrase contains a genuine error and exactly one option fixes it, context: ${ctx()}.`)
   }
   return lines
@@ -484,6 +496,44 @@ function readExplanation(raw, { shuffled = false, maxLen = 700 } = {}) {
   return { explanation: e.length >= 8 ? e.slice(0, maxLen) : '' }
 }
 
+const wordIn = (text, phrase) => new RegExp(`(?<![A-Za-z])${esc(phrase)}(?![A-Za-z])`, 'i').test(text)
+
+/** Replaces a model explanation that names a different option / part than the key (or contradicts a no-error key). */
+function sanitizeExplanations(topic, groups) {
+  if (topic === 'word-swap' || topic === 'para-jumble' || topic === 'match-column') return
+  for (const g of groups) {
+    for (const q of g.questions) {
+      const e = q.explanation || ''
+      const key = q.options[q.answer]
+      let bad = false
+      let replacement = ''
+      if (topic === 'error-detection' && q.options[4] === 'No error') {
+        const letters = [...e.matchAll(/\(([a-d])\)/gi)].map((m) => m[1].toLowerCase())
+        if (q.answer < 4) {
+          bad = letters.length > 0 && !letters.includes('abcd'[q.answer])
+          const part = new RegExp(`\\(${'abcd'[q.answer]}\\) (.*?)(?= \\([a-d]\\) |$)`, 's').exec(q.stem)?.[1] ?? ''
+          replacement = `Part (${'abcd'[q.answer]}) contains the grammatical error: "${part.trim()}".`
+        } else {
+          bad = /\b(error|incorrect|wrong|should be|instead of)\b/i.test(e) && !/\b(no error|correct|grammatical|sound)\b/i.test(e)
+          replacement = 'All four parts are grammatically correct as written.'
+        }
+      } else {
+        const others = q.options.filter((o, i) => i !== q.answer && o.length >= 3 && !POSITIONAL_OPTION.test(o))
+        bad = !!e && !wordIn(e, key) && others.some((o) => wordIn(e, o))
+        replacement =
+          topic === 'phrase-replacement' && q.answer === 4 && q.options[4] === 'No correction required'
+            ? 'The original phrase is already correct.'
+            : topic === 'rc'
+              ? `The passage best supports: "${key.slice(0, 280)}"`
+              : topic === 'error-detection'
+                ? `Correct sentence: ${key}`
+                : `Best fit: ${key}.`
+      }
+      if (bad) q.explanation = replacement
+    }
+  }
+}
+
 function fillExplanations(groups) {
   for (const g of groups) {
     for (const q of g.questions) {
@@ -491,6 +541,23 @@ function fillExplanations(groups) {
       if (q.explanation.length < 8) q.explanation = `The correct answer is ${q.options[q.answer]}.`
     }
   }
+}
+
+const BARE_BOOL = /^(?:true|false|yes|no)[.!]?$/i
+/** Shape checks for a non-vocabulary RC question: a real question/completion stem, no bare True/False options,
+ *  homogeneous options, and a stem that is not a sentence lifted from the passage. */
+function rcQuestionShape(stem, options, passage) {
+  if (/[.!]\s*$/.test(stem)) return 'rc stem is a statement, not a question'
+  if (options.some((o) => BARE_BOOL.test(o))) return 'rc options contain a bare True/False/Yes/No'
+  const wcs = options.map(wordCount)
+  const lo = Math.min(...wcs)
+  const hi = Math.max(...wcs)
+  if ((lo <= 2 && hi >= 7) || (lo <= 3 && hi >= 4 * lo && hi >= 8)) return 'rc options are not homogeneous (single words next to sentences)'
+  const stemWords = normKey(stem).split(' ')
+  const norm = normKey(passage)
+  for (const sent of passage.split(/(?<=[.!?])\s+/)) if (wordCount(sent) >= 8 && jaccard(stem, sent) >= 0.8) return 'rc stem restates a passage sentence'
+  for (let i = 0; i + 12 <= stemWords.length; i++) if (norm.includes(stemWords.slice(i, i + 12).join(' '))) return 'rc stem restates a passage sentence'
+  return ''
 }
 
 function buildRc(parsed, ctx) {
@@ -570,6 +637,11 @@ function buildRc(parsed, ctx) {
         }
         if (kind === 'not-true' && !/\b(?:not|false|incorrect|except|cannot|never|untrue)\b/i.test(stem)) {
           drops.push('rc not-true: stem lacks NOT')
+          continue
+        }
+        const shape = rcQuestionShape(stem, opts.options, body)
+        if (shape) {
+          drops.push(shape)
           continue
         }
         if (seenStems.some((s) => jaccard(s, stem) >= 0.8)) {
@@ -693,9 +765,14 @@ function buildErrorDetection(parsed, ctx) {
       drops.push('ed parts: contains part labels or brackets')
       continue
     }
-    const total = wordCount(parts.join(' '))
-    if (total < 10 || total > 60) {
+    const joinedSentence = parts.join(' ')
+    const total = wordCount(joinedSentence)
+    if (total < 12 || total > 60) {
       drops.push('ed parts: sentence length')
+      continue
+    }
+    if (!/^[A-Z"\u201c\u2018]/.test(joinedSentence) || !/[.!?]["\u201d]?$/.test(joinedSentence) || parts.some((x) => wordCount(x) < 2)) {
+      drops.push('ed parts: not one complete sentence (capital start, closing full stop, parts of 2+ words)')
       continue
     }
     const err = nullish(it.errorPartIndex)
@@ -755,6 +832,15 @@ function distractorOrders(rng, base, need) {
   return [...out].slice(0, need)
 }
 
+const firstWords = (t, n) => t.split(/\s+/).slice(0, n).join(' ')
+/** "The coherent order is ECBFAD: "Banks have..." -> "This shift..." ..." plus the asked position, built in code. */
+function paraJumbleExplanation(order, sentences, stem) {
+  const flow = sentences.map((x) => `"${firstWords(x, 5)}..."`).join(' \u2192 ')
+  const m = /should be the (\w+) sentence/.exec(stem)
+  const pos = m ? Number(Object.keys(POSITION_WORD).find((k) => POSITION_WORD[k] === m[1])) : 0
+  return `The coherent order is ${order}: ${flow}.${pos ? ` The ${POSITION_WORD[pos]} sentence is ${order[pos - 1]}.` : ''}`
+}
+
 function buildParaJumble(parsed, ctx) {
   const groups = []
   const drops = []
@@ -809,7 +895,7 @@ function buildParaJumble(parsed, ctx) {
       answer = sh.answer
       stem = `The sentences ${names} given below are jumbled. Rearrange them to form a meaningful and coherent paragraph, and then decide which sentence should be the ${POSITION_WORD[pos]} sentence of the paragraph.\n\n${list}`
     }
-    groups.push({ questions: [{ topic: 'para-jumble', stem, options, answer, explanation: `${ex.explanation} Correct sequence: ${correctOrder}.` }] })
+    groups.push({ questions: [{ topic: 'para-jumble', stem, options, answer, explanation: paraJumbleExplanation(correctOrder, sentences, stem) }] })
   }
   return { groups, drops }
 }
@@ -960,7 +1046,8 @@ function buildWordSwap(parsed, ctx) {
     const chosen = pair ? rng.shuffle([pair, ...others.slice(0, 3)]) : others.slice(0, 4)
     const options = [...chosen.map(pairText), NO_INTERCHANGE]
     const answer = pair ? chosen.findIndex((p) => p[0] === pair[0] && p[1] === pair[1]) : 4
-    const explanation = pair ? `${ex.explanation} Correct sentence: ${correct}` : `${ex.explanation} The sentence is already correct: ${correct}`
+    // Built in code: model explanations of swaps were often garbled or contradicted the key.
+    const explanation = pair ? `Interchanging (${pair[0] + 1}) "${shown[marked[pair[0]]]}" and (${pair[1] + 1}) "${shown[marked[pair[1]]]}" gives: ${correct}` : `The sentence is already correct as written: ${correct}`
     groups.push({ questions: [{ topic: 'word-swap', stem: `${WS_DIRECTIONS}\n\n${sentence}`, options, answer, explanation: explanation.slice(0, 900) }] })
   }
   return { groups, drops }
@@ -1087,9 +1174,8 @@ function buildMatchColumn(parsed, ctx) {
     const sh = shuffleOptions(rng, [fmt(correct), ...wrong.map(fmt)], 0)
     const col1 = pairs.map((p, i) => `${i + 1}. ${p.begin}`).join('\n')
     const col2 = colOrder.map((pi, k) => `${LETTERS[k]}. ${pairs[pi].end}`).join('\n')
-    const fullSentences = pairs.map((p, i) => `${i + 1}-${letterOfPair(i)}`).join(', ')
     groups.push({
-      questions: [{ topic: 'match-column', stem: `${MC_DIRECTIONS}\n\nColumn I\n${col1}\n\nColumn II\n${col2}`, options: sh.options, answer: sh.answer, explanation: `${ex.explanation} Correct matching: ${fullSentences}.`.slice(0, 1200) }],
+      questions: [{ topic: 'match-column', stem: `${MC_DIRECTIONS}\n\nColumn I\n${col1}\n\nColumn II\n${col2}`, options: sh.options, answer: sh.answer, explanation: `Correct matching: ${pairs.map((pr, i) => `${i + 1}-${letterOfPair(i)}: ${pr.begin} ${pr.end}`).join(' | ')}`.slice(0, 1200) }],
     })
   }
   return { groups, drops }
@@ -1111,14 +1197,14 @@ const TOPIC_DEFS = {
 // ---------------------------------------------------------------------------------------------------
 
 const SOLVE_RULES = {
-  rc: 'Reading comprehension: use ONLY the passage. Prefer the option the passage supports most directly. For vocabulary-in-context, decide the meaning from that sentence.',
-  cloze: 'Cloze: for the blank asked about, test every option in the sentence for grammar, collocation and meaning; the passage around it decides.',
-  'error-detection': 'Error detection: check each of (a)-(d) separately for a grammatical error (agreement, tense, preposition, article, pronoun, parallelism, comparison, modifiers). "No error" is correct only if all four parts are sound. If two parts each have a real error, or a part is only a stylistic quibble, set ambiguous. For "which sentence is correct" items exactly one sentence must be fully correct.',
-  'para-jumble': 'Para jumble: work out the coherent order yourself FIRST (opening sentence with no antecedent, pronoun and connector dependencies, mandatory pairs, conclusion), then choose the option that matches. If two options both give a coherent paragraph, or none does, set ambiguous.',
-  fillers: 'Fillers: put each option (or pair, in order) into the blank(s); only grammatical, natural and meaningful fits count. If two options work, set ambiguous.',
-  'word-swap': 'Word swap: for each pair of marked words, interchange them and read the resulting sentence; the key is the interchange giving a correct, sensible sentence. "No interchange required" is right only if the sentence is already fine. If two different interchanges (or an interchange and the original) both work, set ambiguous.',
-  'phrase-replacement': 'Phrase replacement: substitute each option for the capitalised phrase and check grammar and meaning; "No correction required" is right only if the original is already correct. For phrase-usage items, substitute each phrase into the blank. If two options work, set ambiguous.',
-  'match-column': 'Match the column: join each beginning to each ending and test grammar and meaning; the matching must be unique. If an ending could complete two beginnings, set ambiguous.',
+  rc: 'Reading comprehension: use ONLY the passage. An option is acceptable only if it is fully supported by the passage and correctly answers this question (for a "NOT true" question: only options the passage contradicts or does not support). For vocabulary-in-context decide the meaning from that sentence.',
+  cloze: 'Cloze: put each option into the blank; an option is acceptable only if the sentence is then fully grammatical, the collocation natural and the meaning right in the passage.',
+  'error-detection': 'Error detection: for each part (a)-(d) judge whether it contains a real grammatical error (agreement, tense, preposition, article, pronoun, parallelism, comparison, modifiers). A part option is acceptable only if that part really has an error; "No error" only if none of the four parts does. If the sentence is unnatural or a fragment even apart from any intended error, set ambiguous. For "which sentence is correct" items only fully correct sentences are acceptable.',
+  'para-jumble': 'Para jumble: work out the coherent order yourself FIRST (opening sentence with no antecedent, pronoun and connector dependencies, mandatory pairs, conclusion), then judge each option: acceptable only if that order (or that sentence in that position) gives a fully coherent paragraph.',
+  fillers: 'Fillers: put each option (or pair, in order) into the blank(s); acceptable only if the sentence is grammatical, natural and meaningful. If several options all read well, ALL of them are acceptable.',
+  'word-swap': 'Word swap: for each option interchange the named pair and read the resulting sentence: acceptable only if the sentence becomes correct and sensible; "No interchange required" only if the sentence as shown is already fine.',
+  'phrase-replacement': 'Phrase replacement: substitute each option for the capitalised phrase (or into the blank): acceptable only if the whole sentence is then grammatical and natural; "No correction required" only if the original already is.',
+  'match-column': 'Match the column: for each option check all four joined sentences: acceptable only if every pair is grammatical and meaningful.',
 }
 
 function buildSolvePrompt(items) {
@@ -1141,16 +1227,25 @@ function buildSolvePrompt(items) {
 Task: mock-english / solve / items=${items.length}
 
 For every item:
-1. Work out the answer yourself from the question (and its passage, if any) and choose exactly ONE option letter (A-E).
-2. Set "ambiguous": true ONLY if you can point to a second option that a careful expert would accept as equally correct, or no option is correct, or the item itself is faulty (unclear, ungrammatical outside the intended point, or needing outside knowledge). Stylistic preferences, minor wording quibbles and difficulty alone are NOT ambiguity: if one option is clearly the best, answer it and set false.
+1. Judge EACH option on its own: would choosing it be fully correct (the sentence, blank, passage question, swap or matching is completely right and natural with it)? List the letters of every such option in "acceptable" (it may be empty, one letter or several). Be strict: an option that is merely passable, awkward, less natural or only partly right is NOT acceptable.
+2. "answer" is your single best option letter (A-E); it must be in "acceptable" unless no option is acceptable.
+3. Set "ambiguous": true ONLY if the item itself is faulty (unclear, ungrammatical outside the intended point, or needing outside knowledge). Several acceptable options are reported through "acceptable", not through "ambiguous".
 
 Topic rules:
 ${topics.map((t) => `- ${SOLVE_RULES[t] || ''}`).join('\n')}
 
-Respond with ONLY a JSON object (no markdown fences): {"results":[{"id":"<item id>","answer":"A","ambiguous":false}]} with exactly one entry per item, using the item ids given.
+Respond with ONLY a JSON object (no markdown fences): {"results":[{"id":"<item id>","answer":"A","acceptable":["A"],"ambiguous":false}]} with exactly one entry per item, using the item ids given.
 ${passages.length ? `\nPASSAGES\n${passages.map((p, i) => `[P${i + 1}]\n${p}`).join('\n\n')}\n` : ''}
 ITEMS
 ${itemBlocks.join('\n\n')}`
+}
+
+/** "acceptable" may be an array of letters or a string like "A, C"; returns sorted option indexes, or null if absent. */
+function parseAcceptable(v) {
+  if (v === undefined || v === null) return null
+  const letters = Array.isArray(v) ? v.map((x) => String(x)).join('') : String(v)
+  const set = new Set([...letters.toUpperCase()].filter((c) => 'ABCDE'.includes(c)).map((c) => 'ABCDE'.indexOf(c)))
+  return [...set].sort()
 }
 
 function parseSolveResults(parsed, items) {
@@ -1160,7 +1255,12 @@ function parseSolveResults(parsed, items) {
     const r = byId.get(it.id)
     const letter = typeof r?.answer === 'string' ? r.answer.trim().toUpperCase().replace(/[^A-E]/g, '') : ''
     const idx = letter.length === 1 ? 'ABCDE'.indexOf(letter) : -1
-    return { id: it.id, answer: idx >= 0 ? idx : null, ambiguous: r?.ambiguous === true || r?.ambiguous === 'true' || r === undefined || idx < 0 }
+    return {
+      id: it.id,
+      answer: idx >= 0 ? idx : null,
+      acceptable: parseAcceptable(r?.acceptable),
+      ambiguous: r?.ambiguous === true || r?.ambiguous === 'true' || r === undefined || idx < 0,
+    }
   })
 }
 
@@ -1367,6 +1467,9 @@ function classifyHttpFailure(kind, status, text, res) {
     return { cls: 'unavailable', cooldownMs: DAY_MS }
   }
   if (status === 400 && /failed to generate json|json_validate_failed|failed_generation/i.test(text)) {
+    // failed_generation:"" means the model ran out of output tokens while reasoning (retryable); a non-empty one means it
+    // produced something that is not JSON, which a model that cannot do JSON mode does every time.
+    if (/"failed_generation"\s*:\s*""/.test(text)) return { cls: 'bad-output', cooldownMs: 0, note: 'reasoning-exhausted' }
     return { cls: 'unavailable', cooldownMs: DAY_MS, note: 'json-mode-unusable' }
   }
   if (status === 429 && kind === 'openai') {
@@ -1457,22 +1560,34 @@ async function callOpenAICompat(providerName, id, model, prompt, temperature, ac
   const timer = setTimeout(() => controller.abort(), timeoutMs)
   const label = providerName
   try {
-    const body = {
-      model,
-      messages: [{ role: 'user', content: prompt }],
-      temperature,
-      response_format: { type: 'json_object' },
-      max_tokens: opts.maxTokens,
-    }
-    if (isGptOss(model) && opts.effort && providerName !== 'openrouter') body.reasoning_effort = opts.effort
-    let res
-    try {
-      res = await fetch(`${prov.base}/chat/completions`, {
+    // gpt-oss models "think" before answering and that reasoning is spent from the same max_tokens allowance, so a
+    // tight cap leaves nothing for the JSON (Groq then answers 400 json_validate_failed with an empty failed_generation).
+    const sendOnce = async (effort, extraTokens) => {
+      const reasoning = isGptOss(model) ? Math.max(0, (REASONING_ALLOWANCE[effort || 'low'] || 0) - REASONING_ALLOWANCE.low) : 0 // the 'low' allowance is already in opts.maxTokens
+      const body = {
+        model,
+        messages: [{ role: 'user', content: prompt }],
+        temperature,
+        response_format: { type: 'json_object' },
+        max_tokens: Math.min(MAX_COMPLETION_TOKENS, opts.maxTokens + reasoning + extraTokens),
+      }
+      if (isGptOss(model) && effort && providerName !== 'openrouter') body.reasoning_effort = effort
+      return fetch(`${prov.base}/chat/completions`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${process.env[prov.keyEnv]}` },
         body: JSON.stringify(body),
         signal: controller.signal,
       })
+    }
+    let res
+    try {
+      res = await sendOnce(opts.effort, 0)
+      if (res.status === 400 && isGptOss(model)) {
+        // Empty failed_generation = the reasoning used the whole allowance, not a model that cannot do JSON mode:
+        // retry once, immediately, with minimal reasoning and more room.
+        const peek = await res.clone().text().catch(() => '')
+        if (/"failed_generation"\s*:\s*""/.test(peek)) res = await sendOnce('low', 1500)
+      }
     } catch (err) {
       const aborted = err && err.name === 'AbortError'
       return { ok: false, model: id, status: aborted ? 504 : 502, error: aborted ? `${label} took too long to respond.` : `Could not reach ${label}.`, cls: aborted ? 'timeout' : 'network', cooldownMs: 45000 }
@@ -1546,6 +1661,17 @@ function orderCandidates(candidates, o) {
       .map((x) => x.id)
   }
   const info = new Map(list.map((id) => [id, fitInfo(id, o.estFor(id), o.now, o.clientBudgets)]))
+  if (o.kind === 'solve') {
+    // Independence beats a free budget slot: within the same independence rank, models that fit come first, and a
+    // preferred model that is merely over budget is waited for (see runChain) rather than replaced by the generator.
+    const ap = o.avoidId ? providerOf(o.avoidId) : ''
+    const rank = (id) => (!o.avoidId ? 0 : providerOf(id) !== ap ? 0 : id !== o.avoidId ? 1 : 2)
+    const order = list
+      .map((id, i) => ({ id, i, r: rank(id), f: info.get(id).fits ? 0 : 1, w: info.get(id).waitMs }))
+      .sort((x, y) => x.r - y.r || x.f - y.f || x.w - y.w || x.i - y.i)
+      .map((x) => x.id)
+    return { order, info }
+  }
   // Busy-ness only reorders generation; a solver's independence (other provider / model) matters more than a free slot.
   const busy = (id) => o.kind === 'generate' && (inflight.get(id)?.count || 0) >= 2
   let usable = list.filter((id) => info.get(id).fits && !busy(id))
@@ -1565,13 +1691,13 @@ function orderCandidates(candidates, o) {
  *  memory) are skipped, over-budget models are skipped (or waited for when the reset is near), and after any failure the
  *  next model starts immediately. Stops early when too little of the request deadline is left. */
 async function runChain(chain, run, o) {
-  const budgetMs = geminiTimeoutMs(o.kind)
   const now0 = Date.now()
   const skipped = []
   const candidates = []
   for (const m of chain) {
     if (o.skip.has(m)) skipped.push({ model: m, by: 'client' })
     else if (serverCooling(m, now0)) skipped.push({ model: m, by: 'server' })
+    else if (o.excludeProviders && o.excludeProviders.has(providerOf(m))) skipped.push({ model: m, by: 'excluded' })
     else candidates.push(m)
   }
   const { order } = orderCandidates(candidates, { kind: o.kind, avoidId: o.avoidId, spread: o.spread || 0, estFor: o.estFor, now: now0, clientBudgets: o.clientBudgets })
@@ -1582,6 +1708,7 @@ async function runChain(chain, run, o) {
   let infra = false
   let retryAfterMs = 0
   for (const id of order) {
+    const budgetMs = geminiTimeoutMs(o.kind, id)
     let remaining = o.deadlineAt - Date.now()
     if (attempts.length > 0 && remaining < Math.min(3000, budgetMs)) break
     // Over the model's token budget: re-check every few hundred ms (other replies refresh the numbers) and wait for
@@ -1614,7 +1741,7 @@ async function runChain(chain, run, o) {
     const t0 = Date.now()
     let out
     try {
-      out = await run(id, timeoutMs, { effort: o.kind === 'solve' ? (id === o.avoidId ? 'high' : 'medium') : 'low' })
+      out = await run(id, timeoutMs, { effort: o.kind === 'solve' ? (id === o.avoidId ? 'medium' : 'low') : 'low' })
     } finally {
       slot.count--
       slot.tokens -= est
@@ -1648,7 +1775,7 @@ async function runChain(chain, run, o) {
     error: last ? last.error : 'Every configured model is cooling down, over its token budget or unavailable.',
     detail: last?.detail,
     unusable: allBadOutput ? !!last.unusable : false,
-    code: allBadOutput ? 'unusable' : 'no-model',
+    code: allBadOutput ? 'unusable' : !attempts.length && skipped.length > 0 && skipped.every((x) => x.by === 'excluded') ? 'no-alternative' : 'no-model',
     retryAfterMs,
     attempts,
     modelHealth,
@@ -1711,10 +1838,16 @@ function expectedGenerateTokens(topic, count) {
   return count * 170
 }
 const expectedSolveTokens = (items) => items * 18 + 250
+/** Extra max_tokens for gpt-oss models' hidden reasoning, by reasoning_effort. */
+const REASONING_ALLOWANCE = { low: 700, medium: 1800, high: 3500 }
+const MAX_COMPLETION_TOKENS = 8000
 /** max_tokens for OpenAI-compatible calls: generous enough not to truncate, small enough not to reserve a whole TPM bucket. */
-const maxTokensFor = (expected, id) => Math.min(7000, Math.max(600, Math.round(expected * 1.4) + (isGptOss(parseModelId(id).model) ? 450 : 0)))
+const maxTokensFor = (expected, id) => Math.min(7000, Math.max(600, Math.round(expected * 1.4) + (isGptOss(parseModelId(id).model) ? REASONING_ALLOWANCE.low : 0)))
 /** Tokens a call reserves against the model's budget: prompt + max_tokens for OpenAI-compatible providers (what they count), prompt + expected completion otherwise. */
 const estimateFor = (id, prompt, expected) => (PROVIDERS[providerOf(id)].kind === 'openai' ? Math.ceil(prompt.length / 3.5) + maxTokensFor(expected, id) : estimateTokens(prompt, expected))
+
+const NO_ERROR_TOPICS = new Set(['error-detection', 'phrase-replacement', 'word-swap'])
+const MANDATORY_ERRORS_NOTE = "- MANDATORY-ERRORS: every item in this batch must contain a real error that needs fixing; write NO 'no error', 'already correct' or 'no interchange' item.\n"
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
@@ -1763,7 +1896,7 @@ export default async function handler(req, res) {
     }
     const count = Math.min(rawCount, MAX_COUNT[topic])
     const seedNum = seed === undefined ? Math.floor(Math.random() * 0xffffffff) : hashSeed(seed)
-    job = { action, topic, difficulty, count, seedNum }
+    job = { action, topic, difficulty, count, seedNum, noError: body.noError !== false }
   } else {
     const v = validateSolveItems(body.items)
     if (v.error) {
@@ -1774,7 +1907,12 @@ export default async function handler(req, res) {
       res.status(400).json({ error: '"avoidModel" must be a string.' })
       return
     }
-    job = { action, items: v.items, avoidModel: body.avoidModel }
+    const ex = body.excludeProviders
+    if (ex !== undefined && (!Array.isArray(ex) || ex.length > 5 || ex.some((x) => typeof x !== 'string' || !PROVIDERS[x]))) {
+      res.status(400).json({ error: '"excludeProviders" must be an array of provider names.' })
+      return
+    }
+    job = { action, items: v.items, avoidModel: body.avoidModel, excludeProviders: new Set(ex || []) }
   }
 
   const skipRaw = body.skipModels
@@ -1808,10 +1946,12 @@ export default async function handler(req, res) {
   let outcome
   if (job.action === 'generate') {
     const def = TOPIC_DEFS[job.topic]
-    const ctx = { difficulty: job.difficulty, count: job.count, rng: makeRng(job.seedNum), buildRng: makeRng(job.seedNum ^ 0x9e3779b9) }
-    const prompt = `${header(job.topic, job.difficulty, job.count, job.seedNum)}\n${def.prompt(ctx)}`
+    const ctx = { difficulty: job.difficulty, count: job.count, rng: makeRng(job.seedNum), buildRng: makeRng(job.seedNum ^ 0x9e3779b9), noError: job.noError }
+    const mandatory = job.noError === false && NO_ERROR_TOPICS.has(job.topic) ? MANDATORY_ERRORS_NOTE : ''
+    const prompt = `${header(job.topic, job.difficulty, job.count, job.seedNum)}${mandatory}\n${def.prompt(ctx)}`
     const accept = (parsed) => {
       const built = def.build(parsed, ctx)
+      sanitizeExplanations(job.topic, built.groups)
       fillExplanations(built.groups)
       return built.groups.length ? { ok: true, groups: built.groups, dropped: built.drops.slice(0, 25), droppedCount: built.drops.length } : { ok: false, error: `The model returned no usable ${TOPIC_LABEL[job.topic]} items.` }
     }
@@ -1835,7 +1975,7 @@ export default async function handler(req, res) {
     outcome = await runChain(
       modelChain('solve'),
       (id, timeoutMs, ro) => callProvider(id, prompt, SOLVE_TEMPERATURE, accept, timeoutMs, { effort: ro.effort, maxTokens: maxTokensFor(expected, id) }),
-      { kind: 'solve', deadlineAt, skip, avoidId: job.avoidModel ? parseModelId(job.avoidModel).id : '', estFor: (id) => estimateFor(id, prompt, expected), clientBudgets },
+      { kind: 'solve', deadlineAt, skip, excludeProviders: job.excludeProviders, avoidId: job.avoidModel ? parseModelId(job.avoidModel).id : '', estFor: (id) => estimateFor(id, prompt, expected), clientBudgets },
     )
     if (outcome.ok) {
       res.status(200).json({ results: outcome.results, model: outcome.model, meta: { attempts: outcome.attempts, modelHealth: outcome.modelHealth, budgets: outcome.budgets, chain: outcome.chain, skipped: outcome.skipped, independence: outcome.independence, ms: Date.now() - startedAt } })

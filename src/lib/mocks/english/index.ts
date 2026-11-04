@@ -93,7 +93,12 @@ export const ENGLISH_TUNING = {
   noModelWaits: 3,
   /** Blind-solve calls in flight at once. */
   solveConcurrency: 3,
-  solveBatchSize: 20,
+  /** Items per blind-solve call: small, because 'thinking' solvers time out on big chunks. */
+  solveBatchSize: 8,
+  /** Where two healthy providers exist, an item must be confirmed by two solvers of different families. */
+  consensus: true,
+  /** If the second solver is unavailable (or fails), accept the first solver's strict verdict instead of failing. */
+  consensusFallback: true,
   /** Extra attempts per API call after the first, by failure class (the server walks the model chain itself). */
   retries: 2,
   rateLimitRetries: 3,
@@ -103,10 +108,10 @@ export const ENGLISH_TUNING = {
   /** Backoff base for 429 when the server gives no Retry-After (doubles, jittered); also capped by maxRetryAfterMs. */
   rateLimitBaseMs: 5000,
   maxRetryAfterMs: 20000,
-  /** Must stay above the server's request deadline (26 s) and below its maxDuration (30 s). */
-  requestTimeoutMs: 28000,
+  /** Must stay above the server's request deadline (56 s) and below its maxDuration (60 s). */
+  requestTimeoutMs: 58000,
   /** No new round starts after this long. */
-  deadlineMs: 120000,
+  deadlineMs: 150000,
   /** After round 1, accept items the solver agreed with but flagged ambiguous. */
   lenientLadder: true,
   /** A cloze blank that fails verification is filled in with its keyed word instead of sinking the passage. */
@@ -160,6 +165,8 @@ export interface EnglishRunStats {
   tokens: Record<string, number>
   /** How independent the blind check was, per solved item: another provider / another model / the same model. */
   independence: { provider: number; model: number; same: number; unknown: number }
+  /** Second-solver consensus per question: confirmed by both, disputed by the second, or only one solver available. */
+  consensus: { confirmed: number; disagreed: number; single: number }
   phaseMs: { generate: number; solve: number; total: number }
 }
 
@@ -208,6 +215,7 @@ export function formatEnglishRunStats(st: EnglishRunStats): string {
             `    ${m}: calls ${Object.values(c).reduce((a, b) => a + b, 0)} ok ${c.ok ?? 0} | 429 per-minute ${c['rate-minute'] ?? 0} per-day ${c['quota-day'] ?? 0} | 5xx ${c.overload ?? 0} timeouts ${(c.timeout ?? 0) + (c.network ?? 0)} unavailable ${c.unavailable ?? 0} | tokens ${st.tokens[m] ?? 0}`,
         )
       : ['    -']),
+    `  consensus (two solvers of different families): confirmed ${st.consensus.confirmed} | disputed ${st.consensus.disagreed} | single-solver ${st.consensus.single}`,
     `  solver independence: cross-provider ${st.independence.provider} | cross-model ${st.independence.model} | same-model ${st.independence.same} | unknown ${st.independence.unknown}`,
     `  ${'topic'.padEnd(19)}${'ask'.padStart(4)}${'recv'.padStart(6)}${'detDrop'.padStart(8)}${'agree'.padStart(6)}${'disag'.padStart(6)}${'amb'.padStart(5)}${'miss'.padStart(5)}${'ok'.padStart(4)}${'bank'.padStart(5)}${'lenient'.padStart(8)}`,
   ]
@@ -276,7 +284,7 @@ class Gate {
 // API access
 // ---------------------------------------------------------------------------------------------------
 
-type FailClass = 'rate' | 'timeout' | 'network' | 'quality' | 'quota' | 'models' | 'wait'
+type FailClass = 'rate' | 'timeout' | 'network' | 'quality' | 'quota' | 'models' | 'wait' | 'noalt'
 
 class ApiError extends Error {
   status: number
@@ -325,7 +333,8 @@ interface GenerateResponse {
   meta?: ReplyMeta & { model?: string; droppedCount?: number; dropped?: string[] }
 }
 interface SolveResponse {
-  results?: { id: string; answer: number | null; ambiguous: boolean }[]
+  model?: string
+  results?: { id: string; answer: number | null; acceptable?: number[] | null; ambiguous: boolean }[]
   meta?: ReplyMeta
 }
 
@@ -421,6 +430,7 @@ async function attemptOnce(env: Env, kind: 'generate' | 'solve', body: unknown):
     record(env, kind, res.status, t0)
     recordMeta(env, detail)
     const msg = detail?.error || `Request failed (${res.status}).`
+    if (detail?.code === 'no-alternative') return { failure: new ApiError(msg, 503, 'noalt', { retryable: false }) }
     if (detail?.code === 'no-model') return { failure: decideNoModel(detail.chain ?? [], msg) }
     const header = Number(res.headers?.get?.('retry-after'))
     const retryAfterMs = Math.max(Number(detail?.retryAfterMs) || 0, Number.isFinite(header) && header > 0 ? header * 1000 : 0)
@@ -483,11 +493,59 @@ async function postJson(env: Env, kind: 'generate' | 'solve', body: unknown): Pr
 // Verification, trimming and selection
 // ---------------------------------------------------------------------------------------------------
 
-type Verdict = { answer: number | null; ambiguous: boolean } | 'missing'
-
-function passes(q: QuestionDraft, v: Verdict | undefined, mode: 'strict' | 'lenient'): boolean {
-  return !!v && v !== 'missing' && v.answer === q.answer && (mode === 'lenient' || !v.ambiguous)
+/** One solver's verdict on one question: its pick, and which options it judged fully acceptable. */
+export interface SolverVerdict {
+  /** provider/model that answered */
+  model: string
+  independence: 'provider' | 'model' | 'same' | 'unknown'
+  answer: number | null
+  /** Option indexes the solver judged fully correct (null if it did not say). */
+  acceptable: number[] | null
+  /** The solver found the ITEM faulty. */
+  ambiguous: boolean
 }
+type Verdict = SolverVerdict | 'missing'
+interface QState {
+  v1?: Verdict
+  v2?: Verdict
+  /** A second-family solver was asked. */
+  pass2: boolean
+}
+
+const onlyKey = (a: number[] | null | undefined, key: number) => !!a && a.length === 1 && a[0] === key
+
+/** strict: the pick is the key AND the acceptable set is exactly {key} AND the item was not flagged faulty.
+ *  lenient: the same, ignoring the item-level "ambiguous" flag only. */
+function solverOk(v: Verdict | undefined, key: number, mode: 'strict' | 'lenient'): boolean {
+  if (!v || v === 'missing' || v.answer !== key || !onlyKey(v.acceptable, key)) return false
+  return mode === 'lenient' || !v.ambiguous
+}
+
+/** Judges one question from its one or two solver verdicts. With two solvers both must agree on the key; in lenient
+ *  mode an extra acceptable option is tolerated only when just ONE of the two solvers flags it. */
+function questionOk(st: QState | undefined, key: number, mode: 'strict' | 'lenient'): boolean {
+  if (!st) return false
+  const a = st.v1
+  const b = st.v2
+  if (b && b !== 'missing') {
+    if (mode === 'strict') return solverOk(a, key, 'strict') && solverOk(b, key, 'strict')
+    if (!a || a === 'missing' || a.answer !== key || b.answer !== key || !a.acceptable?.includes(key) || !b.acceptable?.includes(key)) return false
+    const extraA = a.acceptable.filter((x) => x !== key)
+    return !extraA.some((x) => b.acceptable!.includes(x))
+  }
+  if (st.pass2 && !ENGLISH_TUNING.consensusFallback) return false
+  return solverOk(a, key, mode)
+}
+
+/** Answers that mean "nothing is wrong": the easy items a solver confirms readily (selection bias). */
+const NO_ERROR_TOPICS = new Set<EnglishTopicId>(['error-detection', 'phrase-replacement', 'word-swap'])
+export function isNoErrorQuestion(topic: EnglishTopicId, q: QuestionDraft): boolean {
+  if (q.answer !== 4) return false
+  return (topic === 'error-detection' && q.options[4] === 'No error') || (topic === 'phrase-replacement' && q.options[4] === 'No correction required') || (topic === 'word-swap' && q.options[4] === 'No interchange required')
+}
+/** At most 20% (rounded up) of a topic's questions in a paper may be no-error answers. */
+const noErrCap = (topic: EnglishTopicId, count: number) => (NO_ERROR_TOPICS.has(topic) ? Math.ceil(0.2 * count) : Infinity)
+const isNotTrueQuestion = (q: QuestionDraft) => /\b(?:NOT|EXCEPT|FALSE|INCORRECT|CANNOT)\b|not true|cannot be inferred/.test(q.stem)
 
 /** Fills the blanks listed in `fill` with their keyed words and renumbers the rest. */
 function fillClozeBlanks(g: Group, fill: Set<number>): Group {
@@ -507,8 +565,8 @@ function fillClozeBlanks(g: Group, fill: Set<number>): Group {
 }
 
 /** Keeps the questions that pass the gate. `count` is the slot's size (decides the RC fragment threshold). */
-function applyVerdicts(topic: EnglishTopicId, g: Group, verdicts: (Verdict | undefined)[], mode: 'strict' | 'lenient', count: number): Group | null {
-  const ok = g.questions.map((q, i) => passes(q, verdicts[i], mode))
+function applyVerdicts(topic: EnglishTopicId, g: Group, states: (QState | undefined)[], mode: 'strict' | 'lenient', count: number): Group | null {
+  const ok = g.questions.map((q, i) => questionOk(states[i], q.answer, mode))
   if (topic === 'cloze') {
     const failed = ok.map((p, i) => (p ? 0 : i + 1)).filter(Boolean)
     if (failed.length === 0) return g
@@ -517,7 +575,7 @@ function applyVerdicts(topic: EnglishTopicId, g: Group, verdicts: (Verdict | und
     if (verified < Math.min(ENGLISH_TUNING.clozeMinBlanks, g.questions.length) || failed.length > 2) return null
     // Never fill in a blank the solver could not answer at all.
     const unanswered = failed.some((k) => {
-      const v = verdicts[k - 1]
+      const v = states[k - 1]?.v1
       return !v || v === 'missing' || v.answer === null
     })
     return unanswered ? null : fillClozeBlanks(g, new Set(failed))
@@ -535,6 +593,12 @@ function trimGroup(topic: EnglishTopicId, g: Group, keep: number): Group {
     for (let k = keep + 1; k <= g.questions.length; k++) fill.add(k)
     return fillClozeBlanks(g, fill)
   }
+  if (topic === 'rc') {
+    // Keep ordinary questions before "NOT true" ones, then restore the original order.
+    const idx = g.questions.map((_, i) => i)
+    const order = [...idx.filter((i) => !isNotTrueQuestion(g.questions[i])), ...idx.filter((i) => isNotTrueQuestion(g.questions[i]))].slice(0, keep).sort((x, y) => x - y)
+    return { stimulus: g.stimulus, questions: order.map((i) => g.questions[i]) }
+  }
   return { stimulus: g.stimulus, questions: g.questions.slice(0, keep) }
 }
 
@@ -542,6 +606,17 @@ interface PoolEntry {
   g: Group
   /** Content key of the group as pooled/banked (stable even when the group is later trimmed). */
   key: string
+  /** A standalone no-error-type question (see isNoErrorQuestion). */
+  noErr: boolean
+}
+const makeEntry = (topic: EnglishTopicId, g: Group, key: string): PoolEntry => ({ g, key, noErr: !isSetTopic(topic) && isNoErrorQuestion(topic, g.questions[0]) })
+
+/** Standalone selection: real-error items first, then no-error items up to the cap; original order kept. */
+function pickStandalone(entries: PoolEntry[], need: number, cap: number): PoolEntry[] {
+  const real = entries.filter((e) => !e.noErr)
+  const ne = entries.filter((e) => e.noErr)
+  const chosen = new Set([...real.slice(0, need), ...ne.slice(0, Math.min(cap, Math.max(0, need - real.length)))])
+  return entries.filter((e) => chosen.has(e))
 }
 
 const isSetTopic = (t: EnglishTopicId) => t === 'rc' || t === 'cloze'
@@ -549,7 +624,7 @@ const size = (e: PoolEntry) => e.g.questions.length
 
 /** Whole entries covering `need` questions: prefers the smallest single passage that covers it. */
 function chooseEntries(topic: EnglishTopicId, entries: PoolEntry[], need: number): PoolEntry[] {
-  if (!isSetTopic(topic)) return entries.slice(0, need)
+  if (!isSetTopic(topic)) return pickStandalone(entries, need, noErrCap(topic, need))
   const covering = entries.filter((e) => size(e) >= need).sort((a, b) => size(a) - size(b))[0]
   if (covering) return [covering]
   const out: PoolEntry[] = []
@@ -564,7 +639,7 @@ function chooseEntries(topic: EnglishTopicId, entries: PoolEntry[], need: number
 
 /** Exactly `need` questions out of the pool (set topics: fewest passages, the last one trimmed). */
 function pickGroups(topic: EnglishTopicId, entries: PoolEntry[], need: number): { g: Group; entry: PoolEntry }[] {
-  if (!isSetTopic(topic)) return entries.slice(0, need).map((entry) => ({ g: entry.g, entry }))
+  if (!isSetTopic(topic)) return pickStandalone(entries, need, noErrCap(topic, need)).map((entry) => ({ g: entry.g, entry }))
   const covering = entries.filter((e) => size(e) >= need).sort((a, b) => size(a) - size(b))[0]
   if (covering) return [{ g: trimGroup(topic, covering.g, need), entry: covering }]
   const out: { g: Group; entry: PoolEntry }[] = []
@@ -630,15 +705,34 @@ interface Slot {
 interface Cand {
   slot: Slot
   g: Group
+  /** provider/model that generated the group */
   model: string
-  verdicts: (Verdict | undefined)[]
+  states: QState[]
+  /** Questions whose verification is not finished yet. */
   remaining: number
 }
 interface SolveItem {
   id: string
   cand: Cand
   qi: number
+  pass: 1 | 2
+  /** pass 2: the provider of the first solver, which the second must not be */
+  exclude: string
 }
+
+/** How a verified question was produced and checked (for the review dump). */
+export interface EnglishProvenance {
+  generatedBy: string
+  solvers: SolverVerdict[]
+  consensus: 'confirmed' | 'single' | 'not-required'
+  /** Accepted only through the lenient ladder (the item-level ambiguity flag was ignored). */
+  lenient: boolean
+}
+let provenance = new Map<string, EnglishProvenance>()
+const provKey = (q: QuestionDraft) => (q.topic === 'cloze' ? `cloze|${q.options.join('|')}` : `${q.stem}|${q.options.join('|')}`)
+/** Provenance of a question returned by the most recent fetchEnglishPaper run (undefined for bank-drawn questions). */
+export const getEnglishProvenance = (q: QuestionDraft): EnglishProvenance | undefined => provenance.get(provKey(q))
+const providerOfId = (id: string) => id.split('/')[0]
 
 function newTopicStats(topic: EnglishTopicId): EnglishTopicStats {
   return { topic, asked: 0, received: 0, detDropped: 0, detReasons: {}, agree: 0, disagree: 0, ambiguous: 0, missing: 0, verified: 0, fromBank: 0, lenientUsed: 0 }
@@ -659,8 +753,9 @@ export async function fetchEnglishPaper(
   const T = ENGLISH_TUNING
   const startedAt = Date.now()
   const total = requests.reduce((n, r) => n + r.count, 0)
-  const stats: EnglishRunStats = { difficulty, total, outcome: 'running', rounds: 0, retries: 0, http: {}, upstream: {}, calls: [], topics: {}, models: {}, tokens: {}, independence: { provider: 0, model: 0, same: 0, unknown: 0 }, phaseMs: { generate: 0, solve: 0, total: 0 } }
+  const stats: EnglishRunStats = { difficulty, total, outcome: 'running', rounds: 0, retries: 0, http: {}, upstream: {}, calls: [], topics: {}, models: {}, tokens: {}, independence: { provider: 0, model: 0, same: 0, unknown: 0 }, consensus: { confirmed: 0, disagreed: 0, single: 0 }, phaseMs: { generate: 0, solve: 0, total: 0 } }
   lastStats = stats
+  provenance = new Map()
   const env: Env = { signal, stats, cooldownUntil: 0, round: 0, nextStart: { generate: 0, solve: 0 }, inFlight: { generate: 0, solve: 0 } }
   const tstat = (t: EnglishTopicId) => (stats.topics[t] ??= newTopicStats(t))
 
@@ -673,6 +768,16 @@ export async function fetchEnglishPaper(
   }
   const slotsOf = (t: EnglishTopicId) => slots.filter((s) => s.topic === t)
   const slotFor = (t: EnglishTopicId) => slotsOf(t).find((s) => s.have < s.count) ?? null
+  /** "have" counts usable questions: real-error items plus no-error items up to the composition cap. */
+  const recount = (slot: Slot) => {
+    const cap = noErrCap(slot.topic, slot.count)
+    if (cap === Infinity) {
+      slot.have = slot.pool.reduce((n, e) => n + size(e), 0)
+      return
+    }
+    const ne = slot.pool.filter((e) => e.noErr).length
+    slot.have = slot.pool.length - ne + Math.min(ne, cap)
+  }
 
   const progress = () => onProgress?.(
     slots.reduce((n, s) => n + Math.min(s.have, s.count), 0),
@@ -682,16 +787,16 @@ export async function fetchEnglishPaper(
   // Draw from the persistent bank first (entries stay in the bank until the paper succeeds).
   if (T.useBank) {
     for (const t of topics) {
-      let avail: PoolEntry[] = bankRead(t, difficulty).map((e) => ({ g: e.g, key: e.k }))
+      let avail: PoolEntry[] = bankRead(t, difficulty).map((e) => makeEntry(t, e.g, e.k))
       for (const e of avail) seen.get(t)!.add(e.g)
       for (const s of slotsOf(t)) {
         if (!avail.length) break
         const chosen = chooseEntries(t, avail, s.count)
         for (const e of chosen) {
           s.pool.push(e)
-          s.have += size(e)
           tstat(t).fromBank += size(e)
         }
+        recount(s)
         avail = avail.filter((e) => !chosen.includes(e))
       }
     }
@@ -729,8 +834,8 @@ export async function fetchEnglishPaper(
     if (T.useBank) bankAdd(topic, difficulty, [g])
     const slot = slotFor(topic)
     if (slot) {
-      slot.pool.push({ g, key: groupKey(g) })
-      slot.have += n
+      slot.pool.push(makeEntry(topic, g, groupKey(g)))
+      recount(slot)
       progress()
     }
   }
@@ -743,10 +848,22 @@ export async function fetchEnglishPaper(
       if (slot.have >= slot.count) break
       if (!idx.isNewGroup(g)) continue
       idx.add(g)
-      slot.pool.push({ g, key: groupKey(g) })
-      slot.have += g.questions.length
+      slot.pool.push(makeEntry(slot.topic, g, groupKey(g)))
+      recount(slot)
       tstat(slot.topic).lenientUsed += g.questions.length
       progress()
+    }
+  }
+
+  /** The solve chain spans more than one provider, so a second-family check was possible in principle. */
+  const multiFamily = () => new Set(solveChain.map(providerOfId)).size >= 2
+  const recordProvenance = (c: Cand, g: Group, lenient: boolean) => {
+    for (const q of g.questions) {
+      const i = c.g.questions.findIndex((x) => x.options.join('|') === q.options.join('|') && (q.topic === 'cloze' || x.stem === q.stem))
+      const st = c.states[i < 0 ? 0 : i]
+      const solvers = [st?.v1, st?.v2].filter((v): v is SolverVerdict => !!v && v !== 'missing')
+      const second = st?.v2 && st.v2 !== 'missing'
+      provenance.set(provKey(q), { generatedBy: c.model, solvers, consensus: second ? 'confirmed' : st?.pass2 || multiFamily() ? 'single' : 'not-required', lenient })
     }
   }
 
@@ -754,67 +871,114 @@ export async function fetchEnglishPaper(
     const topic = c.slot.topic
     const ts = tstat(topic)
     c.g.questions.forEach((q, i) => {
-      const v = c.verdicts[i]
-      if (!v || v === 'missing' || v.answer === null) ts.missing++
-      else if (v.answer !== q.answer) ts.disagree++
-      else if (v.ambiguous) ts.ambiguous++
-      else ts.agree++
+      const st = c.states[i]
+      const v1 = st?.v1
+      const v2 = st?.v2
+      if (!v1 || v1 === 'missing' || v1.answer === null) ts.missing++
+      else if (v1.answer !== q.answer || (v2 && v2 !== 'missing' && v2.answer !== q.answer)) ts.disagree++
+      else if (questionOk(st, q.answer, 'strict')) ts.agree++
+      else ts.ambiguous++
+      if (st?.pass2) {
+        if (v2 && v2 !== 'missing') {
+          if (questionOk(st, q.answer, 'strict')) stats.consensus.confirmed++
+          else stats.consensus.disagreed++
+        } else stats.consensus.single++
+      } else if (multiFamily() && v1 && v1 !== 'missing' && v1.answer === q.answer) stats.consensus.single++
     })
-    const strict = applyVerdicts(topic, c.g, c.verdicts, 'strict', c.slot.count)
+    const strict = applyVerdicts(topic, c.g, c.states, 'strict', c.slot.count)
     if (strict) {
       // Filling in a cloze blank rewrites the passage, so re-check the rewritten group.
       const final = topic === 'cloze' && strict !== c.g ? checkEnglishGroup(topic, difficulty, strict).group : strict
-      if (final) mergeStrict(topic, final)
+      if (final) {
+        recordProvenance(c, final, false)
+        mergeStrict(topic, final)
+      }
       return
     }
-    const lenient = applyVerdicts(topic, c.g, c.verdicts, 'lenient', c.slot.count)
+    const lenient = applyVerdicts(topic, c.g, c.states, 'lenient', c.slot.count)
     if (lenient) {
       const final = topic === 'cloze' && lenient !== c.g ? checkEnglishGroup(topic, difficulty, lenient).group : lenient
-      if (final) c.slot.reserve.push(final)
+      if (final) {
+        recordProvenance(c, final, true)
+        c.slot.reserve.push(final)
+      }
     }
   }
 
-  // ---- blind solve queue: pooled across topics, dispatched in full chunks as candidates arrive
-  let pending: SolveItem[] = []
+  // ---- blind solve queues: pooled across topics, dispatched in full chunks as candidates arrive. Pass 1 is the
+  // normal blind solve; pass 2 (consensus) asks a solver of ANOTHER family to confirm what pass 1 accepted.
+  const queues = new Map<string, SolveItem[]>()
   const inflight: Promise<void>[] = []
+  let solveChain: string[] = []
   const noteFailure = (err: unknown) => {
     if (err instanceof ApiError) {
       if (err.fatal) fatal = err
       else if (err.cls === 'wait') roundFailures[err.hint === 'timeout' ? 'timeout' : err.hint === 'network' ? 'network' : 'rate']++
       else if (err.cls === 'quota' || err.cls === 'models') fatal = err
-      else roundFailures[err.cls]++
+      else if (err.cls !== 'noalt') roundFailures[err.cls]++
     }
   }
+  const completeQuestion = (c: Cand) => {
+    if (--c.remaining === 0) finalize(c)
+  }
+  const consensusPossible = (v1: SolverVerdict) => {
+    if (!T.consensus) return false
+    const healthy = [...new Set(solveChain.filter((m) => !healthState(m)).map(providerOfId))]
+    return healthy.length >= 2 && healthy.some((p) => p !== providerOfId(v1.model))
+  }
+  const onVerdict = (it: SolveItem, v: Verdict) => {
+    const st = it.cand.states[it.qi]
+    if (it.pass === 2) {
+      st.v2 = v
+      completeQuestion(it.cand)
+      return
+    }
+    st.v1 = v
+    const q = it.cand.g.questions[it.qi]
+    if (v !== 'missing' && v.answer === q.answer && v.acceptable?.includes(q.answer) && v.model && consensusPossible(v)) {
+      st.pass2 = true
+      enqueue({ id: `${it.id}b`, cand: it.cand, qi: it.qi, pass: 2, exclude: providerOfId(v.model) })
+      return
+    }
+    completeQuestion(it.cand)
+  }
   const dispatch = (chunk: SolveItem[]) => {
+    const pass = chunk[0].pass
+    const exclude = chunk[0].exclude
     const p = solveGate
       .run(async () => {
         throwIfAborted(signal)
         const counts = new Map<string, number>()
         for (const it of chunk) counts.set(it.cand.model, (counts.get(it.cand.model) ?? 0) + 1)
         const model = [...counts.entries()].sort((a, b) => b[1] - a[1])[0][0]
-        let results = new Map<string, { answer: number | null; ambiguous: boolean }>()
+        const results = new Map<string, { answer: number | null; acceptable: number[] | null; ambiguous: boolean }>()
+        let solver = ''
+        let independence: SolverVerdict['independence'] = 'unknown'
         try {
           const data = (await postJson(env, 'solve', {
             action: 'solve',
             avoidModel: model || undefined,
+            excludeProviders: pass === 2 ? [exclude] : undefined,
             items: chunk.map((it) => {
               const q = it.cand.g.questions[it.qi]
               return { id: it.id, topic: it.cand.slot.topic, passage: passageText(it.cand.g) || undefined, stem: q.stem, options: q.options }
             }),
           })) as SolveResponse | null
-          const ind = data?.meta?.independence ?? 'unknown'
-          env.stats.independence[ind] += chunk.length
+          solver = typeof data?.model === 'string' ? data.model : ''
+          independence = data?.meta?.independence ?? 'unknown'
+          env.stats.independence[independence] += chunk.length
+          if (data?.meta?.chain?.length) solveChain = data.meta.chain
           for (const r of data?.results ?? []) {
-            if (r && typeof r.id === 'string') results.set(r.id, { answer: Number.isInteger(r.answer) ? (r.answer as number) : null, ambiguous: r.ambiguous !== false })
+            if (r && typeof r.id === 'string') results.set(r.id, { answer: Number.isInteger(r.answer) ? (r.answer as number) : null, acceptable: Array.isArray(r.acceptable) ? r.acceptable.filter((x) => Number.isInteger(x)) : null, ambiguous: r.ambiguous !== false })
           }
         } catch (err) {
           if (signal?.aborted) throw abortError()
           noteFailure(err)
-          results = new Map()
+          results.clear()
         }
         for (const it of chunk) {
-          it.cand.verdicts[it.qi] = results.get(it.id) ?? 'missing'
-          if (--it.cand.remaining === 0) finalize(it.cand)
+          const r = results.get(it.id)
+          onVerdict(it, r ? { model: solver, independence, answer: r.answer, acceptable: r.acceptable, ambiguous: r.ambiguous } : 'missing')
         }
       })
       .catch((err) => {
@@ -822,14 +986,19 @@ export async function fetchEnglishPaper(
       })
     inflight.push(p)
   }
-  const pushItems = (items: SolveItem[]) => {
-    pending.push(...items)
-    while (pending.length >= T.solveBatchSize) dispatch(pending.splice(0, T.solveBatchSize))
+  const enqueue = (it: SolveItem) => {
+    const key = it.pass === 1 ? 'p1' : `p2|${it.exclude}`
+    const q = queues.get(key) ?? []
+    queues.set(key, q)
+    q.push(it)
+    if (q.length >= T.solveBatchSize) dispatch(q.splice(0, T.solveBatchSize))
   }
   const flushItems = async () => {
-    if (pending.length) dispatch(pending.splice(0))
-    await Promise.all(inflight)
-    inflight.length = 0
+    for (;;) {
+      for (const q of queues.values()) if (q.length) dispatch(q.splice(0))
+      if (inflight.length === 0) break
+      await Promise.all(inflight.splice(0))
+    }
   }
 
   let nextId = 0
@@ -839,8 +1008,11 @@ export async function fetchEnglishPaper(
     const topic = slot.topic
     const ts = tstat(topic)
     ts.asked += ask
+    // Once the no-error quota of a topic is filled, every further item MUST contain a real error.
+    const cap = noErrCap(topic, slot.count)
+    const noError = cap === Infinity || slot.pool.filter((e) => e.noErr).length < cap
     try {
-      const data = (await postJson(env, 'generate', { action: 'generate', topic, difficulty, count: ask, seed: Math.floor(Math.random() * 0x7fffffff) })) as GenerateResponse | null
+      const data = (await postJson(env, 'generate', { action: 'generate', topic, difficulty, count: ask, noError, seed: Math.floor(Math.random() * 0x7fffffff) })) as GenerateResponse | null
       if (!data || !Array.isArray(data.groups)) throw new ApiError('malformed generate response', 200, 'network')
       const model = typeof data.meta?.model === 'string' ? data.meta.model : ''
       for (const g of data.groups) ts.received += Array.isArray(g?.questions) ? g.questions.length : 0
@@ -863,11 +1035,11 @@ export async function fetchEnglishPaper(
           continue
         }
         batchSeen.add(checked.group)
-        const cand: Cand = { slot, g: checked.group, model, verdicts: [], remaining: checked.group.questions.length }
+        const cand: Cand = { slot, g: checked.group, model, states: checked.group.questions.map(() => ({ pass2: false })), remaining: checked.group.questions.length }
         const cid = nextId++
-        checked.group.questions.forEach((_, qi) => items.push({ id: `${cid}.${qi}`, cand, qi }))
+        checked.group.questions.forEach((_, qi) => items.push({ id: `${cid}.${qi}`, cand, qi, pass: 1, exclude: '' }))
       }
-      pushItems(items)
+      items.forEach(enqueue)
     } catch (err) {
       if (signal?.aborted) throw abortError()
       noteFailure(err)

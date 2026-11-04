@@ -3,6 +3,10 @@
 //   npx tsx scripts/verify-mocks-english.ts                 stubbed-Gemini suite (always runs); live smoke test if GEMINI_API_KEY is set
 //   npx tsx scripts/verify-mocks-english.ts --only <name>   run only suites whose name contains <name>
 //   npx tsx scripts/verify-mocks-english.ts --print-prompts print the schemas and two full generate prompts
+//   REVIEW_OUT=review.json npx tsx scripts/verify-mocks-english.ts --live-review [N]
+//                                                           N x real PO + Clerk English sections (bank off); writes every
+//                                                           verified question with its provenance to REVIEW_OUT and prints per-topic
+//                                                           statistics (no-error share, answer positions, key-longest bias, consensus)
 //   npx tsx scripts/verify-mocks-english.ts --live-paper    needs GEMINI_API_KEY: times a real full PO English section, prints
 //                                                           the diagnostics summary and per-call latency percentiles
 //   npx tsx scripts/verify-mocks-english.ts --live [N]      needs GEMINI_API_KEY: N items per topic/difficulty, prints
@@ -11,7 +15,7 @@
 // The suite stubs globalThis.fetch: "/api/mockEnglish" is routed into the real Vercel handler (fake req/res) and
 // Gemini URLs are routed to an emulator whose behaviour each test configures. Exits non-zero on any failure.
 
-import handler from '../api/mockEnglish.js'
+import handler, { config as handlerConfig } from '../api/mockEnglish.js'
 import {
   ENGLISH_TUNING,
   EnglishPrepareError,
@@ -21,6 +25,9 @@ import {
   englishBankSize,
   fetchEnglishGroups,
   fetchEnglishPaper,
+  passageText,
+  getEnglishProvenance,
+  isNoErrorQuestion,
   formatEnglishRunStats,
   getLastEnglishRunStats,
   percentile,
@@ -32,7 +39,9 @@ import { configuredModels, runProbe } from './probe-llm-models'
 import { assertGroup } from '../src/lib/mocks/validate'
 import { composePaper } from '../src/lib/mocks/compose'
 import { EXAMS, entryTotal } from '../src/lib/mocks/blueprints'
-import { writeFileSync } from 'node:fs'
+import { mkdtempSync, readFileSync, writeFileSync } from 'node:fs'
+import { tmpdir } from 'node:os'
+import { join } from 'node:path'
 import type { EnglishTopicId, Group, MockDifficulty } from '../src/lib/mocks/types'
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -143,6 +152,8 @@ function mkCloze(count: number) {
 function mkEdItem(i: number) {
   if (i % 5 === 3) return { variant: 'sentences', topic: 'agreement', sentences: Array.from({ length: 5 }, () => sentence(10)), correctIndex: i % 5, explanation: expl() }
   const parts = Array.from({ length: 4 }, () => Array.from({ length: ri(4, 5) }, pseudo).join(' '))
+  parts[0] = cap(parts[0])
+  parts[3] += '.'
   return { variant: 'parts', topic: 'tense', parts, errorPartIndex: i % 5 === 1 ? null : i % 4, explanation: expl() }
 }
 function mkPjItem(i: number) {
@@ -200,7 +211,19 @@ function mkMcItem() {
   }
 }
 
-function makeGenerated(topic: EnglishTopicId, diff: MockDifficulty, count: number): any {
+function makeGenerated(topic: EnglishTopicId, diff: MockDifficulty, count: number, mandatory = false): any {
+  const data = makeGeneratedRaw(topic, diff, count)
+  if (mandatory) {
+    // The prompt said every item needs a real error: no no-error / already-correct / no-interchange items.
+    for (const it of data.items ?? []) {
+      if (topic === 'error-detection' && it.variant === 'parts' && it.errorPartIndex === null) it.errorPartIndex = 0
+      if (topic === 'phrase-replacement' && it.variant === 'replace' && it.correctIndex === null) it.correctIndex = 0
+      if (topic === 'word-swap' && it.swap === null) it.swap = [0, 2]
+    }
+  }
+  return data
+}
+function makeGeneratedRaw(topic: EnglishTopicId, diff: MockDifficulty, count: number): any {
   switch (topic) {
     case 'rc':
       return mkRc(count, diff)
@@ -318,7 +341,13 @@ interface Behavior {
   /** Per OpenAI-compatible provider (groq, mistral): token bucket, daily counters, JSON-mode failures. */
   providers?: Record<string, ProviderCfg>
   /** Replace the generated JSON entirely (for deterministic-rejection tests). */
-  generateOverride?: (topic: EnglishTopicId, diff: MockDifficulty, count: number) => any
+  generateOverride?: (topic: EnglishTopicId, diff: MockDifficulty, count: number, mandatory: boolean) => any
+  /** Solver misbehaviour: providers whose solvers answer wrongly; acceptable sets with an extra option (all solvers, or only the listed providers); solvers that omit the acceptable set; a predicate for wrong answers. */
+  solverWrongProviders?: string[]
+  solverExtraRate?: number
+  extraByProvider?: string[]
+  solverOmitsAcceptable?: boolean
+  solverWrongPredicate?: (key: string, truth: number) => boolean
 }
 const behavior: Behavior = { badRate: 0, solverWrongRate: 0, solverAmbiguousRate: 0 }
 interface GeminiCall {
@@ -357,7 +386,7 @@ const isWrongKey = (k: string) => hashStr(`w${k}`) < behavior.solverWrongRate * 
 const isAmbiguousKey = (k: string) => hashStr(`a${k}`) < behavior.solverAmbiguousRate * 1000
 
 function resetBehavior(over: Partial<Behavior> = {}) {
-  Object.assign(behavior, { badRate: 0, solverWrongRate: 0, solverAmbiguousRate: 0, fault: undefined, generateOverride: undefined, latency: undefined, rateLimit: undefined, providers: undefined }, over)
+  Object.assign(behavior, { badRate: 0, solverWrongRate: 0, solverAmbiguousRate: 0, fault: undefined, generateOverride: undefined, latency: undefined, rateLimit: undefined, providers: undefined, solverWrongProviders: undefined, solverExtraRate: undefined, extraByProvider: undefined, solverOmitsAcceptable: undefined, solverWrongPredicate: undefined }, over)
   geminiCalls = []
   apiCalls = 0
   registry.clear()
@@ -409,16 +438,16 @@ function analyse(prompt: string) {
   const isSolve = /Task: mock-english \/ solve/.test(prompt)
   const task = /Task: mock-english \/ topic=([a-z-]+) \/ difficulty=(\w+) \/ items=(\d+)/.exec(prompt)
   const n = isSolve ? Number(/items=(\d+)/.exec(prompt)?.[1] || 0) : Number(task?.[3] || 0)
-  return { isSolve, task, n, kind: (isSolve ? 'solve' : 'generate') as 'generate' | 'solve' }
+  return { isSolve, task, n, mandatory: /MANDATORY-ERRORS/.test(prompt), kind: (isSolve ? 'solve' : 'generate') as 'generate' | 'solve' }
 }
 
 /** What the "model" answers (the JSON object), independent of the provider's wire format. */
-function modelContent(prompt: string, a: ReturnType<typeof analyse>): any {
+function modelContent(prompt: string, a: ReturnType<typeof analyse>, provider = 'gemini'): any {
   if (!a.isSolve && !a.task) return { ok: true }
   if (!a.isSolve) {
     const topic = a.task![1] as EnglishTopicId
     const diff = a.task![2] as MockDifficulty
-    const data = behavior.generateOverride ? behavior.generateOverride(topic, diff, a.n) : makeGenerated(topic, diff, a.n)
+    const data = behavior.generateOverride ? behavior.generateOverride(topic, diff, a.n, a.mandatory) : makeGenerated(topic, diff, a.n, a.mandatory)
     if (!behavior.generateOverride && behavior.badRate > 0) corruptGenerated(topic, data)
     return data
   }
@@ -431,8 +460,11 @@ function modelContent(prompt: string, a: ReturnType<typeof analyse>): any {
     const k = keyOf(m[2], options)
     const truth = registry.get(k)
     if (truth === undefined) return { id: m[1], answer: 'A', ambiguous: true, note: 'unknown item' }
-    const answer = isWrongKey(k) ? (truth + 1) % 5 : truth
-    return { id: m[1], answer: 'ABCDE'[answer], ambiguous: isAmbiguousKey(k), note: '' }
+    const wrong = isWrongKey(k) || !!behavior.solverWrongProviders?.includes(provider) || !!behavior.solverWrongPredicate?.(k, truth)
+    const answer = wrong ? (truth + 1) % 5 : truth
+    const extra = !wrong && hashStr(`x${k}`) < (behavior.solverExtraRate ?? 0) * 1000 && (!behavior.extraByProvider || behavior.extraByProvider.includes(provider))
+    const acceptable = (extra ? [truth, (truth + 2) % 5] : [answer]).sort().map((i) => 'ABCDE'[i])
+    return { id: m[1], answer: 'ABCDE'[answer], ...(behavior.solverOmitsAcceptable ? {} : { acceptable }), ambiguous: isAmbiguousKey(k), note: '' }
   })
   return { results }
 }
@@ -469,7 +501,7 @@ async function geminiStub(url: string, init: RequestInit): Promise<Response> {
   const early = await applyFault(fault, 'gemini', init)
   if (early) return early
   if (behavior.latency && !fault) await wait(behavior.latency[a.kind], init.signal)
-  return new Response(JSON.stringify(geminiJson(modelContent(prompt, a))), { status: 200 })
+  return new Response(JSON.stringify(geminiJson(modelContent(prompt, a, 'gemini'))), { status: 200 })
 }
 
 /** Groq / Mistral / OpenRouter: OpenAI-compatible chat completions with Groq-style token-bucket rate limits. */
@@ -524,7 +556,7 @@ async function openaiStub(provider: string, url: string, init: RequestInit): Pro
     const wait = ((requested - st.tokens) / tpm) * (windowMs / 1000)
     return rl(`Rate limit reached for model \`${model}\` ${org} on tokens per minute (TPM): Limit ${tpm}, Used ${Math.round(tpm - st.tokens)}, Requested ${requested}. Please try again in ${wait.toFixed(2)}s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing`, Math.ceil(wait))
   }
-  const content = modelContent(prompt, a)
+  const content = modelContent(prompt, a, provider)
   const text = JSON.stringify(content)
   const completion = Math.ceil(text.length / 3.5) + (/gpt-oss/.test(model) ? 60 : 0)
   // Pacing check: tokens already in flight on this model plus this request must stay within the bucket (+25%).
@@ -896,7 +928,7 @@ async function suiteBuilders() {
   }
   const ws = await gen('word-swap', 'medium', 6, 6)
   check(ws.every((g) => g.questions[0].options[4] === 'No interchange required' && /\(1\)\w+ .*\(4\)\w+/.test(g.questions[0].stem)), 'word-swap markers (1)-(4) present and last option fixed')
-  check(ws.every((g) => /Correct sentence|already correct/.test(g.questions[0].explanation)), 'word-swap explanation carries the corrected sentence')
+  check(ws.every((g) => /gives: |already correct as written/.test(g.questions[0].explanation)), 'word-swap explanation is built in code and carries the corrected sentence')
   const mc = await gen('match-column', 'hard', 4, 7)
   check(mc.every((g) => g.questions[0].options.length === 5 && /Column I\n1\. /.test(g.questions[0].stem)), 'match-column renders both columns with 5 matchings')
   const rc = await gen('rc', 'hard', 9, 8)
@@ -1558,11 +1590,13 @@ async function suiteResume() {
   const a = await fetchEnglishPaper([{ topic: 'error-detection', count: 10 }], 'medium')
   check(countQ(a[0]) === 10, 'ED x10 delivered')
   const left = englishBankSize('medium')
-  check(left >= 3, `over-requested verified leftovers are banked (${left} questions)`)
+  const realLeft = bankRead('error-detection', 'medium').filter((e) => !isNoErrorQuestion('error-detection', e.g.questions[0])).length
+  check(left >= 3 && realLeft >= 1, `over-requested verified leftovers are banked (${left} questions, ${realLeft} with a real error)`)
   resetBehavior()
-  const b = await fetchEnglishPaper([{ topic: 'error-detection', count: Math.min(5, left) }], 'medium')
-  check(countQ(b[0]) === Math.min(5, left) && apiCalls === 0, `a request the bank can cover makes ZERO API calls (${apiCalls})`)
-  check(englishBankSize('medium') === left - Math.min(5, left), 'consumed groups are removed from the bank')
+  const want = Math.min(5, realLeft)
+  const b = await fetchEnglishPaper([{ topic: 'error-detection', count: want }], 'medium')
+  check(countQ(b[0]) === want && apiCalls === 0, `a request the bank can cover makes ZERO API calls (${apiCalls})`)
+  check(englishBankSize('medium') === left - want, 'consumed groups are removed from the bank')
   ENGLISH_TUNING.useBank = false
   removeStorage()
 }
@@ -1571,7 +1605,7 @@ async function suiteBank() {
   suite('bank: persistence, dedupe, cap, versioning and corrupt-storage tolerance')
   fastTiming()
   const mkEd = (i: number): Group => ({
-    questions: [{ topic: 'error-detection', stem: `Read each sentence carefully.\n\n(a) alpha${i} beta (b) gamma delta (c) epsilon${i} zeta (d) eta theta`, options: ['(a)', '(b)', '(c)', '(d)', 'No error'], answer: i % 5, explanation: `Rule ${i} applies here.` }],
+    questions: [{ topic: 'error-detection', stem: `Read each sentence carefully.\n\n(a) Alpha${i} beta (b) gamma delta (c) epsilon${i} zeta (d) eta theta.`, options: ['(a)', '(b)', '(c)', '(d)', 'No error'], answer: i % 5, explanation: `Rule ${i} applies here.` }],
   })
   const store = installStorage()
   clearEnglishBank()
@@ -2098,7 +2132,7 @@ async function suiteProviderChain() {
   check(geminiCalls[0].provider === 'gemini' && sr.body.meta.independence === 'provider', 'a Groq-generated batch is solved by another PROVIDER (cross-family)')
   geminiCalls = []
   const sr2 = await callHandler({ action: 'solve', avoidModel: G_PREVIEW, items: [sItem] })
-  check(geminiCalls[0].id === GROQ120 && geminiCalls[0].effort === 'medium' && sr2.body.meta.independence === 'provider', "a Gemini-generated batch is solved by Groq with reasoning_effort 'medium'")
+  check(geminiCalls[0].id === GROQ120 && geminiCalls[0].effort === 'low' && sr2.body.meta.independence === 'provider', "a Gemini-generated batch is solved by Groq with reasoning_effort 'low' (a cross-family solver needs little reasoning; more would exhaust Groq's token budget)")
 
   setProviders({ gemini: true, groq: true, mistral: true })
   resetBehavior({ providers: groqCfg })
@@ -2131,7 +2165,7 @@ async function suiteProviderChain() {
   process.env.MOCK_ENGLISH_SOLVE_MODELS = GROQ120
   geminiCalls = []
   const sr5 = await callHandler({ action: 'solve', avoidModel: GROQ120, items: [sItem3] })
-  check(geminiCalls[0].id === GROQ120 && geminiCalls[0].effort === 'high' && sr5.body.meta.independence === 'same', "only one model: the same model is used with the higher reasoning effort ('high') and the reply says so")
+  check(geminiCalls[0].id === GROQ120 && geminiCalls[0].effort === 'medium' && sr5.body.meta.independence === 'same', "only one model: the same model is used with the higher reasoning effort ('medium') and the reply says so")
   builtinChains()
 
   // No key at all, bare names mean gemini, GEMINI_MODEL forces a Gemini model.
@@ -2347,6 +2381,461 @@ async function suiteProbeLlm() {
 }
 
 // ---------------------------------------------------------------------------------------------------
+// Quality: shape gates, no-error composition, option-level judging, consensus, explanations, review dump
+// ---------------------------------------------------------------------------------------------------
+
+const gemOnly = () => {
+  fastTiming()
+  builtinChains()
+  setProviders({ gemini: true })
+}
+const bothProviders = () => {
+  fastTiming()
+  builtinChains()
+  setProviders({ gemini: true, groq: true })
+}
+const groqBucket = { groq: { tpm: 8000, windowMs: 600 } }
+const solveItemCounts = () => geminiCalls.filter((c) => c.kind === 'solve').map((c) => Number(/Task: mock-english \/ solve \/ items=(\d+)/.exec(c.prompt)?.[1] ?? 0))
+
+async function suiteQualityGates() {
+  suite('quality gates: RC question shape (True/False options, statement stems, mixed options, restated sentences) and ED sentences')
+  gemOnly()
+  const gen = (topic: EnglishTopicId, diff: MockDifficulty, count: number, data: any) => {
+    resetBehavior({ generateOverride: () => data })
+    return callHandler({ action: 'generate', topic, difficulty: diff, count, seed: 5 })
+  }
+  const defects: [string, (passage: string) => { stem: string; options: string[] }][] = [
+    [
+      'True/False options with a statement stem (observed live)',
+      () => ({
+        stem: 'From the passage, it can be inferred that the author believes that merely opening bank accounts is insufficient for true financial inclusion.',
+        options: ['The author thinks account opening is the sole solution', 'True', 'The author suggests account opening is harmful', 'False', 'The author does not discuss account opening'],
+      }),
+    ],
+    [
+      'bare True / False among statements under a real question',
+      () => ({ stem: 'Which of the following can be inferred about the author attitude to account opening?', options: ['It is the sole solution to exclusion', 'True', 'It is harmful to savers overall', 'False', 'It is never discussed in the passage'] }),
+    ],
+    ['statement stem', () => ({ stem: 'The author believes that growth will always require careful regulation of lending.', options: optionSet('Opt ').map((o) => `${o} one two three`) })],
+    [
+      'single words next to sentences',
+      () => ({ stem: 'What is the tone of the author throughout the passage?', options: ['Optimistic', 'Pessimistic', 'A balanced and cautious appraisal of the policy trade-offs involved', 'Indifferent', 'Hostile'] }),
+    ],
+    ['stem restates a passage sentence', (passage) => ({ stem: passage.split(/(?<=\.)\s+/)[1].replace(/\.$/, '') + '?', options: optionSet('Opt ').map((o) => `${o} one two three`) })],
+  ]
+  for (const [label, d] of defects) {
+    const data = makeGenerated('rc', 'hard', 5)
+    const passage = data.passages[0].paragraphs.join(' ')
+    Object.assign(data.passages[0].questions[2], { kind: 'inference', ...d(passage) })
+    const r = await gen('rc', 'hard', 5, data)
+    check(r.status === 200 && countQ(r.body.groups) === 4 && r.body.meta.droppedCount >= 1, `server drops: ${label} (kept ${r.status === 200 ? countQ(r.body.groups) : r.status})`)
+    resetBehavior()
+    const built = (await callHandler({ action: 'generate', topic: 'rc', difficulty: 'hard', count: 5, seed: 6 })).body.groups[0] as Group
+    check(checkEnglishGroup('rc', 'hard', JSON.parse(JSON.stringify(built))).group?.questions.length === 5, `clean RC group passes the client checks (${label})`)
+    const mutated = JSON.parse(JSON.stringify(built)) as Group
+    const q = mutated.questions[2]
+    Object.assign(q, d(passageText(mutated)))
+    check(checkEnglishGroup('rc', 'hard', mutated).group?.questions.length === 4, `client drops: ${label}`)
+  }
+  // ED sentences must be one natural, complete sentence.
+  const bad: [string, (it: any) => void][] = [
+    ['no capital letter at the start', (it) => (it.parts[0] = it.parts[0].toLowerCase())],
+    ['no closing full stop', (it) => (it.parts[3] = it.parts[3].replace(/\.$/, ''))],
+    ['a one-word part (fragment)', (it) => (it.parts[1] = 'word')],
+  ]
+  for (const [label, mutate] of bad) {
+    const good = { ...mkEdItem(0), errorPartIndex: 1 }
+    const it = { ...mkEdItem(0), errorPartIndex: 1 }
+    mutate(it)
+    const r = await gen('error-detection', 'medium', 2, { items: [good, it] })
+    check(r.status === 200 && r.body.groups.length === 1, `server drops ED parts with ${label}`)
+    resetBehavior()
+    const g = (await callHandler({ action: 'generate', topic: 'error-detection', difficulty: 'medium', count: 3, seed: 8 })).body.groups.find((x: Group) => x.questions[0].stem.includes('(a) ')) as Group
+    const m = JSON.parse(JSON.stringify(g)) as Group
+    const q = m.questions[0]
+    const parts = q.stem.split(/\([a-d]\) /)
+    const hdr = parts[0]
+    const body = parts.slice(1).map((x) => x.trim())
+    if (label.startsWith('no capital')) body[0] = body[0].toLowerCase()
+    else if (label.startsWith('no closing')) body[3] = body[3].replace(/\.$/, '')
+    else body[1] = 'word'
+    q.stem = `${hdr}(a) ${body[0]} (b) ${body[1]} (c) ${body[2]} (d) ${body[3]}`
+    check(checkEnglishGroup('error-detection', 'medium', m).group === null, `client rejects ED parts with ${label}`)
+  }
+  fastTiming()
+}
+
+const noErrItem = (topic: EnglishTopicId): any =>
+  topic === 'error-detection' ? { ...mkEdItem(0), errorPartIndex: null } : topic === 'phrase-replacement' ? { ...mkPrItem(0), correctIndex: null } : { ...mkWsItem(0), swap: null }
+const realItem = (topic: EnglishTopicId): any => (topic === 'error-detection' ? { ...mkEdItem(0), errorPartIndex: 1 } : topic === 'phrase-replacement' ? { ...mkPrItem(0), correctIndex: 0 } : { ...mkWsItem(0), swap: [0, 2] })
+
+async function suiteNoErrorComposition() {
+  suite('selection bias: at most ceil(20%) no-error answers per topic; the gap is filled with real errors, never with no-error items')
+  for (const topic of ['error-detection', 'phrase-replacement', 'word-swap'] as EnglishTopicId[]) {
+    gemOnly()
+    // A generator that writes nothing but no-error items until the prompt says errors are mandatory.
+    resetBehavior({ generateOverride: (_t, _d, n, mandatory) => ({ items: Array.from({ length: n }, () => (mandatory ? realItem(topic) : noErrItem(topic))) }) })
+    const out = await fetchEnglishGroups(topic, 'medium', 5)
+    const qs = out.flatMap((g) => g.questions)
+    const ne = qs.filter((q) => isNoErrorQuestion(topic, q)).length
+    check(qs.length === 5 && ne <= 1, `${topic}: 5 questions with at most 1 no-error answer (got ${ne})`)
+    const gens = geminiCalls.filter((c) => c.kind === 'generate')
+    check(gens.length >= 2 && !/MANDATORY-ERRORS/.test(gens[0].prompt) && gens.some((c) => /MANDATORY-ERRORS/.test(c.prompt)), `${topic}: once the no-error quota is full the generator is told every item needs a real error`)
+    check((await Promise.resolve(getLastEnglishRunStats()))!.rounds >= 2, `${topic}: the short topic triggered another round`)
+
+    // A generator that never writes a real error: the fetch fails; it never pads with no-error items.
+    resetBehavior({ generateOverride: (_t, _d, n) => ({ items: Array.from({ length: n }, () => noErrItem(topic)) }) })
+    await expectThrows(() => fetchEnglishGroups(topic, 'medium', 5), `${topic}: only no-error items can never fill the paper`, (e) => e instanceof EnglishPrepareError && e.reason === 'quality')
+
+    // Selection bias: the solver misses real errors half the time, confirms no-error items always.
+    for (let trial = 0; trial < 3; trial++) {
+      resetBehavior({
+        solverWrongPredicate: (k, truth) => truth !== 4 && hashStr(`p${k}`) < 450,
+        generateOverride: (_t, _d, n, mandatory) => ({ items: Array.from({ length: n }, (_x, i) => (mandatory || i % 2 ? realItem(topic) : noErrItem(topic))) }),
+      })
+      try {
+        const o = await fetchEnglishGroups(topic, 'medium', 5)
+        const neCount = o.flatMap((g) => g.questions).filter((q) => isNoErrorQuestion(topic, q)).length
+        check(countQ(o) === 5 && neCount <= 1, `${topic}: biased solver trial ${trial}: composition holds (${neCount} no-error)`)
+      } catch (e) {
+        check(e instanceof EnglishPrepareError && e.reason === 'quality', `${topic}: biased solver trial ${trial}: fails cleanly rather than padding (${(e as Error).message})`)
+      }
+    }
+  }
+  // Counts: ceil(0.2 * n).
+  gemOnly()
+  resetBehavior({ generateOverride: (_t, _d, n, mandatory) => ({ items: Array.from({ length: n }, (_x, i) => (mandatory || i % 3 ? realItem('error-detection') : noErrItem('error-detection'))) }) })
+  const ten = await fetchEnglishGroups('error-detection', 'medium', 10)
+  check(ten.flatMap((g) => g.questions).filter((q) => isNoErrorQuestion('error-detection', q)).length <= 2, 'ED x10: at most 2 no-error answers')
+  fastTiming()
+}
+
+async function suiteOptionLevelJudging() {
+  suite('solver protocol: option-level acceptable sets (ambiguous set, wrong key, missing set, one-of-two exception)')
+  const reqs: EnglishRequest[] = [{ topic: 'fillers', count: 4 }]
+
+  gemOnly()
+  resetBehavior({ solverExtraRate: 1 })
+  await expectThrows(() => fetchEnglishPaper(reqs, 'medium'), 'an item whose acceptable set also contains a non-key option is never accepted (single solver)', (e) => e instanceof EnglishPrepareError && e.reason === 'quality')
+  resetBehavior({ solverOmitsAcceptable: true })
+  await expectThrows(() => fetchEnglishPaper(reqs, 'medium'), 'a solver that does not report an acceptable set verifies nothing', (e) => e instanceof EnglishPrepareError && e.reason === 'quality')
+  resetBehavior({ solverWrongRate: 1 })
+  await expectThrows(() => fetchEnglishPaper(reqs, 'medium'), 'a wrong key (the solver picks and accepts another option) is rejected', (e) => e instanceof EnglishPrepareError && e.reason === 'quality')
+  resetBehavior({ solverAmbiguousRate: 1 })
+  const flagged = await fetchEnglishPaper(reqs, 'medium')
+  check(countQ(flagged[0]) === 4 && (getLastEnglishRunStats()!.topics.fillers.lenientUsed ?? 0) > 0, 'only the item-level "ambiguous" flag (acceptable set exactly {key}) is relaxed by the lenient ladder')
+
+  // The stub solver: sanity of the protocol on the wire.
+  const q = (await callHandler({ action: 'generate', topic: 'fillers', difficulty: 'medium', count: 3, seed: 3 })).body.groups[0].questions[0]
+  registry.set(keyOf(q.stem, q.options), q.answer)
+  resetBehavior({ solverExtraRate: 1 })
+  registry.set(keyOf(q.stem, q.options), q.answer)
+  const sr = await callHandler({ action: 'solve', items: [{ id: 'z', topic: 'fillers', stem: q.stem, options: q.options }] })
+  const res = sr.body.results[0]
+  check(res.answer === q.answer && res.acceptable.length === 2 && res.acceptable.includes(q.answer), 'solve replies carry per-option acceptable sets (as option indexes)')
+  check(/acceptable/.test(geminiCalls.at(-1)!.prompt) && /Judge EACH option/.test(geminiCalls.at(-1)!.prompt), 'the solve prompt asks for option-level judgements')
+
+  // One-of-two exception: only ONE of the two solvers flags the extra option -> lenient ladder accepts; both -> rejected.
+  bothProviders()
+  resetBehavior({ latency: { generate: 5, solve: 5 }, providers: groqBucket, solverExtraRate: 1, extraByProvider: ['groq'] })
+  const one = await fetchEnglishPaper(reqs, 'medium')
+  const st1 = getLastEnglishRunStats()!
+  const prov = getEnglishProvenance(one[0][0].questions[0])
+  check(countQ(one[0]) === 4 && st1.topics.fillers.lenientUsed > 0, 'an extra option flagged by only one of two solvers is accepted through the lenient ladder')
+  check(!!prov && prov.lenient && prov.consensus === 'confirmed' && prov.solvers.length === 2 && prov.solvers[0].model.split('/')[0] !== prov.solvers[1].model.split('/')[0] && prov.solvers.some((s) => (s.acceptable ?? []).length === 2), 'provenance records both solvers (different families) and their acceptable sets')
+  resetBehavior({ latency: { generate: 5, solve: 5 }, providers: groqBucket, solverExtraRate: 1 })
+  await expectThrows(() => fetchEnglishPaper(reqs, 'medium'), 'an extra option flagged by BOTH solvers is rejected', (e) => e instanceof EnglishPrepareError && e.reason === 'quality')
+  fastTiming()
+}
+
+async function suiteSolverIndependence() {
+  suite('solver strength and independence: small chunks, thinking-solver timeouts, preference order, consensus')
+  check(handlerConfig.maxDuration === 60, 'api maxDuration is 60 s (thinking solvers get 40 s)')
+  bothProviders()
+  resetBehavior({ latency: { generate: 10, solve: 10 }, providers: groqBucket })
+  const full = await fetchEnglishPaper(PO_REQUESTS, 'hard')
+  validatePaper('chunks', PO_REQUESTS, 'hard', full)
+  const sizes = solveItemCounts()
+  check(sizes.length > 0 && sizes.every((n) => n <= 8), `every solve call carries at most 8 items (max ${Math.max(...sizes)} over ${sizes.length} calls)`)
+  const st = getLastEnglishRunStats()!
+  check(st.independence.same === 0 && st.independence.provider > 0, `healthy case: never the generating model (${JSON.stringify(st.independence)})`)
+  check(st.consensus.confirmed > 0 && st.consensus.disagreed === 0, `consensus: questions confirmed by two solvers of different families (${JSON.stringify(st.consensus)})`)
+  const allProv = full.flat().flatMap((g) => g.questions).map((q) => getEnglishProvenance(q))
+  check(allProv.every((p) => !!p && p.solvers.length >= 1) && allProv.filter((p) => p && p.consensus === 'confirmed').length >= 20, 'provenance is recorded for the verified questions')
+  console.log(`   healthy PO with Groq + Gemini: ${apiCalls} API calls, independence ${JSON.stringify(st.independence)}, consensus ${JSON.stringify(st.consensus)}`)
+
+  // The strongest solver (gemini-3-flash-preview) times out on every solve: another PROVIDER's model takes over.
+  process.env.MOCK_ENGLISH_GEMINI_TIMEOUT_MS = '80'
+  resetBehavior({ providers: groqBucket, fault: ({ kind, model }) => (kind === 'solve' && model === 'gemini-3-flash-preview' ? 'hang' : undefined) })
+  const t1 = await fetchEnglishPaper(PO_REQUESTS, 'hard')
+  validatePaper('thinking timeout', PO_REQUESTS, 'hard', t1)
+  const s1 = getLastEnglishRunStats()!
+  const solvedTotal = s1.independence.provider + s1.independence.model + s1.independence.same + s1.independence.unknown
+  // Same-model is the last resort when the strongest solver is down and Groq's token budget is tight; those items still need the acceptable-set check.
+  check(s1.independence.same <= Math.ceil(0.1 * solvedTotal), `thinking solver timed out: at most 10% of solves fall back to the generating model (${JSON.stringify(s1.independence)})`)
+  check(s1.models['gemini/gemini-3-flash-preview']?.timeout >= 1, 'the timeouts are recorded against the thinking model')
+  check(solveItemCounts().every((n) => n <= 8), 'and the chunks stayed small')
+
+  // All of Gemini fails for solving: another MODEL of the same family as the generator (gpt-oss-20b vs 120b).
+  process.env.MOCK_ENGLISH_GENERATE_MODELS = GROQ120
+  resetBehavior({ providers: groqBucket, fault: ({ kind, model }) => (kind === 'solve' && !model.includes('/') ? { status: 503, body: OVERLOAD_BODY } : undefined) })
+  const t2 = await fetchEnglishPaper([{ topic: 'fillers', count: 4 }], 'medium')
+  const s2 = getLastEnglishRunStats()!
+  check(countQ(t2[0]) === 4 && s2.independence.model > 0 && s2.independence.same === 0, `Gemini solvers down: gpt-oss-20b checks gpt-oss-120b output (${JSON.stringify(s2.independence)})`)
+  check(geminiCalls.filter((c) => c.kind === 'solve' && c.provider === 'groq').every((c) => c.id === GROQ20), 'the cross-model solver is the other Groq model')
+
+  // Only the generating model is left: last resort, effort high, and the item still has to pass the option-level check.
+  process.env.MOCK_ENGLISH_SOLVE_MODELS = GROQ120
+  resetBehavior({ providers: groqBucket })
+  const t3 = await fetchEnglishPaper([{ topic: 'fillers', count: 4 }], 'medium')
+  const s3 = getLastEnglishRunStats()!
+  check(countQ(t3[0]) === 4 && s3.independence.same > 0, `same model as a last resort is reported (${JSON.stringify(s3.independence)})`)
+  check(geminiCalls.filter((c) => c.kind === 'solve').every((c) => c.effort === 'medium'), "and runs at the raised reasoning effort ('medium')")
+  resetBehavior({ providers: groqBucket, solverExtraRate: 1 })
+  await expectThrows(() => fetchEnglishPaper([{ topic: 'fillers', count: 4 }], 'medium'), 'same-model items must ALSO pass the acceptable-set check', (e) => e instanceof EnglishPrepareError && e.reason === 'quality')
+  builtinChains()
+  fastTiming()
+}
+
+async function suiteConsensus() {
+  suite('consensus: two solvers of different families must both confirm; fallbacks')
+  const reqs: EnglishRequest[] = [{ topic: 'fillers', count: 4 }]
+  bothProviders()
+  resetBehavior({ latency: { generate: 5, solve: 5 }, providers: groqBucket, solverWrongProviders: ['groq'] })
+  await expectThrows(() => fetchEnglishPaper(reqs, 'medium'), 'a solver family that disagrees with the key vetoes the item', (e) => e instanceof EnglishPrepareError && e.reason === 'quality')
+  check(getLastEnglishRunStats()!.consensus.disagreed > 0, `disagreements are counted (${JSON.stringify(getLastEnglishRunStats()!.consensus)})`)
+  resetBehavior({ latency: { generate: 5, solve: 5 }, providers: groqBucket, solverWrongProviders: ['gemini'] })
+  await expectThrows(() => fetchEnglishPaper(reqs, 'medium'), 'the other family disagreeing vetoes it too', (e) => e instanceof EnglishPrepareError && e.reason === 'quality')
+
+  // Second family dead at solve time: the single-solver verdict is used and the tag says so.
+  resetBehavior({ latency: { generate: 5, solve: 5 }, providers: groqBucket, fault: ({ kind, model }) => (kind === 'solve' && model.startsWith('groq/') ? { status: 503, body: OVERLOAD_BODY } : undefined) })
+  const single = await fetchEnglishPaper(reqs, 'medium')
+  const st = getLastEnglishRunStats()!
+  const p = getEnglishProvenance(single[0][0].questions[0])
+  check(countQ(single[0]) === 4 && st.consensus.single > 0 && p?.consensus === 'single', `second solver unavailable: single-solver fallback is reported (${JSON.stringify(st.consensus)})`)
+  ENGLISH_TUNING.consensusFallback = false
+  ENGLISH_TUNING.maxRounds = 1 // later rounds would see the failing family as unhealthy and need no consensus
+  process.env.MOCK_ENGLISH_GENERATE_MODELS = GROQ120 // every batch is Groq-written, so pass 1 is Gemini and pass 2 must be Groq
+  resetBehavior({ latency: { generate: 5, solve: 5 }, providers: groqBucket, fault: ({ kind, model }) => (kind === 'solve' && model.startsWith('groq/') ? { status: 503, body: OVERLOAD_BODY } : undefined) })
+  await expectThrows(() => fetchEnglishPaper(reqs, 'medium'), 'with consensusFallback off an unconfirmed item is not accepted', (e) => e instanceof EnglishPrepareError)
+  ENGLISH_TUNING.consensusFallback = true
+  ENGLISH_TUNING.maxRounds = 3
+  builtinChains()
+
+  // Single family: no consensus round at all.
+  gemOnly()
+  resetBehavior()
+  const g = await fetchEnglishPaper(reqs, 'medium')
+  const sg = getLastEnglishRunStats()!
+  check(sg.consensus.confirmed + sg.consensus.disagreed + sg.consensus.single === 0 && getEnglishProvenance(g[0][0].questions[0])?.consensus === 'not-required', 'one healthy family: no second pass is made or required')
+  fastTiming()
+}
+
+async function suiteExplanations() {
+  suite('explanations: built in code or replaced when they contradict the key')
+  gemOnly()
+  const gen = (topic: EnglishTopicId, diff: MockDifficulty, count: number, data: any, seed = 5) => {
+    resetBehavior({ generateOverride: () => data })
+    return callHandler({ action: 'generate', topic, difficulty: diff, count, seed })
+  }
+  // word-swap: garbled model text is replaced by the deterministic one.
+  const ws = { ...mkWsItem(0), swap: [0, 2], explanation: 'Swapping them makes the sentence nonsensical, so no interchange is needed here at all.' }
+  const wsNone = { ...mkWsItem(0), swap: null, explanation: 'The words must be interchanged to repair the sentence in this case.' }
+  const r = await gen('word-swap', 'medium', 2, { items: [ws, wsNone] })
+  const [qa, qb] = r.body.groups.map((g: Group) => g.questions[0])
+  const shownFirst = /\(1\)(\w+)/.exec(qa.stem)![1]
+  const shownThird = /\(3\)(\w+)/.exec(qa.stem)![1]
+  check(r.status === 200 && qa.explanation.startsWith(`Interchanging (1) "${shownFirst}" and (3) "${shownThird}" gives: `) && !/nonsensical/.test(qa.explanation) && qa.explanation.includes(ws.tokens.join(' ')), `word-swap: explanation is built in code (${qa.explanation.slice(0, 70)}...)`)
+  check(/^The sentence is already correct as written: /.test(qb.explanation) && !/interchanged/.test(qb.explanation), 'word-swap: "no interchange" explanation is built in code')
+  // para-jumble
+  let seenOrder = false
+  let seenPosition = false
+  for (let seed = 1; seed <= 40 && !(seenOrder && seenPosition); seed++) {
+    const item = mkPjItem(0)
+    const rr = await gen('para-jumble', 'hard', 1, { items: [{ ...item, explanation: 'Sentence B must come first because it is B.' }] }, seed)
+    const q = rr.body.groups[0].questions[0]
+    const order = /The coherent order is ([A-F]{5,6}): /.exec(q.explanation)?.[1]
+    const flowOk = order && item.sentences.every((s: string) => q.explanation.includes(`"${s.split(/\s+/).slice(0, 5).join(' ')}..."`)) && q.explanation.includes('→')
+    if (q.stem.includes('should be the')) {
+      seenPosition = !!flowOk && /The (FIRST|SECOND|THIRD|FOURTH|FIFTH|SIXTH) sentence is [A-F]\./.test(q.explanation)
+      if (!seenPosition) check(false, 'para-jumble position explanation malformed: ' + q.explanation)
+    } else {
+      seenOrder = !!flowOk && q.options.includes(order)
+    }
+  }
+  check(seenOrder && seenPosition, 'para-jumble: explanation gives the correct order (an option) and each sentence by its first words; position variant names the asked position')
+  // match-column
+  const mc = mkMcItem()
+  const rm = await gen('match-column', 'medium', 1, { items: [{ ...mc, explanation: 'Pair 1 goes with C because grammar.' }] })
+  const qm = rm.body.groups[0].questions[0]
+  check(mc.pairs.every((pr: any) => qm.explanation.includes(`${pr.begin} ${pr.end}`)) && /^Correct matching: /.test(qm.explanation), 'match-column: explanation lists the four correct full sentences')
+  // cloze: an explanation that names another option is replaced; one that names the key is kept.
+  const cz = makeGenerated('cloze', 'medium', 5)
+  const b0 = cz.passages[0].blanks[0]
+  const b1 = cz.passages[0].blanks[1]
+  b0.explanation = `The word ${b0.options[(b0.correctIndex + 1) % 5]} fits best here because of the surrounding grammar.`
+  b1.explanation = `The word ${b1.options[b1.correctIndex]} fits best here, unlike ${b1.options[(b1.correctIndex + 1) % 5]}, because of the sense.`
+  const rc = await gen('cloze', 'medium', 5, cz)
+  const cq = rc.body.groups[0].questions
+  check(cq[0].explanation === `Best fit: ${b0.options[b0.correctIndex]}.`, 'cloze: an explanation naming a different option than the key becomes a neutral "Best fit"')
+  check(cq[1].explanation.includes('fits best here, unlike'), 'cloze: an explanation that names the key is kept')
+  // fillers / phrase replacement
+  const fl = mkFillerItem(0)
+  fl.explanation = `Only ${fl.options[(fl.correctIndex + 2) % 5]} makes the sentence grammatical.`
+  const rf = await gen('fillers', 'medium', 1, { items: [fl] })
+  check(/^Best fit: /.test(rf.body.groups[0].questions[0].explanation), 'fillers: explanation naming a distractor is replaced')
+  const pr = mkPrItem(0)
+  pr.explanation = `The right choice is ${pr.options[(pr.correctIndex + 1) % 4]} for sure.`
+  const rp = await gen('phrase-replacement', 'medium', 1, { items: [pr] })
+  check(/^Best replacement: /.test(rp.body.groups[0].questions[0].explanation) || /^Best fit: /.test(rp.body.groups[0].questions[0].explanation), 'phrase replacement: explanation naming a distractor is replaced')
+  // error detection: names another part / contradicts "no error"
+  const ed1 = { ...mkEdItem(0), errorPartIndex: 2, explanation: 'Part (b) is wrong because the verb should be plural: "x" instead of "y".' }
+  const ed2 = { ...mkEdItem(0), errorPartIndex: null, explanation: 'The verb in part (a) is incorrect and should be changed instead of kept.' }
+  const re = await gen('error-detection', 'medium', 2, { items: [ed1, ed2] })
+  const [e1, e2] = re.body.groups.map((g: Group) => g.questions[0])
+  check(/^Part \(c\) contains the grammatical error: "/.test(e1.explanation), `ED: explanation naming part (b) when the key is (c) is replaced (${e1.explanation.slice(0, 60)})`)
+  check(e2.explanation === 'All four parts are grammatically correct as written.', 'ED: an explanation that contradicts "No error" is replaced')
+  // RC: quoting a distractor but not the key.
+  const rcData = makeGenerated('rc', 'hard', 5)
+  const rq = rcData.passages[0].questions[2]
+  rq.explanation = `The passage says: ${rq.options[(rq.correctIndex + 1) % 5]}`
+  const rr = await gen('rc', 'hard', 5, rcData)
+  check(rr.body.groups[0].questions.some((q: any) => /^The passage best supports: /.test(q.explanation)), 'RC: an explanation that quotes a distractor instead of the key is replaced')
+  fastTiming()
+}
+
+// ---------------------------------------------------------------------------------------------------
+// Review dump (also used by --live-review)
+// ---------------------------------------------------------------------------------------------------
+
+interface ReviewQuestion {
+  topic: string
+  passage?: string
+  stem: string
+  options: string[]
+  key: number
+  keyText: string
+  explanation: string
+  noErrorKey: boolean
+  generatedBy?: string
+  consensus?: string
+  lenient?: boolean
+  solvers?: { model: string; independence: string; answer: number | null; acceptable: number[] | null; acceptableLetters: string; ambiguous: boolean }[]
+}
+const REVIEW_LONGEST_TOPICS = new Set(['rc', 'cloze', 'fillers', 'phrase-replacement'])
+
+function reviewStats(questions: ReviewQuestion[]) {
+  const topics: Record<string, any> = {}
+  for (const topic of [...new Set(questions.map((q) => q.topic))]) {
+    const qs = questions.filter((q) => q.topic === topic)
+    const hist = [0, 0, 0, 0, 0]
+    for (const q of qs) hist[q.key]++
+    let longest: number | null = null
+    if (REVIEW_LONGEST_TOPICS.has(topic)) {
+      longest = qs.filter((q) => q.options.every((o, i) => i === q.key || q.options[q.key].length > o.length)).length / qs.length
+    }
+    const withProv = qs.filter((q) => q.consensus)
+    topics[topic] = {
+      n: qs.length,
+      noErrorShare: Number((qs.filter((q) => q.noErrorKey).length / qs.length).toFixed(2)),
+      answerHistogram: hist,
+      keyIsLongestShare: longest === null ? null : Number(longest.toFixed(2)),
+      keyIsLongestFlag: longest === null ? null : longest > 0.35,
+      consensusConfirmedShare: withProv.length ? Number((withProv.filter((q) => q.consensus === 'confirmed').length / withProv.length).toFixed(2)) : null,
+    }
+  }
+  const prov = questions.filter((q) => q.consensus)
+  return { topics, consensusAgreementRate: prov.length ? Number((prov.filter((q) => q.consensus === 'confirmed').length / prov.length).toFixed(2)) : null, questions: questions.length }
+}
+
+async function reviewRun(label: string, reqs: EnglishRequest[], diff: MockDifficulty) {
+  const out = await fetchEnglishPaper(reqs, diff)
+  const questions: ReviewQuestion[] = []
+  out.forEach((groups, i) => {
+    for (const g of groups) {
+      const passage = g.stimulus ? passageText(g) : undefined
+      for (const q of g.questions) {
+        const p = getEnglishProvenance(q)
+        questions.push({
+          topic: reqs[i].topic,
+          ...(passage ? { passage } : {}),
+          stem: q.stem,
+          options: q.options,
+          key: q.answer,
+          keyText: q.options[q.answer],
+          explanation: q.explanation,
+          noErrorKey: isNoErrorQuestion(reqs[i].topic, q),
+          generatedBy: p?.generatedBy,
+          consensus: p?.consensus,
+          lenient: p?.lenient,
+          solvers: p?.solvers.map((s) => ({ model: s.model, independence: s.independence, answer: s.answer, acceptable: s.acceptable, acceptableLetters: (s.acceptable ?? []).map((x) => 'ABCDE'[x]).join(''), ambiguous: s.ambiguous })),
+        })
+      }
+    }
+  })
+  const st = getLastEnglishRunStats()!
+  return { label, difficulty: diff, apiCalls: st.calls.length, rounds: st.rounds, independence: st.independence, consensus: st.consensus, stats: reviewStats(questions), questions }
+}
+
+function printReviewStats(run: Awaited<ReturnType<typeof reviewRun>>) {
+  console.log(`\n  ${run.label}: ${run.questions.length} questions, ${run.apiCalls} API calls, rounds ${run.rounds}, independence ${JSON.stringify(run.independence)}, consensus ${JSON.stringify(run.consensus)}`)
+  console.log(`  ${'topic'.padEnd(20)}${'n'.padStart(3)}  no-error share  key positions A-E   key longest   consensus confirmed`)
+  for (const [t, s] of Object.entries(run.stats.topics) as [string, any][]) {
+    console.log(`  ${t.padEnd(20)}${String(s.n).padStart(3)}  ${String(s.noErrorShare).padEnd(14)}  ${s.answerHistogram.join('/').padEnd(17)}  ${(s.keyIsLongestShare === null ? '-' : s.keyIsLongestShare + (s.keyIsLongestFlag ? ' FLAG >35%' : '')).padEnd(12)}  ${s.consensusConfirmedShare ?? '-'}`)
+  }
+  console.log(`  consensus agreement rate: ${run.stats.consensusAgreementRate ?? '-'}`)
+}
+
+async function suiteReviewDump() {
+  suite('review dump: --live-review writes every verified question with provenance and prints statistics')
+  bothProviders()
+  const dir = mkdtempSync(join(tmpdir(), 'review-'))
+  const file = join(dir, 'review.json')
+  resetBehavior({ latency: { generate: 5, solve: 5 }, providers: groqBucket })
+  const runs = [await reviewRun('PO (hard)', PO_REQUESTS, 'hard')]
+  resetBehavior({ latency: { generate: 5, solve: 5 }, providers: groqBucket })
+  runs.push(await reviewRun('Clerk (medium)', CLERK_REQUESTS, 'medium'))
+  writeFileSync(file, JSON.stringify({ generatedAt: new Date().toISOString(), runs }, null, 2))
+  const back = JSON.parse(readFileSync(file, 'utf8'))
+  check(back.runs.length === 2 && back.runs.every((r: any) => r.questions.length === 30), 'the JSON holds all 30 questions of each paper')
+  const q0 = back.runs[0].questions.find((q: any) => q.topic === 'rc')
+  check(typeof q0.passage === 'string' && q0.options.length === 5 && typeof q0.keyText === 'string' && typeof q0.explanation === 'string' && q0.generatedBy && q0.solvers.length >= 1 && /^[A-E]*$/.test(q0.solvers[0].acceptableLetters), 'each record has passage, options, key, explanation, generating model and the solvers with acceptable flags')
+  const t = back.runs[0].stats.topics
+  check(Object.keys(t).length === 7 && Object.values(t).every((s: any) => s.answerHistogram.length === 5 && typeof s.noErrorShare === 'number'), 'per-topic statistics: no-error share and answer histogram')
+  check(t.rc.keyIsLongestShare !== null && typeof t.rc.keyIsLongestFlag === 'boolean' && t['error-detection'].keyIsLongestShare === null, 'option-length statistic is computed for sentence-option topics only')
+  check(back.runs[0].stats.consensusAgreementRate !== null, 'consensus agreement rate is reported')
+  check(t['error-detection'].noErrorShare <= 0.25 && t['word-swap'].noErrorShare <= 0.35, 'the no-error share respects the composition cap')
+  printReviewStats(runs[0])
+  fastTiming()
+}
+
+async function suiteCallBudget() {
+  suite('call budget: a full English section (two solvers) stays within about 28 API calls when healthy')
+  for (const [label, prov] of [
+    ['Groq + Gemini', { gemini: true, groq: true }],
+    ['Gemini only', { gemini: true }],
+    ['Groq only', { groq: true }],
+  ] as [string, { gemini?: boolean; groq?: boolean }][]) {
+    for (const [exam, reqs, diff] of [
+      ['PO', PO_REQUESTS, 'hard'],
+      ['Clerk', CLERK_REQUESTS, 'medium'],
+    ] as [string, EnglishRequest[], MockDifficulty][]) {
+      fastTiming()
+      builtinChains()
+      setProviders(prov)
+      resetBehavior({ latency: { generate: 20, solve: 10 }, providers: groqBucket })
+      const out = await fetchEnglishPaper(reqs, diff)
+      validatePaper(`${label} ${exam}`, reqs, diff, out)
+      const st = getLastEnglishRunStats()!
+      const gen = st.calls.filter((c) => c.kind === 'generate').length
+      check(apiCalls <= 28 && st.rounds === 1, `${label} ${exam}: ${apiCalls} API calls (${gen} generate + ${apiCalls - gen} solve), rounds ${st.rounds}`)
+      console.log(`   ${label} ${exam}: ${apiCalls} API calls (${gen} generate + ${apiCalls - gen} solve) | independence ${JSON.stringify(st.independence)} | consensus ${JSON.stringify(st.consensus)}`)
+    }
+  }
+  fastTiming()
+}
+
+// ---------------------------------------------------------------------------------------------------
 // Prompt printing and live mode
 // ---------------------------------------------------------------------------------------------------
 
@@ -2372,7 +2861,7 @@ async function printPrompts() {
 
 async function liveRun(n: number) {
   liveMode = true
-  process.env.GEMINI_API_KEY = realKey
+  restoreKeys()
   delete process.env.GEMINI_MODEL
   liveTiming()
   console.log(`\n== LIVE: ${n} items per topic/difficulty (generator vs blind solver)`)
@@ -2413,6 +2902,13 @@ async function liveRun(n: number) {
 }
 
 
+/** Puts back the key(s) the process started with (never assigns undefined). */
+function restoreKeys() {
+  if (realKey) process.env.GEMINI_API_KEY = realKey
+  else delete process.env.GEMINI_API_KEY
+}
+const anyKey = () => !!(realKey || process.env.GROQ_API_KEY || process.env.MISTRAL_API_KEY || process.env.OPENROUTER_API_KEY)
+
 function liveTiming() {
   Object.assign(ENGLISH_TUNING, { genConcurrency: 3, staggerMinMs: 400, staggerMaxMs: 800, healthScale: 1, maxCooldownWaitMs: 60000, noModelWaits: 3, retryDelayMs: 800, rateLimitBaseMs: 5000, maxRetryAfterMs: 20000, requestTimeoutMs: 28000, deadlineMs: 120000, maxRounds: 3, lenientLadder: true })
   delete process.env.MOCK_ENGLISH_GEMINI_TIMEOUT_MS
@@ -2424,7 +2920,7 @@ function liveTiming() {
 /** Times a real full PO English section end to end (no key is ever printed). */
 async function livePaper() {
   liveMode = true
-  process.env.GEMINI_API_KEY = realKey
+  restoreKeys()
   liveTiming()
   ENGLISH_TUNING.useBank = false
   ENGLISH_TUNING.logSummary = true
@@ -2458,10 +2954,41 @@ async function livePaper() {
   console.log('  Paste everything above back; no API key is printed.')
 }
 
+/** Real full PO and Clerk English sections (bank off); every verified question goes to REVIEW_OUT with its provenance. */
+async function liveReview(n: number) {
+  liveMode = true
+  liveTiming()
+  ENGLISH_TUNING.useBank = false
+  ENGLISH_TUNING.logSummary = true
+  removeStorage()
+  const out = process.env.REVIEW_OUT || 'english-review.json'
+  const runs: Awaited<ReturnType<typeof reviewRun>>[] = []
+  console.log('\n== LIVE REVIEW: ' + n + ' x (PO hard + Clerk medium) English sections, real providers, bank off')
+  for (let i = 0; i < n; i++) {
+    for (const [label, reqs, diff] of [
+      ['PO (hard)', PO_REQUESTS, 'hard'],
+      ['Clerk (medium)', CLERK_REQUESTS, 'medium'],
+    ] as [string, EnglishRequest[], MockDifficulty][]) {
+      const t0 = Date.now()
+      try {
+        const run = await reviewRun(`${label} #${i + 1}`, reqs, diff)
+        runs.push(run)
+        printReviewStats(run)
+        console.log('  took ' + ((Date.now() - t0) / 1000).toFixed(1) + 's')
+      } catch (e) {
+        const err = e as Error & { reason?: string }
+        console.log(`  ${label} #${i + 1}: FAILED reason=${err.reason ?? 'n/a'}: ${err.message}`)
+      }
+    }
+  }
+  writeFileSync(out, JSON.stringify({ generatedAt: new Date().toISOString(), runs }, null, 2))
+  console.log('\n  wrote ' + runs.reduce((a, r) => a + r.questions.length, 0) + ' questions to ' + out + ' (no API key is written or printed)')
+}
+
 async function liveSmoke() {
   suite('live smoke test (GEMINI_API_KEY is set)')
   liveMode = true
-  process.env.GEMINI_API_KEY = realKey
+  restoreKeys()
   delete process.env.GEMINI_MODEL
   liveTiming()
   for (const [topic, count] of [['error-detection', 3], ['fillers', 3]] as [EnglishTopicId, number][]) {
@@ -2520,17 +3047,26 @@ async function main() {
     await printPrompts()
     return
   }
+  if (argv.includes('--live-review')) {
+    if (!anyKey()) {
+      console.error('--live-review needs a provider key (GEMINI_API_KEY, GROQ_API_KEY, ...) in the environment.')
+      process.exit(2)
+    }
+    const ri2 = argv.indexOf('--live-review')
+    await liveReview(Number(argv[ri2 + 1]) || 1)
+    return
+  }
   if (argv.includes('--live-paper')) {
-    if (!realKey) {
-      console.error('--live-paper needs GEMINI_API_KEY in the environment.')
+    if (!anyKey()) {
+      console.error('--live-paper needs a provider key in the environment.')
       process.exit(2)
     }
     await livePaper()
     return
   }
   if (liveIdx >= 0) {
-    if (!realKey) {
-      console.error('--live needs GEMINI_API_KEY in the environment.')
+    if (!anyKey()) {
+      console.error('--live needs a provider key in the environment.')
       process.exit(2)
     }
     await liveRun(Number(argv[liveIdx + 1]) || 5)
@@ -2561,6 +3097,14 @@ async function main() {
     ['ProviderPacing', suiteProviderPacing],
     ['ProviderPapers', suiteProviderPapers],
     ['ProbeLlm', suiteProbeLlm],
+    ['QualityGates', suiteQualityGates],
+    ['NoErrorComposition', suiteNoErrorComposition],
+    ['OptionLevelJudging', suiteOptionLevelJudging],
+    ['SolverIndependence', suiteSolverIndependence],
+    ['Consensus', suiteConsensus],
+    ['Explanations', suiteExplanations],
+    ['ReviewDump', suiteReviewDump],
+    ['CallBudget', suiteCallBudget],
     ['Relaxed', suiteRelaxed],
     ['PaperHappy', suitePaperHappy],
     ['PaperNoisy', suitePaperNoisy],

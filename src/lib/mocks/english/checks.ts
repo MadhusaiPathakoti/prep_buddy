@@ -66,8 +66,10 @@ function checkErrorDetection(q: QuestionDraft): string | null {
     if (q.options.some((o, i) => o !== ED_OPTIONS[i])) return 'error-detection options must be (a)(b)(c)(d) and No error in order'
     const pos = ['(a) ', '(b) ', '(c) ', '(d) '].map((m) => q.stem.indexOf(m))
     if (pos.some((p, i) => p < 0 || (i > 0 && p <= pos[i - 1]))) return 'error-detection stem must show parts (a)-(d) in order'
-    const body = q.stem.slice(pos[0])
-    if (body.split(/\([a-d]\) /).slice(1).some((p) => wordCount(p) < 1)) return 'error-detection has an empty part'
+    const parts = q.stem.slice(pos[0]).split(/\([a-d]\) /).slice(1).map((p) => p.trim())
+    if (parts.length !== 4 || parts.some((p) => wordCount(p) < 2)) return 'error-detection needs 4 parts of at least 2 words'
+    const joined = parts.join(' ')
+    if (!/^[A-Z"'\u201c\u2018]/.test(joined) || !/[.!?]["'\u201d\u2019]?$/.test(joined)) return 'error-detection parts do not form one complete sentence'
     return null
   }
   if (!/^Which of the following sentences/.test(q.stem)) return 'error-detection sentence variant must ask which sentence is correct'
@@ -157,6 +159,24 @@ function checkMatchColumn(q: QuestionDraft): string | null {
   return null
 }
 
+const BARE_BOOL = /^(?:true|false|yes|no)[.!]?$/i
+
+/** Shape of a non-vocabulary RC question: a real question / completion stem (not a statement), no bare True/False/Yes/No
+ *  options, homogeneous options, and a stem that is not a sentence lifted from the passage. */
+export function rcQuestionShape(stem: string, options: string[], passage: string): string | null {
+  if (/[.!]\s*$/.test(stem)) return 'rc stem is a statement, not a question'
+  if (options.some((o) => BARE_BOOL.test(o))) return 'rc options contain a bare True/False/Yes/No'
+  const wcs = options.map(wordCount)
+  const lo = Math.min(...wcs)
+  const hi = Math.max(...wcs)
+  if ((lo <= 2 && hi >= 7) || (lo <= 3 && hi >= 4 * lo && hi >= 8)) return 'rc options are not homogeneous (single words next to sentences)'
+  const stemWords = normKey(stem).split(' ')
+  const norm = normKey(passage)
+  for (const sent of passage.split(/(?<=[.!?])\s+/)) if (wordCount(sent) >= 8 && jaccard(stem, sent) >= 0.8) return 'rc stem restates a passage sentence'
+  for (let i = 0; i + 12 <= stemWords.length; i++) if (norm.includes(stemWords.slice(i, i + 12).join(' '))) return 'rc stem restates a passage sentence'
+  return null
+}
+
 function checkRcQuestion(q: QuestionDraft, passage: string): string | null {
   const v = VOCAB_STEM.exec(q.stem)
   if (v) {
@@ -167,6 +187,8 @@ function checkRcQuestion(q: QuestionDraft, passage: string): string | null {
   }
   if (/as used in the passage/i.test(q.stem)) return 'vocabulary-style stem is malformed'
   if (q.stem.length < 20) return 'rc stem too short'
+  const shape = rcQuestionShape(q.stem, q.options, passage)
+  if (shape) return shape
   if (/\b(?:all|none) of the above\b/i.test(q.options.join(' | '))) return 'rc option refers to other options'
   return null
 }
