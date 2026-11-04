@@ -14,8 +14,9 @@ function localApi(): Plugin {
     apply: 'serve',
     configureServer(server) {
       const env = loadEnv(server.config.mode, process.cwd(), '')
-      for (const key of ['GEMINI_API_KEY', 'GEMINI_MODEL']) {
-        if (env[key] && !process.env[key]) process.env[key] = env[key]
+      // Provider keys and the mock-English model/chain overrides (see api/mockEnglish.js).
+      for (const key of Object.keys(env)) {
+        if (/^(GEMINI|GROQ|MISTRAL|OPENROUTER|MOCK_ENGLISH)_/.test(key) && !process.env[key]) process.env[key] = env[key]
       }
 
       server.middlewares.use(async (req: IncomingMessage, res: ServerResponse, next) => {

@@ -17,6 +17,7 @@ import {
   EnglishPrepareError,
   checkEnglishGroup,
   clearEnglishBank,
+  clearEnglishModelHealth,
   englishBankSize,
   fetchEnglishGroups,
   fetchEnglishPaper,
@@ -26,6 +27,8 @@ import {
 } from '../src/lib/mocks/english/index'
 import type { EnglishRequest } from '../src/lib/mocks/english/index'
 import { BANK_CAP, BANK_KEY, bankAdd, bankRead, bankRemove } from '../src/lib/mocks/english/bank'
+import { HEALTH_KEY } from '../src/lib/mocks/english/health'
+import { configuredModels, runProbe } from './probe-llm-models'
 import { assertGroup } from '../src/lib/mocks/validate'
 import { composePaper } from '../src/lib/mocks/compose'
 import { EXAMS, entryTotal } from '../src/lib/mocks/blueprints'
@@ -287,6 +290,20 @@ const BAD_ITEM: Record<EnglishTopicId, [string, (x: any) => void][]> = {
 // Gemini emulator + router
 // ---------------------------------------------------------------------------------------------------
 
+interface ProviderCfg {
+  /** Tokens per minute (bucket size); 0/undefined = unlimited. */
+  tpm?: number
+  /** Milliseconds a full refill takes (default 60000; tests scale it down). */
+  windowMs?: number
+  /** Bucket content at the start (default full). */
+  initialTokens?: number
+  /** Requests per day / tokens per day before the daily 429s. */
+  rpd?: number
+  tpd?: number
+  /** Models that fail JSON mode with a 400. */
+  jsonFail?: string[]
+  noHeaders?: boolean
+}
 type HttpFault = { status: number; body?: string; delayMs?: number } | 'hang' | 'throw' | 'empty' | 'malformed' | { delayMs: number } | undefined
 interface Behavior {
   badRate: number
@@ -298,12 +315,20 @@ interface Behavior {
   latency?: { generate: number; solve: number }
   /** 429 when more than `max` calls land inside `windowMs`. */
   rateLimit?: { max: number; windowMs: number }
+  /** Per OpenAI-compatible provider (groq, mistral): token bucket, daily counters, JSON-mode failures. */
+  providers?: Record<string, ProviderCfg>
   /** Replace the generated JSON entirely (for deterministic-rejection tests). */
   generateOverride?: (topic: EnglishTopicId, diff: MockDifficulty, count: number) => any
 }
 const behavior: Behavior = { badRate: 0, solverWrongRate: 0, solverAmbiguousRate: 0 }
 interface GeminiCall {
   kind: 'generate' | 'solve'
+  provider: string
+  /** provider/model */
+  id: string
+  effort?: string
+  maxTokens?: number
+  jsonMode?: boolean
   model: string
   temperature: number
   prompt: string
@@ -312,6 +337,10 @@ interface GeminiCall {
 }
 let geminiCalls: GeminiCall[] = []
 let rlTimes: number[] = []
+const lastApiBodies: any[] = []
+const pState = new Map<string, { tokens: number; at: number; rpdUsed: number; tpdUsed: number }>()
+const inflightTokens = new Map<string, number>()
+const providerStats = { ok: 0, tpm429: 0, daily429: 0, violations: 0 }
 let apiCalls = 0
 const registry = new Map<string, number>()
 const keyByOptions = new Map<string, string>()
@@ -328,11 +357,17 @@ const isWrongKey = (k: string) => hashStr(`w${k}`) < behavior.solverWrongRate * 
 const isAmbiguousKey = (k: string) => hashStr(`a${k}`) < behavior.solverAmbiguousRate * 1000
 
 function resetBehavior(over: Partial<Behavior> = {}) {
-  Object.assign(behavior, { badRate: 0, solverWrongRate: 0, solverAmbiguousRate: 0, fault: undefined, generateOverride: undefined, latency: undefined, rateLimit: undefined }, over)
+  Object.assign(behavior, { badRate: 0, solverWrongRate: 0, solverAmbiguousRate: 0, fault: undefined, generateOverride: undefined, latency: undefined, rateLimit: undefined, providers: undefined }, over)
   geminiCalls = []
   apiCalls = 0
   registry.clear()
   rlTimes = []
+  // The handler keeps health / token budgets / in-flight counts in module memory: start every scenario clean.
+  if (process.env.MOCK_ENGLISH_ALLOW_RESET === '1') void handler({ method: 'POST', body: { action: 'resetHealth' } }, { setHeader() {}, status: () => ({ json() {} }) })
+  pState.clear()
+  lastApiBodies.length = 0
+  inflightTokens.clear()
+  Object.assign(providerStats, { ok: 0, tpm429: 0, daily429: 0, violations: 0 })
   keyByOptions.clear()
   R = mkRng(Math.floor(Math.random() * 1e9))
 }
@@ -370,40 +405,22 @@ function corruptGenerated(topic: EnglishTopicId, data: any) {
   } else data.items = data.items.map((it: any) => (bad() ? (mutate(it), it) : it))
 }
 
-async function geminiStub(url: string, init: RequestInit): Promise<Response> {
-  const model = decodeURIComponent(/models\/([^:]+):/.exec(url)?.[1] || '')
-  const body = JSON.parse(String(init.body))
-  const prompt: string = body.contents[0].parts[0].text
-  const temperature: number = body.generationConfig?.temperature
+function analyse(prompt: string) {
   const isSolve = /Task: mock-english \/ solve/.test(prompt)
   const task = /Task: mock-english \/ topic=([a-z-]+) \/ difficulty=(\w+) \/ items=(\d+)/.exec(prompt)
-  const call: GeminiCall = { kind: isSolve ? 'solve' : 'generate', model, temperature, prompt, topic: task?.[1], at: Date.now() }
-  geminiCalls.push(call)
   const n = isSolve ? Number(/items=(\d+)/.exec(prompt)?.[1] || 0) : Number(task?.[3] || 0)
-  if (behavior.rateLimit) {
-    const now = Date.now()
-    rlTimes = rlTimes.filter((t) => now - t < behavior.rateLimit!.windowMs)
-    const over = rlTimes.length >= behavior.rateLimit.max
-    rlTimes.push(now)
-    if (over) return new Response('{"error":{"code":429,"details":[{"retryDelay":"0.05s"}]}}', { status: 429 })
-  }
-  const fault = behavior.fault?.({ kind: call.kind, model, n, topic: call.topic })
-  if (fault === 'throw') throw new TypeError('fetch failed')
-  if (fault === 'hang') {
-    await abortable(new Promise(() => undefined), init.signal)
-  }
-  if (fault && typeof fault === 'object' && 'delayMs' in fault) await wait(fault.delayMs, init.signal)
-  if (behavior.latency && !fault) await wait(behavior.latency[call.kind], init.signal)
-  if (fault === 'empty') return new Response(JSON.stringify({ candidates: [{ content: { parts: [] }, finishReason: 'STOP' }] }), { status: 200 })
-  if (fault === 'malformed') return new Response(JSON.stringify({ candidates: [{ content: { parts: [{ text: '{"items":[{"broken":' }] }, finishReason: 'STOP' }] }), { status: 200 })
-  if (fault && typeof fault === 'object' && 'status' in fault) return new Response(fault.body ?? 'upstream error', { status: fault.status })
+  return { isSolve, task, n, kind: (isSolve ? 'solve' : 'generate') as 'generate' | 'solve' }
+}
 
-  if (!isSolve) {
-    const topic = task![1] as EnglishTopicId
-    const diff = task![2] as MockDifficulty
-    const data = behavior.generateOverride ? behavior.generateOverride(topic, diff, n) : makeGenerated(topic, diff, n)
+/** What the "model" answers (the JSON object), independent of the provider's wire format. */
+function modelContent(prompt: string, a: ReturnType<typeof analyse>): any {
+  if (!a.isSolve && !a.task) return { ok: true }
+  if (!a.isSolve) {
+    const topic = a.task![1] as EnglishTopicId
+    const diff = a.task![2] as MockDifficulty
+    const data = behavior.generateOverride ? behavior.generateOverride(topic, diff, a.n) : makeGenerated(topic, diff, a.n)
     if (!behavior.generateOverride && behavior.badRate > 0) corruptGenerated(topic, data)
-    return new Response(JSON.stringify(geminiJson(data)), { status: 200 })
+    return data
   }
   // Solve: parse the server-built prompt, look up the key in the registry (the "model knows the answer").
   const itemsText = prompt.slice(prompt.indexOf('\nITEMS\n') + 7)
@@ -417,7 +434,125 @@ async function geminiStub(url: string, init: RequestInit): Promise<Response> {
     const answer = isWrongKey(k) ? (truth + 1) % 5 : truth
     return { id: m[1], answer: 'ABCDE'[answer], ambiguous: isAmbiguousKey(k), note: '' }
   })
-  return new Response(JSON.stringify(geminiJson({ results })), { status: 200 })
+  return { results }
+}
+
+/** Injects a configured fault. Returns a Response to send, or null to continue normally (may throw / hang / sleep). */
+async function applyFault(fault: HttpFault, shape: 'gemini' | 'openai', init: RequestInit): Promise<Response | null> {
+  if (fault === 'throw') throw new TypeError('fetch failed')
+  if (fault === 'hang') await abortable(new Promise(() => undefined), init.signal)
+  if (fault && typeof fault === 'object' && 'delayMs' in fault && fault.delayMs) await wait(fault.delayMs, init.signal)
+  if (fault === 'empty') return new Response(JSON.stringify(shape === 'gemini' ? { candidates: [{ content: { parts: [] }, finishReason: 'STOP' }] } : { choices: [{ message: { content: '' }, finish_reason: 'stop' }] }), { status: 200 })
+  if (fault === 'malformed') {
+    const broken = '{"items":[{"broken":'
+    return new Response(JSON.stringify(shape === 'gemini' ? { candidates: [{ content: { parts: [{ text: broken }] }, finishReason: 'STOP' }] } : { choices: [{ message: { content: broken }, finish_reason: 'stop' }] }), { status: 200 })
+  }
+  if (fault && typeof fault === 'object' && 'status' in fault) return new Response(fault.body ?? 'upstream error', { status: fault.status })
+  return null
+}
+
+async function geminiStub(url: string, init: RequestInit): Promise<Response> {
+  const model = decodeURIComponent(/models\/([^:]+):/.exec(url)?.[1] || '')
+  const body = JSON.parse(String(init.body))
+  const prompt: string = body.contents[0].parts[0].text
+  const a = analyse(prompt)
+  const call: GeminiCall = { kind: a.kind, provider: 'gemini', id: `gemini/${model}`, model, temperature: body.generationConfig?.temperature, prompt, topic: a.task?.[1], at: Date.now() }
+  geminiCalls.push(call)
+  if (behavior.rateLimit) {
+    const now = Date.now()
+    rlTimes = rlTimes.filter((t) => now - t < behavior.rateLimit!.windowMs)
+    const over = rlTimes.length >= behavior.rateLimit.max
+    rlTimes.push(now)
+    if (over) return new Response('{"error":{"code":429,"details":[{"retryDelay":"0.05s"}]}}', { status: 429 })
+  }
+  const fault = behavior.fault?.({ kind: a.kind, model, n: a.n, topic: call.topic })
+  const early = await applyFault(fault, 'gemini', init)
+  if (early) return early
+  if (behavior.latency && !fault) await wait(behavior.latency[a.kind], init.signal)
+  return new Response(JSON.stringify(geminiJson(modelContent(prompt, a))), { status: 200 })
+}
+
+/** Groq / Mistral / OpenRouter: OpenAI-compatible chat completions with Groq-style token-bucket rate limits. */
+async function openaiStub(provider: string, url: string, init: RequestInit): Promise<Response> {
+  const body = JSON.parse(String(init.body))
+  const model: string = body.model
+  const id = `${provider}/${model}`
+  const prompt: string = body.messages[0].content
+  const a = analyse(prompt)
+  const cfg = behavior.providers?.[provider] ?? {}
+  const call: GeminiCall = { kind: a.kind, provider, id, model, temperature: body.temperature, prompt, topic: a.task?.[1], at: Date.now(), effort: body.reasoning_effort, maxTokens: body.max_tokens, jsonMode: body.response_format?.type === 'json_object' }
+  geminiCalls.push(call)
+  const fault = behavior.fault?.({ kind: a.kind, model: id, n: a.n, topic: call.topic })
+  const early = await applyFault(fault, 'openai', init)
+  if (early) return early
+  if ((cfg.jsonFail ?? []).includes(model)) {
+    return new Response(JSON.stringify({ error: { message: "Failed to generate JSON. Please adjust your prompt. See 'failed_generation' for more details.", type: 'invalid_request_error', code: 'json_validate_failed', failed_generation: '{"items": [' } }), { status: 400 })
+  }
+  const tpm = cfg.tpm ?? 0
+  const windowMs = cfg.windowMs ?? 60000
+  const key = id
+  const now = Date.now()
+  const st = pState.get(key) ?? { tokens: cfg.initialTokens ?? tpm, at: now, rpdUsed: 0, tpdUsed: 0 }
+  if (tpm) st.tokens = Math.min(tpm, st.tokens + ((now - st.at) / windowMs) * tpm)
+  st.at = now
+  pState.set(key, st)
+  const promptTokens = Math.ceil(prompt.length / 3.5)
+  const requested = promptTokens + (body.max_tokens ?? 0)
+  const limitHeaders = (): Record<string, string> =>
+    cfg.noHeaders || !tpm
+      ? {}
+      : {
+          'x-ratelimit-limit-requests': String(cfg.rpd ?? 1000),
+          'x-ratelimit-remaining-requests': String(Math.max(0, (cfg.rpd ?? 1000) - st.rpdUsed)),
+          'x-ratelimit-limit-tokens': String(tpm),
+          'x-ratelimit-remaining-tokens': String(Math.floor(st.tokens)),
+          'x-ratelimit-reset-tokens': `${(((tpm - st.tokens) / tpm) * (windowMs / 1000)).toFixed(2)}s`,
+        }
+  const rl = (msg: string, retryAfterSec: number) =>
+    new Response(JSON.stringify({ error: { message: msg, type: 'tokens', code: 'rate_limit_exceeded' } }), { status: 429, headers: { 'retry-after': String(retryAfterSec), ...limitHeaders() } })
+  const org = 'in organization `org_stub` service tier `on_demand`'
+  if (cfg.rpd !== undefined && st.rpdUsed >= cfg.rpd) {
+    providerStats.daily429++
+    return rl(`Rate limit reached for model \`${model}\` ${org} on requests per day (RPD): Limit ${cfg.rpd}, Used ${st.rpdUsed}, Requested 1. Please try again in 1h2m3.5s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing`, 3724)
+  }
+  if (cfg.tpd !== undefined && st.tpdUsed + requested > cfg.tpd) {
+    providerStats.daily429++
+    return rl(`Rate limit reached for model \`${model}\` ${org} on tokens per day (TPD): Limit ${cfg.tpd}, Used ${st.tpdUsed}, Requested ${requested}. Please try again in 25m10.4s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing`, 1511)
+  }
+  if (tpm && requested > st.tokens) {
+    providerStats.tpm429++
+    const wait = ((requested - st.tokens) / tpm) * (windowMs / 1000)
+    return rl(`Rate limit reached for model \`${model}\` ${org} on tokens per minute (TPM): Limit ${tpm}, Used ${Math.round(tpm - st.tokens)}, Requested ${requested}. Please try again in ${wait.toFixed(2)}s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing`, Math.ceil(wait))
+  }
+  const content = modelContent(prompt, a)
+  const text = JSON.stringify(content)
+  const completion = Math.ceil(text.length / 3.5) + (/gpt-oss/.test(model) ? 60 : 0)
+  // Pacing check: tokens already in flight on this model plus this request must stay within the bucket (+25%).
+  const flying = inflightTokens.get(key) ?? 0
+  if (tpm && flying + requested > 1.25 * st.tokens) providerStats.violations++
+  inflightTokens.set(key, flying + requested)
+  try {
+    if (behavior.latency) await wait(behavior.latency[a.kind], init.signal)
+  } finally {
+    inflightTokens.set(key, (inflightTokens.get(key) ?? 0) - requested)
+  }
+  st.tokens = Math.max(0, st.tokens - promptTokens - completion)
+  st.rpdUsed++
+  st.tpdUsed += promptTokens + completion
+  providerStats.ok++
+  return new Response(
+    JSON.stringify({ choices: [{ message: { role: 'assistant', content: text }, finish_reason: 'stop' }], usage: { prompt_tokens: promptTokens, completion_tokens: completion, total_tokens: promptTokens + completion } }),
+    { status: 200, headers: limitHeaders() },
+  )
+}
+
+function openaiModelList(provider: string): Response {
+  const lists: Record<string, string[]> = {
+    groq: ['openai/gpt-oss-120b', 'openai/gpt-oss-20b', 'qwen/qwen3.8-27b', 'whisper-large-v3'],
+    mistral: ['mistral-small-latest', 'mistral-large-latest'],
+    openrouter: ['openai/gpt-oss-120b:free'],
+  }
+  return new Response(JSON.stringify({ data: (lists[provider] ?? []).map((id) => ({ id })) }), { status: 200 })
 }
 
 async function callHandler(body: unknown, method = 'POST'): Promise<{ status: number; body: any; headers: Record<string, string> }> {
@@ -457,9 +592,20 @@ function installFetch() {
     if (url.includes('/api/mockEnglish')) {
       apiCalls++
       const body = JSON.parse(String(init.body))
+      lastApiBodies.push(body)
       const out = await abortable(callHandler(body), init.signal)
       if (body.action === 'generate' && out.body?.groups) registerGroups(out.body.groups)
       return new Response(JSON.stringify(out.body), { status: out.status, headers: { 'Content-Type': 'application/json' } })
+    }
+    for (const [host, provider] of [['api.groq.com', 'groq'], ['api.mistral.ai', 'mistral'], ['openrouter.ai', 'openrouter']] as const) {
+      if (!url.includes(host)) continue
+      if (liveMode) return realFetch(input, init)
+      return url.endsWith('/models') ? openaiModelList(provider) : openaiStub(provider, url, init)
+    }
+    if (url.includes('generativelanguage.googleapis.com/v1beta/models') && !url.includes(':generateContent')) {
+      if (liveMode) return realFetch(input, init)
+      const names = ['gemini-3-flash-preview', 'gemini-3.1-flash-lite', 'gemini-3.5-flash-lite', 'gemini-3.5-flash']
+      return new Response(JSON.stringify({ models: [...names.map((n) => ({ name: 'models/' + n, supportedGenerationMethods: ['generateContent'] })), { name: 'models/embedding-001', supportedGenerationMethods: ['embedContent'] }] }), { status: 200 })
     }
     if (url.includes('generativelanguage.googleapis.com')) {
       if (liveMode) return realFetch(input, init)
@@ -477,6 +623,12 @@ function fastTiming() {
     requestTimeoutMs: 28000,
     deadlineMs: 150000,
     maxRounds: 3,
+    genConcurrency: 3,
+    staggerMinMs: 2,
+    staggerMaxMs: 4,
+    healthScale: 0.001,
+    maxCooldownWaitMs: 60000,
+    noModelWaits: 3,
     retries: 2,
     rateLimitRetries: 3,
     timeoutRetries: 1,
@@ -486,9 +638,19 @@ function fastTiming() {
   })
   delete process.env.MOCK_ENGLISH_GEMINI_TIMEOUT_MS
   delete process.env.MOCK_ENGLISH_DEADLINE_MS
-  delete process.env.MOCK_ENGLISH_HEDGE_MS
   delete process.env.GEMINI_MODEL
+  // Older suites assume the two-model Gemini chain flash / flash-lite; chain suites call defaultChainEnv().
+  process.env.MOCK_ENGLISH_GENERATE_MODELS = 'gemini-3.5-flash,gemini-3.5-flash-lite'
+  process.env.MOCK_ENGLISH_SOLVE_MODELS = 'gemini-3.5-flash,gemini-3.5-flash-lite'
+  delete process.env.GROQ_API_KEY
+  delete process.env.MISTRAL_API_KEY
+  delete process.env.OPENROUTER_API_KEY
+  process.env.MOCK_ENGLISH_COOLDOWN_SCALE = '0'
+  process.env.MOCK_ENGLISH_MAX_TRANSIENT_COOLDOWN_MS = '45000'
+  process.env.MOCK_ENGLISH_ALLOW_RESET = '1'
+  void handler({ method: 'POST', body: { action: 'resetHealth' } }, { setHeader() {}, status: () => ({ json() {} }) })
   removeStorage()
+  clearEnglishModelHealth()
 }
 
 const countQ = (gs: Group[]) => gs.reduce((n, g) => n + g.questions.length, 0)
@@ -502,6 +664,7 @@ const keyFor = (q: { topic: string; stem: string; options: string[] }) => (q.top
 async function suiteHandlerInput() {
   suite('handler: input validation and status codes')
   process.env.GEMINI_API_KEY = 'test-key'
+  fastTiming()
   resetBehavior()
   const good = { action: 'generate', topic: 'error-detection', difficulty: 'medium', count: 3, seed: 7 }
   let r = await callHandler(good, 'GET')
@@ -553,10 +716,10 @@ async function suiteHandlerInput() {
 }
 
 async function suiteHandlerGemini() {
-  suite('handler: Gemini failure modes, hedging, model roles')
+  suite('handler: Gemini failure modes, fallback, model roles')
   process.env.GEMINI_API_KEY = 'test-key'
+  fastTiming()
   const body = { action: 'generate', topic: 'fillers', difficulty: 'medium', count: 3, seed: 'abc' }
-  process.env.MOCK_ENGLISH_HEDGE_MS = '5'
   const both = (f: HttpFault) => () => f
 
   resetBehavior({ fault: both('malformed') })
@@ -591,19 +754,18 @@ async function suiteHandlerGemini() {
   delete process.env.MOCK_ENGLISH_GEMINI_TIMEOUT_MS
   resetBehavior({ fault: ({ model }) => (model === 'gemini-3.5-flash' ? { status: 503 } : undefined) })
   r = await callHandler(body)
-  check(r.status === 200 && r.body.meta.model === 'gemini-3.5-flash-lite', 'primary 503 -> fallback model answers')
-  // Hedge: first model slow, second quick.
-  resetBehavior({ fault: ({ model }) => (model === 'gemini-3.5-flash' ? { delayMs: 800 } : undefined) })
-  const t1 = Date.now()
+  check(r.status === 200 && r.body.meta.model === 'gemini/gemini-3.5-flash-lite', 'primary 503 -> fallback model answers')
+  // No parallel hedging: a slow but healthy primary is waited for, and the fallback is never started.
+  resetBehavior({ fault: ({ model }) => (model === 'gemini-3.5-flash' ? { delayMs: 300 } : undefined) })
   r = await callHandler(body)
-  check(r.status === 200 && r.body.meta.model === 'gemini-3.5-flash-lite' && Date.now() - t1 < 700, 'slow primary is beaten by the hedged fallback')
+  check(r.status === 200 && r.body.meta.model === 'gemini/gemini-3.5-flash' && geminiCalls.length === 1, 'a slow healthy primary is not hedged (one Gemini call)')
 
   // Roles and temperatures.
   delete process.env.MOCK_ENGLISH_HEDGE_MS
   resetBehavior()
   r = await callHandler(body)
   check(r.status === 200 && geminiCalls.length === 1 && geminiCalls[0].temperature >= 0.7, 'generate uses high temperature')
-  check(r.body.meta.model === 'gemini-3.5-flash', 'generate prefers the stronger model')
+  check(r.body.meta.model === 'gemini/gemini-3.5-flash', 'generate prefers the stronger model')
   const q = r.body.groups[0].questions[0]
   registry.set(keyOf(q.stem, q.options), q.answer)
   const solveBody = { action: 'solve', avoidModel: 'gemini-3.5-flash', items: [{ id: 'x1', topic: 'fillers', stem: q.stem, options: q.options }] }
@@ -1175,7 +1337,7 @@ async function suiteSequential() {
   const body = { action: 'generate', topic: 'fillers', difficulty: 'medium', count: 3, seed: 's' }
   resetBehavior({ fault: ({ model }) => (model === 'gemini-3.5-flash' ? { status: 503, delayMs: 150 } : undefined) })
   let r = await callHandler(body)
-  check(r.status === 200 && r.body.meta.model === 'gemini-3.5-flash-lite', 'primary fails -> fallback model answers')
+  check(r.status === 200 && r.body.meta.model === 'gemini/gemini-3.5-flash-lite', 'primary fails -> fallback model answers')
   check(geminiCalls.length === 2 && geminiCalls[1].at - geminiCalls[0].at >= 140, 'fallback starts only after the first model failed (no parallel hedge)')
   check(r.body.meta.attempts.map((a: any) => a.status).join(',') === '502,200', 'meta.attempts reports the failed and the successful attempt')
   resetBehavior()
@@ -1273,7 +1435,7 @@ async function suitePaperHappy() {
     check(ms < 2000, `${label}: simulated latency ${ms} ms (a serial design needs several times that)`)
     check(progress.length > 0 && progress.every((p, i) => p[1] === 30 && (i === 0 || p[0] >= progress[i - 1][0])) && progress.at(-1)![0] === 30, `${label}: onProgress(ready, 30) is monotonic and ends at 30`)
     const solveCalls = geminiCalls.filter((c) => c.kind === 'solve')
-    check(solveCalls.every((c) => c.model !== 'gemini-3.5-flash'), `${label}: the solver never reuses the generating model`)
+        check(st.independence.same === 0 && st.independence.model + st.independence.provider > 0, `${label}: the blind check was never run by the generating model (independence ${JSON.stringify(st.independence)})`)
     check(new Set(solveCalls.flatMap((c) => [...c.prompt.matchAll(/^Topic: (.+)$/gm)].map((m) => m[1]))).size > 1, `${label}: one solve call pools items from several topics`)
     console.log(`   ${label}: ${apiCalls} API calls (${genCalls()} generate + ${solveCalls.length} solve), ${ms} ms simulated, rounds ${st.rounds}`)
   }
@@ -1332,7 +1494,7 @@ async function suitePaperFaults() {
   const persistent: [string, Partial<Behavior>, string, RegExp][] = [
     ['429 everywhere', { fault: () => ({ status: 429 }) }, 'rate-limit', /rate-limiting/],
     ['upstream hangs', { fault: () => 'hang' }, 'timeout', /too slow/],
-    ['503 everywhere', { fault: () => ({ status: 503 }) }, 'network', /check your connection/],
+    ['503 everywhere', { fault: () => ({ status: 503 }) }, 'rate-limit', /rate-limiting/],
     ['solver always disagrees', { solverWrongRate: 1 }, 'quality', /accuracy check/],
   ]
   for (const [label, over, reason, msg] of persistent) {
@@ -1368,7 +1530,7 @@ async function suiteResume() {
   ENGLISH_TUNING.useBank = true
   clearEnglishBank()
   resetBehavior({ latency: { generate: 10, solve: 5 }, fault: ({ kind, topic }) => (kind === 'generate' && topic === 'phrase-replacement' ? { status: 503 } : undefined) })
-  await expectThrows(() => fetchEnglishPaper(PO_REQUESTS, 'hard'), 'first attempt fails while one topic is down', (e) => e instanceof EnglishPrepareError && e.reason === 'network')
+  await expectThrows(() => fetchEnglishPaper(PO_REQUESTS, 'hard'), 'first attempt fails while one topic is down', (e) => e instanceof EnglishPrepareError && e.reason === 'rate-limit')
   const g1 = genCalls()
   const size1 = englishBankSize('hard')
   check(size1 >= 20, `everything verified before the failure is banked (${size1} questions)`)
@@ -1550,6 +1712,7 @@ async function suiteAbortPaper() {
   check(apiCalls === after, 'no API call starts after the abort')
   resetBehavior({ fault: () => ({ status: 429 }) })
   const ac2 = new AbortController()
+  ENGLISH_TUNING.healthScale = 1
   ENGLISH_TUNING.rateLimitBaseMs = 5000
   ENGLISH_TUNING.maxRetryAfterMs = 20000
   setTimeout(() => ac2.abort(), 120)
@@ -1579,6 +1742,7 @@ async function suiteDiagnostics() {
   check(lines.length === 2, `exactly one console.info per run, success and failure (${lines.length})`)
   const first = lines[0] ?? ''
   check(/\[english\] hard ok/.test(first) && /api calls \d+ generate \+ \d+ solve/.test(first) && /http 200x\d+/.test(first), 'header line names outcome, call counts and HTTP status counts')
+  check(/gemini\/gemini-3\.5-flash: calls \d+ ok \d+/.test(first) && /solver independence/.test(first), 'per-model outcome counts and solver independence are in the summary')
   check(/rc\s+\d+\s+\d+/.test(first) && /error-detection/.test(first) && /agree/.test(first) && /phases:/.test(first), 'per-topic table and phase timings are present')
   check(/drops: "/.test(first), 'top deterministic drop reasons are listed')
   check(/\[english\] hard quality/.test(lines[1] ?? ''), 'a failed run is summarised too, with its reason')
@@ -1586,6 +1750,600 @@ async function suiteDiagnostics() {
   const st = getLastEnglishRunStats()!
   check(st.calls.length > 0 && percentile([1, 2, 3, 4, 5], 50) === 3 && percentile([1, 2, 3, 4, 5], 90) === 5 && percentile([], 50) === 0, 'per-call stats and percentile helper work')
   check(formatEnglishRunStats(st).includes('quality'), 'formatEnglishRunStats is exported and reusable')
+}
+
+// ---------------------------------------------------------------------------------------------------
+// Model chains, health registry, quota, staggering, probe
+// ---------------------------------------------------------------------------------------------------
+
+const CHAIN = ['gemini-3-flash-preview', 'gemini-3.1-flash-lite', 'gemini-3.5-flash-lite', 'gemini-3.5-flash']
+const DAILY_BODY = (model: string, delay = '24283s') =>
+  JSON.stringify({
+    error: {
+      code: 429,
+      status: 'RESOURCE_EXHAUSTED',
+      message: 'You exceeded your current quota, please check your plan and billing details.',
+      details: [
+        {
+          '@type': 'type.googleapis.com/google.rpc.QuotaFailure',
+          violations: [{ quotaMetric: 'generativelanguage.googleapis.com/generate_content_free_tier_requests', quotaId: 'GenerateRequestsPerDayPerProjectPerModel-FreeTier', quotaDimensions: { model, location: 'global' }, quotaValue: '20' }],
+        },
+        { '@type': 'type.googleapis.com/google.rpc.RetryInfo', retryDelay: delay },
+      ],
+    },
+  })
+const MINUTE_BODY = (delay = '30s', quotaId = 'GenerateRequestsPerMinutePerProjectPerModel-FreeTier') =>
+  JSON.stringify({
+    error: {
+      code: 429,
+      status: 'RESOURCE_EXHAUSTED',
+      message: 'Quota exceeded',
+      details: [{ '@type': 'type.googleapis.com/google.rpc.QuotaFailure', violations: [{ quotaId, quotaValue: '5' }] }, { '@type': 'type.googleapis.com/google.rpc.RetryInfo', retryDelay: delay }],
+    },
+  })
+const NOT_FOUND_BODY = (m: string) => JSON.stringify({ error: { code: 404, message: `models/${m} is no longer available to new users.`, status: 'NOT_FOUND' } })
+const OVERLOAD_BODY = JSON.stringify({ error: { code: 503, message: 'This model is currently experiencing high demand. Spikes in demand are usually temporary.', status: 'UNAVAILABLE' } })
+
+/** The four-model Gemini chain used by the chain / health / quota suites. */
+function defaultChainEnv() {
+  process.env.MOCK_ENGLISH_GENERATE_MODELS = CHAIN.join()
+  process.env.MOCK_ENGLISH_SOLVE_MODELS = CHAIN.join()
+  delete process.env.GEMINI_MODEL
+}
+const GID = (m: string) => 'gemini/' + m
+const callsOf = (model: string) => geminiCalls.filter((c) => c.model === model).length
+const perModel = () => {
+  const m: Record<string, number> = {}
+  for (const c of geminiCalls) m[c.model] = (m[c.model] ?? 0) + 1
+  return Object.entries(m)
+    .map(([k, v]) => `${k}=${v}`)
+    .join(', ')
+}
+
+async function suiteModelChain() {
+  suite('model chain: order, fallthrough on 503 / 404 / daily 429, skipModels, classification')
+  process.env.GEMINI_API_KEY = 'test-key'
+  fastTiming()
+  defaultChainEnv()
+  const body = { action: 'generate', topic: 'fillers', difficulty: 'medium', count: 3, seed: 's' }
+  resetBehavior()
+  let r = await callHandler(body)
+  check(r.status === 200 && geminiCalls.length === 1 && geminiCalls[0].model === CHAIN[0] && r.body.meta.chain.join() === CHAIN.map(GID).join(), 'default generate chain starts with gemini-3-flash-preview and has the 4 configured models')
+  resetBehavior({ fault: ({ model }) => (model === CHAIN[0] ? { status: 503, body: OVERLOAD_BODY } : model === CHAIN[1] ? { status: 404, body: NOT_FOUND_BODY(model) } : model === CHAIN[2] ? { status: 429, body: DAILY_BODY(model) } : undefined) })
+  const t0 = Date.now()
+  r = await callHandler(body)
+  check(r.status === 200 && geminiCalls.map((c) => c.model).join() === CHAIN.join() && r.body.meta.model === GID(CHAIN[3]), 'fallthrough walks the chain in order: 503 -> 404 -> daily 429 -> last model answers')
+  check(r.body.meta.attempts.map((a: any) => a.class).join() === 'overload,unavailable,quota-day,ok', `attempt classes reported (${r.body.meta.attempts.map((a: any) => a.class).join()})`)
+  const upd = Object.fromEntries(r.body.meta.modelHealth.map((u: any) => [u.model, u]))
+  check(upd[GID(CHAIN[0])].cooldownMs === 45000 && upd[GID(CHAIN[1])].cooldownMs === 86400000 && upd[GID(CHAIN[2])].cooldownMs === 24283000 && upd[GID(CHAIN[3])].cls === 'ok', 'cooldowns: overload 45 s, 404 24 h, daily quota = retryDelay (24283 s), success clears')
+  check(upd[GID(CHAIN[2])].quotaId.includes('PerDay') && upd[GID(CHAIN[2])].quotaValue === '20', 'quotaId / quotaValue are reported')
+  check(Date.now() - t0 < 500, `no sleeping anywhere on the way (${Date.now() - t0} ms)`)
+
+  // classification of 429s
+  const cls = async (b: string) => {
+    resetBehavior({ fault: ({ model }) => (model === CHAIN[0] ? { status: 429, body: b } : undefined) })
+    const x = await callHandler(body)
+    return x.body.meta.modelHealth.find((u: any) => u.model === GID(CHAIN[0]))
+  }
+  let u = await cls(MINUTE_BODY('30s'))
+  check(u.cls === 'rate-minute' && u.cooldownMs === 30000, 'per-minute 429: cooldown = retryDelay (30 s)')
+  u = await cls(MINUTE_BODY('300s'))
+  check(u.cls === 'rate-minute' && u.cooldownMs === 90000, 'per-minute 429: cooldown capped at 90 s')
+  u = await cls(MINUTE_BODY('900s'))
+  check(u.cls === 'quota-day' && u.cooldownMs === 900000, 'a retryDelay above 10 minutes means a daily quota even without "PerDay" in the id')
+  u = await cls(DAILY_BODY('x', '200000s'))
+  check(u.cls === 'quota-day' && u.cooldownMs === 86400000, 'daily quota cooldown is capped at 24 h')
+  u = await cls('{"error":{"code":429,"message":"slow down"}}')
+  check(u.cls === 'rate-minute' && u.cooldownMs === 60000, 'a 429 with no details cools down for a minute')
+
+  // overrides
+  process.env.MOCK_ENGLISH_GENERATE_MODELS = 'x-one, x-two'
+  process.env.MOCK_ENGLISH_SOLVE_MODELS = 'y-one'
+  resetBehavior()
+  await callHandler(body)
+  check(geminiCalls[0].model === 'x-one', 'MOCK_ENGLISH_GENERATE_MODELS overrides the generate chain')
+  const q = (await callHandler(body)).body.groups[0].questions[0]
+  registry.set(keyOf(q.stem, q.options), q.answer)
+  geminiCalls = []
+  await callHandler({ action: 'solve', items: [{ id: 'a', topic: 'fillers', stem: q.stem, options: q.options }] })
+  check(geminiCalls[0].model === 'y-one', 'MOCK_ENGLISH_SOLVE_MODELS overrides the solve chain')
+  process.env.GEMINI_MODEL = 'forced-model'
+  resetBehavior()
+  await callHandler(body)
+  check(geminiCalls.length === 1 && geminiCalls[0].model === 'forced-model', 'GEMINI_MODEL forces a single model for everything')
+  defaultChainEnv()
+
+  // skipModels
+  resetBehavior()
+  r = await callHandler({ ...body, skipModels: [CHAIN[0], CHAIN[1]] })
+  check(r.status === 200 && geminiCalls[0].model === CHAIN[2] && geminiCalls.length === 1, 'skipModels are not called')
+  resetBehavior()
+  r = await callHandler({ ...body, skipModels: CHAIN })
+  check(r.status === 503 && r.body.code === 'no-model' && geminiCalls.length === 0 && r.body.skipped.length === 4, 'every model skipped: no Gemini call, code no-model')
+  r = await callHandler({ ...body, skipModels: 'nope' })
+  check(r.status === 400, 'malformed skipModels -> 400')
+
+  // a strong solver beats diversity by default
+  resetBehavior()
+  const q2 = (await callHandler(body)).body.groups[0].questions[0]
+  registry.set(keyOf(q2.stem, q2.options), q2.answer)
+  geminiCalls = []
+  await callHandler({ action: 'solve', avoidModel: CHAIN[0], items: [{ id: 'a', topic: 'fillers', stem: q2.stem, options: q2.options }] })
+  check(geminiCalls[0].model === CHAIN[1], 'solve avoids the generating model when another healthy model exists')
+  const sr = await callHandler({ action: 'solve', avoidModel: CHAIN[0], items: [{ id: 'a', topic: 'fillers', stem: q2.stem, options: q2.options }] })
+  check(sr.body.meta.independence === 'model', 'the solve reply reports how independent the check was (cross-model within one provider)')
+
+  // an unusable reply moves on but does not cool the model
+  resetBehavior({ fault: ({ model }) => (model === CHAIN[0] ? 'malformed' : undefined) })
+  r = await callHandler(body)
+  check(r.status === 200 && r.body.meta.model === GID(CHAIN[1]) && !r.body.meta.modelHealth.some((x: any) => x.model === GID(CHAIN[0]) && x.cls !== 'ok'), 'malformed output falls through without a cooldown')
+
+  // the server remembers cooling models in its own memory
+  process.env.MOCK_ENGLISH_COOLDOWN_SCALE = '1'
+  await callHandler({ action: 'resetHealth' })
+  resetBehavior({ fault: ({ model }) => (model === CHAIN[0] ? { status: 503, body: OVERLOAD_BODY } : undefined) })
+  await callHandler(body)
+  geminiCalls = []
+  r = await callHandler(body)
+  check(r.status === 200 && geminiCalls[0].model === CHAIN[1] && r.body.meta.skipped.some((x: any) => x.model === GID(CHAIN[0]) && x.by === 'server'), 'server memory: a model that just failed is skipped on the next request')
+  // repeated transient failures grow the cooldown (45 s, 90 s, 180 s ...) up to the cap
+  process.env.MOCK_ENGLISH_COOLDOWN_SCALE = '0'
+  delete process.env.MOCK_ENGLISH_MAX_TRANSIENT_COOLDOWN_MS
+  await callHandler({ action: 'resetHealth' })
+  resetBehavior({ fault: ({ model }) => (model === CHAIN[0] ? { status: 503, body: OVERLOAD_BODY } : undefined) })
+  const grown: number[] = []
+  for (let i = 0; i < 3; i++) grown.push((await callHandler(body)).body.meta.modelHealth.find((x: any) => x.model === GID(CHAIN[0])).cooldownMs)
+  check(grown.join() === '45000,90000,180000', `transient cooldown grows on repeats (${grown.join(', ')})`)
+  process.env.MOCK_ENGLISH_MAX_TRANSIENT_COOLDOWN_MS = '100000'
+  check((await callHandler(body)).body.meta.modelHealth.find((x: any) => x.model === GID(CHAIN[0])).cooldownMs === 100000, 'and is capped (MOCK_ENGLISH_MAX_TRANSIENT_COOLDOWN_MS)')
+  await callHandler({ action: 'resetHealth' })
+  fastTiming()
+}
+
+async function suiteModelHealthClient() {
+  suite('model health: a daily-exhausted model is not called again - same run, next run (persisted)')
+  process.env.GEMINI_API_KEY = 'test-key'
+  fastTiming()
+  defaultChainEnv()
+  const store = installStorage()
+  ENGLISH_TUNING.healthScale = 1
+  ENGLISH_TUNING.rateLimitBaseMs = 5000 // any back-off on a daily quota would show up as elapsed time
+  const daily = (model: string) => ({ status: 429, body: DAILY_BODY(model) })
+  const reqs: EnglishRequest[] = [{ topic: 'fillers', count: 3 }]
+
+  resetBehavior({ fault: ({ model }) => (model === CHAIN[0] ? daily(model) : undefined) })
+  const t0 = Date.now()
+  const out = await fetchEnglishPaper(reqs, 'medium')
+  const ms = Date.now() - t0
+  check(countQ(out[0]) === 3, 'run 1 completes through the next model')
+  check(callsOf(CHAIN[0]) === 1, `run 1: the exhausted model is called exactly once, then skipped (${callsOf(CHAIN[0])} calls; solves and retries never touch it)`)
+  check(ms < 2500, `no back-off on a daily quota (${ms} ms, back-off base was 5000 ms)`)
+  const saved = JSON.parse(store.get(HEALTH_KEY) ?? '{}')
+  const e = saved.models?.[GID(CHAIN[0])]
+  check(e?.cls === 'quota-day' && e.quotaValue === '20' && Math.abs(e.until - (Date.now() + 24283000)) < 5000, 'health persisted to localStorage with the retryDelay-based expiry')
+  const st = getLastEnglishRunStats()!
+  check(st.models[GID(CHAIN[0])]?.['quota-day'] === 1 && Object.keys(st.models).length >= 2, `per-model outcome counts are in the stats (${JSON.stringify(st.models)})`)
+  console.log(`   run 1 calls per model: ${perModel()}`)
+
+  resetBehavior({ fault: ({ model }) => (model === CHAIN[0] ? daily(model) : undefined) })
+  const out2 = await fetchEnglishPaper(reqs, 'medium')
+  check(countQ(out2[0]) === 3 && callsOf(CHAIN[0]) === 0, `run 2 (next run): the exhausted model is never called (${callsOf(CHAIN[0])} calls)`)
+  console.log(`   run 2 calls per model: ${perModel()}`)
+
+  // Storage is the source of truth: wipe the entry and the model is tried again.
+  store.set(HEALTH_KEY, JSON.stringify({ v: 1, models: {} }))
+  resetBehavior({ fault: ({ model }) => (model === CHAIN[0] ? daily(model) : undefined) })
+  await fetchEnglishPaper(reqs, 'medium')
+  check(callsOf(CHAIN[0]) === 1, 'with the stored health cleared the model is probed again')
+  // Corrupt storage is tolerated.
+  store.set(HEALTH_KEY, 'not json {{')
+  resetBehavior()
+  const out3 = await fetchEnglishPaper(reqs, 'medium')
+  check(countQ(out3[0]) === 3, 'corrupt model-health storage is ignored')
+  clearEnglishModelHealth()
+
+  // Two exhausted models, in a PO paper: each is probed at most a handful of times (concurrent first wave), then never.
+  resetBehavior({ latency: { generate: 20, solve: 10 }, fault: ({ model }) => (model === CHAIN[0] || model === CHAIN[1] ? daily(model) : undefined) })
+  const po = await fetchEnglishPaper(PO_REQUESTS, 'hard')
+  validatePaper('two exhausted models', PO_REQUESTS, 'hard', po)
+  check(callsOf(CHAIN[0]) <= 3 && callsOf(CHAIN[1]) <= 3, `exhausted models are only probed by the first concurrent wave (${callsOf(CHAIN[0])} + ${callsOf(CHAIN[1])} calls)`)
+  console.log(`   PO with two daily-exhausted models, calls per model: ${perModel()}`)
+  fastTiming()
+}
+
+async function suiteQuota() {
+  suite("quota / unavailable / cooldown reasons (never a sleep on a daily quota)")
+  process.env.GEMINI_API_KEY = 'test-key'
+  fastTiming()
+  defaultChainEnv()
+  installStorage()
+  ENGLISH_TUNING.healthScale = 1
+  ENGLISH_TUNING.rateLimitBaseMs = 5000
+
+  resetBehavior({ latency: { generate: 5, solve: 5 }, fault: ({ model }) => ({ status: 429, body: DAILY_BODY(model) }) })
+  const t0 = Date.now()
+  const err = await expectThrows(() => fetchEnglishPaper(PO_REQUESTS, 'hard'), "every model's daily quota spent -> reason quota", (e) => e instanceof EnglishPrepareError && e.reason === 'quota')
+  const ms = Date.now() - t0
+  const m = err?.message ?? ''
+  check(/free-tier daily limit/.test(m), 'message says the free-tier daily limit for this key is used up')
+  check(CHAIN.every((c) => m.includes(c)), 'message names the models')
+  check(/about 7 hours/.test(m), `message gives the hours until reset (from retryDelay 24283 s): "${m.slice(m.indexOf('It resets'), m.indexOf('It resets') + 30)}"`)
+  check(/already prepared are saved/.test(m) && /Try again later/.test(m), 'message says prepared questions are saved and Try again later resumes')
+  check(/billing/.test(m) && /second key/.test(m), 'message mentions enabling billing or a second key')
+  check(ms < 2500, `no sleeping (${ms} ms) and no hammering (${geminiCalls.length} Gemini calls, ${apiCalls} API calls)`)
+  check(geminiCalls.length <= 16 && apiCalls <= 12, 'bounded number of calls when the whole chain is exhausted')
+  console.log(`   all-exhausted calls per model: ${perModel()}`)
+  // Next attempt: zero calls, immediate and informative.
+  resetBehavior()
+  const t1 = Date.now()
+  await expectThrows(() => fetchEnglishPaper(PO_REQUESTS, 'hard'), 'the next attempt fails at once from the stored health', (e) => e instanceof EnglishPrepareError && e.reason === 'quota')
+  check(geminiCalls.length === 0 && Date.now() - t1 < 500, `the next attempt makes no Gemini call (${geminiCalls.length}) and does not wait`)
+  clearEnglishModelHealth()
+
+  // Partially exhausted -> succeeds.
+  resetBehavior({ latency: { generate: 5, solve: 5 }, fault: ({ model }) => (model !== CHAIN[3] ? { status: 429, body: DAILY_BODY(model) } : undefined) })
+  const ok = await fetchEnglishPaper(PO_REQUESTS, 'hard')
+  validatePaper('three of four exhausted', PO_REQUESTS, 'hard', ok)
+  clearEnglishModelHealth()
+
+  // All 404.
+  resetBehavior({ fault: ({ model }) => ({ status: 404, body: NOT_FOUND_BODY(model) }) })
+  const e404 = await expectThrows(() => fetchEnglishPaper(PO_REQUESTS, 'hard'), 'every configured model unavailable -> reason unavailable', (e) => e instanceof EnglishPrepareError && e.reason === 'unavailable')
+  check(/MOCK_ENGLISH_GENERATE_MODELS/.test(e404?.message ?? '') && CHAIN.every((c) => (e404?.message ?? '').includes(c)), 'message names the models and MOCK_ENGLISH_GENERATE_MODELS')
+  clearEnglishModelHealth()
+
+  // Mixed daily + 404 -> quota.
+  resetBehavior({ fault: ({ model }) => (model === CHAIN[0] || model === CHAIN[2] ? { status: 429, body: DAILY_BODY(model) } : { status: 404, body: NOT_FOUND_BODY(model) }) })
+  await expectThrows(() => fetchEnglishPaper(PO_REQUESTS, 'hard'), 'daily-exhausted plus unavailable models -> quota', (e) => e instanceof EnglishPrepareError && e.reason === 'quota')
+  clearEnglishModelHealth()
+
+  // Short cooldown on every model: wait for the soonest, then continue.
+  let seen = 0
+  resetBehavior({ fault: ({ kind }) => (kind === 'generate' && seen++ < 4 ? { status: 429, body: MINUTE_BODY('1s') } : undefined) })
+  const t2 = Date.now()
+  const waited = await fetchEnglishPaper([{ topic: 'fillers', count: 3 }], 'medium')
+  const ms2 = Date.now() - t2
+  check(countQ(waited[0]) === 3 && ms2 >= 900 && ms2 < 6000, `all models in a 1 s per-minute cooldown: waits about 1 s, then succeeds (${ms2} ms)`)
+  clearEnglishModelHealth()
+
+  // Long short-cooldown (85 s > 60 s): give up at once with rate-limit.
+  resetBehavior({ fault: () => ({ status: 429, body: MINUTE_BODY('85s') }) })
+  const t3 = Date.now()
+  await expectThrows(() => fetchEnglishPaper(PO_REQUESTS, 'hard'), 'soonest recovery 85 s -> gives up with reason rate-limit', (e) => e instanceof EnglishPrepareError && e.reason === 'rate-limit')
+  check(Date.now() - t3 < 2500, `it did not sleep (${Date.now() - t3} ms)`)
+  clearEnglishModelHealth()
+  fastTiming()
+}
+
+async function suiteStagger() {
+  suite('burst staggering: starts are spaced out and at most 3 generate calls are in flight')
+  process.env.GEMINI_API_KEY = 'test-key'
+  fastTiming()
+  defaultChainEnv()
+  ENGLISH_TUNING.staggerMinMs = 60
+  ENGLISH_TUNING.staggerMaxMs = 90
+  resetBehavior({ latency: { generate: 300, solve: 40 } })
+  const out = await fetchEnglishPaper(PO_REQUESTS, 'hard')
+  validatePaper('staggered', PO_REQUESTS, 'hard', out)
+  const gens = geminiCalls.filter((c) => c.kind === 'generate').sort((a, b) => a.at - b.at)
+  const gaps = gens.slice(1).map((c, i) => c.at - gens[i].at)
+  check(gens.length >= 7 && gaps.every((g) => g >= 50), `consecutive generate starts are >= 60 ms apart (min gap ${Math.min(...gaps)} ms over ${gens.length} calls)`)
+  const inFlight = Math.max(...gens.map((c) => gens.filter((d) => d.at <= c.at && c.at < d.at + 300).length))
+  check(inFlight <= 3, `at most 3 generate calls in flight (peak ${inFlight})`)
+  const sols = geminiCalls.filter((c) => c.kind === 'solve').sort((a, b) => a.at - b.at)
+  check(sols.slice(1).every((c, i) => c.at - sols[i].at >= 50), 'solve calls are staggered too')
+  check(inFlight >= 2, 'but generation is still parallel (peak in flight >= 2)')
+  fastTiming()
+}
+
+// ---------------------------------------------------------------------------------------------------
+// Providers: Groq (token buckets), Mistral, cross-provider solving, pacing
+// ---------------------------------------------------------------------------------------------------
+
+const GROQ120 = 'groq/openai/gpt-oss-120b'
+const GROQ20 = 'groq/openai/gpt-oss-20b'
+const G_PREVIEW = 'gemini/gemini-3-flash-preview'
+
+function setProviders(p: { gemini?: boolean; groq?: boolean; mistral?: boolean }) {
+  const set = (k: string, on: boolean | undefined, v: string) => {
+    if (on) process.env[k] = v
+    else delete process.env[k]
+  }
+  set('GEMINI_API_KEY', p.gemini, 'test-key')
+  set('GROQ_API_KEY', p.groq, 'groq-test-key')
+  set('MISTRAL_API_KEY', p.mistral, 'mistral-test-key')
+}
+/** The built-in default chains (no env overrides). */
+function builtinChains() {
+  delete process.env.MOCK_ENGLISH_GENERATE_MODELS
+  delete process.env.MOCK_ENGLISH_SOLVE_MODELS
+  delete process.env.GEMINI_MODEL
+}
+const callsByProvider = () => {
+  const m: Record<string, number> = {}
+  for (const c of geminiCalls) m[c.provider] = (m[c.provider] ?? 0) + 1
+  return Object.entries(m)
+    .map(([k, v]) => `${k}=${v}`)
+    .join(' ')
+}
+/** Gemini models fail with a daily quota; everything else works. */
+const geminiDailyFault = ({ model }: { model: string }): HttpFault => (model.includes('/') ? undefined : { status: 429, body: DAILY_BODY(model) })
+const GROQ_TPD_BODY = JSON.stringify({ error: { message: 'Rate limit reached for model `openai/gpt-oss-20b` in organization `org_x` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 199900, Requested 3400. Please try again in 1h2m3.5s.', type: 'tokens', code: 'rate_limit_exceeded' } })
+
+async function solveFixture() {
+  const q = (await callHandler({ action: 'generate', topic: 'fillers', difficulty: 'medium', count: 3, seed: 1 })).body.groups[0].questions[0]
+  registry.set(keyOf(q.stem, q.options), q.answer)
+  geminiCalls = []
+  return { id: 'a', topic: 'fillers', stem: q.stem, options: q.options }
+}
+
+async function suiteProviderChain() {
+  suite('providers: provider/model chains, enabled providers only, effort, cross-provider solving')
+  fastTiming()
+  builtinChains()
+  const body = { action: 'generate', topic: 'fillers', difficulty: 'medium', count: 3, seed: 's' }
+  const groqCfg = { groq: { tpm: 8000, windowMs: 60000 } }
+
+  setProviders({ gemini: true, groq: true })
+  resetBehavior({ providers: groqCfg })
+  let r = await callHandler(body)
+  const c0 = geminiCalls[0]
+  check(r.status === 200 && c0.id === GROQ120 && r.body.meta.model === GROQ120, 'default generate chain starts with groq/openai/gpt-oss-120b')
+  check(r.body.meta.chain.join() === [GROQ120, G_PREVIEW, GROQ20, 'gemini/gemini-3.1-flash-lite', 'gemini/gemini-3.5-flash-lite'].join(), `only enabled providers are in the chain (${r.body.meta.chain.join(', ')})`)
+  check(c0.effort === 'low' && c0.jsonMode === true && (c0.maxTokens ?? 0) > 0, "gpt-oss generation: reasoning_effort 'low', JSON mode, bounded max_tokens")
+  const sItem = await solveFixture()
+  geminiCalls = []
+  const sr = await callHandler({ action: 'solve', avoidModel: GROQ120, items: [sItem] })
+  check(sr.body.meta.chain.join() === [G_PREVIEW, GROQ120, GROQ20, 'gemini/gemini-3.1-flash-lite'].join(), `default solve chain (${sr.body.meta.chain.join(', ')})`)
+  check(geminiCalls[0].provider === 'gemini' && sr.body.meta.independence === 'provider', 'a Groq-generated batch is solved by another PROVIDER (cross-family)')
+  geminiCalls = []
+  const sr2 = await callHandler({ action: 'solve', avoidModel: G_PREVIEW, items: [sItem] })
+  check(geminiCalls[0].id === GROQ120 && geminiCalls[0].effort === 'medium' && sr2.body.meta.independence === 'provider', "a Gemini-generated batch is solved by Groq with reasoning_effort 'medium'")
+
+  setProviders({ gemini: true, groq: true, mistral: true })
+  resetBehavior({ providers: groqCfg })
+  r = await callHandler(body)
+  check(r.body.meta.chain.join() === [GROQ120, G_PREVIEW, GROQ20, 'mistral/mistral-small-latest', 'gemini/gemini-3.1-flash-lite', 'gemini/gemini-3.5-flash-lite'].join(), 'with a Mistral key the Mistral model joins the generate chain')
+  resetBehavior({ providers: groqCfg })
+  const sItem2 = await solveFixture()
+  const sr3 = await callHandler({ action: 'solve', avoidModel: G_PREVIEW, items: [sItem2] })
+  check(sr3.body.meta.chain[2] === 'mistral/mistral-large-latest', 'with a Mistral key the solve chain gains mistral-large-latest')
+
+  // Fallthrough across providers: 503 -> 404 -> daily 429 (TPD wording) -> Mistral answers.
+  resetBehavior({
+    providers: groqCfg,
+    fault: ({ model }) => (model === GROQ120 ? { status: 503, body: OVERLOAD_BODY } : model === 'gemini-3-flash-preview' ? { status: 404, body: NOT_FOUND_BODY(model) } : model === GROQ20 ? { status: 429, body: GROQ_TPD_BODY } : undefined),
+  })
+  r = await callHandler(body)
+  check(r.status === 200 && geminiCalls.map((c) => c.id).join() === [GROQ120, G_PREVIEW, GROQ20, 'mistral/mistral-small-latest'].join(), 'fallthrough crosses providers in chain order')
+  check(r.body.meta.attempts.map((a: any) => a.class).join() === 'overload,unavailable,quota-day,ok' && geminiCalls[3].effort === undefined, 'classes reported; reasoning_effort is only sent to gpt-oss models')
+  const tpd = r.body.meta.modelHealth.find((u: any) => u.model === GROQ20)
+  check(tpd.cls === 'quota-day' && tpd.cooldownMs === 3723500 && tpd.quotaId === 'TPD' && tpd.quotaValue === '200000', 'a TPD 429 ("try again in 1h2m3.5s") is a daily class with that cooldown')
+
+  // Groq only.
+  setProviders({ groq: true })
+  resetBehavior({ providers: groqCfg })
+  r = await callHandler(body)
+  check(r.status === 200 && r.body.meta.chain.join() === [GROQ120, GROQ20].join(), 'Groq only: the chain is the two gpt-oss models')
+  const sItem3 = await solveFixture()
+  const sr4 = await callHandler({ action: 'solve', avoidModel: GROQ120, items: [sItem3] })
+  check(geminiCalls[0].id === GROQ20 && sr4.body.meta.independence === 'model', 'only one provider: the solver uses another MODEL')
+  process.env.MOCK_ENGLISH_SOLVE_MODELS = GROQ120
+  geminiCalls = []
+  const sr5 = await callHandler({ action: 'solve', avoidModel: GROQ120, items: [sItem3] })
+  check(geminiCalls[0].id === GROQ120 && geminiCalls[0].effort === 'high' && sr5.body.meta.independence === 'same', "only one model: the same model is used with the higher reasoning effort ('high') and the reply says so")
+  builtinChains()
+
+  // No key at all, bare names mean gemini, GEMINI_MODEL forces a Gemini model.
+  setProviders({})
+  resetBehavior()
+  r = await callHandler(body)
+  check(r.status === 500 && /GEMINI_API_KEY/.test(r.body.error) && /GROQ_API_KEY/.test(r.body.error), 'no provider key -> 500 naming the keys')
+  setProviders({ gemini: true, groq: true })
+  process.env.MOCK_ENGLISH_GENERATE_MODELS = 'gemini-3.5-flash, groq/openai/gpt-oss-20b'
+  resetBehavior({ providers: groqCfg })
+  r = await callHandler(body)
+  check(r.body.meta.chain.join() === ['gemini/gemini-3.5-flash', GROQ20].join(), 'MOCK_ENGLISH_GENERATE_MODELS accepts provider/model ids and bare gemini names')
+  process.env.GEMINI_MODEL = 'forced-model'
+  resetBehavior({ providers: groqCfg })
+  r = await callHandler(body)
+  check(geminiCalls.length === 1 && geminiCalls[0].id === 'gemini/forced-model', 'GEMINI_MODEL still forces one Gemini model')
+  builtinChains()
+  fastTiming()
+}
+
+async function suiteProviderLimits() {
+  suite('providers: Groq 429 (TPM short cooldown, TPD/RPD daily), JSON-mode 400, Mistral formats')
+  fastTiming()
+  builtinChains()
+  const body = { action: 'generate', topic: 'fillers', difficulty: 'medium', count: 3, seed: 's' }
+  setProviders({ gemini: true, groq: true })
+
+  // TPM: short cooldown for that model only, immediate fallthrough, no sleep.
+  resetBehavior({ providers: { groq: { tpm: 8000, windowMs: 60000, initialTokens: 100 } } })
+  const t0 = Date.now()
+  let r = await callHandler(body)
+  const tpm = r.body.meta.modelHealth.find((u: any) => u.model === GROQ120)
+  check(r.status === 200 && r.body.meta.attempts.map((a: any) => a.class).join() === 'rate-minute,ok' && geminiCalls[1].id === G_PREVIEW, 'TPM 429 -> next model at once')
+  check(tpm.cls === 'rate-minute' && tpm.quotaId === 'TPM' && tpm.quotaValue === '8000' && tpm.cooldownMs > 5000 && tpm.cooldownMs <= 90000, `TPM cooldown comes from "try again in Ns" (${tpm.cooldownMs} ms)`)
+  check(Date.now() - t0 < 700 && providerStats.tpm429 === 1, `no sleeping (${Date.now() - t0} ms)`)
+
+  // Retry-After header only (flat Mistral-style body) and a daily wording without hints.
+  setProviders({ gemini: true, mistral: true })
+  process.env.MOCK_ENGLISH_GENERATE_MODELS = 'mistral/mistral-small-latest,gemini/gemini-3-flash-preview'
+  const flat = '{"object":"error","message":"Rate limit exceeded","type":"rate_limited","code":"1300"}'
+  resetBehavior({ fault: ({ model }) => (model === 'mistral/mistral-small-latest' ? { status: 429, body: flat } : undefined) })
+  r = await callHandler(body)
+  const m1 = r.body.meta.modelHealth.find((u: any) => u.model === 'mistral/mistral-small-latest')
+  check(m1.cls === 'rate-minute' && m1.cooldownMs === 10000 && geminiCalls[0].provider === 'mistral' && geminiCalls[0].effort === undefined, 'Mistral flat 429 body without hints: 10 s cooldown, next model at once')
+  resetBehavior({ fault: ({ model }) => (model === 'mistral/mistral-small-latest' ? { status: 429, body: '{"message":"You have exceeded your current quota","code":"insufficient_quota"}' } : undefined) })
+  r = await callHandler(body)
+  check(r.body.meta.modelHealth.find((u: any) => u.model === 'mistral/mistral-small-latest').cls === 'quota-day', 'an exhausted-quota error is a daily class')
+  resetBehavior({ fault: ({ model }) => (model === 'mistral/mistral-small-latest' ? { status: 401, body: '{"message":"Unauthorized"}' } : undefined) })
+  r = await callHandler(body)
+  check(r.body.meta.modelHealth.find((u: any) => u.model === 'mistral/mistral-small-latest').cls === 'unavailable', 'a rejected key makes the model unavailable for a while')
+  builtinChains()
+
+  // JSON-mode 400 -> unusable for JSON (24 h), persisted for the next run.
+  setProviders({ gemini: true, groq: true })
+  process.env.MOCK_ENGLISH_GENERATE_MODELS = 'groq/qwen/qwen3.8-27b,gemini/gemini-3-flash-preview'
+  resetBehavior({ providers: { groq: { tpm: 8000, windowMs: 600, jsonFail: ['qwen/qwen3.8-27b'] } } })
+  r = await callHandler(body)
+  const j = r.body.meta.modelHealth.find((u: any) => u.model === 'groq/qwen/qwen3.8-27b')
+  check(r.status === 200 && r.body.meta.model === G_PREVIEW && j.cls === 'unavailable' && j.cooldownMs === 86400000, 'a JSON-mode 400 ("Failed to generate JSON") marks the model unavailable for 24 h and moves on')
+  installStorage()
+  ENGLISH_TUNING.healthScale = 1
+  resetBehavior({ providers: { groq: { tpm: 8000, windowMs: 600, jsonFail: ['qwen/qwen3.8-27b'] } } })
+  await fetchEnglishPaper([{ topic: 'fillers', count: 3 }], 'medium')
+  const qwenCalls1 = callsOf('qwen/qwen3.8-27b')
+  resetBehavior({ providers: { groq: { tpm: 8000, windowMs: 600, jsonFail: ['qwen/qwen3.8-27b'] } } })
+  await fetchEnglishPaper([{ topic: 'fillers', count: 3 }], 'medium')
+  check(qwenCalls1 === 1 && callsOf('qwen/qwen3.8-27b') === 0, `the JSON-unusable model is tried once, then never again (${qwenCalls1} + ${callsOf('qwen/qwen3.8-27b')} calls)`)
+  clearEnglishModelHealth()
+  builtinChains()
+
+  // Daily wording (RPD) persisted for the next run.
+  ENGLISH_TUNING.healthScale = 1
+  resetBehavior({ providers: { groq: { tpm: 8000, windowMs: 600, rpd: 0 } } })
+  r = await callHandler(body)
+  const rpd = r.body.meta.modelHealth.find((u: any) => u.model === GROQ120)
+  check(rpd.cls === 'quota-day' && rpd.quotaId === 'RPD' && rpd.cooldownMs >= 3723500 && rpd.cooldownMs <= 3724000, `an RPD 429 is a daily class (retry in 1h2m3.5s; ${rpd.cooldownMs} ms)`)
+  const store = installStorage()
+  resetBehavior({ providers: { groq: { tpm: 8000, windowMs: 600, rpd: 0 } } })
+  await fetchEnglishPaper([{ topic: 'fillers', count: 3 }], 'medium')
+  const first = callsOf('openai/gpt-oss-120b')
+  const saved = JSON.parse(store.get(HEALTH_KEY) ?? '{}').models?.[GROQ120]
+  check(saved?.cls === 'quota-day' && Math.abs(saved.until - (Date.now() + 3723500)) < 5000, 'the daily class is persisted with its reset time')
+  resetBehavior({ providers: { groq: { tpm: 8000, windowMs: 600, rpd: 0 } } })
+  await fetchEnglishPaper([{ topic: 'fillers', count: 3 }], 'medium')
+  check(first >= 1 && callsOf('openai/gpt-oss-120b') === 0, `next run: the exhausted Groq model is not called (${first} then ${callsOf('openai/gpt-oss-120b')})`)
+  clearEnglishModelHealth()
+  resetBehavior({ providers: { groq: { tpm: 8000, windowMs: 600, tpd: 1000 } } })
+  r = await callHandler(body)
+  const tpdU = r.body.meta.modelHealth.find((u: any) => u.model === GROQ120)
+  check(tpdU.cls === 'quota-day' && tpdU.quotaId === 'TPD' && tpdU.cooldownMs >= 1510400 && tpdU.cooldownMs <= 1511000, `a TPD 429 (try again in 25m10.4s) is a daily class (${tpdU.cooldownMs} ms)`)
+  fastTiming()
+}
+
+async function suiteProviderPacing() {
+  suite('providers: token-aware pacing keeps in-flight tokens within the budget')
+  fastTiming()
+  builtinChains()
+  setProviders({ groq: true })
+  const cfg = { groq: { tpm: 8000, windowMs: 2000 } }
+  const body = { action: 'generate', topic: 'error-detection', difficulty: 'hard', count: 8, seed: 's' }
+  resetBehavior({ providers: cfg, latency: { generate: 120, solve: 60 } })
+  const results = await Promise.all(Array.from({ length: 6 }, (_, i) => callHandler({ ...body, seed: `s${i}`, spread: i % 3 })))
+  check(results.every((x) => x.status === 200), `6 simultaneous generate calls all succeed (${results.map((x) => x.status).join(',')})`)
+  check(providerStats.violations === 0, `in-flight tokens never exceeded the remaining budget by more than 25% (${providerStats.violations} violations)`)
+  check(providerStats.tpm429 <= 1, `almost no TPM 429s (${providerStats.tpm429})`)
+  const models = new Set(geminiCalls.map((c) => c.id))
+  check(models.size === 2, `load is spread over both models (${[...models].join(', ')})`)
+  const withBudget = results.find((x) => x.body.meta.budgets?.length)
+  check(withBudget && withBudget.body.meta.budgets[0].limit === 8000 && withBudget.body.meta.budgets[0].remaining < 8000, 'replies report the model token budget from the x-ratelimit headers')
+  check(results.every((x) => x.body.meta.attempts.every((a: any) => a.tokens > 0)), 'attempts report tokens used')
+
+  // Client: budgets and skip lists are persisted and sent back.
+  const store = installStorage()
+  ENGLISH_TUNING.healthScale = 1
+  resetBehavior({ providers: { groq: { tpm: 8000, windowMs: 60000 } } })
+  await fetchEnglishPaper([{ topic: 'fillers', count: 3 }], 'medium')
+  const persisted = JSON.parse(store.get(HEALTH_KEY) ?? '{}').budgets ?? {}
+  check(Object.keys(persisted).length >= 1 && Object.values(persisted).every((b: any) => b.limit === 8000 && b.remaining < 8000 && b.resetAt > Date.now()), 'the client persists token budgets')
+  const sent = lastApiBodies.filter((b) => Array.isArray(b.budgets) && b.budgets.length > 0)
+  check(sent.length >= 1 && sent.every((b) => Array.isArray(b.skipModels)), 'later requests carry the budgets (and skipModels)')
+  const st = getLastEnglishRunStats()!
+  check(Object.values(st.tokens).reduce((a, b) => a + b, 0) > 0, 'token usage is in the run stats')
+
+  // A tiny budget forces waiting (< 15 s) or skipping, never an oversized burst.
+  resetBehavior({ providers: { groq: { tpm: 8000, windowMs: 400, initialTokens: 1500 } } })
+  await callHandler(body) // the very first call has no budget information yet and may bounce off the nearly empty bucket
+  const bounced = providerStats.tpm429
+  const r = await callHandler(body)
+  check(r.status === 200 && providerStats.violations === 0 && providerStats.tpm429 === bounced, `once the budget is known, a nearly empty bucket is waited for, not overrun (extra 429s ${providerStats.tpm429 - bounced}, violations ${providerStats.violations})`)
+  fastTiming()
+}
+
+async function suiteProviderPapers() {
+  suite('providers: full PO and Clerk sections (Groq TPM stub x Gemini daily-exhausted stub)')
+  fastTiming()
+  builtinChains()
+  const groqCfg = { groq: { tpm: 8000, windowMs: 600 } }
+  const scenarios: [string, { gemini?: boolean; groq?: boolean }, Partial<Behavior>][] = [
+    ['groq only', { groq: true }, { providers: groqCfg }],
+    ['groq + gemini (gemini daily-exhausted)', { gemini: true, groq: true }, { providers: groqCfg, fault: geminiDailyFault }],
+    ['gemini only', { gemini: true }, {}],
+    ['groq + gemini (both healthy)', { gemini: true, groq: true }, { providers: groqCfg }],
+  ]
+  for (const [label, prov, over] of scenarios) {
+    for (const [exam, reqs, diff] of [
+      ['PO', PO_REQUESTS, 'hard'],
+      ['Clerk', CLERK_REQUESTS, 'medium'],
+    ] as [string, EnglishRequest[], MockDifficulty][]) {
+      fastTiming()
+      builtinChains()
+      setProviders(prov)
+      resetBehavior({ latency: { generate: 30, solve: 15 }, ...over })
+      const t0 = Date.now()
+      try {
+        const out = await fetchEnglishPaper(reqs, diff)
+        const ms = Date.now() - t0
+        validatePaper(`${label} ${exam}`, reqs, diff, out)
+        const st = getLastEnglishRunStats()!
+        check(st.rounds <= 3, `${label} ${exam}: rounds ${st.rounds} <= 3`)
+        check(providerStats.tpm429 <= 6, `${label} ${exam}: TPM 429s bounded (${providerStats.tpm429})`)
+        check(providerStats.violations === 0, `${label} ${exam}: pacing violations ${providerStats.violations}`)
+        if (label === 'groq + gemini (both healthy)') check(st.independence.same === 0 && st.independence.provider > 0, `${exam}: solving crosses providers (${JSON.stringify(st.independence)})`)
+        console.log(`   ${label} / ${exam}: ${apiCalls} API calls, provider calls: ${callsByProvider()} | TPM 429s ${providerStats.tpm429} | rounds ${st.rounds} | ${ms} ms`)
+      } catch (e) {
+        check(false, `${label} ${exam}: threw ${(e as Error).message}`)
+      }
+    }
+  }
+  fastTiming()
+}
+
+async function suiteProbeLlm() {
+  suite('probe-llm-models.ts (stub only): every enabled provider, one tiny request per model, sequential')
+  fastTiming()
+  builtinChains()
+  const env = { GEMINI_API_KEY: 'test-key', GROQ_API_KEY: 'groq-test-key' }
+  check(configuredModels(env).join() === [GROQ120, G_PREVIEW, GROQ20, 'gemini/gemini-3.1-flash-lite', 'gemini/gemini-3.5-flash-lite'].join(), 'probe covers the default chains of enabled providers only (de-duplicated)')
+  check(configuredModels({ ...env, MISTRAL_API_KEY: 'm' }).includes('mistral/mistral-large-latest'), 'a Mistral key adds its models')
+  check(configuredModels({ MOCK_ENGLISH_GENERATE_MODELS: 'gemini-3.5-flash,groq/x', GROQ_API_KEY: 'g', GEMINI_API_KEY: 'k', MOCK_ENGLISH_SOLVE_MODELS: 'groq/x' }).join() === 'gemini/gemini-3.5-flash,groq/x', 'the probe uses the env chains (union, bare = gemini)')
+  check(configuredModels({ GEMINI_MODEL: 'only', GEMINI_API_KEY: 'k', GROQ_API_KEY: 'g' }).join() === 'gemini/only', 'the probe honours GEMINI_MODEL')
+  setProviders({ gemini: true, groq: true })
+  resetBehavior({
+    latency: { generate: 25, solve: 25 },
+    providers: { groq: { tpm: 8000, windowMs: 60000, jsonFail: ['openai/gpt-oss-20b'] } },
+    fault: ({ model }) => (model === 'gemini-3-flash-preview' ? { status: 429, body: DAILY_BODY(model, '24283s') } : model === 'gemini-3.1-flash-lite' ? { status: 404, body: NOT_FOUND_BODY(model) } : undefined),
+  })
+  let active = 0
+  let peak = 0
+  const { rows, report } = await runProbe(env, async (input, init) => {
+    active++
+    peak = Math.max(peak, active)
+    try {
+      return await fetch(input, init)
+    } finally {
+      active--
+    }
+  })
+  const by = Object.fromEntries(rows.map((r) => [r.id, r]))
+  check(rows.length === 5, 'one row per configured model')
+  check(by[GROQ120].status === 200 && by[GROQ120].json === 'yes' && /tokens \d+\/8000/.test(by[GROQ120].limits ?? '') && /requests \d+\/1000/.test(by[GROQ120].limits ?? '') && (by[GROQ120].tokens ?? 0) > 0, 'a healthy Groq row shows status, tokens and the rate-limit headers')
+  check(by[GROQ20].status === 400 && by[GROQ20].json === 'no', 'a JSON-mode 400 shows json "no"')
+  check(by[G_PREVIEW].status === 429 && /PerDay/.test(by[G_PREVIEW].quota ?? '') && /limit=20/.test(by[G_PREVIEW].quota ?? '') && /retryDelay=24283s/.test(by[G_PREVIEW].quota ?? ''), 'a Gemini 429 row shows quotaId, limit and retryDelay')
+  check(by['gemini/gemini-3.1-flash-lite'].status === 404, 'a 404 row')
+  check(by['gemini/gemini-3.5-flash-lite'].status === 200 && by['gemini/gemini-3.5-flash-lite'].json === 'yes', 'a healthy Gemini row')
+  check(/groq: 4 models listed/.test(report) && /gemini: 4 models listed/.test(report) && /not enabled, no key: mistral, openrouter/.test(report), 'the report lists models per enabled provider and the disabled ones')
+  check(!/groq-test-key|test-key/.test(report), 'the report never contains a key')
+  check(geminiCalls.length === 5 && peak === 1, `strictly sequential, one request per model (${geminiCalls.length} requests, peak concurrency ${peak})`)
+  // 429 TPM/RPD formats in the probe.
+  resetBehavior({ providers: { groq: { tpm: 8000, windowMs: 60000, initialTokens: 10 } } })
+  const tp = await runProbe({ GROQ_API_KEY: 'g', MOCK_ENGLISH_GENERATE_MODELS: GROQ120, MOCK_ENGLISH_SOLVE_MODELS: GROQ120 }, (input, init) => fetch(input, init))
+  check(tp.rows[0].status === 429 && /quota=TPM/.test(tp.rows[0].quota ?? '') && /limit=8000/.test(tp.rows[0].quota ?? '') && /retryDelay=/.test(tp.rows[0].quota ?? ''), 'a Groq TPM 429 row shows the quota kind, limit and retry delay')
+  fastTiming()
 }
 
 // ---------------------------------------------------------------------------------------------------
@@ -1656,7 +2414,7 @@ async function liveRun(n: number) {
 
 
 function liveTiming() {
-  Object.assign(ENGLISH_TUNING, { retryDelayMs: 800, rateLimitBaseMs: 5000, maxRetryAfterMs: 20000, requestTimeoutMs: 28000, deadlineMs: 120000, maxRounds: 3, lenientLadder: true })
+  Object.assign(ENGLISH_TUNING, { genConcurrency: 3, staggerMinMs: 400, staggerMaxMs: 800, healthScale: 1, maxCooldownWaitMs: 60000, noModelWaits: 3, retryDelayMs: 800, rateLimitBaseMs: 5000, maxRetryAfterMs: 20000, requestTimeoutMs: 28000, deadlineMs: 120000, maxRounds: 3, lenientLadder: true })
   delete process.env.MOCK_ENGLISH_GEMINI_TIMEOUT_MS
   delete process.env.MOCK_ENGLISH_DEADLINE_MS
   delete process.env.MOCK_ENGLISH_HEDGE_MS
@@ -1794,6 +2552,15 @@ async function main() {
     ['ClientFaults', suiteClientFaults],
     ['Abort', suiteAbort],
     ['Sequential', suiteSequential],
+    ['ModelChain', suiteModelChain],
+    ['ModelHealthClient', suiteModelHealthClient],
+    ['Quota', suiteQuota],
+    ['Stagger', suiteStagger],
+    ['ProviderChain', suiteProviderChain],
+    ['ProviderLimits', suiteProviderLimits],
+    ['ProviderPacing', suiteProviderPacing],
+    ['ProviderPapers', suiteProviderPapers],
+    ['ProbeLlm', suiteProbeLlm],
     ['Relaxed', suiteRelaxed],
     ['PaperHappy', suitePaperHappy],
     ['PaperNoisy', suitePaperNoisy],

@@ -23,9 +23,12 @@ import type { EnglishTopicId, Group, MockDifficulty, QuestionDraft } from '../ty
 import { validateDraft } from '../validate'
 import { bankAdd, bankRead, bankRemove } from './bank'
 import { SeenIndex, checkEnglishGroup, groupKey, passageText } from './checks'
+import { applyBudgetUpdates, applyHealthUpdates, budgetsForRequest, healthSkipList, healthState } from './health'
+import type { BudgetUpdate, HealthUpdate } from './health'
 
 export { checkEnglishGroup, passageText } from './checks'
 export { clearEnglishBank, englishBankSize } from './bank'
+export { clearEnglishModelHealth, modelHealthSnapshot } from './health'
 
 export interface EnglishRequest {
   topic: EnglishTopicId
@@ -42,7 +45,7 @@ export interface FetchEnglishOptions {
   onProgress?: (questionsReady: number) => void
 }
 
-export type EnglishFailReason = 'rate-limit' | 'timeout' | 'unavailable' | 'quality' | 'network'
+export type EnglishFailReason = 'rate-limit' | 'timeout' | 'unavailable' | 'quality' | 'network' | 'quota'
 
 const MESSAGES: Record<EnglishFailReason, string> = {
   'rate-limit': 'Gemini is rate-limiting requests - wait about a minute and press Try again.',
@@ -50,6 +53,7 @@ const MESSAGES: Record<EnglishFailReason, string> = {
   unavailable: "English questions aren't available right now (the question service isn't reachable or isn't set up).",
   quality: 'Too many generated questions failed the accuracy check - try again (questions already prepared are kept).',
   network: "Couldn't prepare enough English questions — check your connection and try again.",
+  quota: 'The free-tier daily limit for this key is used up. Questions already prepared are saved, so press Try again later to resume. Enabling billing on the key, or using a second key, removes the limit.',
 }
 
 export class EnglishPrepareError extends Error {
@@ -76,12 +80,21 @@ export const ENGLISH_TOPIC_NOTES: Record<EnglishTopicId, string> = {
 /** Mutable so the harness can speed things up; production code leaves it alone. */
 export const ENGLISH_TUNING = {
   maxRounds: 3,
-  /** Generate calls in flight at once (free-tier friendly). */
-  genConcurrency: 4,
+  /** Generate calls in flight at once (free-tier friendly; bursts trigger 503s). */
+  genConcurrency: 3,
+  /** Each API call start is delayed so it begins at least staggerMinMs (up to staggerMaxMs) after the previous one. */
+  staggerMinMs: 400,
+  staggerMaxMs: 800,
+  /** Multiplies model cooldowns remembered by the client (tests shrink it; production keeps 1). */
+  healthScale: 1,
+  /** When every usable model is cooling for a short reason, wait for the soonest one only if it is at most this far away. */
+  maxCooldownWaitMs: 60000,
+  /** How many such waits one call may do. */
+  noModelWaits: 3,
   /** Blind-solve calls in flight at once. */
   solveConcurrency: 3,
   solveBatchSize: 20,
-  /** Extra attempts per API call after the first, by failure class. */
+  /** Extra attempts per API call after the first, by failure class (the server walks the model chain itself). */
   retries: 2,
   rateLimitRetries: 3,
   timeoutRetries: 1,
@@ -141,6 +154,12 @@ export interface EnglishRunStats {
   upstream: Record<string, number>
   calls: EnglishCallStat[]
   topics: Record<string, EnglishTopicStats>
+  /** Per model: attempt counts by outcome class ('ok', 'quota-day', 'overload', ...), as reported by the server. */
+  models: Record<string, Record<string, number>>
+  /** Tokens used per model id, as reported by the providers. */
+  tokens: Record<string, number>
+  /** How independent the blind check was, per solved item: another provider / another model / the same model. */
+  independence: { provider: number; model: number; same: number; unknown: number }
   phaseMs: { generate: number; solve: number; total: number }
 }
 
@@ -182,6 +201,14 @@ export function formatEnglishRunStats(st: EnglishRunStats): string {
   const lines = [
     `[english] ${st.difficulty} ${st.outcome} | ${st.total} questions in ${(st.phaseMs.total / 1000).toFixed(1)}s | api calls ${gen} generate + ${sol} solve | http ${fmt(st.http)} | gemini-side ${fmt(st.upstream)} | retries ${st.retries} | rounds ${st.rounds}`,
     `  phases: generate ${(st.phaseMs.generate / 1000).toFixed(1)}s, solve ${(st.phaseMs.solve / 1000).toFixed(1)}s`,
+    '  models (provider/model):',
+    ...(Object.keys(st.models).length
+      ? Object.entries(st.models).map(
+          ([m, c]) =>
+            `    ${m}: calls ${Object.values(c).reduce((a, b) => a + b, 0)} ok ${c.ok ?? 0} | 429 per-minute ${c['rate-minute'] ?? 0} per-day ${c['quota-day'] ?? 0} | 5xx ${c.overload ?? 0} timeouts ${(c.timeout ?? 0) + (c.network ?? 0)} unavailable ${c.unavailable ?? 0} | tokens ${st.tokens[m] ?? 0}`,
+        )
+      : ['    -']),
+    `  solver independence: cross-provider ${st.independence.provider} | cross-model ${st.independence.model} | same-model ${st.independence.same} | unknown ${st.independence.unknown}`,
     `  ${'topic'.padEnd(19)}${'ask'.padStart(4)}${'recv'.padStart(6)}${'detDrop'.padStart(8)}${'agree'.padStart(6)}${'disag'.padStart(6)}${'amb'.padStart(5)}${'miss'.padStart(5)}${'ok'.padStart(4)}${'bank'.padStart(5)}${'lenient'.padStart(8)}`,
   ]
   for (const t of Object.values(st.topics)) {
@@ -249,7 +276,7 @@ class Gate {
 // API access
 // ---------------------------------------------------------------------------------------------------
 
-type FailClass = 'rate' | 'timeout' | 'network' | 'quality'
+type FailClass = 'rate' | 'timeout' | 'network' | 'quality' | 'quota' | 'models' | 'wait'
 
 class ApiError extends Error {
   status: number
@@ -257,7 +284,11 @@ class ApiError extends Error {
   cls: FailClass
   retryable: boolean
   retryAfterMs: number
-  constructor(message: string, status: number, cls: FailClass, opts: { fatal?: boolean; retryable?: boolean; retryAfterMs?: number } = {}) {
+  /** For cls 'wait': how long until the soonest short-cooldown model recovers. */
+  waitMs: number
+  /** What to tell the user if retrying gives up (set for 'wait' failures). */
+  hint: EnglishFailReason | null
+  constructor(message: string, status: number, cls: FailClass, opts: { fatal?: boolean; retryable?: boolean; retryAfterMs?: number; waitMs?: number; hint?: EnglishFailReason } = {}) {
     super(message)
     this.name = 'ApiError'
     this.status = status
@@ -265,24 +296,37 @@ class ApiError extends Error {
     this.fatal = !!opts.fatal
     this.retryable = opts.retryable ?? true
     this.retryAfterMs = opts.retryAfterMs ?? 0
+    this.waitMs = opts.waitMs ?? 0
+    this.hint = opts.hint ?? null
   }
 }
 
 interface Env {
   signal: AbortSignal | undefined
   stats: EnglishRunStats
-  /** Shared rate-limit cooldown: after a 429 every call waits, so topics do not retry in lockstep. */
+  /** Shared cooldown: while it is in the future every call waits, so topics do not retry in lockstep. */
   cooldownUntil: number
   round: number
+  /** Earliest next start per call kind (staggering). */
+  nextStart: { generate: number; solve: number }
+  /** Requests currently in flight per kind (the server spreads simultaneous calls across providers). */
+  inFlight: { generate: number; solve: number }
 }
 
+interface ReplyMeta {
+  attempts?: { model: string; status: number; ms?: number; class?: string; tokens?: number }[]
+  modelHealth?: HealthUpdate[]
+  chain?: string[]
+  budgets?: BudgetUpdate[]
+  independence?: 'provider' | 'model' | 'same' | 'unknown'
+}
 interface GenerateResponse {
   groups: Group[]
-  meta?: { model?: string; droppedCount?: number; dropped?: string[]; attempts?: { status: number }[] }
+  meta?: ReplyMeta & { model?: string; droppedCount?: number; dropped?: string[] }
 }
 interface SolveResponse {
   results?: { id: string; answer: number | null; ambiguous: boolean }[]
-  meta?: { attempts?: { status: number }[] }
+  meta?: ReplyMeta
 }
 
 function record(env: Env, kind: 'generate' | 'solve', status: number | string, t0: number) {
@@ -290,13 +334,66 @@ function record(env: Env, kind: 'generate' | 'solve', status: number | string, t
   const k = statusKey(status)
   env.stats.http[k] = (env.stats.http[k] ?? 0) + 1
 }
-function recordUpstream(env: Env, attempts: { status: number }[] | undefined) {
-  for (const a of attempts ?? []) {
-    if (a && a.status !== 200) {
-      const k = statusKey(a.status)
-      env.stats.upstream[k] = (env.stats.upstream[k] ?? 0) + 1
+
+/** Folds the server's per-attempt report into the stats and its model-health updates into the client registry. */
+function recordMeta(env: Env, meta: ReplyMeta | undefined | null) {
+  if (!meta) return
+  for (const a of meta.attempts ?? []) {
+    if (!a || typeof a.model !== 'string') continue
+    if (typeof a.tokens === 'number' && a.tokens > 0) env.stats.tokens[a.model] = (env.stats.tokens[a.model] ?? 0) + a.tokens
+    const k = a.class ?? statusKey(a.status)
+    const m = (env.stats.models[a.model] ??= {})
+    m[k] = (m[k] ?? 0) + 1
+    if (a.status !== 200) {
+      const sk = statusKey(a.status)
+      env.stats.upstream[sk] = (env.stats.upstream[sk] ?? 0) + 1
     }
   }
+  applyHealthUpdates(meta.modelHealth, ENGLISH_TUNING.healthScale)
+  applyBudgetUpdates(meta.budgets, ENGLISH_TUNING.healthScale)
+}
+
+const HOUR_MS = 3600000
+
+/** Plain-language explanation that every usable model's DAILY quota is spent. */
+function quotaMessage(chain: string[]): string {
+  const now = Date.now()
+  const spent = chain.map((m) => ({ m, e: healthState(m, now) })).filter((x) => x.e?.cls === 'quota-day')
+  const names = spent.map((x) => x.m).join(', ')
+  const soonest = spent.length ? Math.min(...spent.map((x) => x.e!.until - now)) : HOUR_MS
+  const hours = Math.max(1, Math.round(soonest / HOUR_MS))
+  const limit = spent.find((x) => /PerDay/i.test(x.e!.quotaId ?? '') && x.e!.quotaValue)?.e?.quotaValue
+  return `The free-tier daily limit for this key is used up on every available model (${names}${limit ? `; ${limit} requests per day per model` : ''}). It resets in about ${hours} hour${hours === 1 ? '' : 's'}. Questions already prepared are saved, so press Try again later to resume. Enabling billing on the key, or using a second key, removes the limit.`
+}
+
+const modelsMessage = (chain: string[]) =>
+  `The configured Gemini models are unavailable to this key (${chain.join(', ') || 'none configured'}). Set MOCK_ENGLISH_GENERATE_MODELS and MOCK_ENGLISH_SOLVE_MODELS to models your key can use.`
+
+/** The server tried (or skipped) every model in its chain and none answered. Decide from the health registry whether
+ *  to give up for good (daily quota / unavailable), wait briefly for the soonest short cooldown, or give up with the
+ *  right reason when the wait would be long. A daily-quota error never causes a sleep. */
+function decideNoModel(chain: string[], msg: string): ApiError {
+  const now = Date.now()
+  const states = chain.map((m) => ({ m, e: healthState(m, now) }))
+  const usable = states.filter((x) => !(x.e && (x.e.cls === 'quota-day' || x.e.cls === 'unavailable')))
+  if (chain.length === 0 || usable.length === 0) {
+    const anyQuota = states.some((x) => x.e?.cls === 'quota-day')
+    return anyQuota ? new ApiError(quotaMessage(chain), 429, 'quota', { fatal: true, retryable: false }) : new ApiError(modelsMessage(chain), 503, 'models', { fatal: true, retryable: false })
+  }
+  const waits = usable.map((x) => (x.e ? Math.max(0, x.e.until - now) : 0))
+  const soonest = Math.min(...waits)
+  const soonestEntry = usable[waits.indexOf(soonest)].e
+  const hint: EnglishFailReason = !soonestEntry ? 'network' : soonestEntry.cls === 'timeout' ? 'timeout' : soonestEntry.cls === 'network' ? 'network' : 'rate-limit'
+  const tooLong = soonest > ENGLISH_TUNING.maxCooldownWaitMs
+  return new ApiError(msg, 503, 'wait', { waitMs: soonest, hint, retryable: !tooLong })
+}
+
+async function stagger(env: Env, kind: 'generate' | 'solve') {
+  const T = ENGLISH_TUNING
+  const now = Date.now()
+  const start = Math.max(now, env.nextStart[kind])
+  env.nextStart[kind] = start + T.staggerMinMs + Math.random() * Math.max(0, T.staggerMaxMs - T.staggerMinMs)
+  if (start > now) await sleep(start - now, env.signal)
 }
 
 async function attemptOnce(env: Env, kind: 'generate' | 'solve', body: unknown): Promise<{ data: unknown } | { failure: ApiError }> {
@@ -305,22 +402,26 @@ async function attemptOnce(env: Env, kind: 'generate' | 'solve', body: unknown):
   const onAbort = () => controller.abort()
   env.signal?.addEventListener('abort', onAbort, { once: true })
   const t0 = Date.now()
+  const spread = env.inFlight[kind]
+  env.inFlight[kind]++
   try {
     const res = await fetch('/api/mockEnglish', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(body),
+      body: JSON.stringify({ ...(body as object), skipModels: healthSkipList(Date.now()), budgets: budgetsForRequest(Date.now()), spread: spread }),
       signal: controller.signal,
     })
     if (res.ok) {
       const data = await res.json()
       record(env, kind, 200, t0)
+      recordMeta(env, (data as { meta?: ReplyMeta } | null)?.meta)
       return { data }
     }
-    const detail = (await res.json().catch(() => null)) as { error?: string; retryAfterMs?: number; attempts?: { status: number }[]; unusable?: boolean } | null
+    const detail = (await res.json().catch(() => null)) as (ReplyMeta & { error?: string; code?: string; retryAfterMs?: number; unusable?: boolean }) | null
     record(env, kind, res.status, t0)
-    recordUpstream(env, detail?.attempts)
+    recordMeta(env, detail)
     const msg = detail?.error || `Request failed (${res.status}).`
+    if (detail?.code === 'no-model') return { failure: decideNoModel(detail.chain ?? [], msg) }
     const header = Number(res.headers?.get?.('retry-after'))
     const retryAfterMs = Math.max(Number(detail?.retryAfterMs) || 0, Number.isFinite(header) && header > 0 ? header * 1000 : 0)
     if (res.status === 404 || res.status === 405 || (res.status === 500 && /not configured/i.test(msg))) return { failure: new ApiError(msg, res.status, 'network', { fatal: true, retryable: false }) }
@@ -335,33 +436,44 @@ async function attemptOnce(env: Env, kind: 'generate' | 'solve', body: unknown):
     record(env, kind, timedOut ? 'timeout' : 'net', t0)
     return { failure: timedOut ? new ApiError('The question service timed out.', 504, 'timeout') : new ApiError(err instanceof Error ? err.message : 'network error', 0, 'network') }
   } finally {
+    env.inFlight[kind]--
     clearTimeout(timer)
     env.signal?.removeEventListener('abort', onAbort)
   }
 }
 
-/** POST with class-aware retries: 429 honours Retry-After (or backs off exponentially) through a cooldown shared by
- *  all calls, timeouts get one retry, 5xx/network get two; all backoffs are jittered. */
+/** POST with class-aware handling. The server walks the model chain itself (skipping models the client knows are
+ *  cooling), so a failed reply means the whole chain failed: daily quota / unavailable models give up at once; a short
+ *  cooldown is waited out (through a cooldown shared by all calls) only if the soonest recovery is near; timeouts get
+ *  one retry and plain 5xx/network two. Starts are staggered; all backoffs are jittered. */
 async function postJson(env: Env, kind: 'generate' | 'solve', body: unknown): Promise<unknown> {
-  const used = { rate: 0, timeout: 0, network: 0, quality: 0 }
+  const used = { rate: 0, timeout: 0, network: 0, quality: 0, wait: 0 }
   for (;;) {
     throwIfAborted(env.signal)
     const wait = env.cooldownUntil - Date.now()
     if (wait > 0) await sleep(wait, env.signal)
+    await stagger(env, kind)
     const out = await attemptOnce(env, kind, body)
     if ('data' in out) return out.data
     const f = out.failure
     if (f.fatal || !f.retryable) throw f
-    const limit = f.cls === 'rate' ? ENGLISH_TUNING.rateLimitRetries : f.cls === 'timeout' ? ENGLISH_TUNING.timeoutRetries : ENGLISH_TUNING.retries
-    used[f.cls]++
-    if (used[f.cls] > limit) throw f
+    if (f.cls === 'wait') {
+      if (++used.wait > ENGLISH_TUNING.noModelWaits) throw f
+      env.stats.retries++
+      env.cooldownUntil = Math.max(env.cooldownUntil, Date.now() + f.waitMs * (1 + Math.random() * 0.15))
+      continue
+    }
+    const key = f.cls as 'rate' | 'timeout' | 'network' | 'quality'
+    const limit = key === 'rate' ? ENGLISH_TUNING.rateLimitRetries : key === 'timeout' ? ENGLISH_TUNING.timeoutRetries : ENGLISH_TUNING.retries
+    used[key]++
+    if (used[key] > limit) throw f
     env.stats.retries++
-    if (f.cls === 'rate') {
+    if (key === 'rate') {
       const base = f.retryAfterMs > 0 ? f.retryAfterMs : ENGLISH_TUNING.rateLimitBaseMs * 2 ** (used.rate - 1)
       const delay = Math.min(base, ENGLISH_TUNING.maxRetryAfterMs) * (0.8 + Math.random() * 0.4)
       env.cooldownUntil = Math.max(env.cooldownUntil, Date.now() + delay)
     } else {
-      const base = ENGLISH_TUNING.retryDelayMs * 2 ** (f.cls === 'network' ? used.network - 1 : 0)
+      const base = ENGLISH_TUNING.retryDelayMs * 2 ** (key === 'network' ? used.network - 1 : 0)
       await sleep(base * (0.5 + Math.random()), env.signal)
     }
   }
@@ -547,9 +659,9 @@ export async function fetchEnglishPaper(
   const T = ENGLISH_TUNING
   const startedAt = Date.now()
   const total = requests.reduce((n, r) => n + r.count, 0)
-  const stats: EnglishRunStats = { difficulty, total, outcome: 'running', rounds: 0, retries: 0, http: {}, upstream: {}, calls: [], topics: {}, phaseMs: { generate: 0, solve: 0, total: 0 } }
+  const stats: EnglishRunStats = { difficulty, total, outcome: 'running', rounds: 0, retries: 0, http: {}, upstream: {}, calls: [], topics: {}, models: {}, tokens: {}, independence: { provider: 0, model: 0, same: 0, unknown: 0 }, phaseMs: { generate: 0, solve: 0, total: 0 } }
   lastStats = stats
-  const env: Env = { signal, stats, cooldownUntil: 0, round: 0 }
+  const env: Env = { signal, stats, cooldownUntil: 0, round: 0, nextStart: { generate: 0, solve: 0 }, inFlight: { generate: 0, solve: 0 } }
   const tstat = (t: EnglishTopicId) => (stats.topics[t] ??= newTopicStats(t))
 
   const slots: Slot[] = requests.map((r) => ({ topic: r.topic, count: r.count, pool: [], have: 0, reserve: [] }))
@@ -586,7 +698,7 @@ export async function fetchEnglishPaper(
     progress()
   }
 
-  let fatal: ApiError | null = null
+  let fatal = null as ApiError | null
   let runError: unknown = null
   let roundFailures = { rate: 0, timeout: 0, network: 0, quality: 0 }
   let roundGain = 0
@@ -668,6 +780,8 @@ export async function fetchEnglishPaper(
   const noteFailure = (err: unknown) => {
     if (err instanceof ApiError) {
       if (err.fatal) fatal = err
+      else if (err.cls === 'wait') roundFailures[err.hint === 'timeout' ? 'timeout' : err.hint === 'network' ? 'network' : 'rate']++
+      else if (err.cls === 'quota' || err.cls === 'models') fatal = err
       else roundFailures[err.cls]++
     }
   }
@@ -688,7 +802,8 @@ export async function fetchEnglishPaper(
               return { id: it.id, topic: it.cand.slot.topic, passage: passageText(it.cand.g) || undefined, stem: q.stem, options: q.options }
             }),
           })) as SolveResponse | null
-          recordUpstream(env, data?.meta?.attempts)
+          const ind = data?.meta?.independence ?? 'unknown'
+          env.stats.independence[ind] += chunk.length
           for (const r of data?.results ?? []) {
             if (r && typeof r.id === 'string') results.set(r.id, { answer: Number.isInteger(r.answer) ? (r.answer as number) : null, ambiguous: r.ambiguous !== false })
           }
@@ -727,7 +842,6 @@ export async function fetchEnglishPaper(
     try {
       const data = (await postJson(env, 'generate', { action: 'generate', topic, difficulty, count: ask, seed: Math.floor(Math.random() * 0x7fffffff) })) as GenerateResponse | null
       if (!data || !Array.isArray(data.groups)) throw new ApiError('malformed generate response', 200, 'network')
-      recordUpstream(env, data.meta?.attempts)
       const model = typeof data.meta?.model === 'string' ? data.meta.model : ''
       for (const g of data.groups) ts.received += Array.isArray(g?.questions) ? g.questions.length : 0
       const serverDropped = data.meta?.droppedCount ?? 0
@@ -757,7 +871,7 @@ export async function fetchEnglishPaper(
     } catch (err) {
       if (signal?.aborted) throw abortError()
       noteFailure(err)
-      if (err instanceof ApiError && err.cls === 'timeout') timeouts[topic] = (timeouts[topic] ?? 0) + 1
+      if (err instanceof ApiError && (err.cls === 'timeout' || (err.cls === 'wait' && err.hint === 'timeout'))) timeouts[topic] = (timeouts[topic] ?? 0) + 1
       // Anything else: this batch yields nothing; the next round compensates.
     }
   }
@@ -801,13 +915,17 @@ export async function fetchEnglishPaper(
       let reason: EnglishFailReason
       const f = roundFailures
       const failTotal = f.rate + f.timeout + f.network
-      if (fatal) reason = 'unavailable'
+      let message: string | undefined
+      if (fatal) {
+        reason = fatal.cls === 'quota' ? 'quota' : 'unavailable'
+        if (fatal.cls === 'quota' || fatal.cls === 'models') message = fatal.message
+      }
       else if (failTotal > 0 && failTotal >= f.quality) reason = f.rate >= f.timeout && f.rate >= f.network ? 'rate-limit' : f.timeout >= f.network ? 'timeout' : 'network'
       else if (deadlineHit) reason = 'timeout'
       else if (stats.calls.length === 0) reason = 'network'
       else reason = 'quality'
       finishRun(reason)
-      throw new EnglishPrepareError(reason)
+      throw new EnglishPrepareError(reason, message)
     }
 
     const results: Group[][] = []
