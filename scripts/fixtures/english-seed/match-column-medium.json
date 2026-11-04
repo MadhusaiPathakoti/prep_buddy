@@ -1,0 +1,13 @@
+{
+  "items": [
+    {
+      "pairs": [
+        { "begin": "Although the company reported record profits", "end": "it decided not to increase salaries this year." },
+        { "begin": "If the rains had arrived on time", "end": "the harvest would have been much larger." },
+        { "begin": "Because the road was closed for repairs", "end": "commuters took a longer route to the city." },
+        { "begin": "The more she practised", "end": "the more confident she became." }
+      ],
+      "explanation": "Each ending is fixed by the conjunction, tense and meaning of its beginning."
+    }
+  ]
+}

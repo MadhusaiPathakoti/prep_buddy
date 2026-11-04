@@ -1,0 +1,343 @@
+{
+ "items": [
+  {
+   "type": "single",
+   "sentence": "The heavy fine was meant to serve as a ______ to other lenders who might be tempted to adopt similar malpractice in the future.",
+   "options": [
+    "deterrent",
+    "reward",
+    "remedy",
+    "prelude",
+    "stimulus"
+   ],
+   "correctIndex": 0,
+   "explanation": "A deterrent discourages others from acting, which is the purpose of a heavy fine; the other nouns do not describe a penalty's effect on possible offenders."
+  },
+  {
+   "type": "double",
+   "sentence": "Although the company reported (A) ______ profits last year, it decided not to pay a bonus because the future seemed (B) ______.",
+   "options": [
+    [
+     "record",
+     "bright"
+    ],
+    [
+     "record",
+     "uncertain"
+    ],
+    [
+     "huge",
+     "certain"
+    ],
+    [
+     "vast",
+     "secure"
+    ],
+    [
+     "big",
+     "hopeful"
+    ]
+   ],
+   "correctIndex": 1,
+   "explanation": "Although signals a contrast, so strong profits are set against a reason for withholding a bonus, namely an uncertain future; in the other pairs the future is described as bright or secure, which gives no reason to withhold it."
+  },
+  {
+   "type": "single",
+   "sentence": "The company decided to ______ its head office to a smaller city because rents in the capital had become too high for its budget.",
+   "options": [
+    "rehearse",
+    "relocate",
+    "recite",
+    "resemble",
+    "retort"
+   ],
+   "correctIndex": 1,
+   "explanation": "Relocate means to move to a new place, which fits the move to another city; the other verbs have nothing to do with moving a head office."
+  },
+  {
+   "type": "single",
+   "sentence": "The restaurant was extremely crowded on Sunday evening; ______, we had to wait nearly an hour before a table became free.",
+   "options": [
+    "however",
+    "otherwise",
+    "therefore",
+    "instead",
+    "although"
+   ],
+   "correctIndex": 2,
+   "explanation": "The waiting is a result of the crowd, so a connector of consequence is needed; the other words contrast, suggest an alternative or cannot join the clauses this way."
+  },
+  {
+   "type": "double",
+   "sentence": "Because the main road was (A) ______ by floods, bus services were (B) ______ for two days and commuters had to find other ways to reach the city.",
+   "options": [
+    [
+     "blocked",
+     "inaugurated"
+    ],
+    [
+     "widened",
+     "suspended"
+    ],
+    [
+     "painted",
+     "extended"
+    ],
+    [
+     "blocked",
+     "suspended"
+    ],
+    [
+     "celebrated",
+     "resumed"
+    ]
+   ],
+   "correctIndex": 3,
+   "explanation": "Floods block a road, and that leads to services being suspended; the other pairs describe causes or results that floods and travel disruption could not produce."
+  },
+  {
+   "type": "single",
+   "sentence": "A good teacher can ______ difficult ideas in simple language so that every student in the class can understand them.",
+   "options": [
+    "expel",
+    "exhale",
+    "explain",
+    "exclaim",
+    "exploit"
+   ],
+   "correctIndex": 2,
+   "explanation": "To explain difficult ideas in simple language is what a good teacher does; the other verbs cannot sensibly take ideas as their object here."
+  },
+  {
+   "type": "double",
+   "sentence": "Walking in the park every morning is (A) ______ for the heart and also helps (B) ______ the mind after a stressful day at work.",
+   "options": [
+    [
+     "good",
+     "relaxed"
+    ],
+    [
+     "well",
+     "relax"
+    ],
+    [
+     "beneficial",
+     "relaxes"
+    ],
+    [
+     "healthy",
+     "relaxation"
+    ],
+    [
+     "good",
+     "relax"
+    ]
+   ],
+   "correctIndex": 4,
+   "explanation": "Good takes for before the heart and the verb help is followed by a base-form verb; the other pairs have an unsuitable adjective or the wrong word form after helps."
+  },
+  {
+   "type": "single",
+   "sentence": "Regular exercise and a balanced diet are ______ for maintaining good health, which is why doctors urge people to follow them, especially in old age.",
+   "options": [
+    "optional",
+    "essential",
+    "harmful",
+    "accidental",
+    "careless"
+   ],
+   "correctIndex": 1,
+   "explanation": "Doctors urge people to follow these habits because they are essential to health; the other adjectives contradict that reasoning."
+  },
+  {
+   "type": "double",
+   "sentence": "The manager (A) ______ the team for completing the project ahead of schedule and (B) ______ them a day off as a reward.",
+   "options": [
+    [
+     "praised",
+     "refused"
+    ],
+    [
+     "blamed",
+     "granted"
+    ],
+    [
+     "praised",
+     "granted"
+    ],
+    [
+     "scolded",
+     "denied"
+    ],
+    [
+     "warned",
+     "offered"
+    ]
+   ],
+   "correctIndex": 2,
+   "explanation": "Praise suits finishing early and granting a day off is a reward; the other pairs mix blame, warnings or refusal with a reward."
+  },
+  {
+   "type": "single",
+   "sentence": "Factories that release untreated waste into rivers cause serious ______ and endanger the lives of fish and other aquatic creatures.",
+   "options": [
+    "production",
+    "protection",
+    "population",
+    "pollution",
+    "promotion"
+   ],
+   "correctIndex": 3,
+   "explanation": "Untreated waste in rivers causes pollution, which endangers aquatic life; the other nouns do not fit this cause-and-effect link."
+  },
+  {
+   "type": "single",
+   "sentence": "The bank readily agreed to ______ the loan, and the money reached the applicant's account within a week of his submitting the required documents.",
+   "options": [
+    "sanction",
+    "refuse",
+    "reject",
+    "decline",
+    "forfeit"
+   ],
+   "correctIndex": 0,
+   "explanation": "In banking, to sanction a loan means to approve it, which fits the money reaching the account; the other verbs would refuse the loan or make no sense."
+  },
+  {
+   "type": "double",
+   "sentence": "Planting more trees in busy cities (A) ______ air pollution and also (B) ______ welcome shade for people during the hot summer months.",
+   "options": [
+    [
+     "reduces",
+     "provide"
+    ],
+    [
+     "reduce",
+     "provides"
+    ],
+    [
+     "increases",
+     "provides"
+    ],
+    [
+     "increases",
+     "removes"
+    ],
+    [
+     "reduces",
+     "provides"
+    ]
+   ],
+   "correctIndex": 4,
+   "explanation": "A singular gerund subject takes singular verbs, and cutting pollution while giving shade is the logical benefit; the other pairs fail on agreement or on meaning."
+  },
+  {
+   "type": "single",
+   "sentence": "The new employee was so ______ to impress her manager that she reached the office half an hour early on her first day.",
+   "options": [
+    "reluctant",
+    "eager",
+    "indifferent",
+    "hesitant",
+    "careless"
+   ],
+   "correctIndex": 1,
+   "explanation": "The result clause shows a strong wish to impress, so eager fits; the other adjectives describe a lack of interest or willingness."
+  },
+  {
+   "type": "double",
+   "sentence": "Customers who (A) ______ their loans on time not only avoid penalties but also (B) ______ a strong credit record that helps them in future.",
+   "options": [
+    [
+     "repay",
+     "build"
+    ],
+    [
+     "repay",
+     "lose"
+    ],
+    [
+     "borrow",
+     "build"
+    ],
+    [
+     "delay",
+     "ruin"
+    ],
+    [
+     "ignore",
+     "damage"
+    ]
+   ],
+   "correctIndex": 0,
+   "explanation": "Customers who repay on time build a strong record; the other pairs misuse the verbs or describe actions that would not avoid penalties."
+  },
+  {
+   "type": "single",
+   "sentence": "Before travelling abroad, you should ______ your passport carefully to make sure that it has not expired.",
+   "options": [
+    "chase",
+    "cheer",
+    "charge",
+    "check",
+    "chew"
+   ],
+   "correctIndex": 3,
+   "explanation": "Checking a passport for expiry is the sensible precaution before travel; the other verbs make no sense with a passport."
+  },
+  {
+   "type": "double",
+   "sentence": "(A) ______ the tickets were very expensive, the concert hall was full, (B) ______ the singer was extremely popular with young listeners.",
+   "options": [
+    [
+     "Because",
+     "although"
+    ],
+    [
+     "Although",
+     "because"
+    ],
+    [
+     "Unless",
+     "because"
+    ],
+    [
+     "Although",
+     "unless"
+    ],
+    [
+     "Whereas",
+     "until"
+    ]
+   ],
+   "correctIndex": 1,
+   "explanation": "Although concedes the high price and because gives the reason for the full hall; reversing or replacing the linkers breaks the logic."
+  },
+  {
+   "type": "single",
+   "sentence": "Many people now prefer to pay their bills through mobile apps because the process is quick, convenient and ______.",
+   "options": [
+    "tedious",
+    "risky",
+    "confusing",
+    "tiresome",
+    "secure"
+   ],
+   "correctIndex": 4,
+   "explanation": "The list of qualities is positive and offered as a reason for preferring apps, so secure fits; the other adjectives are negative."
+  },
+  {
+   "type": "single",
+   "sentence": "Rising prices have made it difficult for ordinary families to ______ their monthly expenses on a fixed income.",
+   "options": [
+    "manage",
+    "imitate",
+    "abandon",
+    "decorate",
+    "forbid"
+   ],
+   "correctIndex": 0,
+   "explanation": "To manage expenses on a fixed income is the natural collocation; the other verbs do not fit the sense."
+  }
+ ]
+}

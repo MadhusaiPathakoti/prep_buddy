@@ -1,0 +1,224 @@
+{
+ "items": [
+  {
+   "variant": "replace",
+   "before": "Since the examination was only a week away, the teacher",
+   "phrase": "suggested us to revise",
+   "after": "all the chapters carefully and practise the model questions every day.",
+   "options": [
+    "suggested to us revise",
+    "suggested we to revise",
+    "suggested that we revise",
+    "suggested us for revising"
+   ],
+   "correctIndex": 2,
+   "explanation": "“Suggest” is not followed by an object plus “to”; it takes a that-clause with the bare verb: “suggested that we revise”."
+  },
+  {
+   "variant": "replace",
+   "before": "The manager was",
+   "phrase": "angry of",
+   "after": "the late delivery of the order and called the supplier to complain at once.",
+   "options": [
+    "angry about",
+    "angry to",
+    "angry for",
+    "angry from"
+   ],
+   "correctIndex": 0,
+   "explanation": "The adjective “angry” takes “about” before the thing that causes the anger, so “angry about the late delivery” is correct; “of”, “to”, “for” and “from” do not collocate with it."
+  },
+  {
+   "variant": "replace",
+   "before": "If the shipment",
+   "phrase": "arrives by Thursday",
+   "after": ", we will begin the installation on Friday morning and finish it over the weekend.",
+   "options": [
+    "will arrive by Thursday",
+    "would arrive by Thursday",
+    "arrived by Thursday",
+    "had arrived by Thursday"
+   ],
+   "correctIndex": null,
+   "explanation": "The sentence is already correct: a likely future condition takes the present simple in the if-clause and “will” in the main clause. The replacements mix tenses in the conditional."
+  },
+  {
+   "variant": "replace",
+   "before": "He has been working in this company",
+   "phrase": "since five years",
+   "after": "and hopes to be promoted to a senior position soon.",
+   "options": [
+    "from five years",
+    "during five years",
+    "for five years",
+    "before five years"
+   ],
+   "correctIndex": 3,
+   "explanation": "“For” is used with a length of time (“for five years”), while “since” is used with a starting point."
+  },
+  {
+   "variant": "replace",
+   "before": "The new employee apologised",
+   "phrase": "for be late",
+   "after": "to the weekly meeting and promised that it would not happen again.",
+   "options": [
+    "to be late",
+    "of being late",
+    "for being late",
+    "for to be late"
+   ],
+   "correctIndex": 2,
+   "explanation": "“Apologise for” is followed by a gerund, so the correct form is “for being late”."
+  },
+  {
+   "variant": "replace",
+   "before": "Rohan",
+   "phrase": "did not went",
+   "after": "to the office yesterday because he had a high fever and needed complete rest.",
+   "options": [
+    "did not go",
+    "has not gone",
+    "does not went",
+    "was not go"
+   ],
+   "correctIndex": 0,
+   "explanation": "After the auxiliary “did not” the main verb stays in its base form: “did not go”."
+  },
+  {
+   "variant": "replace",
+   "before": "The children were",
+   "phrase": "delighted with the",
+   "after": "gifts they received from their grandparents on the festival day.",
+   "options": [
+    "delighted of the",
+    "delighted from the",
+    "delighted on the",
+    "delighted for the"
+   ],
+   "correctIndex": null,
+   "explanation": "The sentence is already correct: “delighted with” is the standard collocation for the thing that pleases. The other prepositions do not collocate with “delighted” here."
+  },
+  {
+   "variant": "replace",
+   "before": "The airline staff asked the passengers how",
+   "phrase": "many luggage",
+   "after": "they were carrying and weighed each bag at the counter.",
+   "options": [
+    "much luggages",
+    "many luggages",
+    "much luggage",
+    "few luggage"
+   ],
+   "correctIndex": 2,
+   "explanation": "“Luggage” is uncountable, so it takes “much” and has no plural form: “how much luggage”."
+  },
+  {
+   "variant": "replace",
+   "before": "The woman",
+   "phrase": "which lives",
+   "after": "next door to us is a doctor at the district hospital and treats many patients.",
+   "options": [
+    "whom lives",
+    "who lives",
+    "whose lives",
+    "who live"
+   ],
+   "correctIndex": 1,
+   "explanation": "The relative pronoun for a person is “who”, and it takes a singular verb because “woman” is singular: “who lives”."
+  },
+  {
+   "variant": "replace",
+   "before": "The harvest this year is not",
+   "phrase": "as good than",
+   "after": "last year's, mainly because the rains arrived very late.",
+   "options": [
+    "good as",
+    "as better as",
+    "as well as",
+    "as good as"
+   ],
+   "correctIndex": 3,
+   "explanation": "An equal comparison is formed with “as ... as”, so “not as good as last year's” is correct."
+  },
+  {
+   "variant": "usage",
+   "sentence": "All candidates must ______ their mobile phones before the written examination begins.",
+   "options": [
+    "break down",
+    "switch off",
+    "take after",
+    "run out of",
+    "come across"
+   ],
+   "correctIndex": 1,
+   "explanation": "“Switch off” means to turn a device off, which is the sensible instruction before an examination. The other phrasal verbs make no sense with “mobile phones” here."
+  },
+  {
+   "variant": "usage",
+   "sentence": "I would have attended the seminar if I ______ about it earlier.",
+   "options": [
+    "had known",
+    "knew",
+    "would know",
+    "have known",
+    "would have known"
+   ],
+   "correctIndex": 0,
+   "explanation": "A third conditional pairs “would have” in the main clause with the past perfect in the if-clause, so “had known” is needed."
+  },
+  {
+   "variant": "usage",
+   "sentence": "I have been trying to ______ the topic of a salary revision with my manager for weeks, but he is always busy.",
+   "options": [
+    "bring about",
+    "bring down",
+    "bring on",
+    "bring up",
+    "bring round"
+   ],
+   "correctIndex": 3,
+   "explanation": "“Bring up” means to raise a subject for discussion, which suits “the topic of a salary revision”. The others mean cause, reduce, trigger or persuade."
+  },
+  {
+   "variant": "usage",
+   "sentence": "Everyone says that Meena ______ her mother, as she has the same warm smile and gentle voice.",
+   "options": [
+    "looks after",
+    "looks up to",
+    "takes over",
+    "gets along",
+    "takes after"
+   ],
+   "correctIndex": 4,
+   "explanation": "“Take after” means to resemble a parent or relative, which is explained by the shared smile and voice. The other phrasal verbs do not express resemblance."
+  },
+  {
+   "variant": "replace",
+   "before": "The price of vegetables",
+   "phrase": "have gone up",
+   "after": "sharply this month because the rains damaged the crops.",
+   "options": [
+    "have went up",
+    "are going up",
+    "were gone up",
+    "has gone up"
+   ],
+   "correctIndex": 3,
+   "explanation": "The subject is the singular noun “price”, not “vegetables”, so the verb must be singular: “has gone up”."
+  },
+  {
+   "variant": "replace",
+   "before": "Mahesh is",
+   "phrase": "the taller",
+   "after": "of all the boys in his class and plays in the school basketball team.",
+   "options": [
+    "the most tall",
+    "the more tall",
+    "the most tallest",
+    "the tallest"
+   ],
+   "correctIndex": 3,
+   "explanation": "A comparison among more than two people needs the superlative, so “the tallest of all the boys” is correct; “the taller” compares only two."
+  }
+ ]
+}

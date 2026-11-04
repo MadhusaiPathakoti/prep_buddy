@@ -1,0 +1,548 @@
+{
+  "passages": [
+    {
+      "paragraphs": [
+        "Many young adults take their first job with a clear idea of what they want to buy but little idea of how to manage what they earn. Schools teach algebra and history, yet very few teach how a salary slip is read, how interest works, or why a small debt can grow quickly if it is left unpaid. As a result, many people learn about money the hard way, through mistakes that cost them dearly.",
+        "A simple habit can prevent many of these mistakes: saving a fixed portion of income as soon as it arrives, before spending anything. Those who wait to see what is left at the end of the month often find that nothing is left. Saving first turns the habit into a rule, and a rule is easier to follow than a good intention. Even a small amount, put aside regularly, grows over the years, particularly when it earns interest, because the interest itself starts to earn more interest.",
+        "Credit cards deserve special care. They are useful for emergencies and for buying things that can be repaid within a month, but they charge high interest on unpaid balances. A person who pays only the minimum amount each month may stay in debt for years while paying much more than the original price. The sensible approach is to treat a card as a convenience, not as extra income.",
+        "None of this requires advanced knowledge. What it requires is the early habit of asking three questions before any large purchase: Do I need it? Can I pay for it without borrowing? What will I give up if I buy it? Young adults who learn to ask these questions are far better prepared for the financial decisions that lie ahead, and teaching such habits in schools could help them to begin sooner."
+      ],
+      "questions": [
+        {
+          "kind": "main-idea",
+          "targetWord": "",
+          "stem": "Which of the following best expresses the main idea of the passage?",
+          "options": [
+            "Simple, early money habits can help young adults avoid costly financial mistakes.",
+            "Schools should replace algebra and history with lessons about banking, loans and taxes.",
+            "Credit cards are so dangerous that young people should never use them at all.",
+            "Young adults earn too little to be able to save anything on a regular basis.",
+            "Interest is the single most important thing that a young person must understand."
+          ],
+          "correctIndex": 0,
+          "explanation": "The passage describes habits such as saving first, using credit carefully and asking questions before buying, all aimed at preventing costly mistakes. The other statements are extreme or cover only a small part of the passage."
+        },
+        {
+          "kind": "inference",
+          "targetWord": "",
+          "stem": "Which of the following can be inferred about a person who saves only what is left at the end of the month?",
+          "options": [
+            "That person will save more than someone who saves first, because spending becomes more careful.",
+            "That person has probably avoided all use of credit cards and the interest they charge.",
+            "That person earns interest on a larger sum than other savers do over the years.",
+            "That person is likely to save little, as saving then rests on intention, not a fixed rule.",
+            "That person is certain to end up in debt within a few years of starting work."
+          ],
+          "correctIndex": 3,
+          "explanation": "Those who wait \"often find that nothing is left\", and saving first works because \"a rule is easier to follow than a good intention\". Together these suggest that saving what remains depends on intention and tends to produce little."
+        },
+        {
+          "kind": "inference",
+          "targetWord": "",
+          "stem": "What can be inferred about someone who pays only the minimum amount on a credit card each month?",
+          "options": [
+            "The person will clear the debt more quickly than someone who pays the full balance each month.",
+            "The total paid may end up far above the price of the goods, as interest keeps being added.",
+            "The person will pay no interest as long as the minimum is paid on time each month.",
+            "The person is using the card correctly for emergencies, exactly as the passage advises.",
+            "The person's debt will disappear after one year, whatever the original price of the goods was."
+          ],
+          "correctIndex": 1,
+          "explanation": "Cards \"charge high interest on unpaid balances\", and paying only the minimum may keep a person in debt for years while paying \"much more than the original price\". The keyed statement combines these two points."
+        },
+        {
+          "kind": "inference",
+          "targetWord": "",
+          "stem": "Why do many people learn about money only through costly mistakes?",
+          "options": [
+            "Young adults usually refuse advice from older relatives about how to handle money.",
+            "Salaries are generally too low to allow any careful planning of income and spending.",
+            "Algebra and history are taught in a way that confuses students about how interest works.",
+            "Banks hide information about interest from customers who are taking out their first loans.",
+            "Money management is seldom taught in schools, so they learn its rules only after errors."
+          ],
+          "correctIndex": 4,
+          "explanation": "Schools teach algebra and history but \"very few teach\" how salary slips or interest work, and \"as a result\" many people learn the hard way. The cause is therefore the lack of early teaching, not the other reasons offered."
+        },
+        {
+          "kind": "true",
+          "targetWord": "",
+          "stem": "Which of the following statements is TRUE according to the passage?",
+          "options": [
+            "Credit cards are said to charge only modest interest on balances that are left unpaid.",
+            "Saving at the end of the month is described as easier than saving first.",
+            "Interest earned on savings can itself go on to earn further interest over the years.",
+            "The author says that salary slips are taught carefully in most schools.",
+            "Large purchases are said to be wise as long as a credit card is used."
+          ],
+          "correctIndex": 2,
+          "explanation": "The passage says that, with savings, \"the interest itself starts to earn more interest\". The other statements contradict what the passage says about credit cards, saving and schools."
+        },
+        {
+          "kind": "not-true",
+          "targetWord": "",
+          "stem": "Which of the following is NOT true according to the passage?",
+          "options": [
+            "The author advises young adults to avoid credit cards altogether.",
+            "Credit cards are useful for emergencies and for purchases repaid within a month.",
+            "Setting aside a fixed portion of income at once makes saving into a rule.",
+            "Three questions should be asked before any large purchase is made.",
+            "Teaching about money in schools could help young people to begin learning earlier."
+          ],
+          "correctIndex": 0,
+          "explanation": "The author calls cards useful for emergencies and for purchases repaid quickly, and recommends treating them as a convenience, so advising total avoidance contradicts the passage. The other statements are all in the text."
+        },
+        {
+          "kind": "tone",
+          "targetWord": "",
+          "stem": "The tone of the passage is best described as:",
+          "options": [
+            "Stern and harshly fault-finding",
+            "Neutral and completely uninvolved",
+            "Doubtful and hesitant throughout",
+            "Advisory and encouraging",
+            "Alarmed and deeply gloomy"
+          ],
+          "correctIndex": 3,
+          "explanation": "The author offers practical habits and closes with a hopeful note about being better prepared. That is advisory and encouraging rather than stern, uninvolved, doubtful or gloomy."
+        },
+        {
+          "kind": "vocab-synonym",
+          "targetWord": "sensible",
+          "stem": "Which of the following words is most similar in meaning to the word “sensible” as used in the passage?",
+          "options": [
+            "costly",
+            "wise",
+            "simple",
+            "popular",
+            "strict"
+          ],
+          "correctIndex": 1,
+          "explanation": "In \"The sensible approach is to treat a card as a convenience\", sensible means showing good judgement, which is closest to wise."
+        },
+        {
+          "kind": "vocab-antonym",
+          "targetWord": "advanced",
+          "stem": "Which of the following words is most opposite in meaning to the word “advanced” as used in the passage?",
+          "options": [
+            "modern",
+            "complex",
+            "expert",
+            "costly",
+            "basic"
+          ],
+          "correctIndex": 4,
+          "explanation": "Advanced knowledge is knowledge at a high level; the opposite is basic knowledge."
+        }
+      ]
+    },
+    {
+      "paragraphs": [
+        "When online shopping first spread, many predicted that small local shops would disappear within a few years. A decade later, the picture is more complicated. Some shops did close, especially those that sold products that are easy to compare and ship, such as books and basic electronics. But many others have survived, and a few have even grown, by doing things that a website finds hard to do.",
+        "The first advantage is trust built over time. A shopkeeper who has served the same families for years knows what each customer likes and can suggest products without being asked. A buyer can also see and touch the goods, and this matters most for clothes, furniture and food, where quality is difficult to judge from a photograph. The second advantage is speed in a particular sense: although online orders can arrive in a day or two, a local shop can hand over the goods at once. A third is flexibility. A neighbourhood store may allow a regular customer to pay at the end of the month, or to return an item without any fuss.",
+        "Yet it would be wrong to say that local retailers have nothing to fear. Online platforms can offer lower prices because they sell in huge volumes, and they never close. Shops that ignore these facts risk losing younger customers, who are used to comparing prices on a phone before they walk in. The most successful local retailers have therefore chosen to cooperate with technology instead of resisting it. They accept digital payments, take orders by messaging, and offer home delivery within their own area.",
+        "The lesson is that technology rarely destroys an entire kind of business; it changes the way in which the business must compete."
+      ],
+      "questions": [
+        {
+          "kind": "main-idea",
+          "targetWord": "",
+          "stem": "Which of the following is the best title for the passage?",
+          "options": [
+            "The Decline of Local Shops in the Age of Online Shopping",
+            "Why Online Platforms Charge Lower Prices Than Local Stores",
+            "How Local Shops Survive by Mixing Strengths with Technology",
+            "Home Delivery: The Future of Every Neighbourhood Store",
+            "Books and Electronics: Products That Are Easy to Ship and Compare"
+          ],
+          "correctIndex": 2,
+          "explanation": "The passage explains how local shops have survived by using their own strengths and by cooperating with technology. The other titles focus on a single detail or suggest a decline that the passage does not describe."
+        },
+        {
+          "kind": "inference",
+          "targetWord": "",
+          "stem": "Which kind of shop is most at risk from online sellers, according to the passage?",
+          "options": [
+            "A shop selling standard goods that can be judged from a description",
+            "A shop selling furniture that customers wish to touch before buying",
+            "A shop selling food to families who have known the owner for years",
+            "A shop selling clothes to buyers who value being able to try them on",
+            "A shop that offers home delivery and takes orders by messaging"
+          ],
+          "correctIndex": 0,
+          "explanation": "The shops that closed sold goods \"easy to compare and ship\", while quality is hard to judge online for clothes, furniture and food. A shop selling standard goods that need no inspection is therefore the most exposed."
+        },
+        {
+          "kind": "inference",
+          "targetWord": "",
+          "stem": "Why might a local shop lose younger customers?",
+          "options": [
+            "They dislike shops that accept payments in digital form or take orders by messaging.",
+            "They believe that local owners do not really know their customers or their tastes at all.",
+            "Online platforms are the only places where goods can be seen and touched.",
+            "They tend to compare prices on phones first, and online sellers can often charge less.",
+            "They are unable to use messaging to place orders with any shop."
+          ],
+          "correctIndex": 3,
+          "explanation": "Younger customers are \"used to comparing prices on a phone\", and online platforms \"can offer lower prices\". Shops that ignore this risk losing them; the other reasons are not in the passage or contradict it."
+        },
+        {
+          "kind": "inference",
+          "targetWord": "",
+          "stem": "What can be inferred about a shop that accepts digital payments and delivers within its own area?",
+          "options": [
+            "It has stopped serving regular customers who pay at the end of the month.",
+            "It is adapting to what online sellers offer while keeping the real advantages of being local.",
+            "It will soon be forced to sell books and basic electronics instead of its present goods.",
+            "It has given up trying to compete through trust built over time with regular customers.",
+            "It can now charge lower prices than any online platform, whatever its costs may be."
+          ],
+          "correctIndex": 1,
+          "explanation": "The successful retailers \"cooperate with technology\" through digital payments and local delivery while keeping their own strengths. Nothing suggests that they have abandoned regular customers, trust or their product range, or that they can undercut online platforms."
+        },
+        {
+          "kind": "true",
+          "targetWord": "",
+          "stem": "Which of the following statements is TRUE according to the passage?",
+          "options": [
+            "Online platforms close earlier in the evening than most neighbourhood stores do in towns.",
+            "Every local shop that sold books and electronics has since gone out of business.",
+            "Buyers can judge the quality of clothes and furniture better from photographs than in person.",
+            "Local shops always charge lower prices than online platforms because their costs are small.",
+            "A local shop may let a regular customer pay at the end of the month."
+          ],
+          "correctIndex": 4,
+          "explanation": "The passage lists flexibility as an advantage: a store \"may allow a regular customer to pay at the end of the month\". The other statements are contradicted by the passage."
+        },
+        {
+          "kind": "not-true",
+          "targetWord": "",
+          "stem": "Which of the following is NOT true according to the passage?",
+          "options": [
+            "Online platforms can offer lower prices because they sell in huge volumes.",
+            "A shopkeeper's knowledge of regular customers can help in selling products.",
+            "Shops that sold books and electronics were among the best survivors.",
+            "Some local shops now take orders by means of messaging.",
+            "Technology has changed the way in which local businesses must compete."
+          ],
+          "correctIndex": 2,
+          "explanation": "Shops selling books and basic electronics are named among those that closed, so calling them the most successful survivors contradicts the passage. The other statements are supported by the text."
+        },
+        {
+          "kind": "tone",
+          "targetWord": "",
+          "stem": "The author's attitude towards local retailers is best described as:",
+          "options": [
+            "Realistic and mildly hopeful",
+            "Pessimistic and resigned to decline",
+            "Gently sentimental about the past",
+            "Critical and impatient with owners",
+            "Complacent and untroubled by change"
+          ],
+          "correctIndex": 0,
+          "explanation": "The author admits some shops closed and that threats remain, yet shows how many have adapted successfully. That is realistic and mildly hopeful."
+        },
+        {
+          "kind": "vocab-synonym",
+          "targetWord": "flexibility",
+          "stem": "Which of the following words is most similar in meaning to the word “flexibility” as used in the passage?",
+          "options": [
+            "responsibility",
+            "distance",
+            "loyalty",
+            "adaptability",
+            "delay"
+          ],
+          "correctIndex": 3,
+          "explanation": "In \"A third is flexibility\", the word refers to a shop's ability to adjust to customers' needs, which is closest to adaptability."
+        },
+        {
+          "kind": "vocab-antonym",
+          "targetWord": "complicated",
+          "stem": "Which of the following words is most opposite in meaning to the word “complicated” as used in the passage?",
+          "options": [
+            "confusing",
+            "simple",
+            "dramatic",
+            "gradual",
+            "gloomy"
+          ],
+          "correctIndex": 1,
+          "explanation": "A complicated picture is one with many tangled parts; the opposite is a simple one."
+        }
+      ]
+    },
+    {
+      "paragraphs": [
+        "Cities are usually hotter than the countryside around them. Concrete, brick and asphalt absorb heat during the day and release it slowly at night, while the lack of trees means there is little shade and little moisture to cool the air. The result is called the urban heat island, and in summer it can make a city several degrees warmer than the nearby villages. Hot nights are especially harmful because the body gets no chance to recover from the day's heat.",
+        "One answer is to put plants where buildings now stand. Rooftop gardens and green walls shade the surfaces beneath them, and the water that leaves their leaves cools the air much as sweat cools the skin. A building with a green roof also needs less air conditioning, which saves electricity. Such roofs soak up rainwater too, reducing the flooding that follows a heavy shower in a city with few open spaces.",
+        "However, green roofs are not cheap. They need a strong structure to carry the soil, a waterproof layer to protect the building, and regular care so that the plants stay healthy. For this reason, owners of old buildings often hesitate. Some cities have tried to change that by offering reduced property taxes to owners who install them, or by making green roofs compulsory on new public buildings.",
+        "Planting is not a complete solution. Light-coloured paint on roofs and roads, which reflects sunlight, is cheaper and works faster, and open parks help to cool whole neighbourhoods. The best plan combines several measures, chosen to suit the climate and the budget of each city."
+      ],
+      "questions": [
+        {
+          "kind": "main-idea",
+          "targetWord": "",
+          "stem": "Which of the following best describes the main idea of the passage?",
+          "options": [
+            "Green roofs are the only effective way of fighting the heat of crowded cities in summer.",
+            "Cities are hotter than villages because they have too many people living in them today.",
+            "Air conditioning should be banned in cities so that electricity can be saved.",
+            "Light-coloured paint is a better answer to urban heat than any other measure.",
+            "Cities can be cooled in several ways, and green roofs are one useful but costly choice."
+          ],
+          "correctIndex": 4,
+          "explanation": "The passage explains why cities are hot, describes green roofs and their cost, and concludes that several measures should be combined. The other statements are too narrow, extreme or unsupported."
+        },
+        {
+          "kind": "inference",
+          "targetWord": "",
+          "stem": "Why are hot nights especially harmful in a city?",
+          "options": [
+            "Air conditioning stops working at night when the demand for electricity is highest.",
+            "Trees give off extra moisture at night, which makes the air very uncomfortable.",
+            "Surfaces keep releasing stored heat after dark, leaving people little chance to recover.",
+            "Rainwater collected on roofs becomes warm and spreads through the streets.",
+            "Nearby villages send their hot air into the city after sunset every day."
+          ],
+          "correctIndex": 2,
+          "explanation": "Concrete, brick and asphalt \"release it slowly at night\", and hot nights are harmful because \"the body gets no chance to recover\". Combining the two explains the harm."
+        },
+        {
+          "kind": "inference",
+          "targetWord": "",
+          "stem": "Which of the following can be inferred about owners of old buildings?",
+          "options": [
+            "They hesitate chiefly because installing and keeping a green roof is costly.",
+            "They dislike plants because roots always damage the waterproof layer of a roof.",
+            "They are legally required to install green roofs on every public building.",
+            "They already receive lower property taxes in every city that has green roofs.",
+            "They prefer air conditioning because it saves more electricity than plants do."
+          ],
+          "correctIndex": 0,
+          "explanation": "The passage says green roofs are \"not cheap\" and that \"for this reason\" owners of old buildings often hesitate. Cost is therefore the main cause; the other statements are not supported."
+        },
+        {
+          "kind": "inference",
+          "targetWord": "",
+          "stem": "What can be inferred about cities that reduce property taxes for owners of green roofs?",
+          "options": [
+            "They have made green roofs compulsory on all private buildings in the city.",
+            "They believe that green roofs are cheaper than light-coloured paint.",
+            "They expect green roofs to remove the need for parks in every district.",
+            "They hope to encourage green roofs by easing the cost for owners.",
+            "They have stopped worrying about flooding after heavy showers of rain."
+          ],
+          "correctIndex": 3,
+          "explanation": "Owners hesitate because green roofs are costly, and the tax reduction is offered \"to change that\", so it is meant to ease the cost. The passage says nothing to support the other statements."
+        },
+        {
+          "kind": "true",
+          "targetWord": "",
+          "stem": "Which of the following statements is TRUE according to the passage?",
+          "options": [
+            "Green roofs increase the amount of air conditioning that a building needs.",
+            "Light-coloured paint is cheaper and acts faster than green roofs.",
+            "Green roofs cause flooding after a heavy shower in crowded cities.",
+            "Parks cool only the single building that stands beside them.",
+            "The urban heat island is strongest during the winter months."
+          ],
+          "correctIndex": 1,
+          "explanation": "The passage says that light-coloured paint \"is cheaper and works faster\". The other statements reverse or ignore what the passage says."
+        },
+        {
+          "kind": "not-true",
+          "targetWord": "",
+          "stem": "Which of the following is NOT true according to the passage?",
+          "options": [
+            "Plants on a roof shade the surface beneath them.",
+            "Green roofs can soak up rainwater from heavy showers in crowded areas.",
+            "Water leaving leaves cools the air in the way that sweat cools skin.",
+            "Open parks can help to cool whole neighbourhoods of a city.",
+            "Cities that use green roofs have made them compulsory on every new building."
+          ],
+          "correctIndex": 4,
+          "explanation": "Only some cities have made green roofs compulsory, and only on new public buildings, so the keyed statement goes beyond the passage. The other statements are all given in the text."
+        },
+        {
+          "kind": "tone",
+          "targetWord": "",
+          "stem": "The tone of the passage is best described as:",
+          "options": [
+            "Persuasive and forceful",
+            "Cautious and doubtful",
+            "Informative and balanced",
+            "Worried and urgent",
+            "Detached and indifferent"
+          ],
+          "correctIndex": 2,
+          "explanation": "The author explains a problem, presents a remedy with its costs, and recommends a mix of measures, without strong emotion. That is informative and balanced."
+        },
+        {
+          "kind": "vocab-synonym",
+          "targetWord": "compulsory",
+          "stem": "Which of the following words is most similar in meaning to the word “compulsory” as used in the passage?",
+          "options": [
+            "mandatory",
+            "optional",
+            "widespread",
+            "temporary",
+            "costly"
+          ],
+          "correctIndex": 0,
+          "explanation": "In \"making green roofs compulsory\", compulsory means required by rule, which is closest to mandatory."
+        },
+        {
+          "kind": "vocab-antonym",
+          "targetWord": "harmful",
+          "stem": "Which of the following words is most opposite in meaning to the word “harmful” as used in the passage?",
+          "options": [
+            "uncomfortable",
+            "unusual",
+            "temporary",
+            "beneficial",
+            "painful"
+          ],
+          "correctIndex": 3,
+          "explanation": "Hot nights are described as harmful; the opposite is beneficial."
+        }
+      ]
+    },
+    {
+      "paragraphs": [
+        "Online banking has made it possible to pay bills, transfer money and check balances without visiting a branch. Convenient as this is, it has also attracted criminals, who have found that it is often easier to trick a customer than to break into a bank's computer system. Most successful frauds today do not rely on advanced hacking. They rely on persuading people to hand over their own information.",
+        "A common method is the fake message. A customer receives a text or an email that appears to come from the bank, warning that the account will be blocked unless a link is clicked at once. The link leads to a copy of the bank's website, and anything typed there goes straight to the fraudster. Another method is the phone call, in which a caller pretends to be a bank officer and asks for a one-time password in order to stop a suspicious payment. Both methods depend on creating urgency, because a worried person acts quickly and thinks less.",
+        "Banks repeat a simple rule: no genuine officer will ever ask for a password, a PIN or a one-time code. A customer who has shared such details should contact the bank immediately, since a fast report gives the bank a better chance of stopping the transfer. Customers should also type the bank's address themselves, instead of following links, and should keep their mobile software updated.",
+        "Technology can improve protection, but it cannot replace caution. A strong password is of little use if it is told to a stranger on the phone. The most dependable security system is a customer who pauses, doubts an unexpected request, and checks it through the bank's official number."
+      ],
+      "questions": [
+        {
+          "kind": "main-idea",
+          "targetWord": "",
+          "stem": "Which of the following is the best title for the passage?",
+          "options": [
+            "Why Banks Should Stop Offering Online Services to All Their Customers",
+            "Online Banking Fraud: How It Works and How Customers Can Resist It",
+            "The Advanced Hacking Methods Used by Criminals Against Bank Computers",
+            "How Software Updates Remove the Need for Caution Among Users",
+            "The Role of Bank Officers in Catching Fraudsters Who Use Phones"
+          ],
+          "correctIndex": 1,
+          "explanation": "The passage describes common tricks used by fraudsters and the habits that protect customers. The other titles describe topics the passage does not discuss, or contradict it."
+        },
+        {
+          "kind": "inference",
+          "targetWord": "",
+          "stem": "Why do fraudsters try to create a sense of urgency?",
+          "options": [
+            "Bank systems automatically block accounts when messages are not answered quickly by customers.",
+            "Customers who respond slowly are always asked for more personal information by fraudsters.",
+            "Urgent messages are harder for banks to trace than ordinary messages are.",
+            "Fraudsters are themselves worried that the bank will soon catch them out.",
+            "A worried person acts quickly and thinks less, so the trick works better."
+          ],
+          "correctIndex": 4,
+          "explanation": "Both methods \"depend on creating urgency, because a worried person acts quickly and thinks less\". The other explanations are not supported by the passage."
+        },
+        {
+          "kind": "inference",
+          "targetWord": "",
+          "stem": "A person receives a call from someone claiming to be a bank officer who wants a one-time code. What can be inferred about the caller?",
+          "options": [
+            "The caller is genuine if he knows the customer's name, address and account number.",
+            "The call is safe as long as it is about stopping a suspicious payment on the account.",
+            "The caller is probably not genuine, as no real officer asks for such a code.",
+            "The customer should give the code only if the caller sounds polite and well informed.",
+            "The bank has probably blocked the account and needs the code to unlock it."
+          ],
+          "correctIndex": 2,
+          "explanation": "The passage says that \"no genuine officer will ever ask for a password, a PIN or a one-time code\", and fraudsters use calls of exactly this kind. The caller is therefore very likely a fraudster."
+        },
+        {
+          "kind": "inference",
+          "targetWord": "",
+          "stem": "What can be inferred about a customer who has shared a one-time code and reports it to the bank at once?",
+          "options": [
+            "The bank may still be able to stop the transfer, because a fast report improves its chances.",
+            "The transfer will certainly be stopped, whatever the delay in reporting it to the bank.",
+            "The customer will be blamed for the fraud, since the code was shared.",
+            "The bank will have to update its mobile software before it can act.",
+            "The fraudster will be unable to use a copy of the website again."
+          ],
+          "correctIndex": 0,
+          "explanation": "A customer who has shared details should report \"immediately, since a fast report gives the bank a better chance of stopping the transfer\". The passage speaks of a better chance, not a certainty."
+        },
+        {
+          "kind": "true",
+          "targetWord": "",
+          "stem": "Which of the following statements is TRUE according to the passage?",
+          "options": [
+            "Most frauds begin with criminals breaking into a bank's computer system.",
+            "Fake websites are easy to spot because they look different from the bank's site.",
+            "A strong password gives full protection even if it is told to a stranger.",
+            "Many frauds depend on persuading customers to hand over their own details.",
+            "Genuine bank officers sometimes ask for a PIN to stop a suspicious payment."
+          ],
+          "correctIndex": 3,
+          "explanation": "The passage says that most successful frauds \"rely on persuading people to hand over their own information\". The other statements contradict the text."
+        },
+        {
+          "kind": "not-true",
+          "targetWord": "",
+          "stem": "Which of the following is NOT true according to the passage?",
+          "options": [
+            "Fake messages often say that the account will be blocked unless a link is clicked.",
+            "Most frauds today depend on advanced hacking of bank computers.",
+            "Customers are advised to type the bank's address themselves.",
+            "A fast report gives the bank a better chance of stopping a transfer.",
+            "A password is of little use if it is told to a stranger."
+          ],
+          "correctIndex": 1,
+          "explanation": "The passage states that most successful frauds \"do not rely on advanced hacking\", so the keyed statement is false. The other statements all appear in the passage."
+        },
+        {
+          "kind": "tone",
+          "targetWord": "",
+          "stem": "The tone of the passage is best described as:",
+          "options": [
+            "Critical and resentful in tone",
+            "Reassuring and quite relaxed",
+            "Neutral and wholly impersonal",
+            "Sorrowful and deeply regretful",
+            "Cautionary and practical"
+          ],
+          "correctIndex": 4,
+          "explanation": "The author warns about fraud and gives clear, usable advice. That is cautionary and practical rather than resentful, relaxed, impersonal or sorrowful."
+        },
+        {
+          "kind": "vocab-synonym",
+          "targetWord": "genuine",
+          "stem": "Which of the following words is most similar in meaning to the word “genuine” as used in the passage?",
+          "options": [
+            "famous",
+            "helpful",
+            "authentic",
+            "strict",
+            "experienced"
+          ],
+          "correctIndex": 2,
+          "explanation": "In \"no genuine officer\", genuine means real, not pretending, which is closest to authentic."
+        },
+        {
+          "kind": "vocab-antonym",
+          "targetWord": "dependable",
+          "stem": "Which of the following words is most opposite in meaning to the word “dependable” as used in the passage?",
+          "options": [
+            "unreliable",
+            "trustworthy",
+            "steady",
+            "useful",
+            "cautious"
+          ],
+          "correctIndex": 0,
+          "explanation": "Dependable means able to be relied on; the opposite is unreliable."
+        }
+      ]
+    }
+  ]
+}

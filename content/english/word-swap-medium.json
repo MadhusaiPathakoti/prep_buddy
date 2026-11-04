@@ -1,0 +1,556 @@
+{
+ "items": [
+  {
+   "tokens": [
+    "The",
+    "teacher",
+    "patiently",
+    "explained",
+    "the",
+    "difficult",
+    "lesson",
+    "again",
+    "so",
+    "that",
+    "every",
+    "student",
+    "could",
+    "understand",
+    "it",
+    "before",
+    "the",
+    "examination."
+   ],
+   "marked": [
+    "patiently",
+    "difficult",
+    "student",
+    "understand"
+   ],
+   "swap": [
+    0,
+    2
+   ],
+   "explanation": "The words \"patiently\" and \"student\" have been interchanged. An adverb must modify \"explained\" and \"every\" must be followed by a noun, so \"The teacher student explained\" and \"every patiently could understand\" make no sense."
+  },
+  {
+   "tokens": [
+    "Heavy",
+    "rain",
+    "fell",
+    "throughout",
+    "the",
+    "night,",
+    "and",
+    "by",
+    "morning",
+    "the",
+    "narrow",
+    "river",
+    "had",
+    "flooded",
+    "several",
+    "fields",
+    "near",
+    "the",
+    "village."
+   ],
+   "marked": [
+    "throughout",
+    "narrow",
+    "flooded",
+    "near"
+   ],
+   "swap": [
+    0,
+    3
+   ],
+   "explanation": "The words \"throughout\" and \"near\" have been interchanged. Rain falls \"throughout the night\", and the fields lie \"near the village\"; \"fell near the night\" does not make sense."
+  },
+  {
+   "tokens": [
+    "My",
+    "grandfather",
+    "carefully",
+    "repaired",
+    "the",
+    "broken",
+    "clock,",
+    "and",
+    "it",
+    "has",
+    "kept",
+    "perfect",
+    "time",
+    "ever",
+    "since",
+    "that",
+    "cold",
+    "winter."
+   ],
+   "marked": [
+    "carefully",
+    "broken",
+    "perfect",
+    "cold"
+   ],
+   "swap": null,
+   "explanation": "The sentence is already correct: \"carefully\" is the adverb of \"repaired\", \"broken\" describes the clock, \"perfect\" describes the time it keeps and \"cold\" describes the winter."
+  },
+  {
+   "tokens": [
+    "Many",
+    "tourists",
+    "visit",
+    "the",
+    "coastal",
+    "town",
+    "during",
+    "the",
+    "summer",
+    "because",
+    "the",
+    "weather",
+    "is",
+    "pleasant",
+    "and",
+    "the",
+    "beaches",
+    "are",
+    "clean."
+   ],
+   "marked": [
+    "coastal",
+    "during",
+    "because",
+    "beaches"
+   ],
+   "swap": [
+    1,
+    2
+   ],
+   "explanation": "The words \"during\" and \"because\" have been interchanged. \"during the summer\" needs a preposition before the noun phrase and \"because\" must introduce the clause \"the weather is pleasant\"; the swapped sentence breaks both."
+  },
+  {
+   "tokens": [
+    "The",
+    "new",
+    "manager",
+    "listened",
+    "calmly",
+    "to",
+    "every",
+    "complaint",
+    "and",
+    "then",
+    "promised",
+    "to",
+    "solve",
+    "the",
+    "problem",
+    "before",
+    "the",
+    "end",
+    "of",
+    "the",
+    "week."
+   ],
+   "marked": [
+    "new",
+    "calmly",
+    "promised",
+    "problem"
+   ],
+   "swap": [
+    0,
+    3
+   ],
+   "explanation": "The words \"new\" and \"problem\" have been interchanged. \"The new manager\" needs the adjective, and \"solve the problem\" needs a noun as the object; \"solve the new before the end of the week\" is incomplete and meaningless."
+  },
+  {
+   "tokens": [
+    "Regular",
+    "exercise",
+    "keeps",
+    "the",
+    "body",
+    "healthy,",
+    "improves",
+    "sleep,",
+    "and",
+    "helps",
+    "students",
+    "concentrate",
+    "better",
+    "during",
+    "long",
+    "hours",
+    "of",
+    "study."
+   ],
+   "marked": [
+    "body",
+    "improves",
+    "concentrate",
+    "long"
+   ],
+   "swap": null,
+   "explanation": "The sentence is already correct: \"improves\" is the verb of the second action, \"concentrate\" follows \"helps students\", and \"long\" describes the hours. No interchange is needed."
+  },
+  {
+   "tokens": [
+    "A",
+    "good",
+    "dictionary",
+    "not",
+    "only",
+    "explains",
+    "the",
+    "meaning",
+    "of",
+    "a",
+    "word",
+    "but",
+    "also",
+    "shows",
+    "how",
+    "it",
+    "should",
+    "be",
+    "pronounced",
+    "in",
+    "speech."
+   ],
+   "marked": [
+    "good",
+    "meaning",
+    "shows",
+    "pronounced"
+   ],
+   "swap": [
+    1,
+    3
+   ],
+   "explanation": "The words \"meaning\" and \"pronounced\" have been interchanged. \"explains the meaning of a word\" needs a noun, and \"should be pronounced\" needs a participle; \"the pronounced of a word\" and \"should be meaning\" are ungrammatical."
+  },
+  {
+   "tokens": [
+    "Because",
+    "the",
+    "bus",
+    "was",
+    "late,",
+    "Riya",
+    "walked",
+    "quickly",
+    "to",
+    "the",
+    "station",
+    "and",
+    "reached",
+    "just",
+    "in",
+    "time",
+    "to",
+    "catch",
+    "the",
+    "morning",
+    "train."
+   ],
+   "marked": [
+    "walked",
+    "quickly",
+    "reached",
+    "catch"
+   ],
+   "swap": [
+    1,
+    3
+   ],
+   "explanation": "The words \"quickly\" and \"catch\" have been interchanged. An adverb must modify \"walked\", and \"to catch\" needs an infinitive verb with an object; \"walked catch to the station\" and \"to quickly the morning train\" are ungrammatical."
+  },
+  {
+   "tokens": [
+    "The",
+    "students",
+    "planted",
+    "several",
+    "young",
+    "trees",
+    "around",
+    "the",
+    "school",
+    "ground",
+    "so",
+    "that",
+    "the",
+    "area",
+    "would",
+    "look",
+    "greener",
+    "in",
+    "the",
+    "coming",
+    "year."
+   ],
+   "marked": [
+    "planted",
+    "trees",
+    "look",
+    "coming"
+   ],
+   "swap": [
+    0,
+    2
+   ],
+   "explanation": "The words \"planted\" and \"look\" have been interchanged. \"The students planted several young trees\" needs a transitive past verb, and \"would look greener\" needs a base verb after \"would\"; \"would planted greener\" is ungrammatical."
+  },
+  {
+   "tokens": [
+    "The",
+    "shopkeeper",
+    "reduced",
+    "the",
+    "price",
+    "of",
+    "old",
+    "stock",
+    "to",
+    "attract",
+    "customers,",
+    "but",
+    "few",
+    "people",
+    "noticed",
+    "the",
+    "offer",
+    "until",
+    "the",
+    "following",
+    "week."
+   ],
+   "marked": [
+    "reduced",
+    "stock",
+    "attract",
+    "until"
+   ],
+   "swap": [
+    2,
+    3
+   ],
+   "explanation": "The words \"attract\" and \"until\" have been interchanged. \"to attract customers\" needs an infinitive verb and \"until the following week\" needs a preposition-like time word; \"to until customers\" and \"offer attract the following week\" make no sense."
+  },
+  {
+   "tokens": [
+    "Walking",
+    "along",
+    "the",
+    "quiet",
+    "river",
+    "path",
+    "early",
+    "in",
+    "the",
+    "morning",
+    "is",
+    "a",
+    "simple",
+    "pleasure",
+    "that",
+    "many",
+    "elderly",
+    "residents",
+    "enjoy."
+   ],
+   "marked": [
+    "quiet",
+    "early",
+    "pleasure",
+    "elderly"
+   ],
+   "swap": [
+    0,
+    2
+   ],
+   "explanation": "The words \"quiet\" and \"pleasure\" have been interchanged. \"the quiet river path\" needs an adjective before the noun phrase, and \"a simple pleasure\" needs a noun; \"the pleasure river path\" and \"a simple quiet that many elderly residents enjoy\" do not work."
+  },
+  {
+   "tokens": [
+    "Farmers",
+    "in",
+    "the",
+    "region",
+    "depend",
+    "on",
+    "seasonal",
+    "rainfall,",
+    "so",
+    "a",
+    "delayed",
+    "monsoon",
+    "can",
+    "seriously",
+    "reduce",
+    "the",
+    "harvest",
+    "of",
+    "the",
+    "year."
+   ],
+   "marked": [
+    "depend",
+    "seasonal",
+    "delayed",
+    "seriously"
+   ],
+   "swap": [
+    0,
+    2
+   ],
+   "explanation": "The words \"depend\" and \"delayed\" have been interchanged. \"Farmers ... depend on\" needs the verb, and \"a delayed monsoon\" needs the participle as an adjective; \"Farmers delayed on\" and \"a depend monsoon\" are ungrammatical."
+  },
+  {
+   "tokens": [
+    "The",
+    "museum",
+    "has",
+    "introduced",
+    "free",
+    "guided",
+    "tours",
+    "on",
+    "weekends,",
+    "hoping",
+    "that",
+    "more",
+    "families",
+    "will",
+    "visit",
+    "and",
+    "learn",
+    "about",
+    "local",
+    "history."
+   ],
+   "marked": [
+    "free",
+    "hoping",
+    "families",
+    "learn"
+   ],
+   "swap": [
+    1,
+    3
+   ],
+   "explanation": "The words \"hoping\" and \"learn\" have been interchanged. \"hoping that\" introduces the wish, and \"will visit and learn\" needs a base verb after \"will\"; \"learn that more families\" and \"will visit and hoping\" are ungrammatical."
+  },
+  {
+   "tokens": [
+    "After",
+    "finishing",
+    "the",
+    "experiment,",
+    "the",
+    "students",
+    "carefully",
+    "recorded",
+    "their",
+    "results",
+    "in",
+    "a",
+    "notebook",
+    "and",
+    "discussed",
+    "the",
+    "surprising",
+    "outcome",
+    "with",
+    "the",
+    "teacher."
+   ],
+   "marked": [
+    "finishing",
+    "carefully",
+    "notebook",
+    "surprising"
+   ],
+   "swap": [
+    0,
+    1
+   ],
+   "explanation": "The words \"finishing\" and \"carefully\" have been interchanged. \"After finishing the experiment\" needs a verb form after \"After\", and an adverb must modify \"recorded\"; \"After carefully the experiment\" is ungrammatical."
+  },
+  {
+   "tokens": [
+    "Modern",
+    "phones",
+    "are",
+    "so",
+    "powerful",
+    "that",
+    "people",
+    "rarely",
+    "carry",
+    "separate",
+    "cameras,",
+    "maps",
+    "or",
+    "music",
+    "players",
+    "when",
+    "they",
+    "travel",
+    "abroad",
+    "on",
+    "holiday."
+   ],
+   "marked": [
+    "powerful",
+    "rarely",
+    "carry",
+    "travel"
+   ],
+   "swap": [
+    2,
+    3
+   ],
+   "explanation": "The words \"carry\" and \"travel\" have been interchanged. People \"carry cameras, maps or music players\" (transitive) but \"travel abroad\" (intransitive); \"travel cameras\" and \"carry abroad\" do not work."
+  },
+  {
+   "tokens": [
+    "The",
+    "new",
+    "bridge",
+    "will",
+    "shorten",
+    "the",
+    "journey",
+    "between",
+    "the",
+    "two",
+    "towns",
+    "considerably,",
+    "which",
+    "should",
+    "encourage",
+    "trade",
+    "and",
+    "reduce",
+    "travelling",
+    "costs."
+   ],
+   "marked": [
+    "shorten",
+    "between",
+    "encourage",
+    "reduce"
+   ],
+   "swap": [
+    1,
+    2
+   ],
+   "explanation": "The words \"between\" and \"encourage\" have been interchanged. \"between the two towns\" needs a preposition and \"should encourage trade\" needs a verb after \"should\"; \"shorten the journey encourage the two towns\" and \"should between trade\" are ungrammatical."
+  }
+ ]
+}

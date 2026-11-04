@@ -1,0 +1,29 @@
+{
+  "items": [
+    {
+      "variant": "replace",
+      "before": "The report suggests that more people",
+      "phrase": "is using",
+      "after": "mobile banking than ever before.",
+      "options": ["are using", "was using", "has used", "is being used"],
+      "correctIndex": 0,
+      "explanation": "The plural subject 'people' needs the plural verb 'are using'."
+    },
+    {
+      "variant": "replace",
+      "before": "The bank has announced that all branches",
+      "phrase": "will remain closed",
+      "after": "on the second Saturday of every month.",
+      "options": ["will remains closed", "are remaining closed on", "would remain closing", "will be remain closed"],
+      "correctIndex": null,
+      "explanation": "The original phrase is correct; every alternative is ungrammatical."
+    },
+    {
+      "variant": "usage",
+      "sentence": "The committee decided to ______ the meeting until more members could attend.",
+      "options": ["put off", "put up", "put out", "put down", "put in"],
+      "correctIndex": 0,
+      "explanation": "'Put off' means to postpone, which is what the committee did."
+    }
+  ]
+}

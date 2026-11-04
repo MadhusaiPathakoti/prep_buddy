@@ -1,0 +1,558 @@
+{
+  "passages": [
+    {
+      "paragraphs": [
+        "The conventional case for cheap credit is straightforward: when borrowing costs fall, firms invest, households spend, and an economy emerging from a slump regains momentum. This logic is sound as far as it goes, but it quietly assumes that the funds released by lower rates find their way to productive uses. Experience suggests that this assumption holds only when lenders can distinguish promising borrowers from merely persistent ones. Where rates remain low for years, that discrimination erodes. A bank earning thin margins on new loans has every incentive to keep renewing old ones, because recognising a bad loan means admitting a loss, whereas rolling it over merely postpones the accounting.",
+        "The consequence is a population of what economists sometimes call zombie firms: enterprises that earn just enough to service their interest but never enough to repay principal or fund expansion. Individually they are harmless, even sympathetic, since they preserve jobs. Collectively, however, they occupy markets, labour and credit that more dynamic competitors could use. A start-up that cannot obtain a loan because the lender's appetite is committed elsewhere is a cost that never appears in any ledger, which is precisely why it is so rarely counted. Their persistence also blurs the signals on which healthy markets depend, since a sector crowded with firms that should have exited appears busier than it really is. Defenders of prolonged easy money reply that the alternative, a wave of closures in a fragile economy, would be worse. That reply deserves respect, but it treats the choice as a binary one between forbearance and collapse, when the real alternative is gradual, supervised restructuring.",
+        "None of this proves that low interest rates are a mistake. In a deep recession, the damage from tight credit can be far larger and less reversible than any distortion that cheap money produces. The argument is narrower: the benefits of easy credit diminish with duration, while its hidden costs accumulate. A policy that is wise as an emergency measure may become unwise as a permanent condition, and the difficulty lies in recognising the moment when one has turned into the other. Regulators who insist on honest loan classification, and who require banks to set aside provisions early, do not oppose growth; they protect the mechanism through which growth is financed. The remedy is hardly mysterious, only unwelcome, because it asks lenders and borrowers alike to accept modest losses now in exchange for sounder gains later."
+      ],
+      "questions": [
+        {
+          "kind": "main-idea",
+          "targetWord": "",
+          "stem": "Which of the following best expresses the central argument of the passage?",
+          "options": [
+            "Low interest rates should be abandoned, since they inevitably produce zombie firms and stifle new enterprise in every sector.",
+            "Cheap credit loses much of its value when prolonged, since lending quality declines and hidden costs build up.",
+            "Banks rather than regulators are chiefly responsible for the survival of firms that can no longer repay their loans.",
+            "Start-ups contribute more to economic recovery than established firms and ought to be given priority in lending.",
+            "The conventional case for easy credit is mistaken, as lower rates never lead firms to invest or households to spend more."
+          ],
+          "correctIndex": 1,
+          "explanation": "The passage argues that easy credit helps at first but that its benefits \"diminish with duration\" while hidden costs accumulate. It explicitly denies that low rates are simply a mistake, and it does not blame banks alone."
+        },
+        {
+          "kind": "inference",
+          "targetWord": "",
+          "stem": "Which of the following can be inferred about a bank that keeps renewing the loans of struggling borrowers?",
+          "options": [
+            "It is certain to recover the principal in full once interest rates eventually return to a higher level.",
+            "It earns larger margins on renewed loans than on new loans, which explains why it prefers to renew them rather than lend afresh.",
+            "It has broken the lending rules and will be forced by regulators to close down within a few years of the practice being discovered.",
+            "It will cause every start-up in its area to fail, since no credit at all remains available to them.",
+            "It is probably tying up credit that newer, promising firms could use, while delaying the recording of losses."
+          ],
+          "correctIndex": 4,
+          "explanation": "Rolling over a loan \"postpones the accounting\" of a loss, and zombie borrowers occupy credit that others could use. Taken together, the two points support the keyed statement; the passage gives no basis for the claims of certain recovery, higher margins, illegality or universal start-up failure."
+        },
+        {
+          "kind": "inference",
+          "targetWord": "",
+          "stem": "Which of the following can be inferred about the author's view of cheap credit as time passes?",
+          "options": [
+            "Cheap credit should be withdrawn at the first sign that a recession is coming to an end, whatever the state of banks.",
+            "The harm caused by tight credit is always smaller than the distortion that cheap money produces, however deep the recession.",
+            "A policy defensible in a severe downturn may deserve less support as it continues, since gains fade and costs grow.",
+            "The merits of a policy depend only on its original purpose and not at all on how long the policy lasts.",
+            "Emergency measures should never be adopted, because they are bound to become permanent and to damage lending quality."
+          ],
+          "correctIndex": 2,
+          "explanation": "The author says tight credit in a deep recession can do greater damage than cheap money, yet that the benefits of easy credit \"diminish with duration\" while hidden costs accumulate. Combining these gives the keyed view, and the other statements reverse or exaggerate the author's position."
+        },
+        {
+          "kind": "inference",
+          "targetWord": "",
+          "stem": "What does the passage suggest about how lending to zombie firms is usually judged?",
+          "options": [
+            "It looks harmless because the jobs saved are visible, while the opportunities denied to other firms simply go uncounted.",
+            "It is judged harshly, because the closures it prevents are always easy to measure and to record in official accounts.",
+            "It is judged accurately, because economists enter the loans refused to start-ups in detailed ledgers.",
+            "It is judged favourably only by defenders of easy money, who admit that it distorts the market for credit.",
+            "It is judged mainly by the interest that zombie firms pay, rather than by the number of jobs that they preserve."
+          ],
+          "correctIndex": 0,
+          "explanation": "Zombie firms are described as \"harmless, even sympathetic, since they preserve jobs\", whereas the start-up that is refused credit is a cost that \"never appears in any ledger\". The two sentences together explain why the lending looks more benign than it is."
+        },
+        {
+          "kind": "true",
+          "targetWord": "",
+          "stem": "Which of the following statements is TRUE according to the passage?",
+          "options": [
+            "Zombie firms are described as unable to meet even the interest due on their borrowings from banks.",
+            "Defenders of prolonged easy money are said to have overlooked the risk of widespread closures in a fragile economy.",
+            "Banks with thin margins on new loans are described as keen to recognise bad loans promptly and in full.",
+            "A firm able to pay its interest may still lack the earnings to repay its debt or expand.",
+            "Regulators who demand early provisions are described as opponents of economic growth in general."
+          ],
+          "correctIndex": 3,
+          "explanation": "Zombie firms earn \"just enough to service their interest but never enough to repay principal or fund expansion\". The other statements reverse what the passage says about zombie firms, the defenders, banks and regulators."
+        },
+        {
+          "kind": "not-true",
+          "targetWord": "",
+          "stem": "Which of the following is NOT true according to the passage?",
+          "options": [
+            "The skill of lenders in telling promising borrowers from merely persistent ones can weaken when rates stay low for years.",
+            "The author regards honest loan classification by regulators as an obstacle to growth.",
+            "Those who favour long periods of easy money fear that a wave of closures would damage a fragile economy.",
+            "The author proposes gradual, supervised restructuring as an alternative to indefinite forbearance.",
+            "The harm done to a start-up that cannot obtain credit is rarely entered in any formal record."
+          ],
+          "correctIndex": 1,
+          "explanation": "The author says regulators who insist on honest classification \"do not oppose growth; they protect the mechanism through which growth is financed\", so the keyed statement contradicts the passage. The remaining statements are all supported by it."
+        },
+        {
+          "kind": "tone",
+          "targetWord": "",
+          "stem": "The tone of the passage can best be described as:",
+          "options": [
+            "Detached and purely descriptive",
+            "Indignant and accusatory",
+            "Resigned and fatalistic",
+            "Guardedly approving",
+            "Analytical and cautionary"
+          ],
+          "correctIndex": 4,
+          "explanation": "The author weighs the case for cheap credit, concedes its value in a recession, and warns about the costs of prolonging it. That is analytical and cautionary rather than purely descriptive, angry, resigned or approving."
+        },
+        {
+          "kind": "vocab-synonym",
+          "targetWord": "forbearance",
+          "stem": "Which of the following words is most similar in meaning to the word “forbearance” as used in the passage?",
+          "options": [
+            "rigidity",
+            "urgency",
+            "leniency",
+            "secrecy",
+            "thrift"
+          ],
+          "correctIndex": 2,
+          "explanation": "As used in \"a binary one between forbearance and collapse\", forbearance means refraining from enforcing losses and tolerating weak borrowers, which is closest to leniency."
+        },
+        {
+          "kind": "vocab-antonym",
+          "targetWord": "dynamic",
+          "stem": "Which of the following words is most opposite in meaning to the word “dynamic” as used in the passage?",
+          "options": [
+            "stagnant",
+            "vigorous",
+            "ambitious",
+            "inventive",
+            "youthful"
+          ],
+          "correctIndex": 0,
+          "explanation": "In \"more dynamic competitors\", dynamic means energetic and growing, so stagnant is its opposite; the other words are close in sense to dynamic."
+        },
+        {
+          "kind": "may-be-true",
+          "targetWord": "",
+          "stem": "Which of the following is most likely to be true, judging only from the passage?",
+          "options": [
+            "Zombie firms would at once become profitable if interest rates were raised even by a small margin this year.",
+            "Start-ups never need bank loans as long as existing firms use their credit productively and in good time.",
+            "Regulators who demand early provisions would also prefer that interest rates stay low indefinitely, whatever the effect on banks.",
+            "A bank forced to classify loans honestly may show lower profits for a time than one that keeps renewing them.",
+            "Banks that renew doubtful loans are always unaware of the losses that they are busy postponing."
+          ],
+          "correctIndex": 3,
+          "explanation": "Recognising a bad loan \"means admitting a loss\", and regulators require honest classification and early provisions, so a bank that complies is likely to show lower profits in the short run. The other statements have no support in the passage or run against it."
+        }
+      ]
+    },
+    {
+      "paragraphs": [
+        "Whenever a society decides that something valuable ought to be improved, it tends to begin by measuring it. The impulse is reasonable, since what cannot be measured can scarcely be managed, and the early years of a measurement scheme often do yield genuine gains. No parent, after all, would choose a doctor whose results nobody had ever checked. Schools that must publish their examination results, for instance, are pressed to ask why some classrooms lag behind, and neglected pupils sometimes receive overdue attention. The difficulty arises later, when the measure ceases to be a window onto the activity and becomes its purpose.",
+        "Once teachers' reputations, funding and promotions hinge on a score, rational behaviour shifts. Time flows towards topics that are tested and away from those that are not; pupils are drilled in the format of questions rather than in the ideas those questions were designed to probe. A teacher who spends a week on a poem that will not appear in the examination is, in effect, risking a penalty for the sake of her pupils. The scores rise, and by the narrow standard of the scheme the schools improve. Yet the rise may reflect skill at the test itself rather than any deeper understanding, and the indicator, having been optimised, no longer indicates what it once did. Nor is this primarily a matter of dishonesty. Most educators who teach to the test do so reluctantly, aware of the loss, but they are responding sensibly to the incentives they have been handed.",
+        "It would be a mistake to conclude that measurement should be abandoned. Without evidence, decisions about schooling would be driven by anecdote and prejudice, and the pupils with the least influential advocates would suffer most. Both extremes, blind trust in numbers and wholesale distrust of them, fail the very pupils they claim to serve. A wiser course is to treat every metric as provisional, to use several measures in combination so that no single figure can be gamed, and to reserve a measure of judgement for those who observe pupils directly. Judgement, admittedly, is open to favouritism, which is why it should supplement the numbers and not replace them. A score is a useful servant of understanding but a poor master. When it is permitted to rule, the activity it was meant to illuminate is slowly rearranged to suit it."
+      ],
+      "questions": [
+        {
+          "kind": "main-idea",
+          "targetWord": "",
+          "stem": "Which of the following would be the most suitable title for the passage?",
+          "options": [
+            "Why Examination Results Should Be Published by Every School Nationwide",
+            "When the Measure Becomes the Goal: Limits of Scoring",
+            "The Dishonesty of Teachers Under Pressure to Perform Well",
+            "Abandoning Measurement: The Case for Judgement Alone in Schools",
+            "How Pupils Can Be Drilled Successfully for Examination Questions Quickly"
+          ],
+          "correctIndex": 1,
+          "explanation": "The passage traces how a measure that starts as a useful window on schooling becomes the aim itself, while still defending measurement in moderation. The other titles are too narrow, reverse the author's stance or ignore the central warning."
+        },
+        {
+          "kind": "inference",
+          "targetWord": "",
+          "stem": "What can be inferred about the early years of a measurement scheme in schools?",
+          "options": [
+            "Its apparent benefits are mostly statistical illusions that vanish once schools publish their results.",
+            "Its main effect is to make teachers resist any form of public reporting of examination results.",
+            "Its gains are usually larger than those that the same scheme produces in its later years.",
+            "Its neglected pupils receive attention only after the measure has become the purpose of schooling.",
+            "Its gains are genuine, because the measure still reflects the activity before incentives distort it."
+          ],
+          "correctIndex": 4,
+          "explanation": "Early on, schemes \"often do yield genuine gains\", and the trouble \"arises later, when the measure ceases to be a window onto the activity\". The two statements together imply that the early gains are real because the measure has not yet become the target."
+        },
+        {
+          "kind": "inference",
+          "targetWord": "",
+          "stem": "Which of the following best explains why many teachers teach to the test?",
+          "options": [
+            "They believe that skill in test technique matters more than deeper understanding of a subject.",
+            "They have been instructed by examiners to ignore any topic that does not appear in the test.",
+            "They respond sensibly to rewards tied to scores, though they regret the loss of learning.",
+            "They are indifferent to understanding so long as the funding for their school improves.",
+            "They doubt that any reliable evidence about the progress of pupils can ever be gathered."
+          ],
+          "correctIndex": 2,
+          "explanation": "Reputations, funding and promotions \"hinge on a score\", and most educators teach to the test \"reluctantly, aware of the loss\", responding \"sensibly to the incentives\". The passage therefore presents the behaviour as rational but regretted."
+        },
+        {
+          "kind": "inference",
+          "targetWord": "",
+          "stem": "Which of the following is a reason, implied in the passage, for using several measures together?",
+          "options": [
+            "A single figure on which rewards depend invites narrow optimisation, whereas several are much harder to game.",
+            "Several measures remove the need for any human judgement in assessing pupils, however carefully chosen.",
+            "Different measures let each school choose whichever one flatters it most, and so appear to improve.",
+            "A combination of measures makes teachers stop feeling reluctant about testing, since scores matter less.",
+            "Several measures cost less to collect than a single examination score, which suits most schools."
+          ],
+          "correctIndex": 0,
+          "explanation": "Once a single score decides rewards, teaching bends towards it and the indicator stops indicating. Using \"several measures in combination\" is recommended \"so that no single figure can be gamed\", which supports the keyed reason; the author also keeps a role for direct judgement."
+        },
+        {
+          "kind": "true",
+          "targetWord": "",
+          "stem": "Which of the following statements is TRUE according to the passage?",
+          "options": [
+            "Rising scores under a high-stakes scheme reliably show deeper understanding among pupils.",
+            "Teachers who teach to the test are described as acting mainly out of dishonesty.",
+            "Measurement schemes are said to bring benefits only after several years of operation.",
+            "Abandoning all measurement would leave pupils lacking influential advocates most exposed.",
+            "Publishing examination results is said to have harmed neglected pupils in the early years."
+          ],
+          "correctIndex": 3,
+          "explanation": "The author warns that without evidence decisions would rest on anecdote and prejudice, and \"the pupils with the least influential advocates would suffer most\". The other statements contradict the passage."
+        },
+        {
+          "kind": "not-true",
+          "targetWord": "",
+          "stem": "Which of the following is NOT true according to the passage?",
+          "options": [
+            "Teachers may give less time to subjects that are not tested when scores determine rewards.",
+            "Most teachers who teach to the test remain unaware that anything is being lost.",
+            "A metric that has been optimised may stop indicating what it once indicated.",
+            "The author thinks that every metric should be regarded as provisional.",
+            "A score is described as useful when it serves understanding but harmful when it dominates."
+          ],
+          "correctIndex": 1,
+          "explanation": "The passage says that most such educators act \"reluctantly, aware of the loss\", so the keyed statement is false. The other statements restate points the author makes."
+        },
+        {
+          "kind": "tone",
+          "targetWord": "",
+          "stem": "The author's attitude towards teachers who teach to the test is best described as:",
+          "options": [
+            "Stern disapproval of their motives",
+            "Qualified admiration for their skill",
+            "Detached indifference to their plight",
+            "Wary suspicion of their intentions",
+            "Sympathetic, though critical of the system"
+          ],
+          "correctIndex": 4,
+          "explanation": "The author says the behaviour is not primarily dishonest and is a sensible response to incentives, while blaming the system that produces it. That is sympathy for the teachers combined with criticism of the system."
+        },
+        {
+          "kind": "vocab-synonym",
+          "targetWord": "illuminate",
+          "stem": "Which of the following words is most similar in meaning to the word “illuminate” as used in the passage?",
+          "options": [
+            "decorate",
+            "replace",
+            "clarify",
+            "restrict",
+            "imitate"
+          ],
+          "correctIndex": 2,
+          "explanation": "In \"the activity it was meant to illuminate\", illuminate means to shed light on, which is closest to clarify."
+        },
+        {
+          "kind": "vocab-antonym",
+          "targetWord": "genuine",
+          "stem": "Which of the following words is most opposite in meaning to the word “genuine” as used in the passage?",
+          "options": [
+            "spurious",
+            "sizeable",
+            "steady",
+            "belated",
+            "measurable"
+          ],
+          "correctIndex": 0,
+          "explanation": "Genuine gains are real ones; the opposite is spurious, meaning false or only apparent."
+        }
+      ]
+    },
+    {
+      "paragraphs": [
+        "It is tempting to believe that the surest route to conserving a resource is to use it more efficiently. A household that installs a tap delivering the same wash with half the water, or a factory that adopts a process requiring less energy per unit, seems to have taken a step that benefits everyone. Policy makers like the idea for a further reason: the saving appears to arrive without asking anyone to change a habit. And in the short run it has. But efficiency also lowers the effective price of the service that the resource provides, and cheaper services tend to be consumed more freely. Part of the saving is therefore spent, in effect, on additional use.",
+        "Economists call this the rebound effect, and its size varies widely. Where demand is close to saturation, as with heating a room that is already at a comfortable temperature, little of the saving is clawed back. Where demand is elastic, as with travel or irrigation, the rebound can be large, and in unusual cases it can exceed the saving altogether, so that total consumption actually rises. Efficiency, in other words, is a necessary condition for conservation but not a sufficient one. A technology cannot, by itself, guarantee that a resource conserved per unit will be conserved in total, because the people who use it remain free to respond to what it makes cheaper. Measuring the effect is difficult, because the gain in one household may be spent on a different resource altogether, and it is the sum across a whole economy that matters.",
+        "This does not make efficiency standards pointless; a partial rebound still leaves a net gain, and the alternative of wasteful devices is hardly attractive. What the rebound effect counsels is humility about forecasting. Planners who project savings by multiplying the number of efficient devices by their per-unit economy are ignoring the behaviour of the people who use them. Policies that pair efficiency standards with a price signal, such as a charge that rises with consumption, address that behaviour directly and keep the incentive to economise alive. Such charges are seldom popular, which is why they are so often postponed in favour of standards that seem to demand nothing of consumers. Without such a complement, a society may find that it has become admirably efficient and no more frugal than before."
+      ],
+      "questions": [
+        {
+          "kind": "main-idea",
+          "targetWord": "",
+          "stem": "Which of the following is the most appropriate title for the passage?",
+          "options": [
+            "The Rising Cost of Efficient Household Appliances and Devices",
+            "Why Inefficient Devices Should Be Banned Outright in Factories",
+            "Irrigation and Travel: Two Resources Under Heavy Strain",
+            "Why Greater Efficiency Alone May Not Reduce Total Consumption",
+            "The Case Against Charging for Water and Energy Use"
+          ],
+          "correctIndex": 3,
+          "explanation": "The passage explains that efficiency lowers the effective price of a service and so invites extra use, which can offset much of the saving. The other titles concern topics that are either peripheral or contrary to the author's argument."
+        },
+        {
+          "kind": "inference",
+          "targetWord": "",
+          "stem": "Which of the following would the author expect to show the weakest rebound effect after an efficiency improvement?",
+          "options": [
+            "A farm that begins to irrigate extra land once pumping becomes cheaper",
+            "Lighting in a workshop that is already lit to the level its workers want",
+            "A commuter who starts travelling longer distances because each kilometre costs less",
+            "A factory whose output grows because the energy for each unit has become cheaper",
+            "A household that begins running its taps for longer since each wash needs less water"
+          ],
+          "correctIndex": 1,
+          "explanation": "Rebound is small where demand is \"close to saturation\" and large where demand is elastic, as with travel or irrigation. A workshop already lit as people wish has little room to consume more, whereas each of the other cases involves demand that can expand when the service gets cheaper."
+        },
+        {
+          "kind": "inference",
+          "targetWord": "",
+          "stem": "Which of the following can be inferred about a society that adopts efficiency standards but adds no price signal?",
+          "options": [
+            "Its total consumption will certainly rise above the level that it had before the standards were introduced.",
+            "Its efficiency standards will have been pointless, since users will spend every saving on extra use.",
+            "Its planners' projections of savings will prove accurate, because devices behave in a predictable way for all users.",
+            "Its households will use their devices less often because each device is more efficient than before.",
+            "Its total consumption may fall by less than the per-unit savings suggest, depending on user response."
+          ],
+          "correctIndex": 4,
+          "explanation": "Efficiency lowers the effective price of a service, so some of the saving is spent on extra use, and without a complementary price signal that behaviour is left unchecked. Total savings may therefore fall short of the per-unit figure, but the passage says a net gain usually remains and that rises in total use occur only in unusual cases."
+        },
+        {
+          "kind": "inference",
+          "targetWord": "",
+          "stem": "What can be concluded about a forecast that multiplies the number of efficient devices by their per-unit savings?",
+          "options": [
+            "It is likely to understate the saving, because efficient devices last longer than expected in practice.",
+            "It is reliable whenever demand for the service in question is elastic and prices are stable.",
+            "It is likely to overstate the saving, because it omits how users change their behaviour.",
+            "It is accurate for households but misleading for factories, farms and other large users.",
+            "It overestimates the number of efficient devices that people will actually choose to buy."
+          ],
+          "correctIndex": 2,
+          "explanation": "Such planners \"are ignoring the behaviour of the people who use them\", and that behaviour (the rebound) claws back part of the saving. A forecast that omits it will therefore tend to overstate the saving."
+        },
+        {
+          "kind": "true",
+          "targetWord": "",
+          "stem": "Which of the following statements is TRUE according to the passage?",
+          "options": [
+            "In unusual cases, the rebound can be large enough for total consumption to rise.",
+            "The rebound effect is greatest where demand for a service is already close to saturation.",
+            "The author recommends replacing efficiency standards with a charge that rises with consumption.",
+            "The author denies that efficiency brings any benefit even in the short run.",
+            "Efficiency standards are described as unnecessary wherever a price signal is in place."
+          ],
+          "correctIndex": 0,
+          "explanation": "The passage states that \"in unusual cases\" the rebound can exceed the saving \"so that total consumption actually rises\". The other statements reverse or distort the author's claims."
+        },
+        {
+          "kind": "not-true",
+          "targetWord": "",
+          "stem": "Which of the following is NOT true according to the passage?",
+          "options": [
+            "Efficiency lowers the effective price of the service that a resource provides to those who use it.",
+            "A partial rebound still leaves a net saving of the resource overall.",
+            "The size of the rebound effect varies widely from one kind of service to another.",
+            "The author considers efficiency standards pointless because every saving is spent on extra use.",
+            "A charge that rises with consumption keeps the incentive to economise alive for users."
+          ],
+          "correctIndex": 3,
+          "explanation": "The author says outright that the rebound \"does not make efficiency standards pointless\" because a partial rebound \"still leaves a net gain\". The keyed statement therefore contradicts the passage."
+        },
+        {
+          "kind": "tone",
+          "targetWord": "",
+          "stem": "The author's attitude towards efficiency policy can best be described as:",
+          "options": [
+            "Reluctant resignation",
+            "Guarded endorsement",
+            "Detached neutrality",
+            "Open scepticism",
+            "Mild alarm"
+          ],
+          "correctIndex": 1,
+          "explanation": "The author supports efficiency standards, noting a net gain remains, but insists they need a price signal and realistic forecasts. That is endorsement with reservations."
+        },
+        {
+          "kind": "vocab-synonym",
+          "targetWord": "counsels",
+          "stem": "Which of the following words is most similar in meaning to the word “counsels” as used in the passage?",
+          "options": [
+            "forbids",
+            "postpones",
+            "predicts",
+            "ignores",
+            "advises"
+          ],
+          "correctIndex": 4,
+          "explanation": "In \"What the rebound effect counsels is humility\", counsels means advises or recommends."
+        },
+        {
+          "kind": "vocab-antonym",
+          "targetWord": "wasteful",
+          "stem": "Which of the following words is most opposite in meaning to the word “wasteful” as used in the passage?",
+          "options": [
+            "expensive",
+            "extravagant",
+            "economical",
+            "modern",
+            "noisy"
+          ],
+          "correctIndex": 2,
+          "explanation": "Wasteful devices squander resources; the opposite is economical, meaning sparing in use of resources."
+        }
+      ]
+    },
+    {
+      "paragraphs": [
+        "Payment technology has spent two decades removing friction. Where a purchase once required counting out notes, or at least signing a slip, it now requires a glance or a tap, and the benefits of this speed are real: queues shorten, small merchants gain customers, and the cost of handling cash falls. Merchants prize the speed too, because a customer who does not fumble for change is a customer who returns. No sensible account of digital payments can ignore these gains. But convenience is seldom neutral, and the very smoothness that makes a payment pleasant may also change what a payment means.",
+        "Behavioural researchers have long observed that people feel the loss of money more sharply when they hand over physical cash than when they pay by card, and sharper still than when a balance is merely adjusted on a screen. This sensation, sometimes called the pain of paying, acts as an unconscious brake on spending. Remove it and the brake weakens. Designers often describe a good payment experience as one that the customer barely notices. That ambition is understandable, but it deserves scrutiny: a transaction that is barely noticed is also barely remembered, and what is not remembered is hard to budget for. It does not follow that every user of a digital wallet becomes a spendthrift; many are disciplined, and some track every transaction more closely than they ever tracked cash. The claim is statistical rather than universal: across large populations, easier payment is likely to nudge average spending upwards, particularly on small and frequent purchases whose individual cost seems trivial.",
+        "If so, the responsibility for restoring a measure of friction cannot rest entirely on individuals, as though each were designing a private defence against a system built to be seamless. Providers could, for instance, offer optional spending summaries, delay-before-confirmation settings for large payments, or clear running totals within the application. Such features cost little and respect user choice. Nothing here requires hostility towards the technology; a provider that added a pause before a large transfer would not be distrusting its customers, only reminding them that the money is theirs. Critics will object that such features undermine the very convenience that customers value; yet convenience that the user can tune is a better product than convenience imposed on everyone. The aim is not to make payments laborious, but to ensure that a payment that is easy is still noticed."
+      ],
+      "questions": [
+        {
+          "kind": "main-idea",
+          "targetWord": "",
+          "stem": "Which of the following best captures the central point of the passage?",
+          "options": [
+            "Digital payments bring real gains, but their ease may weaken restraints on spending, so some friction merits restoring.",
+            "Cash should return as the main means of payment because digital wallets turn their users into spendthrifts everywhere.",
+            "Researchers have proved that people who pay by card always spend more than those who pay in cash do.",
+            "Small merchants gain more from digital payments than consumers do, which is why providers promote them so widely in most markets.",
+            "Providers alone, and not users, are to blame for the overspending seen in digital economies today."
+          ],
+          "correctIndex": 0,
+          "explanation": "The author grants the gains of digital payments, argues that removing friction may loosen the brake on spending, and proposes optional features to restore some friction. The other statements are extreme, unsupported or shift the blame."
+        },
+        {
+          "kind": "inference",
+          "targetWord": "",
+          "stem": "Which of the following can be inferred about paying from a screen balance compared with paying in cash?",
+          "options": [
+            "It makes every user track spending far more closely than cash ever did, in every kind of purchase.",
+            "It is felt as sharply as handing over notes, so it restrains spending to the same degree.",
+            "It raises spending by exactly the same amount for every user, whatever their personal habits are.",
+            "It is likely to be felt as a smaller loss, so it restrains spending less.",
+            "It is chosen mainly by people who already spend less than the average shopper does."
+          ],
+          "correctIndex": 3,
+          "explanation": "Loss is felt most sharply with cash and \"sharper still\" than with a screen adjustment, and the pain of paying acts as a brake on spending. A screen balance therefore brakes spending less; the passage explicitly says not every user is affected in the same way."
+        },
+        {
+          "kind": "inference",
+          "targetWord": "",
+          "stem": "What can be concluded from the author's remark that many wallet users are disciplined?",
+          "options": [
+            "Such users show that the pain of paying has no real effect on spending at all, for anyone.",
+            "Such users do not contradict a claim that concerns average behaviour in large populations.",
+            "Such users are rare, which is why the effect on average spending across populations is small.",
+            "Such users spend more on small and frequent purchases than undisciplined users do.",
+            "Such users would gain nothing from optional spending summaries or clear running totals."
+          ],
+          "correctIndex": 1,
+          "explanation": "The author calls the claim \"statistical rather than universal\", about average spending across large populations, and adds that disciplined users exist. Together these show that disciplined users are consistent with the claim."
+        },
+        {
+          "kind": "inference",
+          "targetWord": "",
+          "stem": "Which of the following would the author most probably say about a delay-before-confirmation setting for large payments?",
+          "options": [
+            "It should be compulsory for all users, because they cannot be trusted to manage their own money.",
+            "It is harmful, since convenience is the only quality that customers value in any payment.",
+            "It should replace running totals, which add cost to providers without respecting user choice.",
+            "It would lower the costs of merchants by reducing the number of small purchases.",
+            "It is better offered as an adjustable option than imposed as a requirement on everyone."
+          ],
+          "correctIndex": 4,
+          "explanation": "Such settings are listed among \"optional\" features that \"respect user choice\", and the author prefers convenience \"that the user can tune\" to convenience \"imposed on everyone\". The keyed statement follows from combining these two points."
+        },
+        {
+          "kind": "true",
+          "targetWord": "",
+          "stem": "Which of the following statements is TRUE according to the passage?",
+          "options": [
+            "Digital payments have made the handling of cash more expensive for small merchants.",
+            "Researchers claim that everyone who uses a digital wallet eventually overspends.",
+            "Easier payment is most likely to push up spending on small, frequent purchases.",
+            "The author reports that providers have already introduced features to restore friction.",
+            "The author regards convenience as neutral in its effect on how people see money."
+          ],
+          "correctIndex": 2,
+          "explanation": "The author says easier payment is likely to raise average spending \"particularly on small and frequent purchases\". The other statements contradict the passage or add claims it does not make."
+        },
+        {
+          "kind": "not-true",
+          "targetWord": "",
+          "stem": "Which of the following is NOT true according to the passage?",
+          "options": [
+            "The author argues that individuals alone should be responsible for restoring friction.",
+            "Some wallet users monitor their transactions more closely than they once monitored cash.",
+            "The author expects features that restore friction to be inexpensive for providers to add.",
+            "Critics may say that such features reduce the convenience that customers value so highly.",
+            "Faster payment has helped to shorten queues at shops and to attract customers to merchants."
+          ],
+          "correctIndex": 0,
+          "explanation": "The author says responsibility \"cannot rest entirely on individuals\", so the keyed statement contradicts the passage. The other statements all appear in the text."
+        },
+        {
+          "kind": "tone",
+          "targetWord": "",
+          "stem": "The tone of the passage is best described as:",
+          "options": [
+            "Nostalgic and regretful",
+            "Alarmed and accusatory",
+            "Detached and clinical",
+            "Balanced and constructive",
+            "Mildly sceptical and unconvinced"
+          ],
+          "correctIndex": 3,
+          "explanation": "The author credits digital payments, identifies a risk, answers critics and offers practical suggestions. This is balanced and constructive rather than nostalgic, alarmed, clinical or doubtful."
+        },
+        {
+          "kind": "vocab-synonym",
+          "targetWord": "trivial",
+          "stem": "Which of the following words is most similar in meaning to the word “trivial” as used in the passage?",
+          "options": [
+            "frequent",
+            "insignificant",
+            "hidden",
+            "regular",
+            "unquestionable"
+          ],
+          "correctIndex": 1,
+          "explanation": "In \"whose individual cost seems trivial\", trivial means of little importance, which is closest to insignificant."
+        },
+        {
+          "kind": "vocab-antonym",
+          "targetWord": "disciplined",
+          "stem": "Which of the following words is most opposite in meaning to the word “disciplined” as used in the passage?",
+          "options": [
+            "careful",
+            "thrifty",
+            "steady",
+            "observant",
+            "reckless"
+          ],
+          "correctIndex": 4,
+          "explanation": "Disciplined users control their spending; the opposite is reckless, meaning lacking restraint."
+        }
+      ]
+    }
+  ]
+}

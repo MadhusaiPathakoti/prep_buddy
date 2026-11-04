@@ -1,0 +1,228 @@
+{
+ "items": [
+  {
+   "variant": "parts",
+   "parts": [
+    "The findings of the committee, which reviewed",
+    "decades of data on groundwater depletion,",
+    "was published only after several",
+    "independent experts had verified them."
+   ],
+   "errorPartIndex": 2,
+   "explanation": "Subject-verb agreement: the subject is the plural noun “findings”, not “committee”, so “was published” should be “were published”."
+  },
+  {
+   "variant": "parts",
+   "parts": [
+    "Hardly the new regulations had come",
+    "into force when the first complaints",
+    "were lodged by small traders",
+    "across the region within a single week."
+   ],
+   "errorPartIndex": 0,
+   "explanation": "After “Hardly” at the start of a sentence the auxiliary must come before the subject: “Hardly had the new regulations come into force”, not “Hardly the new regulations had come”."
+  },
+  {
+   "variant": "parts",
+   "parts": [
+    "The number of applicants who",
+    "have withdrawn from the programme",
+    "this year is considerably smaller",
+    "than the organisers had expected."
+   ],
+   "errorPartIndex": null,
+   "explanation": "The sentence is correct: “The number of applicants” takes the singular “is”, while the relative clause “who have withdrawn” correctly agrees with the plural “applicants”."
+  },
+  {
+   "variant": "parts",
+   "parts": [
+    "The revised curriculum is designed",
+    "to encourage independent thinking,",
+    "to strengthen numerical reasoning,",
+    "and developing a lasting habit of reading widely."
+   ],
+   "errorPartIndex": 3,
+   "explanation": "Faulty parallelism: the series is built on “to encourage” and “to strengthen”, so the last item must also be an infinitive: “and to develop”, not “and developing”."
+  },
+  {
+   "variant": "sentences",
+   "sentences": [
+    "The bank has decided to extend the working hours of its branches until seven in the evening every weekday.",
+    "The bank has decided extending the working hours of its branches until seven in the evening every weekday.",
+    "Hardly the new schedule had been announced when customers began to praise the longer opening hours.",
+    "Fewer customers than expected has used the extended hours since the new schedule came into effect last month.",
+    "Employees welcomed the change, though several of them complained that the extra hours left them more tireder than before."
+   ],
+   "correctIndex": 0,
+   "explanation": "The correct sentence uses “decided” with an infinitive. The others contain “decided extending”, “Hardly the new schedule had” without inversion, the plural subject “Fewer customers” with “has”, and the double comparative “more tireder”."
+  },
+  {
+   "variant": "parts",
+   "parts": [
+    "Of the two proposed routes,",
+    "the northern one is much more shorter",
+    "and considerably safer than the other,",
+    "although it involves a steeper climb."
+   ],
+   "errorPartIndex": 1,
+   "explanation": "Double comparative: “shorter” is already a comparative form, so “more shorter” should simply be “shorter”."
+  },
+  {
+   "variant": "parts",
+   "parts": [
+    "The fishermen avoided to go",
+    "out to sea that morning,",
+    "having been warned about",
+    "the approaching storm."
+   ],
+   "errorPartIndex": 0,
+   "explanation": "The verb “avoid” is followed by a gerund, not an infinitive: “avoided going out to sea”, not “avoided to go”."
+  },
+  {
+   "variant": "parts",
+   "parts": [
+    "If the auditors had examined",
+    "the ledgers more carefully last year,",
+    "the discrepancy would be detected",
+    "before it grew into a serious loss."
+   ],
+   "errorPartIndex": 2,
+   "explanation": "In a third conditional the result clause needs “would have” plus a past participle: “the discrepancy would have been detected”, not “would be detected”."
+  },
+  {
+   "variant": "parts",
+   "parts": [
+    "Each of the newly appointed",
+    "branch managers have been assigned",
+    "a separate region and is expected",
+    "to submit a monthly performance summary."
+   ],
+   "errorPartIndex": 1,
+   "explanation": "“Each of” takes a singular verb, so “have been assigned” should be “has been assigned”, matching “is expected” later in the sentence."
+  },
+  {
+   "variant": "parts",
+   "parts": [
+    "Had the committee been consulted",
+    "earlier in the planning process,",
+    "the proposal would have met",
+    "far less resistance from local residents."
+   ],
+   "errorPartIndex": null,
+   "explanation": "The sentence is correct: the inverted “Had the committee been consulted” is a standard third conditional, and “resistance” is uncountable, so “less” is the right word."
+  },
+  {
+   "variant": "parts",
+   "parts": [
+    "Despite repeated warnings, the contractor",
+    "was accused of ignoring safety norms",
+    "and was held responsible with",
+    "the collapse of the temporary footbridge."
+   ],
+   "errorPartIndex": 2,
+   "explanation": "Dependent preposition: the adjective “responsible” takes “for”, so “responsible with” should be “responsible for”."
+  },
+  {
+   "variant": "sentences",
+   "sentences": [
+    "The team could not decide whether to publish the results now or waiting for further trials to be completed.",
+    "If the team would have published the results earlier, other laboratories could have repeated the experiment sooner.",
+    "Despite of the encouraging early results, the team felt that more trials were needed before making any claim.",
+    "Each of the trials was conducted in a separate laboratory so that the results could not influence one another.",
+    "The decision to wait was welcomed by the reviewers, many of who had criticised earlier rushed publications."
+   ],
+   "correctIndex": 3,
+   "explanation": "The correct sentence has the singular verb “was” after “Each of the trials”. The others contain “to publish ... or waiting” (not parallel), “If the team would have”, “Despite of”, and “many of who” instead of “many of whom”."
+  },
+  {
+   "variant": "parts",
+   "parts": [
+    "Since the manager was on leave,",
+    "the responsibility for scheduling",
+    "the quarterly reviews was shared",
+    "between the accountant and I."
+   ],
+   "errorPartIndex": 3,
+   "explanation": "Pronoun case: after the preposition “between” the object form is required, so “the accountant and I” should be “the accountant and me”."
+  },
+  {
+   "variant": "parts",
+   "parts": [
+    "The municipal authority",
+    "is distributing free saplings since the start",
+    "of the last monsoon season",
+    "and reports encouraging results."
+   ],
+   "errorPartIndex": 1,
+   "explanation": "Tense: an action that began in the past and continues now with “since” needs the present perfect continuous, so “is distributing” should be “has been distributing”."
+  },
+  {
+   "variant": "parts",
+   "parts": [
+    "No sooner had the chairperson",
+    "begun her address when",
+    "the power supply failed",
+    "and the hall was plunged into darkness."
+   ],
+   "errorPartIndex": 1,
+   "explanation": "“No sooner” is followed by “than”, not “when”: “No sooner had the chairperson begun her address than the power supply failed”."
+  },
+  {
+   "variant": "parts",
+   "parts": [
+    "The young researcher had corresponded",
+    "with the visiting scientists for years,",
+    "and she was therefore",
+    "looking forward to meet them in person."
+   ],
+   "errorPartIndex": 3,
+   "explanation": "In “look forward to” the word “to” is a preposition, so a gerund must follow: “looking forward to meeting them”, not “to meet”."
+  },
+  {
+   "variant": "sentences",
+   "sentences": [
+    "The railway has introduced a rule under which passengers carrying heavy luggage must to pay an additional fee.",
+    "The number of passengers complaining about the new rule have increased since the beginning of the month.",
+    "Passengers who carry heavy luggage are now requested to pay an additional fee at the counter before boarding the train.",
+    "Because the rule was explained poorly, many passengers were confused about how much baggage were they allowed to carry.",
+    "The railway has promised that it will review the rule if fewer passengers will complain about it by the end of the year."
+   ],
+   "correctIndex": 2,
+   "explanation": "The correct sentence has no fault: “are now requested to pay” and “before boarding” are both well formed. The others contain “must to pay”, “The number ... have increased”, the inverted indirect question “how much baggage were they”, and “if ... will complain”."
+  },
+  {
+   "variant": "parts",
+   "parts": [
+    "Scarcely had the engineers",
+    "finished the final inspection when",
+    "the signal for departure was given",
+    "and the train began to move."
+   ],
+   "errorPartIndex": null,
+   "explanation": "The sentence is correct: “Scarcely had ... when” is the proper pairing, with inversion after “Scarcely” and the simple past in the second clause."
+  },
+  {
+   "variant": "sentences",
+   "sentences": [
+    "The committee awarded the scholarship to the student whose essay was judged the more original among the hundred entries received.",
+    "The scholarship was awarded to she whose essay was judged the most original among the hundred entries received.",
+    "The committee has awarded the scholarship to the student whose essay were judged the most original among the hundred entries received.",
+    "The winner will receive a scholarship that covers her tuition fees along with an one-time grant for books and stationery.",
+    "The committee awarded the scholarship to the student whose essay was judged the most original among the hundred entries received."
+   ],
+   "correctIndex": 4,
+   "explanation": "Only this sentence is fully correct, with the superlative “the most original” for more than two entries. The others contain “the more original” for a hundred entries, “to she” for “to her”, “essay were”, and “an one-time” for “a one-time”."
+  },
+  {
+   "variant": "parts",
+   "parts": [
+    "If the regulator will approve",
+    "the proposal at its meeting next month,",
+    "the two lenders expect to complete",
+    "the merger before the end of the year."
+   ],
+   "errorPartIndex": 0,
+   "explanation": "In a conditional clause about a future event the present simple is used, not “will”: “If the regulator approves”, not “If the regulator will approve”."
+  }
+ ]
+}

@@ -25,10 +25,14 @@ import { bankAdd, bankRead, bankRemove } from './bank'
 import { SeenIndex, checkEnglishGroup, groupKey, passageText } from './checks'
 import { applyBudgetUpdates, applyHealthUpdates, budgetsForRequest, healthSkipList, healthState } from './health'
 import type { BudgetUpdate, HealthUpdate } from './health'
+import { getEnglishSource, getSeedEntries, saveSeedUsed, seedUsedIds, shuffleArray, shuffleGroupOptions } from './seed'
+import type { SeedEntry } from './seed'
 
 export { checkEnglishGroup, passageText } from './checks'
 export { clearEnglishBank, englishBankSize } from './bank'
 export { clearEnglishModelHealth, modelHealthSnapshot } from './health'
+export { clearSeedUsed, getEnglishSource, seedPoolSize, setEnglishSeed, setEnglishSource } from './seed'
+export type { EnglishSource, SeedEntry } from './seed'
 
 export interface EnglishRequest {
   topic: EnglishTopicId
@@ -167,6 +171,12 @@ export interface EnglishRunStats {
   independence: { provider: number; model: number; same: number; unknown: number }
   /** Second-solver consensus per question: confirmed by both, disputed by the second, or only one solver available. */
   consensus: { confirmed: number; disagreed: number; single: number }
+  /** Where the returned questions came from: the curated seed, the persisted AI bank, live AI generation. */
+  source: { seed: number; bank: number; ai: number }
+  /** Questions that had already been used in an earlier paper (a topic's curated pool was exhausted). */
+  repeats: number
+  /** Set when live AI generation failed (or fell short) and the curated bank filled the gap instead. */
+  aiError?: { reason: EnglishFailReason; message: string }
   phaseMs: { generate: number; solve: number; total: number }
 }
 
@@ -215,6 +225,7 @@ export function formatEnglishRunStats(st: EnglishRunStats): string {
             `    ${m}: calls ${Object.values(c).reduce((a, b) => a + b, 0)} ok ${c.ok ?? 0} | 429 per-minute ${c['rate-minute'] ?? 0} per-day ${c['quota-day'] ?? 0} | 5xx ${c.overload ?? 0} timeouts ${(c.timeout ?? 0) + (c.network ?? 0)} unavailable ${c.unavailable ?? 0} | tokens ${st.tokens[m] ?? 0}`,
         )
       : ['    -']),
+    `  source: curated seed ${st.source.seed} | persisted AI bank ${st.source.bank} | live AI ${st.source.ai} | repeats ${st.repeats}${st.aiError ? ` | AI problem (${st.aiError.reason}): ${st.aiError.message}` : ''}`,
     `  consensus (two solvers of different families): confirmed ${st.consensus.confirmed} | disputed ${st.consensus.disagreed} | single-solver ${st.consensus.single}`,
     `  solver independence: cross-provider ${st.independence.provider} | cross-model ${st.independence.model} | same-model ${st.independence.same} | unknown ${st.independence.unknown}`,
     `  ${'topic'.padEnd(19)}${'ask'.padStart(4)}${'recv'.padStart(6)}${'detDrop'.padStart(8)}${'agree'.padStart(6)}${'disag'.padStart(6)}${'amb'.padStart(5)}${'miss'.padStart(5)}${'ok'.padStart(4)}${'bank'.padStart(5)}${'lenient'.padStart(8)}`,
@@ -381,7 +392,7 @@ const modelsMessage = (chain: string[]) =>
 /** The server tried (or skipped) every model in its chain and none answered. Decide from the health registry whether
  *  to give up for good (daily quota / unavailable), wait briefly for the soonest short cooldown, or give up with the
  *  right reason when the wait would be long. A daily-quota error never causes a sleep. */
-function decideNoModel(chain: string[], msg: string): ApiError {
+function decideNoModel(chain: string[], msg: string, attempts: { class?: string }[] = []): ApiError {
   const now = Date.now()
   const states = chain.map((m) => ({ m, e: healthState(m, now) }))
   const usable = states.filter((x) => !(x.e && (x.e.cls === 'quota-day' || x.e.cls === 'unavailable')))
@@ -392,7 +403,9 @@ function decideNoModel(chain: string[], msg: string): ApiError {
   const waits = usable.map((x) => (x.e ? Math.max(0, x.e.until - now) : 0))
   const soonest = Math.min(...waits)
   const soonestEntry = usable[waits.indexOf(soonest)].e
-  const hint: EnglishFailReason = !soonestEntry ? 'network' : soonestEntry.cls === 'timeout' ? 'timeout' : soonestEntry.cls === 'network' ? 'network' : 'rate-limit'
+  // A cooldown that has already expired by now no longer says why the chain failed: fall back to this reply's own attempts.
+  const lastClass = [...attempts].reverse().find((a) => a?.class && a.class !== 'ok')?.class
+  const hint: EnglishFailReason = !soonestEntry ? (lastClass === 'timeout' ? 'timeout' : lastClass === 'rate-minute' || lastClass === 'overload' ? 'rate-limit' : 'network') : soonestEntry.cls === 'timeout' ? 'timeout' : soonestEntry.cls === 'network' ? 'network' : 'rate-limit'
   const tooLong = soonest > ENGLISH_TUNING.maxCooldownWaitMs
   return new ApiError(msg, 503, 'wait', { waitMs: soonest, hint, retryable: !tooLong })
 }
@@ -431,7 +444,7 @@ async function attemptOnce(env: Env, kind: 'generate' | 'solve', body: unknown):
     recordMeta(env, detail)
     const msg = detail?.error || `Request failed (${res.status}).`
     if (detail?.code === 'no-alternative') return { failure: new ApiError(msg, 503, 'noalt', { retryable: false }) }
-    if (detail?.code === 'no-model') return { failure: decideNoModel(detail.chain ?? [], msg) }
+    if (detail?.code === 'no-model') return { failure: decideNoModel(detail.chain ?? [], msg, detail.attempts) }
     const header = Number(res.headers?.get?.('retry-after'))
     const retryAfterMs = Math.max(Number(detail?.retryAfterMs) || 0, Number.isFinite(header) && header > 0 ? header * 1000 : 0)
     if (res.status === 404 || res.status === 405 || (res.status === 500 && /not configured/i.test(msg))) return { failure: new ApiError(msg, res.status, 'network', { fatal: true, retryable: false }) }
@@ -608,8 +621,12 @@ interface PoolEntry {
   key: string
   /** A standalone no-error-type question (see isNoErrorQuestion). */
   noErr: boolean
+  origin: 'seed' | 'bank' | 'ai'
+  /** curated entries: the seed id, and whether it had been used before (a repeat) */
+  seedId?: string
+  repeat?: boolean
 }
-const makeEntry = (topic: EnglishTopicId, g: Group, key: string): PoolEntry => ({ g, key, noErr: !isSetTopic(topic) && isNoErrorQuestion(topic, g.questions[0]) })
+const makeEntry = (topic: EnglishTopicId, g: Group, key: string, origin: PoolEntry['origin'] = 'ai'): PoolEntry => ({ g, key, noErr: !isSetTopic(topic) && isNoErrorQuestion(topic, g.questions[0]), origin })
 
 /** Standalone selection: real-error items first, then no-error items up to the cap; original order kept. */
 function pickStandalone(entries: PoolEntry[], need: number, cap: number): PoolEntry[] {
@@ -657,6 +674,53 @@ function pickGroups(topic: EnglishTopicId, entries: PoolEntry[], need: number): 
     if (overflow) out.push({ g: trimGroup(topic, overflow.g, remaining), entry: overflow })
   }
   return out
+}
+
+/** Whole passages (rc/cloze) in random order covering `need` questions: one random covering passage, else a random greedy set. */
+function chooseSeedEntries(topic: EnglishTopicId, entries: PoolEntry[], need: number, relax: boolean): PoolEntry[] {
+  if (!isSetTopic(topic)) {
+    const picked = pickStandalone(entries, need, noErrCap(topic, need))
+    if (picked.length >= need || !relax) return picked
+    // Last resort (the pool is exhausted): curated shortage must not fail a paper, so top up with the remaining
+    // no-error items beyond the quota and count them as ordinary questions.
+    return [...picked, ...entries.filter((e) => !picked.includes(e)).slice(0, need - picked.length).map((e) => ({ ...e, noErr: false }))]
+  }
+  const covering = entries.find((e) => size(e) >= need)
+  if (covering) return [covering]
+  const out: PoolEntry[] = []
+  let have = 0
+  for (const e of entries) {
+    if (have >= need) break
+    out.push(e)
+    have += size(e)
+  }
+  return out
+}
+
+/** Draws `need` curated questions for one topic: the requested difficulty first, then the other one; never a question
+ *  already in this paper (`taken`); unseen questions first (`used` = ids of earlier papers). When the unseen pool runs out
+ *  the topic's used list is reset and the rest are repeats (better than failing). Answer positions are re-shuffled. */
+function drawSeed(topic: EnglishTopicId, difficulty: MockDifficulty, need: number, taken: Set<string>, used: Set<string>): { entries: PoolEntry[]; repeats: number; reset: boolean } {
+  const all = getSeedEntries(topic)
+  const make = (e: SeedEntry, repeat: boolean): PoolEntry => ({ ...makeEntry(topic, shuffleGroupOptions(topic, e.group), `seed:${e.id}`, 'seed'), seedId: e.id, repeat })
+  const pick = (cands: SeedEntry[], n: number, repeat: boolean): PoolEntry[] => {
+    const ordered = [...shuffleArray(cands.filter((e) => e.difficulty === difficulty)), ...shuffleArray(cands.filter((e) => e.difficulty !== difficulty))]
+    return chooseSeedEntries(topic, ordered.map((e) => make(e, repeat)), n, repeat)
+  }
+  let chosen = pick(all.filter((e) => !taken.has(e.id) && !used.has(e.id)), need, false)
+  let got = chosen.reduce((n, e) => n + size(e), 0)
+  let repeats = 0
+  let reset = false
+  if (got < need) {
+    reset = true
+    const ids = new Set(chosen.map((e) => e.seedId))
+    const more = pick(all.filter((e) => !taken.has(e.id) && !ids.has(e.id)), need - got, true)
+    repeats = more.reduce((n, e) => n + size(e), 0)
+    chosen = [...chosen, ...more]
+    got += repeats
+  }
+  for (const e of chosen) taken.add(e.seedId!)
+  return { entries: chosen, repeats, reset }
 }
 
 // ---------------------------------------------------------------------------------------------------
@@ -753,7 +817,7 @@ export async function fetchEnglishPaper(
   const T = ENGLISH_TUNING
   const startedAt = Date.now()
   const total = requests.reduce((n, r) => n + r.count, 0)
-  const stats: EnglishRunStats = { difficulty, total, outcome: 'running', rounds: 0, retries: 0, http: {}, upstream: {}, calls: [], topics: {}, models: {}, tokens: {}, independence: { provider: 0, model: 0, same: 0, unknown: 0 }, consensus: { confirmed: 0, disagreed: 0, single: 0 }, phaseMs: { generate: 0, solve: 0, total: 0 } }
+  const stats: EnglishRunStats = { difficulty, total, outcome: 'running', rounds: 0, retries: 0, http: {}, upstream: {}, calls: [], topics: {}, models: {}, tokens: {}, independence: { provider: 0, model: 0, same: 0, unknown: 0 }, consensus: { confirmed: 0, disagreed: 0, single: 0 }, source: { seed: 0, bank: 0, ai: 0 }, repeats: 0, phaseMs: { generate: 0, solve: 0, total: 0 } }
   lastStats = stats
   provenance = new Map()
   const env: Env = { signal, stats, cooldownUntil: 0, round: 0, nextStart: { generate: 0, solve: 0 }, inFlight: { generate: 0, solve: 0 } }
@@ -767,6 +831,12 @@ export async function fetchEnglishPaper(
     tstat(t)
   }
   const slotsOf = (t: EnglishTopicId) => slots.filter((s) => s.topic === t)
+  /** 'curated' (default): the curated seed only, no network at all. 'ai': persisted AI bank, then live generation, with the
+   *  curated seed filling whatever the AI could not. */
+  const curated = getEnglishSource() === 'curated'
+  const seedTaken = new Map<EnglishTopicId, Set<string>>()
+  const seedUsedBefore = new Map<EnglishTopicId, Set<string>>()
+  const seedReset = new Set<EnglishTopicId>()
   const slotFor = (t: EnglishTopicId) => slotsOf(t).find((s) => s.have < s.count) ?? null
   /** "have" counts usable questions: real-error items plus no-error items up to the composition cap. */
   const recount = (slot: Slot) => {
@@ -785,9 +855,9 @@ export async function fetchEnglishPaper(
   )
 
   // Draw from the persistent bank first (entries stay in the bank until the paper succeeds).
-  if (T.useBank) {
+  if (T.useBank && !curated) {
     for (const t of topics) {
-      let avail: PoolEntry[] = bankRead(t, difficulty).map((e) => makeEntry(t, e.g, e.k))
+      let avail: PoolEntry[] = bankRead(t, difficulty).map((e) => makeEntry(t, e.g, e.k, 'bank'))
       for (const e of avail) seen.get(t)!.add(e.g)
       for (const s of slotsOf(t)) {
         if (!avail.length) break
@@ -821,6 +891,19 @@ export async function fetchEnglishPaper(
       ok += x.verified
     }
     return asked >= 5 ? ok / asked : 0.7
+  }
+
+  const takeFromSeed = (slot: Slot, need: number) => {
+    if (need <= 0) return
+    const t = slot.topic
+    if (!seedTaken.has(t)) seedTaken.set(t, new Set())
+    if (!seedUsedBefore.has(t)) seedUsedBefore.set(t, seedUsedIds(t))
+    const d = drawSeed(t, difficulty, need, seedTaken.get(t)!, seedUsedBefore.get(t)!)
+    for (const e of d.entries) slot.pool.push(e)
+    if (d.reset) seedReset.add(t)
+    stats.repeats += d.repeats
+    recount(slot)
+    progress()
   }
 
   const mergeStrict = (topic: EnglishTopicId, g: Group) => {
@@ -1051,12 +1134,21 @@ export async function fetchEnglishPaper(
   const finishRun = (outcome: EnglishRunStats['outcome']) => {
     stats.outcome = outcome
     stats.phaseMs = { generate: phaseWall(stats.calls, 'generate'), solve: phaseWall(stats.calls, 'solve'), total: Date.now() - startedAt }
-    if (T.logSummary) console.info(formatEnglishRunStats(stats))
+    // Curated runs make no API calls, so there is nothing worth printing; the table is for diagnosing AI runs.
+    if (T.logSummary && stats.calls.length > 0) console.info(formatEnglishRunStats(stats))
   }
 
   try {
     let deadlineHit = false
-    for (let round = 1; round <= T.maxRounds; round++) {
+    if (curated) {
+      for (const s of slots) takeFromSeed(s, s.count)
+      const empty = slots.find((s) => s.have < s.count)
+      if (empty) {
+        finishRun('unavailable')
+        throw new EnglishPrepareError('unavailable', `The curated English question bank has no questions for ${empty.topic} yet. Add content/english/${empty.topic}-*.json and run scripts/build-english-seed.ts, or switch the English source to AI.`)
+      }
+    }
+    for (let round = 1; round <= (curated ? 0 : T.maxRounds); round++) {
       const short = slots.filter((s) => s.have < s.count)
       if (!short.length) break
       if (round > 1 && Date.now() - startedAt > T.deadlineMs) {
@@ -1082,7 +1174,7 @@ export async function fetchEnglishPaper(
     }
 
     throwIfAborted(signal)
-    const stillShort = slots.some((s) => s.have < s.count)
+    let stillShort = slots.some((s) => s.have < s.count)
     if (stillShort) {
       let reason: EnglishFailReason
       const f = roundFailures
@@ -1091,20 +1183,36 @@ export async function fetchEnglishPaper(
       if (fatal) {
         reason = fatal.cls === 'quota' ? 'quota' : 'unavailable'
         if (fatal.cls === 'quota' || fatal.cls === 'models') message = fatal.message
-      }
-      else if (failTotal > 0 && failTotal >= f.quality) reason = f.rate >= f.timeout && f.rate >= f.network ? 'rate-limit' : f.timeout >= f.network ? 'timeout' : 'network'
+      } else if (failTotal > 0 && failTotal >= f.quality) reason = f.rate >= f.timeout && f.rate >= f.network ? 'rate-limit' : f.timeout >= f.network ? 'timeout' : 'network'
       else if (deadlineHit) reason = 'timeout'
       else if (stats.calls.length === 0) reason = 'network'
       else reason = 'quality'
-      finishRun(reason)
-      throw new EnglishPrepareError(reason, message)
+      const failure = new EnglishPrepareError(reason, message)
+      // Degrade to the curated bank instead of failing the paper.
+      for (let attempt = 0; attempt < 2; attempt++) for (const s of slots) if (s.have < s.count) takeFromSeed(s, s.count - s.have)
+      stillShort = slots.some((s) => s.have < s.count)
+      if (stillShort) {
+        finishRun(reason)
+        throw failure
+      }
+      stats.aiError = { reason, message: failure.message }
     }
 
     const results: Group[][] = []
+    const seedIdsUsed = new Map<EnglishTopicId, { all: string[]; repeats: string[] }>()
     const usedKeys = new Map<EnglishTopicId, string[]>()
     for (const s of slots) {
       const picked = pickGroups(s.topic, s.pool, s.count)
       results.push(picked.map((p) => p.g))
+      for (const p of picked) {
+        stats.source[p.entry.origin] += p.g.questions.length
+        if (p.entry.seedId) {
+          const rec = seedIdsUsed.get(s.topic) ?? { all: [], repeats: [] }
+          rec.all.push(p.entry.seedId)
+          if (p.entry.repeat) rec.repeats.push(p.entry.seedId)
+          seedIdsUsed.set(s.topic, rec)
+        }
+      }
       const keys = usedKeys.get(s.topic) ?? []
       for (const p of picked) keys.push(p.entry.key)
       usedKeys.set(s.topic, keys)
@@ -1114,6 +1222,7 @@ export async function fetchEnglishPaper(
       const n = groups.reduce((a, g) => a + g.questions.length, 0)
       if (n !== slots[i].count || groups.some((g) => g.questions.some((q) => validateDraft(q)))) throw new EnglishPrepareError('quality')
     })
+    for (const [t, rec] of seedIdsUsed) saveSeedUsed(t, seedReset.has(t) && rec.repeats.length ? rec.repeats : rec.all, seedReset.has(t))
     if (T.useBank) for (const [t, keys] of usedKeys) bankRemove(t, difficulty, keys)
     finishRun('ok')
     return results

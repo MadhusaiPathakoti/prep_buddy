@@ -1,0 +1,24 @@
+{
+  "items": [
+    {
+      "type": "single",
+      "sentence": "The auditors found several ______ in the company's accounts during the annual review.",
+      "options": ["discrepancy", "discretions", "disagreeing", "discrepancies", "disappearing"],
+      "correctIndex": 3,
+      "explanation": "'Several' needs a plural noun, and 'discrepancies' is the only noun that fits accounts that do not match."
+    },
+    {
+      "type": "double",
+      "sentence": "The government was forced to (A) ______ the new tax after the public (B) ______ strongly against it.",
+      "options": [
+        ["withdrawn", "protest"],
+        ["withdraw", "protested"],
+        ["withdraw", "protesting"],
+        ["withdrawing", "protested"],
+        ["withdrew", "protest"]
+      ],
+      "correctIndex": 1,
+      "explanation": "'Forced to' takes the base form 'withdraw', and the past tense 'protested' completes the clause."
+    }
+  ]
+}

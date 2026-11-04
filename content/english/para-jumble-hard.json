@@ -1,0 +1,153 @@
+{
+ "items": [
+  {
+   "sentences": [
+    "In the seventeenth century, thinkers across Europe began to doubt that ancient authorities could settle questions about the natural world.",
+    "They proposed instead that claims about nature should be tested through carefully designed observation and experiment.",
+    "The new method demanded patience, since a single experiment could be repeated, refined and challenged by anyone with the necessary equipment.",
+    "Such openness to challenge distinguished the new method sharply from the earlier traditions of natural philosophy.",
+    "In those traditions, a respected teacher's word had often been the end of the discussion.",
+    "Knowledge, on the new view, was therefore no inherited possession of such teachers but a structure continually rebuilt by those willing to be proved wrong."
+   ],
+   "explanation": "The doubt about ancient authority opens the paragraph, \"They proposed instead\" supplies the alternative and \"The new method\" names it. \"Such openness to challenge\" picks up \"challenged\", \"In those traditions\" explains the contrast, and \"therefore ... such teachers\" draws the conclusion from the teacher described just before."
+  },
+  {
+   "sentences": [
+    "Every decision to spend scarce resources on one activity involves, whether acknowledged or not, a decision to forgo some alternative use of them.",
+    "Economists call the value of the best alternative thus forgone the opportunity cost of that decision, and they regard it as the true price.",
+    "This true price, however, is easily overlooked, because it never appears on a receipt or in an account book.",
+    "A student who attends a concert, for instance, bears one such overlooked cost, namely the hours of study given up, in addition to the price of the ticket.",
+    "A habit of counting such sacrifices would therefore lead the student to compare options by their full consequences rather than by their visible price."
+   ],
+   "explanation": "The general point about forgone alternatives comes first, then \"thus forgone ... that decision\" names its value as the true price. \"This true price, however\" refers to that name, \"one such overlooked cost\" illustrates the overlooking, and \"the student\" with \"therefore\" draws the lesson from that example."
+  },
+  {
+   "sentences": [
+    "Ecologists use the term keystone species for an organism whose influence on its habitat is out of all proportion to its numbers.",
+    "The sea otter is a frequently cited example, since it feeds on the sea urchins that would otherwise devour kelp.",
+    "Where otters are removed from a coast, urchin populations expand unchecked and graze the kelp down to its roots.",
+    "The underwater forests that once sheltered countless fish are then reduced to bare rock.",
+    "The disappearance of one modest predator thus strips a whole community of dependent creatures of its shelter.",
+    "Conservation planners, mindful of this fragility, now prioritise the protection of such species over that of more abundant but less influential ones."
+   ],
+   "explanation": "The term is defined first and the otter illustrates it. Removal of otters leads to urchins grazing the kelp, \"then\" the forests that sheltered fish vanish, \"thus\" one predator's loss strips the community of its shelter, and \"this fragility\" in the last sentence refers back to that loss."
+  },
+  {
+   "sentences": [
+    "Automation has historically displaced particular tasks rather than entire occupations, though the distinction offers little comfort to those whose tasks vanish.",
+    "The spread of mechanical looms illustrates the pattern, for weaving became faster and cheaper, yet demand for cloth rose so sharply that employment in the trade at first grew.",
+    "The workers who gained from this growth were, however, rarely the same individuals who lost their tasks, since the new work called for different skills.",
+    "This mismatch, rather than any shortage of work as such, explains much of the hardship that accompanies technological change.",
+    "Retraining programmes that anticipate the shift therefore tackle this cause of hardship more directly than attempts to slow the machines."
+   ],
+   "explanation": "The general pattern comes first and \"illustrates the pattern\" supplies the loom example. \"gained from this growth\" follows the growth in employment, \"This mismatch\" names the gap between those who gained and those who lost and says it explains the hardship, and \"therefore ... this cause of hardship\" gives the remedy."
+  },
+  {
+   "sentences": [
+    "Preventive medicine rests on a counterintuitive premise: that the greatest successes are those in which nothing visible happens.",
+    "A vaccinated population, for instance, does not fall ill, and the illness that never occurs leaves no patients, no statistics and no gratitude.",
+    "Curative treatment, by contrast with such a vaccinated population, produces recoveries that can be traced to a patient, a doctor and a date.",
+    "Public budgets therefore drift towards funding such traceable recoveries at the expense of the invisible safeguard, however sound the case for prevention.",
+    "Correcting this bias requires officials to value outcomes that can be demonstrated only by their absence."
+   ],
+   "explanation": "The premise comes first and \"for instance\" introduces the vaccination example of an invisible success. \"by contrast with such a vaccinated population\" can only follow that example, \"therefore ... such traceable recoveries\" gives its budgetary effect, and \"this bias\" refers to the drift towards visible remedies."
+  },
+  {
+   "sentences": [
+    "Examinations are designed to measure learning, but they inevitably shape it, since students study what they expect to be asked.",
+    "Where they reward the recall of isolated facts, classrooms drift towards memorisation and repetition of model answers.",
+    "Where, by contrast, they reward the application of principles to unfamiliar problems, teaching moves towards discussion and experiment.",
+    "Either way, the format of assessment is never a neutral technical detail, however much administrators may wish to treat it as one.",
+    "Reforming a syllabus without reforming that format thus risks changing the words on the page while leaving the habits of the classroom untouched."
+   ],
+   "explanation": "The claim that examinations shape learning opens the paragraph. \"Where they reward\" takes up \"Examinations\", one type of paper is described first and \"by contrast\" introduces the opposite type, \"Either way\" generalises from both, and \"that format ... thus\" applies the lesson to syllabus reform."
+  },
+  {
+   "sentences": [
+    "The belief that human affairs improve steadily over time is far younger than it appears.",
+    "Ancient writers, by contrast, more commonly imagined a golden age in the distant past, from which later generations had declined.",
+    "Only when scientific and technical discoveries began to accumulate visibly, in early modern Europe, did writers abandon that backward gaze and start to expect the future to surpass the past.",
+    "The older view did not disappear entirely, however, and it resurfaces whenever rapid change provokes anxiety about what has been lost.",
+    "Progress, then, is better understood as a historical habit of thought, one liable to be shaken by the return of the older view, than as a self-evident law of nature."
+   ],
+   "explanation": "The youth of the belief in progress is stated first, \"by contrast\" compares ancient writers with it, and \"that backward gaze\" marks the later change. \"The older view ... however\" needs both views in place, and \"then ... the return of the older view\" draws the conclusion."
+  },
+  {
+   "sentences": [
+    "A resource that belongs to everyone is, in practice, often cared for by no one in particular.",
+    "In a common pasture, for instance, each herder who grazes one more animal gains the full benefit of that animal while the cost of overgrazing is spread across all.",
+    "Since every herder reasons in the same way, the pasture is eventually stripped bare.",
+    "The whole community then bears the loss, although no single member ever intended it.",
+    "That lack of intent is no accident; the outcome follows from the structure of incentives in which each person acts, not from individual wickedness.",
+    "Remedies therefore usually alter that structure, through agreed quotas or private ownership, rather than appealing to goodwill alone."
+   ],
+   "explanation": "The general claim is followed by the herder example (\"for instance\"). \"Since every herder reasons in the same way\" follows the herder, \"the loss\" refers to the stripped pasture, \"That lack of intent\" picks up \"no single member ever intended it\", and \"that structure\" in the final sentence refers to the structure of incentives."
+  },
+  {
+   "sentences": [
+    "Recommendation systems promise to save people the effort of choosing by predicting what they will enjoy.",
+    "They do so by comparing a person's past behaviour with that of thousands of others who have behaved similarly.",
+    "This comparison works well when tastes are stable, because yesterday's choices are then a reliable guide to tomorrow's.",
+    "It works less well when people wish to be surprised, since a system built on the familiar cannot easily offer the unfamiliar.",
+    "Over time, users who accept every suggestion may therefore find their range of experience quietly narrowed.",
+    "Designers who recognise this danger therefore deliberately include a few unexpected choices among the predictable ones."
+   ],
+   "explanation": "\"They\" refers to the systems and \"This comparison\" names their method. \"works less well\" contrasts with \"works well\", the narrowing of experience follows (\"therefore\") from the weakness described, and \"this danger\" with \"therefore\" leads to the designers' remedy."
+  },
+  {
+   "sentences": [
+    "Each generation tends to regard the natural world it first encountered as the normal state of affairs.",
+    "A fisherman, for instance, who begins his career when catches are already modest will consider modest catches ordinary, unaware of the abundance his predecessors knew.",
+    "When he retires, the next generation inherits an even poorer sea and, in turn, accepts that as the standard.",
+    "Decline is thereby disguised, since the poorer sea inherited at each stage is accepted as ordinary and no one witnesses the whole of it.",
+    "Historical records, old photographs and the recollections of the elderly are valuable largely because they restore the comparison that such disguised decline removes.",
+    "Without such evidence, conservation targets may be set at levels that merely preserve an already diminished world."
+   ],
+   "explanation": "The general tendency is illustrated by the fisherman (\"for instance\"), \"When he retires\" continues his story into the next generation, and \"thereby\" draws the point that decline is hidden. The records restore \"the comparison that such disguised decline removes\", and \"Without such evidence\" gives the consequence."
+  },
+  {
+   "sentences": [
+    "Trust is often described as a private feeling, yet much of it is placed not in individuals but in institutions.",
+    "A traveller who buys medicine in a strange city, for example, does not know the pharmacist, but assumes that regulation and professional standards stand behind him.",
+    "Such assumptions allow strangers to cooperate on a scale that personal acquaintance alone could never support.",
+    "That cooperation is also fragile, because a single widely reported failure can make people doubt the whole system rather than the single offender.",
+    "Rebuilding institutional trust is consequently slower than damaging it, for confidence must be earned again from a sceptical public.",
+    "Societies that neglect this asymmetry find that their rules, however carefully drafted, no longer command willing compliance."
+   ],
+   "explanation": "The claim about institutional trust is illustrated by the traveller (\"for example\"), \"Such assumptions\" generalises the traveller's assumption, and \"That cooperation is also fragile\" adds a drawback. \"consequently\" leads to the slow rebuilding, and \"this asymmetry\" refers to damage being faster than repair."
+  },
+  {
+   "sentences": [
+    "Mathematical notation is so familiar to modern students that its invention seems hardly to deserve attention.",
+    "Yet for centuries scholars wrote out every calculation in words, which made even moderately complex arguments almost impossible to follow.",
+    "The adoption of compact symbols changed this by allowing the structure of a problem to be seen at a glance.",
+    "Once structure became visible, mathematicians could notice patterns across problems that had previously seemed unrelated.",
+    "These patterns, in turn, suggested more general theories, which themselves demanded still more abstract notation.",
+    "Symbols, far from being mere shorthand, thus proved to be instruments of discovery, since new theories and new notation advanced hand in hand."
+   ],
+   "explanation": "\"Yet\" contrasts the old practice with the familiar notation, \"changed this\" refers to the difficulty of following word-based arguments, and \"Once structure became visible\" follows the glance at structure. \"These patterns\" and \"thus\" lead to the conclusion about symbols."
+  },
+  {
+   "sentences": [
+    "In the middle of the last century, antibiotics transformed medicine by making once-fatal infections routinely curable.",
+    "Every course of treatment, however, also exposes the bacteria in a patient's body to the drug.",
+    "The rare microbes able to survive it are those that go on to multiply, passing their resistance to their descendants.",
+    "Repeated exposure therefore selects for that resistance, so that a medicine's effectiveness is gradually consumed by its own use.",
+    "The misuse of antibiotics for conditions they cannot treat accelerates this selection without offering any benefit in return.",
+    "Prescribing them only where they are clearly needed is consequently the remedy for such misuse, and a means of preserving a shared resource for future patients."
+   ],
+   "explanation": "The benefit of antibiotics comes first and \"however, also\" introduces the drawback. \"it\" in the next sentence refers to the drug, \"that resistance\" refers to the resistance the survivors pass on, \"this selection\" refers to that process, and \"such misuse\" with \"consequently\" leads to careful prescribing."
+  },
+  {
+   "sentences": [
+    "Cities are crowded, noisy and expensive, yet they continue to attract ambitious people from every region.",
+    "Economists explain the attraction by pointing to the benefits of proximity, since ideas, skills and opportunities pass more easily between people who live close together.",
+    "A designer, for example, may find a client, a printer and a rival all within a single afternoon's walk.",
+    "Such chance encounters seldom occur in isolated places, however skilled their inhabitants may be.",
+    "The density that sets cities apart from such isolated places also pushes up rents, so the benefit and the cost of urban life arrive together.",
+    "Whether a city is worth its cost therefore depends on whether its particular concentration of talent exceeds the burden of its congestion."
+   ],
+   "explanation": "\"the attraction\" refers to the pull of cities described first, \"for example\" gives an illustration of proximity, and \"Such chance encounters\" refers to that illustration. \"such isolated places\" in the next sentence needs the isolated places mentioned, and \"therefore\" closes with the cost-benefit conclusion."
+  }
+ ]
+}

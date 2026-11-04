@@ -1,0 +1,228 @@
+{
+ "items": [
+  {
+   "variant": "parts",
+   "parts": [
+    "Rohan has joined the company two years ago,",
+    "and since then he has worked in",
+    "the accounts department, where he",
+    "now supervises a team of five clerks."
+   ],
+   "errorPartIndex": 0,
+   "explanation": "A finished time expression such as “two years ago” needs the simple past: “Rohan joined the company two years ago”, not “has joined”."
+  },
+  {
+   "variant": "parts",
+   "parts": [
+    "One of the most useful features",
+    "of this mobile application are that",
+    "it sends instant alerts",
+    "after each transaction you make."
+   ],
+   "errorPartIndex": 1,
+   "explanation": "The subject is the singular pronoun “One”, not “features”, so “are” should be “is”."
+  },
+  {
+   "variant": "parts",
+   "parts": [
+    "The company is very proud",
+    "of its employees, who have always",
+    "been committed for delivering",
+    "quality service to every client."
+   ],
+   "errorPartIndex": 2,
+   "explanation": "Dependent preposition: “committed” is followed by “to”, so “committed for delivering” should be “committed to delivering”."
+  },
+  {
+   "variant": "parts",
+   "parts": [
+    "Pooja has been working",
+    "as a software developer since",
+    "she completed her degree at",
+    "an university in Pune."
+   ],
+   "errorPartIndex": 3,
+   "explanation": "Article choice depends on sound, not spelling: “university” begins with a consonant sound, so “an university” should be “a university”."
+  },
+  {
+   "variant": "parts",
+   "parts": [
+    "Neither of the two candidates",
+    "has submitted the required documents,",
+    "so the interview has been",
+    "postponed until next week."
+   ],
+   "errorPartIndex": null,
+   "explanation": "The sentence is correct: “Neither of” takes a singular verb, so “has submitted” and “has been postponed” are both right."
+  },
+  {
+   "variant": "parts",
+   "parts": [
+    "My brother and me went",
+    "to the airport to receive",
+    "our grandparents, who had travelled",
+    "from a distant city that evening."
+   ],
+   "errorPartIndex": 0,
+   "explanation": "Pronoun case: “My brother and me” is the subject of “went”, so the subject form is needed: “My brother and I went”."
+  },
+  {
+   "variant": "sentences",
+   "sentences": [
+    "The library have extended its opening hours so that students can study there until late in the evening.",
+    "The library has extended its opening hours so that students can studying there until late in the evening.",
+    "The library has extended its opening hours so that students can study there until late in the evening.",
+    "The library has extended its opening hours so that students can study there until late in a evening.",
+    "Students say that they now concentrate much more better in the evenings than they did at home."
+   ],
+   "correctIndex": 2,
+   "explanation": "The correct sentence has no fault. The others contain the plural verb “have” with the singular “library”, “can studying” instead of “can study”, “a evening” instead of “an evening”, and the double comparative “more better”."
+  },
+  {
+   "variant": "parts",
+   "parts": [
+    "After the meeting, we received",
+    "several informations about the new",
+    "scheme from the head office and",
+    "started preparing our reports."
+   ],
+   "errorPartIndex": 1,
+   "explanation": "“Information” is an uncountable noun and has no plural, so “several informations” is wrong; use “some information”."
+  },
+  {
+   "variant": "parts",
+   "parts": [
+    "This new laptop is cheaper, and",
+    "it has a longer battery life,",
+    "but it is more heavier",
+    "than my old one."
+   ],
+   "errorPartIndex": 2,
+   "explanation": "“Heavier” is already a comparative, so “more heavier” is a double comparative and should be “heavier”."
+  },
+  {
+   "variant": "parts",
+   "parts": [
+    "Although she was extremely nervous,",
+    "Kavita performed very good",
+    "in the interview and was",
+    "offered the job immediately."
+   ],
+   "errorPartIndex": 1,
+   "explanation": "The verb “performed” needs an adverb, not an adjective: “performed very well”, not “performed very good”."
+  },
+  {
+   "variant": "sentences",
+   "sentences": [
+    "Most customers prefers to shop online because they can compare prices easily and receive their orders at home.",
+    "Most customers prefer to shop online because they can compare prices easy and receive their orders at home.",
+    "Most customers prefer to shop online because they can compare prices easily and receiving their orders at home.",
+    "Most of customers prefer to shop online because they can compare prices easily and receive their orders at home.",
+    "Most customers prefer to shop online because they can compare prices easily and receive their orders at home."
+   ],
+   "correctIndex": 4,
+   "explanation": "The last sentence is the only one without a fault. The others contain “Most customers prefers”, the adjective “easy” for an adverb, “and receiving” breaking parallelism, and “Most of customers” instead of “Most customers” or “Most of the customers”."
+  },
+  {
+   "variant": "parts",
+   "parts": [
+    "The bank manager said that he",
+    "would not approve the loan",
+    "unless the applicant did not",
+    "submit all the required documents."
+   ],
+   "errorPartIndex": 2,
+   "explanation": "“Unless” already means “if ... not”, so adding “not” makes a double negative: “unless the applicant submitted all the required documents”."
+  },
+  {
+   "variant": "parts",
+   "parts": [
+    "All candidates are required to",
+    "submit the application form before",
+    "the last date, and",
+    "they must to attach a recent photograph."
+   ],
+   "errorPartIndex": 3,
+   "explanation": "A modal verb is followed by the bare infinitive, so “must to attach” should be “must attach”."
+  },
+  {
+   "variant": "parts",
+   "parts": [
+    "Ravi did not knew the answer",
+    "to the last question, so he",
+    "requested the teacher to explain",
+    "the concept again after the class was over."
+   ],
+   "errorPartIndex": 0,
+   "explanation": "After “did not” the base form of the verb is used, so “did not knew” should be “did not know”."
+  },
+  {
+   "variant": "parts",
+   "parts": [
+    "The town council has received",
+    "much complaints about the poor",
+    "condition of the main road and",
+    "has promised to repair it soon."
+   ],
+   "errorPartIndex": 1,
+   "explanation": "“Complaints” is a plural countable noun, so it takes “many”, not “much”."
+  },
+  {
+   "variant": "sentences",
+   "sentences": [
+    "The meeting, which began at ten o'clock, lasted since almost three hours because several important issues had to be discussed.",
+    "The meeting, which began at ten o'clock, lasted for almost three hours because several important issues had to be discussed.",
+    "The meeting, which began at ten o'clock, lasted for almost three hour because several important issues had to be discussed.",
+    "The meeting, which began at ten o'clock, lasted for almost three hours because of several important issues had to be discussed.",
+    "The meeting, which began at ten o'clock, lasted for almost three hours because several important issues had to be discussing."
+   ],
+   "correctIndex": 1,
+   "explanation": "The correct sentence uses “for” with a period of time and a complete “because” clause. The others contain “lasted since”, “three hour”, “because of” before a full clause, and the faulty passive “to be discussing”."
+  },
+  {
+   "variant": "parts",
+   "parts": [
+    "Most of the employees expected",
+    "a salary increase this year,",
+    "so the news about the",
+    "budget cuts were a shock to everyone."
+   ],
+   "errorPartIndex": 3,
+   "explanation": "“News” is an uncountable noun that takes a singular verb, and it is the subject here, so “were a shock” should be “was a shock”."
+  },
+  {
+   "variant": "parts",
+   "parts": [
+    "The teacher asked the students",
+    "to complete the exercise quickly",
+    "because the bell was about to ring",
+    "and the next class was waiting outside."
+   ],
+   "errorPartIndex": null,
+   "explanation": "The sentence is correct: “quickly” rightly modifies the verb “complete”, and “asked ... to complete” and the past tenses are used correctly."
+  },
+  {
+   "variant": "parts",
+   "parts": [
+    "If the shipment arrives before",
+    "noon on Thursday, we will deliver",
+    "the goods to your office by",
+    "the evening and send you a confirmation message."
+   ],
+   "errorPartIndex": null,
+   "explanation": "The sentence is correct: after “If” the present simple “arrives” is used for a future event, and “will deliver ... and send” is a consistent result clause."
+  },
+  {
+   "variant": "sentences",
+   "sentences": [
+    "Doctors advise that people should walk for at least thirty minutes every day to keep their hearts healthy.",
+    "Doctors advise people to walks for at least thirty minutes every day to keep their hearts healthy.",
+    "Doctors advises that people should walk for at least thirty minutes every day to keep their hearts healthy.",
+    "Doctors advise that people should walk during at least thirty minutes every day to keep their hearts healthy.",
+    "Doctors advise that people should walk for at least thirty minutes every day to keep their hearts healthily."
+   ],
+   "correctIndex": 0,
+   "explanation": "The first sentence is the only one without a fault. The others contain “to walks” (an infinitive needs the base verb), “Doctors advises”, “during at least thirty minutes” instead of “for”, and the adverb “healthily” where “keep ... healthy” needs an adjective."
+  }
+ ]
+}

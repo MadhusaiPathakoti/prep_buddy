@@ -1,0 +1,16 @@
+{
+  "items": [
+    {
+      "tokens": ["The", "committee", "has", "approved", "a", "new", "policy", "to", "reduce", "energy", "consumption", "in", "all", "offices."],
+      "marked": ["committee", "approved", "policy", "consumption"],
+      "swap": [0, 2],
+      "explanation": "A committee approves a policy, not the other way round."
+    },
+    {
+      "tokens": ["Farmers", "across", "the", "region", "have", "welcomed", "the", "decision", "to", "extend", "the", "deadline", "for", "loan", "repayment."],
+      "marked": ["welcomed", "decision", "extend", "deadline"],
+      "swap": null,
+      "explanation": "The sentence is already meaningful and correct."
+    }
+  ]
+}

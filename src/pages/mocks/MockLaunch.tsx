@@ -3,6 +3,7 @@ import { Link, Navigate, useNavigate, useParams } from 'react-router-dom'
 import { EXAMS, TOPIC_TEST, entryTotal } from '../../lib/mocks/blueprints'
 import { composePaper, type ComposeRequest } from '../../lib/mocks/compose'
 import { loadActive, newAttempt, saveActive } from '../../lib/mocks/attempts'
+import { getEnglishSource, setEnglishSource, type EnglishSource } from '../../lib/mocks/english'
 import { SET_SIZE, TOPIC_BY_ID, topicLabel, topicsOf } from '../../lib/mocks/topics'
 import type { MockExamId, MockKind, MockSectionId, MockTopicId } from '../../lib/mocks/types'
 
@@ -27,6 +28,7 @@ export default function MockLaunch() {
   const [secPerQ, setSecPerQ] = useState(TOPIC_TEST.defaultSecPerQ)
   const [progress, setProgress] = useState<Progress | null>(null)
   const [error, setError] = useState<string | null>(null)
+  const [englishSource, setEnglishSourceState] = useState<EnglishSource>(() => getEnglishSource())
   const abortRef = useRef<AbortController | null>(null)
 
   if (!examOk || !kindOk) return <Navigate to="/mocks" replace />
@@ -204,9 +206,32 @@ export default function MockLaunch() {
       )}
 
       {needsEnglish && (
-        <p className="mt-4 rounded-2xl bg-sky-50 p-3 text-xs text-sky-800 dark:bg-sky-500/10 dark:text-sky-200">
-          English questions are written by AI and cross-checked by a second independent AI pass before they reach you, so preparing an English paper can take up to a minute.
-        </p>
+        <div className="mt-4 rounded-2xl bg-sky-50 p-3 text-xs text-sky-900 dark:bg-sky-500/10 dark:text-sky-100">
+          <p className="mb-2 font-semibold">English questions</p>
+          <div role="radiogroup" aria-label="English question source" className="grid gap-2 sm:grid-cols-2">
+            {(
+              [
+                { id: 'curated', title: 'Curated bank (recommended)', desc: 'Reviewed questions. Loads instantly and needs no internet or API keys. Questions you have already seen are skipped until the bank runs out.' },
+                { id: 'ai', title: 'Fresh AI questions', desc: 'Written by AI and cross-checked by a second model. Needs API keys, can take a minute, and falls back to the curated bank if the AI service is busy.' },
+              ] as { id: EnglishSource; title: string; desc: string }[]
+            ).map((o) => (
+              <button
+                key={o.id}
+                type="button"
+                role="radio"
+                aria-checked={englishSource === o.id}
+                onClick={() => {
+                  setEnglishSource(o.id)
+                  setEnglishSourceState(o.id)
+                }}
+                className={`rounded-xl p-3 text-left transition ${englishSource === o.id ? 'bg-white ring-2 ring-sky-500 dark:bg-slate-800' : 'bg-white/50 ring-1 ring-sky-200 hover:bg-white dark:bg-slate-800/40 dark:ring-sky-500/30'}`}
+              >
+                <span className="block text-sm font-bold text-slate-900 dark:text-slate-100">{o.title}</span>
+                <span className="mt-0.5 block text-slate-600 dark:text-slate-300">{o.desc}</span>
+              </button>
+            ))}
+          </div>
+        </div>
       )}
 
       {error && (

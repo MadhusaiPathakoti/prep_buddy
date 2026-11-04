@@ -15,7 +15,7 @@
 // The suite stubs globalThis.fetch: "/api/mockEnglish" is routed into the real Vercel handler (fake req/res) and
 // Gemini URLs are routed to an emulator whose behaviour each test configures. Exits non-zero on any failure.
 
-import handler, { config as handlerConfig } from '../api/mockEnglish.js'
+import handler, { buildCompact, buildCompactItem, config as handlerConfig } from '../api/mockEnglish.js'
 import {
   ENGLISH_TUNING,
   EnglishPrepareError,
@@ -25,6 +25,11 @@ import {
   englishBankSize,
   fetchEnglishGroups,
   fetchEnglishPaper,
+  clearSeedUsed,
+  getEnglishSource,
+  seedPoolSize,
+  setEnglishSeed,
+  setEnglishSource,
   passageText,
   getEnglishProvenance,
   isNoErrorQuestion,
@@ -36,13 +41,16 @@ import type { EnglishRequest } from '../src/lib/mocks/english/index'
 import { BANK_CAP, BANK_KEY, bankAdd, bankRead, bankRemove } from '../src/lib/mocks/english/bank'
 import { HEALTH_KEY } from '../src/lib/mocks/english/health'
 import { configuredModels, runProbe } from './probe-llm-models'
+import { buildSeed } from './build-english-seed'
+import { saveSeedUsed, shuffleQuestionOptions } from '../src/lib/mocks/english/seed'
+import type { SeedEntry } from '../src/lib/mocks/english/seed'
 import { assertGroup } from '../src/lib/mocks/validate'
 import { composePaper } from '../src/lib/mocks/compose'
 import { EXAMS, entryTotal } from '../src/lib/mocks/blueprints'
-import { mkdtempSync, readFileSync, writeFileSync } from 'node:fs'
+import { existsSync, mkdtempSync, readFileSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
-import { join } from 'node:path'
-import type { EnglishTopicId, Group, MockDifficulty } from '../src/lib/mocks/types'
+import { join, resolve } from 'node:path'
+import type { EnglishTopicId, Group, MockDifficulty, QuestionDraft } from '../src/lib/mocks/types'
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
@@ -683,6 +691,10 @@ function fastTiming() {
   void handler({ method: 'POST', body: { action: 'resetHealth' } }, { setHeader() {}, status: () => ({ json() {} }) })
   removeStorage()
   clearEnglishModelHealth()
+  // The AI-pipeline suites run in 'ai' mode with an empty curated seed (the curated suites set their own).
+  setEnglishSource('ai')
+  setEnglishSeed([])
+  clearSeedUsed()
 }
 
 const countQ = (gs: Group[]) => gs.reduce((n, g) => n + g.questions.length, 0)
@@ -2836,6 +2848,336 @@ async function suiteCallBudget() {
 }
 
 // ---------------------------------------------------------------------------------------------------
+// Curated seed: instant, offline mocks; build script; draw rules; AI mode degrading to the seed
+// ---------------------------------------------------------------------------------------------------
+
+/** A big in-memory seed built with the SAME builders as scripts/build-english-seed.ts, from the stub generators. */
+function syntheticSeed(opts: { topics?: EnglishTopicId[]; difficulties?: MockDifficulty[]; per?: number; tag?: boolean } = {}): SeedEntry[] {
+  const out: SeedEntry[] = []
+  for (const topic of opts.topics ?? TOPICS) {
+    for (const diff of opts.difficulties ?? DIFFS) {
+      const n = topic === 'rc' ? 8 : topic === 'cloze' ? 12 : (opts.per ?? 60)
+      let idx = 0
+      for (let k = 0; k < n; k++) {
+        const data = topic === 'rc' ? makeGenerated('rc', diff, 9) : topic === 'cloze' ? makeGenerated('cloze', diff, 5) : makeGenerated(topic, diff, 1)
+        const item = topic === 'rc' || topic === 'cloze' ? data.passages[0] : data.items[0]
+        const { group } = buildCompactItem(topic, item, { difficulty: diff, seed: `${topic}-${diff}-${k}` })
+        if (!group) continue
+        if (opts.tag) for (const q of group.questions) q.stem += ` [${diff}]`
+        out.push({ id: `${topic}-${diff}-${String(++idx).padStart(3, '0')}`, topic, difficulty: diff, group })
+      }
+    }
+  }
+  return out
+}
+
+const curatedOn = (seed: SeedEntry[]) => {
+  fastTiming()
+  setEnglishSource('curated')
+  setEnglishSeed(seed)
+  clearSeedUsed()
+}
+
+async function suiteCuratedMocks() {
+  suite('curated seed: instant, zero network, exact counts, no repeats inside a paper')
+  const seed = syntheticSeed()
+  curatedOn(seed)
+  check(seed.length > 400 && seedPoolSize('rc', 'hard') >= 60 && seedPoolSize('error-detection', 'medium') >= 50, `synthetic seed built with the real builders (${seed.length} items)`)
+  console.log('DBG', TOPICS.map((t) => t + ':' + seed.filter((e) => e.topic === t).length).join(' '), 'ED real hard', seed.filter((e) => e.topic === 'error-detection' && e.difficulty === 'hard' && !isNoErrorQuestion('error-detection', e.group.questions[0])).length)
+  check(getEnglishSource() === 'curated', 'curated is the source in this suite')
+  const realFetch2 = globalThis.fetch
+  let fetchCalls = 0
+  globalThis.fetch = (async () => {
+    fetchCalls++
+    throw new Error('network must not be used in curated mode')
+  }) as typeof fetch
+  try {
+    for (const [label, reqs, diff] of [
+      ['PO', PO_REQUESTS, 'hard'],
+      ['Clerk', CLERK_REQUESTS, 'medium'],
+    ] as [string, EnglishRequest[], MockDifficulty][]) {
+      resetBehavior()
+      const t0 = performance.now()
+      const out = await fetchEnglishPaper(reqs, diff)
+      const ms = performance.now() - t0
+      validatePaper(`curated ${label}`, reqs, diff, out)
+      const st = getLastEnglishRunStats()!
+      check(ms < 100, `${label}: a full English section from the seed takes ${ms.toFixed(1)} ms (< 100 ms)`)
+      check(fetchCalls === 0 && st.calls.length === 0 && st.source.seed === 30 && st.source.ai === 0 && st.source.bank === 0 && st.rounds === 0, `${label}: no fetch call at all; all 30 questions are from the seed (${JSON.stringify(st.source)})`)
+      for (let i = 0; i < reqs.length; i++) {
+        const psg = out[i].filter((g) => g.stimulus).map((g) => passageText(g))
+        check(new Set(psg).size === psg.length, `${label}: ${reqs[i].topic}: no passage twice in one paper`)
+      }
+    }
+    // Arbitrary topic-test counts 1..40 for every topic, no repeats inside a paper.
+    let bad = 0
+    for (const topic of TOPICS) {
+      for (let n = 1; n <= 40; n++) {
+        const diff = n % 2 ? 'hard' : 'medium'
+        const out = await fetchEnglishPaper([{ topic, count: n }], diff).catch((e) => { console.log('FAILED', topic, n, diff, (e as Error).message.slice(0, 60)); throw e })
+        const qs = out[0].flatMap((g) => g.questions)
+        const keys = new Set(qs.map((q) => `${q.stem}|${q.options.join('|')}`))
+        const valid = out[0].every((g) => {
+          try {
+            assertGroup(g, topic)
+            return checkEnglishGroup(topic, diff, g).group !== null
+          } catch {
+            return false
+          }
+        })
+        if (qs.length !== n || keys.size !== n || !valid) {
+          bad++
+          console.log(`  bad: ${topic} x${n}: ${qs.length} questions, ${keys.size} distinct, valid ${valid}`)
+        }
+      }
+    }
+    check(bad === 0, 'every topic delivers exactly n valid, distinct questions for n = 1..40')
+    check(fetchCalls === 0, `still no network call after ${TOPICS.length * 40} papers`)
+  } finally {
+    globalThis.fetch = realFetch2
+  }
+  // Missing content: a clear error, never the network.
+  setEnglishSeed(syntheticSeed({ topics: ['fillers'] }))
+  await expectThrows(() => fetchEnglishPaper([{ topic: 'rc', count: 8 }], 'hard'), 'a topic without curated content fails clearly (unavailable) in curated mode', (e) => e instanceof EnglishPrepareError && e.reason === 'unavailable' && /curated/.test(e.message))
+  check(apiCalls === 0, 'and without any API call')
+  fastTiming()
+}
+
+async function suiteCuratedDraw() {
+  suite('curated seed: unseen first, exhaustion resets, difficulty preference, persistence')
+  // Exhaustion: 12 fillers, papers of 5.
+  const pool = syntheticSeed({ topics: ['fillers'], difficulties: ['medium'], per: 12 })
+  check(pool.length === 12, 'fixture pool of 12 fillers')
+  curatedOn(pool)
+  const stemsOf = (out: Group[][]) => new Set(out[0].flatMap((g) => g.questions.map((q) => q.stem)))
+  const p1 = stemsOf(await fetchEnglishPaper([{ topic: 'fillers', count: 5 }], 'medium'))
+  const p2 = stemsOf(await fetchEnglishPaper([{ topic: 'fillers', count: 5 }], 'medium'))
+  check([...p1].every((s) => !p2.has(s)) && getLastEnglishRunStats()!.repeats === 0, 'successive papers get different (unseen) questions')
+  const p3 = stemsOf(await fetchEnglishPaper([{ topic: 'fillers', count: 5 }], 'medium'))
+  const st3 = getLastEnglishRunStats()!
+  check(p3.size === 5 && st3.repeats === 3, `third paper: the 2 unseen questions plus 3 repeats after the reset (repeats ${st3.repeats})`)
+  const p4 = stemsOf(await fetchEnglishPaper([{ topic: 'fillers', count: 5 }], 'medium'))
+  check(p4.size === 5 && getLastEnglishRunStats()!.repeats === 0, 'after the reset unseen questions are served again (no repeats)')
+  check(/repeats 0/.test(formatEnglishRunStats(getLastEnglishRunStats()!)), 'the diagnostics report "repeats"')
+  // A pool smaller than one paper: repeats are better than failure, but never inside one paper... until impossible.
+  setEnglishSeed(syntheticSeed({ topics: ['fillers'], difficulties: ['medium'], per: 4 }))
+  clearSeedUsed()
+  let tiny = await fetchEnglishPaper([{ topic: 'fillers', count: 4 }], 'medium')
+  check(countQ(tiny[0]) === 4, 'a pool exactly as big as the request works')
+  tiny = await fetchEnglishPaper([{ topic: 'fillers', count: 4 }], 'medium')
+  check(countQ(tiny[0]) === 4 && getLastEnglishRunStats()!.repeats === 4, 'the next paper repeats all four rather than failing')
+
+  // Difficulty: the requested difficulty first, then the other one.
+  const both = syntheticSeed({ topics: ['fillers'], per: 20, tag: true })
+  curatedOn(both)
+  let out = await fetchEnglishPaper([{ topic: 'fillers', count: 8 }], 'hard')
+  check(out[0].flatMap((g) => g.questions).every((q) => q.stem.endsWith('[hard]')), 'hard papers use hard questions while enough are unseen')
+  out = await fetchEnglishPaper([{ topic: 'fillers', count: 8 }], 'medium')
+  check(out[0].flatMap((g) => g.questions).every((q) => q.stem.endsWith('[medium]')), 'medium papers use medium questions')
+  out = await fetchEnglishPaper([{ topic: 'fillers', count: 25 }], 'medium')
+  const tags = out[0].flatMap((g) => g.questions).map((q) => q.stem.slice(-8))
+  check(countQ(out[0]) === 25 && tags.some((t) => t.endsWith('[medium]')) && tags.some((t) => t.endsWith('[hard]')), 'beyond the requested difficulty the other difficulty tops it up')
+  curatedOn(syntheticSeed({ topics: ['fillers'], difficulties: ['medium'], per: 20 }))
+  out = await fetchEnglishPaper([{ topic: 'fillers', count: 6 }], 'hard')
+  check(countQ(out[0]) === 6, 'a hard paper with only medium content still loads')
+
+  // RC / cloze: whole passages, trimmed (NOT-true first) or topped up with another passage.
+  curatedOn(syntheticSeed({ topics: ['rc', 'cloze'], difficulties: ['hard'] }))
+  const rc8 = await fetchEnglishPaper([{ topic: 'rc', count: 8 }], 'hard')
+  check(rc8[0].length === 1 && countQ(rc8[0]) === 8 && rc8[0][0].questions.filter((q) => /NOT/.test(q.stem)).length <= 1, 'rc 8 of a 9-question passage: trimmed, NOT-true questions dropped first')
+  const rc20 = await fetchEnglishPaper([{ topic: 'rc', count: 20 }], 'hard')
+  check(countQ(rc20[0]) === 20 && rc20[0].length >= 2, `rc 20 uses ${rc20[0].length} passages`)
+  const cz3 = await fetchEnglishPaper([{ topic: 'cloze', count: 3 }], 'hard')
+  check(countQ(cz3[0]) === 3 && (passageText(cz3[0][0]).match(/\(\d\) ______/g) ?? []).length === 3, 'cloze 3 of a 5-blank passage: the extra blanks are filled in')
+
+  // Persistence of the used list and of the source setting.
+  const store = installStorage()
+  curatedOn(syntheticSeed({ topics: ['fillers'], difficulties: ['medium'], per: 12 }))
+  removeStorage()
+  const store2 = installStorage()
+  setEnglishSource('curated')
+  await fetchEnglishPaper([{ topic: 'fillers', count: 5 }], 'medium')
+  const saved = JSON.parse(store2.get('prepbuddy:mocks:englishSeedUsed:v1') ?? '{}')
+  check(saved.v === 1 && saved.used.fillers.length === 5, 'used seed ids are persisted (versioned)')
+  check(store2.get('prepbuddy:mocks:englishSource:v1') === 'curated', 'the source setting is stored under prepbuddy:mocks:englishSource:v1')
+  setEnglishSource('ai')
+  check(getEnglishSource() === 'ai' && store2.get('prepbuddy:mocks:englishSource:v1') === 'ai', "'ai' is stored and read back")
+  store2.set('prepbuddy:mocks:englishSource:v1', 'garbage')
+  check(getEnglishSource() === 'ai', 'an invalid stored source is ignored')
+  store2.set('prepbuddy:mocks:englishSeedUsed:v1', '{{{ not json')
+  setEnglishSource('curated')
+  const r = await fetchEnglishPaper([{ topic: 'fillers', count: 5 }], 'medium')
+  check(countQ(r[0]) === 5, 'corrupt used-list storage is tolerated')
+  saveSeedUsed('fillers', Array.from({ length: 700 }, (_, i) => `x${i}`), true)
+  check(JSON.parse(store2.get('prepbuddy:mocks:englishSeedUsed:v1')!).used.fillers.length === 600, 'the used list is capped')
+  void store
+  removeStorage()
+  fastTiming()
+}
+
+async function suiteCuratedShuffle() {
+  suite('curated seed: answer-position shuffle keeps keys valid; builders are deterministic')
+  const seed = syntheticSeed({ per: 12 })
+  const positions: Record<string, Set<number>> = {}
+  let violations = 0
+  for (const e of seed) {
+    for (const q of e.group.questions) {
+      for (let k = 0; k < 20; k++) {
+        const s = shuffleQuestionOptions(e.topic, q)
+        const sameSet = [...s.options].sort().join('|') === [...q.options].sort().join('|')
+        if (!sameSet || s.options[s.answer] !== q.options[q.answer]) violations++
+        if (e.topic === 'error-detection' && q.options[4] === 'No error' && s.options.join('|') !== q.options.join('|')) violations++
+        if (e.topic === 'word-swap' && s.options.join('|') !== q.options.join('|')) violations++
+        if (e.topic === 'phrase-replacement' && q.options[4] === 'No correction required' && s.options[4] !== 'No correction required') violations++
+        ;(positions[e.topic] ??= new Set()).add(s.answer)
+      }
+    }
+  }
+  check(violations === 0, `20 shuffles of every seed question: same option set, the keyed option TEXT is unchanged (${violations} violations)`)
+  check(['rc', 'cloze', 'fillers', 'para-jumble', 'match-column'].every((t) => positions[t].size >= 3), 'answer positions really vary for rc / cloze / fillers / para-jumble / match-column')
+  check(positions['word-swap'].size <= 5, 'word-swap keeps its fixed options')
+  // Options that refer to each other keep their order.
+  const positional: QuestionDraft = { topic: 'rc', stem: 'Which statement is true according to the passage?', options: ['Only A', 'Only B', 'Both A and B', 'None of these', 'All of the above'], answer: 2, explanation: 'x yy zzz' }
+  check(shuffleQuestionOptions('rc', positional) === positional, 'options that refer to each other ("All of the above") are never reordered')
+  // Deterministic builders.
+  const data = makeGenerated('fillers', 'medium', 3)
+  const a = buildCompact('fillers', JSON.parse(JSON.stringify(data)), { difficulty: 'medium', seed: 'abc' })
+  const b = buildCompact('fillers', JSON.parse(JSON.stringify(data)), { difficulty: 'medium', seed: 'abc' })
+  const c = buildCompact('fillers', JSON.parse(JSON.stringify(data)), { difficulty: 'medium', seed: 'abd' })
+  check(JSON.stringify(a) === JSON.stringify(b), 'buildCompact is deterministic for a seed')
+  check(JSON.stringify(a.groups) !== JSON.stringify(c.groups), 'a different seed shuffles differently')
+  for (const topic of TOPICS) {
+    const d = makeGenerated(topic, 'hard', topic === 'rc' ? 9 : topic === 'cloze' ? 5 : 3)
+    const x = buildCompact(topic, JSON.parse(JSON.stringify(d)), { difficulty: 'hard', seed: 7 })
+    const y = buildCompact(topic, JSON.parse(JSON.stringify(d)), { difficulty: 'hard', seed: 7 })
+    check(JSON.stringify(x) === JSON.stringify(y) && x.groups.length > 0, `${topic}: same content + seed = identical groups`)
+  }
+  const item = data.items[0]
+  const one = buildCompactItem('fillers', item, { difficulty: 'medium', seed: 's' })
+  check(one.group !== null && JSON.stringify(one.group) === JSON.stringify(buildCompactItem('fillers', item, { difficulty: 'medium', seed: 's' }).group), 'buildCompactItem builds ONE item deterministically')
+  check(buildCompactItem('fillers', { ...item, options: ['a', 'a', 'b', 'c', 'd'] }, { seed: 1 }).group === null, 'and reports invalid items as null with reasons')
+  fastTiming()
+}
+
+async function suiteCuratedFallback() {
+  suite("'ai' mode: persisted bank / live AI first, the curated seed fills whatever the AI cannot")
+  process.env.GEMINI_API_KEY = 'test-key'
+  const seed = syntheticSeed()
+  const scenarios: [string, Partial<Behavior>, string][] = [
+    ['every model over its daily quota', { fault: ({ model }) => ({ status: 429, body: DAILY_BODY(model) }) }, 'quota'],
+    ['rate limited (429 per minute)', { fault: () => ({ status: 429, body: MINUTE_BODY('85s') }) }, 'rate-limit'],
+    ['upstream timeouts', { fault: () => 'hang' }, 'timeout'],
+    ['models unavailable (404)', { fault: ({ model }) => ({ status: 404, body: NOT_FOUND_BODY(model) }) }, 'unavailable'],
+    ['solver always disagrees', { solverWrongRate: 1 }, 'quality'],
+  ]
+  for (const [label, over, reason] of scenarios) {
+    for (const [exam, reqs, diff] of [
+      ['PO', PO_REQUESTS, 'hard'],
+      ['Clerk', CLERK_REQUESTS, 'medium'],
+    ] as [string, EnglishRequest[], MockDifficulty][]) {
+      if (label.includes('timeouts') && exam === 'Clerk') continue // slow scenario: PO is enough
+      fastTiming()
+      defaultChainEnv()
+      setEnglishSource('ai')
+      setEnglishSeed(seed)
+      clearSeedUsed()
+      ENGLISH_TUNING.healthScale = label.includes('timeouts') ? 0.001 : 1 // a real 45 s cooldown would just be waited out
+      process.env.MOCK_ENGLISH_GEMINI_TIMEOUT_MS = '30'
+      resetBehavior({ latency: { generate: 3, solve: 3 }, ...over })
+      try {
+        const out = await fetchEnglishPaper(reqs, diff)
+        validatePaper(`${label} ${exam}`, reqs, diff, out)
+        const st = getLastEnglishRunStats()!
+        check(st.source.seed === 30 && st.aiError?.reason === reason, `${label} / ${exam}: completes from the curated seed (source ${JSON.stringify(st.source)}, aiError ${st.aiError?.reason})`)
+      } catch (e) {
+        check(false, `${label} / ${exam}: must not throw when the seed can fill it (${(e as Error).message})`)
+      }
+    }
+  }
+  // Partial: AI works for fillers only; everything else falls back.
+  fastTiming()
+  setEnglishSource('ai')
+  setEnglishSeed(seed)
+  clearSeedUsed()
+  resetBehavior({ latency: { generate: 3, solve: 3 }, fault: ({ kind, topic }) => (kind === 'generate' && topic !== 'fillers' ? { status: 503, body: OVERLOAD_BODY } : undefined) })
+  const mixed = await fetchEnglishPaper(PO_REQUESTS, 'hard')
+  validatePaper('mixed', PO_REQUESTS, 'hard', mixed)
+  const sm = getLastEnglishRunStats()!
+  check(sm.source.ai === 4 && sm.source.seed === 26 && !!sm.aiError, `AI filled fillers, the seed the rest (${JSON.stringify(sm.source)})`)
+  // Healthy AI: the seed is not touched.
+  fastTiming()
+  setEnglishSource('ai')
+  setEnglishSeed(seed)
+  clearSeedUsed()
+  resetBehavior({ latency: { generate: 3, solve: 3 } })
+  const ai = await fetchEnglishPaper(PO_REQUESTS, 'hard')
+  const sa = getLastEnglishRunStats()!
+  check(countQ(ai.flat()) === 30 && sa.source.ai === 30 && sa.source.seed === 0 && !sa.aiError, `healthy AI mode uses live AI only (${JSON.stringify(sa.source)})`)
+  // No seed content and AI failing: the original, specific error is thrown.
+  setEnglishSeed([])
+  resetBehavior({ fault: ({ model }) => ({ status: 429, body: DAILY_BODY(model) }) })
+  ENGLISH_TUNING.healthScale = 1
+  await expectThrows(() => fetchEnglishPaper(PO_REQUESTS, 'hard'), 'AI failing with an empty seed still throws the specific error', (e) => e instanceof EnglishPrepareError && e.reason === 'quota')
+  fastTiming()
+}
+
+async function suiteSeedBuild() {
+  suite('build-english-seed: validation, proofs, duplicates, bias rules, blind view')
+  fastTiming()
+  const fixtures = resolve('scripts/fixtures/english-seed')
+  const res = buildSeed(fixtures)
+  check(res.errors.length === 0, `the fixture folder builds cleanly (${res.errors.join(' | ')})`)
+  check(res.entries.length === 15 && res.stats.length === 8, `fixture: 15 items in 8 files (${res.entries.length}/${res.stats.length})`)
+  check(res.entries.every((e) => /^[a-z-]+-(medium|hard)-\d{3}$/.test(e.id)), 'stable ids topic-difficulty-index')
+  check(JSON.stringify(res.entries) === JSON.stringify(buildSeed(fixtures).entries), 'the build is reproducible')
+  check(res.entries.every((e) => checkEnglishGroup(e.topic, e.difficulty, e.group).group !== null), 'every built group passes the client checks')
+  const rcStat = res.stats.find((s) => s.topic === 'rc')!
+  check(rcStat.passageWords!.min >= 170 && rcStat.questions === 6 && rcStat.keyPositions.length === 5, 'statistics: counts, key positions, passage words')
+  const blindRc = res.blind['rc-medium.txt']
+  check(/PASSAGE rc-medium-001/.test(blindRc) && /Q1 \[rc-medium-001\]/.test(blindRc) && /  E\) /.test(blindRc), 'blind view shows passage, numbered questions and options')
+  const leaked = JSON.parse(readFileSync(join(fixtures, 'rc-medium.json'), 'utf8')).passages[0].questions.map((q: any) => q.explanation)
+  check(leaked.every((x: string) => !res.blind['rc-medium.txt'].includes(x)) && !/correctIndex|explanation/i.test(Object.values(res.blind).join('\n')), 'blind view contains no keys and no explanations')
+
+  // Negative cases in a temp content folder.
+  const tmp = mkdtempSync(join(tmpdir(), 'seed-'))
+  const write = (name: string, data: unknown) => writeFileSync(join(tmp, name), typeof data === 'string' ? data : JSON.stringify(data))
+  const edGood = { variant: 'parts', parts: ['The committee has decided', 'to postpone the meeting', 'due to the lack of', 'a quorum this week.'], errorPartIndex: null, explanation: 'All four parts are correct.' }
+  write('rc-hard.json', '{ not json')
+  write('notes.json', '{}')
+  write('error-detection-medium.json', { items: [edGood, { ...edGood, errorPartIndex: 7 }, { ...edGood }, { variant: 'parts', parts: ['x', 'y', 'z', 'w'], errorPartIndex: 1, explanation: 'bad fragment parts' }] })
+  write('fillers-medium.json', { items: Array.from({ length: 12 }, () => ({ ...mkFillerItem(0), correctIndex: 0 })) })
+  write('fillers-hard.json', { items: Array.from({ length: 10 }, (_, i) => { const f = mkFillerItem(0); f.options[i % 5] += ' zzzzzzzzzzzz'; return { ...f, correctIndex: i % 5 } }) })
+  const wsDup = mkWsItem(0)
+  write('word-swap-medium.json', { items: [wsDup, { ...wsDup, swap: [0, 2] }] })
+  write('para-jumble-medium.json', { items: [{ sentences: ['Short.', 'two', 'three', 'four', 'five'], explanation: 'broken item here' }] })
+  const rcBad = makeGenerated('rc', 'medium', 5)
+  rcBad.passages[0].questions[2].options = ['The author thinks it is the sole solution', 'True', 'The author suggests it is harmful', 'False', 'The author never discusses it']
+  rcBad.passages[0].questions[2].stem = 'The author believes this matters to every reader of the passage.'
+  rcBad.passages[0].questions[3].kind = 'vocab-synonym'
+  rcBad.passages[0].questions[3].targetWord = 'zzqxj'
+  write('rc-medium.json', rcBad)
+  const bad = buildSeed(tmp)
+  const has = (re: RegExp) => bad.errors.some((e) => re.test(e))
+  check(has(/rc-hard\.json: not valid JSON/), 'invalid JSON: reported with the file name')
+  check(has(/notes\.json: unrecognised file name/), 'unknown file names are reported')
+  check(has(/error-detection-medium\.json: items\[1\]: rejected by the validators/), 'ED item with errorPartIndex 7: file and item index')
+  check(has(/error-detection-medium\.json: items\[3\]: rejected by the validators.*complete sentence|error-detection-medium\.json: items\[3\]/), 'ED fragment parts: file and item index')
+  check(has(/error-detection-medium\.json:.*|items\[2\]|duplicates error-detection-medium-medium-001|duplicates error-detection-medium-001/) && has(/error-detection-medium-003 duplicates error-detection-medium-001/), 'an identical item is reported as a duplicate of the earlier one')
+  check(has(/fillers-medium\.json: authored correctIndex 0 is used for 100%/), 'a file whose keys all sit at one position is refused')
+  check(has(/fillers-hard\.json: the key is the longest option in 100%/), 'a file where the key is always the longest option is refused')
+  check(has(/word-swap-medium-002 (duplicates|is a near-duplicate of) word-swap-medium-001/), 'near-duplicate word-swap items are reported')
+  check(has(/para-jumble-medium\.json: items\[0\]: rejected/), 'bad para-jumble item rejected with file and index')
+  check(has(/rc-medium\.json: passages\[0\]: 2 question\(s\) rejected: .*question 3|rc-medium\.json: passages\[0\]: 2 question/) && /bare True|statement/.test(bad.errors.join('|')), 'rc passage with a True/False question and a missing vocab target: both reported')
+  // Proofs: tamper with a built group and run the proof through the public API by building a deliberately inconsistent item.
+  const ws2 = mkWsItem(0)
+  ws2.tokens[ws2.marked[2]] = ws2.tokens[ws2.marked[0]]
+  write('word-swap-hard.json', { items: [ws2] })
+  check(buildSeed(tmp).errors.some((e) => /word-swap-hard\.json: items\[0\]: rejected by the validators: .*distinct/.test(e)), 'word-swap with identical marked words is rejected (the swap would not change the sentence)')
+  check(existsSync(tmp) && buildSeed(join(tmp, 'missing')).errors.length === 1, 'a missing content directory is an error')
+  fastTiming()
+}
+
+// ---------------------------------------------------------------------------------------------------
 // Prompt printing and live mode
 // ---------------------------------------------------------------------------------------------------
 
@@ -3105,6 +3447,11 @@ async function main() {
     ['Explanations', suiteExplanations],
     ['ReviewDump', suiteReviewDump],
     ['CallBudget', suiteCallBudget],
+    ['CuratedMocks', suiteCuratedMocks],
+    ['CuratedDraw', suiteCuratedDraw],
+    ['CuratedShuffle', suiteCuratedShuffle],
+    ['CuratedFallback', suiteCuratedFallback],
+    ['SeedBuild', suiteSeedBuild],
     ['Relaxed', suiteRelaxed],
     ['PaperHappy', suitePaperHappy],
     ['PaperNoisy', suitePaperNoisy],

@@ -1,0 +1,172 @@
+{
+ "items": [
+  {
+   "pairs": [
+    {
+     "begin": "The match was postponed because",
+     "end": "heavy rain had flooded the ground."
+    },
+    {
+     "begin": "Although the shop was small,",
+     "end": "it stocked an impressive range of books."
+    },
+    {
+     "begin": "You will not get a refund unless",
+     "end": "you can show the original bill."
+    },
+    {
+     "begin": "He saved every month so that",
+     "end": "he could buy a bicycle before his birthday."
+    }
+   ],
+   "explanation": "Because needs a reason, although needs a contrast with \"small\", unless needs a condition and so that needs a purpose. Only the flooded ground explains the postponement, only the range of books contrasts with the small shop, only the bill is a condition for a refund, and only the bicycle is a purpose of saving."
+  },
+  {
+   "pairs": [
+    {
+     "begin": "Rohan will pass the examination provided that he",
+     "end": "revises the whole syllabus carefully."
+    },
+    {
+     "begin": "The streets were quiet when",
+     "end": "most of the residents had gone to the fair."
+    },
+    {
+     "begin": "The old bridge, which",
+     "end": "was built over a century ago, still carries heavy traffic."
+    },
+    {
+     "begin": "If the weather improves,",
+     "end": "we shall begin the trek early tomorrow."
+    }
+   ],
+   "explanation": "Provided that he needs a verb for the condition on which passing depends, when needs a past event for the quiet streets, and which needs a verb phrase describing the bridge. The if-clause in the present needs a future main clause, so \"we shall begin the trek\" completes it."
+  },
+  {
+   "pairs": [
+    {
+     "begin": "Many birds fly south in autumn because",
+     "end": "the winters in the north are too harsh for them."
+    },
+    {
+     "begin": "Although she was tired after the long journey,",
+     "end": "Meera helped her mother prepare dinner."
+    },
+    {
+     "begin": "The doctor advised him to rest so that",
+     "end": "his broken leg would heal quickly."
+    },
+    {
+     "begin": "Plants cannot grow well unless",
+     "end": "the soil holds enough moisture and nutrients."
+    }
+   ],
+   "explanation": "The harsh northern winters are the reason for the birds' flight, helping her mother is the contrast to being tired, the healing leg is the purpose of resting, and the soil conditions are what plants need. Each linking word (because, although, so that, unless) fits only one of these."
+  },
+  {
+   "pairs": [
+    {
+     "begin": "The train will leave on time provided that",
+     "end": "all the passengers are seated by noon."
+    },
+    {
+     "begin": "Ravi felt nervous when",
+     "end": "the teacher called his name for the speech."
+    },
+    {
+     "begin": "This laptop, which",
+     "end": "my brother bought last year, still works perfectly."
+    },
+    {
+     "begin": "If you heat ice,",
+     "end": "it slowly turns into water."
+    }
+   ],
+   "explanation": "Provided that needs a condition for the departure, when needs the event that made Ravi nervous, and which needs a clause about the laptop that continues with its verb. The general-truth if-clause needs the present-tense result \"it slowly turns into water\"."
+  },
+  {
+   "pairs": [
+    {
+     "begin": "Prices usually fall when",
+     "end": "a product is supplied in large quantities."
+    },
+    {
+     "begin": "The shopkeeper offered a discount so that",
+     "end": "his old stock would be sold before the festival."
+    },
+    {
+     "begin": "He would have bought the house if",
+     "end": "he had saved more money."
+    },
+    {
+     "begin": "Although the company earned large profits,",
+     "end": "it did not raise its workers' wages."
+    }
+   ],
+   "explanation": "When introduces the usual circumstance for falling prices, so that introduces the purpose of the discount, and the third conditional needs \"if he had saved\". Although needs a contrast: large profits against unchanged wages."
+  },
+  {
+   "pairs": [
+    {
+     "begin": "We should not waste water because",
+     "end": "it is a precious natural resource."
+    },
+    {
+     "begin": "The children were delighted when",
+     "end": "the teacher announced a holiday for the school."
+    },
+    {
+     "begin": "Unless the villagers cooperate,",
+     "end": "the new library will never be completed."
+    },
+    {
+     "begin": "The tree, which",
+     "end": "my grandfather planted, now gives shade to the whole lane."
+    }
+   ],
+   "explanation": "Because needs the reason water must be saved, when needs the event that delighted the children, unless needs a negative outcome of non-cooperation, and which needs a clause about the tree continuing with its main verb."
+  },
+  {
+   "pairs": [
+    {
+     "begin": "Neighbours often become close friends when",
+     "end": "they help one another in times of difficulty."
+    },
+    {
+     "begin": "The festival will be cancelled unless",
+     "end": "the organisers find a larger venue."
+    },
+    {
+     "begin": "She spoke slowly so that",
+     "end": "everyone in the hall could follow her words."
+    },
+    {
+     "begin": "Although the film was very long,",
+     "end": "the audience watched it with great interest."
+    }
+   ],
+   "explanation": "When needs a general circumstance, unless needs the condition that would save the festival, so that needs a purpose of speaking slowly, and although needs a contrast with the film's length."
+  },
+  {
+   "pairs": [
+    {
+     "begin": "The students will win the quiz provided that",
+     "end": "they read the newspaper every day."
+    },
+    {
+     "begin": "Our school library closes early on Saturdays because",
+     "end": "the librarian has to attend a meeting."
+    },
+    {
+     "begin": "A sundial, which",
+     "end": "shows time by the shadow of a pointer, is useless at night."
+    },
+    {
+     "begin": "As soon as the bell rang,",
+     "end": "the pupils ran out into the playground."
+    }
+   ],
+   "explanation": "Provided that needs a condition for winning, because needs the reason for the early closing, which needs a verb phrase about the sundial, and \"As soon as the bell rang\" needs a past-tense result such as the pupils running out."
+  }
+ ]
+}

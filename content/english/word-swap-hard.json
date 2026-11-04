@@ -1,0 +1,620 @@
+{
+ "items": [
+  {
+   "tokens": [
+    "Scholars",
+    "of",
+    "the",
+    "subject",
+    "have",
+    "long",
+    "argued",
+    "that",
+    "genuine",
+    "innovation",
+    "emerges",
+    "not",
+    "from",
+    "isolated",
+    "brilliance",
+    "but",
+    "from",
+    "sustained",
+    "collaboration",
+    "across",
+    "disciplines",
+    "and",
+    "generations."
+   ],
+   "marked": [
+    "long",
+    "emerges",
+    "isolated",
+    "collaboration"
+   ],
+   "swap": [
+    2,
+    3
+   ],
+   "explanation": "The words \"isolated\" and \"collaboration\" have been interchanged. The contrast \"not from isolated brilliance but from sustained collaboration\" needs an adjective before \"brilliance\" and a noun after \"sustained\"; the faulty order leaves \"collaboration brilliance\" and \"sustained isolated\", which make no sense."
+  },
+  {
+   "tokens": [
+    "The",
+    "tribunal's",
+    "decision,",
+    "though",
+    "widely",
+    "criticised",
+    "at",
+    "the",
+    "time,",
+    "was",
+    "later",
+    "vindicated",
+    "by",
+    "evidence",
+    "that",
+    "no",
+    "one",
+    "had",
+    "foreseen",
+    "at",
+    "the",
+    "outset",
+    "of",
+    "the",
+    "inquiry."
+   ],
+   "marked": [
+    "widely",
+    "vindicated",
+    "foreseen",
+    "outset"
+   ],
+   "swap": [
+    0,
+    3
+   ],
+   "explanation": "The words \"widely\" and \"outset\" have been interchanged. An adverb must modify \"criticised\" and the noun \"outset\" must follow \"at the\", so \"though outset criticised\" and \"at the widely of the inquiry\" are ungrammatical."
+  },
+  {
+   "tokens": [
+    "A",
+    "rigorous",
+    "education",
+    "should",
+    "cultivate",
+    "scepticism",
+    "without",
+    "breeding",
+    "cynicism,",
+    "teaching",
+    "students",
+    "to",
+    "question",
+    "claims",
+    "while",
+    "remaining",
+    "open",
+    "to",
+    "persuasion",
+    "by",
+    "sound",
+    "evidence."
+   ],
+   "marked": [
+    "rigorous",
+    "scepticism",
+    "breeding",
+    "remaining"
+   ],
+   "swap": [
+    0,
+    1
+   ],
+   "explanation": "The words \"rigorous\" and \"scepticism\" have been interchanged. \"A rigorous education\" needs the adjective before the noun, and \"cultivate\" needs a noun object; \"A scepticism education should cultivate rigorous\" is ungrammatical."
+  },
+  {
+   "tokens": [
+    "Although",
+    "the",
+    "proposal",
+    "appeared",
+    "economical",
+    "at",
+    "first",
+    "glance,",
+    "its",
+    "hidden",
+    "maintenance",
+    "costs",
+    "would",
+    "eventually",
+    "outweigh",
+    "any",
+    "initial",
+    "savings",
+    "made",
+    "during",
+    "the",
+    "opening",
+    "years."
+   ],
+   "marked": [
+    "appeared",
+    "hidden",
+    "outweigh",
+    "savings"
+   ],
+   "swap": null,
+   "explanation": "The sentence is already correct: \"appeared\" links the proposal to \"economical\", \"hidden\" describes the costs, \"outweigh\" is the verb after \"would eventually\" and \"savings\" is its object. Any interchange of two of these words would break the grammar."
+  },
+  {
+   "tokens": [
+    "The",
+    "novelist's",
+    "early",
+    "work",
+    "is",
+    "often",
+    "dismissed",
+    "as",
+    "derivative,",
+    "yet",
+    "it",
+    "contains",
+    "the",
+    "seeds",
+    "of",
+    "the",
+    "distinctive",
+    "voice",
+    "that",
+    "later",
+    "made",
+    "her",
+    "famous",
+    "among",
+    "readers."
+   ],
+   "marked": [
+    "often",
+    "dismissed",
+    "seeds",
+    "distinctive"
+   ],
+   "swap": [
+    0,
+    2
+   ],
+   "explanation": "The words \"often\" and \"seeds\" have been interchanged. \"is often dismissed\" needs an adverb before the participle and \"the seeds of the distinctive voice\" needs a noun after \"the\"; the swapped version gives \"is seeds dismissed\" and \"the often of\"."
+  },
+  {
+   "tokens": [
+    "Governments",
+    "that",
+    "subsidise",
+    "fuel",
+    "may",
+    "win",
+    "short-term",
+    "popularity,",
+    "but",
+    "they",
+    "gradually",
+    "erode",
+    "their",
+    "fiscal",
+    "capacity",
+    "to",
+    "fund",
+    "long-term",
+    "investment",
+    "in",
+    "public",
+    "services."
+   ],
+   "marked": [
+    "subsidise",
+    "short-term",
+    "gradually",
+    "capacity"
+   ],
+   "swap": [
+    0,
+    1
+   ],
+   "explanation": "The words \"subsidise\" and \"short-term\" have been interchanged. The relative clause needs a verb after \"that\", and \"win\" needs a noun phrase like \"short-term popularity\"; \"that short-term fuel may win subsidise popularity\" is ungrammatical."
+  },
+  {
+   "tokens": [
+    "Historians",
+    "caution",
+    "that",
+    "the",
+    "apparent",
+    "inevitability",
+    "of",
+    "past",
+    "events",
+    "is",
+    "largely",
+    "an",
+    "illusion",
+    "created",
+    "by",
+    "hindsight,",
+    "since",
+    "contemporaries",
+    "faced",
+    "genuine",
+    "uncertainty",
+    "about",
+    "outcomes."
+   ],
+   "marked": [
+    "caution",
+    "apparent",
+    "largely",
+    "created"
+   ],
+   "swap": [
+    0,
+    2
+   ],
+   "explanation": "The words \"caution\" and \"largely\" have been interchanged. The main verb of the sentence is \"caution\" and \"largely\" qualifies \"an illusion\"; the swapped version (\"Historians largely that ... is caution an illusion\") has no grammatical structure."
+  },
+  {
+   "tokens": [
+    "The",
+    "treaty",
+    "collapsed",
+    "not",
+    "because",
+    "its",
+    "terms",
+    "were",
+    "unreasonable",
+    "but",
+    "because",
+    "neither",
+    "side",
+    "trusted",
+    "the",
+    "other",
+    "to",
+    "honour",
+    "them",
+    "in",
+    "practice."
+   ],
+   "marked": [
+    "collapsed",
+    "unreasonable",
+    "trusted",
+    "honour"
+   ],
+   "swap": [
+    1,
+    3
+   ],
+   "explanation": "The words \"unreasonable\" and \"honour\" have been interchanged. \"were unreasonable\" needs an adjective and \"to honour them\" needs an infinitive verb with an object, so \"were honour\" and \"to unreasonable them\" are ungrammatical."
+  },
+  {
+   "tokens": [
+    "Economists",
+    "generally",
+    "agree",
+    "that",
+    "moderate",
+    "inflation,",
+    "though",
+    "unwelcome,",
+    "is",
+    "less",
+    "damaging",
+    "to",
+    "long-term",
+    "growth",
+    "than",
+    "prolonged",
+    "uncertainty",
+    "about",
+    "future",
+    "prices",
+    "and",
+    "wages."
+   ],
+   "marked": [
+    "generally",
+    "moderate",
+    "growth",
+    "uncertainty"
+   ],
+   "swap": null,
+   "explanation": "The sentence is already correct: the adverb \"generally\" modifies \"agree\", \"moderate\" describes inflation, and \"growth\" and \"uncertainty\" are in the nouns' proper slots in the comparison. Interchanging any two marked words would produce a grammatical or logical error."
+  },
+  {
+   "tokens": [
+    "Because",
+    "human",
+    "memory",
+    "is",
+    "reconstructive",
+    "rather",
+    "than",
+    "reproductive,",
+    "eyewitness",
+    "accounts",
+    "may",
+    "feel",
+    "vivid",
+    "and",
+    "confident",
+    "to",
+    "those",
+    "giving",
+    "them",
+    "while",
+    "remaining",
+    "substantially",
+    "inaccurate."
+   ],
+   "marked": [
+    "reconstructive",
+    "accounts",
+    "vivid",
+    "remaining"
+   ],
+   "swap": [
+    1,
+    2
+   ],
+   "explanation": "The words \"accounts\" and \"vivid\" have been interchanged. \"eyewitness accounts may feel vivid\" needs a noun subject and an adjective complement; \"eyewitness vivid may feel accounts\" is ungrammatical."
+  },
+  {
+   "tokens": [
+    "Critics",
+    "of",
+    "the",
+    "policy",
+    "contend",
+    "that",
+    "its",
+    "benefits",
+    "accrue",
+    "disproportionately",
+    "to",
+    "those",
+    "who",
+    "are",
+    "already",
+    "prosperous,",
+    "thereby",
+    "widening",
+    "the",
+    "very",
+    "gap",
+    "it",
+    "was",
+    "meant",
+    "to",
+    "narrow."
+   ],
+   "marked": [
+    "contend",
+    "accrue",
+    "already",
+    "widening"
+   ],
+   "swap": [
+    0,
+    2
+   ],
+   "explanation": "The words \"contend\" and \"already\" have been interchanged. \"Critics of the policy contend that\" needs the verb, and \"who are already prosperous\" needs the adverb before the adjective; the swapped version gives \"Critics ... already that\" and \"who are contend prosperous\"."
+  },
+  {
+   "tokens": [
+    "The",
+    "architect",
+    "insisted",
+    "that",
+    "the",
+    "building's",
+    "elegance",
+    "lay",
+    "not",
+    "in",
+    "ornament",
+    "but",
+    "in",
+    "the",
+    "restraint",
+    "of",
+    "its",
+    "proportions,",
+    "which",
+    "had",
+    "been",
+    "calculated",
+    "with",
+    "great",
+    "care."
+   ],
+   "marked": [
+    "insisted",
+    "lay",
+    "ornament",
+    "calculated"
+   ],
+   "swap": [
+    1,
+    3
+   ],
+   "explanation": "The words \"lay\" and \"calculated\" have been interchanged. The clause \"elegance lay not in ornament\" needs a finite past verb and \"had been calculated\" needs a past participle; \"elegance calculated not in ornament\" and \"had been lay\" are both wrong."
+  },
+  {
+   "tokens": [
+    "Linguists",
+    "observe",
+    "that",
+    "languages",
+    "seldom",
+    "change",
+    "abruptly;",
+    "instead,",
+    "small",
+    "shifts",
+    "in",
+    "pronunciation",
+    "accumulate",
+    "over",
+    "generations",
+    "until",
+    "speakers",
+    "of",
+    "one",
+    "dialect",
+    "can",
+    "scarcely",
+    "understand",
+    "another."
+   ],
+   "marked": [
+    "seldom",
+    "shifts",
+    "accumulate",
+    "understand"
+   ],
+   "swap": [
+    1,
+    2
+   ],
+   "explanation": "The words \"shifts\" and \"accumulate\" have been interchanged. \"small shifts in pronunciation accumulate\" needs a plural noun as subject followed by a verb; \"small accumulate in pronunciation shifts\" has no subject and misuses the noun as a verb."
+  },
+  {
+   "tokens": [
+    "A",
+    "cautious",
+    "investor",
+    "treats",
+    "a",
+    "sudden",
+    "surge",
+    "in",
+    "prices",
+    "not",
+    "as",
+    "evidence",
+    "of",
+    "lasting",
+    "value",
+    "but",
+    "as",
+    "a",
+    "warning",
+    "that",
+    "expectations",
+    "may",
+    "have",
+    "outrun",
+    "reality."
+   ],
+   "marked": [
+    "cautious",
+    "treats",
+    "warning",
+    "outrun"
+   ],
+   "swap": [
+    2,
+    3
+   ],
+   "explanation": "The words \"warning\" and \"outrun\" have been interchanged. \"as a warning\" needs a noun after the article and \"may have outrun\" needs a verb form; \"as a outrun\" and \"may have warning\" are ungrammatical."
+  },
+  {
+   "tokens": [
+    "Although",
+    "the",
+    "experiment",
+    "yielded",
+    "results",
+    "that",
+    "were",
+    "statistically",
+    "significant,",
+    "the",
+    "authors",
+    "refrained",
+    "from",
+    "drawing",
+    "sweeping",
+    "conclusions,",
+    "noting",
+    "that",
+    "the",
+    "sample",
+    "was",
+    "unrepresentative",
+    "of",
+    "the",
+    "wider",
+    "population."
+   ],
+   "marked": [
+    "yielded",
+    "statistically",
+    "refrained",
+    "sweeping"
+   ],
+   "swap": [
+    0,
+    2
+   ],
+   "explanation": "The words \"yielded\" and \"refrained\" have been interchanged. \"yielded results\" takes a direct object, while \"refrained from drawing\" takes \"from\"; \"the experiment refrained results\" and \"the authors yielded from drawing\" are ungrammatical."
+  },
+  {
+   "tokens": [
+    "Public",
+    "trust,",
+    "once",
+    "squandered",
+    "through",
+    "carelessness",
+    "or",
+    "concealment,",
+    "is",
+    "rebuilt",
+    "only",
+    "slowly,",
+    "and",
+    "often",
+    "at",
+    "a",
+    "cost",
+    "far",
+    "greater",
+    "than",
+    "that",
+    "of",
+    "vigilance",
+    "in",
+    "the",
+    "first",
+    "place."
+   ],
+   "marked": [
+    "squandered",
+    "rebuilt",
+    "often",
+    "vigilance"
+   ],
+   "swap": [
+    0,
+    3
+   ],
+   "explanation": "The words \"squandered\" and \"vigilance\" have been interchanged. \"once squandered through carelessness\" needs a past participle and \"that of vigilance\" needs a noun; \"once vigilance through carelessness\" and \"that of squandered\" are ungrammatical."
+  }
+ ]
+}

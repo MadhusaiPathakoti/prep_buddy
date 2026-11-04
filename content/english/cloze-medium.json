@@ -1,0 +1,312 @@
+{
+  "passages": [
+    {
+      "text": "The old library in our town was about to close because very few people visited it. The town council (1) ______ to sell the building, but a group of residents asked for one year to find another solution. They (2) ______ free reading classes for children and invited local writers to give talks. Within months, the number of visitors had (3) ______ sharply. Parents, who once thought libraries were only for students, began to bring their children every weekend. Some of the children had never held a library card before, and their enthusiasm soon spread to their friends. The group also set up a small café inside the building, (4) ______ profit helped to pay for new books. When the year ended, the council was so (5) ______ by the change that it withdrew its plan. Perhaps the lesson is that people value a place more once they are invited to help shape it. Today the library is one of the busiest places in town, (6) ______ many people still say they prefer to read on their phones.",
+      "blanks": [
+        {
+          "n": 1,
+          "options": [
+            "enjoyed",
+            "avoided",
+            "refused",
+            "decided",
+            "finished"
+          ],
+          "correctIndex": 3,
+          "explanation": "The council \"decided to sell\", and residents then asked for time to find another solution. Refused would remove the reason for their request, and enjoyed, avoided and finished cannot be followed by \"to sell\" here."
+        },
+        {
+          "n": 2,
+          "options": [
+            "prevented",
+            "organised",
+            "borrowed",
+            "forgot",
+            "cancelled"
+          ],
+          "correctIndex": 1,
+          "explanation": "The group wanted to bring visitors back, so it organised classes and invited writers. The other verbs would work against that aim."
+        },
+        {
+          "n": 3,
+          "options": [
+            "raised",
+            "rose",
+            "rising",
+            "rise",
+            "risen"
+          ],
+          "correctIndex": 4,
+          "explanation": "After \"had\" the past participle is needed, and the verb must have no object, so risen is correct. Raised needs an object, and rose, rising and rise are the wrong forms."
+        },
+        {
+          "n": 4,
+          "options": [
+            "who",
+            "whom",
+            "whose",
+            "which",
+            "what"
+          ],
+          "correctIndex": 2,
+          "explanation": "The profit belongs to the cafe, so the possessive relative whose is needed. The other words cannot be followed by \"profit\" in this way."
+        },
+        {
+          "n": 5,
+          "options": [
+            "impressed",
+            "impressive",
+            "impress",
+            "impression",
+            "impressing"
+          ],
+          "correctIndex": 0,
+          "explanation": "\"Was so impressed by the change\" needs the participle adjective describing the council's feeling. Impressive describes the change itself, and the other forms do not fit after \"so\"."
+        },
+        {
+          "n": 6,
+          "options": [
+            "because",
+            "unless",
+            "since",
+            "although",
+            "until"
+          ],
+          "correctIndex": 3,
+          "explanation": "The library is busy even though many people say they prefer phones, so a concessive conjunction is required: although. The other conjunctions give a reason, a condition or a time limit that makes no sense."
+        }
+      ]
+    },
+    {
+      "text": "Many students believe that staying up late to study is the best way to prepare for an examination. In fact, sleep plays a (1) ______ role in learning. While we sleep, the brain sorts the information gathered during the day and (2) ______ it in memory. A student who sleeps for only a few hours may therefore remember (3) ______ than one who rests properly, even if the first student studied for longer. In other words, hours of study cannot make up for hours of rest. Lack of sleep also affects mood: tired people become irritable, find it hard to concentrate, and make more mistakes. Doctors advise teenagers to sleep for about eight hours each night. To (4) ______ this goal, it helps to switch off phones an hour before bedtime, because the bright screen can (5) ______ the body's natural clock. Of course, no one can (6) ______ a perfect routine every night, but a regular habit makes a clear difference. Students who protect their sleep usually find that revision becomes easier, not harder.",
+      "blanks": [
+        {
+          "n": 1,
+          "options": [
+            "vitally",
+            "vital",
+            "vitality",
+            "vitamin",
+            "vitalise"
+          ],
+          "correctIndex": 1,
+          "explanation": "An adjective is needed before the noun \"role\", and vital means very important, which matches the point being made. The other forms are an adverb, nouns or a verb."
+        },
+        {
+          "n": 2,
+          "options": [
+            "strikes",
+            "steals",
+            "stirs",
+            "stops",
+            "stores"
+          ],
+          "correctIndex": 4,
+          "explanation": "The brain sorts information and then stores it in memory. The other verbs do not make sense with \"it in memory\"."
+        },
+        {
+          "n": 3,
+          "options": [
+            "least",
+            "little",
+            "less",
+            "lower",
+            "lesser"
+          ],
+          "correctIndex": 2,
+          "explanation": "The comparison with \"than\" requires the comparative adverb less. Least is a superlative, and little, lower and lesser cannot follow \"remember\" before \"than\"."
+        },
+        {
+          "n": 4,
+          "options": [
+            "achieve",
+            "arrive",
+            "attend",
+            "ascend",
+            "assume"
+          ],
+          "correctIndex": 0,
+          "explanation": "One achieves a goal, so achieve is the verb that fits \"this goal\". Arrive, attend and ascend do not take it as an object, and assume does not give the right meaning."
+        },
+        {
+          "n": 5,
+          "options": [
+            "decorate",
+            "deliver",
+            "defend",
+            "disrupt",
+            "describe"
+          ],
+          "correctIndex": 3,
+          "explanation": "Bright light from a screen upsets the body's sleep rhythm, so disrupt fits. The other verbs make no sense with \"the body's natural clock\"."
+        },
+        {
+          "n": 6,
+          "options": [
+            "borrow",
+            "follow",
+            "spread",
+            "polish",
+            "mention"
+          ],
+          "correctIndex": 1,
+          "explanation": "A person follows a routine, which is the sense needed here. The other verbs do not combine sensibly with \"a perfect routine every night\"."
+        }
+      ]
+    },
+    {
+      "text": "In many crowded cities, the bicycle is making a quiet return. Rising fuel prices and heavy traffic have made more people (1) ______ for cheaper and quicker ways to travel short distances. Bicycles cost little to buy, need no fuel and can be kept in a corner of a small house. A cyclist can often reach the office faster than a car driver, because the cyclist does not have to wait in long queues or search for a place to (2) ______. Cycling is also good for health: regular riding strengthens the heart and helps people to (3) ______ their weight. However, safety remains a serious (4) ______. Many roads have no separate lanes, and drivers do not always look out for riders. Some cities have therefore built special tracks (5) ______ from the main road by a low wall, and they have noticed that the number of accidents has fallen. Experts say that if governments want more people to cycle, they must make it (6) ______ for them to do so. Until that happens, the bicycle will remain a good idea that many people are afraid to try.",
+      "blanks": [
+        {
+          "n": 1,
+          "options": [
+            "looks",
+            "looked",
+            "looking",
+            "lookout",
+            "look"
+          ],
+          "correctIndex": 4,
+          "explanation": "After \"made more people\" a plain infinitive without \"to\" is used, so look is correct. The other forms are ungrammatical in this pattern."
+        },
+        {
+          "n": 2,
+          "options": [
+            "cook",
+            "sing",
+            "park",
+            "dance",
+            "vote"
+          ],
+          "correctIndex": 2,
+          "explanation": "Drivers in crowded cities struggle to find a place to park, which a cyclist avoids. The other verbs do not suit \"a place to\" in this context."
+        },
+        {
+          "n": 3,
+          "options": [
+            "control",
+            "collect",
+            "cancel",
+            "copy",
+            "climb"
+          ],
+          "correctIndex": 0,
+          "explanation": "People ride to keep their weight in check, and one controls weight. The other verbs do not take \"their weight\" sensibly."
+        },
+        {
+          "n": 4,
+          "options": [
+            "consent",
+            "contract",
+            "consumer",
+            "concern",
+            "concert"
+          ],
+          "correctIndex": 3,
+          "explanation": "\"A serious concern\" is the usual collocation for a worry that remains. The other nouns do not combine with \"serious\" in this sense."
+        },
+        {
+          "n": 5,
+          "options": [
+            "separating",
+            "separated",
+            "separates",
+            "separation",
+            "separately"
+          ],
+          "correctIndex": 1,
+          "explanation": "The tracks are kept apart from the road by a wall, so a past participle is needed, and \"separated from ... by\" is the correct pattern. The other forms do not fit with \"by a low wall\"."
+        },
+        {
+          "n": 6,
+          "options": [
+            "save",
+            "safety",
+            "safely",
+            "saving",
+            "safe"
+          ],
+          "correctIndex": 4,
+          "explanation": "After \"make it\" an adjective is needed, and safe completes \"make it safe for them to do so\". The other forms are a verb, nouns or an adverb."
+        }
+      ]
+    },
+    {
+      "text": "Every summer, the village of Rampur faced a serious shortage of water. The wells dried up by April, and women had to walk several kilometres to (1) ______ water from a river. Sometimes the water they carried home was dirty, and several families fell ill. Then, a few years ago, the villagers decided to (2) ______ the rain that fell during the monsoon instead of letting it flow away. With help from an engineer, they built small tanks near the school and the temple, and dug channels (3) ______ carried rainwater from the roofs into them. The work was hard, but nobody complained, (4) ______ everyone knew that the whole village would benefit. Last year, the tanks were still (5) ______ of water in May, and the wells had refilled. The villagers now (6) ______ other villages to try the same method. Visitors are always shown the tanks with pride, and the school now uses the water to grow a vegetable garden.",
+      "blanks": [
+        {
+          "n": 1,
+          "options": [
+            "fix",
+            "fold",
+            "fetch",
+            "feed",
+            "forge"
+          ],
+          "correctIndex": 2,
+          "explanation": "To fetch water is to go and bring it back, which is what the women did. The other verbs do not fit \"water from a river\"."
+        },
+        {
+          "n": 2,
+          "options": [
+            "collect",
+            "correct",
+            "connect",
+            "conduct",
+            "convert"
+          ],
+          "correctIndex": 0,
+          "explanation": "The villagers wanted to gather the monsoon rain rather than let it run away, so collect fits. The other verbs make no sense with \"the rain\"."
+        },
+        {
+          "n": 3,
+          "options": [
+            "what",
+            "who",
+            "whom",
+            "that",
+            "whose"
+          ],
+          "correctIndex": 3,
+          "explanation": "A relative pronoun referring to \"channels\" (things) is needed, and that is the only one that works. Who and whom refer to people, whose is possessive, and what cannot follow a noun."
+        },
+        {
+          "n": 4,
+          "options": [
+            "unless",
+            "because",
+            "although",
+            "whether",
+            "until"
+          ],
+          "correctIndex": 1,
+          "explanation": "Everyone knew the village would benefit, which is the reason nobody complained, so because is needed. The other conjunctions would contradict or break the logic."
+        },
+        {
+          "n": 5,
+          "options": [
+            "filled",
+            "fill",
+            "filling",
+            "fulfil",
+            "full"
+          ],
+          "correctIndex": 4,
+          "explanation": "\"Full of water\" is the correct pattern. Filled is followed by \"with\", and the other forms do not fit after \"were still\"."
+        },
+        {
+          "n": 6,
+          "options": [
+            "enjoy",
+            "admit",
+            "encourage",
+            "finish",
+            "pretend"
+          ],
+          "correctIndex": 2,
+          "explanation": "Encourage can take an object followed by \"to try\", as here. The other verbs cannot be followed by \"other villages to try the same method\"."
+        }
+      ]
+    }
+  ]
+}

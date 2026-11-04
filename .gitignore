@@ -22,3 +22,6 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# curated English bank: blind reviewer views (generated, contain no keys)
+content/english/_blind/

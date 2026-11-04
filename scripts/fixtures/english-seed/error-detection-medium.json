@@ -1,0 +1,34 @@
+{
+  "items": [
+    {
+      "variant": "parts",
+      "parts": ["The committee has decided", "to postpone the meeting", "due to the lack of", "a quorum this week."],
+      "errorPartIndex": null,
+      "explanation": "All four parts are grammatically correct."
+    },
+    {
+      "variant": "parts",
+      "parts": ["Neither the manager", "nor his assistants was", "aware of the new rule", "issued earlier this month."],
+      "errorPartIndex": 1,
+      "explanation": "With neither/nor the verb agrees with the nearer subject 'assistants', so 'were' is needed."
+    },
+    {
+      "variant": "parts",
+      "parts": ["She completed the project", "well ahead of schedule,", "despite of the fact that", "the team was understaffed."],
+      "errorPartIndex": 2,
+      "explanation": "'Despite' is not followed by 'of'; the phrase should be 'despite the fact that' or 'in spite of the fact that'."
+    },
+    {
+      "variant": "sentences",
+      "sentences": [
+        "The manager, along with his team, is attending the conference this week.",
+        "The manager, along with his team, are attending the conference this week.",
+        "The manager, along with his team, were attending the conference this week.",
+        "The manager, along with his team, attend the conference this week.",
+        "The manager, along with his team, be attending the conference this week."
+      ],
+      "correctIndex": 0,
+      "explanation": "The subject is the singular 'manager'; 'along with his team' does not make it plural, so 'is' is correct."
+    }
+  ]
+}

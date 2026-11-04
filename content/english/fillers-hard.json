@@ -1,0 +1,343 @@
+{
+ "items": [
+  {
+   "type": "single",
+   "sentence": "Her ______ reason for resigning from the firm was ill health, although several colleagues suspected that a prolonged quarrel with the board had been the real cause.",
+   "options": [
+    "ostentatious",
+    "obstinate",
+    "ostensible",
+    "obsequious",
+    "obdurate"
+   ],
+   "correctIndex": 2,
+   "explanation": "Ostensible means apparently true but not necessarily genuine, which fits the contrast with the real cause that colleagues suspected."
+  },
+  {
+   "type": "double",
+   "sentence": "(A) ______ the housing scheme was launched with considerable fanfare in the capital last spring, its uptake in rural districts has been (B) ______, largely because most eligible families remain unaware that it exists.",
+   "options": [
+    [
+     "Because",
+     "tepid"
+    ],
+    [
+     "Although",
+     "tepid"
+    ],
+    [
+     "Although",
+     "brisk"
+    ],
+    [
+     "Unless",
+     "buoyant"
+    ],
+    [
+     "Provided",
+     "brisk"
+    ]
+   ],
+   "correctIndex": 1,
+   "explanation": "Although sets up the contrast between a grand launch and weak take-up, and tepid is the result that the unawareness of families explains; the other pairs break either the logic or the sense."
+  },
+  {
+   "type": "single",
+   "sentence": "The new lending policy was widely welcomed by economists as a sensible reform; ______, its implementation has been hampered by administrative delays and unclear guidelines at the branch level.",
+   "options": [
+    "therefore",
+    "similarly",
+    "moreover",
+    "nevertheless",
+    "accordingly"
+   ],
+   "correctIndex": 3,
+   "explanation": "The second clause reverses the favourable reception, so a contrastive connector is needed; the other linkers add to the praise or present the delays as its result."
+  },
+  {
+   "type": "single",
+   "sentence": "The auditor's report was ______ in its criticism of the management, naming every lapse in procedure and leaving the directors no room to claim that they had been unaware of the problems.",
+   "options": [
+    "unsparing",
+    "indulgent",
+    "ambivalent",
+    "tentative",
+    "perfunctory"
+   ],
+   "correctIndex": 0,
+   "explanation": "Unsparing criticism is severe and leaves nothing unmentioned, which matches the naming of every lapse; the other adjectives suggest mildness, doubt or a token effort."
+  },
+  {
+   "type": "double",
+   "sentence": "A candidate's lack of (A) ______ with the subject can usually be (B) ______ by thorough preparation, a calm temperament and a logical approach to every unfamiliar question.",
+   "options": [
+    [
+     "familiarity",
+     "aggravated"
+    ],
+    [
+     "reluctance",
+     "offset"
+    ],
+    [
+     "interest",
+     "compounded"
+    ],
+    [
+     "acquaintance",
+     "hindered"
+    ],
+    [
+     "familiarity",
+     "offset"
+    ]
+   ],
+   "correctIndex": 4,
+   "explanation": "Familiarity takes the preposition with, and good preparation can offset a lack of it; the other pairs fail on collocation or give a verb that makes preparation harmful."
+  },
+  {
+   "type": "single",
+   "sentence": "The manager's ______ attitude towards deadlines frustrated a team that had worked late every evening to meet them, since he treated them as optional and seldom completed his own tasks on time.",
+   "options": [
+    "scrupulous",
+    "assiduous",
+    "diligent",
+    "conscientious",
+    "cavalier"
+   ],
+   "correctIndex": 4,
+   "explanation": "A cavalier attitude is careless and dismissive, which explains the team's frustration; the other adjectives describe careful behaviour that would not annoy hard-working colleagues."
+  },
+  {
+   "type": "single",
+   "sentence": "Years of ______ spending, during which the council funded grand projects with borrowed money, left the municipality with a mountain of debt that it could not hope to repay from its modest revenues.",
+   "options": [
+    "frugal",
+    "profligate",
+    "prudent",
+    "thrifty",
+    "parsimonious"
+   ],
+   "correctIndex": 1,
+   "explanation": "Profligate means recklessly extravagant, which explains why borrowing for grand projects ended in unmanageable debt; the other words describe careful saving."
+  },
+  {
+   "type": "double",
+   "sentence": "Retail inflation turned out to be (A) ______ than analysts had feared for the quarter, which eased pressure on household budgets; (B) ______, the central bank saw no need to raise interest rates at its next policy review.",
+   "options": [
+    [
+     "milder",
+     "nevertheless"
+    ],
+    [
+     "harsher",
+     "consequently"
+    ],
+    [
+     "milder",
+     "consequently"
+    ],
+    [
+     "harsher",
+     "therefore"
+    ],
+    [
+     "milder",
+     "conversely"
+    ]
+   ],
+   "correctIndex": 2,
+   "explanation": "Milder inflation naturally removes the pressure for a rate rise, so a connector of consequence is needed; pairs with harsher inflation or a contrastive linker break that logic."
+  },
+  {
+   "type": "single",
+   "sentence": "The professor's lecture on monetary policy was so ______ that even students with no background in economics could follow every step of her argument without difficulty.",
+   "options": [
+    "abstruse",
+    "convoluted",
+    "esoteric",
+    "lucid",
+    "cryptic"
+   ],
+   "correctIndex": 3,
+   "explanation": "Lucid means clear and easy to follow, as the result clause requires; the other words describe material that is obscure or hard to understand."
+  },
+  {
+   "type": "single",
+   "sentence": "Coastal planners favour planting dense belts of mangroves along the shoreline because the trees can ______ the impact of storm surges on nearby fishing villages and farmland.",
+   "options": [
+    "magnify",
+    "provoke",
+    "mitigate",
+    "trigger",
+    "exacerbate"
+   ],
+   "correctIndex": 2,
+   "explanation": "To mitigate is to lessen the severity of something, which is why planners favour the trees; the other verbs would increase or cause the damage."
+  },
+  {
+   "type": "double",
+   "sentence": "The subsidy scheme was originally meant to (A) ______ the financial burden on small taxpayers, yet its tangled rules and repeated amendments only served to (B) ______ confusion among the very beneficiaries it targeted.",
+   "options": [
+    [
+     "ease",
+     "compound"
+    ],
+    [
+     "ease",
+     "dispel"
+    ],
+    [
+     "worsen",
+     "compound"
+    ],
+    [
+     "worsen",
+     "dispel"
+    ],
+    [
+     "lighten",
+     "resolve"
+    ]
+   ],
+   "correctIndex": 0,
+   "explanation": "Easing the burden is the intended aim, and the word yet introduces the opposite outcome, so the rules compound confusion; the other pairs state an aim nobody would have or an outcome that would not be a failure."
+  },
+  {
+   "type": "single",
+   "sentence": "Asked whether the merger talks had collapsed, the spokesperson gave an ______ reply that neither confirmed nor denied the persistent rumours circulating in the market.",
+   "options": [
+    "emphatic",
+    "unequivocal",
+    "explicit",
+    "unambiguous",
+    "equivocal"
+   ],
+   "correctIndex": 4,
+   "explanation": "Equivocal means deliberately vague or open to more than one reading, which matches a reply that neither confirms nor denies; the other adjectives describe clear, definite statements."
+  },
+  {
+   "type": "single",
+   "sentence": "The report's central ______ that consumer demand would remain stable throughout the year proved unfounded once the festive season ended and household spending dropped sharply.",
+   "options": [
+    "assumption",
+    "assumes",
+    "assumed",
+    "assuming",
+    "assumable"
+   ],
+   "correctIndex": 0,
+   "explanation": "The noun assumption is needed after the adjective central and can be followed by a that-clause; the other forms are verb or adjective forms that cannot serve as the noun here."
+  },
+  {
+   "type": "double",
+   "sentence": "Banks are expected to exercise (A) ______ in sanctioning loans to new borrowers, since careless appraisal can (B) ______ the quality of their asset portfolios over a period of several years.",
+   "options": [
+    [
+     "prudence",
+     "bolster"
+    ],
+    [
+     "profligacy",
+     "erode"
+    ],
+    [
+     "haste",
+     "undermine"
+    ],
+    [
+     "prudence",
+     "erode"
+    ],
+    [
+     "laxity",
+     "enhance"
+    ]
+   ],
+   "correctIndex": 3,
+   "explanation": "Prudence is the quality expected in lending, and careless appraisal would erode portfolio quality; the other pairs combine a faulty quality or an improving verb with a context that rejects them."
+  },
+  {
+   "type": "single",
+   "sentence": "The firm paid lip ______ to sustainability in its glossy annual report, yet it continued to discharge untreated waste into the river that flows past the village.",
+   "options": [
+    "talk",
+    "service",
+    "support",
+    "homage",
+    "tribute"
+   ],
+   "correctIndex": 1,
+   "explanation": "To pay lip service is a fixed idiom meaning to profess support without acting on it, which matches the firm's continued pollution; none of the other words forms that idiom."
+  },
+  {
+   "type": "double",
+   "sentence": "Although automation promises to (A) ______ routine office tasks and free staff for creative work, experts caution that it may also (B) ______ the skills of the employees who currently perform them.",
+   "options": [
+    [
+     "streamline",
+     "nurture"
+    ],
+    [
+     "streamline",
+     "erode"
+    ],
+    [
+     "complicate",
+     "erode"
+    ],
+    [
+     "complicate",
+     "nurture"
+    ],
+    [
+     "inflate",
+     "hone"
+    ]
+   ],
+   "correctIndex": 1,
+   "explanation": "Streamline matches the promised benefit, and erode matches the cautionary note about workers' skills; the other pairs make the promise negative or the warning positive."
+  },
+  {
+   "type": "single",
+   "sentence": "Government subsidies, however generous, tend to ______ rather than cure the structural weaknesses of an ailing industry, merely postponing the hard decisions that real reform requires.",
+   "options": [
+    "mask",
+    "resolve",
+    "eradicate",
+    "rectify",
+    "overcome"
+   ],
+   "correctIndex": 0,
+   "explanation": "Mask rather than cure contrasts hiding a problem with solving it, and the clause about postponed decisions confirms that the weaknesses are only hidden; the other verbs all mean to solve."
+  },
+  {
+   "type": "double",
+   "sentence": "The tribunal's verdict was (A) ______ as a complete vindication of the company by those who had defended it, though its critics (B) ______ that the underlying questions remained unanswered.",
+   "options": [
+    [
+     "hailed",
+     "denied"
+    ],
+    [
+     "lamented",
+     "argued"
+    ],
+    [
+     "hailed",
+     "argued"
+    ],
+    [
+     "lamented",
+     "denied"
+    ],
+    [
+     "feared",
+     "boasted"
+    ]
+   ],
+   "correctIndex": 2,
+   "explanation": "Defenders would hail the verdict as a vindication, and critics, set against them by though, would argue that questions remained unanswered; in the other pairs one or both verbs make no sense in that context."
+  }
+ ]
+}

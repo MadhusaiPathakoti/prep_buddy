@@ -1,0 +1,312 @@
+{
+  "passages": [
+    {
+      "text": "Central banks are often described as guardians of price stability, yet their influence over everyday prices is (1) ______ rather than direct. A rise in the policy rate does not (2) ______ the cost of vegetables or fuel; it merely makes borrowing dearer, in the hope that households and firms will (3) ______ their spending. Whether that hope is fulfilled depends largely on expectations. If people believe that inflation will remain low, they moderate their wage demands and price increases, and the outcome tends to (4) ______ the belief. If trust weakens, (5) ______, even a sharp rise in rates may fail to restrain prices, since businesses assume that costs will keep climbing. For this reason, a credible commitment is as important as any particular rate, and some economists argue that the central bank's most (6) ______ asset is not its balance sheet but its reputation. An institution that is believed needs to act less often, and when it must act, it can do so with smaller and less disruptive steps.",
+      "blanks": [
+        {
+          "n": 1,
+          "options": [
+            "inherent",
+            "absolute",
+            "indirect",
+            "instant",
+            "partisan"
+          ],
+          "correctIndex": 2,
+          "explanation": "The phrase \"rather than direct\" calls for its opposite, and the passage goes on to show that policy works only through borrowing costs and expectations; that is, it is indirect."
+        },
+        {
+          "n": 2,
+          "options": [
+            "dictate",
+            "deplete",
+            "dispute",
+            "depict",
+            "deserve"
+          ],
+          "correctIndex": 0,
+          "explanation": "To dictate a price is to fix it by command, which a rate rise does not do; it only makes borrowing dearer. The other verbs do not take \"the cost of vegetables or fuel\" sensibly."
+        },
+        {
+          "n": 3,
+          "options": [
+            "kindle",
+            "concede",
+            "bestow",
+            "curb",
+            "inflate"
+          ],
+          "correctIndex": 3,
+          "explanation": "Dearer borrowing is meant to hold spending back, so the verb must mean to restrain: curb. The other verbs would either mean the opposite or make no sense with \"spending\"."
+        },
+        {
+          "n": 4,
+          "options": [
+            "confirms",
+            "confirm",
+            "confirmed",
+            "confirming",
+            "confirmation"
+          ],
+          "correctIndex": 1,
+          "explanation": "After \"tends to\" the plain base form is required, so confirm is the only grammatical choice, and it also gives the sense that the outcome bears out the belief."
+        },
+        {
+          "n": 5,
+          "options": [
+            "moreover",
+            "likewise",
+            "similarly",
+            "besides",
+            "conversely"
+          ],
+          "correctIndex": 4,
+          "explanation": "The sentence sets the case of weakened trust against the case of low-inflation belief, so a contrast marker such as conversely is needed. The other connectors signal addition or similarity."
+        },
+        {
+          "n": 6,
+          "options": [
+            "valid",
+            "valiant",
+            "valuable",
+            "vacant",
+            "vague"
+          ],
+          "correctIndex": 2,
+          "explanation": "The sentence ranks reputation above the balance sheet as an asset, so the adjective must mean worth a great deal: valuable. The others cannot describe an asset in this sense."
+        }
+      ]
+    },
+    {
+      "text": "The spread of automation has revived an old anxiety: that machines will (1) ______ human workers faster than new occupations can emerge. History offers partial reassurance. Each earlier wave of technology destroyed particular jobs, yet the economy as a whole eventually found new uses for people. The mechanisation of farming did not (2) ______ in permanent mass unemployment; labour moved, over decades, into manufacturing and services. But the comparison has limits, (3) ______ earlier machines replaced muscle, whereas present systems increasingly imitate judgement. Whether the pattern will repeat is therefore uncertain. What seems clear is that the transition will be uneven: some regions and age groups will (4) ______ far more than others. Retraining programmes can help, provided they are (5) ______ to actual local demand for skills rather than copied from some distant model. Policy that merely hopes the market will (6) ______ the gap is likely to leave many workers waiting, and waiting, for a recovery that never quite reaches them. Reassurance drawn only from the past is thin comfort for a worker who is fifty and unemployed today.",
+      "blanks": [
+        {
+          "n": 1,
+          "options": [
+            "displace",
+            "delegate",
+            "deserve",
+            "deploy",
+            "defend"
+          ],
+          "correctIndex": 0,
+          "explanation": "The anxiety is that machines will push workers out of jobs, which is what displace means. The other verbs make no sense with \"human workers faster than new occupations can emerge\"."
+        },
+        {
+          "n": 2,
+          "options": [
+            "resolve",
+            "retire",
+            "recede",
+            "result",
+            "resume"
+          ],
+          "correctIndex": 3,
+          "explanation": "\"Result in\" is the fixed phrase meaning to lead to a consequence. None of the other verbs combines with \"in permanent mass unemployment\"."
+        },
+        {
+          "n": 3,
+          "options": [
+            "unless",
+            "since",
+            "until",
+            "whether",
+            "lest"
+          ],
+          "correctIndex": 1,
+          "explanation": "The clause gives the reason why the comparison has limits, and since introduces a reason. Unless, until, whether and lest cannot introduce a factual reason here."
+        },
+        {
+          "n": 4,
+          "options": [
+            "supply",
+            "signify",
+            "surrender",
+            "suspend",
+            "suffer"
+          ],
+          "correctIndex": 4,
+          "explanation": "An uneven transition is one in which some groups bear its costs far more than others, so suffer fits. The other verbs do not make sense with \"far more than others\"."
+        },
+        {
+          "n": 5,
+          "options": [
+            "oblivious",
+            "immune",
+            "attuned",
+            "hostile",
+            "alien"
+          ],
+          "correctIndex": 2,
+          "explanation": "Training can help only if it is closely matched to demand, and attuned to is the idiom for this. The remaining adjectives would describe programmes that ignore demand or reject it, which contradicts \"can help\"."
+        },
+        {
+          "n": 6,
+          "options": [
+            "bridge",
+            "widen",
+            "ignore",
+            "measure",
+            "inherit"
+          ],
+          "correctIndex": 0,
+          "explanation": "To bridge a gap is to close it, and \"bridge the gap\" is the standard collocation. Hoping the market will widen, ignore, measure or inherit it makes no sense."
+        }
+      ]
+    },
+    {
+      "text": "Water is unusual among scarce resources in that it is (1) ______ underpriced and undervalued. Food, fuel and clothing all carry prices that rise when supplies tighten, but the tap in most homes delivers an essential good at a price that scarcely changes. In many cities, households pay a (2) ______ fee that bears little relation to the cost of treating and delivering what they use, so there is scant reason to economise. Raising charges is the obvious remedy, but it is politically (3) ______ because water is also a necessity, and steep bills fall hardest on the poor. A more defensible approach is a tiered tariff, under which a basic quantity is supplied cheaply and heavier use is charged (4) ______ progressively higher rates. Such a scheme protects essential consumption while discouraging waste. It cannot, (5) ______, succeed unless leaks are repaired, for a network that loses a third of its supply before it reaches any tap will remain unsustainable, however carefully customers conserve. Conservation by consumers, in short, is no (6) ______ for sound management by suppliers.",
+      "blanks": [
+        {
+          "n": 1,
+          "options": [
+            "either",
+            "neither",
+            "whether",
+            "both",
+            "each"
+          ],
+          "correctIndex": 3,
+          "explanation": "The pair \"underpriced and undervalued\" needs the correlative both ... and. Either, neither, whether and each cannot be paired with \"and\" in this way."
+        },
+        {
+          "n": 2,
+          "options": [
+            "lavish",
+            "nominal",
+            "volatile",
+            "ornate",
+            "hostile"
+          ],
+          "correctIndex": 1,
+          "explanation": "A fee that bears little relation to cost and gives \"scant reason to economise\" is a small, token one, which nominal expresses. The other adjectives do not describe a fee in this sense."
+        },
+        {
+          "n": 3,
+          "options": [
+            "sensible",
+            "sensory",
+            "sensual",
+            "sentimental",
+            "sensitive"
+          ],
+          "correctIndex": 4,
+          "explanation": "Politically sensitive means likely to provoke public controversy, which explains the reference to steep bills falling on the poor. Sensible would contradict the \"but\" that precedes it."
+        },
+        {
+          "n": 4,
+          "options": [
+            "by",
+            "with",
+            "at",
+            "for",
+            "to"
+          ],
+          "correctIndex": 2,
+          "explanation": "Rates are the price at which a person is charged, so \"charged at progressively higher rates\" is the correct preposition use. Charged with, by, for or to would change the meaning or be ungrammatical."
+        },
+        {
+          "n": 5,
+          "options": [
+            "however",
+            "therefore",
+            "similarly",
+            "otherwise",
+            "instead"
+          ],
+          "correctIndex": 0,
+          "explanation": "The sentence introduces a limit on the praise just given, so a contrast adverb is needed: however. Therefore and similarly point the other way, and otherwise and instead do not fit the structure."
+        },
+        {
+          "n": 6,
+          "options": [
+            "excuse",
+            "evidence",
+            "penalty",
+            "substitute",
+            "reward"
+          ],
+          "correctIndex": 3,
+          "explanation": "\"No substitute for\" is the fixed phrase meaning nothing can take the place of something. The other nouns do not combine with \"for sound management\"."
+        }
+      ]
+    },
+    {
+      "text": "Regulating financial technology presents authorities with a genuine dilemma. Rules written too (1) ______ may stifle experiments that would have widened access to credit; rules written too loosely invite the kind of reckless lending that regulation exists to prevent. Move too slowly and consumers may be exposed to harm; move too quickly and promising innovation may be strangled before it has had a chance to prove itself. Many regulators have therefore turned to the 'sandbox' model, in which a new product is tested on a limited group of customers under close (2) ______ before it is released more widely. The approach has much to (3) ______ it, but it is not without flaws. A firm that passes the test may still behave differently once the (4) ______ eases, and a sandbox can unintentionally confer a seal of approval that customers misread as a guarantee of safety. Supervisors must therefore be (5) ______ of that misperception, (6) ______ the experiment shields consumers only for as long as the safeguards remain in force. Public education, in short, must accompany every experiment.",
+      "blanks": [
+        {
+          "n": 1,
+          "options": [
+            "tighten",
+            "tightly",
+            "tightness",
+            "tightening",
+            "tighter"
+          ],
+          "correctIndex": 1,
+          "explanation": "An adverb is needed to modify the participle \"written\", and it is set against \"loosely\" later in the sentence, so tightly is the only suitable form."
+        },
+        {
+          "n": 2,
+          "options": [
+            "scarcity",
+            "surplus",
+            "sorrow",
+            "solitude",
+            "scrutiny"
+          ],
+          "correctIndex": 4,
+          "explanation": "\"Close scrutiny\" is the usual collocation for careful examination, which is what a test under supervision involves. The other nouns make no sense after \"close\"."
+        },
+        {
+          "n": 3,
+          "options": [
+            "remember",
+            "request",
+            "recommend",
+            "restrict",
+            "resemble"
+          ],
+          "correctIndex": 2,
+          "explanation": "\"Has much to recommend it\" is a fixed idiom meaning it has many good qualities, which suits the \"but it is not without flaws\" that follows. The other verbs break the idiom or the sense."
+        },
+        {
+          "n": 4,
+          "options": [
+            "pressure",
+            "platform",
+            "pretence",
+            "prospect",
+            "parlance"
+          ],
+          "correctIndex": 0,
+          "explanation": "Supervision is described as a source of pressure that can ease; only pressure collocates with \"eases\" in this sense. The other nouns do not."
+        },
+        {
+          "n": 5,
+          "options": [
+            "weary",
+            "wise",
+            "worthy",
+            "wary",
+            "warm"
+          ],
+          "correctIndex": 3,
+          "explanation": "\"Be wary of\" means to be cautious about something, which is what supervisors must be about a misperception. Wise, worthy and warm do not take \"of\" with this meaning, and weary would mean tired of."
+        },
+        {
+          "n": 6,
+          "options": [
+            "although",
+            "because",
+            "unless",
+            "whereas",
+            "until"
+          ],
+          "correctIndex": 1,
+          "explanation": "The final clause gives the reason supervisors must be careful: protection lasts only while safeguards remain. Because states that reason, while the other conjunctions would contradict the logic."
+        }
+      ]
+    }
+  ]
+}

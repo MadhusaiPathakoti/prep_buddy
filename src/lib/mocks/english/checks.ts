@@ -270,7 +270,7 @@ export function checkEnglishGroup(topic: EnglishTopicId, difficulty: MockDifficu
         }
         targets.add(t)
       } else {
-        if (stems.some((s) => jaccard(s, q.stem) >= 0.8)) {
+        if (stems.some((s) => jaccard(s, q.stem) >= 0.9)) {
           reasons.push('rc q: near-duplicate stem')
           continue
         }
@@ -303,7 +303,7 @@ export function checkEnglishGroup(topic: EnglishTopicId, difficulty: MockDifficu
 // ---------------------------------------------------------------------------------------------------
 
 /** Text that identifies a question's content (directions stripped, options included for sentence-type questions). */
-function dedupeText(q: QuestionDraft): string | null {
+export function dedupeText(q: QuestionDraft): string | null {
   if (q.topic === 'cloze') return null
   const v = VOCAB_STEM.exec(q.stem)
   if (v) return `vocab ${v[1].toLowerCase()}`

@@ -1,0 +1,172 @@
+{
+ "items": [
+  {
+   "pairs": [
+    {
+     "begin": "Not only did the central bank cut interest rates,",
+     "end": "but it also eased the rules on lending to small firms."
+    },
+    {
+     "begin": "Had the government acted earlier,",
+     "end": "the shortage of grain could have been avoided."
+    },
+    {
+     "begin": "The more heavily a nation depends on a single export,",
+     "end": "the more vulnerable it becomes to sudden price falls."
+    },
+    {
+     "begin": "No sooner had the new tax been announced",
+     "end": "than shopkeepers began raising their prices at once."
+    }
+   ],
+   "explanation": "Each opening demands its own structure: \"Not only did\" needs \"but ... also\", the inverted \"Had ... acted\" needs \"could have been\", \"The more ...\" needs \"the more ...\", and \"No sooner had\" needs \"than\"."
+  },
+  {
+   "pairs": [
+    {
+     "begin": "Were the software to be released without further testing,",
+     "end": "the team would regret its haste."
+    },
+    {
+     "begin": "The engineers worked through the night lest",
+     "end": "the deadline be missed by even a single day."
+    },
+    {
+     "begin": "So rapidly has the technology advanced that",
+     "end": "any device bought last year is already obsolete."
+    },
+    {
+     "begin": "Whereas the first model relied on a single processor,",
+     "end": "its successor divides the work among several."
+    }
+   ],
+   "explanation": "\"Were ... to be released\" needs a \"would\" result, \"lest\" needs a bare subjunctive verb, \"So rapidly has ... that\" needs a consequence of rapid advance, and \"Whereas\" needs a contrasting clause about the successor."
+  },
+  {
+   "pairs": [
+    {
+     "begin": "The council decided to restore the old wetland rather than",
+     "end": "abandon it to the builders as useless wasteland."
+    },
+    {
+     "begin": "The reservoir, whose",
+     "end": "level has fallen steadily for a decade, now supplies far less water than the city requires."
+    },
+    {
+     "begin": "Unless emissions are reduced substantially within the next decade,",
+     "end": "the damage to coastal ecosystems may prove irreversible."
+    },
+    {
+     "begin": "Hardly had the monsoon arrived when",
+     "end": "the dry riverbed began to fill with muddy water."
+    }
+   ],
+   "explanation": "\"rather than\" needs a bare verb phrase (\"abandon it ...\"), \"whose\" needs a noun it possesses (\"level\"), \"Unless\" in the present needs a \"may prove\" result, and \"Hardly had ... when\" needs a past event."
+  },
+  {
+   "pairs": [
+    {
+     "begin": "The problem was so complex as to",
+     "end": "defeat even the most gifted students in the class."
+    },
+    {
+     "begin": "Were it not for the generous scholarship,",
+     "end": "she would never have continued her studies abroad."
+    },
+    {
+     "begin": "However carefully a test is designed,",
+     "end": "it can never measure every aspect of ability."
+    },
+    {
+     "begin": "It was not until the results arrived that",
+     "end": "the students realised how much they had forgotten."
+    }
+   ],
+   "explanation": "\"so complex as to\" needs a bare infinitive, \"Were it not for\" needs a \"would have\" result, \"However carefully\" needs a general present statement, and \"It was not until ... that\" needs a past-tense clause."
+  },
+  {
+   "pairs": [
+    {
+     "begin": "Not until the patient's fever subsided",
+     "end": "did the doctors allow her to leave the ward."
+    },
+    {
+     "begin": "Regular exercise is beneficial, provided it",
+     "end": "is not carried to the point of exhaustion."
+    },
+    {
+     "begin": "Whereas some illnesses announce themselves with obvious symptoms,",
+     "end": "others progress silently for years before they are detected."
+    },
+    {
+     "begin": "The clinic, which",
+     "end": "was founded to serve the poorest families, now treats thousands each year."
+    }
+   ],
+   "explanation": "\"Not until\" at the start forces inversion (\"did the doctors allow\"), \"provided it\" needs a verb, \"Whereas some ... others\" needs the contrasting group, and \"which\" needs a verb phrase describing the clinic."
+  },
+  {
+   "pairs": [
+    {
+     "begin": "The more the empire expanded,",
+     "end": "the harder it became to govern its distant provinces."
+    },
+    {
+     "begin": "Having exhausted its treasury in prolonged wars,",
+     "end": "the kingdom could no longer pay its soldiers."
+    },
+    {
+     "begin": "The scribes were so meticulous that",
+     "end": "a single error was rarely found in their copies."
+    },
+    {
+     "begin": "Neither the king nor his ministers",
+     "end": "were willing to listen to the farmers' complaints."
+    }
+   ],
+   "explanation": "\"The more\" needs \"the harder\", the opening participle phrase needs a subject that did the exhausting (the kingdom), \"so meticulous that\" needs a result about the scribes' copies, and a plural subject \"Neither ... nor his ministers\" needs \"were willing\"."
+  },
+  {
+   "pairs": [
+    {
+     "begin": "Inflation erodes savings insofar as",
+     "end": "the interest they earn fails to keep pace with rising prices."
+    },
+    {
+     "begin": "Had the merchants not diversified their trade,",
+     "end": "the collapse of one market would have ruined them."
+    },
+    {
+     "begin": "Few consumers notice a small price rise, let alone",
+     "end": "take to the streets in protest."
+    },
+    {
+     "begin": "So long as demand for bread remains steady,",
+     "end": "producers have little reason to alter their output."
+    }
+   ],
+   "explanation": "\"insofar as\" needs a limiting clause about savings, the inverted \"Had ... not diversified\" needs \"would have ruined\", \"let alone\" needs a bare verb phrase that is a stronger reaction, and \"So long as\" needs a present result about producers."
+  },
+  {
+   "pairs": [
+    {
+     "begin": "The more people rely on digital maps,",
+     "end": "the less they trust their own sense of direction."
+    },
+    {
+     "begin": "Scarcely had the first reviews appeared when",
+     "end": "the new novel was sold out in every bookshop."
+    },
+    {
+     "begin": "Provided the battery is charged overnight,",
+     "end": "the latest model runs for days without a break."
+    },
+    {
+     "begin": "The council banned vehicles from the old quarter so as to",
+     "end": "protect the fragile buildings from vibration."
+    }
+   ],
+   "explanation": "\"The more\" needs \"the less\", \"Scarcely had ... when\" needs a past event, \"Provided\" needs a present result that depends on charging, and \"so as to\" needs a bare verb of purpose."
+  }
+ ]
+}

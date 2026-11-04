@@ -1,0 +1,14 @@
+{
+  "passages": [
+    {
+      "text": "The new bus service has (1) ______ daily life in the village. Earlier, residents had to walk several kilometres to reach the market, and many elderly people (2) ______ at home for days. Now a bus runs every hour, so farmers can sell their produce (3) ______ and children reach school on time every morning. The council (4) ______ the scheme after a survey showed that most families wanted it. Although the fares are low, the service has not yet (5) ______ a profit, and officials are looking for ways to cut costs without reducing the number of trips.",
+      "blanks": [
+        { "n": 1, "options": ["transformed", "transforming", "transform", "transformation", "transferred"], "correctIndex": 0, "explanation": "The present perfect 'has transformed' needs the past participle and the sense of changing daily life." },
+        { "n": 2, "options": ["stay", "stayed", "staying", "stays", "stood"], "correctIndex": 1, "explanation": "The sentence describes the past ('Earlier'), so the past tense 'stayed' is needed." },
+        { "n": 3, "options": ["easy", "ease", "easier", "easily", "easiest"], "correctIndex": 3, "explanation": "An adverb is needed to modify the verb 'sell'." },
+        { "n": 4, "options": ["approve", "approving", "approval", "approves", "approved"], "correctIndex": 4, "explanation": "The past tense matches 'showed' and the sense of giving permission." },
+        { "n": 5, "options": ["make", "making", "made", "makes", "been made"], "correctIndex": 2, "explanation": "'Has not yet made a profit' needs the past participle after 'has'." }
+      ]
+    }
+  ]
+}

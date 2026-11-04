@@ -1,0 +1,85 @@
+{
+  "passages": [
+    {
+      "paragraphs": [
+        "Small town libraries were once quiet places where residents borrowed printed books and little else. Today many of them also lend laptops, run free classes on filling in online forms, and offer a warm room to people who cannot afford heating at home. The change did not come from a grand plan. It came from librarians who noticed what visitors kept asking for and who were willing to adapt their services accordingly.",
+        "Critics argue that libraries should concentrate on books and leave social support to other agencies. Supporters reply that no other public building is open to everyone, charges nothing at the door and is trusted by both the young and the old. They add that a library which lends a laptop to a job seeker is still performing its original task, which is to widen access to knowledge.",
+        "Funding remains the main difficulty. Councils that cut opening hours save little money in the short term, yet they lose the daily visitors who justify the service. Where budgets have been protected, the number of members has grown steadily, and the newest members are often people who had never entered a library before."
+      ],
+      "questions": [
+        {
+          "kind": "main-idea",
+          "targetWord": "",
+          "stem": "Which of the following best expresses the central idea of the passage?",
+          "options": [
+            "Libraries have widened their role beyond lending books, and keeping them funded matters.",
+            "Libraries should stop lending books and become social support centres.",
+            "Councils are right to cut library opening hours to save money.",
+            "Only young people now visit libraries in small towns.",
+            "Printed books have been replaced by laptops in every library."
+          ],
+          "correctIndex": 0,
+          "explanation": "The passage traces how libraries added services and ends by stressing that funding decides whether they keep growing."
+        },
+        {
+          "kind": "inference",
+          "targetWord": "",
+          "stem": "Which of the following can be inferred about reduced opening hours?",
+          "options": [
+            "They may save little money while driving away regular visitors.",
+            "They always increase the number of new members.",
+            "They are demanded by most library supporters.",
+            "They have no effect on library membership at all.",
+            "They are the main reason libraries lend laptops."
+          ],
+          "correctIndex": 0,
+          "explanation": "Councils that cut hours save little in the short term yet lose the daily visitors who justify the service."
+        },
+        {
+          "kind": "true",
+          "targetWord": "",
+          "stem": "Which of the following statements is true according to the passage?",
+          "options": [
+            "Supporters say the library is open to everyone and charges nothing at the door.",
+            "Critics say libraries already lend too many laptops to job seekers.",
+            "The passage states that every council has protected its library budget.",
+            "Librarians changed their services because a national plan required it.",
+            "Heating is provided free of cost by all other public buildings."
+          ],
+          "correctIndex": 0,
+          "explanation": "The second paragraph gives exactly this argument on behalf of supporters."
+        },
+        {
+          "kind": "not-true",
+          "targetWord": "",
+          "stem": "Which of the following is NOT true according to the passage?",
+          "options": [
+            "The newest members are often first-time library visitors.",
+            "Some libraries now run classes on filling in online forms.",
+            "Critics believe social support should be left to other agencies.",
+            "Librarians introduced new services after noticing what visitors asked for.",
+            "Councils that cut opening hours made large long-term savings."
+          ],
+          "correctIndex": 4,
+          "explanation": "The passage says such cuts save little money and lose the daily visitors, so large long-term savings are not claimed."
+        },
+        {
+          "kind": "vocab-synonym",
+          "targetWord": "adapt",
+          "stem": "Choose the word closest in meaning to the word as used in the passage.",
+          "options": ["adjust", "resist", "ignore", "postpone", "refuse"],
+          "correctIndex": 0,
+          "explanation": "To adapt services is to adjust them to what visitors need."
+        },
+        {
+          "kind": "vocab-antonym",
+          "targetWord": "grand",
+          "stem": "Choose the word opposite in meaning to the word as used in the passage.",
+          "options": ["splendid", "lavish", "modest", "impressive", "ambitious"],
+          "correctIndex": 2,
+          "explanation": "A grand plan is large and impressive; its opposite here is modest."
+        }
+      ]
+    }
+  ]
+}

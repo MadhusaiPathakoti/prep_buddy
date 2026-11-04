@@ -1,0 +1,225 @@
+{
+ "items": [
+  {
+   "variant": "replace",
+   "before": "By the time the relief teams reached the remote hamlet, the floodwater",
+   "phrase": "had already receded",
+   "after": "and the villagers had begun to rebuild their damaged homes.",
+   "options": [
+    "has already receded",
+    "already receding",
+    "would already recede",
+    "was already to recede"
+   ],
+   "correctIndex": null,
+   "explanation": "The sentence is already correct: the past perfect “had already receded” shows that the water went down before the teams arrived, matching “had begun” later in the sentence. Every replacement breaks the time sequence or the verb form."
+  },
+  {
+   "variant": "replace",
+   "before": "The new policy aims at reducing paperwork, improving response times, and",
+   "phrase": "to encourage",
+   "after": "staff to take greater ownership of their daily tasks.",
+   "options": [
+    "encouraging",
+    "encourage",
+    "encouraged",
+    "to be encouraging"
+   ],
+   "correctIndex": 0,
+   "explanation": "After the preposition “at” the series “reducing ..., improving ...” needs a third gerund, so “and encouraging” keeps the structure parallel."
+  },
+  {
+   "variant": "replace",
+   "before": "The auditor",
+   "phrase": "insisted to be given",
+   "after": "access to the original invoices before she would sign off on the accounts.",
+   "options": [
+    "insisted in being given",
+    "insisted for being given",
+    "insisted on being given",
+    "insisted that being given"
+   ],
+   "correctIndex": 2,
+   "explanation": "“Insist” takes the preposition “on” before a gerund: “insisted on being given access”. The other prepositions are not used with “insist” in this way."
+  },
+  {
+   "variant": "replace",
+   "before": "Had the manufacturer tested the prototype more rigorously, the defect",
+   "phrase": "would be discovered",
+   "after": "well before the product reached the market.",
+   "options": [
+    "would be discovering",
+    "had been discovered",
+    "will have been discovered",
+    "would have been discovered"
+   ],
+   "correctIndex": 3,
+   "explanation": "The inverted “Had ... tested” is a third conditional about the unreal past, so the result clause needs “would have been discovered”."
+  },
+  {
+   "variant": "replace",
+   "before": "Seldom",
+   "phrase": "the council has",
+   "after": "faced such a sharply divided public response as the one over the proposed bypass.",
+   "options": [
+    "did the council",
+    "has the council",
+    "does the council",
+    "was the council"
+   ],
+   "correctIndex": 1,
+   "explanation": "A negative adverb such as “Seldom” at the start of a sentence requires inversion of the auxiliary and subject, and the present perfect is completed by “faced”: “Seldom has the council faced ...”."
+  },
+  {
+   "variant": "replace",
+   "before": "The new reading room is",
+   "phrase": "twice larger as",
+   "after": "the old one and can seat nearly three hundred students at a time.",
+   "options": [
+    "twice so large as",
+    "twice as large than",
+    "twice as large as",
+    "twice as larger as"
+   ],
+   "correctIndex": 2,
+   "explanation": "A multiple comparison of equal degree is built as “twice as large as”, with the positive adjective between the two “as” words."
+  },
+  {
+   "variant": "replace",
+   "before": "The proposal is worth",
+   "phrase": "to consider",
+   "after": "carefully before the board takes a final decision on the annual budget.",
+   "options": [
+    "considering",
+    "consider",
+    "for considering",
+    "of considering"
+   ],
+   "correctIndex": 0,
+   "explanation": "The adjective “worth” is followed by an “-ing” form, as in “worth considering”; neither an infinitive nor a preposition may be added."
+  },
+  {
+   "variant": "replace",
+   "before": "She was",
+   "phrase": "so a talented",
+   "after": "musician that the orchestra offered her a permanent place after a single audition.",
+   "options": [
+    "so much talented",
+    "a so talented",
+    "such talented",
+    "such a talented"
+   ],
+   "correctIndex": 3,
+   "explanation": "Before a singular noun with an article the intensifier is “such a”: “such a talented musician that ...”. The other forms are not grammatical in this slot."
+  },
+  {
+   "variant": "replace",
+   "before": "The delegates agreed that the final report",
+   "phrase": "should be published",
+   "after": "without delay and asked the secretary to circulate it among all the members.",
+   "options": [
+    "should be publish",
+    "should been published",
+    "should published",
+    "should being published"
+   ],
+   "correctIndex": null,
+   "explanation": "The sentence is already correct: the report receives the action, so the passive “should be published” is needed. Each replacement is an ill-formed verb group."
+  },
+  {
+   "variant": "replace",
+   "before": "The survey included five hundred participants,",
+   "phrase": "most of who",
+   "after": "were first-time voters, and it was conducted over several weekends.",
+   "options": [
+    "most of which",
+    "most of whom",
+    "the most of whom",
+    "most of whose"
+   ],
+   "correctIndex": 1,
+   "explanation": "After the preposition “of” the relative pronoun for people takes the object form “whom”: “most of whom were first-time voters”. “Most of them” would join two clauses with only a comma."
+  },
+  {
+   "variant": "replace",
+   "before": "The treaty,",
+   "phrase": "which has been signed",
+   "after": "some twenty years ago, remains the basis of cooperation between the two neighbouring countries.",
+   "options": [
+    "which had signed",
+    "which has signed",
+    "which is signing",
+    "which was signed"
+   ],
+   "correctIndex": 3,
+   "explanation": "The finished time reference “some twenty years ago” requires the simple past passive “which was signed”; the present perfect cannot be used with it."
+  },
+  {
+   "variant": "usage",
+   "sentence": "After weeks of tense negotiation, the two parties finally ______ a compromise that satisfied the residents.",
+   "options": [
+    "hammered on",
+    "dropped off",
+    "broke up",
+    "set off",
+    "hammered out"
+   ],
+   "correctIndex": 4,
+   "explanation": "“Hammer out” means to reach an agreement through hard discussion, which fits a compromise reached after tense negotiation. The other phrasal verbs do not take “a compromise” as an object in a sensible way."
+  },
+  {
+   "variant": "usage",
+   "sentence": "The new rule is expected to ______ a significant reduction in waiting times at all branches.",
+   "options": [
+    "bring up",
+    "bring about",
+    "bring down",
+    "bring out",
+    "bring round"
+   ],
+   "correctIndex": 1,
+   "explanation": "“Bring about” means to cause something to happen, so a rule can bring about a reduction. One would “bring down” the waiting times themselves, but not “a reduction”."
+  },
+  {
+   "variant": "usage",
+   "sentence": "It was only after the inspector ______ the records that the fraud came to light.",
+   "options": [
+    "went away",
+    "went without",
+    "went through",
+    "went off",
+    "went along"
+   ],
+   "correctIndex": 2,
+   "explanation": "“Go through” means to examine something carefully, which is how the fraud was found in the records. The remaining combinations do not make sense with “the records”."
+  },
+  {
+   "variant": "replace",
+   "before": "Not until the audit report was released",
+   "phrase": "the board realised",
+   "after": "the full extent of the losses.",
+   "options": [
+    "the board did realise",
+    "did the board realise",
+    "did the board realised",
+    "was the board realising"
+   ],
+   "correctIndex": 1,
+   "explanation": "When “Not until ...” opens the sentence, the main clause needs inversion of auxiliary and subject, and the main verb returns to its base form: “did the board realise”."
+  },
+  {
+   "variant": "replace",
+   "before": "The climate of the coastal region is milder",
+   "phrase": "than the hill stations",
+   "after": "and attracts retirees throughout the year.",
+   "options": [
+    "than that of the hill stations",
+    "than those of the hill stations",
+    "than those in the hill stations",
+    "than it of the hill stations"
+   ],
+   "correctIndex": 0,
+   "explanation": "A climate must be compared with another climate, not with places; “that of” stands for the singular “climate”, so “than that of the hill stations” is correct."
+  }
+ ]
+}

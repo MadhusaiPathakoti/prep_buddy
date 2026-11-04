@@ -1,0 +1,151 @@
+{
+ "items": [
+  {
+   "sentences": [
+    "Many families in the town used to keep their savings at home in tin boxes and cupboards.",
+    "However, a small bank opened a branch in the main market and invited residents to open accounts.",
+    "At first, only a few people trusted the new institution with their money.",
+    "Later, when the bank began paying interest on deposits, more households started to follow them.",
+    "As a result, the total savings of the town grew steadily over the next few years."
+   ],
+   "explanation": "The paragraph begins with the old habit of keeping savings at home. \"However, a small bank...\" contrasts with it, \"the new institution\" refers to that bank, \"follow them\" refers to the few early depositors, and \"As a result\" gives the outcome."
+  },
+  {
+   "sentences": [
+    "Digital payment apps, which let a customer pay by simply scanning a code, have spread to even the smallest shops.",
+    "Before their arrival, shoppers had to carry cash, and shopkeepers often struggled to find change for large notes.",
+    "The apps removed that difficulty, because the exact amount moves between two accounts within seconds.",
+    "Consequently, queues at the counter became shorter, and customers began to prefer shops that accepted such payments.",
+    "Even so, people living in areas with weak network signals still depend largely on cash."
+   ],
+   "explanation": "The apps are introduced first; \"Before their arrival\" looks back to them, \"that difficulty\" refers to the trouble with cash and change, \"Consequently\" gives the result, and \"Even so\" ends with a concession."
+  },
+  {
+   "sentences": [
+    "A coastal town recently decided to ban plastic bags from all its markets.",
+    "The decision followed a survey which found that discarded bags were the commonest litter on its beaches.",
+    "Shopkeepers, however, feared that customers would resent a rule based on the findings of this survey.",
+    "To their surprise, most people simply began to bring cloth bags from home.",
+    "Within a year, the beaches looked noticeably cleaner, and other towns were studying the plan."
+   ],
+   "explanation": "The ban is announced first and \"The decision\" refers to it. \"this survey\" can only follow the sentence that mentions the survey, \"To their surprise\" answers the shopkeepers' fear, and the clean beaches come last as the result."
+  },
+  {
+   "sentences": [
+    "Teachers often debate how much homework is suitable for young children.",
+    "Supporters argue that regular practice at home helps pupils remember what they learnt in class.",
+    "Critics reply that tired children gain little from extra work and may lose interest in learning altogether.",
+    "Both views contain some truth, which is why many schools now set short tasks instead of long assignments.",
+    "Such a compromise gives pupils practice without taking away their time to play and rest."
+   ],
+   "explanation": "The debate is introduced first, \"Supporters argue\" states one side and \"Critics reply\" answers it. \"Both views\" needs both sides before it, and \"Such a compromise\" refers to the short tasks just mentioned."
+  },
+  {
+   "sentences": [
+    "Doctors say that adults need between seven and nine hours of sleep every night.",
+    "When people sleep for fewer hours than this, they find it harder to concentrate during the day.",
+    "Over a longer period, such a shortage of sleep can also weaken the body's defence against common illnesses.",
+    "For this reason, experts advise people to switch off their screens an hour before bedtime.",
+    "A regular routine of this kind makes it easier to fall asleep and wake up refreshed."
+   ],
+   "explanation": "The recommended amount of sleep comes first and \"than this\" refers to it. \"Over a longer period ... also\" adds a later effect to the short-term one, \"For this reason\" introduces the advice, and \"of this kind\" refers to that advice."
+  },
+  {
+   "sentences": [
+    "A group of neighbours in our colony turned an empty plot into a small community garden last year.",
+    "Each family was given a patch of its own and agreed to look after it.",
+    "Once the first crop ripened, the patches produced more vegetables than the families could eat.",
+    "They therefore began sharing the extra produce with older residents who lived alone.",
+    "This simple act of sharing brought the neighbours closer, and the colony became a friendlier place."
+   ],
+   "explanation": "The garden is created first, then each family receives a patch. \"the patches\" and \"the families\" refer back to that sentence, \"They therefore\" follows the surplus, and \"This simple act of sharing\" sums up the sharing."
+  },
+  {
+   "sentences": [
+    "Before printing was invented, every book in Europe had to be copied slowly by hand.",
+    "As a result, books were extremely costly.",
+    "Hence only wealthy people or religious institutions could afford to own them.",
+    "The printing press changed this situation by producing hundreds of identical copies in a short time.",
+    "Prices fell sharply, and ordinary families gradually began to buy books and learn to read.",
+    "In this way, a skill once limited to a small group became a part of everyday life."
+   ],
+   "explanation": "Hand copying causes high costs (\"As a result\"), which in turn limit ownership (\"Hence\"). \"this situation\" refers to that limit, falling prices follow the press, and \"In this way\" closes with the social consequence."
+  },
+  {
+   "sentences": [
+    "When the price of onions rises sharply, households feel the effect almost immediately.",
+    "A family that once bought two kilos may now buy only one.",
+    "Traders then notice that sales have fallen as more households cut back in the same way.",
+    "They respond by reducing the quantity they order from farmers.",
+    "Farmers, in turn, plant fewer onions in the next season.",
+    "Eventually, the shortage of onions pushes prices up once again, and the cycle repeats."
+   ],
+   "explanation": "Each sentence is a step in a chain: the price rise, the family buying less, \"Traders then notice\", \"They respond\" (They = the traders), \"Farmers, in turn\" and finally \"Eventually\" completes the cycle."
+  },
+  {
+   "sentences": [
+    "Weather forecasts today are far more accurate than those of fifty years ago.",
+    "The main reason is the use of satellites, which photograph clouds and send back measurements from across the entire planet.",
+    "Powerful computers then process this vast quantity of information.",
+    "From it, they predict how the atmosphere will change over the coming days.",
+    "Farmers and fishermen rely on these predictions to decide when to sow seeds or put their boats to sea.",
+    "Beyond this routine planning, accurate warnings of storms have also saved many lives by giving people time to move to safety."
+   ],
+   "explanation": "The claim of better forecasts comes first, then its reason (satellites). \"this vast quantity of information\" refers to their measurements, \"From it, they predict\" refers to the computers' work, and \"these predictions\" and \"also\" lead to the uses."
+  },
+  {
+   "sentences": [
+    "Many cities face a shortage of water during the long summer months.",
+    "One simple remedy is rainwater harvesting.",
+    "In it, rain falling on rooftops is collected in tanks and stored for later use.",
+    "The stored water can be used for gardening, cleaning and even drinking after proper filtering.",
+    "Several housing societies that put the water to these uses have cut their dependence on tankers considerably.",
+    "Therefore, experts urge city authorities to make such systems compulsory in every new building, following the example of those societies."
+   ],
+   "explanation": "The problem comes first and \"One simple remedy\" answers it. \"In it\" explains harvesting, \"The stored water\" follows the storage, \"these uses\" refers to the uses just listed, and \"Therefore\" gives the recommendation."
+  },
+  {
+   "sentences": [
+    "Washing hands with soap is a simple habit, yet it protects people from many common infections.",
+    "Without it, germs from door handles, coins and other surfaces can enter the body whenever unwashed hands touch the mouth.",
+    "Soap helps because it breaks down the oily layer that holds these germs to the skin.",
+    "Doctors therefore recommend washing for at least twenty seconds, especially before meals, so that the soap has time to do this work.",
+    "Schools that teach children to follow this advice report fewer absences caused by stomach illnesses."
+   ],
+   "explanation": "The habit is introduced first, \"Without it\" refers to that habit, and \"these germs\" refers to the germs just named. \"therefore\" turns the explanation into advice, and \"this advice\" must follow that advice."
+  },
+  {
+   "sentences": [
+    "Every language has words that cannot be translated exactly into another language.",
+    "Such words often describe feelings or customs peculiar to one community, which makes a neat translation almost impossible.",
+    "To overcome this difficulty of neat translation, translators usually add a short explanation next to the borrowed word.",
+    "Over time, readers become familiar with the explained word.",
+    "In some cases, it even enters their own language and appears in everyday speech.",
+    "English has grown richer in this way, borrowing many words from other tongues."
+   ],
+   "explanation": "\"Such words\" refers to the untranslatable words and \"this difficulty\" to the impossibility of a neat translation. \"the explained word\" follows the explanation, \"it ... their own language\" follows the readers' familiarity, and \"in this way\" closes the chain."
+  },
+  {
+   "sentences": [
+    "A weekly market in a small town gives farmers a place to sell their produce directly to buyers.",
+    "Since no middlemen are involved, farmers receive a larger share of the price that customers pay.",
+    "Customers also gain, because the vegetables reach them fresh and are usually cheaper than those in shops.",
+    "Local shopkeepers, however, sometimes complain that the market takes away their regular customers.",
+    "To meet this objection, the town council allowed the market to operate only on Sundays.",
+    "The arrangement has satisfied both groups, and the market continues to thrive."
+   ],
+   "explanation": "The market is introduced first; \"Since no middlemen\" explains the direct sale and \"also gain\" adds a second benefit. \"however\" brings the complaint, \"this objection\" answers it, and \"The arrangement\" refers to the Sunday-only rule."
+  },
+  {
+   "sentences": [
+    "Online lessons have allowed students in remote villages to learn from teachers who live hundreds of kilometres away.",
+    "Such lessons, however, require a steady internet connection, which many villages still lack.",
+    "To remedy this, some schools record the lessons and store them on inexpensive devices.",
+    "Pupils can then watch the recordings at school, even when the network is down.",
+    "Teachers who have seen pupils use the recordings in this way say that attendance has improved and that pupils ask more questions.",
+    "Clearly, technology helps most when it is adapted to the conditions in which people actually live."
+   ],
+   "explanation": "\"Such lessons, however\" qualifies the benefit just stated, \"To remedy this\" answers the lack of connection, and \"the recordings\" follows the recording. \"this arrangement\" refers to the recorded lessons, and \"Clearly\" states the general conclusion."
+  }
+ ]
+}

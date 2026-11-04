@@ -644,7 +644,7 @@ function buildRc(parsed, ctx) {
           drops.push(shape)
           continue
         }
-        if (seenStems.some((s) => jaccard(s, stem) >= 0.8)) {
+        if (seenStems.some((s) => jaccard(s, stem) >= 0.9)) {
           drops.push('rc q: near-duplicate stem')
           continue
         }
@@ -1994,3 +1994,32 @@ export default async function handler(req, res) {
   }
   res.status(status || 502).json(payload)
 }
+
+// ---------------------------------------------------------------------------------------------------
+// Pure builders for curated content (used by scripts/build-english-seed.ts and the tests; the handler's
+// generate path runs exactly the same builders on model output)
+// ---------------------------------------------------------------------------------------------------
+
+/** Builds the final client Groups from compact content of ONE topic ({passages} for rc/cloze, {items} otherwise).
+ *  Deterministic for a given seed. Returns {groups, drops}: every rejected item is explained in `drops`. */
+export function buildCompact(topic, parsed, { difficulty = 'medium', seed = 0, count = 1 } = {}) {
+  const def = TOPIC_DEFS[topic]
+  if (!def) throw new Error(`unknown topic "${topic}"`)
+  const seedNum = hashSeed(seed)
+  const ctx = { difficulty, count, rng: makeRng(seedNum), buildRng: makeRng(seedNum ^ 0x9e3779b9), noError: true }
+  const built = def.build(parsed, ctx)
+  sanitizeExplanations(topic, built.groups)
+  fillExplanations(built.groups)
+  return built
+}
+
+/** Builds ONE compact item (an rc/cloze passage, or a single question item). Returns {group, drops}; group is null if the
+ *  item was rejected by the server validators. */
+export function buildCompactItem(topic, item, opts = {}) {
+  const parsed = topic === 'rc' || topic === 'cloze' ? { passages: [item] } : { items: [item] }
+  const { groups, drops } = buildCompact(topic, parsed, opts)
+  return { group: groups[0] ?? null, drops }
+}
+
+export const COMPACT_TOPICS = TOPIC_IDS
+export { sanitize as sanitizeText, textProblem, rcQuestionShape, hashSeed }
