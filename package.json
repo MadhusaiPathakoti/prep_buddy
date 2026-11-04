@@ -7,10 +7,13 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "oxlint",
+    "verify:mocks": "tsx scripts/verify-mocks-engine.ts && tsx scripts/verify-mocks-quant.ts && tsx scripts/verify-mocks-reasoning.ts --quiet && tsx scripts/verify-mocks-english.ts",
     "preview": "vite preview"
   },
   "dependencies": {
     "firebase": "^12.19.0",
+    "jspdf": "^4.2.1",
+    "jspdf-autotable": "^5.0.9",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
     "react-router-dom": "^7.18.3"
@@ -23,6 +26,7 @@
     "@vitejs/plugin-react": "^6.1.0",
     "oxlint": "^1.79.0",
     "tailwindcss": "^4.3.3",
+    "tsx": "^4.23.15",
     "typescript": "~6.0.2",
     "vite": "^8.2.2"
   }

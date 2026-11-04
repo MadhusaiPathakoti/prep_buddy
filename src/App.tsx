@@ -49,6 +49,12 @@ import ClozeTest from './pages/games/ClozeTest'
 import ParaJumble from './pages/games/ParaJumble'
 import SentenceImprovement from './pages/games/SentenceImprovement'
 import LcmHcfSimplification from './pages/games/LcmHcfSimplification'
+import MocksHome from './pages/mocks/MocksHome'
+import MockExam from './pages/mocks/MockExam'
+import MockLaunch from './pages/mocks/MockLaunch'
+import MockTest from './pages/mocks/MockTest'
+import MockResult from './pages/mocks/MockResult'
+import MockHistory from './pages/mocks/MockHistory'
 
 export default function App() {
   return (
@@ -104,7 +110,14 @@ export default function App() {
           <Route path="/english/cloze-test" element={<ClozeTest />} />
           <Route path="/english/para-jumble" element={<ParaJumble />} />
           <Route path="/english/sentence-improvement" element={<SentenceImprovement />} />
+          <Route path="/mocks" element={<MocksHome />} />
+          <Route path="/mocks/history" element={<MockHistory />} />
+          <Route path="/mocks/result/:attemptId" element={<MockResult />} />
+          <Route path="/mocks/:exam" element={<MockExam />} />
+          <Route path="/mocks/:exam/:kind" element={<MockLaunch />} />
         </Route>
+        {/* The exam window is deliberately outside Layout: like the real test software, it fills the screen with no site header. */}
+        <Route path="/mocks/test/:attemptId" element={<MockTest />} />
       </Routes>
     </HashRouter>
   )

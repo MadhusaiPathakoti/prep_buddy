@@ -142,6 +142,28 @@ The Gemini API key must **never** be shipped to the browser (unlike the Firebase
 
 Without this env var configured, `api/lookup.js` returns a clear 500 error and every "Add" flow transparently falls back to Wiktionary (and from there to the original "No definition found" message if that fails too) — nothing breaks, Gemini is just skipped. Note that `api/lookup.js` only runs as a real serverless function once deployed on Vercel; `npm run dev` (Vite) serves it as a static file instead, so only the Wiktionary path can be exercised locally without the Vercel CLI (`vercel dev`).
 
+## Mocks module
+
+SBI/IBPS **PO (hard)** and **Clerk (medium)** prelims mocks at `/mocks`, in an exam window modelled on the TCS/NTA software (question palette with the five status shapes, per-section clocks, Mark for Review, Clear Response, Save & Next, Question Paper / Instructions, text-size control, submit summary, autosave/resume after a refresh). Three kinds per exam:
+
+- **Full-length** — 100 questions, 60 minutes: English 30, Quant 35, Reasoning 35, 20 minutes per section. As in the real exam, sections are locked: you can't return to one after submitting it or when its time ends. +1 / −0.25.
+- **Sectional** — one section at its real question count and time (English 30/20 min, Quant 35/20 min, Reasoning 35/20 min).
+- **Topic-wise** — one topic, with your own question count (5–40) and 30–60 seconds per question.
+
+The pattern and the per-section topic mix are in `src/lib/mocks/blueprints.ts` (taken from the 2025 IBPS PO, IBPS Clerk and SBI PO prelims shift analyses: puzzles/seating dominate Reasoning; DI + arithmetic + approximation/series dominate Quant; RC, cloze, error detection, para jumbles and fillers make up English). Some 2025 SBI PO shifts were reported with a 40/30/30 English/Reasoning/Quant split, but the coaching sources contradict each other, so the widely documented 30/35/35 is used for both exams — change the blueprint if you disagree.
+
+**Where the questions come from, and how they are checked**
+
+- **Quant** (`src/lib/mocks/quant`, 22 topics) — generated in code, designed backwards from clean numbers. Every generator cross-checks its key with a second method and throws if they disagree.
+- **Reasoning** (`src/lib/mocks/reasoning`, 15 topics) — puzzles, seating, comparison and ranking are generated from a hidden arrangement and accepted only if an exhaustive solver finds exactly one solution; syllogism and inequality are decided by exhaustive model/assignment enumeration.
+- **English** (`api/mockEnglish.js` + `src/lib/mocks/english`, 8 topics) — written by Gemini (the same `GEMINI_API_KEY` as the other English games), then each question is **solved blind by an independent second pass** and kept only if that answer matches the key and isn't flagged ambiguous. Structure, shuffling and answer keys are built in code, not trusted to the model. Unlike Quant/Reasoning this can't be proven correct, only filtered, and without a key English papers can't be generated (the app says so and offers a retry).
+
+`npm run verify:mocks` runs all four test harnesses (engine/timers/scoring/PDF, Quant, Reasoning, English with a stubbed Gemini; the Quant and Reasoning ones generate tens of thousands of questions). Once you have a key, `npx tsx scripts/verify-mocks-english.ts --live 10` measures how often the live model's questions are filtered out.
+
+**Result report** — overview, rank predictor, performance breakdown, sectional summary, compare-with-topper, topic analysis and the full question-by-question solution analysis, on screen and as a downloadable PDF (`src/lib/mocks/pdf.ts`, lazy-loaded). There are no other test-takers, so **rank, percentile, topper and average are estimates against a simulated cohort of 2,000** (`src/lib/mocks/cohort.ts`) and are labelled that way in the app and the PDF. Finished attempts are kept in the browser (last 12) and can be re-attempted.
+
+To run the Gemini-backed functions under `npm run dev`, put `GEMINI_API_KEY=...` in `.env.local`; `vite.config.ts` serves `/api/*` locally (it never reaches the browser bundle).
+
 ## Development
 
 ```bash

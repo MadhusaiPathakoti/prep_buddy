@@ -1,0 +1,1408 @@
+// Vercel serverless function (Node runtime) behind the "Mocks" module's English section.
+//
+//   POST {action:'generate', topic, difficulty:'medium'|'hard', count, seed?}  ->  {groups, meta}
+//   POST {action:'solve', items:[{id, topic, passage?, stem, options[5]}], avoidModel?}  ->  {results, model}
+//
+// "generate" asks Gemini to WRITE questions (one JSON schema per topic) and converts them, in code, into
+// the app's Group[] contract (src/lib/mocks/types.ts). Everything that can be built deterministically IS
+// built in code rather than trusted to the model: option shuffling and the answer index, A-D/1-4 letters,
+// para-jumble shuffles and distractor orders, word-swap faulty sentences and pair options, match-the-column
+// matchings, vocabulary-in-context stems, cloze numbering. Every raw item is also run through structural and
+// hygiene checks here; failures are dropped (and counted in meta.dropped).
+//
+// "solve" is the independent blind check: it receives the question material WITHOUT the key or explanation
+// and returns the model's chosen option plus an "ambiguous" flag. It prefers the model that did NOT generate
+// the batch. The client (src/lib/mocks/english/index.ts) keeps only items where the blind answer equals the
+// key and the solver did not flag ambiguity.
+//
+// Env: GEMINI_API_KEY (required), GEMINI_MODEL (optional: forces one model for both roles).
+// Test-only knobs: MOCK_ENGLISH_GEMINI_TIMEOUT_MS, MOCK_ENGLISH_HEDGE_MS.
+
+export const config = { maxDuration: 30 }
+
+const TOPIC_IDS = ['rc', 'cloze', 'error-detection', 'para-jumble', 'fillers', 'word-swap', 'phrase-replacement', 'match-column']
+const TOPIC_LABEL = {
+  rc: 'Reading Comprehension',
+  cloze: 'Cloze Test',
+  'error-detection': 'Error Detection',
+  'para-jumble': 'Para Jumble',
+  fillers: 'Fillers',
+  'word-swap': 'Word Swap',
+  'phrase-replacement': 'Phrase Replacement',
+  'match-column': 'Match the Column',
+}
+/** Per-call cap on `count` (rc/cloze count questions, not passages). */
+const MAX_COUNT = { rc: 12, cloze: 8, 'error-detection': 8, 'para-jumble': 5, fillers: 8, 'word-swap': 6, 'phrase-replacement': 8, 'match-column': 4 }
+const MAX_SOLVE_ITEMS = 24
+
+const DEFAULT_MODELS = ['gemini-3.5-flash', 'gemini-3.5-flash-lite']
+const GENERATE_TEMPERATURE = 0.8
+const SOLVE_TEMPERATURE = 0.1
+
+const geminiTimeoutMs = () => Number(process.env.MOCK_ENGLISH_GEMINI_TIMEOUT_MS) || 12000
+const hedgeDelayMs = () => {
+  const v = Number(process.env.MOCK_ENGLISH_HEDGE_MS)
+  return Number.isFinite(v) && v > 0 ? v : 5000
+}
+const modelOverride = () => (process.env.GEMINI_MODEL || '').trim()
+
+// ---------------------------------------------------------------------------------------------------
+// Text helpers
+// ---------------------------------------------------------------------------------------------------
+
+/** Maps stray typography to the WinAnsi-safe set the PDF writer supports. */
+function sanitize(s) {
+  let t = typeof s === 'string' ? s : s == null ? '' : String(s)
+  t = t.replace(/\*\*/g, '')
+  t = t.replace(/[​-‍⁠﻿­]/g, '')
+  t = t.replace(/[ -   \t]/g, ' ')
+  t = t.replace(/…/g, '...').replace(/[‐‑‒]/g, '-').replace(/―/g, '—')
+  t = t.replace(/\r\n?/g, '\n')
+  return t
+}
+/** Single-line clean text. */
+const line = (s) => sanitize(s).replace(/\s+/g, ' ').trim()
+/** Characters the PDF writer can render (after sanitize). */
+const ALLOWED_TEXT = /^[\n\x20-\x7e\xa1-\xff−√≤≥≠₹→∴‘’“”–—•]*$/
+const HYGIENE =
+  /```|`|\*|<\/?[a-z][^>]*>|as an ai\b|language model|\bTODO\b|\bTBD\b|lorem ipsum|\[\s*(?:insert|blank|placeholder|option|passage|your)|\{\{|\}\}|\bundefined\b|\bNaN\b|\[object/i
+
+/** Returns a reason string if the text is unusable, else ''. `allowBlank` permits runs of underscores. */
+function textProblem(s, allowBlank = false) {
+  if (typeof s !== 'string' || !s.trim()) return 'empty text'
+  if (!ALLOWED_TEXT.test(s)) return 'unsupported character'
+  if (HYGIENE.test(s)) return 'placeholder/markdown text'
+  if (!allowBlank && /_{2,}/.test(s)) return 'stray blank marker'
+  return ''
+}
+
+const wordCount = (s) => (s.trim() ? s.trim().split(/\s+/).length : 0)
+const normKey = (s) => s.toLowerCase().replace(/[^a-z0-9À-ÿ]+/g, ' ').trim()
+function jaccard(a, b) {
+  const sa = new Set(normKey(a).split(' '))
+  const sb = new Set(normKey(b).split(' '))
+  let inter = 0
+  for (const x of sa) if (sb.has(x)) inter++
+  const union = sa.size + sb.size - inter
+  return union === 0 ? 0 : inter / union
+}
+const esc = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+const isInt = (n) => Number.isInteger(n)
+/** Options that point at each other ("All of the above") must keep their order. */
+const POSITIONAL_OPTION = /\b(?:above|below|none of (?:these|the)|all of (?:these|the)|both (?:the )?(?:statements|options)|previous option|(?:option|options)\s*[a-e1-5])\b/i
+/** Explanations of shuffled-option topics must not cite option letters. */
+const CITES_OPTION = /\b(?:option|choice|answer)\s*\(?[A-E1-5]\)?(?![a-z])/i
+
+// ---------------------------------------------------------------------------------------------------
+// Seeded RNG (mulberry32), for themes, shuffles and deterministic distractors
+// ---------------------------------------------------------------------------------------------------
+
+function hashSeed(v) {
+  const s = String(v)
+  let h = 2166136261
+  for (let i = 0; i < s.length; i++) {
+    h ^= s.charCodeAt(i)
+    h = Math.imul(h, 16777619)
+  }
+  return h >>> 0
+}
+
+function makeRng(seed) {
+  let a = seed >>> 0
+  const next = () => {
+    a = (a + 0x6d2b79f5) >>> 0
+    let t = a
+    t = Math.imul(t ^ (t >>> 15), t | 1)
+    t ^= t + Math.imul(t ^ (t >>> 7), t | 61)
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296
+  }
+  const int = (min, max) => min + Math.floor(next() * (max - min + 1))
+  const shuffle = (arr) => {
+    const out = arr.slice()
+    for (let i = out.length - 1; i > 0; i--) {
+      const j = int(0, i)
+      ;[out[i], out[j]] = [out[j], out[i]]
+    }
+    return out
+  }
+  return { next, int, shuffle, pick: (arr) => arr[int(0, arr.length - 1)], chance: (p) => next() < p }
+}
+
+/** Shuffles options, keeping the last `fixedTail` options in place; returns the new options and answer index. */
+function shuffleOptions(rng, options, answer, fixedTail = 0) {
+  const head = options.slice(0, options.length - fixedTail)
+  const tail = options.slice(options.length - fixedTail)
+  const order = rng.shuffle(head.map((_, i) => i))
+  const shuffled = order.map((i) => head[i])
+  const newAnswer = answer < head.length ? order.indexOf(answer) : answer
+  return { options: [...shuffled, ...tail], answer: newAnswer }
+}
+
+/** Cycles through a shuffled copy of `list` so consecutive items get different entries. */
+function themeDealer(rng, list) {
+  let deck = []
+  return () => {
+    if (deck.length === 0) deck = rng.shuffle(list)
+    return deck.pop()
+  }
+}
+
+const PASSAGE_THEMES = [
+  'the role of a central bank in controlling inflation',
+  'digital payments and financial inclusion in small towns',
+  'the economics of renewable energy adoption',
+  'urban migration and its effect on housing',
+  'artificial intelligence and the future of clerical work',
+  'rural credit and the cooperative banking tradition',
+  'climate change and the insurance industry',
+  'the gig economy and job security',
+  'sustainable agriculture and food security',
+  'public health spending and economic productivity',
+  'the growth of e-commerce and local retailers',
+  'cybersecurity and consumer trust in online banking',
+  'the ethics of automation in finance',
+  'water scarcity and urban planning',
+  'microfinance and women entrepreneurs',
+  'education reform and skill development',
+  'the importance of financial literacy for young adults',
+  'electric vehicles and the transition away from fossil fuels',
+  'globalisation and the resilience of supply chains',
+  'regulation versus innovation in financial technology',
+  'tourism and its environmental footprint',
+  'the shrinking attention span in a connected world',
+  'the future of cash in a digital economy',
+  'waste management and the circular economy',
+  'demographic change and pension systems',
+  'the value of public libraries in the internet age',
+  'infrastructure investment and long-term growth',
+  'consumer debt and household savings habits',
+  'biodiversity loss and its economic cost',
+  'remote work and the redesign of cities',
+]
+const SENTENCE_THEMES = [
+  'office and workplace life',
+  'banking and customer service',
+  'a village or small-town setting',
+  'education and examinations',
+  'public transport and travel',
+  'health and wellness',
+  'agriculture and weather',
+  'technology and gadgets',
+  'sports and fitness',
+  'markets and trade',
+  'environment and wildlife',
+  'government schemes and public services',
+  'family and community events',
+  'science and discovery',
+  'city planning and housing',
+  'arts, books and culture',
+  'disaster preparedness and safety',
+  'business and entrepreneurship',
+  'history and heritage',
+  'food and festivals',
+]
+
+const DIFFICULTY_TEXT = {
+  hard: 'PO level (HARD): finer points of grammar and idiom, subtler collocations and inference, longer and more complex sentences, abstract vocabulary.',
+  medium: 'Clerk level (MEDIUM): common grammar rules, everyday and standard business vocabulary, direct and clearly signposted logic.',
+}
+
+function header(topic, difficulty, count, seed) {
+  return `You are a senior paper-setter for the English Language section of Indian bank PO and Clerk prelims (SBI PO, IBPS PO, SBI Clerk, IBPS Clerk). An independent expert will solve every question you write WITHOUT seeing your answer key. Any question whose key is debatable, that has two defensible options, or whose wording is unnatural or ungrammatical (outside the one intended error) is thrown away. Write only items you are completely sure about, and re-check every key before you output it.
+
+Task: mock-english / topic=${topic} / difficulty=${difficulty} / items=${count} / seed=${seed}
+Difficulty: ${DIFFICULTY_TEXT[difficulty]}
+
+Global rules:
+- Original text only. No real named people, companies or institutions; no real statistics, dates or events presented as fact; nothing politically divisive, violent or distressing.
+- Plain text only: no markdown, no asterisks, no HTML, no emoji, no non-Latin scripts. Straight quotes and apostrophes are fine.
+- Every explanation is 1-3 sentences and names the rule or quotes the evidence that fixes the key.
+- Vary vocabulary, sentence openings and subject matter; follow the per-item plan exactly.
+`
+}
+
+// ---------------------------------------------------------------------------------------------------
+// Topic definitions: plan (per-item instructions), schema, prompt text, and builder (raw JSON -> Groups)
+// ---------------------------------------------------------------------------------------------------
+
+const RC_KINDS = ['main-idea', 'inference', 'true', 'not-true', 'tone', 'vocab-synonym', 'vocab-antonym', 'may-be-true']
+const RC_KIND_TEXT = {
+  'main-idea': 'main idea / best title / central theme of the passage',
+  inference: 'inference: what can be concluded or inferred, answerable only from the passage',
+  true: 'which of the following statements is TRUE according to the passage',
+  'not-true': 'which of the following statements is NOT true / cannot be inferred according to the passage (the stem must contain the word NOT in capitals)',
+  tone: "the author's tone, attitude or purpose",
+  'vocab-synonym': 'vocabulary in context: a word that occurs in the passage; the key is the option closest in meaning to it AS USED there (give "targetWord", the exact word as it appears in the passage)',
+  'vocab-antonym': 'vocabulary in context: a word that occurs in the passage; the key is the option most opposite in meaning to it AS USED there (give "targetWord", the exact word as it appears in the passage)',
+  'may-be-true': 'which statement is definitely true / may be true / can be inferred, judged only on the passage',
+}
+const RC_DIRECTIONS = 'Read the following passage carefully and answer the questions given below it.'
+
+const RC_SCHEMA = `{"passages":[{"title":"short working title","paragraphs":["paragraph 1","paragraph 2"],"questions":[{"kind":"main-idea|inference|true|not-true|tone|vocab-synonym|vocab-antonym|may-be-true","targetWord":"vocab kinds only: the single word exactly as it appears in the passage, otherwise empty string","stem":"the full question text (for vocab kinds write a short placeholder, it is replaced)","options":["option 1","option 2","option 3","option 4","option 5"],"correctIndex":0,"explanation":"..."}]}]}`
+
+function rcPlan({ rng, count }) {
+  const base = ['main-idea', 'inference', 'true', 'not-true', 'tone', 'vocab-synonym', 'vocab-antonym', 'inference', 'may-be-true', 'true', 'inference', 'not-true']
+  const kinds = count <= base.length ? base.slice(0, count) : [...base, ...Array.from({ length: count - base.length }, () => rng.pick(RC_KINDS))]
+  return kinds.map((k, i) => `Question ${i + 1}: ${RC_KIND_TEXT[k]}`)
+}
+
+function rcPrompt(ctx) {
+  const { difficulty, count, rng } = ctx
+  const theme = rng.pick(PASSAGE_THEMES)
+  const genre = rng.pick(['an analytical essay', 'an editorial', 'an explanatory article', 'a reflective essay', 'a report-style feature'])
+  const length =
+    difficulty === 'hard'
+      ? 'between 380 and 450 words in 3 or 4 paragraphs: dense, abstract, argumentative, with qualifications and contrast (inference-heavy)'
+      : 'between 250 and 320 words in 2 or 3 paragraphs: clear, direct, with simpler vocabulary and straightforward structure'
+  return `Write ONE original reading-comprehension passage of ${genre} on this theme: ${theme}. Length: ${length}. Then write exactly ${count} questions on it, in this plan:
+${rcPlan(ctx).join('\n')}
+
+Rules:
+- Every question must be answerable ONLY from the passage: no outside knowledge. Exactly one option is correct; the other four must be clearly wrong or clearly less supported by the passage (not merely "less good"), and each must be tempting only through a plausible misreading.
+- Each question has EXACTLY 5 distinct options. Never use "All of the above", "None of the above" or options that refer to other options. Options of a "true / NOT true" question are full statements.
+- Do not write a question whose answer simply repeats one sentence word for word, and do not reuse the same fact in two questions.
+- A vocabulary question's targetWord must be a single word that really occurs in the passage; its five options are single words (or two-word phrases), the target itself is not among them, and the key fits the word's meaning in that sentence.
+- Never cite an option by letter or number in an explanation (options are shuffled afterwards); quote the passage instead.
+- The passage must be ${difficulty === 'hard' ? 'at least 380' : 'at least 250'} words. Count carefully.
+- Put the key at varying positions (correctIndex 0-4).
+
+Respond with ONLY a JSON object (no markdown fences) in exactly this shape:
+${RC_SCHEMA}`
+}
+
+const CLOZE_SCHEMA = `{"passages":[{"title":"short working title","text":"the passage with blanks written exactly as (1) ______ , (2) ______ and so on, numbered in order of appearance","blanks":[{"n":1,"options":["word 1","word 2","word 3","word 4","word 5"],"correctIndex":0,"explanation":"..."}]}]}`
+
+function clozePrompt({ difficulty, count, rng }) {
+  const theme = rng.pick(PASSAGE_THEMES)
+  const kinds = rng.shuffle(['a grammar-driven blank (verb form, preposition, conjunction or article)', 'a vocabulary/collocation-driven blank', 'a meaning/connective-driven blank (contrast, cause, addition)', 'a collocation or idiom-driven blank', 'a grammar-driven blank (verb form, preposition, conjunction or article)', 'a vocabulary/collocation-driven blank', 'a meaning-driven blank', 'a collocation-driven blank'])
+  return `Write ONE original cloze passage of 150 to 200 words on this theme: ${theme}. It must contain exactly ${count} numbered blanks, written exactly as "(1) ______", "(2) ______" ... "(${count}) ______" (six underscores), numbered in order of appearance and spread across the passage. Do not put a blank in the first sentence's opening words. The passage must read as natural prose once the correct words are filled in.
+Blank plan: ${kinds.slice(0, count).map((k, i) => `(${i + 1}) ${k}`).join('; ')}.
+
+For each blank give EXACTLY 5 distinct options (single words, or one fixed two-word phrase) and the key. The correct word must be the ONLY one that fits that slot by grammar, collocation AND meaning: the other four must be definitely wrong in that exact context (wrong form, wrong collocation or contradicting the sense), never a near-synonym that would also be acceptable. Tests of difficulty: ${difficulty === 'hard' ? 'subtle collocations and connectives, close word forms' : 'common words, clear grammatical or sense cues'}.
+Never cite an option by letter or number in an explanation (options are shuffled afterwards).
+
+Respond with ONLY a JSON object (no markdown fences) in exactly this shape:
+${CLOZE_SCHEMA}`
+}
+
+const ED_CATEGORIES = {
+  medium: ['subject-verb agreement', 'wrong tense or verb form', 'wrong preposition', 'article (a/an/the) error', 'pronoun agreement or case', 'singular/plural noun error', 'wrong comparative or superlative', 'adjective used for adverb (or vice versa)', 'wrong conjunction', 'wrong verb form after a modal or "to"'],
+  hard: ['subject-verb agreement across a long or compound subject', 'tense sequence', 'subjunctive or conditional error (if / wish / suggest that)', 'faulty parallelism', 'wrong dependent preposition', 'double comparative or wrong comparative construction', 'inverted structure after "hardly", "no sooner", "scarcely"', 'pronoun-antecedent disagreement', 'misplaced or dangling modifier', 'wrong participle or gerund form', 'neither/nor, either/or, one of the / each of agreement', 'wrong use of "much / many / few / less / fewer"'],
+}
+const ED_SCHEMA = `{"items":[{"variant":"parts","topic":"grammar point","parts":["part (a)","part (b)","part (c)","part (d)"],"errorPartIndex":2,"explanation":"..."},{"variant":"sentences","topic":"grammar point","sentences":["s1","s2","s3","s4","s5"],"correctIndex":3,"explanation":"..."}]}`
+
+function edPlan({ rng, difficulty, count }) {
+  const cats = themeDealer(rng, ED_CATEGORIES[difficulty])
+  const ctx = themeDealer(rng, SENTENCE_THEMES)
+  const lines = []
+  for (let i = 1; i <= count; i++) {
+    const r = rng.next()
+    if (r < 0.2 && count >= 3) {
+      lines.push(`Item ${i}: variant "sentences" - five versions of the same idea (context: ${ctx()}); exactly ONE is fully correct and each of the other four has a DIFFERENT clear grammatical error (e.g. ${cats()}; ${cats()}).`)
+    } else if (r < 0.4) {
+      lines.push(`Item ${i}: variant "parts" - context: ${ctx()}; NO error: all four parts are fully correct (errorPartIndex null).`)
+    } else {
+      const part = rng.pick(['a', 'b', 'c', 'd'])
+      lines.push(`Item ${i}: variant "parts" - context: ${ctx()}; error category: ${cats()}; the error is in part (${part}) (errorPartIndex ${'abcd'.indexOf(part)}).`)
+    }
+  }
+  return lines
+}
+
+function edPrompt(ctx) {
+  const { difficulty, count } = ctx
+  const length = difficulty === 'hard' ? '28 to 45 words' : '18 to 30 words'
+  return `Write exactly ${count} Error Detection items. Plan:
+${edPlan(ctx).join('\n')}
+
+Rules for variant "parts": the sentence (${length}) is split into 4 consecutive parts that join with single spaces into one complete sentence (the parts do NOT include end punctuation unless the sentence needs it; do not split inside a fixed phrase). Either exactly one part contains ONE unambiguous grammatical error (a rule about grammar, never style, spelling, punctuation or idiom preference, and not a matter on which standard English authorities differ), or no part does. The error must lie within a single part, and the other three parts must be flawless. Do not mark or flag the error in the text. In the explanation, name the rule, quote the faulty words and give the fix.
+Rules for variant "sentences": five complete sentences of 12 to 25 words about the same idea; exactly one is grammatically correct.
+Never produce an item where a careful reader could defend a second part as erroneous, or where "no error" could be debated.
+
+Respond with ONLY a JSON object (no markdown fences) in exactly this shape:
+${ED_SCHEMA}`
+}
+
+const PJ_SCHEMA = `{"items":[{"theme":"short theme label","sentences":["opening sentence","second sentence","..."],"explanation":"..."}]}`
+
+function pjPlan({ rng, difficulty, count }) {
+  const ctx = themeDealer(rng, PASSAGE_THEMES)
+  const lines = []
+  for (let i = 1; i <= count; i++) {
+    const n = difficulty === 'hard' ? (rng.chance(0.6) ? 6 : 5) : rng.chance(0.4) ? 6 : 5
+    lines.push(`Item ${i}: ${n} sentences, theme: ${ctx()}.`)
+  }
+  return lines
+}
+
+function pjPrompt(ctx) {
+  const { difficulty, count } = ctx
+  const lengthHint =
+    difficulty === 'hard'
+      ? '16 to 30 words per sentence, with subtle links (implied cause and effect, contrast, a "this/such/these" reference back to an earlier idea)'
+      : '12 to 22 words per sentence, with clear linking cues (a pronoun referring back, a connector such as "However" or "Therefore", or an obvious chronological order)'
+  return `Write exactly ${count} Para Jumble items. Each is a short coherent paragraph, given as its sentences in the CORRECT order (the system shuffles and labels them afterwards). Plan:
+${pjPlan(ctx).join('\n')}
+
+Rules:
+- ${lengthHint}.
+- Sentence 1 introduces the topic on its own: it makes sense with nothing before it and does NOT start with a pronoun, "This", "Such", "However", "Moreover" or any word needing an antecedent.
+- Every later sentence clearly depends on what precedes it (a pronoun or "this/such" reference, a connector, a continuation of an argument, a time sequence) so that exactly ONE order is coherent. Include at least one mandatory pair of sentences that must be adjacent (for example a statement followed by the sentence beginning "This ..." that refers to it). Never write sentences that could be swapped without changing the meaning.
+- Each sentence is complete, ends with its own full stop, and does not carry a label like "A." or "1.".
+- In the explanation, refer to sentences ONLY by quoting their first few words, NEVER by letter or number.
+
+Respond with ONLY a JSON object (no markdown fences) in exactly this shape:
+${PJ_SCHEMA}`
+}
+
+const FILLERS_SCHEMA = `{"items":[{"type":"single","sentence":"sentence with exactly one ______ blank","options":["w1","w2","w3","w4","w5"],"correctIndex":0,"explanation":"..."},{"type":"double","sentence":"sentence with (A) ______ and (B) ______ blanks","options":[["w1a","w1b"],["w2a","w2b"],["w3a","w3b"],["w4a","w4b"],["w5a","w5b"]],"correctIndex":0,"explanation":"..."}]}`
+
+function fillersPlan({ rng, count }) {
+  const ctx = themeDealer(rng, SENTENCE_THEMES)
+  return Array.from({ length: count }, (_, i) => `Item ${i + 1}: ${rng.chance(0.55) ? 'single' : 'double'} filler, context: ${ctx()}.`)
+}
+
+function fillersPrompt(ctx) {
+  const { difficulty, count } = ctx
+  const style = difficulty === 'hard' ? '25 to 40 words with abstract vocabulary and subtle collocation or contrast cues' : '18 to 28 words with clear grammatical or sense cues'
+  return `Write exactly ${count} Fillers items (sentence completion). Plan:
+${fillersPlan(ctx).join('\n')}
+
+Rules:
+- Sentence length ${style}.
+- "single": the sentence has exactly ONE blank written "______" and 5 distinct single-word options. "double": the sentence has exactly TWO blanks, written "(A) ______" and "(B) ______" in order, and 5 distinct word PAIRS as options (each pair is [word for A, word for B]).
+- Exactly ONE option (or pair) makes the sentence grammatical, natural and meaningful; each of the other four must be definitely wrong (wrong grammar, wrong collocation, or contradicting the sense) - not merely weaker. In double fillers, wrong pairs must fail because at least one word is wrong in its slot, and no two pairs may both work; every individual word in a pair must look plausible, and no pair repeats the same word in both slots.
+- Do not use a word that already appears in the sentence as an option. Never cite an option by letter or number in an explanation (options are shuffled afterwards).
+
+Respond with ONLY a JSON object (no markdown fences) in exactly this shape:
+${FILLERS_SCHEMA}`
+}
+
+const WS_SCHEMA = `{"items":[{"tokens":["The","government","has","launched","a","new","scheme","."],"marked":[1,3,5,6],"swap":[0,2],"explanation":"..."},{"tokens":["..."],"marked":[1,2,4,5],"swap":null,"explanation":"..."}]}`
+
+function wsPlan({ rng, count }) {
+  const ctx = themeDealer(rng, SENTENCE_THEMES)
+  return Array.from({ length: count }, (_, i) => `Item ${i + 1}: ${rng.chance(0.18) ? 'NO interchange needed (swap null)' : 'one interchange needed'}, context: ${ctx()}.`)
+}
+
+function wsPrompt(ctx) {
+  const { difficulty, count } = ctx
+  const style = difficulty === 'hard' ? '20 to 32 words, with abstract vocabulary and a long sentence structure' : '14 to 24 words, with a simple structure'
+  return `Write exactly ${count} Word Swap (word interchange) items. Plan:
+${wsPlan(ctx).join('\n')}
+
+How an item works: you give the CORRECT, natural sentence (${style}) as "tokens" (its words in order, with punctuation attached to the word it follows, e.g. "scheme."). You choose FOUR words in it to be marked: "marked" lists their 0-based token indices in increasing order. The marked words must be plain lowercase words (no capital letters, no attached punctuation, never the first token) and must be words whose positions matter: nouns, verbs, adjectives, adverbs, prepositions. If the plan says "one interchange needed", set "swap" to [a, b]: two positions inside the "marked" list (0 to 3, a not equal b) whose words the system will exchange in the sentence shown to students; the exchange must leave a sentence that is clearly ungrammatical or nonsensical, and putting the two words back must be the ONLY single exchange of two marked words that gives a correct sentence. Never choose two words whose exchange would still make a sensible sentence (for example two interchangeable nouns), and never choose two identical words. If the plan says "NO interchange needed", set "swap" to null (the correct sentence is shown as it is).
+The explanation states the rule or meaning clue; do NOT mention marker numbers or indices, quote the words instead.
+
+Respond with ONLY a JSON object (no markdown fences) in exactly this shape:
+${WS_SCHEMA}`
+}
+
+const PR_SCHEMA = `{"items":[{"variant":"replace","before":"words before the phrase","phrase":"the phrase to be replaced","after":"words after the phrase, with the closing punctuation","options":["replacement 1","replacement 2","replacement 3","replacement 4"],"correctIndex":1,"explanation":"..."},{"variant":"usage","sentence":"sentence with one ______ blank","options":["phrase 1","phrase 2","phrase 3","phrase 4","phrase 5"],"correctIndex":0,"explanation":"..."}]}`
+
+function prPlan({ rng, count }) {
+  const ctx = themeDealer(rng, SENTENCE_THEMES)
+  const lines = []
+  for (let i = 1; i <= count; i++) {
+    const r = rng.next()
+    if (r < 0.2 && count >= 3) lines.push(`Item ${i}: variant "usage" - fill the blank with the right phrasal verb / fixed phrase, context: ${ctx()}.`)
+    else if (r < 0.4) lines.push(`Item ${i}: variant "replace" - the original phrase is ALREADY CORRECT (correctIndex null; all four options are worse), context: ${ctx()}.`)
+    else lines.push(`Item ${i}: variant "replace" - the original phrase contains a genuine error and exactly one option fixes it, context: ${ctx()}.`)
+  }
+  return lines
+}
+
+function prPrompt(ctx) {
+  const { difficulty, count } = ctx
+  const style = difficulty === 'hard' ? '24 to 38 words, finer grammar/idiom points (tense sequence, conditionals, parallelism, dependent prepositions, comparatives)' : '16 to 26 words, common grammar/idiom points (tense, agreement, prepositions, articles, phrasal verbs)'
+  return `Write exactly ${count} Phrase Replacement items. Plan:
+${prPlan(ctx).join('\n')}
+
+Rules:
+- Sentence length ${style}.
+- variant "replace": the sentence is split into "before", "phrase" (a highlighted phrase of 2 to 7 words) and "after" (including the closing punctuation); before + phrase + after (joined by spaces) is the sentence shown, with the phrase in CAPITALS. Give EXACTLY 4 replacement phrases for the phrase. If the plan says the phrase has an error, exactly ONE replacement makes the whole sentence correct and the other three leave it wrong or clearly worse; the original phrase must not be among the options. If the phrase is already correct, "correctIndex" is null and ALL four options are wrong or clearly worse. ("No correction required" is added by the system as the fifth option: do not include it.)
+- variant "usage": the sentence has one blank "______"; give 5 distinct phrases (phrasal verbs or fixed expressions such as look after / bring up / take after / look into / call off); exactly one fits by meaning and grammar and the other four are definitely wrong in this sentence.
+- The question must test a rule or an idiom with one defensible answer: avoid items that depend on style or a debatable convention. Never cite an option by letter or number in an explanation (options are shuffled afterwards).
+
+Respond with ONLY a JSON object (no markdown fences) in exactly this shape:
+${PR_SCHEMA}`
+}
+
+const MC_SCHEMA = `{"items":[{"pairs":[{"begin":"first half of sentence 1","end":"second half of sentence 1."},{"begin":"...","end":"..."},{"begin":"...","end":"..."},{"begin":"...","end":"..."}],"explanation":"..."}]}`
+
+function mcPrompt(ctx) {
+  const { difficulty, count, rng } = ctx
+  const deal = themeDealer(rng, SENTENCE_THEMES)
+  const style = difficulty === 'hard' ? 'finer links: tense/aspect agreement, correlative conjunctions (not only ... but also, no sooner ... than), subjunctive, cause and contrast' : 'clear links: simple conjunctions, tense agreement, obvious cause/effect'
+  return `Write exactly ${count} Match the Column items. Each item has 4 pairs. Contexts: ${Array.from({ length: count }, (_, i) => `item ${i + 1}: ${deal()}`).join('; ')}.
+
+Each pair is one complete sentence split in two: "begin" (the first half, no end punctuation, 4 to 12 words) and "end" (the second half, finishing the sentence with a full stop, 3 to 14 words). The system shuffles the endings into Column II and asks the student to match each beginning (1-4) with its ending (A-D). Requirements:
+- Each beginning must be completable ONLY by its own ending (grammar - tense, number, conjunction, voice - and meaning), and each ending must be clearly unsuitable for the other three beginnings. Use ${style}.
+- The four sentences of an item are about different things, so no beginning is vaguely compatible with two endings. Never start two beginnings the same way.
+- The explanation lists the four correct sentences in full (join each begin and end) and states the link that fixes each. Do not use numbers or letters in the explanation.
+
+Respond with ONLY a JSON object (no markdown fences) in exactly this shape:
+${MC_SCHEMA}`
+}
+
+// ---------------------------------------------------------------------------------------------------
+// Builders: raw model JSON -> Group[] (returns {groups, drops[]}); everything structural is built here
+// ---------------------------------------------------------------------------------------------------
+
+const asArray = (v) => (Array.isArray(v) ? v : [])
+
+/** Reads 5 options out of raw input; returns {options} or {problem}. */
+function readOptions(raw, { maxWords = 40 } = {}) {
+  if (!Array.isArray(raw) || raw.length !== 5) return { problem: 'options must be 5' }
+  const options = raw.map((o) => line(o))
+  for (const o of options) {
+    const p = textProblem(o)
+    if (p) return { problem: `option: ${p}` }
+    if (wordCount(o) > maxWords) return { problem: 'option too long' }
+  }
+  if (new Set(options.map(normKey)).size !== 5) return { problem: 'duplicate options' }
+  return { options }
+}
+
+function readExplanation(raw, { shuffled = false, maxLen = 700 } = {}) {
+  const e = line(raw)
+  if (e.length < 8) return { problem: 'explanation missing' }
+  const p = textProblem(e)
+  if (p) return { problem: `explanation: ${p}` }
+  if (shuffled && CITES_OPTION.test(e)) return { problem: 'explanation cites an option letter' }
+  return { explanation: e.slice(0, maxLen) }
+}
+
+function buildRc(parsed, ctx) {
+  const groups = []
+  const drops = []
+  const lo = ctx.difficulty === 'hard' ? 300 : 200
+  const hi = ctx.difficulty === 'hard' ? 520 : 380
+  for (const p of asArray(parsed?.passages)) {
+    let paragraphs = Array.isArray(p?.paragraphs) ? p.paragraphs.map(line) : typeof p?.passage === 'string' ? sanitize(p.passage).split(/\n+/).map(line) : []
+    paragraphs = paragraphs.filter(Boolean)
+    const body = paragraphs.join(' ')
+    const wc = wordCount(body)
+    const bad = paragraphs.map((x) => textProblem(x)).find(Boolean)
+    if (!paragraphs.length || paragraphs.length > 6) {
+      drops.push('rc: bad paragraph count')
+      continue
+    }
+    if (bad) {
+      drops.push(`rc passage: ${bad}`)
+      continue
+    }
+    if (wc < lo || wc > hi) {
+      drops.push(`rc passage length ${wc} outside ${lo}-${hi}`)
+      continue
+    }
+    const questions = []
+    const seenStems = []
+    const seenTargets = new Set()
+    for (const q of asArray(p?.questions)) {
+      const kind = typeof q?.kind === 'string' ? q.kind : ''
+      if (!RC_KINDS.includes(kind)) {
+        drops.push('rc q: unknown kind')
+        continue
+      }
+      const opts = readOptions(q.options, { maxWords: 45 })
+      if (opts.problem) {
+        drops.push(`rc q: ${opts.problem}`)
+        continue
+      }
+      if (!isInt(q.correctIndex) || q.correctIndex < 0 || q.correctIndex > 4) {
+        drops.push('rc q: bad correctIndex')
+        continue
+      }
+      const ex = readExplanation(q.explanation, { shuffled: true })
+      if (ex.problem) {
+        drops.push(`rc q: ${ex.problem}`)
+        continue
+      }
+      let stem
+      if (kind === 'vocab-synonym' || kind === 'vocab-antonym') {
+        const target = line(q.targetWord)
+        if (!/^[A-Za-z][A-Za-z'-]{2,24}$/.test(target)) {
+          drops.push('rc vocab: bad targetWord')
+          continue
+        }
+        if (!new RegExp(`(?<![A-Za-z'-])${esc(target)}(?![A-Za-z'-])`, 'i').test(body)) {
+          drops.push('rc vocab: target not in passage')
+          continue
+        }
+        if (seenTargets.has(target.toLowerCase())) {
+          drops.push('rc vocab: duplicate target')
+          continue
+        }
+        if (opts.options.some((o) => o.length > 40 || wordCount(o) > 3 || normKey(o) === normKey(target))) {
+          drops.push('rc vocab: options must be short and exclude the target')
+          continue
+        }
+        seenTargets.add(target.toLowerCase())
+        const rel = kind === 'vocab-synonym' ? 'similar in meaning to' : 'opposite in meaning to'
+        stem = `Which of the following words is most ${rel} the word “${target}” as used in the passage?`
+      } else {
+        stem = line(q.stem)
+        const sp = textProblem(stem)
+        if (sp || stem.length < 20 || stem.length > 420) {
+          drops.push(`rc q: stem ${sp || 'length'}`)
+          continue
+        }
+        if (kind === 'not-true' && !/\b(?:NOT|FALSE|INCORRECT|EXCEPT|CANNOT)\b/.test(stem)) {
+          drops.push('rc not-true: stem lacks NOT')
+          continue
+        }
+        if (seenStems.some((s) => jaccard(s, stem) >= 0.8)) {
+          drops.push('rc q: near-duplicate stem')
+          continue
+        }
+        seenStems.push(stem)
+      }
+      let options = opts.options
+      let answer = q.correctIndex
+      if (!options.some((o) => POSITIONAL_OPTION.test(o))) ({ options, answer } = shuffleOptions(ctx.buildRng, options, answer))
+      questions.push({ topic: 'rc', stem, options, answer, explanation: ex.explanation })
+    }
+    if (questions.length === 0) {
+      drops.push('rc passage: no usable questions')
+      continue
+    }
+    groups.push({ stimulus: { directions: RC_DIRECTIONS, parts: [{ kind: 'text', paragraphs }] }, questions })
+  }
+  return { groups, drops }
+}
+
+const CLOZE_DIRECTIONS =
+  'In the following passage, some of the words have been left out, each of which is indicated by a number. Find the suitable word from the options given against each number and fill up the blanks with appropriate words to make the passage meaningful.'
+
+function buildCloze(parsed, ctx) {
+  const groups = []
+  const drops = []
+  for (const p of asArray(parsed?.passages)) {
+    const text = sanitize(p?.text)
+    const normalised = text.replace(/\(\s*(\d{1,2})\s*\)\s*_{2,}/g, (_, n) => `(${Number(n)}) ______`)
+    const paragraphs = normalised.split(/\n+/).map(line).filter(Boolean)
+    const joined = paragraphs.join(' ')
+    const bad = paragraphs.map((x) => textProblem(x, true)).find(Boolean)
+    if (!paragraphs.length || bad) {
+      drops.push(`cloze passage: ${bad || 'empty'}`)
+      continue
+    }
+    const nums = [...joined.matchAll(/\((\d{1,2})\) ______/g)].map((m) => Number(m[1]))
+    const n = nums.length
+    if (n < 1 || n > 10 || nums.some((x, i) => x !== i + 1)) {
+      drops.push('cloze: blank numbers not contiguous 1..N in order')
+      continue
+    }
+    if (joined.replace(/\(\d{1,2}\) ______/g, '').includes('__')) {
+      drops.push('cloze: malformed blank marker')
+      continue
+    }
+    const wc = wordCount(joined.replace(/\(\d{1,2}\) ______/g, 'x'))
+    if (wc < 100 || wc > 260) {
+      drops.push(`cloze passage length ${wc}`)
+      continue
+    }
+    const blanks = asArray(p?.blanks)
+    const byN = new Map(blanks.filter((b) => isInt(b?.n)).map((b) => [b.n, b]))
+    if (byN.size !== n || !nums.every((k) => byN.has(k))) {
+      drops.push('cloze: blanks list does not match passage')
+      continue
+    }
+    const questions = []
+    let ok = true
+    for (const k of nums) {
+      const b = byN.get(k)
+      const opts = readOptions(b.options, { maxWords: 3 })
+      const ex = readExplanation(b.explanation, { shuffled: true })
+      const problem = opts.problem || ex.problem || (!isInt(b.correctIndex) || b.correctIndex < 0 || b.correctIndex > 4 ? 'bad correctIndex' : '')
+      if (problem) {
+        drops.push(`cloze blank ${k}: ${problem}`)
+        ok = false
+        break
+      }
+      const shuffled = shuffleOptions(ctx.buildRng, opts.options, b.correctIndex)
+      questions.push({ topic: 'cloze', stem: `Select the most appropriate word to fill blank (${k}).`, options: shuffled.options, answer: shuffled.answer, explanation: ex.explanation })
+    }
+    if (!ok) continue
+    groups.push({ stimulus: { directions: CLOZE_DIRECTIONS, parts: [{ kind: 'text', paragraphs }] }, questions })
+  }
+  return { groups, drops }
+}
+
+const ED_DIRECTIONS =
+  'Read each sentence to find out whether there is any grammatical error in it. The error, if any, will be in one part of the sentence. Select the part with the error as your answer. If there is no error, select “No error”.'
+const ED_OPTIONS = ['(a)', '(b)', '(c)', '(d)', 'No error']
+
+function buildErrorDetection(parsed, ctx) {
+  const groups = []
+  const drops = []
+  const seen = new Set()
+  for (const it of asArray(parsed?.items)) {
+    const ex = readExplanation(it?.explanation, { shuffled: it?.variant === 'sentences' })
+    if (ex.problem) {
+      drops.push(`ed: ${ex.problem}`)
+      continue
+    }
+    if (it?.variant === 'sentences') {
+      const sentences = asArray(it.sentences).map(line)
+      const problem = sentences.map((s) => textProblem(s)).find(Boolean)
+      if (sentences.length !== 5 || problem) {
+        drops.push(`ed sentences: ${problem || 'need 5'}`)
+        continue
+      }
+      if (new Set(sentences.map(normKey)).size !== 5 || sentences.some((s) => wordCount(s) < 6 || wordCount(s) > 40)) {
+        drops.push('ed sentences: duplicates or bad length')
+        continue
+      }
+      if (!isInt(it.correctIndex) || it.correctIndex < 0 || it.correctIndex > 4) {
+        drops.push('ed sentences: bad correctIndex')
+        continue
+      }
+      const sh = shuffleOptions(ctx.buildRng, sentences, it.correctIndex)
+      groups.push({ questions: [{ topic: 'error-detection', stem: 'Which of the following sentences is grammatically correct and meaningful?', options: sh.options, answer: sh.answer, explanation: ex.explanation }] })
+      continue
+    }
+    const parts = asArray(it?.parts).map(line)
+    const problem = parts.map((s) => textProblem(s)).find(Boolean)
+    if (parts.length !== 4 || problem || parts.some((s) => !s)) {
+      drops.push(`ed parts: ${problem || 'need 4 non-empty parts'}`)
+      continue
+    }
+    if (parts.some((s) => /\([a-d]\)/i.test(s) || /[[\]]/.test(s))) {
+      drops.push('ed parts: contains part labels or brackets')
+      continue
+    }
+    const total = wordCount(parts.join(' '))
+    if (total < 10 || total > 60) {
+      drops.push('ed parts: sentence length')
+      continue
+    }
+    const err = it.errorPartIndex
+    if (!(err === null || (isInt(err) && err >= 0 && err <= 3))) {
+      drops.push('ed parts: bad errorPartIndex')
+      continue
+    }
+    const key = normKey(parts.join(' '))
+    if (seen.has(key)) {
+      drops.push('ed parts: duplicate sentence')
+      continue
+    }
+    seen.add(key)
+    const stem = `${ED_DIRECTIONS}\n\n(a) ${parts[0]} (b) ${parts[1]} (c) ${parts[2]} (d) ${parts[3]}`
+    groups.push({ questions: [{ topic: 'error-detection', stem, options: ED_OPTIONS.slice(), answer: err === null ? 4 : err, explanation: ex.explanation }] })
+  }
+  return { groups, drops }
+}
+
+const LETTERS = ['A', 'B', 'C', 'D', 'E', 'F']
+const POSITION_WORD = { 1: 'FIRST', 2: 'SECOND', 3: 'THIRD', 4: 'FOURTH', 5: 'FIFTH', 6: 'SIXTH' }
+
+/** Distinct permutations of `base` (a string of distinct letters), each different from base, built by plausible slips. */
+function distractorOrders(rng, base, need) {
+  const out = new Set()
+  const arr = base.split('')
+  const n = arr.length
+  let guard = 0
+  while (out.size < need && guard++ < 400) {
+    const c = arr.slice()
+    const mode = rng.int(0, 3)
+    if (mode === 0) {
+      const i = rng.int(0, n - 2)
+      ;[c[i], c[i + 1]] = [c[i + 1], c[i]]
+    } else if (mode === 1) {
+      const i = rng.int(0, n - 1)
+      let j = rng.int(0, n - 1)
+      if (j === i) j = (i + 1) % n
+      ;[c[i], c[j]] = [c[j], c[i]]
+    } else if (mode === 2) {
+      const i = rng.int(0, n - 1)
+      const [x] = c.splice(i, 1)
+      c.splice(rng.int(0, n - 1), 0, x)
+    } else {
+      const i = rng.int(0, n - 3)
+      const tail = c.splice(i + 1, 2).reverse()
+      c.splice(i + 1, 0, ...tail)
+    }
+    const s = c.join('')
+    if (s !== base) out.add(s)
+  }
+  // Fallback: random shuffles (always enough distinct permutations exist for n >= 5).
+  while (out.size < need) {
+    const s = rng.shuffle(arr).join('')
+    if (s !== base) out.add(s)
+  }
+  return [...out].slice(0, need)
+}
+
+function buildParaJumble(parsed, ctx) {
+  const groups = []
+  const drops = []
+  const seen = new Set()
+  const rng = ctx.buildRng
+  for (const it of asArray(parsed?.items ?? parsed?.paragraphs)) {
+    const sentences = asArray(it?.sentences).map((s) => line(s).replace(/^(?:[A-F]|\d)[.):]\s+/, ''))
+    const ex = readExplanation(it?.explanation)
+    const problem = sentences.map((s) => textProblem(s)).find(Boolean) || ex.problem
+    const n = sentences.length
+    if (n < 5 || n > 6 || problem) {
+      drops.push(`pj: ${problem || 'need 5 or 6 sentences'}`)
+      continue
+    }
+    if (new Set(sentences.map(normKey)).size !== n || sentences.some((s) => wordCount(s) < 5 || wordCount(s) > 45 || !/[.!?"”]$/.test(s))) {
+      drops.push('pj: duplicate, short/long or unterminated sentence')
+      continue
+    }
+    if (/^(?:this|such|these|those|however|moreover|but|hence|thus|therefore|he|she|they)\b/i.test(sentences[0])) {
+      drops.push('pj: opener needs an antecedent')
+      continue
+    }
+    const key = normKey(sentences.join(' '))
+    if (seen.has(key)) {
+      drops.push('pj: duplicate paragraph')
+      continue
+    }
+    seen.add(key)
+    // display[k] = index (in correct order) of the sentence shown with label LETTERS[k]
+    let display = rng.shuffle(sentences.map((_, i) => i))
+    for (let t = 0; t < 30 && display.every((v, i) => v === i); t++) display = rng.shuffle(display)
+    const labelOf = (idx) => LETTERS[display.indexOf(idx)]
+    const correctOrder = sentences.map((_, i) => labelOf(i)).join('')
+    const lettersUsed = LETTERS.slice(0, n)
+    const list = display.map((idx, k) => `${LETTERS[k]}. ${sentences[idx]}`).join('\n')
+    const names = lettersUsed.slice(0, -1).join(', ') + ' and ' + lettersUsed[n - 1]
+    let stem
+    let options
+    let answer
+    if (rng.chance(0.7)) {
+      const distractors = distractorOrders(rng, correctOrder, 4)
+      const sh = shuffleOptions(rng, [correctOrder, ...distractors], 0)
+      options = sh.options
+      answer = sh.answer
+      stem = `Rearrange the following sentences ${names} to form a meaningful and coherent paragraph, and choose the option that gives the correct order.\n\n${list}`
+    } else {
+      const pos = rng.pick(n === 5 ? [1, 2, 3, 4, 5] : [1, 3, 4, 5, 6])
+      const correctLetter = correctOrder[pos - 1]
+      const others = rng.shuffle(lettersUsed.filter((l) => l !== correctLetter)).slice(0, 4)
+      const sh = shuffleOptions(rng, [correctLetter, ...others], 0)
+      options = sh.options
+      answer = sh.answer
+      stem = `The sentences ${names} given below are jumbled. Rearrange them to form a meaningful and coherent paragraph, and then decide which sentence should be the ${POSITION_WORD[pos]} sentence of the paragraph.\n\n${list}`
+    }
+    groups.push({ questions: [{ topic: 'para-jumble', stem, options, answer, explanation: `${ex.explanation} Correct sequence: ${correctOrder}.` }] })
+  }
+  return { groups, drops }
+}
+
+const BLANK_RUN = /(?:\(\s*(?:[AB]|[12]|i{1,2})\s*\)\s*)?_{2,}/g
+const FILLER_SINGLE_STEM = 'Choose the word that, when filled in the blank, makes the sentence meaningful and grammatically correct.'
+const FILLER_DOUBLE_STEM = 'Choose the pair of words that, when filled in the blanks (A) and (B) in that order, makes the sentence meaningful and grammatically correct.'
+
+function buildFillers(parsed, ctx) {
+  const groups = []
+  const drops = []
+  const seen = new Set()
+  for (const it of asArray(parsed?.items)) {
+    const type = it?.type === 'double' ? 'double' : it?.type === 'single' ? 'single' : ''
+    const raw = line(it?.sentence)
+    const sp = textProblem(raw, true)
+    const ex = readExplanation(it?.explanation, { shuffled: true })
+    if (!type || sp || ex.problem) {
+      drops.push(`fillers: ${!type ? 'bad type' : sp || ex.problem}`)
+      continue
+    }
+    const runs = raw.match(BLANK_RUN) || []
+    if (runs.length !== (type === 'double' ? 2 : 1)) {
+      drops.push('fillers: blank count does not match type')
+      continue
+    }
+    let k = 0
+    const sentence = raw.replace(BLANK_RUN, () => (type === 'double' ? `(${k++ === 0 ? 'A' : 'B'}) ______` : '______'))
+    if (wordCount(sentence.replace(/\([AB]\) ______|______/g, 'x')) < 8 || sentence.length > 400) {
+      drops.push('fillers: sentence too short/long')
+      continue
+    }
+    if (!isInt(it.correctIndex) || it.correctIndex < 0 || it.correctIndex > 4) {
+      drops.push('fillers: bad correctIndex')
+      continue
+    }
+    let options
+    if (type === 'single') {
+      const o = readOptions(it.options, { maxWords: 3 })
+      if (o.problem || o.options.some((x) => x.includes(','))) {
+        drops.push(`fillers single: ${o.problem || 'comma in option'}`)
+        continue
+      }
+      options = o.options
+    } else {
+      const pairs = asArray(it.options).map((p) => (Array.isArray(p) && p.length === 2 ? p.map(line) : null))
+      if (pairs.length !== 5 || pairs.some((p) => !p || p.some((w) => !w || wordCount(w) > 3 || w.includes(',') || textProblem(w)))) {
+        drops.push('fillers double: options must be 5 pairs of words')
+        continue
+      }
+      options = pairs.map((p) => `${p[0]}, ${p[1]}`)
+      if (new Set(options.map(normKey)).size !== 5 || pairs.some((p) => normKey(p[0]) === normKey(p[1]))) {
+        drops.push('fillers double: duplicate pair or repeated word')
+        continue
+      }
+    }
+    const key = normKey(sentence)
+    if (seen.has(key)) {
+      drops.push('fillers: duplicate sentence')
+      continue
+    }
+    seen.add(key)
+    const sh = shuffleOptions(ctx.buildRng, options, it.correctIndex)
+    groups.push({ questions: [{ topic: 'fillers', stem: `${type === 'double' ? FILLER_DOUBLE_STEM : FILLER_SINGLE_STEM}\n\n${sentence}`, options: sh.options, answer: sh.answer, explanation: ex.explanation }] })
+  }
+  return { groups, drops }
+}
+
+const WS_DIRECTIONS =
+  'In the following sentence, four words are marked (1), (2), (3) and (4). Two of the marked words may need to be interchanged to make the sentence meaningful and grammatically correct. Select the option that gives the numbers of the two words to be interchanged. If no interchange is required, select “No interchange required”.'
+const NO_INTERCHANGE = 'No interchange required'
+const WS_PAIRS = [
+  [0, 1],
+  [0, 2],
+  [0, 3],
+  [1, 2],
+  [1, 3],
+  [2, 3],
+]
+
+function buildWordSwap(parsed, ctx) {
+  const groups = []
+  const drops = []
+  const seen = new Set()
+  const rng = ctx.buildRng
+  for (const it of asArray(parsed?.items)) {
+    const tokens = asArray(it?.tokens).map((t) => line(t))
+    const marked = asArray(it?.marked)
+    const ex = readExplanation(it?.explanation)
+    const problem = ex.problem || tokens.map((t) => textProblem(t)).find(Boolean)
+    if (problem || tokens.length < 8 || tokens.length > 42 || tokens.some((t) => t.includes(' '))) {
+      drops.push(`ws: ${problem || 'bad tokens'}`)
+      continue
+    }
+    if (marked.length !== 4 || !marked.every(isInt) || marked.some((m, i) => m < 1 || m >= tokens.length || (i > 0 && m <= marked[i - 1]))) {
+      drops.push('ws: marked must be 4 increasing token indices (not the first token)')
+      continue
+    }
+    if (marked.some((m) => !/^[a-z][a-z'-]{1,20}$/.test(tokens[m]))) {
+      drops.push('ws: marked tokens must be plain lowercase words')
+      continue
+    }
+    if (new Set(marked.map((m) => tokens[m])).size !== 4) {
+      drops.push('ws: marked words must be distinct')
+      continue
+    }
+    const swap = it.swap
+    let pair = null
+    if (swap !== null && swap !== undefined) {
+      if (!Array.isArray(swap) || swap.length !== 2 || !swap.every((x) => isInt(x) && x >= 0 && x <= 3) || swap[0] === swap[1]) {
+        drops.push('ws: bad swap')
+        continue
+      }
+      pair = [Math.min(...swap), Math.max(...swap)]
+    }
+    const shown = tokens.slice()
+    if (pair) {
+      const a = marked[pair[0]]
+      const b = marked[pair[1]]
+      ;[shown[a], shown[b]] = [shown[b], shown[a]]
+    }
+    const sentence = shown.map((t, i) => (marked.includes(i) ? `(${marked.indexOf(i) + 1})${t}` : t)).join(' ')
+    const correct = tokens.join(' ')
+    const key = normKey(correct)
+    if (seen.has(key)) {
+      drops.push('ws: duplicate sentence')
+      continue
+    }
+    seen.add(key)
+    const pairText = (p) => `(${p[0] + 1}) and (${p[1] + 1})`
+    const others = rng.shuffle(WS_PAIRS.filter((p) => !(pair && p[0] === pair[0] && p[1] === pair[1])))
+    const chosen = pair ? rng.shuffle([pair, ...others.slice(0, 3)]) : others.slice(0, 4)
+    const options = [...chosen.map(pairText), NO_INTERCHANGE]
+    const answer = pair ? chosen.findIndex((p) => p[0] === pair[0] && p[1] === pair[1]) : 4
+    const explanation = pair ? `${ex.explanation} Correct sentence: ${correct}` : `${ex.explanation} The sentence is already correct: ${correct}`
+    groups.push({ questions: [{ topic: 'word-swap', stem: `${WS_DIRECTIONS}\n\n${sentence}`, options, answer, explanation: explanation.slice(0, 900) }] })
+  }
+  return { groups, drops }
+}
+
+const PR_DIRECTIONS =
+  'In the following sentence, a part is given in CAPITAL letters. Choose the option that replaces it so that the sentence becomes grammatically correct and meaningful. If the sentence is correct as it is, select “No correction required”.'
+const PU_DIRECTIONS = 'Choose the phrase that, when filled in the blank, makes the sentence meaningful and grammatically correct.'
+const NO_CORRECTION = 'No correction required'
+
+function buildPhraseReplacement(parsed, ctx) {
+  const groups = []
+  const drops = []
+  const seen = new Set()
+  for (const it of asArray(parsed?.items)) {
+    const ex = readExplanation(it?.explanation, { shuffled: true })
+    if (ex.problem) {
+      drops.push(`pr: ${ex.problem}`)
+      continue
+    }
+    if (it?.variant === 'usage') {
+      const sentence = line(it.sentence)
+      const sp = textProblem(sentence, true)
+      const o = readOptions(it.options, { maxWords: 5 })
+      if (sp || o.problem || (sentence.match(/_{2,}/g) || []).length !== 1 || !isInt(it.correctIndex) || it.correctIndex < 0 || it.correctIndex > 4) {
+        drops.push(`pr usage: ${sp || o.problem || 'need one blank and a valid key'}`)
+        continue
+      }
+      const clean = sentence.replace(/_{2,}/, '______')
+      const key = normKey(clean)
+      if (seen.has(key)) {
+        drops.push('pr usage: duplicate')
+        continue
+      }
+      seen.add(key)
+      const sh = shuffleOptions(ctx.buildRng, o.options, it.correctIndex)
+      groups.push({ questions: [{ topic: 'phrase-replacement', stem: `${PU_DIRECTIONS}\n\n${clean}`, options: sh.options, answer: sh.answer, explanation: ex.explanation }] })
+      continue
+    }
+    const before = line(it?.before)
+    const phrase = line(it?.phrase)
+    const after = line(it?.after)
+    const problem = [before, phrase, after].map((s, i) => (s || i !== 0 ? textProblem(s || 'x') : '')).find(Boolean)
+    const o = asArray(it?.options)
+    const options = o.map(line)
+    if (problem || !phrase || !after || wordCount(phrase) < 1 || wordCount(phrase) > 9) {
+      drops.push(`pr replace: ${problem || 'bad before/phrase/after'}`)
+      continue
+    }
+    if (options.length !== 4 || options.some((x) => textProblem(x) || wordCount(x) > 10) || new Set(options.map(normKey)).size !== 4) {
+      drops.push('pr replace: need 4 distinct options')
+      continue
+    }
+    if (options.some((x) => normKey(x) === normKey(phrase) || normKey(x) === normKey(NO_CORRECTION))) {
+      drops.push('pr replace: option equals original or "No correction"')
+      continue
+    }
+    const ci = it.correctIndex
+    if (!(ci === null || (isInt(ci) && ci >= 0 && ci <= 3))) {
+      drops.push('pr replace: bad correctIndex')
+      continue
+    }
+    const sentence = [before, phrase.toUpperCase(), after].filter(Boolean).reduce((acc, part) => (acc ? acc + (/^[,.;:!?)]/.test(part) ? '' : ' ') + part : part), '')
+    const key = normKey(sentence)
+    if (seen.has(key)) {
+      drops.push('pr replace: duplicate')
+      continue
+    }
+    seen.add(key)
+    const sh = shuffleOptions(ctx.buildRng, options, ci === null ? 4 : ci)
+    groups.push({
+      questions: [{ topic: 'phrase-replacement', stem: `${PR_DIRECTIONS}\n\n${sentence}`, options: [...sh.options, NO_CORRECTION], answer: ci === null ? 4 : sh.answer, explanation: ex.explanation }],
+    })
+  }
+  return { groups, drops }
+}
+
+const MC_DIRECTIONS =
+  'Match each sentence beginning in Column I with its ending in Column II so that four meaningful and grammatically correct sentences are formed. Select the option that gives the correct matching.'
+
+function permutations(arr) {
+  if (arr.length <= 1) return [arr]
+  return arr.flatMap((x, i) => permutations([...arr.slice(0, i), ...arr.slice(i + 1)]).map((p) => [x, ...p]))
+}
+const ALL_MATCHINGS = permutations([0, 1, 2, 3])
+
+function buildMatchColumn(parsed, ctx) {
+  const groups = []
+  const drops = []
+  const seen = new Set()
+  const rng = ctx.buildRng
+  for (const it of asArray(parsed?.items)) {
+    const pairs = asArray(it?.pairs).map((p) => ({ begin: line(p?.begin).replace(/[.]$/, ''), end: line(p?.end) }))
+    const ex = readExplanation(it?.explanation)
+    const problem = ex.problem || pairs.map((p) => textProblem(p.begin) || textProblem(p.end)).find(Boolean)
+    if (pairs.length !== 4 || problem) {
+      drops.push(`mc: ${problem || 'need 4 pairs'}`)
+      continue
+    }
+    if (new Set(pairs.map((p) => normKey(p.begin))).size !== 4 || new Set(pairs.map((p) => normKey(p.end))).size !== 4) {
+      drops.push('mc: duplicate beginnings or endings')
+      continue
+    }
+    if (pairs.some((p) => wordCount(p.begin) < 3 || wordCount(p.begin) > 18 || wordCount(p.end) < 2 || wordCount(p.end) > 20)) {
+      drops.push('mc: half-sentence length')
+      continue
+    }
+    if (new Set(pairs.map((p) => normKey(p.begin).split(' ').slice(0, 2).join(' '))).size < 3) {
+      drops.push('mc: beginnings too similar')
+      continue
+    }
+    const key = normKey(pairs.map((p) => p.begin).join(' '))
+    if (seen.has(key)) {
+      drops.push('mc: duplicate')
+      continue
+    }
+    seen.add(key)
+    // Column II order: colOrder[k] = index of the pair whose ending sits at letter k.
+    const colOrder = rng.shuffle([0, 1, 2, 3])
+    const letterOfPair = (i) => LETTERS[colOrder.indexOf(i)]
+    const fmt = (assign) => assign.map((letterIdx, i) => `${i + 1}-${LETTERS[letterIdx]}`).join(', ')
+    const correct = [0, 1, 2, 3].map((i) => colOrder.indexOf(i))
+    const wrong = rng.shuffle(ALL_MATCHINGS.filter((m) => m.some((v, i) => v !== correct[i]))).slice(0, 4)
+    const sh = shuffleOptions(rng, [fmt(correct), ...wrong.map(fmt)], 0)
+    const col1 = pairs.map((p, i) => `${i + 1}. ${p.begin}`).join('\n')
+    const col2 = colOrder.map((pi, k) => `${LETTERS[k]}. ${pairs[pi].end}`).join('\n')
+    const fullSentences = pairs.map((p, i) => `${i + 1}-${letterOfPair(i)}`).join(', ')
+    groups.push({
+      questions: [{ topic: 'match-column', stem: `${MC_DIRECTIONS}\n\nColumn I\n${col1}\n\nColumn II\n${col2}`, options: sh.options, answer: sh.answer, explanation: `${ex.explanation} Correct matching: ${fullSentences}.`.slice(0, 1200) }],
+    })
+  }
+  return { groups, drops }
+}
+
+const TOPIC_DEFS = {
+  rc: { prompt: rcPrompt, build: buildRc },
+  cloze: { prompt: clozePrompt, build: buildCloze },
+  'error-detection': { prompt: edPrompt, build: buildErrorDetection },
+  'para-jumble': { prompt: pjPrompt, build: buildParaJumble },
+  fillers: { prompt: fillersPrompt, build: buildFillers },
+  'word-swap': { prompt: wsPrompt, build: buildWordSwap },
+  'phrase-replacement': { prompt: prPrompt, build: buildPhraseReplacement },
+  'match-column': { prompt: mcPrompt, build: buildMatchColumn },
+}
+
+// ---------------------------------------------------------------------------------------------------
+// Solve prompt + parsing
+// ---------------------------------------------------------------------------------------------------
+
+const SOLVE_RULES = {
+  rc: 'Reading comprehension: use ONLY the passage. Prefer the option the passage supports most directly. For vocabulary-in-context, decide the meaning from that sentence.',
+  cloze: 'Cloze: for the blank asked about, test every option in the sentence for grammar, collocation and meaning; the passage around it decides.',
+  'error-detection': 'Error detection: check each of (a)-(d) separately for a grammatical error (agreement, tense, preposition, article, pronoun, parallelism, comparison, modifiers). "No error" is correct only if all four parts are sound. If two parts each have a real error, or a part is only a stylistic quibble, set ambiguous. For "which sentence is correct" items exactly one sentence must be fully correct.',
+  'para-jumble': 'Para jumble: work out the coherent order yourself FIRST (opening sentence with no antecedent, pronoun and connector dependencies, mandatory pairs, conclusion), then choose the option that matches. If two options both give a coherent paragraph, or none does, set ambiguous.',
+  fillers: 'Fillers: put each option (or pair, in order) into the blank(s); only grammatical, natural and meaningful fits count. If two options work, set ambiguous.',
+  'word-swap': 'Word swap: for each pair of marked words, interchange them and read the resulting sentence; the key is the interchange giving a correct, sensible sentence. "No interchange required" is right only if the sentence is already fine. If two different interchanges (or an interchange and the original) both work, set ambiguous.',
+  'phrase-replacement': 'Phrase replacement: substitute each option for the capitalised phrase and check grammar and meaning; "No correction required" is right only if the original is already correct. For phrase-usage items, substitute each phrase into the blank. If two options work, set ambiguous.',
+  'match-column': 'Match the column: join each beginning to each ending and test grammar and meaning; the matching must be unique. If an ending could complete two beginnings, set ambiguous.',
+}
+
+function buildSolvePrompt(items) {
+  const passages = []
+  const passageIdx = new Map()
+  for (const it of items) {
+    if (it.passage && !passageIdx.has(it.passage)) {
+      passageIdx.set(it.passage, passages.length + 1)
+      passages.push(it.passage)
+    }
+  }
+  const topics = [...new Set(items.map((i) => i.topic))]
+  const itemBlocks = items.map((it) => {
+    const p = it.passage ? `P${passageIdx.get(it.passage)}` : 'none'
+    const opts = it.options.map((o, i) => `${LETTERS[i]}) ${o}`).join('\n')
+    return `### ITEM ${it.id}\nTopic: ${TOPIC_LABEL[it.topic] || it.topic}\nPassage: ${p}\nQuestion:\n${it.stem}\nOptions:\n${opts}`
+  })
+  return `You are an expert solver and quality checker for the English Language section of Indian bank PO and Clerk prelims. Solve each item independently, as a top-scoring candidate would. You are NOT given an answer key.
+
+Task: mock-english / solve / items=${items.length}
+
+For every item:
+1. Work out the answer yourself from the question (and its passage, if any) and choose exactly ONE option letter (A-E).
+2. Set "ambiguous": true if ANY of these holds: two or more options could be defended by a careful expert; no option is fully correct; the question or passage is unclear or itself contains an unintended grammatical or factual flaw; a reading-comprehension answer needs outside knowledge; the key would rest on a debatable convention. Otherwise false. Be strict: when in doubt, set ambiguous true.
+3. "note": at most 12 words saying why.
+
+Topic rules:
+${topics.map((t) => `- ${SOLVE_RULES[t] || ''}`).join('\n')}
+
+Respond with ONLY a JSON object (no markdown fences): {"results":[{"id":"<item id>","answer":"A","ambiguous":false,"note":"..."}]} with exactly one entry per item, using the item ids given.
+${passages.length ? `\nPASSAGES\n${passages.map((p, i) => `[P${i + 1}]\n${p}`).join('\n\n')}\n` : ''}
+ITEMS
+${itemBlocks.join('\n\n')}`
+}
+
+function parseSolveResults(parsed, items) {
+  const raw = asArray(parsed?.results)
+  const byId = new Map(raw.filter((r) => r && (typeof r.id === 'string' || typeof r.id === 'number')).map((r) => [String(r.id), r]))
+  return items.map((it) => {
+    const r = byId.get(it.id)
+    const letter = typeof r?.answer === 'string' ? r.answer.trim().toUpperCase().replace(/[^A-E]/g, '') : ''
+    const idx = letter.length === 1 ? 'ABCDE'.indexOf(letter) : -1
+    return { id: it.id, answer: idx >= 0 ? idx : null, ambiguous: r?.ambiguous === true || r?.ambiguous === 'true' || r === undefined || idx < 0 }
+  })
+}
+
+// ---------------------------------------------------------------------------------------------------
+// Gemini plumbing
+// ---------------------------------------------------------------------------------------------------
+
+function extractText(data) {
+  const cand = data?.candidates?.[0]
+  const parts = cand?.content?.parts
+  if (!Array.isArray(parts)) return ''
+  return parts
+    .filter((p) => p && typeof p.text === 'string' && !p.thought)
+    .map((p) => p.text)
+    .join('')
+    .trim()
+}
+
+/** Parses JSON, tolerating markdown fences or leading/trailing chatter. Returns undefined on failure. */
+function parseJsonLoose(text) {
+  const stripped = text.replace(/^```(?:json)?\s*/i, '').replace(/\s*```$/, '')
+  try {
+    return JSON.parse(stripped)
+  } catch {
+    const a = stripped.indexOf('{')
+    const b = stripped.lastIndexOf('}')
+    if (a >= 0 && b > a) {
+      try {
+        return JSON.parse(stripped.slice(a, b + 1))
+      } catch {
+        /* fall through */
+      }
+    }
+  }
+  return undefined
+}
+
+/** One Gemini call. `accept(parsed)` returns {ok:true,...payload} or {ok:false,error} so that an unusable
+ *  reply counts as a failure (and the other model gets its chance). Never throws. */
+async function callGemini(model, apiKey, prompt, temperature, accept, outerSignal) {
+  const controller = new AbortController()
+  const timeoutMs = geminiTimeoutMs()
+  const timer = setTimeout(() => controller.abort(), timeoutMs)
+  const onOuterAbort = () => controller.abort()
+  if (outerSignal) {
+    if (outerSignal.aborted) controller.abort()
+    else outerSignal.addEventListener('abort', onOuterAbort, { once: true })
+  }
+  try {
+    let res
+    try {
+      res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'x-goog-api-key': apiKey },
+        body: JSON.stringify({
+          contents: [{ role: 'user', parts: [{ text: prompt }] }],
+          generationConfig: { responseMimeType: 'application/json', temperature },
+        }),
+        signal: controller.signal,
+      })
+    } catch (err) {
+      const aborted = err && err.name === 'AbortError'
+      return { ok: false, model, status: aborted ? 504 : 502, error: aborted ? 'Gemini took too long to respond.' : 'Could not reach Gemini.' }
+    }
+    if (!res.ok) {
+      const detail = await res.text().catch(() => '')
+      const status = res.status === 429 ? 429 : 502
+      return { ok: false, model, status, error: res.status === 429 ? 'Gemini rate limit reached.' : `Gemini request failed (${res.status}).`, detail: String(detail).slice(0, 300) }
+    }
+    let data
+    try {
+      data = await res.json()
+    } catch (err) {
+      const aborted = err && err.name === 'AbortError'
+      return { ok: false, model, status: aborted ? 504 : 502, error: aborted ? 'Gemini took too long to respond.' : 'Gemini returned an unreadable response.' }
+    }
+    if (data?.candidates?.[0]?.finishReason === 'MAX_TOKENS') return { ok: false, model, status: 502, error: 'Gemini output was cut off.' }
+    const text = extractText(data)
+    if (!text) return { ok: false, model, status: 502, error: 'Gemini returned no content.' }
+    const parsed = parseJsonLoose(text)
+    if (parsed === undefined || parsed === null || typeof parsed !== 'object') return { ok: false, model, status: 502, error: 'Gemini returned malformed JSON.' }
+    const accepted = accept(parsed)
+    if (!accepted.ok) return { ok: false, model, status: 502, error: accepted.error }
+    return { ok: true, model, ...accepted }
+  } finally {
+    clearTimeout(timer)
+    if (outerSignal) outerSignal.removeEventListener('abort', onOuterAbort)
+  }
+}
+
+/** Starts models[0]; starts the next after `hedgeMs` (or immediately if the previous one failed). Resolves with
+ *  the first success, aborting the others, or the last failure once all have failed. */
+function hedged(models, run, hedgeMs) {
+  return new Promise((resolve) => {
+    const controllers = []
+    let next = 0
+    let inflight = 0
+    let settled = false
+    let lastFail = { ok: false, status: 502, error: 'Gemini request failed.' }
+    let timer = null
+    const finish = (outcome) => {
+      if (settled) return
+      settled = true
+      clearTimeout(timer)
+      for (const c of controllers) c.abort()
+      resolve(outcome)
+    }
+    const launch = () => {
+      if (settled || next >= models.length) return
+      const model = models[next++]
+      const controller = new AbortController()
+      controllers.push(controller)
+      inflight++
+      clearTimeout(timer)
+      if (next < models.length) {
+        timer = setTimeout(launch, hedgeMs)
+        timer.unref?.()
+      }
+      run(model, controller.signal).then(
+        (outcome) => {
+          inflight--
+          if (outcome.ok) return finish(outcome)
+          lastFail = outcome
+          if (next < models.length) launch()
+          else if (inflight === 0) finish(lastFail)
+        },
+        () => {
+          inflight--
+          if (next < models.length) launch()
+          else if (inflight === 0) finish(lastFail)
+        },
+      )
+    }
+    launch()
+  })
+}
+
+function modelOrder(role, avoidModel) {
+  const override = modelOverride()
+  if (override) return [override]
+  const [strong, light] = DEFAULT_MODELS
+  if (role === 'generate') return [strong, light]
+  // Solve: prefer the model that did NOT generate the batch.
+  return avoidModel === strong ? [light, strong] : avoidModel === light ? [strong, light] : [strong, light]
+}
+
+// ---------------------------------------------------------------------------------------------------
+// Request handling
+// ---------------------------------------------------------------------------------------------------
+
+function readBody(req) {
+  const b = req.body
+  if (b && typeof b === 'object' && !Buffer.isBuffer(b)) return b
+  if (typeof b === 'string' || Buffer.isBuffer(b)) {
+    try {
+      const parsed = JSON.parse(String(b))
+      return parsed && typeof parsed === 'object' ? parsed : null
+    } catch {
+      return null
+    }
+  }
+  return null
+}
+
+function validateSolveItems(raw) {
+  if (!Array.isArray(raw) || raw.length < 1) return { error: '"items" must be a non-empty array.' }
+  if (raw.length > MAX_SOLVE_ITEMS) return { error: `At most ${MAX_SOLVE_ITEMS} items per solve call.` }
+  const items = []
+  const ids = new Set()
+  for (let i = 0; i < raw.length; i++) {
+    const r = raw[i]
+    const where = `items[${i}]`
+    if (!r || typeof r !== 'object') return { error: `${where} must be an object.` }
+    if (typeof r.id !== 'string' || !r.id || r.id.length > 40 || ids.has(r.id)) return { error: `${where}.id must be a unique non-empty string (max 40 chars).` }
+    ids.add(r.id)
+    if (!TOPIC_IDS.includes(r.topic)) return { error: `${where}.topic is invalid.` }
+    if (typeof r.stem !== 'string' || r.stem.trim().length < 4 || r.stem.length > 4000) return { error: `${where}.stem is invalid.` }
+    if (r.passage !== undefined && (typeof r.passage !== 'string' || r.passage.length > 8000)) return { error: `${where}.passage is invalid.` }
+    if (!Array.isArray(r.options) || r.options.length !== 5 || r.options.some((o) => typeof o !== 'string' || !o.trim() || o.length > 500)) return { error: `${where}.options must be 5 non-empty strings.` }
+    items.push({
+      id: r.id,
+      topic: r.topic,
+      passage: r.passage ? sanitize(r.passage).trim() : '',
+      stem: sanitize(r.stem).trim(),
+      options: r.options.map((o) => line(o)),
+    })
+  }
+  return { items }
+}
+
+export default async function handler(req, res) {
+  if (req.method !== 'POST') {
+    res.setHeader?.('Allow', 'POST')
+    res.status(405).json({ error: 'Method not allowed' })
+    return
+  }
+  const body = readBody(req)
+  if (!body) {
+    res.status(400).json({ error: 'Request body must be a JSON object.' })
+    return
+  }
+  const action = body.action
+  if (action !== 'generate' && action !== 'solve') {
+    res.status(400).json({ error: '"action" must be "generate" or "solve".' })
+    return
+  }
+
+  let job
+  if (action === 'generate') {
+    const { topic, difficulty } = body
+    if (!TOPIC_IDS.includes(topic)) {
+      res.status(400).json({ error: `"topic" must be one of: ${TOPIC_IDS.join(', ')}` })
+      return
+    }
+    if (difficulty !== 'medium' && difficulty !== 'hard') {
+      res.status(400).json({ error: '"difficulty" must be "medium" or "hard".' })
+      return
+    }
+    const rawCount = typeof body.count === 'string' && /^\d+$/.test(body.count) ? Number(body.count) : body.count
+    if (!isInt(rawCount) || rawCount < 1) {
+      res.status(400).json({ error: '"count" must be a positive integer.' })
+      return
+    }
+    const seed = body.seed
+    if (seed !== undefined && !((typeof seed === 'number' && Number.isFinite(seed)) || (typeof seed === 'string' && seed.length > 0 && seed.length <= 64))) {
+      res.status(400).json({ error: '"seed" must be a finite number or a string of at most 64 characters.' })
+      return
+    }
+    const count = Math.min(rawCount, MAX_COUNT[topic])
+    const seedNum = seed === undefined ? Math.floor(Math.random() * 0xffffffff) : hashSeed(seed)
+    job = { action, topic, difficulty, count, seedNum }
+  } else {
+    const v = validateSolveItems(body.items)
+    if (v.error) {
+      res.status(400).json({ error: v.error })
+      return
+    }
+    if (body.avoidModel !== undefined && (typeof body.avoidModel !== 'string' || body.avoidModel.length > 80)) {
+      res.status(400).json({ error: '"avoidModel" must be a string.' })
+      return
+    }
+    job = { action, items: v.items, avoidModel: body.avoidModel }
+  }
+
+  const apiKey = process.env.GEMINI_API_KEY
+  if (!apiKey) {
+    res.status(500).json({ error: 'GEMINI_API_KEY is not configured on the server.' })
+    return
+  }
+
+  let outcome
+  if (job.action === 'generate') {
+    const def = TOPIC_DEFS[job.topic]
+    const ctx = { difficulty: job.difficulty, count: job.count, rng: makeRng(job.seedNum), buildRng: makeRng(job.seedNum ^ 0x9e3779b9) }
+    const prompt = `${header(job.topic, job.difficulty, job.count, job.seedNum)}\n${def.prompt(ctx)}`
+    const accept = (parsed) => {
+      const built = def.build(parsed, ctx)
+      return built.groups.length ? { ok: true, groups: built.groups, dropped: built.drops.slice(0, 25), droppedCount: built.drops.length } : { ok: false, error: `The model returned no usable ${TOPIC_LABEL[job.topic]} items.` }
+    }
+    outcome = await hedged(modelOrder('generate'), (model, signal) => callGemini(model, apiKey, prompt, GENERATE_TEMPERATURE, accept, signal), hedgeDelayMs())
+    if (outcome.ok) {
+      res.status(200).json({ groups: outcome.groups, meta: { model: outcome.model, topic: job.topic, difficulty: job.difficulty, requested: job.count, dropped: outcome.dropped, droppedCount: outcome.droppedCount } })
+      return
+    }
+  } else {
+    const prompt = buildSolvePrompt(job.items)
+    const accept = (parsed) => {
+      const results = parseSolveResults(parsed, job.items)
+      return results.some((r) => r.answer !== null) ? { ok: true, results } : { ok: false, error: 'The solver returned no usable answers.' }
+    }
+    outcome = await hedged(modelOrder('solve', job.avoidModel), (model, signal) => callGemini(model, apiKey, prompt, SOLVE_TEMPERATURE, accept, signal), hedgeDelayMs())
+    if (outcome.ok) {
+      res.status(200).json({ results: outcome.results, model: outcome.model })
+      return
+    }
+  }
+
+  const { status, error, detail } = outcome
+  res.status(status || 502).json(detail ? { error, detail } : { error })
+}

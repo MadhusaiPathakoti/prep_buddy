@@ -4,7 +4,7 @@ import { ENGLISH_GAMES } from './English'
 import { REASONING_GAMES } from './Reasoning'
 import { QUANT_GAMES } from './Quant'
 
-const modules = [
+const modules: { id: string; title: string; description: string; to: string; gameCount: number; icon: string; meta?: string }[] = [
   {
     id: 'speed-math',
     title: 'Speed Math',
@@ -37,6 +37,15 @@ const modules = [
     gameCount: QUANT_GAMES.length,
     icon: '📊',
   },
+  {
+    id: 'mocks',
+    title: 'Mocks',
+    description: 'Full-length, sectional and topic-wise SBI/IBPS PO and Clerk mocks in the real test-software interface, with a downloadable PDF analysis.',
+    to: '/mocks',
+    gameCount: 0,
+    meta: 'PO · Clerk',
+    icon: '🎯',
+  },
 ]
 
 export default function Home() {
@@ -58,7 +67,7 @@ export default function Home() {
             <h2 className="mt-4 text-xl font-bold text-slate-900 dark:text-slate-100">{m.title}</h2>
             <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">{m.description}</p>
             <div className="mt-4 flex items-center justify-between text-sm">
-              <span className="font-medium text-slate-400 dark:text-slate-500">{m.gameCount} games</span>
+              <span className="font-medium text-slate-400 dark:text-slate-500">{m.meta ?? `${m.gameCount} games`}</span>
               <span className="font-semibold text-indigo-600 dark:text-indigo-400 group-hover:translate-x-0.5 transition">Start →</span>
             </div>
           </Link>
