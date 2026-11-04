@@ -160,6 +160,8 @@ The pattern and the per-section topic mix are in `src/lib/mocks/blueprints.ts` (
 
 `npm run verify:mocks` runs all four test harnesses (engine/timers/scoring/PDF, Quant, Reasoning, English with a stubbed Gemini; the Quant and Reasoning ones generate tens of thousands of questions). Once you have a key, `npx tsx scripts/verify-mocks-english.ts --live 10` measures how often the live model's questions are filtered out.
 
+**Question Paper → Download PDF** — the exam window's Question Paper dialog can save the current section as a printable practice copy (questions and each set's passage/data, no answer key — so it can't be used to peek ahead in a locked full mock). Check your answers afterwards in the result's solution analysis.
+
 **Result report** — overview, rank predictor, performance breakdown, sectional summary, compare-with-topper, topic analysis and the full question-by-question solution analysis, on screen and as a downloadable PDF (`src/lib/mocks/pdf.ts`, lazy-loaded). There are no other test-takers, so **rank, percentile, topper and average are estimates against a simulated cohort of 2,000** (`src/lib/mocks/cohort.ts`) and are labelled that way in the app and the PDF. Finished attempts are kept in the browser (last 12) and can be re-attempted.
 
 To run the Gemini-backed functions under `npm run dev`, put `GEMINI_API_KEY=...` in `.env.local`; `vite.config.ts` serves `/api/*` locally (it never reaches the browser bundle).

@@ -4,7 +4,7 @@ import { COHORT_DISCLAIMER, TIERS } from './cohort'
 import { kindLabel, OPTION_LETTERS, pct, type Report } from './report'
 import { formatHms, formatScore, type QuestionResult } from './scoring'
 import { topicLabel } from './topics'
-import type { Stimulus, StimulusPart } from './types'
+import type { MockPaper, MockQuestion, Stimulus, StimulusPart } from './types'
 
 // Vector PDF of the result report. Layout follows the attached sample (Your Results cards → Rank
 // Predictor → Performance Breakdown → Sectional Summary → Compare with Topper) and then adds topic
@@ -104,7 +104,7 @@ function pill(doc: jsPDF, x: number, y: number, text: string, color: RGB, active
   return w
 }
 
-function pageFooter(doc: jsPDF, report: Report) {
+function pageFooter(doc: jsPDF, label: string) {
   const total = doc.getNumberOfPages()
   for (let i = 1; i <= total; i++) {
     doc.setPage(i)
@@ -113,7 +113,7 @@ function pageFooter(doc: jsPDF, report: Report) {
     doc.setFont('helvetica', 'normal')
     doc.setFontSize(7.5)
     ink(doc, GREY)
-    doc.text(pdfText(`PrepBuddy · ${report.attempt.paper.title}`), 12, h - 6)
+    doc.text(pdfText(`PrepBuddy · ${label}`), 12, h - 6)
     doc.text(`Page ${i} of ${total}`, w - 12, h - 6, { align: 'right' })
   }
 }
@@ -393,66 +393,77 @@ function stimulusParts(part: StimulusPart): { kind: 'text'; lines: string[]; bol
   }
 }
 
-function solutionPages(doc: jsPDF, report: Report) {
-  const { sc, attempt } = report
-  const paper = attempt.paper
-  doc.addPage('a4', 'portrait')
+/** Top-to-bottom text layout on portrait pages: tracks the cursor, breaks pages, wraps text, draws a set's stimulus. */
+function createFlow(doc: jsPDF, startY = 20) {
   const W = doc.internal.pageSize.getWidth()
   const H = doc.internal.pageSize.getHeight()
   const M = 14
   const TW = W - 2 * M
-  let y = 20
-
-  const ensure = (h: number) => {
-    if (y + h > H - 14) {
-      doc.addPage('a4', 'portrait')
-      y = 18
-    }
+  const f = {
+    y: startY,
+    W,
+    H,
+    M,
+    TW,
+    ensure(h: number) {
+      if (f.y + h > H - 14) {
+        doc.addPage('a4', 'portrait')
+        f.y = 18
+      }
+    },
+    para(text: string, size: number, style: 'normal' | 'bold' | 'italic', color: RGB, indent = 0, gap = 1.2) {
+      doc.setFont('helvetica', style)
+      doc.setFontSize(size)
+      ink(doc, color)
+      const lines: string[] = doc.splitTextToSize(pdfText(text), TW - indent)
+      const lh = size * 0.4
+      for (const line of lines) {
+        f.ensure(lh + 1)
+        doc.text(line, M + indent, f.y)
+        f.y += lh
+      }
+      f.y += gap
+    },
+    drawStimulus(stim: Stimulus) {
+      if (stim.directions) f.para(stim.directions, 8.5, 'italic', MUTED)
+      for (const p of stim.parts) {
+        const s = stimulusParts(p)
+        if (s.kind === 'text') {
+          s.lines.forEach((l, i) => f.para(l, 8.5, p.kind === 'text' && p.heading && i === 0 ? 'bold' : 'normal', [51, 65, 85], 3))
+        } else {
+          if (s.heading) f.para(s.heading, 8.5, 'bold', INK, 3)
+          f.ensure(8 + (s.body.length + 1) * 6.5) // keep a data table on one page
+          autoTable(doc, {
+            startY: f.y,
+            margin: { left: M + 3, right: M },
+            head: [s.head.map(pdfText)],
+            body: s.body.map((r) => r.map(pdfText)),
+            theme: 'grid',
+            styles: { font: 'helvetica', fontSize: 7.5, cellPadding: 1.4, halign: 'center', lineColor: LINE, lineWidth: 0.2 },
+            headStyles: { fillColor: [241, 245, 249], textColor: INK },
+            tableWidth: 'wrap',
+          })
+          f.y = finalY(doc) + 4
+          if (s.note) f.para(s.note, 7.5, 'italic', MUTED, 3)
+        }
+      }
+      f.y += 1
+    },
   }
-  const para = (text: string, size: number, style: 'normal' | 'bold' | 'italic', color: RGB, indent = 0, gap = 1.2) => {
-    doc.setFont('helvetica', style)
-    doc.setFontSize(size)
-    ink(doc, color)
-    const lines: string[] = doc.splitTextToSize(pdfText(text), TW - indent)
-    const lh = size * 0.4
-    for (const line of lines) {
-      ensure(lh + 1)
-      doc.text(line, M + indent, y)
-      y += lh
-    }
-    y += gap
-  }
+  return f
+}
 
-  heading(doc, 'Solution Analysis', M, y)
-  y += 8
+function solutionPages(doc: jsPDF, report: Report) {
+  const { sc, attempt } = report
+  const paper = attempt.paper
+  doc.addPage('a4', 'portrait')
+  const f = createFlow(doc)
+  const { W, M, TW, ensure, para, drawStimulus } = f
+
+  heading(doc, 'Solution Analysis', M, f.y)
+  f.y += 8
   const shownSets = new Set<string>()
   const sectionIndexShown = new Set<number>()
-
-  const drawStimulus = (stim: Stimulus) => {
-    if (stim.directions) para(stim.directions, 8.5, 'italic', MUTED)
-    for (const p of stim.parts) {
-      const s = stimulusParts(p)
-      if (s.kind === 'text') {
-        s.lines.forEach((l, i) => para(l, 8.5, p.kind === 'text' && p.heading && i === 0 ? 'bold' : 'normal', [51, 65, 85], 3))
-      } else {
-        if (s.heading) para(s.heading, 8.5, 'bold', INK, 3)
-        ensure(8 + (s.body.length + 1) * 6.5) // keep a data table on one page
-        autoTable(doc, {
-          startY: y,
-          margin: { left: M + 3, right: M },
-          head: [s.head.map(pdfText)],
-          body: s.body.map((r) => r.map(pdfText)),
-          theme: 'grid',
-          styles: { font: 'helvetica', fontSize: 7.5, cellPadding: 1.4, halign: 'center', lineColor: LINE, lineWidth: 0.2 },
-          headStyles: { fillColor: [241, 245, 249], textColor: INK },
-          tableWidth: 'wrap',
-        })
-        y = finalY(doc) + 4
-        if (s.note) para(s.note, 7.5, 'italic', MUTED, 3)
-      }
-    }
-    y += 1
-  }
 
   const drawQuestion = (r: QuestionResult) => {
     const { q } = r
@@ -460,12 +471,12 @@ function solutionPages(doc: jsPDF, report: Report) {
       sectionIndexShown.add(r.sectionIndex)
       ensure(16)
       fill(doc, [238, 242, 255])
-      doc.rect(M, y - 4.5, TW, 7, 'F')
+      doc.rect(M, f.y - 4.5, TW, 7, 'F')
       doc.setFont('helvetica', 'bold')
       doc.setFontSize(10)
       ink(doc, [67, 56, 202])
-      doc.text(pdfText(paper.sections[r.sectionIndex].name), M + 2, y)
-      y += 8
+      doc.text(pdfText(paper.sections[r.sectionIndex].name), M + 2, f.y)
+      f.y += 8
     }
     if (q.setId && !shownSets.has(q.setId)) {
       shownSets.add(q.setId)
@@ -477,17 +488,17 @@ function solutionPages(doc: jsPDF, report: Report) {
     const color = r.verdict === 'correct' ? GREEN : r.verdict === 'incorrect' ? RED : GREY
     stroke(doc, LINE)
     doc.setLineWidth(0.2)
-    doc.line(M, y - 3, M + TW, y - 3)
+    doc.line(M, f.y - 3, M + TW, f.y - 3)
     doc.setFont('helvetica', 'bold')
     doc.setFontSize(9)
     ink(doc, INK)
     const head = `Q${r.number} (${paper.sections[r.sectionIndex].name.split(' ')[0]} · ${topicLabel(q.topic)})`
-    doc.text(pdfText(head), M, y)
+    doc.text(pdfText(head), M, f.y)
     const status = r.verdict === 'correct' ? 'CORRECT' : r.verdict === 'incorrect' ? 'INCORRECT' : 'UNATTEMPTED'
     ink(doc, color)
     const right = `${status}${r.marked ? ' · marked' : ''} · ${formatHms(r.timeMs)}`
-    doc.text(right, W - M, y, { align: 'right' })
-    y += 5
+    doc.text(right, W - M, f.y, { align: 'right' })
+    f.y += 5
     para(q.stem, 9.5, 'normal', INK)
     q.options.forEach((o, i) => {
       const isAnswer = i === q.answer
@@ -507,6 +518,49 @@ export function buildResultPdf(report: Report): jsPDF {
   doc.setProperties({ title: pdfText(`${report.attempt.paper.title} - Result`), author: 'PrepBuddy', creator: 'PrepBuddy' })
   overviewPages(doc, report)
   solutionPages(doc, report)
-  pageFooter(doc, report)
+  pageFooter(doc, report.attempt.paper.title)
+  return doc
+}
+
+/**
+ * A printable practice copy of one section: the questions (with each set's passage/data once) and no
+ * answer key, so it is safe to offer while the test is still running. Charts are given as data tables.
+ */
+export function buildQuestionPaperPdf(paper: MockPaper, sectionIndex: number, candidate?: string): jsPDF {
+  const section = paper.sections[sectionIndex]
+  const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' })
+  const label = `${paper.title} - ${section.name} (question paper)`
+  doc.setProperties({ title: pdfText(label), author: 'PrepBuddy', creator: 'PrepBuddy' })
+  const f = createFlow(doc)
+  const { M, TW, ensure, para, drawStimulus } = f
+
+  heading(doc, paper.title, M, f.y)
+  f.y += 7
+  para(section.name, 11, 'bold', [67, 56, 202], 0, 1)
+  const minutes = section.durationSec / 60
+  para(`${section.questionIds.length} questions · ${Number.isInteger(minutes) ? minutes : minutes.toFixed(1)} minutes · +${paper.marksPerQuestion} for each correct answer, -${paper.negativeMarks} for each wrong answer${candidate ? ` · ${candidate}` : ''}`, 8.5, 'normal', MUTED, 0, 0.5)
+  para('Practice copy: attempt it against the clock, then check your answers in your PrepBuddy result (solution analysis). The answer key is not included.', 8.5, 'italic', MUTED, 0, 4)
+
+  const byId = new Map(paper.questions.map((q) => [q.id, q]))
+  const shownSets = new Set<string>()
+  section.questionIds.forEach((id, i) => {
+    const q = byId.get(id) as MockQuestion
+    if (q.setId && !shownSets.has(q.setId)) {
+      shownSets.add(q.setId)
+      ensure(24)
+      stroke(doc, LINE)
+      doc.setLineWidth(0.2)
+      doc.line(M, f.y - 2, M + TW, f.y - 2)
+      f.y += 2
+      para('Common data / passage for the following question(s):', 8.5, 'bold', INK, 0, 0.5)
+      drawStimulus(paper.sets[q.setId])
+    }
+    ensure(34)
+    para(`Q${i + 1}. ${q.stem}`, 9.5, 'bold', INK, 0, 1)
+    q.options.forEach((o, oi) => para(`${OPTION_LETTERS[oi]}. ${o}`, 9, 'normal', [51, 65, 85], 4, 0.4))
+    f.y += 3.5
+  })
+
+  pageFooter(doc, label)
   return doc
 }

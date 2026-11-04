@@ -1,7 +1,10 @@
 // Harness for the Mocks English pipeline (api/mockEnglish.js + src/lib/mocks/english/index.ts).
 //
 //   npx tsx scripts/verify-mocks-english.ts                 stubbed-Gemini suite (always runs); live smoke test if GEMINI_API_KEY is set
+//   npx tsx scripts/verify-mocks-english.ts --only <name>   run only suites whose name contains <name>
 //   npx tsx scripts/verify-mocks-english.ts --print-prompts print the schemas and two full generate prompts
+//   npx tsx scripts/verify-mocks-english.ts --live-paper    needs GEMINI_API_KEY: times a real full PO English section, prints
+//                                                           the diagnostics summary and per-call latency percentiles
 //   npx tsx scripts/verify-mocks-english.ts --live [N]      needs GEMINI_API_KEY: N items per topic/difficulty, prints
 //                                                           deterministic-drop and generator-vs-solver disagreement rates
 //
@@ -9,7 +12,20 @@
 // Gemini URLs are routed to an emulator whose behaviour each test configures. Exits non-zero on any failure.
 
 import handler from '../api/mockEnglish.js'
-import { ENGLISH_TUNING, checkEnglishGroup, fetchEnglishGroups } from '../src/lib/mocks/english/index'
+import {
+  ENGLISH_TUNING,
+  EnglishPrepareError,
+  checkEnglishGroup,
+  clearEnglishBank,
+  englishBankSize,
+  fetchEnglishGroups,
+  fetchEnglishPaper,
+  formatEnglishRunStats,
+  getLastEnglishRunStats,
+  percentile,
+} from '../src/lib/mocks/english/index'
+import type { EnglishRequest } from '../src/lib/mocks/english/index'
+import { BANK_CAP, BANK_KEY, bankAdd, bankRead, bankRemove } from '../src/lib/mocks/english/bank'
 import { assertGroup } from '../src/lib/mocks/validate'
 import { composePaper } from '../src/lib/mocks/compose'
 import { EXAMS, entryTotal } from '../src/lib/mocks/blueprints'
@@ -33,7 +49,10 @@ const liveIdx = argv.indexOf('--live')
 let passed = 0
 const failures: string[] = []
 let currentSuite = ''
+let suiteStart = Date.now()
 function suite(name: string) {
+  if (currentSuite && Date.now() - suiteStart > 3000) console.log(`   (previous suite took ${((Date.now() - suiteStart) / 1000).toFixed(1)} s)`)
+  suiteStart = Date.now()
   currentSuite = name
   console.log(`\n== ${name}`)
 }
@@ -268,13 +287,17 @@ const BAD_ITEM: Record<EnglishTopicId, [string, (x: any) => void][]> = {
 // Gemini emulator + router
 // ---------------------------------------------------------------------------------------------------
 
-type HttpFault = { status: number; body?: string } | 'hang' | 'throw' | 'empty' | 'malformed' | { delayMs: number } | undefined
+type HttpFault = { status: number; body?: string; delayMs?: number } | 'hang' | 'throw' | 'empty' | 'malformed' | { delayMs: number } | undefined
 interface Behavior {
   badRate: number
   solverWrongRate: number
   solverAmbiguousRate: number
   /** Called per Gemini request; return a fault to inject. */
-  fault?: (info: { kind: 'generate' | 'solve'; model: string; n: number }) => HttpFault
+  fault?: (info: { kind: 'generate' | 'solve'; model: string; n: number; topic?: string }) => HttpFault
+  /** Simulated Gemini latency (ms) per call kind. */
+  latency?: { generate: number; solve: number }
+  /** 429 when more than `max` calls land inside `windowMs`. */
+  rateLimit?: { max: number; windowMs: number }
   /** Replace the generated JSON entirely (for deterministic-rejection tests). */
   generateOverride?: (topic: EnglishTopicId, diff: MockDifficulty, count: number) => any
 }
@@ -285,8 +308,10 @@ interface GeminiCall {
   temperature: number
   prompt: string
   topic?: string
+  at: number
 }
 let geminiCalls: GeminiCall[] = []
+let rlTimes: number[] = []
 let apiCalls = 0
 const registry = new Map<string, number>()
 const keyByOptions = new Map<string, string>()
@@ -303,10 +328,11 @@ const isWrongKey = (k: string) => hashStr(`w${k}`) < behavior.solverWrongRate * 
 const isAmbiguousKey = (k: string) => hashStr(`a${k}`) < behavior.solverAmbiguousRate * 1000
 
 function resetBehavior(over: Partial<Behavior> = {}) {
-  Object.assign(behavior, { badRate: 0, solverWrongRate: 0, solverAmbiguousRate: 0, fault: undefined, generateOverride: undefined }, over)
+  Object.assign(behavior, { badRate: 0, solverWrongRate: 0, solverAmbiguousRate: 0, fault: undefined, generateOverride: undefined, latency: undefined, rateLimit: undefined }, over)
   geminiCalls = []
   apiCalls = 0
   registry.clear()
+  rlTimes = []
   keyByOptions.clear()
   R = mkRng(Math.floor(Math.random() * 1e9))
 }
@@ -337,9 +363,11 @@ function corruptGenerated(topic: EnglishTopicId, data: any) {
   let k = Math.floor(R() * list.length)
   const bad = () => R() < behavior.badRate
   const mutate = (x: any) => list[k++ % list.length][1](x)
-  if (topic === 'rc') for (const q of data.passages[0].questions) bad() && mutate(q)
-  else if (topic === 'cloze') for (const p of data.passages) bad() && mutate(p)
-  else data.items = data.items.map((it: any) => (bad() ? (mutate(it), it) : it))
+  if (topic === 'rc') {
+    for (const q of data.passages[0].questions) if (bad()) mutate(q)
+  } else if (topic === 'cloze') {
+    for (const p of data.passages) if (bad()) mutate(p)
+  } else data.items = data.items.map((it: any) => (bad() ? (mutate(it), it) : it))
 }
 
 async function geminiStub(url: string, init: RequestInit): Promise<Response> {
@@ -349,15 +377,23 @@ async function geminiStub(url: string, init: RequestInit): Promise<Response> {
   const temperature: number = body.generationConfig?.temperature
   const isSolve = /Task: mock-english \/ solve/.test(prompt)
   const task = /Task: mock-english \/ topic=([a-z-]+) \/ difficulty=(\w+) \/ items=(\d+)/.exec(prompt)
-  const call: GeminiCall = { kind: isSolve ? 'solve' : 'generate', model, temperature, prompt, topic: task?.[1] }
+  const call: GeminiCall = { kind: isSolve ? 'solve' : 'generate', model, temperature, prompt, topic: task?.[1], at: Date.now() }
   geminiCalls.push(call)
   const n = isSolve ? Number(/items=(\d+)/.exec(prompt)?.[1] || 0) : Number(task?.[3] || 0)
-  const fault = behavior.fault?.({ kind: call.kind, model, n })
+  if (behavior.rateLimit) {
+    const now = Date.now()
+    rlTimes = rlTimes.filter((t) => now - t < behavior.rateLimit!.windowMs)
+    const over = rlTimes.length >= behavior.rateLimit.max
+    rlTimes.push(now)
+    if (over) return new Response('{"error":{"code":429,"details":[{"retryDelay":"0.05s"}]}}', { status: 429 })
+  }
+  const fault = behavior.fault?.({ kind: call.kind, model, n, topic: call.topic })
   if (fault === 'throw') throw new TypeError('fetch failed')
   if (fault === 'hang') {
     await abortable(new Promise(() => undefined), init.signal)
   }
   if (fault && typeof fault === 'object' && 'delayMs' in fault) await wait(fault.delayMs, init.signal)
+  if (behavior.latency && !fault) await wait(behavior.latency[call.kind], init.signal)
   if (fault === 'empty') return new Response(JSON.stringify({ candidates: [{ content: { parts: [] }, finishReason: 'STOP' }] }), { status: 200 })
   if (fault === 'malformed') return new Response(JSON.stringify({ candidates: [{ content: { parts: [{ text: '{"items":[{"broken":' }] }, finishReason: 'STOP' }] }), { status: 200 })
   if (fault && typeof fault === 'object' && 'status' in fault) return new Response(fault.body ?? 'upstream error', { status: fault.status })
@@ -384,11 +420,14 @@ async function geminiStub(url: string, init: RequestInit): Promise<Response> {
   return new Response(JSON.stringify(geminiJson({ results })), { status: 200 })
 }
 
-async function callHandler(body: unknown, method = 'POST'): Promise<{ status: number; body: any }> {
+async function callHandler(body: unknown, method = 'POST'): Promise<{ status: number; body: any; headers: Record<string, string> }> {
   let status = 200
   let payload: any
+  const headers: Record<string, string> = {}
   const res: any = {
-    setHeader() {},
+    setHeader(k: string, v: string) {
+      headers[k] = v
+    },
     status(c: number) {
       status = c
       return res
@@ -399,7 +438,7 @@ async function callHandler(body: unknown, method = 'POST'): Promise<{ status: nu
     },
   }
   await handler({ method, body }, res)
-  return { status, body: payload }
+  return { status, body: payload, headers }
 }
 
 function registerGroups(groups: Group[]) {
@@ -431,15 +470,30 @@ function installFetch() {
 }
 
 function fastTiming() {
-  ENGLISH_TUNING.retryDelayMs = 1
-  ENGLISH_TUNING.requestTimeoutMs = 28000
-  ENGLISH_TUNING.deadlineMs = 150000
-  process.env.MOCK_ENGLISH_GEMINI_TIMEOUT_MS = '12000'
-  process.env.MOCK_ENGLISH_HEDGE_MS = '5000'
+  Object.assign(ENGLISH_TUNING, {
+    retryDelayMs: 1,
+    rateLimitBaseMs: 2,
+    maxRetryAfterMs: 50,
+    requestTimeoutMs: 28000,
+    deadlineMs: 150000,
+    maxRounds: 3,
+    retries: 2,
+    rateLimitRetries: 3,
+    timeoutRetries: 1,
+    lenientLadder: true,
+    useBank: false,
+    logSummary: false,
+  })
+  delete process.env.MOCK_ENGLISH_GEMINI_TIMEOUT_MS
+  delete process.env.MOCK_ENGLISH_DEADLINE_MS
+  delete process.env.MOCK_ENGLISH_HEDGE_MS
   delete process.env.GEMINI_MODEL
+  removeStorage()
 }
 
 const countQ = (gs: Group[]) => gs.reduce((n, g) => n + g.questions.length, 0)
+/** The stub's registry key of a question as first generated (cloze blanks may be renumbered after fill-in). */
+const keyFor = (q: { topic: string; stem: string; options: string[] }) => (q.topic === 'cloze' ? keyByOptions.get(q.options.join('|')) || keyOf(q.stem, q.options) : keyOf(q.stem, q.options))
 
 // ---------------------------------------------------------------------------------------------------
 // Suites
@@ -495,7 +549,7 @@ async function suiteHandlerInput() {
   check(r.status === 200, 'count above cap is clamped, not rejected')
   check(/items=12\b/.test(geminiCalls.at(-1)?.prompt || ''), 'rc count capped at 12 in the prompt')
   r = await callHandler({ ...good, topic: 'match-column', count: '9' })
-  check(r.status === 200 && /items=4\b/.test(geminiCalls.at(-1)?.prompt || ''), 'numeric-string count accepted and capped (match-column 4)')
+  check(r.status === 200 && /items=6\b/.test(geminiCalls.at(-1)?.prompt || ''), 'numeric-string count accepted and capped (match-column 6)')
 }
 
 async function suiteHandlerGemini() {
@@ -534,7 +588,7 @@ async function suiteHandlerGemini() {
   check(geminiCalls.length === 2, 'timeout of the first model hedges to the second')
 
   // Hedge: first model fails with 503, second succeeds.
-  process.env.MOCK_ENGLISH_GEMINI_TIMEOUT_MS = '12000'
+  delete process.env.MOCK_ENGLISH_GEMINI_TIMEOUT_MS
   resetBehavior({ fault: ({ model }) => (model === 'gemini-3.5-flash' ? { status: 503 } : undefined) })
   r = await callHandler(body)
   check(r.status === 200 && r.body.meta.model === 'gemini-3.5-flash-lite', 'primary 503 -> fallback model answers')
@@ -545,7 +599,7 @@ async function suiteHandlerGemini() {
   check(r.status === 200 && r.body.meta.model === 'gemini-3.5-flash-lite' && Date.now() - t1 < 700, 'slow primary is beaten by the hedged fallback')
 
   // Roles and temperatures.
-  process.env.MOCK_ENGLISH_HEDGE_MS = '5000'
+  delete process.env.MOCK_ENGLISH_HEDGE_MS
   resetBehavior()
   r = await callHandler(body)
   check(r.status === 200 && geminiCalls.length === 1 && geminiCalls[0].temperature >= 0.7, 'generate uses high temperature')
@@ -766,9 +820,12 @@ async function suiteClientChecks() {
   check(checkEnglishGroup('error-detection', 'medium', { questions: [ed[0].questions[0], ed[1].questions[0]] }).group === null, 'standalone group with two questions is rejected')
   check(checkEnglishGroup('error-detection', 'medium', { stimulus: { parts: [{ kind: 'text', paragraphs: ['x y z'] }] }, questions: ed[0].questions }).group === null, 'standalone group with a stimulus is rejected')
   check(checkEnglishGroup('rc', 'medium', { questions: [] }).group === null, 'empty group is rejected')
-  // Difficulty bands: a medium-length passage fails the hard check and vice versa.
+  // Difficulty bands (hard 250-560, medium 170-420 words): a ~200-word passage is fine for medium but too short for hard.
   const rcMedium = (await callHandler({ action: 'generate', topic: 'rc', difficulty: 'medium', count: 5, seed: 13 })).body.groups[0] as Group
-  check(checkEnglishGroup('rc', 'medium', rcMedium).group !== null && checkEnglishGroup('rc', 'hard', rcMedium).group === null, 'rc passage length is checked against the difficulty band')
+  check(checkEnglishGroup('rc', 'medium', rcMedium).group !== null && checkEnglishGroup('rc', 'hard', rcMedium).group !== null, 'a ~280-word passage passes both bands')
+  const shortRc = clone(rcMedium)
+  shortRc.stimulus!.parts[0] = { kind: 'text', paragraphs: makePassage(200, ['prudent', 'volatile']) }
+  check(checkEnglishGroup('rc', 'medium', shortRc).group !== null && checkEnglishGroup('rc', 'hard', shortRc).group === null, 'rc passage length is checked against the difficulty band')
 }
 
 async function suiteHappyPath() {
@@ -795,7 +852,7 @@ async function suiteHappyPath() {
       check(progress.length > 0 && progress.at(-1) === want && progress.every((v, i) => i === 0 || v >= progress[i - 1]), `${topic}/${diff}: onProgress is monotonic and ends at ${want}`)
       const gen = geminiCalls.filter((c) => c.kind === 'generate')
       const sol = geminiCalls.filter((c) => c.kind === 'solve')
-      check(sol.length >= 1 && sol.every((s, i) => s.model !== gen[0].model || true), `${topic}/${diff}: blind solve ran (${sol.length} solve call(s))`)
+      check(sol.length >= 1 && true, `${topic}/${diff}: blind solve ran (${sol.length} solve call(s))`)
       const solveModels = new Set(sol.map((s) => s.model))
       check(!solveModels.has(gen[0].model) || solveModels.size > 1 || false, `${topic}/${diff}: solver used a different model from the generator`)
     }
@@ -826,18 +883,23 @@ async function suiteSolverDisagreement() {
       for (const q of g.questions) {
         // Cloze blanks may be renumbered after fill-in, so look the original key up by options.
         const k = topic === 'cloze' ? keyByOptions.get(q.options.join('|')) || keyOf(q.stem, q.options) : keyOf(q.stem, q.options)
-        if (isWrongKey(k) || isAmbiguousKey(k)) tainted++
+        if (isWrongKey(k)) tainted++
       }
     }
     // Cloze may fill in (not return) failed blanks; every RETURNED question must still be verified.
-    check(tainted === 0, `${topic}: no returned question was one the solver disagreed with or flagged (${tainted} slipped through)`)
+    check(tainted === 0, `${topic}: no returned question was one the solver disagreed with (${tainted} slipped through)`)
     check(geminiCalls.filter((c) => c.kind === 'solve').length >= 1, `${topic}: blind solver was consulted`)
   }
   // Solver that always disagrees -> throws.
   resetBehavior({ solverWrongRate: 1 })
-  await expectThrows(() => fetchEnglishGroups('fillers', 'medium', 5), 'a solver that disagrees with everything makes the fetch throw', (e) => /Couldn't prepare enough English questions/.test(e.message))
+  await expectThrows(() => fetchEnglishGroups('fillers', 'medium', 5), 'a solver that disagrees with everything makes the fetch throw', (e) => e instanceof EnglishPrepareError && e.reason === 'quality')
   resetBehavior({ solverAmbiguousRate: 1 })
-  await expectThrows(() => fetchEnglishGroups('error-detection', 'medium', 5), 'everything flagged ambiguous makes the fetch throw')
+  const lenientOut = await fetchEnglishGroups('error-detection', 'medium', 5)
+  check(countQ(lenientOut) === 5, 'everything flagged ambiguous: the lenient ladder still delivers exactly 5 solver-agreed questions')
+  ENGLISH_TUNING.lenientLadder = false
+  resetBehavior({ solverAmbiguousRate: 1 })
+  await expectThrows(() => fetchEnglishGroups('error-detection', 'medium', 5), 'strict-only gate: everything flagged ambiguous throws (quality)', (e) => e instanceof EnglishPrepareError && e.reason === 'quality')
+  ENGLISH_TUNING.lenientLadder = true
   // Solve outage: unverified questions are never returned.
   resetBehavior({ fault: ({ kind }) => (kind === 'solve' ? { status: 503 } : undefined) })
   await expectThrows(() => fetchEnglishGroups('word-swap', 'medium', 4), 'solver outage -> throws rather than returning unverified questions')
@@ -873,7 +935,7 @@ async function suiteExactCount() {
         check(ok, `${topic} x${count}: all groups valid`)
       } else {
         // Allowed only as a clean, user-readable failure.
-        check(/Couldn't prepare enough English questions/.test(error!.message), `${topic} x${count}: failure message is user-readable ("${error!.message}")`)
+        check(error instanceof EnglishPrepareError && error.message.length > 20, `${topic} x${count}: failure is an EnglishPrepareError with a readable message ("${error!.message}")`)
         console.log(`  note: ${topic} x${count} threw under heavy corruption (acceptable, never silently short; generate asks ${geminiCalls.filter((c) => c.kind === 'generate').map((c) => /items=(\d+)/.exec(c.prompt)![1]).join(',')}; ${geminiCalls.filter((c) => c.kind === 'solve').length} solve calls)`)
       }
     }
@@ -892,7 +954,7 @@ async function suiteExactCount() {
   // Total corruption always throws, never returns short.
   for (const topic of TOPICS) {
     resetBehavior({ badRate: 1 })
-    await expectThrows(() => fetchEnglishGroups(topic, 'medium', 5), `${topic}: every item malformed -> throws`, (e) => /Couldn't prepare enough English questions/.test(e.message))
+    await expectThrows(() => fetchEnglishGroups(topic, 'medium', 5), `${topic}: every item malformed -> throws quality`, (e) => e instanceof EnglishPrepareError && e.reason === 'quality')
   }
   // Deterministic regeneration: round 1 delivers only 2 usable items, so a second round must top it up.
   resetBehavior()
@@ -940,12 +1002,12 @@ async function suiteClientFaults() {
 
   // Persistent 429 -> throws friendly error.
   resetBehavior({ fault: () => ({ status: 429 }) })
-  await expectThrows(() => fetchEnglishGroups('fillers', 'medium', 3), '429 forever -> friendly error', (e) => /check your connection/.test(e.message))
+  await expectThrows(() => fetchEnglishGroups('fillers', 'medium', 3), '429 forever -> rate-limit reason', (e) => e instanceof EnglishPrepareError && e.reason === 'rate-limit' && /rate-limiting/.test(e.message))
   // Persistent upstream timeout (504 from handler).
   process.env.MOCK_ENGLISH_GEMINI_TIMEOUT_MS = '60'
-  process.env.MOCK_ENGLISH_HEDGE_MS = '10'
+  delete process.env.MOCK_ENGLISH_HEDGE_MS
   resetBehavior({ fault: () => 'hang' })
-  await expectThrows(() => fetchEnglishGroups('rc', 'hard', 8), '504 forever -> friendly error', (e) => /Couldn't prepare/.test(e.message))
+  await expectThrows(() => fetchEnglishGroups('rc', 'hard', 8), '504 forever -> timeout reason', (e) => e instanceof EnglishPrepareError && e.reason === 'timeout' && /too slow/.test(e.message))
   const rcAsks = geminiCalls.filter((c) => c.kind === 'generate' && c.topic === 'rc').map((c) => Number(/items=(\d+)/.exec(c.prompt)![1]))
   check(rcAsks.length >= 3 && rcAsks[rcAsks.length - 1] < rcAsks[0], `rc asks for fewer questions per passage after timeouts (${rcAsks.join(',')})`)
   fastTiming()
@@ -959,7 +1021,7 @@ async function suiteClientFaults() {
   // Malformed server body.
   const saved = globalThis.fetch
   globalThis.fetch = (async () => new Response('<html>oops</html>', { status: 200 })) as typeof fetch
-  await expectThrows(() => fetchEnglishGroups('fillers', 'medium', 3), 'non-JSON API body -> throws', (e) => /Couldn't prepare/.test(e.message))
+  await expectThrows(() => fetchEnglishGroups('fillers', 'medium', 3), 'non-JSON API body -> network reason', (e) => e instanceof EnglishPrepareError && e.reason === 'network' && /check your connection/.test(e.message))
   globalThis.fetch = (async () => new Response(JSON.stringify({ groups: 'nope' }), { status: 200 })) as typeof fetch
   await expectThrows(() => fetchEnglishGroups('fillers', 'medium', 3), 'API body without groups -> throws')
   globalThis.fetch = (async () => new Response(JSON.stringify({ groups: [], meta: {} }), { status: 200 })) as typeof fetch
@@ -969,13 +1031,13 @@ async function suiteClientFaults() {
   // Server not configured: fatal, not retried.
   resetBehavior()
   delete process.env.GEMINI_API_KEY
-  await expectThrows(() => fetchEnglishGroups('fillers', 'medium', 3), 'unconfigured server -> clear message', (e) => /aren't available/.test(e.message))
+  await expectThrows(() => fetchEnglishGroups('fillers', 'medium', 3), 'unconfigured server -> unavailable reason', (e) => e instanceof EnglishPrepareError && e.reason === 'unavailable' && /aren't available/.test(e.message))
   check(apiCalls === 1, `unconfigured server is not retried (${apiCalls} API call)`)
   process.env.GEMINI_API_KEY = 'test-key'
   // Missing route (plain vite dev server).
   resetBehavior()
   globalThis.fetch = (async () => new Response('Not found', { status: 404 })) as typeof fetch
-  await expectThrows(() => fetchEnglishGroups('fillers', 'medium', 3), '404 from /api -> clear message', (e) => /aren't available/.test(e.message))
+  await expectThrows(() => fetchEnglishGroups('fillers', 'medium', 3), '404 from /api -> unavailable reason', (e) => e instanceof EnglishPrepareError && e.reason === 'unavailable')
   globalThis.fetch = saved
 
   // Client stub returning malformed groups (server bypass): the client checks reject them and the fetch throws.
@@ -1028,6 +1090,505 @@ async function suiteAbort() {
 }
 
 // ---------------------------------------------------------------------------------------------------
+// Paper-level suites: fetchEnglishPaper, rate limits, the bank, the quality ladder
+// ---------------------------------------------------------------------------------------------------
+
+const PO_REQUESTS: EnglishRequest[] = [
+  { topic: 'rc', count: 8 },
+  { topic: 'cloze', count: 5 },
+  { topic: 'error-detection', count: 4 },
+  { topic: 'para-jumble', count: 3 },
+  { topic: 'fillers', count: 4 },
+  { topic: 'word-swap', count: 3 },
+  { topic: 'phrase-replacement', count: 3 },
+]
+const CLERK_REQUESTS: EnglishRequest[] = [
+  { topic: 'rc', count: 8 },
+  { topic: 'cloze', count: 5 },
+  { topic: 'error-detection', count: 5 },
+  { topic: 'para-jumble', count: 4 },
+  { topic: 'fillers', count: 4 },
+  { topic: 'phrase-replacement', count: 4 },
+]
+const sumCounts = (r: EnglishRequest[]) => r.reduce((n, x) => n + x.count, 0)
+const genCalls = () => geminiCalls.filter((c) => c.kind === 'generate').length
+
+function removeStorage() {
+  try {
+    delete (globalThis as any).localStorage
+  } catch {
+    /* ignore */
+  }
+}
+function installStorage(opts: { failGet?: boolean; failSet?: boolean; maxChars?: number } = {}): Map<string, string> {
+  const m = new Map<string, string>()
+  const ls = {
+    getItem: (k: string) => {
+      if (opts.failGet) throw new Error('storage blocked')
+      return m.has(k) ? m.get(k)! : null
+    },
+    setItem: (k: string, v: string) => {
+      if (opts.failSet || (opts.maxChars !== undefined && String(v).length > opts.maxChars)) throw new Error('QuotaExceededError')
+      m.set(k, String(v))
+    },
+    removeItem: (k: string) => void m.delete(k),
+    clear: () => m.clear(),
+    key: (i: number) => [...m.keys()][i] ?? null,
+    get length() {
+      return m.size
+    },
+  }
+  Object.defineProperty(globalThis, 'localStorage', { value: ls, configurable: true, writable: true })
+  return m
+}
+
+function validatePaper(label: string, reqs: EnglishRequest[], diff: MockDifficulty, out: Group[][]): Set<string> {
+  check(out.length === reqs.length, `${label}: one result per request`)
+  const keys = new Set<string>()
+  let dup = 0
+  out.forEach((groups, i) => {
+    check(countQ(groups) === reqs[i].count, `${label}: ${reqs[i].topic} has exactly ${reqs[i].count} (got ${countQ(groups)})`)
+    let ok = true
+    for (const g of groups) {
+      try {
+        assertGroup(g, label)
+        if (checkEnglishGroup(reqs[i].topic, diff, g).group === null) ok = false
+      } catch {
+        ok = false
+      }
+      for (const q of g.questions) {
+        const k = `${q.stem}|${q.options.join('|')}`
+        if (keys.has(k)) dup++
+        keys.add(k)
+      }
+    }
+    check(ok, `${label}: ${reqs[i].topic} groups are structurally valid`)
+  })
+  check(dup === 0, `${label}: no duplicate questions inside the paper`)
+  return keys
+}
+
+async function suiteSequential() {
+  suite('handler: sequential fallback by default, Retry-After, request deadline')
+  process.env.GEMINI_API_KEY = 'test-key'
+  fastTiming()
+  const body = { action: 'generate', topic: 'fillers', difficulty: 'medium', count: 3, seed: 's' }
+  resetBehavior({ fault: ({ model }) => (model === 'gemini-3.5-flash' ? { status: 503, delayMs: 150 } : undefined) })
+  let r = await callHandler(body)
+  check(r.status === 200 && r.body.meta.model === 'gemini-3.5-flash-lite', 'primary fails -> fallback model answers')
+  check(geminiCalls.length === 2 && geminiCalls[1].at - geminiCalls[0].at >= 140, 'fallback starts only after the first model failed (no parallel hedge)')
+  check(r.body.meta.attempts.map((a: any) => a.status).join(',') === '502,200', 'meta.attempts reports the failed and the successful attempt')
+  resetBehavior()
+  r = await callHandler(body)
+  check(r.status === 200 && geminiCalls.length === 1, 'a healthy primary means exactly one Gemini call')
+  resetBehavior({ fault: () => ({ status: 429, body: '{"error":{"details":[{"retryDelay":"7s"}]}}' }) })
+  r = await callHandler(body)
+  check(r.status === 429 && r.body.retryAfterMs === 7000 && r.headers['Retry-After'] === '7', '429 from both models surfaces retryAfterMs and a Retry-After header')
+  process.env.MOCK_ENGLISH_DEADLINE_MS = '1500'
+  process.env.MOCK_ENGLISH_GEMINI_TIMEOUT_MS = '800'
+  resetBehavior({ fault: () => 'hang' })
+  const t0 = Date.now()
+  r = await callHandler(body)
+  check(r.status === 504 && geminiCalls.length === 1 && Date.now() - t0 < 1400, `with too little deadline left the fallback is skipped (504 after ${Date.now() - t0} ms, ${geminiCalls.length} call)`)
+  fastTiming()
+}
+
+async function suiteRelaxed() {
+  suite('server: relaxed cosmetic gates (what real Gemini plausibly does)')
+  process.env.GEMINI_API_KEY = 'test-key'
+  fastTiming()
+  const gen = (topic: EnglishTopicId, diff: MockDifficulty, count: number, data: any) => {
+    resetBehavior({ generateOverride: () => data })
+    return callHandler({ action: 'generate', topic, difficulty: diff, count, seed: 5 })
+  }
+  const rcWith = (words: number, diff: MockDifficulty) => {
+    const d = makeGenerated('rc', diff, 4)
+    d.passages[0].paragraphs = makePassage(words, ['prudent', 'volatile'])
+    return d
+  }
+  let r = await gen('rc', 'hard', 4, rcWith(260, 'hard'))
+  check(r.status === 200 && countQ(r.body.groups) === 4, 'hard RC passage of ~260 words is accepted')
+  r = await gen('rc', 'medium', 4, rcWith(175, 'medium'))
+  check(r.status === 200 && countQ(r.body.groups) === 4, 'medium RC passage of ~175 words is accepted')
+  r = await gen('rc', 'hard', 4, rcWith(620, 'hard'))
+  check(r.status === 502, 'hard RC passage of ~620 words is still rejected')
+  r = await gen('rc', 'hard', 4, rcWith(120, 'hard'))
+  check(r.status === 502, 'a 120-word RC passage is still rejected')
+
+  const ws = mkWsItem(0)
+  ws.marked = ws.marked.map((i: number) => ws.tokens[i])
+  r = await gen('word-swap', 'medium', 1, { items: [ws] })
+  check(r.status === 200 && r.body.groups.length === 1 && /\(1\)\w+/.test(r.body.groups[0].questions[0].stem), 'word-swap accepts "marked" given as words')
+  const ws2 = mkWsItem(0)
+  ws2.marked = ['notinsentence', ws2.tokens[4], ws2.tokens[6], ws2.tokens[8]]
+  r = await gen('word-swap', 'medium', 1, { items: [ws2] })
+  check(r.status === 502, 'word-swap with a marked word that is not in the sentence is rejected')
+
+  const ed = mkEdItem(0)
+  ed.explanation = ''
+  r = await gen('error-detection', 'medium', 1, { items: [{ ...ed, variant: 'parts', errorPartIndex: 1 }] })
+  check(r.status === 200 && /The correct answer is/.test(r.body.groups[0].questions[0].explanation), 'a missing explanation is replaced by a plain one, not fatal')
+  for (const nul of [-1, 'none', 'null']) {
+    r = await gen('error-detection', 'medium', 1, { items: [{ ...mkEdItem(0), variant: 'parts', errorPartIndex: nul }] })
+    check(r.status === 200 && r.body.groups[0].questions[0].answer === 4, `errorPartIndex ${JSON.stringify(nul)} means "No error"`)
+  }
+  const pr = mkPrItem(0)
+  r = await gen('phrase-replacement', 'medium', 1, { items: [{ ...pr, variant: 'replace', correctIndex: -1 }] })
+  check(r.status === 200 && r.body.groups[0].questions[0].answer === 4, 'phrase correctIndex -1 means "No correction required"')
+
+  const cz = makeGenerated('cloze', 'medium', 5)
+  for (const b of cz.passages[0].blanks) delete b.n
+  r = await gen('cloze', 'medium', 5, cz)
+  check(r.status === 200 && countQ(r.body.groups) === 5, 'cloze blanks without "n" are numbered by position')
+  const rc = makeGenerated('rc', 'hard', 4)
+  rc.passages[0].questions[0].explanation = 'Option C is right because the passage says so in its second paragraph.'
+  r = await gen('rc', 'hard', 4, rc)
+  check(r.status === 200 && !/Option C/i.test(r.body.groups[0].questions[0].explanation), 'an explanation citing "Option C" is neutralised, not dropped')
+  const nt = makeGenerated('rc', 'hard', 9)
+  const ntq = nt.passages[0].questions.find((q: any) => q.kind === 'not-true')
+  ntq.stem = 'Which of these is not something the passage claims about borrowing and growth?'
+  r = await gen('rc', 'hard', 9, nt)
+  check(r.status === 200 && countQ(r.body.groups) === 9, 'a lowercase "not" satisfies a NOT-true stem')
+  fastTiming()
+}
+
+async function suitePaperHappy() {
+  suite('fetchEnglishPaper: full 30-question sections, simulated latency (generate 80 ms ~ 8 s, solve 40 ms ~ 4 s)')
+  process.env.GEMINI_API_KEY = 'test-key'
+  fastTiming()
+  for (const [label, reqs, diff] of [
+    ['PO', PO_REQUESTS, 'hard'],
+    ['Clerk', CLERK_REQUESTS, 'medium'],
+  ] as [string, EnglishRequest[], MockDifficulty][]) {
+    resetBehavior({ latency: { generate: 80, solve: 40 }, rateLimit: { max: 15, windowMs: 600 } })
+    const progress: [number, number][] = []
+    const t0 = Date.now()
+    const out = await fetchEnglishPaper(reqs, diff, { onProgress: (a, b) => progress.push([a, b]) })
+    const ms = Date.now() - t0
+    validatePaper(label, reqs, diff, out)
+    const st = getLastEnglishRunStats()!
+    check(sumCounts(reqs) === 30, `${label}: 30 questions requested`)
+    check(apiCalls <= 16, `${label}: <= 16 API calls in the happy path (used ${apiCalls}: ${genCalls()} generate + ${geminiCalls.length - genCalls()} solve)`)
+    check(st.rounds === 1, `${label}: finished in one round`)
+    check(ms < 2000, `${label}: simulated latency ${ms} ms (a serial design needs several times that)`)
+    check(progress.length > 0 && progress.every((p, i) => p[1] === 30 && (i === 0 || p[0] >= progress[i - 1][0])) && progress.at(-1)![0] === 30, `${label}: onProgress(ready, 30) is monotonic and ends at 30`)
+    const solveCalls = geminiCalls.filter((c) => c.kind === 'solve')
+    check(solveCalls.every((c) => c.model !== 'gemini-3.5-flash'), `${label}: the solver never reuses the generating model`)
+    check(new Set(solveCalls.flatMap((c) => [...c.prompt.matchAll(/^Topic: (.+)$/gm)].map((m) => m[1]))).size > 1, `${label}: one solve call pools items from several topics`)
+    console.log(`   ${label}: ${apiCalls} API calls (${genCalls()} generate + ${solveCalls.length} solve), ${ms} ms simulated, rounds ${st.rounds}`)
+  }
+}
+
+async function suitePaperNoisy() {
+  suite('fetchEnglishPaper: 25% bad items + noisy solver still completes within 3 rounds')
+  process.env.GEMINI_API_KEY = 'test-key'
+  fastTiming()
+  for (let trial = 0; trial < 4; trial++) {
+    for (const [label, reqs, diff] of [
+      ['PO', PO_REQUESTS, 'hard'],
+      ['Clerk', CLERK_REQUESTS, 'medium'],
+    ] as [string, EnglishRequest[], MockDifficulty][]) {
+      resetBehavior({ latency: { generate: 20, solve: 10 }, badRate: 0.25, solverWrongRate: 0.1, solverAmbiguousRate: 0.1 })
+      try {
+        const out = await fetchEnglishPaper(reqs, diff)
+        validatePaper(`${label} noisy #${trial}`, reqs, diff, out)
+        const st = getLastEnglishRunStats()!
+        check(st.rounds <= 3, `${label} noisy #${trial}: rounds ${st.rounds} <= 3`)
+        let wrong = 0
+        for (const groups of out) for (const g of groups) for (const q of g.questions) if (isWrongKey(keyFor(q))) wrong++
+        check(wrong === 0, `${label} noisy #${trial}: no solver-disagreed question returned`)
+      } catch (e) {
+        check(false, `${label} noisy #${trial}: threw ${(e as Error).message}`)
+      }
+    }
+  }
+}
+
+async function suitePaperFaults() {
+  suite('fetchEnglishPaper: 429 / 503 / timeouts give the right EnglishPrepareError reason')
+  process.env.GEMINI_API_KEY = 'test-key'
+  fastTiming()
+  process.env.MOCK_ENGLISH_GEMINI_TIMEOUT_MS = '60'
+  const reasons = ['rate-limit', 'timeout', 'network', 'quality', 'unavailable']
+  let completed = 0
+  for (let trial = 0; trial < 5; trial++) {
+    resetBehavior({
+      latency: { generate: 10, solve: 5 },
+      fault: () => {
+        const r = Math.random()
+        return r < 0.06 ? { status: 429 } : r < 0.11 ? { status: 503 } : r < 0.14 ? 'hang' : undefined
+      },
+    })
+    try {
+      const out = await fetchEnglishPaper(PO_REQUESTS, 'hard')
+      validatePaper(`sporadic #${trial}`, PO_REQUESTS, 'hard', out)
+      completed++
+    } catch (e) {
+      check(e instanceof EnglishPrepareError && reasons.includes(e.reason), `sporadic #${trial}: failure is an EnglishPrepareError with a reason (${(e as Error).message})`)
+    }
+  }
+  check(completed >= 3, `sporadic faults: most runs complete (${completed}/6)`)
+
+  const persistent: [string, Partial<Behavior>, string, RegExp][] = [
+    ['429 everywhere', { fault: () => ({ status: 429 }) }, 'rate-limit', /rate-limiting/],
+    ['upstream hangs', { fault: () => 'hang' }, 'timeout', /too slow/],
+    ['503 everywhere', { fault: () => ({ status: 503 }) }, 'network', /check your connection/],
+    ['solver always disagrees', { solverWrongRate: 1 }, 'quality', /accuracy check/],
+  ]
+  for (const [label, over, reason, msg] of persistent) {
+    resetBehavior({ latency: { generate: 5, solve: 5 }, ...over })
+    await expectThrows(() => fetchEnglishPaper(PO_REQUESTS, 'hard'), `${label} -> reason ${reason}`, (e) => e instanceof EnglishPrepareError && e.reason === reason && msg.test(e.message))
+  }
+  resetBehavior()
+  delete process.env.GEMINI_API_KEY
+  await expectThrows(() => fetchEnglishPaper(PO_REQUESTS, 'hard'), 'server without a key -> reason unavailable', (e) => e instanceof EnglishPrepareError && e.reason === 'unavailable')
+  check(apiCalls <= PO_REQUESTS.length, `an unconfigured server is not hammered (${apiCalls} API calls)`)
+  process.env.GEMINI_API_KEY = 'test-key'
+  fastTiming()
+
+  // Rate limiter stub: more than 8 calls per 100 ms window -> 429; backoff + shared cooldown let the paper finish.
+  resetBehavior({ latency: { generate: 20, solve: 10 }, rateLimit: { max: 8, windowMs: 100 } })
+  ENGLISH_TUNING.rateLimitRetries = 5
+  try {
+    const out = await fetchEnglishPaper(PO_REQUESTS, 'hard')
+    validatePaper('rate-limited', PO_REQUESTS, 'hard', out)
+    const st = getLastEnglishRunStats()!
+    check((st.http['429'] ?? 0) > 0 && st.retries > 0, `rate limiter fired (${st.http['429'] ?? 0}x 429) and was retried (${st.retries} retries)`)
+  } catch (e) {
+    check(e instanceof EnglishPrepareError && e.reason === 'rate-limit', `rate-limited paper completes or fails with reason rate-limit (${(e as Error).message})`)
+  }
+  fastTiming()
+}
+
+async function suiteResume() {
+  suite('bank: "Try again" resumes from the bank instead of restarting')
+  process.env.GEMINI_API_KEY = 'test-key'
+  fastTiming()
+  installStorage()
+  ENGLISH_TUNING.useBank = true
+  clearEnglishBank()
+  resetBehavior({ latency: { generate: 10, solve: 5 }, fault: ({ kind, topic }) => (kind === 'generate' && topic === 'phrase-replacement' ? { status: 503 } : undefined) })
+  await expectThrows(() => fetchEnglishPaper(PO_REQUESTS, 'hard'), 'first attempt fails while one topic is down', (e) => e instanceof EnglishPrepareError && e.reason === 'network')
+  const g1 = genCalls()
+  const size1 = englishBankSize('hard')
+  check(size1 >= 20, `everything verified before the failure is banked (${size1} questions)`)
+  check(englishBankSize('medium') === 0, 'the bank is per difficulty')
+
+  resetBehavior({ latency: { generate: 10, solve: 5 } })
+  const out = await fetchEnglishPaper(PO_REQUESTS, 'hard')
+  const keys2 = validatePaper('resume', PO_REQUESTS, 'hard', out)
+  const g2 = genCalls()
+  const topics2 = new Set(geminiCalls.filter((c) => c.kind === 'generate').map((c) => c.topic))
+  check(g2 >= 1 && g2 < g1, `second attempt makes strictly fewer generate calls (${g2} vs ${g1})`)
+  check([...topics2].every((t) => t === 'phrase-replacement'), `second attempt only generates the missing topic (${[...topics2].join(',')})`)
+  const st = getLastEnglishRunStats()!
+  check(Object.values(st.topics).reduce((n, t) => n + t.fromBank, 0) >= 20, 'second attempt reports questions drawn from the bank')
+
+  // Used groups are consumed: a third paper shares no question with the second.
+  resetBehavior({ latency: { generate: 10, solve: 5 } })
+  const out3 = await fetchEnglishPaper(PO_REQUESTS, 'hard')
+  const keys3 = validatePaper('third paper', PO_REQUESTS, 'hard', out3)
+  check([...keys3].every((k) => !keys2.has(k)), 'a consumed question never reappears in the next paper')
+
+  // Leftovers: asking for 10 over-requests; the extras stay banked and serve the next small request with zero calls.
+  clearEnglishBank()
+  resetBehavior()
+  const a = await fetchEnglishPaper([{ topic: 'error-detection', count: 10 }], 'medium')
+  check(countQ(a[0]) === 10, 'ED x10 delivered')
+  const left = englishBankSize('medium')
+  check(left >= 3, `over-requested verified leftovers are banked (${left} questions)`)
+  resetBehavior()
+  const b = await fetchEnglishPaper([{ topic: 'error-detection', count: Math.min(5, left) }], 'medium')
+  check(countQ(b[0]) === Math.min(5, left) && apiCalls === 0, `a request the bank can cover makes ZERO API calls (${apiCalls})`)
+  check(englishBankSize('medium') === left - Math.min(5, left), 'consumed groups are removed from the bank')
+  ENGLISH_TUNING.useBank = false
+  removeStorage()
+}
+
+async function suiteBank() {
+  suite('bank: persistence, dedupe, cap, versioning and corrupt-storage tolerance')
+  fastTiming()
+  const mkEd = (i: number): Group => ({
+    questions: [{ topic: 'error-detection', stem: `Read each sentence carefully.\n\n(a) alpha${i} beta (b) gamma delta (c) epsilon${i} zeta (d) eta theta`, options: ['(a)', '(b)', '(c)', '(d)', 'No error'], answer: i % 5, explanation: `Rule ${i} applies here.` }],
+  })
+  const store = installStorage()
+  clearEnglishBank()
+  bankAdd('error-detection', 'medium', [mkEd(1), mkEd(2)])
+  check(bankRead('error-detection', 'medium').length === 2 && englishBankSize('medium') === 2, 'groups persist in storage')
+  check(typeof store.get(BANK_KEY) === 'string' && JSON.parse(store.get(BANK_KEY)!).v === 1, 'stored under the versioned key')
+  bankAdd('error-detection', 'medium', [mkEd(1), mkEd(2), mkEd(1)])
+  check(bankRead('error-detection', 'medium').length === 2, 'adding the same group again is deduplicated')
+  check(bankRead('error-detection', 'hard').length === 0 && bankRead('fillers', 'medium').length === 0, 'banks are per topic and per difficulty')
+  const k = bankRead('error-detection', 'medium')[0].k
+  bankRemove('error-detection', 'medium', [k])
+  check(bankRead('error-detection', 'medium').length === 1, 'bankRemove consumes by content key')
+  bankAdd('error-detection', 'medium', Array.from({ length: BANK_CAP + 50 }, (_, i) => mkEd(100 + i)))
+  const capped = bankRead('error-detection', 'medium')
+  check(capped.length === BANK_CAP && englishBankSize('medium') === BANK_CAP, `bank is capped at ${BANK_CAP} groups per topic+difficulty (got ${capped.length})`)
+  check(capped.some((e) => /epsilon249/.test(JSON.stringify(e.g))) && !capped.some((e) => /epsilon100\b/.test(JSON.stringify(e.g))), 'the oldest groups are dropped first')
+  clearEnglishBank()
+  check(englishBankSize('medium') === 0 && store.get(BANK_KEY) === undefined, 'clearEnglishBank empties the store')
+
+  store.set(BANK_KEY, '{{{ not json')
+  check(bankRead('error-detection', 'medium').length === 0 && englishBankSize('medium') === 0, 'corrupt JSON reads as an empty bank')
+  bankAdd('error-detection', 'medium', [mkEd(7)])
+  check(bankRead('error-detection', 'medium').length === 1, 'a write after corrupt JSON repairs the store')
+  store.set(BANK_KEY, JSON.stringify({ v: 2, banks: { 'error-detection|medium': [{ k: 'x', g: mkEd(1), t: 1 }] } }))
+  check(bankRead('error-detection', 'medium').length === 0, 'another version is ignored')
+  store.set(BANK_KEY, JSON.stringify({ v: 1, banks: [1, 2, 3] }))
+  check(englishBankSize('medium') === 0, 'wrong shape is ignored')
+  const bad = mkEd(9)
+  bad.questions[0].options[4] = 'Nothing wrong'
+  store.set(BANK_KEY, JSON.stringify({ v: 1, banks: { 'error-detection|medium': [{ k: 'a', g: bad, t: 1 }, { k: 'b', g: mkEd(10), t: 1 }, { k: 'c', g: null, t: 1 }, 'junk'] } }))
+  check(bankRead('error-detection', 'medium').length === 1, 'entries that fail the checks (or are malformed) are ignored, valid ones kept')
+
+  removeStorage()
+  let threw = false
+  try {
+    bankAdd('error-detection', 'medium', [mkEd(1)])
+    bankRead('error-detection', 'medium')
+    bankRemove('error-detection', 'medium', ['x'])
+    englishBankSize('medium')
+    clearEnglishBank()
+  } catch {
+    threw = true
+  }
+  check(!threw, 'no localStorage at all: every call is a harmless no-op')
+  installStorage({ failGet: true })
+  try {
+    check(bankRead('error-detection', 'medium').length === 0 && englishBankSize('medium') === 0, 'storage that throws on read behaves as empty')
+    bankAdd('error-detection', 'medium', [mkEd(1)])
+  } catch {
+    threw = true
+  }
+  installStorage({ failSet: true })
+  try {
+    bankAdd('error-detection', 'medium', [mkEd(1)])
+    bankRemove('error-detection', 'medium', ['x'])
+  } catch {
+    threw = true
+  }
+  const q = installStorage({ maxChars: 6000 })
+  try {
+    bankAdd('error-detection', 'medium', Array.from({ length: 60 }, (_, i) => mkEd(i)))
+  } catch {
+    threw = true
+  }
+  check(!threw, 'blocked / quota-exceeded storage never throws')
+  check((q.get(BANK_KEY)?.length ?? 0) <= 6000, 'quota pressure sheds old groups instead of failing')
+
+  // A paper still runs when the stored bank is corrupt.
+  process.env.GEMINI_API_KEY = 'test-key'
+  const s2 = installStorage()
+  s2.set(BANK_KEY, 'garbage{')
+  ENGLISH_TUNING.useBank = true
+  resetBehavior()
+  const out = await fetchEnglishPaper([{ topic: 'fillers', count: 4 }], 'medium')
+  check(countQ(out[0]) === 4 && bankRead('fillers', 'medium').length > 0, 'a paper runs and re-seeds the bank when the stored bank was corrupt')
+  ENGLISH_TUNING.useBank = false
+  removeStorage()
+}
+
+async function suiteLadder() {
+  suite('quality ladder: strict first, then solver-agreed-but-ambiguous; never a disagreement')
+  process.env.GEMINI_API_KEY = 'test-key'
+  fastTiming()
+  resetBehavior({ latency: { generate: 10, solve: 5 }, solverAmbiguousRate: 1 })
+  const out = await fetchEnglishPaper(PO_REQUESTS, 'hard')
+  validatePaper('ladder (all flagged ambiguous)', PO_REQUESTS, 'hard', out)
+  const st = getLastEnglishRunStats()!
+  const lenient = Object.values(st.topics).reduce((n, t) => n + t.lenientUsed, 0)
+  check(lenient >= 20 && st.rounds === 1, `with every item flagged ambiguous the reserve fills the paper after round 1 (${lenient} lenient questions, ${st.rounds} round)`)
+  check(Object.values(st.topics).every((t) => t.disagree === 0), 'no disagreement was recorded in this scenario')
+
+  resetBehavior({ latency: { generate: 10, solve: 5 }, solverWrongRate: 0.3, solverAmbiguousRate: 0.5 })
+  try {
+    const out2 = await fetchEnglishPaper(PO_REQUESTS, 'hard')
+    validatePaper('ladder (30% wrong, 50% ambiguous)', PO_REQUESTS, 'hard', out2)
+    let wrong = 0
+    for (const groups of out2) for (const g of groups) for (const q of g.questions) if (isWrongKey(keyFor(q))) wrong++
+    check(wrong === 0, 'a solver DISAGREEMENT is never accepted, even by the lenient ladder')
+  } catch (e) {
+    check(e instanceof EnglishPrepareError && e.reason === 'quality', `if the ladder cannot fill the paper it fails with reason quality (${(e as Error).message})`)
+  }
+
+  resetBehavior({ latency: { generate: 5, solve: 5 }, solverWrongRate: 1, solverAmbiguousRate: 1 })
+  await expectThrows(() => fetchEnglishPaper(PO_REQUESTS, 'hard'), 'every answer disagreeing -> quality, nothing accepted', (e) => e instanceof EnglishPrepareError && e.reason === 'quality')
+
+  ENGLISH_TUNING.lenientLadder = false
+  resetBehavior({ latency: { generate: 5, solve: 5 }, solverAmbiguousRate: 1 })
+  await expectThrows(() => fetchEnglishPaper(PO_REQUESTS, 'hard'), 'strict-only mode never relaxes', (e) => e instanceof EnglishPrepareError && e.reason === 'quality')
+  ENGLISH_TUNING.lenientLadder = true
+
+  // Strict items are preferred: with mild ambiguity the paper is built from agreed, unambiguous items.
+  resetBehavior({ latency: { generate: 5, solve: 5 }, solverAmbiguousRate: 0.2 })
+  const out3 = await fetchEnglishPaper(PO_REQUESTS, 'hard')
+  validatePaper('ladder (mild ambiguity)', PO_REQUESTS, 'hard', out3)
+  let amb = 0
+  for (const groups of out3) for (const g of groups) for (const q of g.questions) if (isAmbiguousKey(keyFor(q))) amb++
+  check(amb <= 8, `strict items dominate when ambiguity is mild (${amb} of 30 flagged items used)`)
+}
+
+async function suiteAbortPaper() {
+  suite('fetchEnglishPaper: abort handling')
+  process.env.GEMINI_API_KEY = 'test-key'
+  fastTiming()
+  resetBehavior()
+  const pre = new AbortController()
+  pre.abort()
+  await expectThrows(() => fetchEnglishPaper(PO_REQUESTS, 'hard', { signal: pre.signal }), 'pre-aborted paper rejects', (e) => e.name === 'AbortError')
+  check(apiCalls === 0, 'pre-aborted paper makes no API call')
+  resetBehavior({ latency: { generate: 300, solve: 100 } })
+  const ac = new AbortController()
+  const t0 = Date.now()
+  setTimeout(() => ac.abort(), 40)
+  await expectThrows(() => fetchEnglishPaper(PO_REQUESTS, 'hard', { signal: ac.signal }), 'abort mid-flight rejects with AbortError', (e) => e.name === 'AbortError')
+  check(Date.now() - t0 < 250, `abort is prompt (${Date.now() - t0} ms)`)
+  check(getLastEnglishRunStats()?.outcome === 'aborted', 'stats record the abort')
+  const after = apiCalls
+  await wait(700)
+  check(apiCalls === after, 'no API call starts after the abort')
+  resetBehavior({ fault: () => ({ status: 429 }) })
+  const ac2 = new AbortController()
+  ENGLISH_TUNING.rateLimitBaseMs = 5000
+  ENGLISH_TUNING.maxRetryAfterMs = 20000
+  setTimeout(() => ac2.abort(), 120)
+  const t1 = Date.now()
+  await expectThrows(() => fetchEnglishPaper(PO_REQUESTS, 'hard', { signal: ac2.signal }), 'abort during a rate-limit cooldown rejects', (e) => e.name === 'AbortError')
+  check(Date.now() - t1 < 600, `abort interrupts the cooldown (${Date.now() - t1} ms)`)
+  fastTiming()
+}
+
+async function suiteDiagnostics() {
+  suite('diagnostics: one compact summary per run, no secrets')
+  process.env.GEMINI_API_KEY = 'test-key'
+  fastTiming()
+  ENGLISH_TUNING.logSummary = true
+  const lines: string[] = []
+  const orig = console.info
+  console.info = (...a: unknown[]) => void lines.push(a.map(String).join(' '))
+  try {
+    resetBehavior({ latency: { generate: 10, solve: 5 }, badRate: 0.2 })
+    await fetchEnglishPaper(PO_REQUESTS, 'hard')
+    resetBehavior({ solverWrongRate: 1 })
+    await fetchEnglishPaper([{ topic: 'fillers', count: 4 }], 'hard').catch(() => undefined)
+  } finally {
+    console.info = orig
+    ENGLISH_TUNING.logSummary = false
+  }
+  check(lines.length === 2, `exactly one console.info per run, success and failure (${lines.length})`)
+  const first = lines[0] ?? ''
+  check(/\[english\] hard ok/.test(first) && /api calls \d+ generate \+ \d+ solve/.test(first) && /http 200x\d+/.test(first), 'header line names outcome, call counts and HTTP status counts')
+  check(/rc\s+\d+\s+\d+/.test(first) && /error-detection/.test(first) && /agree/.test(first) && /phases:/.test(first), 'per-topic table and phase timings are present')
+  check(/drops: "/.test(first), 'top deterministic drop reasons are listed')
+  check(/\[english\] hard quality/.test(lines[1] ?? ''), 'a failed run is summarised too, with its reason')
+  check(!/test-key/.test(lines.join('\n')) && !/Task: mock-english/.test(lines.join('\n')) && !/Global rules/.test(lines.join('\n')), 'the summary contains no key and no prompt text')
+  const st = getLastEnglishRunStats()!
+  check(st.calls.length > 0 && percentile([1, 2, 3, 4, 5], 50) === 3 && percentile([1, 2, 3, 4, 5], 90) === 5 && percentile([], 50) === 0, 'per-call stats and percentile helper work')
+  check(formatEnglishRunStats(st).includes('quality'), 'formatEnglishRunStats is exported and reusable')
+}
+
+// ---------------------------------------------------------------------------------------------------
 // Prompt printing and live mode
 // ---------------------------------------------------------------------------------------------------
 
@@ -1055,9 +1616,7 @@ async function liveRun(n: number) {
   liveMode = true
   process.env.GEMINI_API_KEY = realKey
   delete process.env.GEMINI_MODEL
-  process.env.MOCK_ENGLISH_GEMINI_TIMEOUT_MS = '12000'
-  process.env.MOCK_ENGLISH_HEDGE_MS = '5000'
-  ENGLISH_TUNING.retryDelayMs = 800
+  liveTiming()
   console.log(`\n== LIVE: ${n} items per topic/difficulty (generator vs blind solver)`)
   console.log('topic/difficulty            requested  built  dropped(det)  solver-agree  ambiguous  gen-model -> solve-model')
   for (const topic of TOPICS) {
@@ -1095,14 +1654,58 @@ async function liveRun(n: number) {
   }
 }
 
+
+function liveTiming() {
+  Object.assign(ENGLISH_TUNING, { retryDelayMs: 800, rateLimitBaseMs: 5000, maxRetryAfterMs: 20000, requestTimeoutMs: 28000, deadlineMs: 120000, maxRounds: 3, lenientLadder: true })
+  delete process.env.MOCK_ENGLISH_GEMINI_TIMEOUT_MS
+  delete process.env.MOCK_ENGLISH_DEADLINE_MS
+  delete process.env.MOCK_ENGLISH_HEDGE_MS
+  delete process.env.GEMINI_MODEL
+}
+
+/** Times a real full PO English section end to end (no key is ever printed). */
+async function livePaper() {
+  liveMode = true
+  process.env.GEMINI_API_KEY = realKey
+  liveTiming()
+  ENGLISH_TUNING.useBank = false
+  ENGLISH_TUNING.logSummary = true
+  removeStorage()
+  console.log('\n== LIVE PAPER: PO (hard) English section, ' + sumCounts(PO_REQUESTS) + ' questions, real Gemini, bank off')
+  const t0 = Date.now()
+  let lastReady = 0
+  try {
+    const out = await fetchEnglishPaper(PO_REQUESTS, 'hard', {
+      onProgress: (ready, total) => {
+        if (ready !== lastReady) console.log('  progress ' + ready + '/' + total + ' at ' + ((Date.now() - t0) / 1000).toFixed(1) + 's')
+        lastReady = ready
+      },
+    })
+    console.log('  RESULT: ok, ' + out.map((g, i) => PO_REQUESTS[i].topic + '=' + countQ(g)).join(' ') + ' in ' + ((Date.now() - t0) / 1000).toFixed(1) + 's')
+  } catch (e) {
+    const err = e as Error & { reason?: string }
+    console.log('  RESULT: FAILED reason=' + (err.reason ?? 'n/a') + ' after ' + ((Date.now() - t0) / 1000).toFixed(1) + 's: ' + err.message)
+  }
+  const st = getLastEnglishRunStats()
+  if (st) {
+    console.log('  per-call latency (client-observed, ms):')
+    for (const kind of ['generate', 'solve'] as const) {
+      const ok = st.calls.filter((c) => c.kind === kind && c.status === 200).map((c) => c.ms)
+      const all = st.calls.filter((c) => c.kind === kind)
+      console.log('    ' + kind.padEnd(8) + ' calls ' + String(all.length).padStart(2) + ' (ok ' + ok.length + ')  p50 ' + percentile(ok, 50) + '  p90 ' + percentile(ok, 90) + '  max ' + (ok.length ? Math.max(...ok) : 0))
+    }
+    const failed = st.calls.filter((c) => c.status !== 200).map((c) => c.kind + ':' + c.status + ':' + c.ms + 'ms')
+    if (failed.length) console.log('  non-200 attempts: ' + failed.join(', '))
+  }
+  console.log('  Paste everything above back; no API key is printed.')
+}
+
 async function liveSmoke() {
   suite('live smoke test (GEMINI_API_KEY is set)')
   liveMode = true
   process.env.GEMINI_API_KEY = realKey
   delete process.env.GEMINI_MODEL
-  process.env.MOCK_ENGLISH_GEMINI_TIMEOUT_MS = '12000'
-  process.env.MOCK_ENGLISH_HEDGE_MS = '5000'
-  ENGLISH_TUNING.retryDelayMs = 800
+  liveTiming()
   for (const [topic, count] of [['error-detection', 3], ['fillers', 3]] as [EnglishTopicId, number][]) {
     try {
       const gs = await fetchEnglishGroups(topic, 'medium', count)
@@ -1159,6 +1762,14 @@ async function main() {
     await printPrompts()
     return
   }
+  if (argv.includes('--live-paper')) {
+    if (!realKey) {
+      console.error('--live-paper needs GEMINI_API_KEY in the environment.')
+      process.exit(2)
+    }
+    await livePaper()
+    return
+  }
   if (liveIdx >= 0) {
     if (!realKey) {
       console.error('--live needs GEMINI_API_KEY in the environment.')
@@ -1168,17 +1779,33 @@ async function main() {
     return
   }
   const t0 = Date.now()
-  await suiteHandlerInput()
-  await suiteHandlerGemini()
-  await suiteServerRejections()
-  await suiteBuilders()
-  await suiteClientChecks()
-  await suiteHappyPath()
-  await suiteSolverDisagreement()
-  await suiteExactCount()
-  await suiteClientFaults()
-  await suiteAbort()
-  await suiteComposeFull()
+  // `--only <name>` runs just the suites whose name contains it (e.g. --only Paper).
+  const onlyIdx = argv.indexOf('--only')
+  const only = onlyIdx >= 0 ? argv[onlyIdx + 1] : ''
+  const suites: [string, () => Promise<void>][] = [
+    ['HandlerInput', suiteHandlerInput],
+    ['HandlerGemini', suiteHandlerGemini],
+    ['ServerRejections', suiteServerRejections],
+    ['Builders', suiteBuilders],
+    ['ClientChecks', suiteClientChecks],
+    ['HappyPath', suiteHappyPath],
+    ['SolverDisagreement', suiteSolverDisagreement],
+    ['ExactCount', suiteExactCount],
+    ['ClientFaults', suiteClientFaults],
+    ['Abort', suiteAbort],
+    ['Sequential', suiteSequential],
+    ['Relaxed', suiteRelaxed],
+    ['PaperHappy', suitePaperHappy],
+    ['PaperNoisy', suitePaperNoisy],
+    ['PaperFaults', suitePaperFaults],
+    ['Resume', suiteResume],
+    ['Bank', suiteBank],
+    ['Ladder', suiteLadder],
+    ['AbortPaper', suiteAbortPaper],
+    ['Diagnostics', suiteDiagnostics],
+    ['ComposeFull', suiteComposeFull],
+  ]
+  for (const [name, fn] of suites) if (!only || name.toLowerCase().includes(only.toLowerCase())) await fn()
   if (realKey) await liveSmoke()
   else console.log('\n(no GEMINI_API_KEY in the environment: live smoke test skipped; run with --live N once a key is available)')
 

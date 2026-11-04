@@ -4,7 +4,7 @@ import { writeFileSync } from 'node:fs'
 import { newAttempt, type Attempt } from '../src/lib/mocks/attempts.ts'
 import { estimateCohort } from '../src/lib/mocks/cohort.ts'
 import { advanceSection, answer, begin, clearAnswer, countStatuses, finish, neighbour, remainingMs, setMarked, tick, totalRemainingMs, visit } from '../src/lib/mocks/engine.ts'
-import { buildResultPdf, pdfText } from '../src/lib/mocks/pdf.ts'
+import { buildQuestionPaperPdf, buildResultPdf, pdfText } from '../src/lib/mocks/pdf.ts'
 import { buildReport } from '../src/lib/mocks/report.ts'
 import { evaluate, statusOf } from '../src/lib/mocks/scoring.ts'
 import type { MockPaper, MockQuestion, MockSectionId } from '../src/lib/mocks/types.ts'
@@ -204,6 +204,18 @@ check('pdfText replaces unsupported glyphs', pdfText('hi 😀 你好') === 'hi ?
   const outPath = process.env.PDF_OUT
   if (outPath) writeFileSync(outPath, Buffer.from(bytes))
   check('PDF builds with ≥ 4 pages and non-trivial size', doc.getNumberOfPages() >= 4 && bytes.byteLength > 10_000, { pages: doc.getNumberOfPages(), bytes: bytes.byteLength })
+}
+
+// --- question paper (practice copy) ---
+{
+  const p = fixture(true)
+  const doc = buildQuestionPaperPdf(p, 1, 'Candidate')
+  const text = (doc.output('arraybuffer') as ArrayBuffer).byteLength
+  check('question paper PDF builds', doc.getNumberOfPages() >= 1 && text > 3_000, { pages: doc.getNumberOfPages(), text })
+  // The practice copy must never carry the key or the explanations.
+  const raw = Buffer.from(doc.output('arraybuffer')).toString('latin1')
+  check('question paper contains no answer key or solutions', !/Correct answer|\[Correct\]|Solution:/.test(raw))
+  check('question paper is limited to the requested section', buildQuestionPaperPdf(p, 2).getNumberOfPages() === 1)
 }
 
 console.log(failures === 0 ? '\nAll engine checks passed.' : `\n${failures} check(s) FAILED.`)

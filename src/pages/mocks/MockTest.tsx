@@ -4,6 +4,7 @@ import StatusBadge from '../../components/mocks/StatusBadge'
 import StimulusView from '../../components/mocks/StimulusView'
 import { loadAnyAttempt, saveActive, saveFinished, setCandidateName, type Attempt } from '../../lib/mocks/attempts'
 import { advanceSection, answer, begin, clearAnswer, countStatuses, finish, neighbour, remainingMs, sectionQuestionIds, setMarked, tick, totalRemainingMs, visit } from '../../lib/mocks/engine'
+import { questionPaperFileName } from '../../lib/mocks/report'
 import { formatClock, statusOf, type QStatus } from '../../lib/mocks/scoring'
 import type { MockQuestion } from '../../lib/mocks/types'
 
@@ -108,6 +109,7 @@ export default function MockTest() {
   const [agreed, setAgreed] = useState(false)
   const [name, setName] = useState(() => attempt?.candidate ?? 'Candidate')
   const [fullscreen, setFullscreen] = useState(false)
+  const [paperDownload, setPaperDownload] = useState<'idle' | 'busy' | 'failed'>('idle')
 
   const commit = useCallback((next: Attempt) => {
     attemptRef.current = next
@@ -301,6 +303,18 @@ export default function MockTest() {
     }
   }
 
+  // Practice copy of the current section only (no answer key), so it can't be used to peek ahead in a locked paper.
+  const downloadQuestionPaper = async () => {
+    setPaperDownload('busy')
+    try {
+      const { buildQuestionPaperPdf } = await import('../../lib/mocks/pdf')
+      buildQuestionPaperPdf(paper, attempt.currentSection, attempt.candidate).save(questionPaperFileName(paper, attempt.currentSection))
+      setPaperDownload('idle')
+    } catch {
+      setPaperDownload('failed')
+    }
+  }
+
   const toggleFullscreen = () => {
     if (document.fullscreenElement) document.exitFullscreen().catch(() => undefined)
     else document.documentElement.requestFullscreen?.().catch(() => undefined)
@@ -459,7 +473,22 @@ export default function MockTest() {
       )}
 
       {modal === 'paper' && (
-        <Modal title={`Question Paper — ${section.name}`} onClose={() => setModal(null)} wide>
+        <Modal
+          title={`Question Paper — ${section.name}`}
+          onClose={() => setModal(null)}
+          wide
+          footer={
+            <>
+              {paperDownload === 'failed' && <span className="mr-auto self-center text-sm text-red-600">Couldn’t build the PDF — please try again.</span>}
+              <button type="button" className={btnLight} onClick={() => setModal(null)}>
+                Close
+              </button>
+              <button type="button" className={btnBlue} disabled={paperDownload === 'busy'} onClick={downloadQuestionPaper}>
+                {paperDownload === 'busy' ? 'Preparing PDF…' : '⬇ Download PDF'}
+              </button>
+            </>
+          }
+        >
           <div className="space-y-5">
             {ids.map((id, i) => {
               const qq = questionById.get(id) as MockQuestion

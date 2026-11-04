@@ -32,17 +32,21 @@ const TOPIC_LABEL = {
   'match-column': 'Match the Column',
 }
 /** Per-call cap on `count` (rc/cloze count questions, not passages). */
-const MAX_COUNT = { rc: 12, cloze: 8, 'error-detection': 8, 'para-jumble': 5, fillers: 8, 'word-swap': 6, 'phrase-replacement': 8, 'match-column': 4 }
+const MAX_COUNT = { rc: 12, cloze: 8, 'error-detection': 10, 'para-jumble': 8, fillers: 10, 'word-swap': 8, 'phrase-replacement': 10, 'match-column': 6 }
 const MAX_SOLVE_ITEMS = 24
 
 const DEFAULT_MODELS = ['gemini-3.5-flash', 'gemini-3.5-flash-lite']
 const GENERATE_TEMPERATURE = 0.8
 const SOLVE_TEMPERATURE = 0.1
 
-const geminiTimeoutMs = () => Number(process.env.MOCK_ENGLISH_GEMINI_TIMEOUT_MS) || 12000
+/** Per-call Gemini budgets (ms): generate ~20 s, solve ~15 s. The env knob overrides both (tests). */
+const geminiTimeoutMs = (kind) => Number(process.env.MOCK_ENGLISH_GEMINI_TIMEOUT_MS) || (kind === 'solve' ? 15000 : 20000)
+/** Whole-request budget: the function's maxDuration is 30 s and the client gives up at 28 s. */
+const requestDeadlineMs = () => Number(process.env.MOCK_ENGLISH_DEADLINE_MS) || 26000
+/** Parallel hedging is OFF by default (it doubles calls and burns free-tier RPM); set the env var to enable it. */
 const hedgeDelayMs = () => {
   const v = Number(process.env.MOCK_ENGLISH_HEDGE_MS)
-  return Number.isFinite(v) && v > 0 ? v : 5000
+  return Number.isFinite(v) && v > 0 ? v : 0
 }
 const modelOverride = () => (process.env.GEMINI_MODEL || '').trim()
 
@@ -91,7 +95,9 @@ const isInt = (n) => Number.isInteger(n)
 /** Options that point at each other ("All of the above") must keep their order. */
 const POSITIONAL_OPTION = /\b(?:above|below|none of (?:these|the)|all of (?:these|the)|both (?:the )?(?:statements|options)|previous option|(?:option|options)\s*[a-e1-5])\b/i
 /** Explanations of shuffled-option topics must not cite option letters. */
-const CITES_OPTION = /\b(?:option|choice|answer)\s*\(?[A-E1-5]\)?(?![a-z])/i
+const CITES_OPTION = /\b(?:option|choice|answer)\s*\(?[A-E1-5]\)?(?![a-z])/gi
+/** Model output for "no error / already correct" comes in several spellings. */
+const nullish = (v) => (v === null || v === -1 || v === 'null' || v === 'none' || v === 'None' || v === 'No error' ? null : v)
 
 // ---------------------------------------------------------------------------------------------------
 // Seeded RNG (mulberry32), for themes, shuffles and deterministic distractors
@@ -238,7 +244,7 @@ const RC_KIND_TEXT = {
 }
 const RC_DIRECTIONS = 'Read the following passage carefully and answer the questions given below it.'
 
-const RC_SCHEMA = `{"passages":[{"title":"short working title","paragraphs":["paragraph 1","paragraph 2"],"questions":[{"kind":"main-idea|inference|true|not-true|tone|vocab-synonym|vocab-antonym|may-be-true","targetWord":"vocab kinds only: the single word exactly as it appears in the passage, otherwise empty string","stem":"the full question text (for vocab kinds write a short placeholder, it is replaced)","options":["option 1","option 2","option 3","option 4","option 5"],"correctIndex":0,"explanation":"..."}]}]}`
+const RC_SCHEMA = `{"passages":[{"paragraphs":["paragraph 1","paragraph 2"],"questions":[{"kind":"main-idea|inference|true|not-true|tone|vocab-synonym|vocab-antonym|may-be-true","targetWord":"vocab kinds only: the single word exactly as it appears in the passage, otherwise empty string","stem":"the full question text (for vocab kinds write a short placeholder, it is replaced)","options":["option 1","option 2","option 3","option 4","option 5"],"correctIndex":0,"explanation":"..."}]}]}`
 
 function rcPlan({ rng, count }) {
   const base = ['main-idea', 'inference', 'true', 'not-true', 'tone', 'vocab-synonym', 'vocab-antonym', 'inference', 'may-be-true', 'true', 'inference', 'not-true']
@@ -270,7 +276,7 @@ Respond with ONLY a JSON object (no markdown fences) in exactly this shape:
 ${RC_SCHEMA}`
 }
 
-const CLOZE_SCHEMA = `{"passages":[{"title":"short working title","text":"the passage with blanks written exactly as (1) ______ , (2) ______ and so on, numbered in order of appearance","blanks":[{"n":1,"options":["word 1","word 2","word 3","word 4","word 5"],"correctIndex":0,"explanation":"..."}]}]}`
+const CLOZE_SCHEMA = `{"passages":[{"text":"the passage with blanks written exactly as (1) ______ , (2) ______ and so on, numbered in order of appearance","blanks":[{"n":1,"options":["word 1","word 2","word 3","word 4","word 5"],"correctIndex":0,"explanation":"..."}]}]}`
 
 function clozePrompt({ difficulty, count, rng }) {
   const theme = rng.pick(PASSAGE_THEMES)
@@ -289,7 +295,7 @@ const ED_CATEGORIES = {
   medium: ['subject-verb agreement', 'wrong tense or verb form', 'wrong preposition', 'article (a/an/the) error', 'pronoun agreement or case', 'singular/plural noun error', 'wrong comparative or superlative', 'adjective used for adverb (or vice versa)', 'wrong conjunction', 'wrong verb form after a modal or "to"'],
   hard: ['subject-verb agreement across a long or compound subject', 'tense sequence', 'subjunctive or conditional error (if / wish / suggest that)', 'faulty parallelism', 'wrong dependent preposition', 'double comparative or wrong comparative construction', 'inverted structure after "hardly", "no sooner", "scarcely"', 'pronoun-antecedent disagreement', 'misplaced or dangling modifier', 'wrong participle or gerund form', 'neither/nor, either/or, one of the / each of agreement', 'wrong use of "much / many / few / less / fewer"'],
 }
-const ED_SCHEMA = `{"items":[{"variant":"parts","topic":"grammar point","parts":["part (a)","part (b)","part (c)","part (d)"],"errorPartIndex":2,"explanation":"..."},{"variant":"sentences","topic":"grammar point","sentences":["s1","s2","s3","s4","s5"],"correctIndex":3,"explanation":"..."}]}`
+const ED_SCHEMA = `{"items":[{"variant":"parts","parts":["part (a)","part (b)","part (c)","part (d)"],"errorPartIndex":2,"explanation":"..."},{"variant":"sentences","sentences":["s1","s2","s3","s4","s5"],"correctIndex":3,"explanation":"..."}]}`
 
 function edPlan({ rng, difficulty, count }) {
   const cats = themeDealer(rng, ED_CATEGORIES[difficulty])
@@ -323,7 +329,7 @@ Respond with ONLY a JSON object (no markdown fences) in exactly this shape:
 ${ED_SCHEMA}`
 }
 
-const PJ_SCHEMA = `{"items":[{"theme":"short theme label","sentences":["opening sentence","second sentence","..."],"explanation":"..."}]}`
+const PJ_SCHEMA = `{"items":[{"sentences":["opening sentence","second sentence","..."],"explanation":"..."}]}`
 
 function pjPlan({ rng, difficulty, count }) {
   const ctx = themeDealer(rng, PASSAGE_THEMES)
@@ -378,7 +384,7 @@ Respond with ONLY a JSON object (no markdown fences) in exactly this shape:
 ${FILLERS_SCHEMA}`
 }
 
-const WS_SCHEMA = `{"items":[{"tokens":["The","government","has","launched","a","new","scheme","."],"marked":[1,3,5,6],"swap":[0,2],"explanation":"..."},{"tokens":["..."],"marked":[1,2,4,5],"swap":null,"explanation":"..."}]}`
+const WS_SCHEMA = `{"items":[{"tokens":["The","government","has","launched","a","new","scheme."],"marked":["government","launched","new","scheme"],"swap":[0,2],"explanation":"..."},{"tokens":["..."],"marked":["...","...","...","..."],"swap":null,"explanation":"..."}]}`
 
 function wsPlan({ rng, count }) {
   const ctx = themeDealer(rng, SENTENCE_THEMES)
@@ -391,7 +397,7 @@ function wsPrompt(ctx) {
   return `Write exactly ${count} Word Swap (word interchange) items. Plan:
 ${wsPlan(ctx).join('\n')}
 
-How an item works: you give the CORRECT, natural sentence (${style}) as "tokens" (its words in order, with punctuation attached to the word it follows, e.g. "scheme."). You choose FOUR words in it to be marked: "marked" lists their 0-based token indices in increasing order. The marked words must be plain lowercase words (no capital letters, no attached punctuation, never the first token) and must be words whose positions matter: nouns, verbs, adjectives, adverbs, prepositions. If the plan says "one interchange needed", set "swap" to [a, b]: two positions inside the "marked" list (0 to 3, a not equal b) whose words the system will exchange in the sentence shown to students; the exchange must leave a sentence that is clearly ungrammatical or nonsensical, and putting the two words back must be the ONLY single exchange of two marked words that gives a correct sentence. Never choose two words whose exchange would still make a sensible sentence (for example two interchangeable nouns), and never choose two identical words. If the plan says "NO interchange needed", set "swap" to null (the correct sentence is shown as it is).
+How an item works: you give the CORRECT, natural sentence (${style}) as "tokens" (its words in order, with punctuation attached to the word it follows, e.g. "scheme."). You choose FOUR words in it to be marked: "marked" lists those four words themselves, exactly as they appear in "tokens", in order of appearance. The marked words must be plain lowercase words (no capital letters, no attached punctuation, never the first token) and must be words whose positions matter: nouns, verbs, adjectives, adverbs, prepositions. If the plan says "one interchange needed", set "swap" to [a, b]: two positions inside the "marked" list (0 to 3, a not equal b) whose words the system will exchange in the sentence shown to students; the exchange must leave a sentence that is clearly ungrammatical or nonsensical, and putting the two words back must be the ONLY single exchange of two marked words that gives a correct sentence. Never choose two words whose exchange would still make a sensible sentence (for example two interchangeable nouns), and never choose two identical words. If the plan says "NO interchange needed", set "swap" to null (the correct sentence is shown as it is).
 The explanation states the rule or meaning clue; do NOT mention marker numbers or indices, quote the words instead.
 
 Respond with ONLY a JSON object (no markdown fences) in exactly this shape:
@@ -464,20 +470,30 @@ function readOptions(raw, { maxWords = 40 } = {}) {
   return { options }
 }
 
+/** A missing explanation is not fatal (fillExplanations adds a plain one); option letters are neutralised because
+ *  options are shuffled after the model wrote the text. */
 function readExplanation(raw, { shuffled = false, maxLen = 700 } = {}) {
-  const e = line(raw)
-  if (e.length < 8) return { problem: 'explanation missing' }
-  const p = textProblem(e)
+  let e = line(raw)
+  if (shuffled) e = e.replace(CITES_OPTION, 'the keyed option')
+  const p = e ? textProblem(e) : ''
   if (p) return { problem: `explanation: ${p}` }
-  if (shuffled && CITES_OPTION.test(e)) return { problem: 'explanation cites an option letter' }
-  return { explanation: e.slice(0, maxLen) }
+  return { explanation: e.length >= 8 ? e.slice(0, maxLen) : '' }
+}
+
+function fillExplanations(groups) {
+  for (const g of groups) {
+    for (const q of g.questions) {
+      q.explanation = q.explanation.trim()
+      if (q.explanation.length < 8) q.explanation = `The correct answer is ${q.options[q.answer]}.`
+    }
+  }
 }
 
 function buildRc(parsed, ctx) {
   const groups = []
   const drops = []
-  const lo = ctx.difficulty === 'hard' ? 300 : 200
-  const hi = ctx.difficulty === 'hard' ? 520 : 380
+  const lo = ctx.difficulty === 'hard' ? 250 : 170
+  const hi = ctx.difficulty === 'hard' ? 560 : 420
   for (const p of asArray(parsed?.passages)) {
     let paragraphs = Array.isArray(p?.paragraphs) ? p.paragraphs.map(line) : typeof p?.passage === 'string' ? sanitize(p.passage).split(/\n+/).map(line) : []
     paragraphs = paragraphs.filter(Boolean)
@@ -548,7 +564,7 @@ function buildRc(parsed, ctx) {
           drops.push(`rc q: stem ${sp || 'length'}`)
           continue
         }
-        if (kind === 'not-true' && !/\b(?:NOT|FALSE|INCORRECT|EXCEPT|CANNOT)\b/.test(stem)) {
+        if (kind === 'not-true' && !/\b(?:not|false|incorrect|except|cannot|never|untrue)\b/i.test(stem)) {
           drops.push('rc not-true: stem lacks NOT')
           continue
         }
@@ -599,12 +615,12 @@ function buildCloze(parsed, ctx) {
       continue
     }
     const wc = wordCount(joined.replace(/\(\d{1,2}\) ______/g, 'x'))
-    if (wc < 100 || wc > 260) {
+    if (wc < 90 || wc > 300) {
       drops.push(`cloze passage length ${wc}`)
       continue
     }
     const blanks = asArray(p?.blanks)
-    const byN = new Map(blanks.filter((b) => isInt(b?.n)).map((b) => [b.n, b]))
+    const byN = new Map(blanks.filter((b) => b && typeof b === 'object').map((b, i) => [isInt(b.n) ? b.n : i + 1, b]))
     if (byN.size !== n || !nums.every((k) => byN.has(k))) {
       drops.push('cloze: blanks list does not match passage')
       continue
@@ -678,7 +694,7 @@ function buildErrorDetection(parsed, ctx) {
       drops.push('ed parts: sentence length')
       continue
     }
-    const err = it.errorPartIndex
+    const err = nullish(it.errorPartIndex)
     if (!(err === null || (isInt(err) && err >= 0 && err <= 3))) {
       drops.push('ed parts: bad errorPartIndex')
       continue
@@ -870,6 +886,22 @@ const WS_PAIRS = [
   [2, 3],
 ]
 
+/** "marked" may be token indices or the marked words themselves (easier for a model to get right). */
+function resolveMarked(tokens, raw) {
+  if (raw.every(isInt)) return raw
+  const out = []
+  let from = 1
+  for (const w of raw) {
+    if (typeof w !== 'string') return []
+    const target = w.trim().toLowerCase()
+    const idx = tokens.findIndex((t, i) => i >= from && t.toLowerCase() === target)
+    if (idx < 0) return []
+    out.push(idx)
+    from = idx + 1
+  }
+  return out
+}
+
 function buildWordSwap(parsed, ctx) {
   const groups = []
   const drops = []
@@ -877,7 +909,7 @@ function buildWordSwap(parsed, ctx) {
   const rng = ctx.buildRng
   for (const it of asArray(parsed?.items)) {
     const tokens = asArray(it?.tokens).map((t) => line(t))
-    const marked = asArray(it?.marked)
+    const marked = resolveMarked(tokens, asArray(it?.marked))
     const ex = readExplanation(it?.explanation)
     const problem = ex.problem || tokens.map((t) => textProblem(t)).find(Boolean)
     if (problem || tokens.length < 8 || tokens.length > 42 || tokens.some((t) => t.includes(' '))) {
@@ -982,7 +1014,7 @@ function buildPhraseReplacement(parsed, ctx) {
       drops.push('pr replace: option equals original or "No correction"')
       continue
     }
-    const ci = it.correctIndex
+    const ci = nullish(it.correctIndex)
     if (!(ci === null || (isInt(ci) && ci >= 0 && ci <= 3))) {
       drops.push('pr replace: bad correctIndex')
       continue
@@ -1032,7 +1064,7 @@ function buildMatchColumn(parsed, ctx) {
       drops.push('mc: half-sentence length')
       continue
     }
-    if (new Set(pairs.map((p) => normKey(p.begin).split(' ').slice(0, 2).join(' '))).size < 3) {
+    if (new Set(pairs.map((p) => normKey(p.begin).split(' ').slice(0, 2).join(' '))).size < 2) {
       drops.push('mc: beginnings too similar')
       continue
     }
@@ -1106,13 +1138,12 @@ Task: mock-english / solve / items=${items.length}
 
 For every item:
 1. Work out the answer yourself from the question (and its passage, if any) and choose exactly ONE option letter (A-E).
-2. Set "ambiguous": true if ANY of these holds: two or more options could be defended by a careful expert; no option is fully correct; the question or passage is unclear or itself contains an unintended grammatical or factual flaw; a reading-comprehension answer needs outside knowledge; the key would rest on a debatable convention. Otherwise false. Be strict: when in doubt, set ambiguous true.
-3. "note": at most 12 words saying why.
+2. Set "ambiguous": true ONLY if you can point to a second option that a careful expert would accept as equally correct, or no option is correct, or the item itself is faulty (unclear, ungrammatical outside the intended point, or needing outside knowledge). Stylistic preferences, minor wording quibbles and difficulty alone are NOT ambiguity: if one option is clearly the best, answer it and set false.
 
 Topic rules:
 ${topics.map((t) => `- ${SOLVE_RULES[t] || ''}`).join('\n')}
 
-Respond with ONLY a JSON object (no markdown fences): {"results":[{"id":"<item id>","answer":"A","ambiguous":false,"note":"..."}]} with exactly one entry per item, using the item ids given.
+Respond with ONLY a JSON object (no markdown fences): {"results":[{"id":"<item id>","answer":"A","ambiguous":false}]} with exactly one entry per item, using the item ids given.
 ${passages.length ? `\nPASSAGES\n${passages.map((p, i) => `[P${i + 1}]\n${p}`).join('\n\n')}\n` : ''}
 ITEMS
 ${itemBlocks.join('\n\n')}`
@@ -1163,11 +1194,19 @@ function parseJsonLoose(text) {
   return undefined
 }
 
+function parseRetryAfterMs(res, detailText) {
+  let ms = 0
+  const h = Number(res.headers?.get?.('retry-after'))
+  if (Number.isFinite(h) && h > 0) ms = h * 1000
+  const m = /"retryDelay"\s*:\s*"(\d+(?:\.\d+)?)s"/.exec(detailText || '')
+  if (m) ms = Math.max(ms, Number(m[1]) * 1000)
+  return Math.min(ms, 120000)
+}
+
 /** One Gemini call. `accept(parsed)` returns {ok:true,...payload} or {ok:false,error} so that an unusable
  *  reply counts as a failure (and the other model gets its chance). Never throws. */
-async function callGemini(model, apiKey, prompt, temperature, accept, outerSignal) {
+async function callGemini(model, apiKey, prompt, temperature, accept, outerSignal, timeoutMs) {
   const controller = new AbortController()
-  const timeoutMs = geminiTimeoutMs()
   const timer = setTimeout(() => controller.abort(), timeoutMs)
   const onOuterAbort = () => controller.abort()
   if (outerSignal) {
@@ -1191,9 +1230,11 @@ async function callGemini(model, apiKey, prompt, temperature, accept, outerSigna
       return { ok: false, model, status: aborted ? 504 : 502, error: aborted ? 'Gemini took too long to respond.' : 'Could not reach Gemini.' }
     }
     if (!res.ok) {
-      const detail = await res.text().catch(() => '')
+      const detail = String(await res.text().catch(() => ''))
       const status = res.status === 429 ? 429 : 502
-      return { ok: false, model, status, error: res.status === 429 ? 'Gemini rate limit reached.' : `Gemini request failed (${res.status}).`, detail: String(detail).slice(0, 300) }
+      const out = { ok: false, model, status, error: res.status === 429 ? 'Gemini rate limit reached.' : `Gemini request failed (${res.status}).`, detail: detail.slice(0, 300) }
+      if (res.status === 429) out.retryAfterMs = parseRetryAfterMs(res, detail)
+      return out
     }
     let data
     try {
@@ -1208,7 +1249,7 @@ async function callGemini(model, apiKey, prompt, temperature, accept, outerSigna
     const parsed = parseJsonLoose(text)
     if (parsed === undefined || parsed === null || typeof parsed !== 'object') return { ok: false, model, status: 502, error: 'Gemini returned malformed JSON.' }
     const accepted = accept(parsed)
-    if (!accepted.ok) return { ok: false, model, status: 502, error: accepted.error }
+    if (!accepted.ok) return { ok: false, model, status: 502, error: accepted.error, unusable: true }
     return { ok: true, model, ...accepted }
   } finally {
     clearTimeout(timer)
@@ -1216,14 +1257,37 @@ async function callGemini(model, apiKey, prompt, temperature, accept, outerSigna
   }
 }
 
-/** Starts models[0]; starts the next after `hedgeMs` (or immediately if the previous one failed). Resolves with
- *  the first success, aborting the others, or the last failure once all have failed. */
-function hedged(models, run, hedgeMs) {
+const outcomeStatus = (o) => (o.ok ? 200 : o.status)
+
+/** Default: ONE model at a time; the next model is tried only after a failure (error, 429, timeout, unusable reply),
+ *  immediately, and only while enough of the request deadline remains. */
+async function runSequential(models, run, budgetMs, deadlineAt) {
+  let last = { ok: false, status: 502, error: 'Gemini request failed.' }
+  const attempts = []
+  let retryAfterMs = 0
+  for (let i = 0; i < models.length; i++) {
+    const remaining = deadlineAt - Date.now()
+    if (i > 0 && remaining < Math.min(3000, budgetMs)) break
+    const timeoutMs = Math.max(Math.min(500, budgetMs), Math.min(budgetMs, remaining - 300))
+    const out = await run(models[i], undefined, timeoutMs)
+    attempts.push({ model: models[i], status: outcomeStatus(out) })
+    if (out.ok) return { ...out, attempts }
+    retryAfterMs = Math.max(retryAfterMs, out.retryAfterMs || 0)
+    last = out
+  }
+  return { ...last, retryAfterMs: retryAfterMs || last.retryAfterMs, attempts }
+}
+
+/** Opt-in hedging (MOCK_ENGLISH_HEDGE_MS): starts models[0], then the next after `hedgeMs` or as soon as the previous
+ *  one failed; the first success wins and aborts the rest. */
+function hedged(models, run, hedgeMs, budgetMs, deadlineAt) {
   return new Promise((resolve) => {
     const controllers = []
+    const attempts = []
     let next = 0
     let inflight = 0
     let settled = false
+    let retryAfterMs = 0
     let lastFail = { ok: false, status: 502, error: 'Gemini request failed.' }
     let timer = null
     const finish = (outcome) => {
@@ -1231,7 +1295,14 @@ function hedged(models, run, hedgeMs) {
       settled = true
       clearTimeout(timer)
       for (const c of controllers) c.abort()
-      resolve(outcome)
+      resolve({ ...outcome, attempts, ...(outcome.ok ? {} : { retryAfterMs: retryAfterMs || outcome.retryAfterMs }) })
+    }
+    const failed = (outcome) => {
+      inflight--
+      lastFail = outcome
+      retryAfterMs = Math.max(retryAfterMs, outcome.retryAfterMs || 0)
+      if (next < models.length) launch()
+      else if (inflight === 0) finish(lastFail)
     }
     const launch = () => {
       if (settled || next >= models.length) return
@@ -1244,23 +1315,27 @@ function hedged(models, run, hedgeMs) {
         timer = setTimeout(launch, hedgeMs)
         timer.unref?.()
       }
-      run(model, controller.signal).then(
+      const timeoutMs = Math.max(Math.min(500, budgetMs), Math.min(budgetMs, deadlineAt - Date.now() - 300))
+      run(model, controller.signal, timeoutMs).then(
         (outcome) => {
-          inflight--
-          if (outcome.ok) return finish(outcome)
-          lastFail = outcome
-          if (next < models.length) launch()
-          else if (inflight === 0) finish(lastFail)
+          attempts.push({ model, status: outcomeStatus(outcome) })
+          if (outcome.ok) {
+            inflight--
+            finish(outcome)
+          } else failed(outcome)
         },
-        () => {
-          inflight--
-          if (next < models.length) launch()
-          else if (inflight === 0) finish(lastFail)
-        },
+        () => failed(lastFail),
       )
     }
     launch()
   })
+}
+
+/** Runs the candidate models for one request according to the configured strategy. */
+function runModels(models, run, kind, deadlineAt) {
+  const budget = geminiTimeoutMs(kind)
+  const hedge = hedgeDelayMs()
+  return hedge > 0 && models.length > 1 ? hedged(models, run, hedge, budget, deadlineAt) : runSequential(models, run, budget, deadlineAt)
 }
 
 function modelOrder(role, avoidModel) {
@@ -1376,6 +1451,8 @@ export default async function handler(req, res) {
     return
   }
 
+  const startedAt = Date.now()
+  const deadlineAt = startedAt + requestDeadlineMs()
   let outcome
   if (job.action === 'generate') {
     const def = TOPIC_DEFS[job.topic]
@@ -1383,11 +1460,12 @@ export default async function handler(req, res) {
     const prompt = `${header(job.topic, job.difficulty, job.count, job.seedNum)}\n${def.prompt(ctx)}`
     const accept = (parsed) => {
       const built = def.build(parsed, ctx)
+      fillExplanations(built.groups)
       return built.groups.length ? { ok: true, groups: built.groups, dropped: built.drops.slice(0, 25), droppedCount: built.drops.length } : { ok: false, error: `The model returned no usable ${TOPIC_LABEL[job.topic]} items.` }
     }
-    outcome = await hedged(modelOrder('generate'), (model, signal) => callGemini(model, apiKey, prompt, GENERATE_TEMPERATURE, accept, signal), hedgeDelayMs())
+    outcome = await runModels(modelOrder('generate'), (model, signal, timeoutMs) => callGemini(model, apiKey, prompt, GENERATE_TEMPERATURE, accept, signal, timeoutMs), 'generate', deadlineAt)
     if (outcome.ok) {
-      res.status(200).json({ groups: outcome.groups, meta: { model: outcome.model, topic: job.topic, difficulty: job.difficulty, requested: job.count, dropped: outcome.dropped, droppedCount: outcome.droppedCount } })
+      res.status(200).json({ groups: outcome.groups, meta: { model: outcome.model, topic: job.topic, difficulty: job.difficulty, requested: job.count, dropped: outcome.dropped, droppedCount: outcome.droppedCount, attempts: outcome.attempts, ms: Date.now() - startedAt } })
       return
     }
   } else {
@@ -1396,13 +1474,24 @@ export default async function handler(req, res) {
       const results = parseSolveResults(parsed, job.items)
       return results.some((r) => r.answer !== null) ? { ok: true, results } : { ok: false, error: 'The solver returned no usable answers.' }
     }
-    outcome = await hedged(modelOrder('solve', job.avoidModel), (model, signal) => callGemini(model, apiKey, prompt, SOLVE_TEMPERATURE, accept, signal), hedgeDelayMs())
+    outcome = await runModels(modelOrder('solve', job.avoidModel), (model, signal, timeoutMs) => callGemini(model, apiKey, prompt, SOLVE_TEMPERATURE, accept, signal, timeoutMs), 'solve', deadlineAt)
     if (outcome.ok) {
-      res.status(200).json({ results: outcome.results, model: outcome.model })
+      res.status(200).json({ results: outcome.results, model: outcome.model, meta: { attempts: outcome.attempts, ms: Date.now() - startedAt } })
       return
     }
   }
 
-  const { status, error, detail } = outcome
-  res.status(status || 502).json(detail ? { error, detail } : { error })
+  const { status, error, detail, retryAfterMs, attempts, unusable } = outcome
+  const payload = { error, attempts, ms: Date.now() - startedAt }
+  if (detail) payload.detail = detail
+  // The model answered but nothing in it passed the checks: a quality problem, not an outage.
+  if (unusable) payload.unusable = true
+  if (status === 429) {
+    const ms = retryAfterMs || 0
+    if (ms > 0) {
+      payload.retryAfterMs = ms
+      res.setHeader?.('Retry-After', String(Math.ceil(ms / 1000)))
+    }
+  }
+  res.status(status || 502).json(payload)
 }

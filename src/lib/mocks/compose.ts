@@ -4,7 +4,7 @@ import { assertGroup } from './validate'
 import { TOPIC_BY_ID, topicLabel } from './topics'
 import { QUANT_GENERATORS } from './quant'
 import { REASONING_GENERATORS } from './reasoning'
-import { fetchEnglishGroups } from './english'
+import { fetchEnglishPaper } from './english'
 import type {
   EnglishTopicId,
   Group,
@@ -99,16 +99,7 @@ async function produce(topic: MockTopicId, rng: Rng, difficulty: MockDifficulty,
   const info = TOPIC_BY_ID[topic]
   if (!info) throw new Error(`Unknown topic: ${topic}`)
 
-  if (info.section === 'english') {
-    for (let attempt = 0; attempt < 3; attempt++) {
-      checkAborted(opts.signal)
-      const groups = await fetchEnglishGroups(topic as EnglishTopicId, difficulty, count, { signal: opts.signal })
-      groups.forEach((g, i) => assertGroup(g, `${topic} group ${i + 1}`))
-      if (groups.reduce((n, g) => n + g.questions.length, 0) !== count) throw new Error(`${topicLabel(topic)}: wrong question count`)
-      if (isFresh(groups, seen)) return groups
-    }
-    throw new Error(`Couldn't prepare enough distinct ${topicLabel(topic)} questions — please try again.`)
-  }
+  if (info.section === 'english') throw new Error(`${topic} is an English topic: it is fetched together with the rest of the paper's English questions.`)
 
   const gen = generatorFor(topic)
   if (!gen) throw new Error(`No generator for topic: ${topic}`)
@@ -180,35 +171,54 @@ export async function composePaper(req: ComposeRequest, opts: ComposeOptions = {
   }
 
   const total = jobs.reduce((n, j) => n + j.count, 0)
-  let done = 0
-  const report = (label: string, delta: number) => {
-    done += delta
-    opts.onProgress?.({ done, total, label })
-  }
-  opts.onProgress?.({ done: 0, total, label: 'Preparing your paper…' })
+  let syncDone = 0
+  let englishReady = 0
+  let label = 'Preparing your paper…'
+  const emit = () => opts.onProgress?.({ done: syncDone + englishReady, total, label })
+  emit()
 
-  // 2. Quant/Reasoning are instant; English calls the network, so run those jobs a couple at a time.
+  // 2. English is the slow part (network), so its single paper-level request starts first and runs
+  // while the instant Quant/Reasoning generators run; both are awaited before assembling.
   const results: Group[][] = new Array(jobs.length)
   const allIdx = jobs.map((_, i) => i)
   const syncIdx = allIdx.filter((i) => TOPIC_BY_ID[jobs[i].topic].section !== 'english')
   const engIdx = allIdx.filter((i) => TOPIC_BY_ID[jobs[i].topic].section === 'english')
 
+  let englishPending: Promise<Group[][]> | null = null
+  if (engIdx.length > 0) {
+    label = 'Writing and cross-checking English questions…'
+    emit()
+    englishPending = fetchEnglishPaper(
+      engIdx.map((i) => ({ topic: jobs[i].topic as EnglishTopicId, count: jobs[i].count })),
+      difficulty,
+      {
+        signal: opts.signal,
+        onProgress: (ready) => {
+          englishReady = ready
+          emit()
+        },
+      },
+    )
+    englishPending.catch(() => undefined) // if a sync job throws first, don't leave an unhandled rejection behind
+  }
+
   for (const i of syncIdx) {
     results[i] = await produce(jobs[i].topic, rng, difficulty, jobs[i].count, seen, opts)
     remember(results[i], seen)
-    report(topicLabel(jobs[i].topic), jobs[i].count)
+    syncDone += jobs[i].count
+    emit()
   }
-  let next = 0
-  const worker = async () => {
-    while (next < engIdx.length) {
-      const i = engIdx[next++]
-      // `seen` is only read/updated between awaits, so concurrent English jobs can't corrupt it.
-      results[i] = await produce(jobs[i].topic, rng, difficulty, jobs[i].count, seen, opts)
-      remember(results[i], seen)
-      report(topicLabel(jobs[i].topic), jobs[i].count)
-    }
+
+  if (englishPending) {
+    const english = await englishPending
+    engIdx.forEach((i, k) => {
+      const groups = english[k]
+      groups.forEach((g, gi) => assertGroup(g, `${jobs[i].topic} group ${gi + 1}`))
+      if (groups.reduce((n, g) => n + g.questions.length, 0) !== jobs[i].count) throw new Error(`${topicLabel(jobs[i].topic)}: wrong question count`)
+      results[i] = groups
+      remember(groups, seen)
+    })
   }
-  await Promise.all(Array.from({ length: Math.min(2, engIdx.length) }, worker))
 
   // 3. Assemble in blueprint order, assigning ids.
   const questions: MockQuestion[] = []

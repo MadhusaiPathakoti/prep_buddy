@@ -36,3 +36,14 @@ export function pdfFileName(attempt: Attempt): string {
     .replace(/^-|-$/g, '')
   return `prepbuddy-${slug}-${date}.pdf`
 }
+
+export function questionPaperFileName(paper: Attempt['paper'], sectionIndex: number): string {
+  const slug = (t: string) =>
+    t
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-|-$/g, '')
+  // Sectional and topic titles already name the section; only a full paper needs it added.
+  const section = paper.kind === 'full' ? `-${slug(paper.sections[sectionIndex].name)}` : ''
+  return `prepbuddy-${slug(paper.title)}${section}-question-paper.pdf`
+}
