@@ -396,6 +396,7 @@ function simplFind(rng: Rng, d: MockDifficulty): QuestionDraft {
   const path = pathTo(t, leaf) as { node: Bin; side: 'l' | 'r' }[]
   let target = t.v
   const lines: string[] = []
+  const solve: string[] = []
   for (const { node, side } of path) {
     const other = side === 'l' ? node.r : node.l
     const ov = other.v
@@ -405,10 +406,14 @@ function simplFind(rng: Rng, d: MockDifficulty): QuestionDraft {
     else if (node.op === '−') nt = side === 'l' ? fadd(target, ov) : fsub(ov, target)
     else nt = side === 'l' ? fmul(target, ov) : fdiv(ov, target)
     if (other.k === 'b' || other.sr !== fstr(ov)) lines.push(`${render(other, 'sr')} = ${fstr(ov)}`)
+    // The step a student would write: peel off one operation to isolate the part that holds the "?".
+    const child = side === 'l' ? node.l : node.r
+    solve.push(`${render(child, 's', leaf)} = ${fstr(nt)}`)
     target = nt
   }
   ensure(feq(target, leaf.v), 'simplification: backward solve disagrees')
-  const why = `${lines.join('\n')}${lines.length ? '\n' : ''}Working backwards from ${fstr(t.v)}, the missing value is ${fstr(leaf.v)}${saved ? `, so ? = ${fstr(ans)}` : ''}.`
+  const closing = `? = ${fstr(ans)}`
+  const why = [...lines, `${shown} = ${fstr(t.v)}`, ...solve, ...(solve[solve.length - 1] !== closing ? [closing] : [])].join('\n')
   return numQ(rng, { topic: 'simplification', stem: `What will come in place of the question mark (?) in the following question?\n${shown} = ${fstr(t.v)}`, ans, dec: decOf(ans), why, none: 0.15 })
 }
 

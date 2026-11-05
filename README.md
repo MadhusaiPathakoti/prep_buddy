@@ -170,6 +170,17 @@ The pattern and the per-section topic mix are in `src/lib/mocks/blueprints.ts` (
 
 To run the Gemini-backed functions under `npm run dev`, put `GEMINI_API_KEY=...` in `.env.local`; `vite.config.ts` serves `/api/*` locally (it never reaches the browser bundle).
 
+## Daily Dose of Practice
+
+One fixed SBI PO-level quiz per section per day at `/daily`: **Quant (25)**, **Reasoning (25)** and **English (45)**, with no time limit. The paper is a pure function of the date (`src/lib/daily/compose.ts`), and it is cached the first time it is opened, so it is identical on every visit that day, on any device. Reopening a finished section shows the summary, and **Re-attempt** starts a new attempt on the same paper.
+
+- **Quant / Reasoning** come from the mock generators (hard level) seeded from the date: Quant follows the reference practice sheet (simplification, approximation, arithmetic, quadratics, wrong/missing series, one DI set); Reasoning has a seating set, a puzzle set, syllogism, inequality, blood relations, direction, coding and ranking.
+- **English** follows the "English Daily Checklist": 10 error detection, 5 RC, 5 para jumble, 5 cloze, 5 sentence improvement, 5 vocabulary, 3 idioms, 3 phrasal verbs, 4 one-word substitutes. It uses the curated mock bank plus the built-in word banks and needs no network. Each topic walks its pool in a fixed shuffled order, so nothing repeats until the pool is used up (error detection after 4 days, RC and cloze after 8). Add questions to `content/english/` to lengthen the cycle.
+- **Results** reuse the mock result page (score, rank/percentile estimates, breakdown, topic analysis, solution analysis). Daily attempts are kept in their own store (last 45) so they never push full-mock results out.
+- **Download paper (PDF)** — the whole paper with the questions first, then an `Answers:` key and step-by-step `Solutions:`; every page carries the PrepBuddy header, watermark and footer (`src/lib/daily/pdf.ts`).
+
+`npm run verify:daily` builds 40 days of every section and checks counts, determinism, day-to-day variety, validity and the PDF.
+
 ## Development
 
 ```bash

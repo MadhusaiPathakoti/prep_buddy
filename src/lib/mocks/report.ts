@@ -25,7 +25,7 @@ export function pct(n: number, total: number): number {
 
 /** Human label for the kind of mock, used in titles and file names. */
 export function kindLabel(kind: Attempt['paper']['kind']): string {
-  return kind === 'full' ? 'Full-length mock' : kind === 'sectional' ? 'Sectional mock' : 'Topic-wise mock'
+  return kind === 'full' ? 'Full-length mock' : kind === 'sectional' ? 'Sectional mock' : kind === 'daily' ? 'Daily Dose' : 'Topic-wise mock'
 }
 
 export function pdfFileName(attempt: Attempt): string {

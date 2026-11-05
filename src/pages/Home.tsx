@@ -6,6 +6,15 @@ import { QUANT_GAMES } from './Quant'
 
 const modules: { id: string; title: string; description: string; to: string; gameCount: number; icon: string; meta?: string }[] = [
   {
+    id: 'daily',
+    title: 'Daily dose of practice',
+    description: 'One fresh SBI PO-level quiz each day for Quant, Reasoning and English. No time limit, a downloadable paper with full solutions, and re-attempts.',
+    to: '/daily',
+    gameCount: 0,
+    meta: 'Quant · Reasoning · English',
+    icon: '🔥',
+  },
+  {
     id: 'speed-math',
     title: 'Speed Math',
     description: 'Tables, squares, cubes and fraction-to-percentage drills to sharpen your calculation speed and accuracy.',

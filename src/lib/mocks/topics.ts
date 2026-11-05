@@ -51,12 +51,17 @@ export const TOPICS: TopicInfo[] = [
   { id: 'word-swap', section: 'english', label: 'Word Swap', blurb: 'Swap two words to fix the sentence' },
   { id: 'phrase-replacement', section: 'english', label: 'Phrase Replacement', blurb: 'Replace the highlighted phrase' },
   { id: 'match-column', section: 'english', label: 'Match the Column', blurb: 'Pair sentence halves from two columns' },
+  // Daily Dose only (word-bank based)
+  { id: 'vocab-quiz', section: 'english', label: 'Vocabulary', blurb: 'Meaning of a word', dailyOnly: true },
+  { id: 'idioms', section: 'english', label: 'Idioms & Phrases', blurb: 'Meaning of an idiom', dailyOnly: true },
+  { id: 'phrasal-verbs', section: 'english', label: 'Phrasal Verbs', blurb: 'Meaning of a phrasal verb', dailyOnly: true },
+  { id: 'one-word', section: 'english', label: 'One-Word Substitution', blurb: 'One word for a phrase', dailyOnly: true },
 ]
 
 export const TOPIC_BY_ID: Record<string, TopicInfo> = Object.fromEntries(TOPICS.map((t) => [t.id, t]))
 
 export function topicsOf(section: MockSectionId): TopicInfo[] {
-  return TOPICS.filter((t) => t.section === section)
+  return TOPICS.filter((t) => t.section === section && !t.dailyOnly)
 }
 
 export function topicLabel(id: MockTopicId): string {

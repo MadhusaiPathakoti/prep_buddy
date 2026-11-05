@@ -8,6 +8,7 @@
     "build": "tsc -b && vite build",
     "lint": "oxlint",
     "verify:mocks": "tsx scripts/verify-mocks-engine.ts && tsx scripts/verify-mocks-quant.ts && tsx scripts/verify-mocks-reasoning.ts --quiet && tsx scripts/verify-mocks-english.ts",
+    "verify:daily": "tsx scripts/verify-daily.ts",
     "preview": "vite preview"
   },
   "dependencies": {

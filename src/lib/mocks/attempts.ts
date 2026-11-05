@@ -1,5 +1,5 @@
 import { evaluate, type QResponse } from './scoring'
-import type { MockExamId, MockKind, MockPaper } from './types'
+import type { MockExamId, MockKind, MockPaper, MockSectionId } from './types'
 
 // Persistence for the Mocks module. An in-progress attempt is autosaved under one key so a refresh or
 // accidental tab close resumes the test (the clock keeps running, as it would in a real exam). Finished
@@ -47,6 +47,10 @@ export interface AttemptSummary {
   incorrect: number
   unattempted: number
   accuracy: number
+  /** Daily Dose attempts only. */
+  dateKey?: string
+  section?: MockSectionId
+  attemptNo?: number
 }
 
 function read<T>(key: string): T | null {
@@ -161,6 +165,7 @@ export function summarize(attempt: Attempt): AttemptSummary {
     incorrect: sc.overall.incorrect,
     unattempted: sc.overall.unattempted,
     accuracy: sc.overall.accuracy,
+    ...(attempt.paper.daily ? { dateKey: attempt.paper.daily.dateKey, section: attempt.paper.daily.section, attemptNo: attempt.attemptNo } : {}),
   }
 }
 
@@ -181,5 +186,45 @@ export function saveFinished(attempt: Attempt): boolean {
   write(INDEX_KEY, index)
   const active = loadActive()
   if (active && active.id === attempt.id) clearActive()
+  return true
+}
+
+// ---- Daily Dose attempts. They share the per-attempt key (so the result page can load them like any mock) but keep
+// their own index and cap, so a streak of daily practice never pushes full-mock results out of storage.
+
+const DAILY_INDEX_KEY = 'prepbuddy:daily:index'
+const MAX_DAILY = 45
+
+function readDailyIndex(): AttemptSummary[] {
+  const idx = read<AttemptSummary[]>(DAILY_INDEX_KEY)
+  return Array.isArray(idx) ? idx : []
+}
+
+export function listDailyFinished(): AttemptSummary[] {
+  return readDailyIndex().sort((a, b) => b.finishedAt - a.finishedAt)
+}
+
+export function deleteDailyFinished(id: string) {
+  try {
+    localStorage.removeItem(`${PREFIX}:attempt:${id}`)
+  } catch {
+    // ignore
+  }
+  write(DAILY_INDEX_KEY, readDailyIndex().filter((s) => s.id !== id))
+}
+
+/** Stores a submitted Daily Dose attempt. Returns false only if nothing could be persisted. */
+export function saveFinishedDaily(attempt: Attempt): boolean {
+  const summary = summarize(attempt)
+  let index = [summary, ...readDailyIndex().filter((s) => s.id !== attempt.id)].sort((a, b) => b.finishedAt - a.finishedAt)
+  while (index.length > MAX_DAILY) deleteDailyFinished((index.pop() as AttemptSummary).id)
+  for (;;) {
+    if (write(`${PREFIX}:attempt:${attempt.id}`, attempt)) break
+    const oldest = index.filter((s) => s.id !== attempt.id).pop()
+    if (!oldest) return false
+    index = index.filter((s) => s.id !== oldest.id)
+    deleteDailyFinished(oldest.id)
+  }
+  write(DAILY_INDEX_KEY, index)
   return true
 }

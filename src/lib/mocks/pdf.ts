@@ -26,7 +26,7 @@ const CYAN: RGB = [6, 182, 212]
 const ORANGE: RGB = [234, 88, 12]
 
 const MAP: Record<string, string> = {
-  '−': '-', '–': '-', '—': '-', '‘': "'", '’': "'", '“': '"', '”': '"', '…': '...', '•': '*', '√': 'sqrt ', '≤': '<=', '≥': '>=', '≠': '!=', '≈': '~', '₹': 'Rs.', '→': '->', '←': '<-', '∴': 'therefore', '✓': 'OK', '✕': 'x', '≡': '=', '∠': 'angle', 'π': 'pi', '∞': 'inf',
+  '−': '-', '–': '-', '—': '-', '‘': "'", '’': "'", '“': '"', '”': '"', '…': '...', '•': '*', '√': 'sqrt ', '≤': '<=', '≥': '>=', '≠': '!=', '≈': '~', '₹': 'Rs.', '→': '->', '←': '<-', '∴': 'therefore', '✓': 'OK', '✕': 'x', '≡': '=', '∠': 'angle', 'π': 'pi', '∞': 'inf', '∛': 'cbrt ', '⇒': '=>', '⌊': 'floor(', '⌋': ')', '⁰': '^0',
 }
 
 /** Maps text onto characters the built-in PDF fonts can draw; anything else becomes "?". */
@@ -394,7 +394,7 @@ function stimulusParts(part: StimulusPart): { kind: 'text'; lines: string[]; bol
 }
 
 /** Top-to-bottom text layout on portrait pages: tracks the cursor, breaks pages, wraps text, draws a set's stimulus. */
-function createFlow(doc: jsPDF, startY = 20) {
+export function createFlow(doc: jsPDF, startY = 20) {
   const W = doc.internal.pageSize.getWidth()
   const H = doc.internal.pageSize.getHeight()
   const M = 14

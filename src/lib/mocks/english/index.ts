@@ -599,7 +599,7 @@ function applyVerdicts(topic: EnglishTopicId, g: Group, states: (QState | undefi
   return { stimulus: g.stimulus, questions }
 }
 
-function trimGroup(topic: EnglishTopicId, g: Group, keep: number): Group {
+export function trimGroup(topic: EnglishTopicId, g: Group, keep: number): Group {
   if (g.questions.length <= keep) return g
   if (topic === 'cloze') {
     const fill = new Set<number>()

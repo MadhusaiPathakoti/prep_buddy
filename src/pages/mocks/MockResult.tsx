@@ -5,6 +5,7 @@ import { loadAnyAttempt, loadActive, newAttempt, saveActive } from '../../lib/mo
 import { COHORT_DISCLAIMER, TIERS, type Benchmark } from '../../lib/mocks/cohort'
 import { buildReport, kindLabel, pct, pdfFileName } from '../../lib/mocks/report'
 import { formatHms, formatScore, type QuestionResult } from '../../lib/mocks/scoring'
+import { downloadDailyPdf } from '../daily/downloadPdf'
 
 type Tab = 'overview' | 'all' | 'correct' | 'incorrect' | 'unattempted' | 'marked' | 'topics'
 
@@ -67,6 +68,7 @@ export default function MockResult() {
   const [tab, setTab] = useState<Tab>('overview')
   const [downloading, setDownloading] = useState(false)
   const [pdfError, setPdfError] = useState<string | null>(null)
+  const [paperDownloading, setPaperDownloading] = useState(false)
 
   const attempt = useMemo(() => (attemptId ? loadAnyAttempt(attemptId) : null), [attemptId])
   const report = useMemo(() => (attempt && attempt.phase === 'finished' ? buildReport(attempt) : null), [attempt])
@@ -91,7 +93,25 @@ export default function MockResult() {
     }
   }
 
+  const daily = paper.daily
+  const downloadPaper = async () => {
+    setPaperDownloading(true)
+    setPdfError(null)
+    try {
+      await downloadDailyPdf(paper)
+    } catch (e) {
+      setPdfError(e instanceof Error ? e.message : 'Could not build the PDF.')
+    } finally {
+      setPaperDownloading(false)
+    }
+  }
+
   const reattempt = () => {
+    // Daily Dose: the same day's paper again, as a fresh untimed attempt.
+    if (daily) {
+      navigate(`/daily/${daily.section}?date=${daily.dateKey}&retake=1`)
+      return
+    }
     const existing = loadActive()
     if (existing && existing.phase === 'running' && !window.confirm('You have an unfinished test in progress. Starting this re-attempt will discard it. Continue?')) return
     const next = newAttempt(paper, attempt.attemptNo + 1)
@@ -120,8 +140,8 @@ export default function MockResult() {
     <div className="mx-auto max-w-5xl px-4 py-8">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
-          <Link to="/mocks/history" className="text-sm font-medium text-indigo-600 dark:text-indigo-400">
-            ← Results
+          <Link to={daily ? '/daily' : '/mocks/history'} className="text-sm font-medium text-indigo-600 dark:text-indigo-400">
+            {daily ? '← Daily Dose' : '← Results'}
           </Link>
           <h1 className="mt-1 text-2xl font-extrabold text-slate-900 dark:text-slate-100">{paper.title}</h1>
           <p className="text-sm text-slate-500 dark:text-slate-400">
@@ -135,6 +155,11 @@ export default function MockResult() {
           <button type="button" onClick={() => setTab('all')} className="rounded-xl bg-violet-600 px-4 py-2 text-sm font-semibold text-white hover:bg-violet-700">
             Solution Analysis
           </button>
+          {daily && (
+            <button type="button" onClick={downloadPaper} disabled={paperDownloading} className="rounded-xl border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50 disabled:opacity-60 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700">
+              {paperDownloading ? 'Building PDF…' : '⬇ Paper + solutions'}
+            </button>
+          )}
           <button type="button" onClick={downloadPdf} disabled={downloading} className="rounded-xl bg-indigo-600 px-4 py-2 text-sm font-semibold text-white hover:bg-indigo-700 disabled:opacity-60">
             {downloading ? 'Building PDF…' : '⬇ Download PDF'}
           </button>

@@ -55,6 +55,8 @@ import MockLaunch from './pages/mocks/MockLaunch'
 import MockTest from './pages/mocks/MockTest'
 import MockResult from './pages/mocks/MockResult'
 import MockHistory from './pages/mocks/MockHistory'
+import DailyHome from './pages/daily/DailyHome'
+import DailyQuiz from './pages/daily/DailyQuiz'
 
 export default function App() {
   return (
@@ -110,6 +112,8 @@ export default function App() {
           <Route path="/english/cloze-test" element={<ClozeTest />} />
           <Route path="/english/para-jumble" element={<ParaJumble />} />
           <Route path="/english/sentence-improvement" element={<SentenceImprovement />} />
+          <Route path="/daily" element={<DailyHome />} />
+          <Route path="/daily/:section" element={<DailyQuiz />} />
           <Route path="/mocks" element={<MocksHome />} />
           <Route path="/mocks/history" element={<MockHistory />} />
           <Route path="/mocks/result/:attemptId" element={<MockResult />} />

@@ -58,7 +58,10 @@ export type EnglishTopicId =
   | 'phrase-replacement'
   | 'match-column'
 
-export type MockTopicId = QuantTopicId | ReasoningTopicId | EnglishTopicId
+/** English topics that exist only in the Daily Dose paper (built from the word banks, not the mock pipeline). */
+export type DailyEnglishTopicId = 'vocab-quiz' | 'idioms' | 'phrasal-verbs' | 'one-word'
+
+export type MockTopicId = QuantTopicId | ReasoningTopicId | EnglishTopicId | DailyEnglishTopicId
 
 /** One block of shared content shown beside a question (RC passage, DI table/chart, puzzle statement…). */
 export type StimulusPart =
@@ -112,7 +115,8 @@ export interface MockSection {
   questionIds: string[]
 }
 
-export type MockKind = 'full' | 'sectional' | 'topic'
+/** 'daily' = the Daily Dose practice paper: one fixed paper per section per day, no time limit. */
+export type MockKind = 'full' | 'sectional' | 'topic' | 'daily'
 
 export interface MockPaper {
   id: string
@@ -130,6 +134,8 @@ export interface MockPaper {
   sections: MockSection[]
   questions: MockQuestion[]
   sets: Record<string, Stimulus>
+  /** Daily Dose papers only: which day and section this paper belongs to. */
+  daily?: { dateKey: string; section: MockSectionId }
 }
 
 export interface TopicInfo {
@@ -138,4 +144,6 @@ export interface TopicInfo {
   label: string
   /** Short description shown on the topic picker. */
   blurb: string
+  /** Not offered in the Mocks topic picker (used by the Daily Dose only). */
+  dailyOnly?: boolean
 }
