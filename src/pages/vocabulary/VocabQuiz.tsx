@@ -54,6 +54,7 @@ export default function VocabQuiz() {
       title="Vocabulary Quiz"
       description="See a word, pick its correct meaning. Stuck? Use a hint."
       noun="words"
+      pronounce="term"
     />
   )
 }

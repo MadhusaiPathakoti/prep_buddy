@@ -65,6 +65,7 @@ export default function VocabLibrary() {
       addAction={{ to: '/english/vocabulary/add', label: '+ Add a word' }}
       onDelete={handleDelete}
       onChangeDifficulty={handleChangeDifficulty}
+      pronounce="term"
     />
   )
 }

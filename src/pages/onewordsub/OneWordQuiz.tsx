@@ -54,6 +54,7 @@ export default function OneWordQuiz() {
       title="One Word Substitution Quiz"
       description="See a phrase, pick the one word that means the same. Stuck? Use a hint."
       noun="phrases"
+      pronounce="options"
     />
   )
 }

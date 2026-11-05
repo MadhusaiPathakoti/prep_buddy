@@ -3,6 +3,7 @@ import type { MCQQuestion } from '../lib/generators'
 import { addSession } from '../lib/storage'
 import { formatTime } from '../lib/format'
 import Stat from './Stat'
+import { Phonetic, SpeakerButton } from './Pronounce'
 import ReviewList, { type ReviewItem } from './ReviewList'
 
 interface MCQQuizRunnerProps {
@@ -12,9 +13,11 @@ interface MCQQuizRunnerProps {
   onRestart: () => void
   /** When true, a question answered correctly (with no prior wrong attempt) is also listed in the review, below the wrong/skipped ones. */
   showCorrectInReview?: boolean
+  /** Adds speaker buttons: `term` next to the question word (with its IPA), `options` next to each answer that is itself a single word. */
+  pronounce?: { term?: boolean; options?: boolean }
 }
 
-export default function MCQQuizRunner({ gameId, questions, onExit, onRestart, showCorrectInReview = false }: MCQQuizRunnerProps) {
+export default function MCQQuizRunner({ gameId, questions, onExit, onRestart, showCorrectInReview = false, pronounce }: MCQQuizRunnerProps) {
   const [index, setIndex] = useState(0)
   const [eliminated, setEliminated] = useState<Set<string>>(new Set())
   const [justCorrect, setJustCorrect] = useState<string | null>(null)
@@ -186,7 +189,17 @@ export default function MCQQuizRunner({ gameId, questions, onExit, onRestart, sh
           {current.instruction && (
             <div className="mb-2 text-xs font-semibold uppercase tracking-wide text-indigo-500 dark:text-indigo-400">{current.instruction}</div>
           )}
-          <div className="whitespace-pre-line text-2xl font-bold leading-snug tracking-tight text-slate-900 dark:text-slate-100 sm:text-3xl">{current.term}</div>
+          {pronounce?.term ? (
+            <>
+              <div className="flex items-center justify-center gap-3">
+                <div className="whitespace-pre-line text-2xl font-bold leading-snug tracking-tight text-slate-900 dark:text-slate-100 sm:text-3xl">{current.term}</div>
+                <SpeakerButton key={current.id} word={current.term} />
+              </div>
+              <Phonetic key={current.id} word={current.term} className="mt-1" />
+            </>
+          ) : (
+            <div className="whitespace-pre-line text-2xl font-bold leading-snug tracking-tight text-slate-900 dark:text-slate-100 sm:text-3xl">{current.term}</div>
+          )}
 
           {!hintShown && !revealAnswer && (
             <button
@@ -205,13 +218,14 @@ export default function MCQQuizRunner({ gameId, questions, onExit, onRestart, sh
             const isCorrectAnswer = option === current.correctMeaning
             const showAsCorrect = justCorrect === option || (revealAnswer && isCorrectAnswer)
             const showAsWrong = flashWrong === option
-            return (
+            const optionButton = (
               <button
                 key={option}
                 onClick={() => handleOptionClick(option)}
                 disabled={isEliminated || locked || revealAnswer}
                 className={[
                   'rounded-xl border-2 px-4 py-3 text-left text-sm font-medium transition-colors',
+                  pronounce?.options ? 'min-w-0 flex-1' : '',
                   showAsCorrect ? 'border-emerald-400 bg-emerald-50 dark:bg-emerald-500/10 text-emerald-800 dark:text-emerald-300 animate-pop' : '',
                   showAsWrong ? 'border-rose-400 bg-rose-50 dark:bg-rose-500/10 text-rose-800 dark:text-rose-300 animate-shake' : '',
                   !showAsCorrect && !showAsWrong && isEliminated ? 'border-slate-100 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-300 dark:text-slate-600 line-through' : '',
@@ -220,6 +234,14 @@ export default function MCQQuizRunner({ gameId, questions, onExit, onRestart, sh
               >
                 {option}
               </button>
+            )
+            if (!pronounce?.options) return optionButton
+            // The speaker is a sibling (not nested) so hearing a word never counts as picking it.
+            return (
+              <div key={option} className="flex items-center gap-2">
+                {optionButton}
+                <SpeakerButton word={option} />
+              </div>
             )
           })}
         </div>

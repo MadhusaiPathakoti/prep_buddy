@@ -65,6 +65,7 @@ export default function OneWordLibrary() {
       addAction={{ to: '/english/one-word-substitution/add', label: '+ Add a word' }}
       onDelete={handleDelete}
       onChangeDifficulty={handleChangeDifficulty}
+      pronounce="meaning"
     />
   )
 }

@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import FavoriteRecencyChips from '../../components/FavoriteRecencyChips'
+import { Phonetic, SpeakerButton } from '../../components/Pronounce'
 import { deleteWordEntry, getFullWordBank, updateWordEntryDifficulty } from '../../lib/wordBankStore'
 import { formatFavoritedDate, getFavorites, isFavoritedWithin, toggleFavorite, type FavoriteMap } from '../../lib/favorites'
 import type { Difficulty, WordEntry } from '../../lib/types'
@@ -49,6 +50,26 @@ function compareEntries(a: WordEntry, b: WordEntry, field: SortField, favorites:
   if (field === 'difficulty') return DIFFICULTY_RANK[a.difficulty] - DIFFICULTY_RANK[b.difficulty]
   if (field === 'favorited') return timeOf(favorites.get(a.id)) - timeOf(favorites.get(b.id))
   return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+}
+
+/** A "Synonyms: a 🔊, b 🔊" line — each word gets its own small speaker button. */
+function WordList({ label, labelClass, words }: { label: string; labelClass: string; words: string[] }) {
+  return (
+    <p>
+      <span className={`font-semibold ${labelClass}`}>{label}: </span>
+      {words.length === 0 ? (
+        <span className="text-slate-600 dark:text-slate-300">—</span>
+      ) : (
+        words.map((word, i) => (
+          <span key={word} className="whitespace-nowrap text-slate-600 dark:text-slate-300">
+            {word}
+            <SpeakerButton word={word} size="sm" className="ml-0.5 align-middle" />
+            {i < words.length - 1 && ', '}
+          </span>
+        ))
+      )}
+    </p>
+  )
 }
 
 function formatDate(iso: string): string {
@@ -251,10 +272,13 @@ export default function WordBankLibrary() {
           return (
             <div key={w.id} className="rounded-2xl bg-white dark:bg-slate-800 p-4 shadow-sm ring-1 ring-slate-200 dark:ring-slate-700">
               <div className="flex items-center justify-between gap-2">
-                <h3 className="text-lg font-bold text-slate-900 dark:text-slate-100">
-                  {w.word}
-                  {w.partOfSpeech && <span className="ml-1 font-normal text-slate-400 dark:text-slate-500">({w.partOfSpeech})</span>}
-                </h3>
+                <div className="flex min-w-0 items-center gap-2">
+                  <h3 className="text-lg font-bold text-slate-900 dark:text-slate-100">
+                    {w.word}
+                    {w.partOfSpeech && <span className="ml-1 font-normal text-slate-400 dark:text-slate-500">({w.partOfSpeech})</span>}
+                  </h3>
+                  <SpeakerButton word={w.word} />
+                </div>
                 <div className="flex shrink-0 items-center gap-1.5">
                   <button
                     onClick={() => handleToggleFavorite(w.id)}
@@ -289,18 +313,13 @@ export default function WordBankLibrary() {
                   {favoritedAt ? `★ Favourited ${formatFavoritedDate(favoritedAt)}` : '★ Favourited earlier'}
                 </p>
               )}
+              <Phonetic word={w.word} className="mt-0.5" />
               <p className="mt-1 text-sm text-slate-600 dark:text-slate-300">{w.meaning}</p>
               {w.example && <p className="mt-2 text-xs italic text-slate-400 dark:text-slate-500">"{w.example}"</p>}
 
               <div className="mt-3 flex flex-col gap-1.5 text-sm">
-                <p>
-                  <span className="font-semibold text-indigo-600 dark:text-indigo-400">Synonyms: </span>
-                  <span className="text-slate-600 dark:text-slate-300">{w.synonyms.length ? w.synonyms.join(', ') : '—'}</span>
-                </p>
-                <p>
-                  <span className="font-semibold text-rose-600 dark:text-rose-400">Antonyms: </span>
-                  <span className="text-slate-600 dark:text-slate-300">{w.antonyms.length ? w.antonyms.join(', ') : '—'}</span>
-                </p>
+                <WordList label="Synonyms" labelClass="text-indigo-600 dark:text-indigo-400" words={w.synonyms} />
+                <WordList label="Antonyms" labelClass="text-rose-600 dark:text-rose-400" words={w.antonyms} />
               </div>
 
               <div className="mt-3 flex items-center justify-between">

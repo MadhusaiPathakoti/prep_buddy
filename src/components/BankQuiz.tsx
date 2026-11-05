@@ -47,9 +47,11 @@ interface BankQuizProps {
   title: string
   description: string
   noun: string
+  /** Speaker buttons in the quiz: next to the question word ('term'), or next to each single-word answer ('options'). */
+  pronounce?: 'term' | 'options'
 }
 
-export default function BankQuiz({ gameId, bankKey, bank, backTo, backLabel, title, description, noun }: BankQuizProps) {
+export default function BankQuiz({ gameId, bankKey, bank, backTo, backLabel, title, description, noun, pronounce }: BankQuizProps) {
   const [difficulty, setDifficulty] = useState<Toughness>('easy')
   const [count, setCount] = useState(10)
   const [favoritesOnly, setFavoritesOnly] = useState(false)
@@ -95,6 +97,7 @@ export default function BankQuiz({ gameId, bankKey, bank, backTo, backLabel, tit
         key={sessionKey}
         gameId={gameId}
         questions={questions}
+        pronounce={pronounce ? { term: pronounce === 'term', options: pronounce === 'options' } : undefined}
         onExit={() => setQuestions(null)}
         onRestart={() => {
           setQuestions(generate())

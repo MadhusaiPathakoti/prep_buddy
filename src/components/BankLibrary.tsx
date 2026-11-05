@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import FavoriteRecencyChips from './FavoriteRecencyChips'
+import { Phonetic, SpeakerButton } from './Pronounce'
 import { formatFavoritedDate, getFavorites, isFavoritedWithin, toggleFavorite, type FavoriteMap } from '../lib/favorites'
 import type { BankEntry, Difficulty } from '../lib/types'
 
@@ -60,9 +61,15 @@ interface BankLibraryProps {
   onChangeDifficulty?: (entry: BankEntry, difficulty: Difficulty) => Promise<void>
   /** Label for the `meaning` field when an entry also has its own `definition` (e.g. "Opposite", "Synonym"). */
   answerLabel?: string
+  /**
+   * Adds a speaker button and IPA phonetics to each card. 'term' pronounces the entry's `term`
+   * (vocabulary); 'meaning' pronounces its `meaning`, for banks where that holds the single
+   * word (one word substitution). Leave unset for phrase banks (idioms, phrasal verbs).
+   */
+  pronounce?: 'term' | 'meaning'
 }
 
-export default function BankLibrary({ bank, bankKey, backTo, backLabel, title, nounPlural, addAction, onDelete, onChangeDifficulty, answerLabel }: BankLibraryProps) {
+export default function BankLibrary({ bank, bankKey, backTo, backLabel, title, nounPlural, addAction, onDelete, onChangeDifficulty, answerLabel, pronounce }: BankLibraryProps) {
   const [filter, setFilter] = useState<FilterId>('all')
   const [query, setQuery] = useState('')
   const [sortField, setSortField] = useState<SortField>('alphabetical')
@@ -206,10 +213,13 @@ export default function BankLibrary({ bank, bankKey, backTo, backLabel, title, n
           return (
             <div key={w.id} className="rounded-2xl bg-white dark:bg-slate-800 p-4 shadow-sm ring-1 ring-slate-200 dark:ring-slate-700">
               <div className="flex items-center justify-between gap-2">
-                <h3 className="text-lg font-bold text-slate-900 dark:text-slate-100">
-                  {w.term}
-                  {w.partOfSpeech && <span className="ml-1 font-normal text-slate-400 dark:text-slate-500">({w.partOfSpeech})</span>}
-                </h3>
+                <div className="flex min-w-0 items-center gap-2">
+                  <h3 className="text-lg font-bold text-slate-900 dark:text-slate-100">
+                    {w.term}
+                    {w.partOfSpeech && <span className="ml-1 font-normal text-slate-400 dark:text-slate-500">({w.partOfSpeech})</span>}
+                  </h3>
+                  {pronounce === 'term' && <SpeakerButton word={w.term} />}
+                </div>
                 <div className="flex shrink-0 items-center gap-1.5">
                   <button
                     onClick={() => handleToggleFavorite(w.id)}
@@ -250,6 +260,7 @@ export default function BankLibrary({ bank, bankKey, backTo, backLabel, title, n
                   {favoritedAt ? `★ Favourited ${formatFavoritedDate(favoritedAt)}` : '★ Favourited earlier'}
                 </p>
               )}
+              {pronounce === 'term' && <Phonetic word={w.term} className="mt-0.5" />}
               {w.definition ? (
                 <>
                   <p className="mt-1 text-sm text-slate-600 dark:text-slate-300">{w.definition}</p>
@@ -257,6 +268,14 @@ export default function BankLibrary({ bank, bankKey, backTo, backLabel, title, n
                     {answerLabel ?? 'Answer'}: {w.meaning}
                   </p>
                 </>
+              ) : pronounce === 'meaning' ? (
+                <div className="mt-1">
+                  <div className="flex items-center gap-2">
+                    <p className="text-sm font-semibold text-slate-600 dark:text-slate-300">{w.meaning}</p>
+                    <SpeakerButton word={w.meaning} />
+                  </div>
+                  <Phonetic word={w.meaning} className="mt-0.5" />
+                </div>
               ) : (
                 <p className="mt-1 text-sm text-slate-600 dark:text-slate-300">{w.meaning}</p>
               )}

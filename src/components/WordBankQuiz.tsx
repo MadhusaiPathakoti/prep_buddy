@@ -96,6 +96,7 @@ export default function WordBankQuiz({ gameId, field, bank, backTo, backLabel, t
         key={sessionKey}
         gameId={gameId}
         questions={questions}
+        pronounce={{ term: true, options: true }}
         onExit={() => setQuestions(null)}
         onRestart={() => {
           setQuestions(generate())
