@@ -28,6 +28,27 @@ export default function GrammarHub() {
       cta: 'Play →',
     },
     {
+      to: '/english/grammar-rules/fix-it',
+      icon: '✍️',
+      title: 'Fix-It Flip Cards',
+      description: 'Rewrite a wrong sentence from memory, then flip the card to compare with the book and the rule.',
+      cta: 'Practise →',
+    },
+    {
+      to: '/english/grammar-rules/duel',
+      icon: '⚡',
+      title: 'Rule Duel',
+      description: 'Rapid-fire Correct or Incorrect against the clock. Build streaks, and three wrong answers end it.',
+      cta: 'Duel →',
+    },
+    {
+      to: '/english/grammar-rules/sort',
+      icon: '🗂️',
+      title: 'Rule Sorting',
+      description: 'Drag a pile of sentences into Correct and Incorrect buckets, one rule at a time.',
+      cta: 'Sort →',
+    },
+    {
       to: '/english/grammar-rules/map',
       icon: '🗺️',
       title: 'Mastery Map',
@@ -44,7 +65,7 @@ export default function GrammarHub() {
       <div className="mb-6 mt-2">
         <h1 className="text-3xl font-extrabold text-slate-900 dark:text-slate-100">Grammar Rules</h1>
         <p className="mt-2 text-slate-500 dark:text-slate-400">
-          Learn, recognise and remember all {RULES.length} rules: read the rule, name it in a sentence, and review it on a schedule.
+          Learn, recognise, apply and remember all {RULES.length} rules: read each rule, name it in a sentence, fix mistakes from memory, race the clock, and review on a schedule.
         </p>
       </div>
 

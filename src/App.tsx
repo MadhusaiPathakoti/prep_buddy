@@ -54,6 +54,9 @@ import RuleLab from './pages/grammar/RuleLab'
 import RuleCard from './pages/grammar/RuleCard'
 import SpotTheRule from './pages/grammar/SpotTheRule'
 import MasteryMap from './pages/grammar/MasteryMap'
+import FixIt from './pages/grammar/FixIt'
+import RuleDuel from './pages/grammar/RuleDuel'
+import RuleSort from './pages/grammar/RuleSort'
 import MocksHome from './pages/mocks/MocksHome'
 import MockExam from './pages/mocks/MockExam'
 import MockLaunch from './pages/mocks/MockLaunch'
@@ -121,6 +124,9 @@ export default function App() {
           <Route path="/english/grammar-rules/lab" element={<RuleLab />} />
           <Route path="/english/grammar-rules/lab/:id" element={<RuleCard />} />
           <Route path="/english/grammar-rules/spot" element={<SpotTheRule />} />
+          <Route path="/english/grammar-rules/fix-it" element={<FixIt />} />
+          <Route path="/english/grammar-rules/duel" element={<RuleDuel />} />
+          <Route path="/english/grammar-rules/sort" element={<RuleSort />} />
           <Route path="/english/grammar-rules/map" element={<MasteryMap />} />
           <Route path="/daily" element={<DailyHome />} />
           <Route path="/daily/:section" element={<DailyQuiz />} />

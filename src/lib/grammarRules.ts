@@ -231,8 +231,12 @@ function questionFor(rule: GrammarRule): SpotQuestion | null {
   return { id: `${rule.id}-i-${sentence.slice(0, 12)}`, ruleId: rule.id, kind: 'illustrates', sentence, options: pickOptions(rule) }
 }
 
-/** Pick which rules to drill: scope first, then due/struggling rules ahead of unseen ones. */
-export function buildSpotQuestions(scope: SpotScope, count: number): SpotQuestion[] {
+export function isSpotScope(value: string | null): value is SpotScope {
+  return value === 'all' || value === 'due' || value === 'weak' || (GRAMMAR_CATEGORIES as readonly string[]).includes(value ?? '')
+}
+
+/** The rules a scope covers, struggling/due ones first, then unseen ones, shuffled within each tier. */
+export function rankRules(scope: SpotScope): GrammarRule[] {
   const progress = loadProgress()
   let pool = RULES
   if (scope === 'due') pool = RULES.filter((r) => isDue(progress[r.id]))
@@ -248,7 +252,12 @@ export function buildSpotQuestions(scope: SpotScope, count: number): SpotQuestio
     return 3
   }
   // Shuffle first so equal-priority rules come out in a different order every session.
-  const ranked = shuffle(pool).sort((a, b) => priority(a) - priority(b))
+  return shuffle(pool).sort((a, b) => priority(a) - priority(b))
+}
+
+/** Pick which rules to drill: scope first, then due/struggling rules ahead of unseen ones. */
+export function buildSpotQuestions(scope: SpotScope, count: number): SpotQuestion[] {
+  const ranked = rankRules(scope)
   const questions: SpotQuestion[] = []
   for (const rule of ranked.slice(0, count)) {
     const q = questionFor(rule)
@@ -280,4 +289,92 @@ export function buildRuleCheck(rule: GrammarRule, size = 3): CheckQuestion[] {
   const spare = [...badPick.slice(wantBad), ...goodPick.slice(size - wantBad)]
   while (picked.length < size && spare.length > 0) picked.push(spare.shift()!)
   return shuffle(picked)
+}
+
+// ─── Fix-It Flip Cards ───────────────────────────────────────────────────────
+
+export interface FixCard {
+  id: string
+  ruleId: number
+  wrong: string
+  right: string
+}
+
+/** One wrong sentence per rule (only rules that show an Incorrect example can be fixed). */
+export function buildFixCards(scope: SpotScope, count: number): FixCard[] {
+  const cards: FixCard[] = []
+  for (const rule of rankRules(scope)) {
+    if (cards.length >= count) break
+    if (rule.pairs.length === 0) continue
+    const pair = rule.pairs[Math.floor(Math.random() * rule.pairs.length)]
+    cards.push({ id: `${rule.id}-${pair.wrong.slice(0, 12)}`, ruleId: rule.id, wrong: pair.wrong, right: pair.right })
+  }
+  return shuffle(cards)
+}
+
+/** Loose comparison so a typed fix that matches the book ignoring case/punctuation/spacing counts. */
+export function normalizeSentence(s: string): string {
+  return s
+    .toLowerCase()
+    .replace(/[‘’]/g, "'")
+    .replace(/[^a-z0-9' ]+/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim()
+}
+
+// ─── Rule Duel ───────────────────────────────────────────────────────────────
+
+export interface DuelItem {
+  id: string
+  ruleId: number
+  sentence: string
+  isCorrect: boolean
+  fix?: string
+}
+
+/** A shuffled stream of correct/incorrect sentences, drawn from up to 2 per rule across the scope. */
+export function buildDuelItems(scope: SpotScope, count: number): DuelItem[] {
+  const items: DuelItem[] = []
+  let n = 0
+  for (const rule of rankRules(scope)) {
+    const wrongs = shuffle(rule.pairs)
+    const rights = shuffle([...rule.pairs.map((p) => p.right), ...rule.correct])
+    if (wrongs[0]) items.push({ id: `d${n++}`, ruleId: rule.id, sentence: wrongs[0].wrong, isCorrect: false, fix: wrongs[0].right })
+    if (rights[0]) items.push({ id: `d${n++}`, ruleId: rule.id, sentence: rights[0], isCorrect: true })
+    if (items.length >= count) break
+  }
+  return shuffle(items).slice(0, count)
+}
+
+// ─── Rule Sorting ────────────────────────────────────────────────────────────
+
+export interface SortItem {
+  id: string
+  sentence: string
+  isCorrect: boolean
+  fix?: string
+}
+
+export interface SortRound {
+  ruleId: number
+  items: SortItem[]
+}
+
+/** One round per rule: a mixed handful of right and wrong sentences to sort into two buckets. */
+export function buildSortRounds(scope: SpotScope, rounds: number, perRound = 6): SortRound[] {
+  const out: SortRound[] = []
+  for (const rule of rankRules(scope)) {
+    if (out.length >= rounds) break
+    if (rule.pairs.length === 0) continue
+    const half = Math.floor(perRound / 2)
+    const bad = shuffle(rule.pairs).slice(0, half)
+    const goodPool = shuffle([...rule.pairs.map((p) => p.right), ...rule.correct])
+    const good = goodPool.slice(0, perRound - bad.length)
+    const items: SortItem[] = [
+      ...bad.map((p, i) => ({ id: `w${i}`, sentence: p.wrong, isCorrect: false, fix: p.right })),
+      ...good.map((s, i) => ({ id: `g${i}`, sentence: s, isCorrect: true })),
+    ]
+    if (items.length >= 2) out.push({ ruleId: rule.id, items: shuffle(items) })
+  }
+  return out
 }
