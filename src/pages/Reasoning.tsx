@@ -51,6 +51,13 @@ export const REASONING_GAMES = [
     to: '/reasoning/direction-sense',
     icon: '🧭',
   },
+  {
+    id: 'ranking-order',
+    title: 'Ranking & Order',
+    description: 'Positions in a row or class, plus ordering sets with comparisons — each puzzle has exactly one answer.',
+    to: '/reasoning/ranking-order',
+    icon: '🏅',
+  },
 ]
 
 export default function Reasoning() {
