@@ -3,6 +3,13 @@ import { getSummary } from '../lib/storage'
 
 export const ENGLISH_GAMES = [
   {
+    id: 'grammar-rules',
+    title: 'Grammar Rules',
+    description: 'Learn all 120 rules one by one, name the rule behind a sentence, and track mastery with spaced-repetition reviews.',
+    to: '/english/grammar-rules',
+    icon: '📐',
+  },
+  {
     id: 'vocabulary',
     title: 'Vocabulary',
     description: 'Learn words from the bank, then test yourself at easy, medium, or hard.',

@@ -49,6 +49,11 @@ import ClozeTest from './pages/games/ClozeTest'
 import ParaJumble from './pages/games/ParaJumble'
 import SentenceImprovement from './pages/games/SentenceImprovement'
 import LcmHcfSimplification from './pages/games/LcmHcfSimplification'
+import GrammarHub from './pages/grammar/GrammarHub'
+import RuleLab from './pages/grammar/RuleLab'
+import RuleCard from './pages/grammar/RuleCard'
+import SpotTheRule from './pages/grammar/SpotTheRule'
+import MasteryMap from './pages/grammar/MasteryMap'
 import MocksHome from './pages/mocks/MocksHome'
 import MockExam from './pages/mocks/MockExam'
 import MockLaunch from './pages/mocks/MockLaunch'
@@ -112,6 +117,11 @@ export default function App() {
           <Route path="/english/cloze-test" element={<ClozeTest />} />
           <Route path="/english/para-jumble" element={<ParaJumble />} />
           <Route path="/english/sentence-improvement" element={<SentenceImprovement />} />
+          <Route path="/english/grammar-rules" element={<GrammarHub />} />
+          <Route path="/english/grammar-rules/lab" element={<RuleLab />} />
+          <Route path="/english/grammar-rules/lab/:id" element={<RuleCard />} />
+          <Route path="/english/grammar-rules/spot" element={<SpotTheRule />} />
+          <Route path="/english/grammar-rules/map" element={<MasteryMap />} />
           <Route path="/daily" element={<DailyHome />} />
           <Route path="/daily/:section" element={<DailyQuiz />} />
           <Route path="/mocks" element={<MocksHome />} />
