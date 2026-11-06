@@ -58,6 +58,13 @@ export const REASONING_GAMES = [
     to: '/reasoning/ranking-order',
     icon: '🏅',
   },
+  {
+    id: 'input-output',
+    title: 'Input–Output',
+    description: 'Decode a machine from one worked example, then predict its steps for a new input.',
+    to: '/reasoning/input-output',
+    icon: '⚙️',
+  },
 ]
 
 export default function Reasoning() {

@@ -20,6 +20,7 @@ import Syllogism from './pages/games/Syllogism'
 import BloodRelations from './pages/games/BloodRelations'
 import DirectionSense from './pages/games/DirectionSense'
 import RankingOrder from './pages/games/RankingOrder'
+import InputOutput from './pages/games/InputOutput'
 import Quant from './pages/Quant'
 import Divisibility from './pages/games/Divisibility'
 import PercentDegree from './pages/games/PercentDegree'
@@ -96,6 +97,7 @@ export default function App() {
           <Route path="/reasoning/blood-relations" element={<BloodRelations />} />
           <Route path="/reasoning/direction-sense" element={<DirectionSense />} />
           <Route path="/reasoning/ranking-order" element={<RankingOrder />} />
+          <Route path="/reasoning/input-output" element={<InputOutput />} />
           <Route path="/quant" element={<Quant />} />
           <Route path="/quant/divisibility" element={<Divisibility />} />
           <Route path="/quant/percent-degree" element={<PercentDegree />} />
