@@ -17,6 +17,7 @@ import StatementConclusions from './pages/games/StatementConclusions'
 import NumberLetterSeries from './pages/games/NumberLetterSeries'
 import CodingDecoding from './pages/games/CodingDecoding'
 import Syllogism from './pages/games/Syllogism'
+import BloodRelations from './pages/games/BloodRelations'
 import Quant from './pages/Quant'
 import Divisibility from './pages/games/Divisibility'
 import PercentDegree from './pages/games/PercentDegree'
@@ -90,6 +91,7 @@ export default function App() {
           <Route path="/reasoning/number-letter-series" element={<NumberLetterSeries />} />
           <Route path="/reasoning/coding-decoding" element={<CodingDecoding />} />
           <Route path="/reasoning/syllogism" element={<Syllogism />} />
+          <Route path="/reasoning/blood-relations" element={<BloodRelations />} />
           <Route path="/quant" element={<Quant />} />
           <Route path="/quant/divisibility" element={<Divisibility />} />
           <Route path="/quant/percent-degree" element={<PercentDegree />} />

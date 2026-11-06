@@ -37,6 +37,13 @@ export const REASONING_GAMES = [
     to: '/reasoning/syllogism',
     icon: '◐',
   },
+  {
+    id: 'blood-relations',
+    title: 'Blood Relations',
+    description: 'Pointing statements, coded relation symbols and whole-family puzzles, with every chain of relations worked out.',
+    to: '/reasoning/blood-relations',
+    icon: '👪',
+  },
 ]
 
 export default function Reasoning() {
