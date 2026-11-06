@@ -44,6 +44,13 @@ export const REASONING_GAMES = [
     to: '/reasoning/blood-relations',
     icon: '👪',
   },
+  {
+    id: 'direction-sense',
+    title: 'Direction Sense',
+    description: 'Follow turns and walks to find the final direction and distance — plus two-person and point puzzles.',
+    to: '/reasoning/direction-sense',
+    icon: '🧭',
+  },
 ]
 
 export default function Reasoning() {
