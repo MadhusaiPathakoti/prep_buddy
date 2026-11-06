@@ -8,7 +8,7 @@ import { assertGroup } from '../src/lib/mocks/validate'
 import type { MockPaper } from '../src/lib/mocks/types'
 
 const DAYS = Number(process.argv[2] ?? 40)
-const EXPECTED: Record<string, number> = { quant: 25, reasoning: 25, english: 45 }
+const EXPECTED: Record<string, number> = { quant: 30, reasoning: 30, english: 45 }
 
 let failures = 0
 const fail = (msg: string) => {

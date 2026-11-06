@@ -4,13 +4,10 @@ import StimulusView from '../../components/mocks/StimulusView'
 import { formatDateKey, isDateKey, isSectionId, sectionInfo, todayKey } from '../../lib/daily/compose'
 import { clearProgress, dailyStatus, finishDaily, getDailyPaper, loadProgress, saveProgress, startProgress, type DailyProgress } from '../../lib/daily/store'
 import { OPTION_LETTERS } from '../../lib/mocks/report'
-import { emptyResponse, formatScore, statusOf, type QResponse, type QStatus } from '../../lib/mocks/scoring'
+import { emptyResponse, formatClock, formatScore, statusOf, type QResponse, type QStatus } from '../../lib/mocks/scoring'
 import { topicLabel } from '../../lib/mocks/topics'
 import type { MockPaper, MockQuestion } from '../../lib/mocks/types'
 import { downloadDailyPdf } from './downloadPdf'
-
-/** A stint longer than this on one question is treated as the student stepping away, not working. */
-const MAX_STINT_MS = 10 * 60 * 1000
 
 const STATUS_STYLE: Record<QStatus, string> = {
   answered: 'bg-emerald-500 text-white',
@@ -200,6 +197,18 @@ function Quiz({ paper, questions, initial, title, onSubmitted }: { paper: MockPa
   const progressRef = useRef(progress)
   const enteredAt = useRef<number | null>(null)
 
+  // Stopwatch. `base` is time already banked; `since` is when the running stint began (null while paused or hidden).
+  // The same switch drives per-question timing, so the result page's times match what the stopwatch showed.
+  const [clock, setClock] = useState<{ base: number; since: number | null }>(() => ({
+    base: initial.elapsedMs ?? Object.values(initial.responses).reduce((n, r) => n + r.timeMs, 0),
+    since: Date.now(),
+  }))
+  const [now, setNow] = useState(() => Date.now())
+  const [paused, setPaused] = useState(false)
+  const [qEnter, setQEnter] = useState(() => Date.now())
+  const clockRef = useRef(clock)
+  const pausedRef = useRef(false)
+
   const index = Math.max(0, questions.findIndex((q) => q.id === progress.currentId))
   const q = questions[index]
   const stimulus = q.setId ? paper.sets[q.setId] : undefined
@@ -211,28 +220,73 @@ function Quiz({ paper, questions, initial, title, onSubmitted }: { paper: MockPa
     enteredAt.current = now
     if (since === null) return from
     const cur = from.responses[from.currentId] ?? emptyResponse()
-    const stint = Math.min(MAX_STINT_MS, Math.max(0, now - since))
+    const stint = Math.max(0, now - since)
     return { ...from, responses: { ...from.responses, [from.currentId]: { ...cur, visited: true, timeMs: cur.timeMs + stint } } }
   }, [])
 
-  // Autosave on every change so a refresh or closed tab resumes the quiz.
+  const elapsedNow = () => clockRef.current.base + (clockRef.current.since !== null ? Date.now() - clockRef.current.since : 0)
+
+  // Autosave on every change so a refresh or closed tab resumes the quiz (with the stopwatch where it was).
   useEffect(() => {
     progressRef.current = progress
-    saveProgress(progress)
-  }, [progress])
+    clockRef.current = clock
+    saveProgress({ ...progress, elapsedMs: elapsedNow() })
+  }, [progress, clock])
 
-  // Time on a question is counted from when it is shown, and stops while the tab is hidden.
+  /** Banks the running stint into the stopwatch and the current question, then stops both clocks. */
+  const stopClocks = useCallback(() => {
+    const t = Date.now()
+    const c = clockRef.current
+    if (c.since === null) return
+    const next = { base: c.base + (t - c.since), since: null }
+    clockRef.current = next
+    setClock(next)
+    setProgress(commitTime(progressRef.current))
+    enteredAt.current = null
+  }, [commitTime])
+
+  const startClocks = useCallback(() => {
+    const t = Date.now()
+    if (clockRef.current.since !== null) return
+    const next = { base: clockRef.current.base, since: t }
+    clockRef.current = next
+    setClock(next)
+    setNow(t)
+    enteredAt.current = t
+  }, [])
+
+  // Time runs from when the quiz opens and stops while the tab is hidden or the student has paused.
   useEffect(() => {
     enteredAt.current = Date.now()
     const onVisibility = () => {
-      if (document.hidden) {
-        setProgress(commitTime(progressRef.current))
-        enteredAt.current = null
-      } else enteredAt.current = Date.now()
+      if (document.hidden) stopClocks()
+      else if (!pausedRef.current) startClocks()
     }
     document.addEventListener('visibilitychange', onVisibility)
     return () => document.removeEventListener('visibilitychange', onVisibility)
-  }, [commitTime])
+  }, [startClocks, stopClocks])
+
+  useEffect(() => {
+    if (clock.since === null) return
+    const id = window.setInterval(() => {
+      setNow(Date.now())
+      // Keep the saved reading fresh so a refresh loses at most a second of stopwatch time.
+      saveProgress({ ...progressRef.current, elapsedMs: clockRef.current.base + (clockRef.current.since !== null ? Date.now() - clockRef.current.since : 0) })
+    }, 1000)
+    return () => window.clearInterval(id)
+  }, [clock.since])
+
+  const togglePause = () => {
+    if (pausedRef.current) {
+      pausedRef.current = false
+      setPaused(false)
+      startClocks()
+    } else {
+      pausedRef.current = true
+      setPaused(true)
+      stopClocks()
+    }
+  }
 
   const update = (fn: (r: QResponse) => QResponse) =>
     setProgress((p) => {
@@ -242,10 +296,11 @@ function Quiz({ paper, questions, initial, title, onSubmitted }: { paper: MockPa
 
   const goTo = (i: number) => {
     const target = questions[Math.min(questions.length - 1, Math.max(0, i))]
-    if (target.id === progressRef.current.currentId) return
+    if (target.id === progressRef.current.currentId || pausedRef.current) return
     // commitTime reads and restarts the stint clock, so it runs here rather than inside a state updater.
     const timed = commitTime(progressRef.current)
     const next = timed.responses[target.id] ?? emptyResponse()
+    setQEnter(Date.now())
     setProgress({ ...timed, currentId: target.id, responses: { ...timed.responses, [target.id]: { ...next, visited: true } } })
     setPaletteOpen(false)
     window.scrollTo({ top: 0, behavior: 'smooth' })
@@ -276,6 +331,9 @@ function Quiz({ paper, questions, initial, title, onSubmitted }: { paper: MockPa
 
   const [pdfBusy, setPdfBusy] = useState(false)
   const response = progress.responses[q.id] ?? emptyResponse()
+  const running = clock.since !== null
+  const totalMs = clock.base + (running ? now - (clock.since as number) : 0)
+  const questionMs = response.timeMs + (running ? now - Math.max(clock.since as number, qEnter) : 0)
   const dateLabel = paper.daily ? formatDateKey(paper.daily.dateKey) : ''
 
   return (
@@ -289,10 +347,17 @@ function Quiz({ paper, questions, initial, title, onSubmitted }: { paper: MockPa
             {title} <span className="text-base font-semibold text-slate-400">· {dateLabel}</span>
           </h1>
           <p className="text-xs text-slate-500 dark:text-slate-400">
-            Attempt {progress.attemptNo} · no time limit · your answers are saved automatically
+            Attempt {progress.attemptNo} · no time limit · stopwatch pauses when you leave the tab · answers save automatically
           </p>
         </div>
-        <div className="flex flex-wrap gap-2">
+        <div className="flex flex-wrap items-center gap-2">
+          <div className="flex items-center gap-2 rounded-xl bg-slate-900 px-3 py-1.5 text-white dark:bg-slate-700" role="timer" aria-label="Stopwatch">
+            <span aria-hidden="true">⏱</span>
+            <span className={`font-mono text-lg font-bold tabular-nums ${paused ? 'opacity-60' : ''}`}>{formatClock(totalMs / 1000)}</span>
+            <button type="button" onClick={togglePause} className="rounded-lg bg-white/15 px-2 py-1 text-xs font-semibold hover:bg-white/25">
+              {paused ? '▶ Resume' : '⏸ Pause'}
+            </button>
+          </div>
           <button
             type="button"
             disabled={pdfBusy}
@@ -325,12 +390,24 @@ function Quiz({ paper, questions, initial, title, onSubmitted }: { paper: MockPa
 
       <div className="mt-5 grid gap-5 lg:grid-cols-[1fr_280px]">
         <div className="min-w-0">
-          <article className="rounded-2xl bg-white p-5 shadow-sm ring-1 ring-slate-200 dark:bg-slate-800 dark:ring-slate-700">
+          <article className="relative rounded-2xl bg-white p-5 shadow-sm ring-1 ring-slate-200 dark:bg-slate-800 dark:ring-slate-700">
+            {paused && (
+              <div className="absolute inset-0 z-10 flex flex-col items-center justify-center gap-3 rounded-2xl bg-white/90 backdrop-blur-md dark:bg-slate-800/90">
+                <p className="text-lg font-bold text-slate-900 dark:text-slate-100">Paused</p>
+                <p className="text-sm text-slate-500 dark:text-slate-400">The stopwatch is stopped and the question is hidden.</p>
+                <button type="button" onClick={togglePause} className="rounded-xl bg-indigo-600 px-5 py-2 text-sm font-semibold text-white hover:bg-indigo-700">
+                  ▶ Resume
+                </button>
+              </div>
+            )}
             <header className="mb-4 flex flex-wrap items-center gap-2 text-xs">
               <span className="rounded-full bg-indigo-600 px-3 py-1 font-bold text-white">
                 Q{index + 1} <span className="font-normal opacity-80">of {questions.length}</span>
               </span>
               <span className="rounded-full bg-slate-100 px-3 py-1 font-semibold text-slate-600 dark:bg-slate-700 dark:text-slate-300">{topicLabel(q.topic)}</span>
+              <span className="rounded-full bg-amber-50 px-3 py-1 font-semibold tabular-nums text-amber-700 dark:bg-amber-500/10 dark:text-amber-300" title="Time on this question">
+                This question {formatClock(questionMs / 1000)}
+              </span>
               <span className="ml-auto text-slate-400">+{paper.marksPerQuestion} / −{paper.negativeMarks}</span>
             </header>
 

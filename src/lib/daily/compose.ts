@@ -6,12 +6,17 @@
 
 import { ARITHMETIC_POOL, MARKS_PER_QUESTION, NEGATIVE_MARKS } from '../mocks/blueprints'
 import { QUANT_GENERATORS } from '../mocks/quant'
+import { QUANT_MAINS_GENERATORS } from '../mocks/quant/mains'
 import { REASONING_GENERATORS } from '../mocks/reasoning'
+import { REASONING_MAINS_GENERATORS } from '../mocks/reasoning/mains'
 import { createRng, type Rng } from '../mocks/rng'
 import { topicLabel } from '../mocks/topics'
 import { assertGroup } from '../mocks/validate'
 import type { Group, MockPaper, MockQuestion, MockSection, MockSectionId, MockTopicId, Stimulus, TopicGenerator } from '../mocks/types'
 import { buildDailyEnglishGroups, DAILY_ENGLISH_PLAN, hashString } from './english'
+
+/** Bump whenever a daily plan or generator changes the paper for a given date. Cached papers of another version are rebuilt. */
+export const DAILY_VERSION = 2
 
 export const DAILY_SECTIONS: { id: MockSectionId; name: string; short: string; icon: string; blurb: string }[] = [
   { id: 'quant', name: 'Quantitative Aptitude', short: 'Quant', icon: '📊', blurb: 'Simplification, approximation, arithmetic, quadratics, number series and a data-interpretation set.' },
@@ -52,30 +57,38 @@ interface Job {
 const one = (topics: MockTopicId[] | MockTopicId, count: number): Job => ({ topics: Array.isArray(topics) ? topics : [topics], count, mode: 'one' })
 const spread = (topics: MockTopicId[], count: number): Job => ({ topics, count, mode: 'spread' })
 
-/** 25 questions each, ordered like the reference practice sheet (simplification first, DI last). */
+/** 30 questions at SBI PO Mains level: calculation, equations, series, ten word problems and two DI sets. */
 const QUANT_PLAN: Job[] = [
-  one('simplification', 5),
-  one('approximation', 3),
-  spread(ARITHMETIC_POOL, 5),
-  one('quadratic-equations', 3),
-  one('wrong-number-series', 2),
-  one('missing-number-series', 2),
-  one(['di-table', 'di-bar', 'di-pie', 'di-line', 'di-caselet'], 5),
+  one('simplification', 3),
+  one('approximation', 2),
+  one('quadratic-equations', 2),
+  one('quantity-comparison', 1),
+  one('wrong-number-series', 1),
+  one('missing-number-series', 1),
+  spread(ARITHMETIC_POOL, 10),
+  one(['di-table', 'di-bar'], 5),
+  one(['di-pie', 'di-line', 'di-caselet'], 5),
 ]
 
+/** 30 questions: two arrangement sets plus a puzzle set, then the verbal-logic types, ending with machine / data sufficiency. */
 const REASONING_PLAN: Job[] = [
   one(['seating-linear', 'seating-circular'], 5),
   one(['puzzle-floor', 'puzzle-schedule', 'puzzle-box'], 5),
+  one(['puzzle-floor', 'puzzle-schedule', 'puzzle-box'], 5),
   one('syllogism', 3),
   one('inequality', 3),
-  one('blood-relation', 2),
+  one('blood-relation', 3),
   one('direction-distance', 2),
-  one('coding-decoding', 2),
-  one('order-ranking', 3),
+  one('order-ranking', 2),
+  one('reasoning-misc', 2),
 ]
 
 function generatorFor(topic: MockTopicId): TopicGenerator {
-  const g = (QUANT_GENERATORS as Record<string, TopicGenerator>)[topic] ?? (REASONING_GENERATORS as Record<string, TopicGenerator>)[topic]
+  const g =
+    (QUANT_MAINS_GENERATORS as Record<string, TopicGenerator>)[topic] ??
+    (REASONING_MAINS_GENERATORS as Record<string, TopicGenerator>)[topic] ??
+    (QUANT_GENERATORS as Record<string, TopicGenerator>)[topic] ??
+    (REASONING_GENERATORS as Record<string, TopicGenerator>)[topic]
   if (!g) throw new Error(`No generator for topic: ${topic}`)
   return g
 }
@@ -83,8 +96,14 @@ function generatorFor(topic: MockTopicId): TopicGenerator {
 const questionKey = (q: { stem: string; options: string[] }) => `${q.stem}|${q.options.join('|')}`.toLowerCase().replace(/\s+/g, ' ').trim()
 const stimulusKey = (s: Stimulus | undefined) => (s ? JSON.stringify(s.parts).toLowerCase() : '')
 
-function allocate(rng: Rng, job: Job): { topic: MockTopicId; count: number }[] {
-  if (job.mode === 'one' || job.topics.length === 1) return [{ topic: rng.pick(job.topics), count: job.count }]
+function allocate(rng: Rng, job: Job, used: Set<MockTopicId>): { topic: MockTopicId; count: number }[] {
+  if (job.mode === 'one' || job.topics.length === 1) {
+    // Two slots drawing from the same pool should not land on the same topic when another is available.
+    const fresh = job.topics.filter((t) => !used.has(t))
+    const topic = rng.pick(fresh.length ? fresh : job.topics)
+    used.add(topic)
+    return [{ topic, count: job.count }]
+  }
   const order = rng.shuffle(job.topics)
   const counts = new Map<MockTopicId, number>()
   for (let i = 0; i < job.count; i++) counts.set(order[i % order.length], (counts.get(order[i % order.length]) ?? 0) + 1)
@@ -125,8 +144,9 @@ export function buildDailyPaper(section: MockSectionId, dateKey: string): MockPa
   } else {
     const rng = createRng(hashString(`daily:${section}:${dateKey}`))
     const seen = new Set<string>()
+    const usedTopics = new Set<MockTopicId>()
     for (const job of section === 'quant' ? QUANT_PLAN : REASONING_PLAN) {
-      for (const a of allocate(rng, job)) {
+      for (const a of allocate(rng, job, usedTopics)) {
         const groups = generate(a.topic, rng, a.count, seen)
         for (const g of groups) {
           if (g.stimulus) seen.add(`s:${stimulusKey(g.stimulus)}`)
@@ -176,6 +196,6 @@ export function buildDailyPaper(section: MockSectionId, dateKey: string): MockPa
     sections,
     questions,
     sets,
-    daily: { dateKey, section },
+    daily: { dateKey, section, version: DAILY_VERSION },
   }
 }

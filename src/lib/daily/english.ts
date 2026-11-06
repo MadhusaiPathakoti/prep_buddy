@@ -1,9 +1,9 @@
 // Deterministic English questions for the Daily Dose. Everything here is a pure function of the date key, so a
 // given day always yields the same paper: no network, no Math.random.
 //
-// Layout follows the "English Daily Checklist (Prelims + Mains)" practice sheet: 10 error detection, 5 reading
-// comprehension, 5 para jumble, 5 cloze, 5 sentence improvement (phrase replacement), 5 vocabulary, 3 idioms,
-// 3 phrasal verbs and 4 one-word substitutions.
+// Layout is the "English Daily Checklist (Prelims + Mains)" sheet re-weighted towards Mains: an 8-question RC, more
+// error detection / fillers / word swap, and fewer plain vocabulary items. Selection is mostly hard-tier (70 %) and
+// the word banks are hard-tier only.
 
 import { VOCAB_BANK } from '../../data/vocabulary'
 import { IDIOMS_BANK } from '../../data/idioms'
@@ -21,15 +21,17 @@ export interface EnglishSlot {
 }
 
 export const DAILY_ENGLISH_PLAN: EnglishSlot[] = [
-  { topic: 'error-detection', count: 10 },
-  { topic: 'rc', count: 5 },
+  { topic: 'error-detection', count: 8 },
+  { topic: 'rc', count: 8 },
   { topic: 'para-jumble', count: 5 },
   { topic: 'cloze', count: 5 },
-  { topic: 'phrase-replacement', count: 5 },
-  { topic: 'vocab-quiz', count: 5 },
-  { topic: 'idioms', count: 3 },
-  { topic: 'phrasal-verbs', count: 3 },
-  { topic: 'one-word', count: 4 },
+  { topic: 'fillers', count: 4 },
+  { topic: 'word-swap', count: 3 },
+  { topic: 'phrase-replacement', count: 4 },
+  { topic: 'vocab-quiz', count: 3 },
+  { topic: 'idioms', count: 2 },
+  { topic: 'phrasal-verbs', count: 2 },
+  { topic: 'one-word', count: 1 },
 ]
 
 /** FNV-1a: a stable 32-bit hash of a string. */
@@ -60,40 +62,42 @@ function rotate(poolSize: number, take: number, topic: string, dateKey: string, 
   return out
 }
 
-/** Whole-passage topics (rc, cloze): the first passage in the day's rotation that has at least `need` questions. */
+/** Share of each day's stand-alone items taken from the hard tier; the rest come from medium so the cycle stays long. */
+const HARD_SHARE = 0.7
+
+/** Whole-passage topics (rc, cloze): two hard passages for every medium one, rotated by day. */
 function pickPassage(topic: 'rc' | 'cloze', need: number, dateKey: string): Group {
-  const pool = getSeedEntries(topic)
+  const all = getSeedEntries(topic)
     .filter((e) => e.group.questions.length >= need)
     .sort((a, b) => a.id.localeCompare(b.id))
-  if (pool.length === 0) throw new Error(`No ${topic} passage with ${need}+ questions in the curated bank.`)
-  const idx = rotate(pool.length, 1, topic, dateKey)[0]
-  return trimGroup(topic, pool[idx].group, need)
+  const hard = all.filter((e) => e.difficulty === 'hard')
+  const medium = all.filter((e) => e.difficulty !== 'hard')
+  if (all.length === 0) throw new Error(`No ${topic} passage with ${need}+ questions in the curated bank.`)
+  const hardOrder = createRng(hashString(`order:${topic}:hard`)).shuffle(hard)
+  const mediumOrder = createRng(hashString(`order:${topic}:medium`)).shuffle(medium)
+  const seq: typeof all = []
+  for (let h = 0, m = 0; h < hardOrder.length; h += 2, m++) {
+    seq.push(...hardOrder.slice(h, h + 2))
+    if (mediumOrder.length) seq.push(mediumOrder[m % mediumOrder.length])
+  }
+  if (seq.length === 0) seq.push(...mediumOrder)
+  return trimGroup(topic, seq[dayNumber(dateKey) % seq.length].group, need)
 }
 
-/** Stand-alone items (one question each): `need` distinct entries from the day's rotation. */
+/** Stand-alone items (one question each): mostly hard-tier entries, each tier walked in its own fixed order. */
 function pickStandalone(topic: EnglishTopicId, need: number, dateKey: string): Group[] {
-  const pool = getSeedEntries(topic)
+  const all = getSeedEntries(topic)
     .filter((e) => e.group.questions.length === 1)
     .sort((a, b) => a.id.localeCompare(b.id))
-  if (pool.length < need) throw new Error(`Only ${pool.length} ${topic} questions in the curated bank, need ${need}.`)
-  return rotate(pool.length, need, topic, dateKey).map((i) => ({ questions: [pool[i].group.questions[0]] }))
-}
-
-/** Para jumble entries may hold more than one question; take whole entries until `need` questions are covered. */
-function pickParaJumble(need: number, dateKey: string): Group[] {
-  const pool = getSeedEntries('para-jumble').sort((a, b) => a.id.localeCompare(b.id))
-  const order = rotate(pool.length, pool.length, 'para-jumble', dateKey, need)
-  const out: Group[] = []
-  let have = 0
-  for (const i of order) {
-    if (have >= need) break
-    const g = pool[i].group
-    const take = Math.min(g.questions.length, need - have)
-    out.push({ stimulus: g.stimulus, questions: g.questions.slice(0, take) })
-    have += take
-  }
-  if (have < need) throw new Error('Not enough para jumble questions in the curated bank.')
-  return out
+  const hard = all.filter((e) => e.difficulty === 'hard')
+  const medium = all.filter((e) => e.difficulty !== 'hard')
+  const nHard = Math.min(hard.length, Math.ceil(need * HARD_SHARE))
+  const nMedium = need - nHard
+  if (medium.length < nMedium) throw new Error(`Only ${all.length} ${topic} questions in the curated bank, need ${need}.`)
+  const chosen = [...rotate(hard.length, nHard, `${topic}:hard`, dateKey).map((i) => hard[i]), ...rotate(medium.length, nMedium, `${topic}:medium`, dateKey).map((i) => medium[i])]
+  return createRng(hashString(`mix:${topic}:${dateKey}`))
+    .shuffle(chosen)
+    .map((e) => ({ questions: [e.group.questions[0]] }))
 }
 
 // ---------------------------------------------------------------------------------------------------
@@ -166,9 +170,9 @@ function bankQuestion(spec: BankSpec, e: BankEntry, pool: BankEntry[], rng: Rng)
 
 function pickBank(topic: keyof typeof SPECS, need: number, dateKey: string): Group[] {
   const spec = SPECS[topic]
-  // Exam-level words only: skip the "easy" tier when the bank has enough harder entries.
-  const harder = spec.bank.filter((e) => e.difficulty !== 'easy')
-  const pool = (harder.length >= need * 8 ? harder : spec.bank).slice().sort((a, b) => a.id.localeCompare(b.id))
+  // Mains level: hard-tier entries only (distractors come from the same tier, so they are plausible).
+  const hard = spec.bank.filter((e) => e.difficulty === 'hard')
+  const pool = (hard.length >= need * 8 ? hard : spec.bank).slice().sort((a, b) => a.id.localeCompare(b.id))
   const rng = createRng(hashString(`bank:${topic}:${dateKey}`))
   return rotate(pool.length, need, topic, dateKey).map((i) => ({ questions: [bankQuestion(spec, pool[i], pool, rng)] }))
 }
@@ -180,8 +184,6 @@ export function buildDailyEnglishGroups(dateKey: string): { slot: EnglishSlot; g
       case 'rc':
       case 'cloze':
         return { slot, groups: [pickPassage(slot.topic, slot.count, dateKey)] }
-      case 'para-jumble':
-        return { slot, groups: pickParaJumble(slot.count, dateKey) }
       case 'vocab-quiz':
       case 'idioms':
       case 'phrasal-verbs':

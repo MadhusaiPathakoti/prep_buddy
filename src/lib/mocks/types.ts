@@ -135,7 +135,7 @@ export interface MockPaper {
   questions: MockQuestion[]
   sets: Record<string, Stimulus>
   /** Daily Dose papers only: which day and section this paper belongs to. */
-  daily?: { dateKey: string; section: MockSectionId }
+  daily?: { dateKey: string; section: MockSectionId; /** Bumped when the daily plan changes, so stale cached papers are rebuilt. */ version?: number }
 }
 
 export interface TopicInfo {
