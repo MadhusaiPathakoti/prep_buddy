@@ -30,6 +30,13 @@ export const REASONING_GAMES = [
     to: '/reasoning/coding-decoding',
     icon: '⌗',
   },
+  {
+    id: 'syllogism',
+    title: 'Syllogism',
+    description: 'Which conclusions follow from the statements? Venn-checked verdicts, possibilities and "Only a few" at SBI PO level.',
+    to: '/reasoning/syllogism',
+    icon: '◐',
+  },
 ]
 
 export default function Reasoning() {
