@@ -28,6 +28,8 @@
 // MOCK_ENGLISH_MAX_BUDGET_WAIT_MS (longest wait for a token budget reset, default 15 s),
 // MOCK_ENGLISH_MAX_TRANSIENT_COOLDOWN_MS (cap of the growing 5xx/timeout cooldown, default 10 minutes).
 
+import { rateLimit } from './_lib/guard.js'
+
 export const config = { maxDuration: 60 }
 
 const TOPIC_IDS = ['rc', 'cloze', 'error-detection', 'para-jumble', 'fillers', 'word-swap', 'phrase-replacement', 'match-column']
@@ -1855,6 +1857,8 @@ export default async function handler(req, res) {
     res.status(405).json({ error: 'Method not allowed' })
     return
   }
+  // generous (a mock paper makes several calls) but finite: one visitor cannot drain the shared model quota
+  if (!(await rateLimit(req, res, { name: 'mockEnglish', limit: 40 }))) return
   const body = readBody(req)
   if (!body) {
     res.status(400).json({ error: 'Request body must be a JSON object.' })
@@ -1923,7 +1927,7 @@ export default async function handler(req, res) {
   const skip = new Set((skipRaw || []).map((m) => parseModelId(m).id))
 
   if (!anyProviderEnabled()) {
-    res.status(500).json({ error: 'GEMINI_API_KEY is not configured on the server (and no other provider key such as GROQ_API_KEY is set).' })
+    res.status(500).json({ error: 'This feature is not available right now.' })
     return
   }
   const budgetsRaw = body.budgets
@@ -1985,7 +1989,8 @@ export default async function handler(req, res) {
 
   const { status, error, detail, retryAfterMs, attempts, unusable, code, modelHealth, chain, skipped, budgets: budgetUpdates } = outcome
   const payload = { error, code, chain, attempts, skipped, modelHealth, budgets: budgetUpdates, ms: Date.now() - startedAt }
-  if (detail) payload.detail = detail
+  // upstream detail stays in the server log; the browser only gets a generic message
+  if (detail) console.error(`[mockEnglish] ${code || status}: ${String(detail).slice(0, 300)}`)
   // The model answered but nothing in it passed the checks: a quality problem, not an outage.
   if (unusable) payload.unusable = true
   if (status === 429 && retryAfterMs > 0) {

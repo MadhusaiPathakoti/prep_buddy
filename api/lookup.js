@@ -6,6 +6,8 @@
 // By default this tries gemini-3.5-flash, then falls back to gemini-3.5-flash-lite if that
 // fails. Set GEMINI_MODEL to pin a single specific model instead (skips the fallback).
 
+import { rateLimit } from './_lib/guard.js'
+
 function parseList(raw) {
   if (typeof raw !== 'string' || raw.trim() === '') return null
   return raw
@@ -61,15 +63,16 @@ const MODEL_CANDIDATES = process.env.GEMINI_MODEL ? [process.env.GEMINI_MODEL] :
 const GEMINI_TIMEOUT_MS = 4000
 
 /** Calls one Gemini model. Returns {ok:true, parsed} on a usable answer, or {ok:false, ...} for any failure — including a "not found" verdict, which is also worth retrying on a different model. */
-async function callGeminiModel(model, apiKey, prompt) {
+async function callGeminiModel(model, apiKey, prompt, parentSignal) {
   const controller = new AbortController()
+  parentSignal?.addEventListener('abort', () => controller.abort(), { once: true })
   const timeoutId = setTimeout(() => controller.abort(), GEMINI_TIMEOUT_MS)
 
   let geminiRes
   try {
-    geminiRes = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`, {
+    geminiRes = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json', 'x-goog-api-key': apiKey },
       body: JSON.stringify({
         contents: [{ parts: [{ text: prompt }] }],
         generationConfig: { responseMimeType: 'application/json', temperature: 0.2 },
@@ -84,8 +87,10 @@ async function callGeminiModel(model, apiKey, prompt) {
   }
 
   if (!geminiRes.ok) {
+    // upstream detail stays in the server log; the browser only gets a generic message
     const detail = await geminiRes.text().catch(() => '')
-    return { ok: false, status: 502, error: `Gemini request failed (${geminiRes.status}).`, detail: detail.slice(0, 500) }
+    console.error(`[gemini] ${model} responded ${geminiRes.status}: ${detail.slice(0, 300)}`)
+    return { ok: false, status: 502, error: `Gemini request failed (${geminiRes.status}).` }
   }
 
   const data = await geminiRes.json()
@@ -106,22 +111,41 @@ async function callGeminiModel(model, apiKey, prompt) {
   return { ok: true, parsed }
 }
 
-/** Resolves as soon as any promise settles with {ok:true}; only resolves with a failure once every one of them has failed (the last failure wins, arbitrarily — they're all just as unusable). */
-function firstSuccessful(promises) {
+/** Starts the first model; starts the next one only if the first has not answered within `hedgeMs` or has already failed. Resolves with the first usable answer (and cancels any request still running) — or, only once every model has failed, with the last failure. This keeps the speed of racing two models without paying for two calls every time. */
+function firstSuccessful(starters, hedgeMs = 1800) {
   return new Promise((resolve) => {
-    let remaining = promises.length
+    const race = new AbortController()
+    let started = 0
+    let failed = 0
+    let done = false
     let lastFailure
-    for (const p of promises) {
-      p.then((outcome) => {
+    let timer
+    const startNext = () => {
+      if (done || started >= starters.length) return
+      clearTimeout(timer)
+      const run = starters[started++](race.signal)
+      if (started < starters.length) timer = setTimeout(startNext, hedgeMs)
+      run.then((outcome) => {
+        if (done) return
         if (outcome.ok) {
+          done = true
+          clearTimeout(timer)
+          race.abort()
           resolve(outcome)
           return
         }
         lastFailure = outcome
-        remaining -= 1
-        if (remaining === 0) resolve(lastFailure)
+        failed += 1
+        if (failed === starters.length) {
+          done = true
+          clearTimeout(timer)
+          resolve(lastFailure)
+        } else {
+          startNext()
+        }
       })
     }
+    startNext()
   })
 }
 
@@ -130,6 +154,7 @@ export default async function handler(req, res) {
     res.status(405).json({ error: 'Method not allowed' })
     return
   }
+  if (!(await rateLimit(req, res, { name: 'lookup', limit: 30 }))) return
 
   const term = typeof req.query.term === 'string' ? req.query.term.trim() : ''
   if (!term || term.length > 200) {
@@ -142,17 +167,17 @@ export default async function handler(req, res) {
 
   const apiKey = process.env.GEMINI_API_KEY
   if (!apiKey) {
-    res.status(500).json({ error: 'GEMINI_API_KEY is not configured on the server.' })
+    res.status(500).json({ error: 'This feature is not available right now.' })
     return
   }
 
   const prompt = buildPrompt(term, candidateSynonyms, candidateAntonyms)
 
-  const outcome = await firstSuccessful(MODEL_CANDIDATES.map((model) => callGeminiModel(model, apiKey, prompt)))
+  const outcome = await firstSuccessful(MODEL_CANDIDATES.map((model) => (signal) => callGeminiModel(model, apiKey, prompt, signal)))
 
   if (!outcome.ok) {
-    const { status, error, detail } = outcome
-    res.status(status).json(detail ? { error, detail } : { error })
+    const { status, error } = outcome
+    res.status(status).json({ error })
     return
   }
 
@@ -169,5 +194,6 @@ export default async function handler(req, res) {
     result.corrections = Array.isArray(parsed.corrections) ? parsed.corrections.filter((s) => typeof s === 'string').slice(0, 10) : []
   }
 
+  res.setHeader('Cache-Control', 'public, s-maxage=86400, stale-while-revalidate=604800')
   res.status(200).json(result)
 }
