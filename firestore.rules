@@ -1,0 +1,159 @@
+rules_version = '2';
+
+// Security rules for the shared word banks. Publish with Firebase Console -> Firestore Database -> Rules
+// (paste this file), or `firebase deploy --only firestore:rules`.
+//
+// There are no user accounts in this app, so anyone can add a word and anyone can remove one — that is deliberate.
+// What these rules do guarantee: every write has exactly the expected shape and size (no extra fields, no oversized
+// text, no arbitrary document ids), existing entries can only have their `difficulty` changed, and a "hidden" or
+// "override" marker can contain nothing but its one value. See README -> "Shared banks" for the remaining limits and the
+// optional hardening (server-only reads/writes).
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ---- shared helpers -------------------------------------------------------------------------------------
+
+    // Custom entries are always created with the id `custom-<slug>` (lowercase letters, digits and dashes).
+    function customId(id) {
+      return id.matches('custom-[a-z0-9-]{1,100}');
+    }
+
+    // Vocabulary / Idioms / One Word Substitution / Phrasal Verbs entries. `termMax` and `meaningMax` differ per bank
+    // (One Word Substitution stores the long descriptive phrase as `term` and the single word as `meaning`).
+    function validBankEntry(d, id, termMax, meaningMin, meaningMax) {
+      return d.keys().hasAll(['id', 'term', 'meaning', 'difficulty', 'hint', 'example'])
+          && d.keys().hasOnly(['id', 'term', 'meaning', 'difficulty', 'hint', 'example', 'createdAt', 'partOfSpeech', 'definition'])
+          && d.id == id
+          && d.term is string && d.term.size() > 0 && d.term.size() < termMax
+          && d.meaning is string && d.meaning.size() >= meaningMin && d.meaning.size() < meaningMax
+          && d.example is string && d.example.size() < 2000
+          && d.hint is string && d.hint.size() < 300
+          && d.difficulty in ['easy', 'medium', 'hard']
+          && (!('createdAt' in d) || (d.createdAt is string && d.createdAt.size() < 40))
+          && (!('partOfSpeech' in d) || (d.partOfSpeech is string && d.partOfSpeech.size() < 30))
+          && (!('definition' in d) || (d.definition is string && d.definition.size() < 2000));
+    }
+
+    // Synonyms/Antonyms word bank entries.
+    function validWordEntry(d, id) {
+      return d.keys().hasAll(['id', 'word', 'partOfSpeech', 'meaning', 'example', 'synonyms', 'antonyms', 'difficulty', 'createdAt'])
+          && d.keys().hasOnly(['id', 'word', 'partOfSpeech', 'meaning', 'example', 'synonyms', 'antonyms', 'difficulty', 'createdAt'])
+          && d.id == id
+          && d.word is string && d.word.size() > 0 && d.word.size() < 100
+          && d.meaning is string && d.meaning.size() < 2000
+          && d.example is string && d.example.size() < 2000
+          && d.partOfSpeech is string && d.partOfSpeech.size() < 30
+          && d.synonyms is list && d.synonyms.size() < 20
+          && d.antonyms is list && d.antonyms.size() < 20
+          && d.difficulty in ['easy', 'medium', 'hard']
+          && d.createdAt is string && d.createdAt.size() < 40;
+    }
+
+    // Only the `difficulty` field of an existing entry may change (the Library's "change difficulty" control).
+    function onlyDifficultyChanges() {
+      return request.resource.data.diff(resource.data).affectedKeys().hasOnly(['difficulty'])
+          && request.resource.data.difficulty in ['easy', 'medium', 'hard'];
+    }
+
+    // "This built-in entry was deleted": {hiddenAt: <ms timestamp>} and nothing else.
+    function validHidden(id) {
+      return id.size() < 120
+          && request.resource.data.keys().hasOnly(['hiddenAt'])
+          && request.resource.data.hiddenAt is number;
+    }
+
+    // "This built-in entry's difficulty was changed": {difficulty, updatedAt} and nothing else.
+    function validOverride(id) {
+      return id.size() < 120
+          && request.resource.data.keys().hasOnly(['difficulty', 'updatedAt'])
+          && request.resource.data.keys().hasAll(['difficulty', 'updatedAt'])
+          && request.resource.data.difficulty in ['easy', 'medium', 'hard']
+          && request.resource.data.updatedAt is number;
+    }
+
+    // ---- Vocabulary ---------------------------------------------------------------------------------------------
+    match /vocabularyCustomWords/{wordId} {
+      allow read: if true;
+      allow create: if customId(wordId) && validBankEntry(request.resource.data, wordId, 100, 0, 2000);
+      allow update: if onlyDifficultyChanges();
+      allow delete: if customId(wordId);
+    }
+    match /vocabularyHiddenSeedWords/{wordId} {
+      allow read: if true;
+      allow create: if validHidden(wordId);
+      allow update, delete: if false;
+    }
+    match /vocabularyDifficultyOverrides/{wordId} {
+      allow read: if true;
+      allow create, update: if validOverride(wordId);
+      allow delete: if false;
+    }
+
+    // ---- Idioms -------------------------------------------------------------------------------------------------
+    match /idiomsCustomWords/{wordId} {
+      allow read: if true;
+      allow create: if customId(wordId) && validBankEntry(request.resource.data, wordId, 100, 0, 2000);
+      allow update: if onlyDifficultyChanges();
+      allow delete: if customId(wordId);
+    }
+    match /idiomsHiddenSeedWords/{wordId} {
+      allow read: if true;
+      allow create: if validHidden(wordId);
+      allow update, delete: if false;
+    }
+    match /idiomsDifficultyOverrides/{wordId} {
+      allow read: if true;
+      allow create, update: if validOverride(wordId);
+      allow delete: if false;
+    }
+
+    // ---- One Word Substitution (term = the phrase, meaning = the single word) ---------------------------------
+    match /oneWordSubstitutionCustomWords/{wordId} {
+      allow read: if true;
+      allow create: if customId(wordId) && validBankEntry(request.resource.data, wordId, 2000, 1, 100);
+      allow update: if onlyDifficultyChanges();
+      allow delete: if customId(wordId);
+    }
+    match /oneWordSubstitutionHiddenSeedWords/{wordId} {
+      allow read: if true;
+      allow create: if validHidden(wordId);
+      allow update, delete: if false;
+    }
+    match /oneWordSubstitutionDifficultyOverrides/{wordId} {
+      allow read: if true;
+      allow create, update: if validOverride(wordId);
+      allow delete: if false;
+    }
+
+    // ---- Phrasal Verbs (no difficulty editing) ----------------------------------------------------------------
+    match /phrasalVerbsCustomWords/{wordId} {
+      allow read: if true;
+      allow create: if customId(wordId) && validBankEntry(request.resource.data, wordId, 100, 0, 2000);
+      allow update: if false;
+      allow delete: if customId(wordId);
+    }
+    match /phrasalVerbsHiddenSeedWords/{wordId} {
+      allow read: if true;
+      allow create: if validHidden(wordId);
+      allow update, delete: if false;
+    }
+
+    // ---- Synonyms / Antonyms word bank -----------------------------------------------------------------------
+    match /wordBankCustomWords/{wordId} {
+      allow read: if true;
+      allow create: if customId(wordId) && validWordEntry(request.resource.data, wordId);
+      allow update: if onlyDifficultyChanges();
+      allow delete: if customId(wordId);
+    }
+    match /wordBankHiddenSeedWords/{wordId} {
+      allow read: if true;
+      allow create: if validHidden(wordId);
+      allow update, delete: if false;
+    }
+    match /wordBankDifficultyOverrides/{wordId} {
+      allow read: if true;
+      allow create, update: if validOverride(wordId);
+      allow delete: if false;
+    }
+  }
+}

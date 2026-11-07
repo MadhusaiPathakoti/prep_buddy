@@ -26,151 +26,20 @@ This needs a free Firebase project of your own:
 
 1. Create a project at the [Firebase Console](https://console.firebase.google.com) (free Spark plan, no card required).
 2. Build → Firestore Database → Create database → start in **production mode**.
-3. In the Rules tab, paste:
+3. In the Rules tab, paste the contents of [`firestore.rules`](firestore.rules) and publish (or run `firebase deploy --only firestore:rules`). That file is the single source of truth for the rules; they enforce, per collection:
 
-   ```
-   rules_version = '2';
-   service cloud.firestore {
-     match /databases/{database}/documents {
-       match /vocabularyCustomWords/{wordId} {
-         allow read: if true;
-         allow create: if request.resource.data.keys().hasAll(['id', 'term', 'meaning', 'difficulty', 'hint', 'example'])
-                       && request.resource.data.term is string && request.resource.data.term.size() > 0 && request.resource.data.term.size() < 100
-                       && request.resource.data.meaning is string && request.resource.data.meaning.size() < 2000
-                       && request.resource.data.example is string && request.resource.data.example.size() < 2000
-                       && request.resource.data.hint is string && request.resource.data.hint.size() < 300
-                       && request.resource.data.difficulty in ['easy', 'medium', 'hard'];
-         // only the difficulty may change (the Library's "change difficulty" control)
-         allow update: if request.resource.data.diff(resource.data).affectedKeys().hasOnly(['difficulty'])
-                       && request.resource.data.difficulty in ['easy', 'medium', 'hard'];
-         allow delete: if true;
-       }
-       match /vocabularyHiddenSeedWords/{wordId} {
-         allow read: if true;
-         allow create: if true;
-         allow update: if false;
-         allow delete: if false;
-       }
-       match /vocabularyDifficultyOverrides/{wordId} {
-         allow read: if true;
-         allow create, update: if request.resource.data.keys().hasOnly(['difficulty', 'updatedAt'])
-                               && request.resource.data.keys().hasAll(['difficulty', 'updatedAt'])
-                               && request.resource.data.difficulty in ['easy', 'medium', 'hard']
-                               && request.resource.data.updatedAt is number;
-         allow delete: if false;
-       }
-       match /idiomsCustomWords/{wordId} {
-         allow read: if true;
-         allow create: if request.resource.data.keys().hasAll(['id', 'term', 'meaning', 'difficulty', 'hint', 'example'])
-                       && request.resource.data.term is string && request.resource.data.term.size() > 0 && request.resource.data.term.size() < 100
-                       && request.resource.data.meaning is string && request.resource.data.meaning.size() < 2000
-                       && request.resource.data.example is string && request.resource.data.example.size() < 2000
-                       && request.resource.data.hint is string && request.resource.data.hint.size() < 300
-                       && request.resource.data.difficulty in ['easy', 'medium', 'hard'];
-         // only the difficulty may change (the Library's "change difficulty" control)
-         allow update: if request.resource.data.diff(resource.data).affectedKeys().hasOnly(['difficulty'])
-                       && request.resource.data.difficulty in ['easy', 'medium', 'hard'];
-         allow delete: if true;
-       }
-       match /idiomsHiddenSeedWords/{wordId} {
-         allow read: if true;
-         allow create: if true;
-         allow update: if false;
-         allow delete: if false;
-       }
-       match /idiomsDifficultyOverrides/{wordId} {
-         allow read: if true;
-         allow create, update: if request.resource.data.keys().hasOnly(['difficulty', 'updatedAt'])
-                               && request.resource.data.keys().hasAll(['difficulty', 'updatedAt'])
-                               && request.resource.data.difficulty in ['easy', 'medium', 'hard']
-                               && request.resource.data.updatedAt is number;
-         allow delete: if false;
-       }
-       match /oneWordSubstitutionCustomWords/{wordId} {
-         allow read: if true;
-         allow create: if request.resource.data.keys().hasAll(['id', 'term', 'meaning', 'difficulty', 'hint', 'example'])
-                       && request.resource.data.term is string && request.resource.data.term.size() > 0 && request.resource.data.term.size() < 2000
-                       && request.resource.data.meaning is string && request.resource.data.meaning.size() > 0 && request.resource.data.meaning.size() < 100
-                       && request.resource.data.example is string && request.resource.data.example.size() < 2000
-                       && request.resource.data.hint is string && request.resource.data.hint.size() < 300
-                       && request.resource.data.difficulty in ['easy', 'medium', 'hard'];
-         // only the difficulty may change (the Library's "change difficulty" control)
-         allow update: if request.resource.data.diff(resource.data).affectedKeys().hasOnly(['difficulty'])
-                       && request.resource.data.difficulty in ['easy', 'medium', 'hard'];
-         allow delete: if true;
-       }
-       match /oneWordSubstitutionHiddenSeedWords/{wordId} {
-         allow read: if true;
-         allow create: if true;
-         allow update: if false;
-         allow delete: if false;
-       }
-       match /oneWordSubstitutionDifficultyOverrides/{wordId} {
-         allow read: if true;
-         allow create, update: if request.resource.data.keys().hasOnly(['difficulty', 'updatedAt'])
-                               && request.resource.data.keys().hasAll(['difficulty', 'updatedAt'])
-                               && request.resource.data.difficulty in ['easy', 'medium', 'hard']
-                               && request.resource.data.updatedAt is number;
-         allow delete: if false;
-       }
-       match /phrasalVerbsCustomWords/{wordId} {
-         allow read: if true;
-         allow create: if request.resource.data.keys().hasAll(['id', 'term', 'meaning', 'difficulty', 'hint', 'example'])
-                       && request.resource.data.term is string && request.resource.data.term.size() > 0 && request.resource.data.term.size() < 100
-                       && request.resource.data.meaning is string && request.resource.data.meaning.size() < 2000
-                       && request.resource.data.example is string && request.resource.data.example.size() < 2000
-                       && request.resource.data.hint is string && request.resource.data.hint.size() < 300
-                       && request.resource.data.difficulty in ['easy', 'medium', 'hard'];
-         allow update: if false;
-         allow delete: if true;
-       }
-       match /phrasalVerbsHiddenSeedWords/{wordId} {
-         allow read: if true;
-         allow create: if true;
-         allow update: if false;
-         allow delete: if false;
-       }
-       match /wordBankCustomWords/{wordId} {
-         allow read: if true;
-         allow create: if request.resource.data.keys().hasAll(['id', 'word', 'partOfSpeech', 'meaning', 'example', 'synonyms', 'antonyms', 'difficulty', 'createdAt'])
-                       && request.resource.data.word is string && request.resource.data.word.size() > 0 && request.resource.data.word.size() < 100
-                       && request.resource.data.meaning is string && request.resource.data.meaning.size() < 2000
-                       && request.resource.data.example is string && request.resource.data.example.size() < 2000
-                       && request.resource.data.partOfSpeech is string && request.resource.data.partOfSpeech.size() < 30
-                       && request.resource.data.synonyms is list && request.resource.data.synonyms.size() < 20
-                       && request.resource.data.antonyms is list && request.resource.data.antonyms.size() < 20
-                       && request.resource.data.difficulty in ['easy', 'medium', 'hard']
-                       && request.resource.data.createdAt is string;
-         // only the difficulty may change (the Library's "change difficulty" control)
-         allow update: if request.resource.data.diff(resource.data).affectedKeys().hasOnly(['difficulty'])
-                       && request.resource.data.difficulty in ['easy', 'medium', 'hard'];
-         allow delete: if true;
-       }
-       match /wordBankHiddenSeedWords/{wordId} {
-         allow read: if true;
-         allow create: if true;
-         allow update: if false;
-         allow delete: if false;
-       }
-       match /wordBankDifficultyOverrides/{wordId} {
-         allow read: if true;
-         allow create, update: if request.resource.data.keys().hasOnly(['difficulty', 'updatedAt'])
-                               && request.resource.data.keys().hasAll(['difficulty', 'updatedAt'])
-                               && request.resource.data.difficulty in ['easy', 'medium', 'hard']
-                               && request.resource.data.updatedAt is number;
-         allow delete: if false;
-       }
-     }
-   }
-   ```
-
-   Changing a word's difficulty from a Library works two ways: a user-added entry's `difficulty` field is updated in place (the `allow update` rule on the `*CustomWords` collections permits that field and nothing else), while a built-in entry can't be edited, so the choice is saved as a tiny override document in the matching `*DifficultyOverrides` collection (`{ difficulty, updatedAt }`, written with `setDoc` and layered over the bundled data on every read). Without these rules the Library's difficulty control fails with "Missing or insufficient permissions". Phrasal Verbs has no difficulty editing, so its collections are unchanged.
+   - **Custom entries** (`*CustomWords`): created only with an id of the form `custom-<slug>` that matches the document's own `id` field, with exactly the expected fields (no extras) and size limits; deleting is allowed only for `custom-…` ids; an existing entry can only have its `difficulty` changed. One Word Substitution has the term/meaning size limits swapped because it stores the phrase as `term` and the single word as `meaning`. Phrasal Verbs has no difficulty editing, so its `update` stays blocked.
+   - **Hidden built-in entries** (`*HiddenSeedWords`): a document may contain only `{ hiddenAt: <number> }`.
+   - **Difficulty overrides** (`*DifficultyOverrides`): only `{ difficulty, updatedAt }`, written with `setDoc`. The Library saves a built-in entry's new difficulty here (it can't edit bundled data), and layers it over the bundled entries on every read; without these rules the Library's difficulty control fails with "Missing or insufficient permissions".
 
    The `synonymsCustomWords`, `synonymsHiddenSeedWords`, `antonymsCustomWords`, and `antonymsHiddenSeedWords` collections/rules from the old separate Synonyms/Antonyms banks are no longer read or written by the app (superseded by `wordBank*` above) — safe to delete from your rules whenever convenient, or just leave them as harmless dead rules.
 
 4. Project settings → Your apps → add a Web app → copy the `firebaseConfig` object into `src/lib/firebase.ts` (this config is safe to commit; it's not a secret — access is controlled by the rules above, not by hiding these values).
 
-There are no accounts in this app, so with no login system these rules intentionally allow anyone to add or delete any entry. That's a deliberate trade-off for a fully static, backend-free deploy — don't reuse this Firebase project for anything that needs real access control.
+There are no accounts in this app, so with no login system these rules intentionally allow anyone to add or delete any entry. That's a deliberate trade-off for a fully static, backend-free deploy — don't reuse this Firebase project for anything that needs real access control. The rules do stop malformed or oversized writes, arbitrary document ids and extra fields, but they cannot stop someone from *scripting* valid adds/deletes. Two things limit the damage:
+
+- **Reads go through a CDN-cached route.** The Library, Quiz and Hub screens load each bank through `/api/bank` (`api/bank.js`), which reads a collection from Firestore once and lets the Vercel CDN serve it to every visitor for an hour (stale copy for up to a day while it refreshes). Firestore reads therefore stay roughly flat as traffic grows instead of scaling with visitors; a visitor who has just edited a bank skips the CDN copy for 10 minutes so they see their own change. If the route is unreachable the app falls back to reading Firestore directly, and if Firestore itself is unavailable (down, quota used up, offline) every screen still works from the bundled built-in entries and shows a notice.
+- **Optional hardening (recommended once you have real traffic).** Create a service account for the project (Firebase Console → Project settings → Service accounts → Generate new private key), and add its JSON to Vercel as the environment variable `FIREBASE_SERVICE_ACCOUNT` (raw JSON or base64) and redeploy. `/api/bank` then reads Firestore with that identity, so you can lock bulk reads in `firestore.rules` by replacing every `allow read: if true;` with `allow get: if true; allow list: if false;` — nobody else can list or scrape the collections, while visitors keep getting data through the cached route. (Single-entry lookups with `get` still work.) Turning on [Firebase App Check](https://firebase.google.com/docs/app-check) for Firestore is the next step if someone starts scripting writes.
 
 ### AI-assisted lookups (Gemini)
 

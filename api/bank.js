@@ -8,8 +8,15 @@
 //   GET /api/bank?collection=idiomsCustomWords            -> { docs: [{ id, data }] }
 //   GET /api/bank?collection=idiomsCustomWords&mode=count -> { count }
 //
+// Optional hardening: set FIREBASE_SERVICE_ACCOUNT (the service-account JSON, or the same JSON base64-encoded) in the Vercel
+// environment variables and this route reads Firestore with that identity instead of the public web key. That lets you
+// change the security rules to `allow get: if true; allow list: if false;` so that nobody else can bulk-read the banks
+// (see README -> "Optional hardening"), while visitors keep getting their data through this cached route.
+//
 // Only the known bank collections can be read. The Firestore project config below is the same public web config
 // that ships in the browser bundle; it is not a secret (access is governed by the security rules).
+
+import { createSign } from 'node:crypto'
 
 const PROJECT_ID = process.env.FIREBASE_PROJECT_ID || 'prepbuddy-564d8'
 // Public web API key (also embedded in src/lib/firebase.ts). Override with FIREBASE_API_KEY if you rotate it.
@@ -41,11 +48,45 @@ function decode(v) {
   return null
 }
 
+const b64url = (obj) => Buffer.from(JSON.stringify(obj)).toString('base64url')
+
+function serviceAccount() {
+  const raw = process.env.FIREBASE_SERVICE_ACCOUNT
+  if (!raw) return null
+  try {
+    return JSON.parse(raw.trim().startsWith('{') ? raw : Buffer.from(raw, 'base64').toString('utf8'))
+  } catch {
+    return null
+  }
+}
+
+let tokenCache = null
+/** OAuth access token for the service account (cached until shortly before it expires), or null when none is configured. */
+async function adminToken() {
+  const sa = serviceAccount()
+  if (!sa?.client_email || !sa?.private_key) return null
+  if (tokenCache && tokenCache.expiresAt > Date.now() + 60_000) return tokenCache.token
+  const now = Math.floor(Date.now() / 1000)
+  const unsigned = `${b64url({ alg: 'RS256', typ: 'JWT' })}.${b64url({ iss: sa.client_email, scope: 'https://www.googleapis.com/auth/datastore', aud: 'https://oauth2.googleapis.com/token', iat: now, exp: now + 3600 })}`
+  const signature = createSign('RSA-SHA256').update(unsigned).sign(sa.private_key, 'base64url')
+  const res = await fetch('https://oauth2.googleapis.com/token', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: new URLSearchParams({ grant_type: 'urn:ietf:params:oauth:grant-type:jwt-bearer', assertion: `${unsigned}.${signature}` }),
+  })
+  if (!res.ok) throw new Error('token')
+  const body = await res.json()
+  tokenCache = { token: body.access_token, expiresAt: Date.now() + (Number(body.expires_in) || 3600) * 1000 }
+  return tokenCache.token
+}
+
 async function firestoreFetch(url, init) {
   const controller = new AbortController()
   const timer = setTimeout(() => controller.abort(), FIRESTORE_TIMEOUT_MS)
   try {
-    const res = await fetch(url, { ...init, signal: controller.signal, headers: { 'Content-Type': 'application/json', 'x-goog-api-key': API_KEY } })
+    const token = await adminToken()
+    const auth = token ? { Authorization: `Bearer ${token}` } : { 'x-goog-api-key': API_KEY }
+    const res = await fetch(url, { ...init, signal: controller.signal, headers: { 'Content-Type': 'application/json', ...auth } })
     if (!res.ok) throw new Error(`Firestore ${res.status}`)
     return await res.json()
   } finally {
