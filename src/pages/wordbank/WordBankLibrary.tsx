@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
+import DegradedNotice from '../../components/DegradedNotice'
 import { Link } from 'react-router-dom'
 import FavoriteRecencyChips from '../../components/FavoriteRecencyChips'
 import { Phonetic, SpeakerButton } from '../../components/Pronounce'
@@ -83,6 +84,7 @@ function formatDate(iso: string): string {
 export default function WordBankLibrary() {
   const [bank, setBank] = useState<WordEntry[] | null>(null)
   const [error, setError] = useState('')
+  const [degraded, setDegraded] = useState(false)
   const [filter, setFilter] = useState<FilterId>('all')
   const [query, setQuery] = useState('')
   const [sortField, setSortField] = useState<SortField>('alphabetical')
@@ -97,7 +99,10 @@ export default function WordBankLibrary() {
     let cancelled = false
     getFullWordBank()
       .then((full) => {
-        if (!cancelled) setBank(full)
+        if (!cancelled) {
+          setBank(full)
+          setDegraded(!!(full as { degraded?: boolean }).degraded)
+        }
       })
       .catch(() => {
         if (!cancelled) setError('Could not load the shared word bank. Check your connection and try again.')
@@ -207,6 +212,7 @@ export default function WordBankLibrary() {
         Shared by both the Synonyms and Antonyms games. {bank.length} words across three difficulty levels. Star any
         word to save it for daily revision.
       </p>
+      {degraded && <DegradedNotice />}
 
       <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div className="flex flex-wrap gap-2">

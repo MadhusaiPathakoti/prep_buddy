@@ -1,4 +1,5 @@
 import { useMemo, useState } from 'react'
+import DegradedNotice from './DegradedNotice'
 import { Link } from 'react-router-dom'
 import FavoriteRecencyChips from './FavoriteRecencyChips'
 import { Phonetic, SpeakerButton } from './Pronounce'
@@ -79,6 +80,8 @@ export default function BankLibrary({ bank, bankKey, backTo, backLabel, title, n
   const [favoriteRecency, setFavoriteRecency] = useState<number | null>(null)
   const [savingDifficultyId, setSavingDifficultyId] = useState<string | null>(null)
   const [difficultyError, setDifficultyError] = useState('')
+  // captured once when the library opens: set when only the built-in entries could be loaded
+  const [degraded] = useState(() => !!(bank as { degraded?: boolean }).degraded)
 
   function handleToggleFavorite(id: string) {
     setFavorites((prev) => toggleFavorite(bankKey, id, prev))
@@ -148,6 +151,7 @@ export default function BankLibrary({ bank, bankKey, backTo, backLabel, title, n
         Browse and learn before you play. {bank.length} {nounPlural} across three difficulty levels. Star any {nounPlural.replace(/s$/, '')} to
         save it for daily revision.
       </p>
+      {degraded && <DegradedNotice />}
 
       <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div className="flex flex-wrap gap-2">
