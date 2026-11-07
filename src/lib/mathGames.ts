@@ -149,10 +149,53 @@ export const SHORTCUT_GAMES: MathGame[] = [
     to: '/maths/missing-digit',
     icon: '□',
   },
+  {
+    id: 'square-cube-roots',
+    title: 'Square & Cube Roots',
+    description: 'Roots of perfect squares and cubes from the last digit and bracketing, e.g. ∛17576 = 26.',
+    to: '/maths/square-cube-roots',
+    icon: '√',
+  },
+  {
+    id: 'quadratic-equations',
+    title: 'Quadratic Equations',
+    description: 'Factorise two equations and compare x and y, exactly like the Prelims.',
+    to: '/maths/quadratic-equations',
+    icon: 'x²',
+  },
+  {
+    id: 'series-warmup',
+    title: 'Number Series Warm-up',
+    description: 'Type the next term: squares, cubes, n² ± n, primes, running totals, interleaved series.',
+    to: '/maths/series-warmup',
+    icon: '1·4·9',
+  },
 ]
 
-/** Pace and memory games (added in phase 2). */
-export const PACE_GAMES: MathGame[] = []
+/** Pace and memory games: hold numbers in your head and keep up with the clock. */
+export const PACE_GAMES: MathGame[] = [
+  {
+    id: 'flash-chain',
+    title: 'Flash Chain',
+    description: 'A number flashes, then +8, ×3, −14 … one at a time. Type the final result from memory.',
+    to: '/maths/flash-chain',
+    icon: '➜',
+  },
+  {
+    id: 'mental-memory',
+    title: 'Mental Memory',
+    description: 'Two numbers appear and vanish, then you are asked for their sum, difference or product.',
+    to: '/maths/mental-memory',
+    icon: '👁',
+  },
+  {
+    id: 'beat-the-clock',
+    title: 'Beat the Clock',
+    description: 'A 30-120 second sprint that gets harder the longer you stay accurate. Beat your best score.',
+    to: '/maths/beat-the-clock',
+    icon: '⏱',
+  },
+]
 
 export const MATH_SECTIONS: MathSection[] = [
   {

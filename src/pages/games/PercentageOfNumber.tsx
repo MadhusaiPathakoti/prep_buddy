@@ -1,6 +1,6 @@
 import MathSetup from '../../components/MathSetup'
 import { generatePercentageQuestions, type PercentDifficulty, type PercentMode } from '../../lib/percentageOfNumber'
-import { validateDecimal } from '../../lib/validators'
+import { validateExact } from '../../lib/validators'
 
 export default function PercentageOfNumber() {
   return (
@@ -55,7 +55,7 @@ export default function PercentageOfNumber() {
         },
       ]}
       generate={(c, count) => generatePercentageQuestions(c.difficulty as PercentDifficulty, c.mode as PercentMode, count)}
-      validate={validateDecimal}
+      validate={validateExact}
       inputMode="decimal"
     />
   )

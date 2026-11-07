@@ -1,6 +1,6 @@
 import MathSetup from '../../components/MathSetup'
 import { generateSuccessiveQuestions, type SuccessiveDifficulty, type SuccessiveMode } from '../../lib/successivePercent'
-import { validateDecimal } from '../../lib/validators'
+import { validateExact } from '../../lib/validators'
 
 export default function SuccessivePercent() {
   return (
@@ -53,7 +53,7 @@ export default function SuccessivePercent() {
         },
       ]}
       generate={(c, count) => generateSuccessiveQuestions(c.difficulty as SuccessiveDifficulty, c.mode as SuccessiveMode, count)}
-      validate={validateDecimal}
+      validate={validateExact}
       inputMode="decimal"
     />
   )

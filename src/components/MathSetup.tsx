@@ -2,6 +2,9 @@ import { useState, type ReactNode } from 'react'
 import { Link } from 'react-router-dom'
 import QuizRunner from './QuizRunner'
 import MCQQuizRunner from './MCQQuizRunner'
+import FlashRunner from './FlashRunner'
+import SprintRunner from './SprintRunner'
+import type { FlashQuestion } from '../lib/flashGames'
 import type { SetupGroup } from './ReasoningSetup'
 import type { MCQQuestion } from '../lib/generators'
 import type { CheckResult, Question } from '../lib/types'
@@ -31,23 +34,42 @@ type McqProps = BaseProps & {
   generate: (choice: Record<string, string>, count: number) => MCQQuestion[]
 }
 
+type FlashProps = BaseProps & {
+  kind: 'flash'
+  generate: (choice: Record<string, string>, count: number) => FlashQuestion[]
+  /** Milliseconds each frame stays on screen, from the chosen options. */
+  frameMs: (choice: Record<string, string>) => number
+}
+
+type SprintProps = BaseProps & {
+  kind: 'sprint'
+  /** Length of the sprint in seconds, from the chosen options. */
+  durationSec: (choice: Record<string, string>) => number
+}
+
 /** Shared setup screen for the mental-math games: pick options, then run a typed-answer or multiple-choice session. */
-export default function MathSetup(props: TypedProps | McqProps) {
+export default function MathSetup(props: TypedProps | McqProps | FlashProps | SprintProps) {
   const { gameId, title, intro, learn, groups, counts = [10, 20, 30, 50], defaultCount = 20 } = props
   const [choice, setChoice] = useState<Record<string, string>>(() => Object.fromEntries(groups.map((g) => [g.key, g.defaultId])))
   const [count, setCount] = useState(defaultCount)
   const [typedQs, setTypedQs] = useState<Question[] | null>(null)
   const [mcqQs, setMcqQs] = useState<MCQQuestion[] | null>(null)
+  const [flashQs, setFlashQs] = useState<FlashQuestion[] | null>(null)
+  const [sprinting, setSprinting] = useState(false)
   const [sessionKey, setSessionKey] = useState(0)
 
   function begin() {
     if (props.kind === 'typed') setTypedQs(props.generate(choice, count))
-    else setMcqQs(props.generate(choice, count))
+    else if (props.kind === 'mcq') setMcqQs(props.generate(choice, count))
+    else if (props.kind === 'flash') setFlashQs(props.generate(choice, count))
+    else setSprinting(true)
     setSessionKey((k) => k + 1)
   }
   function exit() {
     setTypedQs(null)
     setMcqQs(null)
+    setFlashQs(null)
+    setSprinting(false)
   }
 
   if (props.kind === 'typed' && typedQs) {
@@ -67,6 +89,13 @@ export default function MathSetup(props: TypedProps | McqProps) {
   }
   if (props.kind === 'mcq' && mcqQs) {
     return <MCQQuizRunner key={sessionKey} gameId={gameId} questions={mcqQs} showCorrectInReview onExit={exit} onRestart={begin} />
+  }
+
+  if (props.kind === 'flash' && flashQs) {
+    return <FlashRunner key={sessionKey} gameId={gameId} questions={flashQs} frameMs={props.frameMs(choice)} onExit={exit} onRestart={begin} />
+  }
+  if (props.kind === 'sprint' && sprinting) {
+    return <SprintRunner key={sessionKey} gameId={gameId} durationSec={props.durationSec(choice)} onExit={exit} onRestart={begin} />
   }
 
   const pill = (active: boolean) =>
@@ -111,20 +140,26 @@ export default function MathSetup(props: TypedProps | McqProps) {
           </div>
         ))}
 
-        <h2 className="mt-6 font-semibold text-slate-800 dark:text-slate-200">Number of questions</h2>
-        <div className="mt-3 flex flex-wrap gap-2">
-          {counts.map((c) => (
-            <button key={c} onClick={() => setCount(c)} className={pill(count === c)}>
-              {c}
-            </button>
-          ))}
-        </div>
+        {props.kind !== 'sprint' && (
+          <>
+            <h2 className="mt-6 font-semibold text-slate-800 dark:text-slate-200">Number of questions</h2>
+            <div className="mt-3 flex flex-wrap gap-2">
+              {counts.map((c) => (
+                <button key={c} onClick={() => setCount(c)} className={pill(count === c)}>
+                  {c}
+                </button>
+              ))}
+            </div>
+          </>
+        )}
 
         <button
           onClick={begin}
           className="mt-8 w-full rounded-xl bg-indigo-600 px-4 py-3 font-semibold text-white shadow-sm transition hover:bg-indigo-500 active:scale-[0.99]"
         >
-          Start{difficultyLabel ? ` · ${difficultyLabel}` : ''} · {count} questions
+          {props.kind === 'sprint'
+            ? `Start sprint · ${props.durationSec(choice)} seconds`
+            : `Start${difficultyLabel ? ` · ${difficultyLabel}` : ''} · ${count} questions`}
         </button>
       </div>
     </div>

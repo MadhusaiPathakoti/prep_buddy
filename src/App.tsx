@@ -2,6 +2,12 @@ import { HashRouter, Routes, Route, Navigate } from 'react-router-dom'
 import Layout from './components/Layout'
 import Home from './pages/Home'
 import Maths from './pages/Maths'
+import SquareCubeRoots from './pages/games/SquareCubeRoots'
+import QuadraticEquations from './pages/games/QuadraticEquations'
+import SeriesWarmup from './pages/games/SeriesWarmup'
+import FlashChain from './pages/games/FlashChain'
+import MentalMemory from './pages/games/MentalMemory'
+import BeatTheClock from './pages/games/BeatTheClock'
 import MultiplyNearBase from './pages/games/MultiplyNearBase'
 import PercentageOfNumber from './pages/games/PercentageOfNumber'
 import Approximation from './pages/games/Approximation'
@@ -89,6 +95,12 @@ export default function App() {
           <Route path="/maths/compare-fractions" element={<CompareFractions />} />
           <Route path="/maths/successive-percent" element={<SuccessivePercent />} />
           <Route path="/maths/missing-digit" element={<MissingDigit />} />
+          <Route path="/maths/square-cube-roots" element={<SquareCubeRoots />} />
+          <Route path="/maths/quadratic-equations" element={<QuadraticEquations />} />
+          <Route path="/maths/series-warmup" element={<SeriesWarmup />} />
+          <Route path="/maths/flash-chain" element={<FlashChain />} />
+          <Route path="/maths/mental-memory" element={<MentalMemory />} />
+          <Route path="/maths/beat-the-clock" element={<BeatTheClock />} />
           {/* The old Speed Math and Quant hubs are now one Maths hub; their games keep their URLs. */}
           <Route path="/speed-math" element={<Navigate to="/maths" replace />} />
           <Route path="/quant" element={<Navigate to="/maths" replace />} />
