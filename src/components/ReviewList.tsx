@@ -7,6 +7,8 @@ export interface ReviewItem {
   correct?: boolean
   /** Optional one-line explanation shown under the entry (e.g. the rule behind a series). */
   note?: string
+  /** Text between the prompt and the answer in the list. Defaults to " = ". */
+  joiner?: string
 }
 
 export default function ReviewList({ items }: { items: ReviewItem[] }) {
@@ -25,7 +27,7 @@ export default function ReviewList({ items }: { items: ReviewItem[] }) {
           <div key={item.id} className="flex items-center justify-between gap-3 px-4 py-2.5">
             <div className="min-w-0">
               <span className="text-sm font-semibold text-slate-800 dark:text-slate-200">
-                {item.prompt} = {item.displayAnswer}
+                {item.prompt}{item.joiner ?? ' = '}{item.displayAnswer}
               </span>
               {item.note && <p className="mt-0.5 whitespace-pre-line text-xs text-slate-500 dark:text-slate-400">{item.note}</p>}
             </div>

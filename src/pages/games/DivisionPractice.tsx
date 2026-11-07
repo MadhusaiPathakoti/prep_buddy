@@ -53,8 +53,8 @@ export default function DivisionPractice() {
 
   return (
     <div className="mx-auto max-w-2xl px-4 py-10">
-      <Link to="/speed-math" className="text-sm text-slate-400 dark:text-slate-500 hover:text-slate-600">
-        ← Speed Math
+      <Link to="/maths" className="text-sm text-slate-400 dark:text-slate-500 hover:text-slate-600">
+        ← Maths
       </Link>
       <h1 className="mt-2 text-3xl font-extrabold text-slate-900 dark:text-slate-100">Division</h1>
       <p className="mt-2 text-slate-500 dark:text-slate-400">

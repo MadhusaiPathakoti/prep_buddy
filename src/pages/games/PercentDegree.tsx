@@ -56,8 +56,8 @@ export default function PercentDegree() {
   if (showLearn) {
     return (
       <div className="mx-auto max-w-2xl px-4 py-10">
-        <Link to="/quant" className="text-sm text-slate-400 dark:text-slate-500 hover:text-slate-600">
-          ← Quant
+        <Link to="/maths" className="text-sm text-slate-400 dark:text-slate-500 hover:text-slate-600">
+          ← Maths
         </Link>
         <h1 className="mt-2 text-3xl font-extrabold text-slate-900 dark:text-slate-100">Percentage ↔ Degree</h1>
         <p className="mt-2 text-slate-500 dark:text-slate-400">Every conversion the game can ask about. Learn these, then practice.</p>
@@ -86,8 +86,8 @@ export default function PercentDegree() {
 
   return (
     <div className="mx-auto max-w-2xl px-4 py-10">
-      <Link to="/quant" className="text-sm text-slate-400 dark:text-slate-500 hover:text-slate-600">
-        ← Quant
+      <Link to="/maths" className="text-sm text-slate-400 dark:text-slate-500 hover:text-slate-600">
+        ← Maths
       </Link>
       <div className="mt-2 flex items-start justify-between gap-3">
         <h1 className="text-3xl font-extrabold text-slate-900 dark:text-slate-100">Percentage ↔ Degree</h1>

@@ -1,7 +1,13 @@
-import { HashRouter, Routes, Route } from 'react-router-dom'
+import { HashRouter, Routes, Route, Navigate } from 'react-router-dom'
 import Layout from './components/Layout'
 import Home from './pages/Home'
-import SpeedMath from './pages/SpeedMath'
+import Maths from './pages/Maths'
+import MultiplyNearBase from './pages/games/MultiplyNearBase'
+import PercentageOfNumber from './pages/games/PercentageOfNumber'
+import Approximation from './pages/games/Approximation'
+import CompareFractions from './pages/games/CompareFractions'
+import SuccessivePercent from './pages/games/SuccessivePercent'
+import MissingDigit from './pages/games/MissingDigit'
 import AdditionsPractice from './pages/games/AdditionsPractice'
 import SubtractionPractice from './pages/games/SubtractionPractice'
 import DivisionPractice from './pages/games/DivisionPractice'
@@ -21,7 +27,6 @@ import BloodRelations from './pages/games/BloodRelations'
 import DirectionSense from './pages/games/DirectionSense'
 import RankingOrder from './pages/games/RankingOrder'
 import InputOutput from './pages/games/InputOutput'
-import Quant from './pages/Quant'
 import Divisibility from './pages/games/Divisibility'
 import PercentDegree from './pages/games/PercentDegree'
 import English from './pages/English'
@@ -77,7 +82,16 @@ export default function App() {
       <Routes>
         <Route element={<Layout />}>
           <Route path="/" element={<Home />} />
-          <Route path="/speed-math" element={<SpeedMath />} />
+          <Route path="/maths" element={<Maths />} />
+          <Route path="/maths/multiply-near-base" element={<MultiplyNearBase />} />
+          <Route path="/maths/percentage-of-number" element={<PercentageOfNumber />} />
+          <Route path="/maths/approximation" element={<Approximation />} />
+          <Route path="/maths/compare-fractions" element={<CompareFractions />} />
+          <Route path="/maths/successive-percent" element={<SuccessivePercent />} />
+          <Route path="/maths/missing-digit" element={<MissingDigit />} />
+          {/* The old Speed Math and Quant hubs are now one Maths hub; their games keep their URLs. */}
+          <Route path="/speed-math" element={<Navigate to="/maths" replace />} />
+          <Route path="/quant" element={<Navigate to="/maths" replace />} />
           <Route path="/speed-math/additions" element={<AdditionsPractice />} />
           <Route path="/speed-math/subtraction" element={<SubtractionPractice />} />
           <Route path="/speed-math/division" element={<DivisionPractice />} />
@@ -98,7 +112,6 @@ export default function App() {
           <Route path="/reasoning/direction-sense" element={<DirectionSense />} />
           <Route path="/reasoning/ranking-order" element={<RankingOrder />} />
           <Route path="/reasoning/input-output" element={<InputOutput />} />
-          <Route path="/quant" element={<Quant />} />
           <Route path="/quant/divisibility" element={<Divisibility />} />
           <Route path="/quant/percent-degree" element={<PercentDegree />} />
           <Route path="/english" element={<English />} />

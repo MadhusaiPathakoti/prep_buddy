@@ -4,6 +4,12 @@ export interface Question {
   answer: number
   /** How the correct answer should be displayed to the user (e.g. "11.11" instead of 11.109999) */
   displayAnswer: string
+  /** Optional worked solution shown under the question in the end-of-session review (e.g. the mental shortcut). */
+  note?: string
+  /** Optional wording for the review list when `prompt` alone would read oddly there (e.g. fill-in-the-digit questions). */
+  reviewPrompt?: string
+  /** Text joining prompt and answer in the review list (default " = "); fill-in-the-blank games use " → ". */
+  reviewJoiner?: string
 }
 
 export type CheckResult = 'correct' | 'wrong' | 'incomplete'

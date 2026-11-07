@@ -1,8 +1,7 @@
 import { Link } from 'react-router-dom'
-import { SPEED_MATH_GAMES } from './SpeedMath'
+import { ALL_MATH_GAMES } from '../lib/mathGames'
 import { ENGLISH_GAMES } from './English'
 import { REASONING_GAMES } from './Reasoning'
-import { QUANT_GAMES } from './Quant'
 
 const modules: { id: string; title: string; description: string; to: string; gameCount: number; icon: string; meta?: string }[] = [
   {
@@ -15,11 +14,11 @@ const modules: { id: string; title: string; description: string; to: string; gam
     icon: '🔥',
   },
   {
-    id: 'speed-math',
-    title: 'Speed Math',
-    description: 'Tables, squares, cubes and fraction-to-percentage drills to sharpen your calculation speed and accuracy.',
-    to: '/speed-math',
-    gameCount: SPEED_MATH_GAMES.length,
+    id: 'maths',
+    title: 'Maths',
+    description: 'Speed Math: mental-math shortcuts, pace and memory games, and the basic drills — tables, squares, percentages, series and more.',
+    to: '/maths',
+    gameCount: ALL_MATH_GAMES.length,
     icon: '⚡',
   },
   {
@@ -37,14 +36,6 @@ const modules: { id: string; title: string; description: string; to: string; gam
     to: '/reasoning',
     gameCount: REASONING_GAMES.length,
     icon: '🧩',
-  },
-  {
-    id: 'quant',
-    title: 'Quant',
-    description: 'Exam-calibrated quantitative aptitude drills, starting with divisibility rules.',
-    to: '/quant',
-    gameCount: QUANT_GAMES.length,
-    icon: '📊',
   },
   {
     id: 'mocks',

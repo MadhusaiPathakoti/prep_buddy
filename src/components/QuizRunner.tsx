@@ -13,6 +13,8 @@ interface QuizRunnerProps {
   validate: (raw: string, answer: number) => CheckResult
   inputMode?: 'numeric' | 'decimal'
   answerHint?: string
+  /** Text shown between the prompt and the answer box. Defaults to " = "; pass "" when the prompt already contains its own equals sign. */
+  promptSuffix?: string
   onExit: () => void
   onRestart: () => void
 }
@@ -23,6 +25,7 @@ export default function QuizRunner({
   validate,
   inputMode = 'numeric',
   answerHint,
+  promptSuffix = ' = ',
   onExit,
   onRestart,
 }: QuizRunnerProps) {
@@ -74,7 +77,7 @@ export default function QuizRunner({
     setReviewItems((items) =>
       items.some((i) => i.id === current.id)
         ? items
-        : [...items, { id: current.id, prompt: current.prompt, displayAnswer: current.displayAnswer, skipped }],
+        : [...items, { id: current.id, prompt: current.reviewPrompt ?? current.prompt, displayAnswer: current.displayAnswer, skipped, note: current.note, joiner: current.reviewJoiner }],
     )
   }
 
@@ -209,9 +212,15 @@ export default function QuizRunner({
           feedback === 'idle' ? 'ring-slate-200 dark:ring-slate-700' : '',
         ].join(' ')}
       >
-        <div className="font-mono text-4xl font-bold tracking-tight text-slate-900 dark:text-slate-100 sm:text-5xl">
+        <div
+          className={[
+            'font-mono font-bold tracking-tight text-slate-900 dark:text-slate-100',
+            // long expressions (successive percentages, equations) need a smaller size to stay on screen
+            current.prompt.length > 18 ? 'text-2xl sm:text-3xl' : 'text-4xl sm:text-5xl',
+          ].join(' ')}
+        >
           {current.prompt}
-          <span className="text-slate-300 dark:text-slate-600"> = </span>
+          <span className="whitespace-pre text-slate-300 dark:text-slate-600">{promptSuffix}</span>
         </div>
 
         {revealAnswer !== null ? (
