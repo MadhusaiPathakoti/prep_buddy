@@ -1,90 +1,96 @@
+import { lazy, Suspense } from 'react'
 import { HashRouter, Routes, Route, Navigate } from 'react-router-dom'
+import ErrorBoundary from './components/ErrorBoundary'
 import Layout from './components/Layout'
-import Home from './pages/Home'
-import Maths from './pages/Maths'
-import SquareCubeRoots from './pages/games/SquareCubeRoots'
-import QuadraticEquations from './pages/games/QuadraticEquations'
-import SeriesWarmup from './pages/games/SeriesWarmup'
-import FlashChain from './pages/games/FlashChain'
-import MentalMemory from './pages/games/MentalMemory'
-import BeatTheClock from './pages/games/BeatTheClock'
-import MultiplyNearBase from './pages/games/MultiplyNearBase'
-import PercentageOfNumber from './pages/games/PercentageOfNumber'
-import Approximation from './pages/games/Approximation'
-import CompareFractions from './pages/games/CompareFractions'
-import SuccessivePercent from './pages/games/SuccessivePercent'
-import MissingDigit from './pages/games/MissingDigit'
-import AdditionsPractice from './pages/games/AdditionsPractice'
-import SubtractionPractice from './pages/games/SubtractionPractice'
-import DivisionPractice from './pages/games/DivisionPractice'
-import TablesPractice from './pages/games/TablesPractice'
-import SquaresCubes from './pages/games/SquaresCubes'
-import RatioPercent from './pages/games/RatioPercent'
-import PercentToRatio from './pages/games/PercentToRatio'
-import PythagoreanTriplets from './pages/games/PythagoreanTriplets'
-import TwinNumberProducts from './pages/games/TwinNumberProducts'
-import Reasoning from './pages/Reasoning'
-import AlphaNumericTest from './pages/games/AlphaNumericTest'
-import StatementConclusions from './pages/games/StatementConclusions'
-import NumberLetterSeries from './pages/games/NumberLetterSeries'
-import CodingDecoding from './pages/games/CodingDecoding'
-import Syllogism from './pages/games/Syllogism'
-import BloodRelations from './pages/games/BloodRelations'
-import DirectionSense from './pages/games/DirectionSense'
-import RankingOrder from './pages/games/RankingOrder'
-import InputOutput from './pages/games/InputOutput'
-import Divisibility from './pages/games/Divisibility'
-import PercentDegree from './pages/games/PercentDegree'
-import English from './pages/English'
-import VocabularyHub from './pages/vocabulary/VocabularyHub'
-import VocabLibrary from './pages/vocabulary/VocabLibrary'
-import VocabQuiz from './pages/vocabulary/VocabQuiz'
-import AddWord from './pages/vocabulary/AddWord'
-import IdiomsHub from './pages/idioms/IdiomsHub'
-import IdiomLibrary from './pages/idioms/IdiomLibrary'
-import IdiomQuiz from './pages/idioms/IdiomQuiz'
-import AddIdiom from './pages/idioms/AddIdiom'
-import OneWordHub from './pages/onewordsub/OneWordHub'
-import OneWordLibrary from './pages/onewordsub/OneWordLibrary'
-import OneWordQuiz from './pages/onewordsub/OneWordQuiz'
-import AddOneWord from './pages/onewordsub/AddOneWord'
-import PhrasalVerbsHub from './pages/phrasalverbs/PhrasalVerbsHub'
-import PhrasalVerbsLibrary from './pages/phrasalverbs/PhrasalVerbsLibrary'
-import PhrasalVerbsQuiz from './pages/phrasalverbs/PhrasalVerbsQuiz'
-import AddPhrasalVerb from './pages/phrasalverbs/AddPhrasalVerb'
-import SynonymsHub from './pages/synonyms/SynonymsHub'
-import SynonymsQuiz from './pages/synonyms/SynonymsQuiz'
-import AntonymsHub from './pages/antonyms/AntonymsHub'
-import AntonymsQuiz from './pages/antonyms/AntonymsQuiz'
-import WordBankLibrary from './pages/wordbank/WordBankLibrary'
-import AddWordBankEntry from './pages/wordbank/AddWordBankEntry'
-import PhraseRearrangement from './pages/games/PhraseRearrangement'
-import Fillers from './pages/games/Fillers'
-import ErrorDetection from './pages/games/ErrorDetection'
-import ClozeTest from './pages/games/ClozeTest'
-import ParaJumble from './pages/games/ParaJumble'
-import SentenceImprovement from './pages/games/SentenceImprovement'
-import LcmHcfSimplification from './pages/games/LcmHcfSimplification'
-import GrammarHub from './pages/grammar/GrammarHub'
-import RuleLab from './pages/grammar/RuleLab'
-import RuleCard from './pages/grammar/RuleCard'
-import SpotTheRule from './pages/grammar/SpotTheRule'
-import MasteryMap from './pages/grammar/MasteryMap'
-import FixIt from './pages/grammar/FixIt'
-import RuleDuel from './pages/grammar/RuleDuel'
-import RuleSort from './pages/grammar/RuleSort'
-import MocksHome from './pages/mocks/MocksHome'
-import MockExam from './pages/mocks/MockExam'
-import MockLaunch from './pages/mocks/MockLaunch'
-import MockTest from './pages/mocks/MockTest'
-import MockResult from './pages/mocks/MockResult'
-import MockHistory from './pages/mocks/MockHistory'
-import DailyHome from './pages/daily/DailyHome'
-import DailyQuiz from './pages/daily/DailyQuiz'
+const Home = lazy(() => import('./pages/Home'))
+const NotFound = lazy(() => import('./pages/NotFound'))
+const Maths = lazy(() => import('./pages/Maths'))
+const SquareCubeRoots = lazy(() => import('./pages/games/SquareCubeRoots'))
+const QuadraticEquations = lazy(() => import('./pages/games/QuadraticEquations'))
+const SeriesWarmup = lazy(() => import('./pages/games/SeriesWarmup'))
+const FlashChain = lazy(() => import('./pages/games/FlashChain'))
+const MentalMemory = lazy(() => import('./pages/games/MentalMemory'))
+const BeatTheClock = lazy(() => import('./pages/games/BeatTheClock'))
+const MultiplyNearBase = lazy(() => import('./pages/games/MultiplyNearBase'))
+const PercentageOfNumber = lazy(() => import('./pages/games/PercentageOfNumber'))
+const Approximation = lazy(() => import('./pages/games/Approximation'))
+const CompareFractions = lazy(() => import('./pages/games/CompareFractions'))
+const SuccessivePercent = lazy(() => import('./pages/games/SuccessivePercent'))
+const MissingDigit = lazy(() => import('./pages/games/MissingDigit'))
+const AdditionsPractice = lazy(() => import('./pages/games/AdditionsPractice'))
+const SubtractionPractice = lazy(() => import('./pages/games/SubtractionPractice'))
+const DivisionPractice = lazy(() => import('./pages/games/DivisionPractice'))
+const TablesPractice = lazy(() => import('./pages/games/TablesPractice'))
+const SquaresCubes = lazy(() => import('./pages/games/SquaresCubes'))
+const RatioPercent = lazy(() => import('./pages/games/RatioPercent'))
+const PercentToRatio = lazy(() => import('./pages/games/PercentToRatio'))
+const PythagoreanTriplets = lazy(() => import('./pages/games/PythagoreanTriplets'))
+const TwinNumberProducts = lazy(() => import('./pages/games/TwinNumberProducts'))
+const Reasoning = lazy(() => import('./pages/Reasoning'))
+const AlphaNumericTest = lazy(() => import('./pages/games/AlphaNumericTest'))
+const StatementConclusions = lazy(() => import('./pages/games/StatementConclusions'))
+const NumberLetterSeries = lazy(() => import('./pages/games/NumberLetterSeries'))
+const CodingDecoding = lazy(() => import('./pages/games/CodingDecoding'))
+const Syllogism = lazy(() => import('./pages/games/Syllogism'))
+const BloodRelations = lazy(() => import('./pages/games/BloodRelations'))
+const DirectionSense = lazy(() => import('./pages/games/DirectionSense'))
+const RankingOrder = lazy(() => import('./pages/games/RankingOrder'))
+const InputOutput = lazy(() => import('./pages/games/InputOutput'))
+const Divisibility = lazy(() => import('./pages/games/Divisibility'))
+const PercentDegree = lazy(() => import('./pages/games/PercentDegree'))
+const English = lazy(() => import('./pages/English'))
+const VocabularyHub = lazy(() => import('./pages/vocabulary/VocabularyHub'))
+const VocabLibrary = lazy(() => import('./pages/vocabulary/VocabLibrary'))
+const VocabQuiz = lazy(() => import('./pages/vocabulary/VocabQuiz'))
+const AddWord = lazy(() => import('./pages/vocabulary/AddWord'))
+const IdiomsHub = lazy(() => import('./pages/idioms/IdiomsHub'))
+const IdiomLibrary = lazy(() => import('./pages/idioms/IdiomLibrary'))
+const IdiomQuiz = lazy(() => import('./pages/idioms/IdiomQuiz'))
+const AddIdiom = lazy(() => import('./pages/idioms/AddIdiom'))
+const OneWordHub = lazy(() => import('./pages/onewordsub/OneWordHub'))
+const OneWordLibrary = lazy(() => import('./pages/onewordsub/OneWordLibrary'))
+const OneWordQuiz = lazy(() => import('./pages/onewordsub/OneWordQuiz'))
+const AddOneWord = lazy(() => import('./pages/onewordsub/AddOneWord'))
+const PhrasalVerbsHub = lazy(() => import('./pages/phrasalverbs/PhrasalVerbsHub'))
+const PhrasalVerbsLibrary = lazy(() => import('./pages/phrasalverbs/PhrasalVerbsLibrary'))
+const PhrasalVerbsQuiz = lazy(() => import('./pages/phrasalverbs/PhrasalVerbsQuiz'))
+const AddPhrasalVerb = lazy(() => import('./pages/phrasalverbs/AddPhrasalVerb'))
+const SynonymsHub = lazy(() => import('./pages/synonyms/SynonymsHub'))
+const SynonymsQuiz = lazy(() => import('./pages/synonyms/SynonymsQuiz'))
+const AntonymsHub = lazy(() => import('./pages/antonyms/AntonymsHub'))
+const AntonymsQuiz = lazy(() => import('./pages/antonyms/AntonymsQuiz'))
+const WordBankLibrary = lazy(() => import('./pages/wordbank/WordBankLibrary'))
+const AddWordBankEntry = lazy(() => import('./pages/wordbank/AddWordBankEntry'))
+const PhraseRearrangement = lazy(() => import('./pages/games/PhraseRearrangement'))
+const Fillers = lazy(() => import('./pages/games/Fillers'))
+const ErrorDetection = lazy(() => import('./pages/games/ErrorDetection'))
+const ClozeTest = lazy(() => import('./pages/games/ClozeTest'))
+const ParaJumble = lazy(() => import('./pages/games/ParaJumble'))
+const SentenceImprovement = lazy(() => import('./pages/games/SentenceImprovement'))
+const LcmHcfSimplification = lazy(() => import('./pages/games/LcmHcfSimplification'))
+const GrammarHub = lazy(() => import('./pages/grammar/GrammarHub'))
+const RuleLab = lazy(() => import('./pages/grammar/RuleLab'))
+const RuleCard = lazy(() => import('./pages/grammar/RuleCard'))
+const SpotTheRule = lazy(() => import('./pages/grammar/SpotTheRule'))
+const MasteryMap = lazy(() => import('./pages/grammar/MasteryMap'))
+const FixIt = lazy(() => import('./pages/grammar/FixIt'))
+const RuleDuel = lazy(() => import('./pages/grammar/RuleDuel'))
+const RuleSort = lazy(() => import('./pages/grammar/RuleSort'))
+const MocksHome = lazy(() => import('./pages/mocks/MocksHome'))
+const MockExam = lazy(() => import('./pages/mocks/MockExam'))
+const MockLaunch = lazy(() => import('./pages/mocks/MockLaunch'))
+const MockTest = lazy(() => import('./pages/mocks/MockTest'))
+const MockResult = lazy(() => import('./pages/mocks/MockResult'))
+const MockHistory = lazy(() => import('./pages/mocks/MockHistory'))
+const DailyHome = lazy(() => import('./pages/daily/DailyHome'))
+const DailyQuiz = lazy(() => import('./pages/daily/DailyQuiz'))
 
 export default function App() {
   return (
     <HashRouter>
+      {/* the exam window sits outside Layout, so it needs its own boundary and loading state */}
+      <ErrorBoundary>
+        <Suspense fallback={null}>
       <Routes>
         <Route element={<Layout />}>
           <Route path="/" element={<Home />} />
@@ -170,10 +176,13 @@ export default function App() {
           <Route path="/mocks/result/:attemptId" element={<MockResult />} />
           <Route path="/mocks/:exam" element={<MockExam />} />
           <Route path="/mocks/:exam/:kind" element={<MockLaunch />} />
+          <Route path="*" element={<NotFound />} />
         </Route>
         {/* The exam window is deliberately outside Layout: like the real test software, it fills the screen with no site header. */}
         <Route path="/mocks/test/:attemptId" element={<MockTest />} />
       </Routes>
+        </Suspense>
+      </ErrorBoundary>
     </HashRouter>
   )
 }

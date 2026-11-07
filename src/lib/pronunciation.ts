@@ -72,9 +72,26 @@ function readStored(key: string): string | undefined {
   }
 }
 
+/** The newest pronunciations are kept; older ones are dropped so this cache cannot grow without bound in localStorage. */
+const MAX_STORED = 400
+const INDEX_KEY = CACHE_PREFIX + '__index'
+
 function writeStored(key: string, value: string) {
   try {
     localStorage.setItem(CACHE_PREFIX + key, value)
+    let index: string[] = []
+    try {
+      const parsed = JSON.parse(localStorage.getItem(INDEX_KEY) || '[]')
+      if (Array.isArray(parsed)) index = parsed.filter((k): k is string => typeof k === 'string')
+    } catch {
+      index = []
+    }
+    if (!index.includes(key)) index.push(key)
+    while (index.length > MAX_STORED) {
+      const oldest = index.shift()
+      if (oldest) localStorage.removeItem(CACHE_PREFIX + oldest)
+    }
+    localStorage.setItem(INDEX_KEY, JSON.stringify(index))
   } catch {
     // Storage full or blocked — the in-memory cache still works for this session.
   }

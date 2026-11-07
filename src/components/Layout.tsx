@@ -1,7 +1,14 @@
-import { Link, Outlet } from 'react-router-dom'
+import { Suspense } from 'react'
+import { Link, Outlet, useLocation } from 'react-router-dom'
+import ErrorBoundary from './ErrorBoundary'
 import ThemeToggle from './ThemeToggle'
 
+function PageLoading() {
+  return <div className="mx-auto max-w-3xl px-4 py-16 text-center text-slate-400 dark:text-slate-500">Loading…</div>
+}
+
 export default function Layout() {
+  const location = useLocation()
   return (
     <div className="flex min-h-screen flex-col bg-[#f4f5fb] dark:bg-[#0f1117]">
       <header className="border-b border-slate-200 bg-white dark:border-slate-800 dark:bg-slate-900">
@@ -15,7 +22,12 @@ export default function Layout() {
       </header>
 
       <main className="flex-1">
-        <Outlet />
+        {/* keyed by route so a crash on one page clears when you navigate elsewhere */}
+        <ErrorBoundary key={location.pathname}>
+          <Suspense fallback={<PageLoading />}>
+            <Outlet />
+          </Suspense>
+        </ErrorBoundary>
       </main>
 
       <footer className="border-t border-slate-200 bg-white py-4 text-center text-xs text-slate-400 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-500">

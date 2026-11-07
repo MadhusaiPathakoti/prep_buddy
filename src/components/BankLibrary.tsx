@@ -70,6 +70,8 @@ interface BankLibraryProps {
   pronounce?: 'term' | 'meaning'
 }
 
+const PAGE_SIZE = 60
+
 export default function BankLibrary({ bank, bankKey, backTo, backLabel, title, nounPlural, addAction, onDelete, onChangeDifficulty, answerLabel, pronounce }: BankLibraryProps) {
   const [filter, setFilter] = useState<FilterId>('all')
   const [query, setQuery] = useState('')
@@ -130,6 +132,11 @@ export default function BankLibrary({ bank, bankKey, backTo, backLabel, title, n
         return sortDirection === 'asc' ? cmp : -cmp
       })
   }, [bank, filter, query, favorites, favoriteRecency, sortField, sortDirection])
+
+  // Render the list in pages: thousands of cards at once means tens of thousands of DOM nodes, which janks on phones.
+  const listKey = `${filter}|${query}|${sortField}|${sortDirection}|${favoriteRecency}`
+  const [pageState, setPageState] = useState({ key: listKey, count: PAGE_SIZE })
+  const shown = pageState.key === listKey ? pageState.count : PAGE_SIZE
 
   return (
     <div className="mx-auto max-w-3xl px-4 py-10">
@@ -211,7 +218,7 @@ export default function BankLibrary({ bank, bankKey, backTo, backLabel, title, n
       )}
 
       <div className="mt-6 grid gap-3 sm:grid-cols-2">
-        {entries.map((w) => {
+        {entries.slice(0, shown).map((w) => {
           const isFavorite = favorites.has(w.id)
           const favoritedAt = favorites.get(w.id)
           return (
@@ -322,6 +329,14 @@ export default function BankLibrary({ bank, bankKey, backTo, backLabel, title, n
             </div>
           )
         })}
+        {entries.length > shown && (
+          <button
+            onClick={() => setPageState({ key: listKey, count: shown + PAGE_SIZE })}
+            className="rounded-xl bg-slate-100 dark:bg-slate-700 px-4 py-3 text-sm font-semibold text-slate-600 dark:text-slate-300 transition hover:bg-slate-200 sm:col-span-2"
+          >
+            Show {Math.min(PAGE_SIZE, entries.length - shown)} more ({entries.length - shown} not shown)
+          </button>
+        )}
         {entries.length === 0 && filter === 'favorites' && (
           <p className="text-slate-400 dark:text-slate-500">
             {favoriteRecency !== null && favorites.size > 0

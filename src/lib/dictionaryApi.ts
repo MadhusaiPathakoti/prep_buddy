@@ -45,15 +45,19 @@ interface WiktionaryResponse {
   en?: WiktionaryEntry[]
 }
 
-/** Strips HTML tags/entities from Wiktionary's markup, returning plain text. */
+/**
+ * Strips HTML tags/entities from Wiktionary's markup, returning plain text.
+ *
+ * Parsed with DOMParser, which builds an inert document: nothing in it loads or runs (an `<img onerror>` assigned
+ * to a detached element's innerHTML still fires, which is why that pattern is not used here).
+ */
 function stripHtml(html: string): string {
-  const div = document.createElement('div')
-  div.innerHTML = html
+  const doc = new DOMParser().parseFromString(html, 'text/html')
   // Wiktionary sometimes embeds TemplateStyles <style> blocks (e.g. for "(dated)" qualifiers)
   // inside the definition/example markup. textContent walks into them since a <style>
   // element's content model is text, so its CSS would otherwise leak into the plain text.
-  div.querySelectorAll('style, script').forEach((el) => el.remove())
-  return (div.textContent ?? '').replace(/\s+/g, ' ').trim()
+  doc.querySelectorAll('style, script').forEach((el) => el.remove())
+  return (doc.body?.textContent ?? '').replace(/\s+/g, ' ').trim()
 }
 
 async function fetchDefinitionEntries(phrase: string): Promise<WiktionaryEntry[] | null> {
