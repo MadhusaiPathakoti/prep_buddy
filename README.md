@@ -40,13 +40,23 @@ This needs a free Firebase project of your own:
                        && request.resource.data.example is string && request.resource.data.example.size() < 2000
                        && request.resource.data.hint is string && request.resource.data.hint.size() < 300
                        && request.resource.data.difficulty in ['easy', 'medium', 'hard'];
-         allow update: if false;
+         // only the difficulty may change (the Library's "change difficulty" control)
+         allow update: if request.resource.data.diff(resource.data).affectedKeys().hasOnly(['difficulty'])
+                       && request.resource.data.difficulty in ['easy', 'medium', 'hard'];
          allow delete: if true;
        }
        match /vocabularyHiddenSeedWords/{wordId} {
          allow read: if true;
          allow create: if true;
          allow update: if false;
+         allow delete: if false;
+       }
+       match /vocabularyDifficultyOverrides/{wordId} {
+         allow read: if true;
+         allow create, update: if request.resource.data.keys().hasOnly(['difficulty', 'updatedAt'])
+                               && request.resource.data.keys().hasAll(['difficulty', 'updatedAt'])
+                               && request.resource.data.difficulty in ['easy', 'medium', 'hard']
+                               && request.resource.data.updatedAt is number;
          allow delete: if false;
        }
        match /idiomsCustomWords/{wordId} {
@@ -57,13 +67,23 @@ This needs a free Firebase project of your own:
                        && request.resource.data.example is string && request.resource.data.example.size() < 2000
                        && request.resource.data.hint is string && request.resource.data.hint.size() < 300
                        && request.resource.data.difficulty in ['easy', 'medium', 'hard'];
-         allow update: if false;
+         // only the difficulty may change (the Library's "change difficulty" control)
+         allow update: if request.resource.data.diff(resource.data).affectedKeys().hasOnly(['difficulty'])
+                       && request.resource.data.difficulty in ['easy', 'medium', 'hard'];
          allow delete: if true;
        }
        match /idiomsHiddenSeedWords/{wordId} {
          allow read: if true;
          allow create: if true;
          allow update: if false;
+         allow delete: if false;
+       }
+       match /idiomsDifficultyOverrides/{wordId} {
+         allow read: if true;
+         allow create, update: if request.resource.data.keys().hasOnly(['difficulty', 'updatedAt'])
+                               && request.resource.data.keys().hasAll(['difficulty', 'updatedAt'])
+                               && request.resource.data.difficulty in ['easy', 'medium', 'hard']
+                               && request.resource.data.updatedAt is number;
          allow delete: if false;
        }
        match /oneWordSubstitutionCustomWords/{wordId} {
@@ -74,13 +94,23 @@ This needs a free Firebase project of your own:
                        && request.resource.data.example is string && request.resource.data.example.size() < 2000
                        && request.resource.data.hint is string && request.resource.data.hint.size() < 300
                        && request.resource.data.difficulty in ['easy', 'medium', 'hard'];
-         allow update: if false;
+         // only the difficulty may change (the Library's "change difficulty" control)
+         allow update: if request.resource.data.diff(resource.data).affectedKeys().hasOnly(['difficulty'])
+                       && request.resource.data.difficulty in ['easy', 'medium', 'hard'];
          allow delete: if true;
        }
        match /oneWordSubstitutionHiddenSeedWords/{wordId} {
          allow read: if true;
          allow create: if true;
          allow update: if false;
+         allow delete: if false;
+       }
+       match /oneWordSubstitutionDifficultyOverrides/{wordId} {
+         allow read: if true;
+         allow create, update: if request.resource.data.keys().hasOnly(['difficulty', 'updatedAt'])
+                               && request.resource.data.keys().hasAll(['difficulty', 'updatedAt'])
+                               && request.resource.data.difficulty in ['easy', 'medium', 'hard']
+                               && request.resource.data.updatedAt is number;
          allow delete: if false;
        }
        match /phrasalVerbsCustomWords/{wordId} {
@@ -111,7 +141,9 @@ This needs a free Firebase project of your own:
                        && request.resource.data.antonyms is list && request.resource.data.antonyms.size() < 20
                        && request.resource.data.difficulty in ['easy', 'medium', 'hard']
                        && request.resource.data.createdAt is string;
-         allow update: if false;
+         // only the difficulty may change (the Library's "change difficulty" control)
+         allow update: if request.resource.data.diff(resource.data).affectedKeys().hasOnly(['difficulty'])
+                       && request.resource.data.difficulty in ['easy', 'medium', 'hard'];
          allow delete: if true;
        }
        match /wordBankHiddenSeedWords/{wordId} {
@@ -120,9 +152,19 @@ This needs a free Firebase project of your own:
          allow update: if false;
          allow delete: if false;
        }
+       match /wordBankDifficultyOverrides/{wordId} {
+         allow read: if true;
+         allow create, update: if request.resource.data.keys().hasOnly(['difficulty', 'updatedAt'])
+                               && request.resource.data.keys().hasAll(['difficulty', 'updatedAt'])
+                               && request.resource.data.difficulty in ['easy', 'medium', 'hard']
+                               && request.resource.data.updatedAt is number;
+         allow delete: if false;
+       }
      }
    }
    ```
+
+   Changing a word's difficulty from a Library works two ways: a user-added entry's `difficulty` field is updated in place (the `allow update` rule on the `*CustomWords` collections permits that field and nothing else), while a built-in entry can't be edited, so the choice is saved as a tiny override document in the matching `*DifficultyOverrides` collection (`{ difficulty, updatedAt }`, written with `setDoc` and layered over the bundled data on every read). Without these rules the Library's difficulty control fails with "Missing or insufficient permissions". Phrasal Verbs has no difficulty editing, so its collections are unchanged.
 
    The `synonymsCustomWords`, `synonymsHiddenSeedWords`, `antonymsCustomWords`, and `antonymsHiddenSeedWords` collections/rules from the old separate Synonyms/Antonyms banks are no longer read or written by the app (superseded by `wordBank*` above) — safe to delete from your rules whenever convenient, or just leave them as harmless dead rules.
 
