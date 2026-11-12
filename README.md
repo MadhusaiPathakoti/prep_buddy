@@ -59,6 +59,15 @@ The Gemini API key must **never** be shipped to the browser (unlike the Firebase
 
 Without this env var configured, `api/lookup.js` returns a clear 500 error and every "Add" flow transparently falls back to Wiktionary (and from there to the original "No definition found" message if that fails too) — nothing breaks, Gemini is just skipped. Note that `api/lookup.js` only runs as a real serverless function once deployed on Vercel; `npm run dev` (Vite) serves it as a static file instead, so only the Wiktionary path can be exercised locally without the Vercel CLI (`vercel dev`).
 
+### Grammar Rules → Fresh Sentences (AI-written practice)
+
+`/english/grammar-rules/fresh` quizzes only the rules the learner has **started** (the "N of 120 rules started" count on the Grammar hub: opened in Rule Lab or answered in any game). For every question an AI writes a brand-new sentence for one of those rules, never one from the book, and the learner names the rule it breaks or shows. Spaced-repetition progress is updated as in Spot the Rule; the AI's one-line explanation is shown after each answer, and a sentence that looks faulty can be reported (it is then not scored).
+
+- **Server:** `api/freshSentences.js` (POST, `GEMINI_API_KEY`, same model chain and rate limiter as the other generators; shared Gemini helpers in `api/_lib/gemini.js`). It receives the rule's title/summary/explanation/book examples plus the random ingredients below, and only returns sentences that are well-formed, differ from the book examples and recent sentences, and (for errors) differ from their fix.
+- **Randomness:** the client attaches fresh random ingredients to *every* question: a setting (~70), a register (12), a length, two random prompt words (~150) and sometimes a name (~40), see `src/lib/freshSentenceSeeds.ts`. The server adds a random model seed, and the browser remembers the last 12 AI sentences per rule (`prepbuddy:grammar-fresh:sentences`), sends the latest as "do not repeat" and rejects repeats.
+- **Client checks:** `src/lib/freshSentencesApi.ts` also rejects anything matching a rulebook sentence, anything already used this session or recently, and an "error" sentence whose fix is a wholesale rewrite. Failed slots get one top-up pass.
+- There is deliberately **no fallback to book sentences**: if the AI is unavailable the game says so and lets the learner retry. Like the other AI features it only works where the serverless function runs (Vercel, or `vercel dev`).
+
 ## Mocks module
 
 SBI/IBPS **PO (hard)** and **Clerk (medium)** prelims mocks at `/mocks`, in an exam window modelled on the TCS/NTA software (question palette with the five status shapes, per-section clocks, Mark for Review, Clear Response, Save & Next, Question Paper / Instructions, text-size control, submit summary, autosave/resume after a refresh). Three kinds per exam:

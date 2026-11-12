@@ -2,22 +2,29 @@ import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { addSession } from '../lib/storage'
 import { formatTime } from '../lib/format'
-import { GRAMMAR_GAME_ID, getRule, recordAnswer, type SpotQuestion } from '../lib/grammarRules'
+import { FRESH_GAME_ID, GRAMMAR_GAME_ID, getRule, recordAnswer, type SpotQuestion } from '../lib/grammarRules'
 import Stat from './Stat'
 
 interface Result {
   question: SpotQuestion
   chosenRuleId: number
   correct: boolean
+  /** The learner reported the sentence as faulty: it is not scored and does not touch their progress. */
+  flagged?: boolean
 }
 
 interface SpotRuleRunnerProps {
   questions: SpotQuestion[]
   onExit: () => void
   onRestart: () => void
+  /**
+   * AI-written sentences (Fresh Sentences): shows an "AI-written" badge and the AI's explanation, lets the learner report a
+   * faulty sentence, and records rule progress when they move on (so a reported sentence never counts against them).
+   */
+  fresh?: boolean
 }
 
-export default function SpotRuleRunner({ questions, onExit, onRestart }: SpotRuleRunnerProps) {
+export default function SpotRuleRunner({ questions, onExit, onRestart, fresh = false }: SpotRuleRunnerProps) {
   const [index, setIndex] = useState(0)
   const [chosen, setChosen] = useState<number | null>(null)
   const [results, setResults] = useState<Result[]>([])
@@ -40,22 +47,23 @@ export default function SpotRuleRunner({ questions, onExit, onRestart }: SpotRul
   useEffect(() => {
     if (!finished || savedRef.current) return
     savedRef.current = true
-    const correctCount = results.filter((r) => r.correct).length
-    addSession(GRAMMAR_GAME_ID, {
+    const scored = results.filter((r) => !r.flagged)
+    const correctCount = scored.filter((r) => r.correct).length
+    addSession(fresh ? FRESH_GAME_ID : GRAMMAR_GAME_ID, {
       date: new Date().toISOString(),
       correct: correctCount,
-      wrongAttempts: results.length - correctCount,
+      wrongAttempts: scored.length - correctCount,
       skipped: 0,
-      total,
+      total: scored.length,
       timeMs: elapsedMs,
     })
-  }, [finished, results, total, elapsedMs])
+  }, [finished, results, elapsedMs, fresh])
 
   function choose(ruleId: number) {
     if (chosen !== null) return
     const correct = ruleId === current.ruleId
     setChosen(ruleId)
-    recordAnswer(current.ruleId, correct)
+    if (!fresh) recordAnswer(current.ruleId, correct)
     setResults((prev) => [...prev, { question: current, chosenRuleId: ruleId, correct }])
     if (correct) {
       setStreak((s) => {
@@ -68,7 +76,13 @@ export default function SpotRuleRunner({ questions, onExit, onRestart }: SpotRul
     }
   }
 
+  function report() {
+    setResults((prev) => prev.map((r, i) => (i === prev.length - 1 ? { ...r, flagged: true } : r)))
+  }
+
   function next() {
+    const last = results[results.length - 1]
+    if (fresh && last && !last.flagged) recordAnswer(last.question.ruleId, last.correct)
     if (index + 1 >= total) {
       setFinished(true)
     } else {
@@ -78,9 +92,11 @@ export default function SpotRuleRunner({ questions, onExit, onRestart }: SpotRul
   }
 
   if (finished) {
-    const correctCount = results.filter((r) => r.correct).length
-    const accuracy = total > 0 ? Math.round((correctCount / total) * 1000) / 10 : 0
-    const missed = results.filter((r) => !r.correct)
+    const scored = results.filter((r) => !r.flagged)
+    const reported = results.length - scored.length
+    const correctCount = scored.filter((r) => r.correct).length
+    const accuracy = scored.length > 0 ? Math.round((correctCount / scored.length) * 1000) / 10 : 0
+    const missed = scored.filter((r) => !r.correct)
 
     return (
       <div className="mx-auto max-w-lg px-4 py-10">
@@ -90,10 +106,11 @@ export default function SpotRuleRunner({ questions, onExit, onRestart }: SpotRul
 
           <div className="mt-6 grid grid-cols-2 gap-4">
             <Stat label="Accuracy" value={`${accuracy}%`} accent="text-slate-900 dark:text-slate-100" />
-            <Stat label="Correct" value={`${correctCount} / ${total}`} accent="text-emerald-600 dark:text-emerald-400" />
+            <Stat label="Correct" value={`${correctCount} / ${scored.length}`} accent="text-emerald-600 dark:text-emerald-400" />
             <Stat label="Best streak" value={String(bestStreak)} accent="text-indigo-600 dark:text-indigo-400" />
             <Stat label="Time" value={formatTime(elapsedMs)} accent="text-slate-900 dark:text-slate-100" />
           </div>
+          {reported > 0 && <p className="mt-3 text-center text-xs text-slate-400 dark:text-slate-500">{reported} reported sentence{reported === 1 ? '' : 's'} not counted.</p>}
 
           {missed.length > 0 && (
             <div className="mt-6">
@@ -130,6 +147,7 @@ export default function SpotRuleRunner({ questions, onExit, onRestart }: SpotRul
 
   const rule = getRule(current.ruleId)
   const answeredRight = chosen === current.ruleId
+  const reported = results[results.length - 1]?.flagged === true
   const progressPct = total > 0 ? (index / total) * 100 : 0
 
   return (
@@ -146,6 +164,7 @@ export default function SpotRuleRunner({ questions, onExit, onRestart }: SpotRul
 
       <div className="mt-6 rounded-3xl bg-white dark:bg-slate-800 p-6 shadow-sm ring-1 ring-slate-200 dark:ring-slate-700">
         <span className="text-xs font-semibold uppercase tracking-wide text-indigo-500">
+          {fresh && '✨ New, AI-written · '}
           {current.kind === 'broken' ? 'This sentence has an error' : 'This sentence is correct'}
         </span>
         <p className="mt-3 rounded-2xl bg-slate-50 dark:bg-slate-900/40 px-4 py-4 text-base leading-relaxed text-slate-900 dark:text-slate-100">{current.sentence}</p>
@@ -189,14 +208,24 @@ export default function SpotRuleRunner({ questions, onExit, onRestart }: SpotRul
                 <span className="font-semibold">Fix:</span> {current.fix}
               </p>
             )}
+            {fresh && current.note && (
+              <p className="mt-1">
+                <span className="font-semibold">Why:</span> {current.note}
+              </p>
+            )}
             <p className="mt-1">{rule.summary}</p>
-            <div className="mt-3 flex items-center gap-4">
+            <div className="mt-3 flex flex-wrap items-center gap-4">
               <button onClick={next} className="rounded-lg bg-indigo-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-indigo-500">
                 {index + 1 >= total ? 'See results' : 'Next'}
               </button>
               <Link to={`/english/grammar-rules/lab/${rule.id}`} className="text-xs font-semibold underline-offset-2 hover:underline">
                 Open full rule
               </Link>
+              {fresh && (
+                <button onClick={report} disabled={reported} className="text-xs font-semibold underline-offset-2 hover:underline disabled:no-underline disabled:opacity-60">
+                  {reported ? 'Reported, not counted' : 'This sentence looks wrong: report it'}
+                </button>
+              )}
             </div>
           </div>
         )}

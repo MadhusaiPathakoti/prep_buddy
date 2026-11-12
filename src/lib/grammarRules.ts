@@ -1,6 +1,8 @@
 import { GRAMMAR_RULES } from '../data/grammarRules'
 
 export const GRAMMAR_GAME_ID = 'grammar-rules'
+/** Session history of the AI-written "Fresh Sentences" game. */
+export const FRESH_GAME_ID = 'grammar-fresh'
 
 export const GRAMMAR_CATEGORIES = [
   'Pronouns',
@@ -192,6 +194,8 @@ export interface SpotQuestion {
   sentence: string
   /** The corrected sentence, for 'broken' questions. */
   fix?: string
+  /** AI-written questions: a one-line explanation of why the sentence is right/wrong. */
+  note?: string
   options: { ruleId: number; title: string }[]
 }
 
@@ -253,6 +257,45 @@ export function rankRules(scope: SpotScope): GrammarRule[] {
   }
   // Shuffle first so equal-priority rules come out in a different order every session.
   return shuffle(pool).sort((a, b) => priority(a) - priority(b))
+}
+
+// ─── Started rules (the pool for AI-written practice) ────────────────────────
+
+/** A rule counts as started once it has been opened in Rule Lab or answered in any game: the "N of 120 rules started" the hub shows. */
+export function isStarted(p: RuleProgress | undefined): boolean {
+  return !!p && (p.seen > 0 || p.learned)
+}
+
+export function startedRules(progress: ProgressMap = loadProgress()): GrammarRule[] {
+  return RULES.filter((r) => isStarted(progress[r.id]))
+}
+
+/** Like rankRules, but only rules the learner has started. */
+export function rankStartedRules(scope: SpotScope): GrammarRule[] {
+  const progress = loadProgress()
+  return rankRules(scope).filter((r) => isStarted(progress[r.id]))
+}
+
+/** Answer options for an AI question: the rule plus 3 distractors, taken from started rules first (same topic first), then from the rest. */
+export function pickOptionsPreferStarted(rule: GrammarRule): { ruleId: number; title: string }[] {
+  const progress = loadProgress()
+  const others = RULES.filter((r) => r.id !== rule.id)
+  const tiers = [
+    others.filter((r) => isStarted(progress[r.id]) && r.category === rule.category),
+    others.filter((r) => isStarted(progress[r.id]) && r.category !== rule.category),
+    others.filter((r) => !isStarted(progress[r.id]) && r.category === rule.category),
+    others.filter((r) => !isStarted(progress[r.id]) && r.category !== rule.category),
+  ]
+  const seenTitles = new Set([rule.title.toLowerCase()])
+  const distractors: GrammarRule[] = []
+  for (const r of tiers.flatMap((t) => shuffle(t))) {
+    if (distractors.length === 3) break
+    const t = r.title.toLowerCase()
+    if (seenTitles.has(t)) continue
+    seenTitles.add(t)
+    distractors.push(r)
+  }
+  return shuffle([rule, ...distractors]).map((r) => ({ ruleId: r.id, title: r.title }))
 }
 
 /** Pick which rules to drill: scope first, then due/struggling rules ahead of unseen ones. */

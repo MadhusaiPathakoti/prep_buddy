@@ -49,6 +49,13 @@ export default function GrammarHub() {
       cta: 'Sort →',
     },
     {
+      to: '/english/grammar-rules/fresh',
+      icon: '✨',
+      title: 'Fresh Sentences',
+      description: `AI writes brand-new sentences, different every time, for only the ${started} rules you've started. Never from the book.`,
+      cta: 'Play →',
+    },
+    {
       to: '/english/grammar-rules/map',
       icon: '🗺️',
       title: 'Mastery Map',

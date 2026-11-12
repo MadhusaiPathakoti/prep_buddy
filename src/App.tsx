@@ -78,6 +78,7 @@ const MasteryMap = lazy(() => import('./pages/grammar/MasteryMap'))
 const FixIt = lazy(() => import('./pages/grammar/FixIt'))
 const RuleDuel = lazy(() => import('./pages/grammar/RuleDuel'))
 const RuleSort = lazy(() => import('./pages/grammar/RuleSort'))
+const FreshSentences = lazy(() => import('./pages/grammar/FreshSentences'))
 const MocksHome = lazy(() => import('./pages/mocks/MocksHome'))
 const MockExam = lazy(() => import('./pages/mocks/MockExam'))
 const MockLaunch = lazy(() => import('./pages/mocks/MockLaunch'))
@@ -172,6 +173,7 @@ export default function App() {
           <Route path="/english/grammar-rules/fix-it" element={<FixIt />} />
           <Route path="/english/grammar-rules/duel" element={<RuleDuel />} />
           <Route path="/english/grammar-rules/sort" element={<RuleSort />} />
+          <Route path="/english/grammar-rules/fresh" element={<FreshSentences />} />
           <Route path="/english/grammar-rules/map" element={<MasteryMap />} />
           <Route path="/daily" element={<DailyHome />} />
           <Route path="/daily/:section" element={<DailyQuiz />} />
