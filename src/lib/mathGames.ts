@@ -1,9 +1,15 @@
+import { VEDIC_GROUP_LABELS, VEDIC_META, vedicGameId } from './vedicCatalog'
+
 export interface MathGame {
   id: string
   title: string
   description: string
   to: string
   icon: string
+  /** Call-to-action on the card (defaults to "Play"). */
+  cta?: string
+  /** Small label shown next to the icon. */
+  tag?: string
 }
 
 export interface MathSection {
@@ -197,7 +203,24 @@ export const PACE_GAMES: MathGame[] = [
   },
 ]
 
+/** Vedic Maths tricks: each one is taught first (lesson page), then drilled (practice game). */
+export const VEDIC_GAMES: MathGame[] = VEDIC_META.map((m) => ({
+  id: vedicGameId(m.id),
+  title: m.title,
+  description: m.blurb,
+  to: `/maths/vedic/${m.id}`,
+  icon: m.icon,
+  cta: 'Learn',
+  tag: VEDIC_GROUP_LABELS[m.group],
+}))
+
 export const MATH_SECTIONS: MathSection[] = [
+  {
+    id: 'vedic',
+    title: 'Vedic Maths',
+    blurb: 'Classic Vedic shortcuts for lightning-fast mental calculation. Each trick is taught step by step first, then drilled in a practice game.',
+    games: VEDIC_GAMES,
+  },
   {
     id: 'shortcuts',
     title: 'Mental-math shortcuts',

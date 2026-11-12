@@ -28,8 +28,13 @@ export default function Maths() {
                   to={g.to}
                   className="group rounded-3xl bg-white dark:bg-slate-800 p-6 shadow-sm ring-1 ring-slate-200 dark:ring-slate-700 transition hover:-translate-y-0.5 hover:shadow-md"
                 >
-                  <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-indigo-50 dark:bg-indigo-500/10 text-xl font-bold text-indigo-600 dark:text-indigo-400">
-                    {g.icon}
+                  <div className="flex items-center gap-2">
+                    <div className="flex h-12 min-w-12 items-center justify-center rounded-2xl bg-indigo-50 dark:bg-indigo-500/10 px-2 text-xl font-bold text-indigo-600 dark:text-indigo-400">
+                      {g.icon}
+                    </div>
+                    {g.tag && (
+                      <span className="rounded-full bg-slate-100 dark:bg-slate-700 px-2.5 py-0.5 text-xs font-medium text-slate-500 dark:text-slate-300">{g.tag}</span>
+                    )}
                   </div>
                   <h3 className="mt-4 text-xl font-bold text-slate-900 dark:text-slate-100">{g.title}</h3>
                   <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">{g.description}</p>
@@ -37,9 +42,9 @@ export default function Maths() {
                     {summary.bestAccuracy !== null ? (
                       <span className="font-medium text-emerald-600 dark:text-emerald-400">Best {Math.round(summary.bestAccuracy)}%</span>
                     ) : (
-                      <span className="font-medium text-slate-400 dark:text-slate-500">Not played yet</span>
+                      <span className="font-medium text-slate-400 dark:text-slate-500">{g.cta ? 'Not practised yet' : 'Not played yet'}</span>
                     )}
-                    <span className="font-semibold text-indigo-600 dark:text-indigo-400 group-hover:translate-x-0.5 transition">Play →</span>
+                    <span className="font-semibold text-indigo-600 dark:text-indigo-400 group-hover:translate-x-0.5 transition">{g.cta ?? 'Play'} →</span>
                   </div>
                 </Link>
               )

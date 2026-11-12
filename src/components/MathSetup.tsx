@@ -18,6 +18,8 @@ interface BaseProps {
   groups: SetupGroup[]
   counts?: number[]
   defaultCount?: number
+  /** Where the "back" link at the top goes. Defaults to the Maths hub. */
+  back?: { to: string; label: string }
 }
 
 type TypedProps = BaseProps & {
@@ -49,7 +51,7 @@ type SprintProps = BaseProps & {
 
 /** Shared setup screen for the mental-math games: pick options, then run a typed-answer or multiple-choice session. */
 export default function MathSetup(props: TypedProps | McqProps | FlashProps | SprintProps) {
-  const { gameId, title, intro, learn, groups, counts = [10, 20, 30, 50], defaultCount = 20 } = props
+  const { gameId, title, intro, learn, groups, counts = [10, 20, 30, 50], defaultCount = 20, back = { to: '/maths', label: 'Maths' } } = props
   const [choice, setChoice] = useState<Record<string, string>>(() => Object.fromEntries(groups.map((g) => [g.key, g.defaultId])))
   const [count, setCount] = useState(defaultCount)
   const [typedQs, setTypedQs] = useState<Question[] | null>(null)
@@ -107,8 +109,8 @@ export default function MathSetup(props: TypedProps | McqProps | FlashProps | Sp
 
   return (
     <div className="mx-auto max-w-2xl px-4 py-10">
-      <Link to="/maths" className="text-sm text-slate-400 dark:text-slate-500 hover:text-slate-600">
-        ← Maths
+      <Link to={back.to} className="text-sm text-slate-400 dark:text-slate-500 hover:text-slate-600">
+        ← {back.label}
       </Link>
       <h1 className="mt-2 text-3xl font-extrabold text-slate-900 dark:text-slate-100">{title}</h1>
       <div className="mt-2 text-slate-500 dark:text-slate-400">{intro}</div>
