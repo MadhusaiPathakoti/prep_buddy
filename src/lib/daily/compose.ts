@@ -8,7 +8,7 @@ import { ARITHMETIC_POOL, MARKS_PER_QUESTION, NEGATIVE_MARKS } from '../mocks/bl
 import { QUANT_GENERATORS } from '../mocks/quant'
 import { QUANT_MAINS_GENERATORS } from '../mocks/quant/mains'
 import { REASONING_GENERATORS } from '../mocks/reasoning'
-import { REASONING_MAINS_GENERATORS } from '../mocks/reasoning/mains'
+import { REASONING_MAINS_GENERATORS, REASONING_MEDIUM_GENERATORS } from '../mocks/reasoning/mains'
 import { createRng, type Rng } from '../mocks/rng'
 import { topicLabel } from '../mocks/topics'
 import { assertGroup } from '../mocks/validate'
@@ -16,7 +16,8 @@ import type { Group, MockPaper, MockQuestion, MockSection, MockSectionId, MockTo
 import { buildDailyEnglishGroups, DAILY_ENGLISH_PLAN, hashString } from './english'
 
 /** Bump whenever a daily plan or generator changes the paper for a given date. Cached papers of another version are rebuilt. */
-export const DAILY_VERSION = 2
+const DAILY_VERSIONS: Record<MockSectionId, number> = { quant: 2, reasoning: 3, english: 2 }
+export const dailyVersion = (section: MockSectionId): number => DAILY_VERSIONS[section]
 
 export const DAILY_SECTIONS: { id: MockSectionId; name: string; short: string; icon: string; blurb: string }[] = [
   { id: 'quant', name: 'Quantitative Aptitude', short: 'Quant', icon: '📊', blurb: 'Simplification, approximation, arithmetic, quadratics, number series and a data-interpretation set.' },
@@ -49,6 +50,8 @@ export function formatDateKey(dateKey: string): string {
 }
 
 interface Job {
+  /** Use the medium-level generator (fewer attributes and clues) instead of the Mains one. */
+  medium?: boolean
   /** Pool the day's topic is drawn from (one topic is picked, or the count is spread across the pool). */
   topics: MockTopicId[]
   count: number
@@ -70,11 +73,11 @@ const QUANT_PLAN: Job[] = [
   one(['di-pie', 'di-line', 'di-caselet'], 5),
 ]
 
-/** 30 questions: two arrangement sets plus a puzzle set, then the verbal-logic types, ending with machine / data sufficiency. */
+/** 30 questions: a seating set and two puzzle sets at medium level, then the Mains-level the verbal-logic types, ending with machine / data sufficiency. */
 const REASONING_PLAN: Job[] = [
-  one(['seating-linear', 'seating-circular'], 5),
-  one(['puzzle-floor', 'puzzle-schedule', 'puzzle-box'], 5),
-  one(['puzzle-floor', 'puzzle-schedule', 'puzzle-box'], 5),
+  { ...one(['seating-linear', 'seating-circular'], 5), medium: true },
+  { ...one(['puzzle-floor', 'puzzle-schedule', 'puzzle-box'], 5), medium: true },
+  { ...one(['puzzle-floor', 'puzzle-schedule', 'puzzle-box'], 5), medium: true },
   one('syllogism', 3),
   one('inequality', 3),
   one('blood-relation', 3),
@@ -83,12 +86,13 @@ const REASONING_PLAN: Job[] = [
   one('reasoning-misc', 2),
 ]
 
-function generatorFor(topic: MockTopicId): TopicGenerator {
-  const g =
-    (QUANT_MAINS_GENERATORS as Record<string, TopicGenerator>)[topic] ??
-    (REASONING_MAINS_GENERATORS as Record<string, TopicGenerator>)[topic] ??
-    (QUANT_GENERATORS as Record<string, TopicGenerator>)[topic] ??
-    (REASONING_GENERATORS as Record<string, TopicGenerator>)[topic]
+function generatorFor(topic: MockTopicId, medium?: boolean): TopicGenerator {
+  const g = medium && (REASONING_MEDIUM_GENERATORS as Record<string, TopicGenerator>)[topic]
+    ? (REASONING_MEDIUM_GENERATORS as Record<string, TopicGenerator>)[topic]
+    : (QUANT_MAINS_GENERATORS as Record<string, TopicGenerator>)[topic] ??
+      (REASONING_MAINS_GENERATORS as Record<string, TopicGenerator>)[topic] ??
+      (QUANT_GENERATORS as Record<string, TopicGenerator>)[topic] ??
+      (REASONING_GENERATORS as Record<string, TopicGenerator>)[topic]
   if (!g) throw new Error(`No generator for topic: ${topic}`)
   return g
 }
@@ -111,8 +115,8 @@ function allocate(rng: Rng, job: Job, used: Set<MockTopicId>): { topic: MockTopi
 }
 
 /** Several generator attempts per slot (the verified generators occasionally reject a draw); the rng stays deterministic. */
-function generate(topic: MockTopicId, rng: Rng, count: number, seen: Set<string>): Group[] {
-  const gen = generatorFor(topic)
+function generate(topic: MockTopicId, rng: Rng, count: number, seen: Set<string>, medium?: boolean): Group[] {
+  const gen = generatorFor(topic, medium)
   let lastError: unknown
   let fallback: Group[] | null = null
   for (let attempt = 0; attempt < 12; attempt++) {
@@ -147,7 +151,7 @@ export function buildDailyPaper(section: MockSectionId, dateKey: string): MockPa
     const usedTopics = new Set<MockTopicId>()
     for (const job of section === 'quant' ? QUANT_PLAN : REASONING_PLAN) {
       for (const a of allocate(rng, job, usedTopics)) {
-        const groups = generate(a.topic, rng, a.count, seen)
+        const groups = generate(a.topic, rng, a.count, seen, job.medium)
         for (const g of groups) {
           if (g.stimulus) seen.add(`s:${stimulusKey(g.stimulus)}`)
           for (const q of g.questions) seen.add(questionKey(q))
@@ -196,6 +200,6 @@ export function buildDailyPaper(section: MockSectionId, dateKey: string): MockPa
     sections,
     questions,
     sets,
-    daily: { dateKey, section, version: DAILY_VERSION },
+    daily: { dateKey, section, version: dailyVersion(section) },
   }
 }

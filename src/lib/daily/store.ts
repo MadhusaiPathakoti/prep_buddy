@@ -1,7 +1,7 @@
 import { getCandidateName, listDailyFinished, saveFinishedDaily, type Attempt, type AttemptSummary } from '../mocks/attempts'
 import type { QResponse } from '../mocks/scoring'
 import type { MockPaper, MockSectionId } from '../mocks/types'
-import { buildDailyPaper, DAILY_VERSION } from './compose'
+import { buildDailyPaper, dailyVersion } from './compose'
 
 // Persistence for the Daily Dose. The day's paper is cached the first time it is opened so the same paper comes
 // back however many times (or from whichever screen) the student returns; an in-progress quiz is autosaved so a
@@ -57,7 +57,7 @@ function pruneOld(dateKey: string) {
 }
 
 function looksLikePaper(p: MockPaper | null, section: MockSectionId, dateKey: string): p is MockPaper {
-  return !!p && p.daily?.dateKey === dateKey && p.daily.section === section && p.daily.version === DAILY_VERSION && Array.isArray(p.questions) && p.questions.length > 0 && Array.isArray(p.sections) && p.sections.length === 1
+  return !!p && p.daily?.dateKey === dateKey && p.daily.section === section && p.daily.version === dailyVersion(section) && Array.isArray(p.questions) && p.questions.length > 0 && Array.isArray(p.sections) && p.sections.length === 1
 }
 
 /** The one paper for this section and day: cached after the first build, so it never changes under the student. */
@@ -88,7 +88,7 @@ export interface DailyProgress {
 
 export function loadProgress(section: MockSectionId, dateKey: string): DailyProgress | null {
   const p = read<DailyProgress>(PROGRESS_KEY(dateKey, section))
-  return p && p.v === 1 && p.paperVersion === DAILY_VERSION && p.dateKey === dateKey && p.section === section && p.responses && typeof p.currentId === 'string' ? p : null
+  return p && p.v === 1 && p.paperVersion === dailyVersion(section) && p.dateKey === dateKey && p.section === section && p.responses && typeof p.currentId === 'string' ? p : null
 }
 
 export function saveProgress(p: DailyProgress) {
@@ -126,7 +126,7 @@ export function nextAttemptNo(section: MockSectionId, dateKey: string): number {
 export function startProgress(paper: MockPaper, section: MockSectionId, dateKey: string): DailyProgress {
   const p: DailyProgress = {
     v: 1,
-    paperVersion: DAILY_VERSION,
+    paperVersion: dailyVersion(section),
     dateKey,
     section,
     attemptNo: nextAttemptNo(section, dateKey),
