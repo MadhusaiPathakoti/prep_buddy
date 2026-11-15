@@ -5,7 +5,8 @@ import Layout from './components/Layout'
 const Home = lazy(() => import('./pages/Home'))
 const NotFound = lazy(() => import('./pages/NotFound'))
 const Maths = lazy(() => import('./pages/Maths'))
-const VedicLesson = lazy(() => import('./pages/vedic/VedicLesson'))
+const SurdsGame = lazy(() => import('./pages/games/SurdsGame'))
+const VedicLesson =lazy(() => import('./pages/vedic/VedicLesson'))
 const VedicPractice = lazy(() => import('./pages/vedic/VedicPractice'))
 const SquareCubeRoots =lazy(() => import('./pages/games/SquareCubeRoots'))
 const QuadraticEquations = lazy(() => import('./pages/games/QuadraticEquations'))
@@ -100,7 +101,8 @@ export default function App() {
           <Route path="/maths" element={<Maths />} />
           <Route path="/maths/vedic/:trick" element={<VedicLesson />} />
           <Route path="/maths/vedic/:trick/practice" element={<VedicPractice />} />
-          <Route path="/maths/multiply-near-base"element={<MultiplyNearBase />} />
+          <Route path="/maths/surds" element={<SurdsGame />} />
+          <Route path="/maths/multiply-near-base" element={<MultiplyNearBase />} />
           <Route path="/maths/percentage-of-number" element={<PercentageOfNumber />} />
           <Route path="/maths/approximation" element={<Approximation />} />
           <Route path="/maths/compare-fractions" element={<CompareFractions />} />

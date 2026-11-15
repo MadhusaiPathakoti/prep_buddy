@@ -149,6 +149,13 @@ export const SHORTCUT_GAMES: MathGame[] = [
     icon: '±%',
   },
   {
+    id: 'surds',
+    title: 'Surds',
+    description: 'Compare 3√2 with 2√3 using <, >, ≤, ≥ or =, then see both decimal values. Includes a √2 to √20 table.',
+    to: '/maths/surds',
+    icon: '√',
+  },
+  {
     id: 'missing-digit',
     title: 'Missing Digit',
     description: 'Find the digit hidden in 47 × 38 = 17□6 using digit sums and last-digit checks.',
@@ -165,7 +172,7 @@ export const SHORTCUT_GAMES: MathGame[] = [
   {
     id: 'quadratic-equations',
     title: 'Quadratic Equations',
-    description: 'Factorise two equations and compare x and y, exactly like the Prelims.',
+    description: 'Factorise two equations (including the surd-root type) and compare x and y, exactly like the Prelims.',
     to: '/maths/quadratic-equations',
     icon: 'x²',
   },

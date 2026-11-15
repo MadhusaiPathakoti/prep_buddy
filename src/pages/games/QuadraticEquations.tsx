@@ -9,8 +9,9 @@ export default function QuadraticEquations() {
       title="Quadratic Equations"
       intro={
         <p>
-          Two quadratic equations, one in x and one in y: decide the relation between x and y, exactly as in the Prelims. Wrong options
-          eliminate themselves. The review shows the factorisation of each equation and the root sets.
+          Two quadratic equations, one in x and one in y: decide the relation between x and y, exactly as in the Prelims. Medium and hard sessions
+          also include the surd type, like 5x² + 10√5x + 25 = 0. Wrong options eliminate themselves. The review shows the factorisation of each equation
+          and the root sets.
         </p>
       }
       learn={
@@ -28,6 +29,14 @@ export default function QuadraticEquations() {
           <p>
             <strong>Leading coefficient &gt; 1:</strong> split the middle term: 6x² − 5x − 6 = (3x + 2)(2x − 3) → x = −2/3, 3/2.
           </p>
+          <p>
+            <strong>Equations with a surd (medium and hard):</strong> 12x² − 36√3x − 360 = 0. Divide by 12: x² − 3√3x − 30 = 0. The roots are whole multiples of
+            the surd, p√3 and q√3, so p + q = 3 and p × q × 3 = −30 → p × q = −10 → p = 5, q = −2. So x = 5√3, −2√3.
+          </p>
+          <p>
+            <strong>Comparing surd roots:</strong> same surd (both √3)? Compare the multiples. Different surds (√2 against √3)? Bring the multiple under the root:
+            4√2 = √32 and 3√3 = √27, so 4√2 is larger. Signs first: any negative root is below any positive one.
+          </p>
         </>
       }
       groups={[
@@ -37,9 +46,9 @@ export default function QuadraticEquations() {
           defaultId: 'medium',
           options: [
             { id: 'easy', label: 'Easy', description: 'x² − 5x + 6 = 0 style, integer roots to 9' },
-            { id: 'medium', label: 'Medium', description: 'rearranged equations, roots to 14, repeated roots' },
-            { id: 'hard', label: 'Hard', description: 'leading coefficient > 1, fractional roots' },
-            { id: 'mixed', label: 'Mixed', description: 'a blend of all three' },
+            { id: 'medium', label: 'Medium', description: 'rearranged equations, roots to 14, repeated roots; at least 40% have surd roots' },
+            { id: 'hard', label: 'Hard', description: 'leading coefficient > 1, fractional roots; at least 40% have surd roots' },
+            { id: 'mixed', label: 'Mixed', description: 'a blend of all three; surds on the medium and hard questions' },
           ],
         },
       ]}

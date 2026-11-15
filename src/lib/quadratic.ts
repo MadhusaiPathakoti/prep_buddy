@@ -6,6 +6,10 @@ import { between, chance, gcd, pick, qid } from './mentalMath'
  * Roots are exact rationals; the relation is decided from min/max of the two root sets:
  *   min x > max y → x > y     max x < min y → x < y
  *   min x = max y → x ≥ y     max x = min y → x ≤ y     otherwise (or x = y throughout) → no relation.
+ *
+ * Medium and hard sessions also contain "surd" equations like 5x² + 10√5x + 25 = 0, whose roots are whole multiples of one
+ * surd (here x = −√5). At least SURD_SHARE of every medium/hard session is of this kind; roots are kept as exact c√k pairs and
+ * compared with integer arithmetic, never with decimals.
  */
 
 export type QuadraticDifficulty = 'easy' | 'medium' | 'hard' | 'mixed'
@@ -25,18 +29,20 @@ const fracText = (f: Frac) => (f.d === 1 ? `${f.n}` : `${f.n}/${f.d}`).replace('
 
 const OPTIONS = ['x > y', 'x ≥ y', 'x < y', 'x ≤ y', 'x = y or the relation cannot be established'] as const
 
-function relation(xs: Frac[], ys: Frac[]): number {
-  const minX = xs.reduce((a, b) => (cmp(a, b) <= 0 ? a : b))
-  const maxX = xs.reduce((a, b) => (cmp(a, b) >= 0 ? a : b))
-  const minY = ys.reduce((a, b) => (cmp(a, b) <= 0 ? a : b))
-  const maxY = ys.reduce((a, b) => (cmp(a, b) >= 0 ? a : b))
-  if (cmp(minX, maxX) === 0 && cmp(minY, maxY) === 0 && cmp(minX, minY) === 0) return 4
-  if (cmp(minX, maxY) > 0) return 0
-  if (cmp(maxX, minY) < 0) return 2
-  if (cmp(minX, maxY) === 0) return 1
-  if (cmp(maxX, minY) === 0) return 3
+/** The relation between two root sets (index into OPTIONS), for any root type with an exact comparator. */
+function relationBy<T>(xs: T[], ys: T[], c: (a: T, b: T) => number): number {
+  const minX = xs.reduce((a, b) => (c(a, b) <= 0 ? a : b))
+  const maxX = xs.reduce((a, b) => (c(a, b) >= 0 ? a : b))
+  const minY = ys.reduce((a, b) => (c(a, b) <= 0 ? a : b))
+  const maxY = ys.reduce((a, b) => (c(a, b) >= 0 ? a : b))
+  if (c(minX, maxX) === 0 && c(minY, maxY) === 0 && c(minX, minY) === 0) return 4
+  if (c(minX, maxY) > 0) return 0
+  if (c(maxX, minY) < 0) return 2
+  if (c(minX, maxY) === 0) return 1
+  if (c(maxX, minY) === 0) return 3
   return 4
 }
+const relation = (xs: Frac[], ys: Frac[]) => relationBy(xs, ys, cmp)
 
 // ---------- building one equation ----------
 
@@ -115,6 +121,116 @@ function finish(v: string, sq: string, A: number, B: number, C: number, roots: F
   return { text: standard, roots, work }
 }
 
+// ---------- surd-root equations ----------
+
+/** A root of the form c·√k, with k squarefree (2, 3, 5 or 6) so that two different k are never equal. */
+interface SurdRoot {
+  c: number
+  k: number
+}
+const SURD_K = [2, 3, 5, 6] as const
+/** Share of each medium/hard session that must be surd equations. */
+export const SURD_SHARE = 0.4
+
+/** Exact comparison of c₁√k₁ and c₂√k₂: by sign first, then by comparing c²k as whole numbers. */
+function cmpSurd(a: SurdRoot, b: SurdRoot): number {
+  const sa = Math.sign(a.c)
+  const sb = Math.sign(b.c)
+  if (sa !== sb) return sa - sb
+  if (sa === 0) return 0
+  const d = a.c * a.c * a.k - b.c * b.c * b.k
+  return sa > 0 ? d : -d
+}
+
+const surdText = (r: SurdRoot) => `${r.c < 0 ? '−' : ''}${Math.abs(r.c) === 1 ? '' : Math.abs(r.c)}√${r.k}`
+const approx = (r: SurdRoot) => (r.c * Math.sqrt(r.k)).toFixed(2).replace('-', '−')
+
+interface SurdEq {
+  text: string
+  roots: SurdRoot[]
+  work: string
+}
+
+/** A·v² − A(p+q)√k·v + A·pq·k = 0, whose roots are p√k and q√k. A ≥ 2 so the first step is always "divide through". */
+function surdEq(v: string, k: number, p: number, q: number, A: number): SurdEq {
+  const sum = p + q
+  const prod = p * q * k
+  const lin = (coef: number) => (coef === 0 ? '' : ` ${sgn(coef)} ${Math.abs(coef) === 1 ? '' : Math.abs(coef)}√${k}${v}`)
+  const text = `${lead(A, `${v}²`)}${lin(-A * sum)}${tail(A * prod, '')} = 0`
+  const divided = `${v}²${lin(-sum)}${tail(prod, '')} = 0`
+  const factor = (r: SurdRoot) => `(${v} ${r.c < 0 ? '+' : '−'} ${surdText({ c: Math.abs(r.c), k })})`
+  const roots: SurdRoot[] = [
+    { c: p, k },
+    { c: q, k },
+  ]
+  const shown = p === q ? [roots[0]] : roots
+  const work = `${text} → ÷${A}: ${divided} → ${factor(roots[0])}${factor(roots[1])} = 0 → ${v} = ${shown.map(surdText).join(', ')} (≈ ${shown.map(approx).join(', ')})`
+  return { text, roots, work }
+}
+
+/** Size caps, so the numbers stay as friendly as in the exam papers (their constants top out around 360). */
+const SURD_LIMIT: Record<'medium' | 'hard', { span: number; maxA: number; maxC: number }> = {
+  medium: { span: 6, maxA: 8, maxC: 500 },
+  hard: { span: 9, maxA: 12, maxC: 720 },
+}
+
+/** Picks the multiples (p, q) for x and for y so that the pair has the wanted relation. */
+function surdRoots(span: number, target: number): { x: [number, number]; y: [number, number]; sameK: boolean } | null {
+  const nz = () => {
+    let n = 0
+    while (n === 0) n = between(-span, span)
+    return n
+  }
+  const second = (first: number) => (chance(0.12) ? first : nz())
+  if (target === 1 || target === 3) {
+    // the roots must touch: x ≥ y needs min x = max y (= s), x ≤ y needs max x = min y (= s)
+    const s = nz()
+    const away = (dir: 1 | -1) => {
+      for (let i = 0; i < 50; i++) {
+        const n = nz()
+        if ((n - s) * dir >= 0) return n
+      }
+      return s
+    }
+    const x: [number, number] = target === 1 ? [s, away(1)] : [s, away(-1)]
+    const y: [number, number] = target === 1 ? [s, away(-1)] : [s, away(1)]
+    if (x[1] === s && y[1] === s) return null // two double roots at s would be plain equality
+    return { x, y, sameK: true }
+  }
+  const x1 = nz()
+  const y1 = nz()
+  return { x: [x1, second(x1)], y: [y1, second(y1)], sameK: false }
+}
+
+function makeSurd(level: 'medium' | 'hard', target: number): MCQQuestion | null {
+  const { span, maxA, maxC } = SURD_LIMIT[level]
+  const picked = surdRoots(span, target)
+  if (!picked) return null
+  // p + q = 0 would drop the √ term (5y² − 135 = 0) and the equation would no longer look like a surd one
+  if (picked.x[0] + picked.x[1] === 0 || picked.y[0] + picked.y[1] === 0) return null
+  const kx = pick(SURD_K)
+  const ky = picked.sameK || chance(level === 'hard' ? 0.35 : 0.5) ? kx : pick(SURD_K)
+  const ceilA = (p: number, q: number, k: number) => Math.min(maxA, Math.floor(maxC / (Math.abs(p * q) * k)))
+  const ax = ceilA(picked.x[0], picked.x[1], kx)
+  const ay = ceilA(picked.y[0], picked.y[1], ky)
+  if (ax < 2 || ay < 2) return null
+  const x = surdEq('x', kx, picked.x[0], picked.x[1], between(2, ax))
+  const y = surdEq('y', ky, picked.y[0], picked.y[1], between(2, ay))
+  const rel = relationBy(x.roots, y.roots, cmpSurd)
+  if (rel !== target) return null
+  const rootsText = (e: SurdEq, v: string) => `${v} = ${[...new Set(e.roots.map(surdText))].join(', ')}`
+  return {
+    id: qid('qd'),
+    instruction: `Quadratic equations · ${level} · surds`,
+    context: `I. ${x.text}\nII. ${y.text}`,
+    term: 'What is the relation between x and y?',
+    correctMeaning: OPTIONS[rel],
+    options: [...OPTIONS],
+    hint: 'Divide through by the leading coefficient. The roots are multiples of one surd, p√k and q√k: p + q is minus the coefficient of the √ term, and p × q × k is the constant.',
+    explanation: `I. ${x.work}\nII. ${y.work}\n${rootsText(x, 'x')} and ${rootsText(y, 'y')} → ${OPTIONS[rel]}.`,
+  }
+}
+
 function pair(level: Level): { x: Eq; y: Eq } {
   return { x: build('x', level), y: build('y', level) }
 }
@@ -141,20 +257,36 @@ const pickTarget = () => {
   return r < 0.24 ? 0 : r < 0.48 ? 2 : r < 0.64 ? 1 : r < 0.8 ? 3 : 4
 }
 
-export function generateQuadraticQuestions(difficulty: QuadraticDifficulty, count: number): MCQQuestion[] {
-  const out: MCQQuestion[] = []
-  let guard = 0
-  while (out.length < count && guard++ < count * 30) {
-    const level: Level = difficulty === 'mixed' ? (['easy', 'medium', 'hard'] as Level[])[out.length % 3] : difficulty
-    const target = pickTarget()
-    for (let t = 0; t < 400; t++) {
-      const q = make(level, target)
-      if (q) {
-        out.push(q)
-        break
-      }
-    }
+function shuffled<T>(items: T[]): T[] {
+  const a = [...items]
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1))
+    ;[a[i], a[j]] = [a[j], a[i]]
   }
-  return out.slice(0, count)
+  return a
+}
+
+/**
+ * One question per slot. Surd equations go only on medium/hard slots (every slot of a medium or hard session, the medium and
+ * hard thirds of a mixed one): at least ceil(40%) of the session and up to 50%, never on easy slots, at random positions.
+ */
+export function generateQuadraticQuestions(difficulty: QuadraticDifficulty, count: number): MCQQuestion[] {
+  const levels: Level[] = Array.from({ length: count }, (_, i) => (difficulty === 'mixed' ? (['easy', 'medium', 'hard'] as Level[])[i % 3] : difficulty))
+  const eligible = levels.flatMap((l, i) => (l === 'easy' ? [] : [i]))
+  const quota = Math.min(eligible.length, between(Math.ceil(count * SURD_SHARE), Math.ceil(count * (SURD_SHARE + 0.1))))
+  const surdSlots = new Set(shuffled(eligible).slice(0, quota))
+
+  const out: MCQQuestion[] = []
+  for (let i = 0; i < count; i++) {
+    const level = levels[i]
+    let q: MCQQuestion | null = null
+    let target = pickTarget()
+    for (let t = 0; t < 3000 && !q; t++) {
+      if (t > 0 && t % 400 === 0) target = pickTarget() // a relation can be rare for a given draw: try another rather than stall
+      q = surdSlots.has(i) && level !== 'easy' ? makeSurd(level, target) : make(level, target)
+    }
+    if (q) out.push(q)
+  }
+  return out
 }
 
