@@ -4,7 +4,7 @@
  * Calls one Gemini model and returns {ok:true, result} when `extract(parsedJson)` yields something usable, otherwise
  * {ok:false, status, error}. Upstream error text is logged on the server and never returned to the browser.
  */
-export async function callGeminiJson(model, apiKey, prompt, { extract, timeoutMs = 9000, temperature = 1, seed, parentSignal }) {
+export async function callGeminiJson(model, apiKey, prompt, { extract, timeoutMs = 9000, temperature = 1, seed, parentSignal, images = [] }) {
   const controller = new AbortController()
   parentSignal?.addEventListener('abort', () => controller.abort(), { once: true })
   const timeoutId = setTimeout(() => controller.abort(), timeoutMs)
@@ -15,7 +15,8 @@ export async function callGeminiJson(model, apiKey, prompt, { extract, timeoutMs
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'x-goog-api-key': apiKey },
       body: JSON.stringify({
-        contents: [{ parts: [{ text: prompt }] }],
+        // `images` is optional: [{ mimeType, data(base64) }] placed before the text so the model reads the picture first
+        contents: [{ parts: [...images.map((img) => ({ inlineData: { mimeType: img.mimeType, data: img.data } })), { text: prompt }] }],
         generationConfig: { responseMimeType: 'application/json', temperature, topP: 0.95, ...(Number.isInteger(seed) ? { seed } : {}) },
       }),
       signal: controller.signal,

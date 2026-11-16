@@ -12,6 +12,7 @@
     "verify:vedic": "tsx scripts/verify-vedic.ts",
     "verify:surds": "tsx scripts/verify-surds.ts",
     "verify:quadratic": "tsx scripts/verify-quadratic.ts",
+    "verify:puzzle": "tsx scripts/verify-puzzle-solver.ts",
     "preview": "vite preview"
   },
   "dependencies": {

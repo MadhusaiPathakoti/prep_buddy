@@ -65,6 +65,14 @@ export const REASONING_GAMES = [
     to: '/reasoning/input-output',
     icon: '⚙️',
   },
+  {
+    id: 'puzzle-solver',
+    title: 'Puzzle Solver',
+    description: 'Paste a floor or seating puzzle (text or screenshot) and watch it solved step by step — why that clue first, why nobody fits elsewhere, and what breaks if a step is changed.',
+    to: '/reasoning/puzzle-solver',
+    icon: '🧩',
+    tool: true,
+  },
 ]
 
 export default function Reasoning() {
@@ -93,7 +101,9 @@ export default function Reasoning() {
               <h2 className="mt-4 text-xl font-bold text-slate-900 dark:text-slate-100">{g.title}</h2>
               <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">{g.description}</p>
               <div className="mt-4 flex items-center justify-between text-sm">
-                {summary.bestAccuracy !== null ? (
+                {'tool' in g && g.tool ? (
+                  <span className="font-medium text-indigo-500 dark:text-indigo-300">Solver · any puzzle</span>
+                ) : summary.bestAccuracy !== null ? (
                   <span className="font-medium text-emerald-600 dark:text-emerald-400">Best {Math.round(summary.bestAccuracy)}%</span>
                 ) : (
                   <span className="font-medium text-slate-400 dark:text-slate-500">Not played yet</span>

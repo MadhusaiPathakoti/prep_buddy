@@ -53,3 +53,53 @@ input[type="number"] {
 .animate-pop {
   animation: pop 0.25s ease-in-out;
 }
+
+/* ── Puzzle Solver: candidate chips that are crossed out, locked in, or clash ── */
+@keyframes chip-out {
+  0% { opacity: 1; transform: scale(1); }
+  20% { transform: scale(1.18); }
+  100% { opacity: 0; transform: scale(0.35); }
+}
+.animate-chip-out {
+  animation: chip-out 1.4s ease-in forwards;
+  pointer-events: none;
+}
+
+@keyframes chip-lock {
+  0% { transform: scale(0.55); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.75); }
+  55% { transform: scale(1.2); box-shadow: 0 0 0 9px rgba(16, 185, 129, 0); }
+  100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+}
+.animate-chip-lock {
+  animation: chip-lock 0.7s ease-out;
+}
+
+@keyframes chip-suppose {
+  0% { transform: scale(0.55); box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.8); }
+  55% { transform: scale(1.2); box-shadow: 0 0 0 9px rgba(245, 158, 11, 0); }
+  100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(245, 158, 11, 0); }
+}
+.animate-chip-suppose {
+  animation: chip-suppose 0.7s ease-out;
+}
+
+@keyframes clash-flash {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(244, 63, 94, 0); }
+  35% { box-shadow: 0 0 0 7px rgba(244, 63, 94, 0.5); }
+}
+.animate-clash {
+  animation: clash-flash 0.9s ease-in-out 2, shake 0.45s ease-in-out;
+}
+
+@keyframes beat-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: none; }
+}
+.animate-beat-in {
+  animation: beat-in 0.35s ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-chip-out { animation: none; opacity: 0; }
+  .animate-chip-lock, .animate-chip-suppose, .animate-clash, .animate-beat-in { animation: none; }
+}

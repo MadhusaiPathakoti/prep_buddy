@@ -44,7 +44,7 @@ There are no accounts in this app, so with no login system these rules intention
 ### Security headers and abuse limits
 
 - `vercel.json` sends `X-Content-Type-Options`, `X-Frame-Options: DENY`, `Referrer-Policy`, `Permissions-Policy` (microphone for voice input only), HSTS and a **Content-Security-Policy** (`script-src 'self'`, no inline scripts — the theme bootstrap lives in `public/theme-init.js`; `connect-src` lists only this site, Firestore, Wiktionary and dictionaryapi.dev). If you add a new third-party API or script, add its origin there or the browser will block it. Hashed files under `/assets` are cached as immutable.
-- The serverless functions share a rate limiter (`api/_lib/guard.js`): lookup 30/min, game generators 20/min, mock English 40/min per visitor. It counts in memory per server instance by default; for one exact limit across all instances, add a free [Upstash Redis](https://upstash.com) database and set `UPSTASH_REDIS_REST_URL` and `UPSTASH_REDIS_REST_TOKEN` in Vercel. Model calls are hedged (the second model is only asked if the first is slow or fails), the Gemini key travels in a header rather than the URL, and upstream error text is logged on the server, never sent to the browser.
+- The serverless functions share a rate limiter (`api/_lib/guard.js`): lookup 30/min, game generators 20/min, mock English 40/min, puzzle screenshots 12/min per visitor. It counts in memory per server instance by default; for one exact limit across all instances, add a free [Upstash Redis](https://upstash.com) database and set `UPSTASH_REDIS_REST_URL` and `UPSTASH_REDIS_REST_TOKEN` in Vercel. Model calls are hedged (the second model is only asked if the first is slow or fails), the Gemini key travels in a header rather than the URL, and upstream error text is logged on the server, never sent to the browser.
 - Known remaining limits: `npm audit` still lists 4 findings inside Firebase's Node-only gRPC packages (not part of the browser bundle; clearing them needs a breaking `firebase` downgrade), and the model-health cooldowns in `api/mockEnglish.js` are per server instance.
 
 ### AI-assisted lookups (Gemini)
@@ -67,6 +67,26 @@ Without this env var configured, `api/lookup.js` returns a clear 500 error and e
 - **Randomness:** the client attaches fresh random ingredients to *every* question: a setting (~70), a register (12), a length, two random prompt words (~150) and sometimes a name (~40), see `src/lib/freshSentenceSeeds.ts`. The server adds a random model seed, and the browser remembers the last 12 AI sentences per rule (`prepbuddy:grammar-fresh:sentences`), sends the latest as "do not repeat" and rejects repeats.
 - **Client checks:** `src/lib/freshSentencesApi.ts` also rejects anything matching a rulebook sentence, anything already used this session or recently, and an "error" sentence whose fix is a wholesale rewrite. Failed slots get one top-up pass.
 - There is deliberately **no fallback to book sentences**: if the AI is unavailable the game says so and lets the learner retry. Like the other AI features it only works where the serverless function runs (Vercel, or `vercel dev`).
+
+## Reasoning → Puzzle Solver (any floor / seating puzzle, step by step)
+
+`/reasoning/puzzle-solver` takes the **text** of a "people on floors / in a row, each with a city, colour, …" puzzle (paste it, or drop / paste / choose a **screenshot**) and solves it while teaching it:
+
+- **Why this clue first.** Facts that are stated outright ("W is from Pune", including the free half of "A, who is from Kolkata, lives on …") go on the board first. After that every unused clue is tried on the board as it stands and scored by how many possibilities it removes; the best one is used and the whole ranking is shown as bars, with a plain-English reason (it pins one person, only ties two people, or is about someone not yet identified) and what was already known about the people it mentions.
+- **Why not anywhere else.** Every possibility that is crossed out keeps its reason ("A on floor 8 would put X on floor 9 — there is no such floor"). Each step lists the people / values it placed or narrowed, with a pip per floor and the grouped reasons.
+- **What if it were placed differently.** Click any crossed-out option: the puzzle is replayed from that step with the option assumed true, and the board animates the consequences (amber = supposed, red = clash) until a contradiction ends it. When nothing a single clue can settle remains, the step is a *case analysis* ("if N were on 8 …"), each test replayable the same way.
+- The board is animated from the engine's event log (chips struck out, locked in, flashing on a clash); `prefers-reduced-motion` shows each step's end state at once.
+
+How it works (`src/lib/puzzleSolver/`):
+
+| file | role |
+|---|---|
+| `parse.ts` | text → people, floors or row, extra categories, and clue *atoms* (immediately above/below, N floors above, between, N people between, adjacent, topmost / lowest / odd / 3rd from the top, "is from", negations, "A, who is from X, …", two statements joined by "and"). Anything it cannot read is listed and never guessed at; the UI shows how every clue was read before solving. |
+| `engine.ts` | logic-grid model (people × positions × each category), propagation with a reason for every crossing, exhaustive search (`enumerate`) and an independent `failedClues` check |
+| `trace.ts` | the planner (clue choice, beats, "why not" rows, case analysis, `simulate` for what-ifs) |
+| `ocrApi.ts` + `api/puzzleOcr.js` | screenshot → text: the image is downscaled in the browser, `api/puzzleOcr.js` (POST, `GEMINI_API_KEY`, same rate limiter and model chain, 12/min) only *transcribes* it into the text box so it can be corrected; magic bytes and size are checked server-side |
+
+The solution is accepted only when an exhaustive search finds exactly one arrangement and every clue holds when evaluated directly; if the clues allow several arrangements or none, the walkthrough says so (and, for none, names the clues whose removal makes it solvable). Supported: 3–10 people, floors (numbered from the bottom or the top) or a row, any number of extra categories, as many people as floors/seats. Not supported: circular seating, more floors than people, clues that count people over several steps ("as many … as"). `npm run verify:puzzle` checks the parser on 54 phrasings, the engine against brute force on random puzzles, the soundness of every crossing, and that every what-if really ends in a contradiction.
 
 ## Mocks module
 
