@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { formatHms, type QuestionResult } from '../../lib/mocks/scoring'
 import { OPTION_LETTERS } from '../../lib/mocks/report'
+import { analysisTables } from '../../lib/mocks/tabulate'
 import { topicLabel } from '../../lib/mocks/topics'
 import type { Stimulus } from '../../lib/mocks/types'
 import StimulusView from './StimulusView'
@@ -11,8 +12,10 @@ const VERDICT_STYLE = {
   unattempted: 'bg-slate-200 text-slate-600 dark:bg-slate-600/40 dark:text-slate-300',
 }
 
-export default function QuestionReview({ r, stimulus, sectionName }: { r: QuestionResult; stimulus?: Stimulus; sectionName: string }) {
-  const [showStimulus, setShowStimulus] = useState(false)
+export default function QuestionReview({ r, stimulus, sectionName, openData = true }: { r: QuestionResult; stimulus?: Stimulus; sectionName: string; /** Open the data by default (set false for the 2nd+ question of a set already shown above). */ openData?: boolean }) {
+  const tables = stimulus ? analysisTables(stimulus) : null
+  // Data sets open by default (the table is what the solution refers to); long passages stay collapsed.
+  const [showStimulus, setShowStimulus] = useState(Boolean(tables) && openData)
   const { q } = r
   return (
     <article className="rounded-2xl bg-white p-5 shadow-sm ring-1 ring-slate-200 dark:bg-slate-800 dark:ring-slate-700">
@@ -33,6 +36,12 @@ export default function QuestionReview({ r, stimulus, sectionName }: { r: Questi
           {showStimulus && (
             <div className="mt-2 rounded-xl bg-slate-50 p-3 text-sm text-slate-800 dark:bg-slate-900/50 dark:text-slate-200">
               <StimulusView stimulus={stimulus} />
+              {tables && (
+                <div className="mt-2 border-t border-dashed border-slate-300 pt-3 dark:border-slate-600">
+                  <p className="mb-2 text-xs font-bold uppercase tracking-wide text-indigo-700 dark:text-indigo-300">{tables.heading}</p>
+                  <StimulusView stimulus={{ parts: tables.parts }} />
+                </div>
+              )}
             </div>
           )}
         </div>
@@ -62,8 +71,32 @@ export default function QuestionReview({ r, stimulus, sectionName }: { r: Questi
       {r.selected === null && <p className="mt-2 text-xs text-slate-500 dark:text-slate-400">You did not attempt this question.</p>}
       <div className="mt-3 rounded-xl bg-indigo-50 p-3 text-sm text-slate-700 dark:bg-indigo-500/10 dark:text-slate-300">
         <p className="mb-1 text-xs font-bold uppercase tracking-wide text-indigo-700 dark:text-indigo-300">Solution</p>
-        <p className="whitespace-pre-line">{q.explanation}</p>
+        <SolutionText text={q.explanation} />
       </div>
     </article>
+  )
+}
+
+/** Step-by-step solutions: "Step N:" lines stand out, the lines under them are the working. */
+function SolutionText({ text }: { text: string }) {
+  const lines = text.split('\n')
+  return (
+    <div className="space-y-0.5">
+      {lines.map((line, i) =>
+        /^Step \d+/.test(line) ? (
+          <p key={i} className={`font-semibold text-slate-900 dark:text-slate-100 ${i > 0 ? 'pt-1.5' : ''}`}>
+            {line}
+          </p>
+        ) : /^Correct answer:/.test(line) ? (
+          <p key={i} className="pt-1.5 font-bold text-emerald-700 dark:text-emerald-300">
+            {line}
+          </p>
+        ) : (
+          <p key={i} className="pl-3">
+            {line}
+          </p>
+        ),
+      )}
+    </div>
   )
 }

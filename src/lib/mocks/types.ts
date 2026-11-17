@@ -75,6 +75,12 @@ export interface Stimulus {
   /** Direction line shown above the content, e.g. "Study the following information carefully and answer the questions given below:". */
   directions?: string
   parts: StimulusPart[]
+  /**
+   * Result-analysis only (never shown during the test, never used to tell two sets apart): the given data
+   * re-expressed as complete tables, including derived columns/rows (e.g. literate and illiterate people
+   * worked out from population and % literate), so a student can see every number the solution uses.
+   */
+  workings?: StimulusPart[]
 }
 
 /** A question as produced by a generator, before the composer assigns ids/sections. */

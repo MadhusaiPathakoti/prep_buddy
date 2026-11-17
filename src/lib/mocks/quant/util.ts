@@ -122,6 +122,42 @@ export function choose(n: number, k: number): number {
 }
 
 // ---------------------------------------------------------------- question assembly
+/** Turns a multi-line worked solution into 'Step n:' lines ending with the answer (unchanged when already stepwise). */
+export function stepify(why: string, answerText: string): string {
+  if (/^Step 1:/.test(why)) return why
+  const lines = why
+    .split('\n')
+    .map((l) => l.trim().replace(/([^.])\.$/, '$1'))
+    .filter(Boolean)
+  if (lines.length === 1) lines.splice(0, 1, ...splitChain(lines[0]))
+  return [...lines.map((l, i) => `Step ${i + 1}: ${l}`), `Step ${lines.length + 1}: Answer = ${answerText}`].join('\n')
+}
+
+/** A lone "formula = substitution = result" line becomes separate steps so the jump to the value is never hidden. */
+function splitChain(line: string): string[] {
+  if (/[;\n]/.test(line)) return [line]
+  const p = line.split(' = ')
+  if (p.length < 3) return [line]
+  const out = [`${p[0]} = ${p[1]}`]
+  const formulaFirst = /[A-Za-zπ]{2,}/.test(p[1].replace(/\b(mod|of)\b/g, ''))
+  let from = 2
+  if (formulaFirst && p.length === 3) {
+    out.push(`Hence ${p[0]} = ${p[2]}`)
+    return out
+  }
+  if (formulaFirst) {
+    out.push(`Putting in the values: ${p[0]} = ${p[2]}`)
+    from = 3
+  }
+  for (let i = from; i < p.length; i++) out.push(`Simplifying: ${p[i - 1]} = ${p[i]}`)
+  return out
+}
+
+/** Numbers the given steps and appends the closing 'Answer = …' step. */
+export function stepsText(steps: string[], answerText: string): string {
+  return [...steps, `Answer = ${answerText}`].map((s, i) => `Step ${i + 1}: ${s}`).join('\n')
+}
+
 export interface NumSpec {
   topic: QuantTopicId
   stem: string
@@ -235,7 +271,7 @@ export function numQ(rng: Rng, o: NumSpec): QuestionDraft {
   const answer = noneCorrect ? 4 : body.indexOf(ansS)
   need(answer >= 0, 'answer lost')
   const line = answerLine({ options, answer, answerIsNone: noneCorrect }, dispOpt(ansS))
-  return { topic: o.topic, stem: o.stem, options, answer, explanation: `${o.why}\n${line}` }
+  return { topic: o.topic, stem: o.stem, options, answer, explanation: `${stepify(o.why, dispOpt(ansS))}\n${line}` }
 }
 
 /** numeric question wrapper: picks the decimal places from the exact answer, 15% "None of these". */
@@ -257,7 +293,7 @@ export interface StrSpec {
 export function strQ(rng: Rng, o: StrSpec): QuestionDraft {
   need(new Set(o.wrong.filter((w) => w !== o.correct)).size >= 4, 'not enough distinct text distractors')
   const built = buildOptions(rng, o.correct, o.wrong, { noneProb: o.none })
-  return { topic: o.topic, stem: o.stem, options: built.options, answer: built.answer, explanation: `${o.why}\n${answerLine(built, o.correct)}` }
+  return { topic: o.topic, stem: o.stem, options: built.options, answer: built.answer, explanation: `${stepify(o.why, o.correct)}\n${answerLine(built, o.correct)}` }
 }
 
 /** Fixed-option question (quadratic / quantity comparison). */

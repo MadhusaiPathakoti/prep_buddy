@@ -7,13 +7,13 @@ import { assertGroup } from '../src/lib/mocks/validate'
 import { SET_SIZE } from '../src/lib/mocks/topics'
 import { QUADRATIC_OPTIONS, QUANTITY_OPTIONS } from '../src/lib/mocks/options'
 import { QUANT_GENERATORS } from '../src/lib/mocks/quant'
-import { DI_META } from '../src/lib/mocks/quant/di'
+import { DI_META, WORKINGS_META } from '../src/lib/mocks/quant/di'
 import type { Rc } from '../src/lib/mocks/quant/di'
 import { fitHole } from '../src/lib/mocks/quant/series'
-import type { Group, MockDifficulty, QuantTopicId, QuestionDraft, Stimulus } from '../src/lib/mocks/types'
+import type { Group, MockDifficulty, QuantTopicId, QuestionDraft, Stimulus, StimulusPart } from '../src/lib/mocks/types'
 
 const SEEDS = Number(process.env.SEEDS ?? 400)
-const TOPICS = Object.keys(QUANT_GENERATORS) as QuantTopicId[]
+const TOPICS = (Object.keys(QUANT_GENERATORS) as QuantTopicId[]).filter((t) => !process.env.ONLY || process.env.ONLY.split(',').includes(t))
 const DIFFS: MockDifficulty[] = ['medium', 'hard']
 
 // ------------------------------------------------------------------ exact rationals (BigInt) -- independent of the generator's Frac
@@ -293,7 +293,13 @@ function relation(X: Q[], Y: Q[]): number {
   let g = 0
   let l = 0
   let e = 0
-  for (const a of X) for (const b of Y) (a.cmp(b) > 0 ? g++ : a.cmp(b) < 0 ? l++ : e++)
+  for (const a of X)
+    for (const b of Y) {
+      const c = a.cmp(b)
+      if (c > 0) g++
+      else if (c < 0) l++
+      else e++
+    }
   if (l === 0 && e === 0) return 0
   if (l === 0 && g === 0) return 4
   if (l === 0) return 1
@@ -646,8 +652,267 @@ function checkEntities(q: QuestionDraft, g: Group): string | null {
   return null
 }
 
+// ------------------------------------------------------------------ DI / caselet: worked steps and workings tables
+function stepBlocks(expl: string): string[] {
+  const body = expl.split('\nCorrect answer:')[0]
+  const blocks: string[] = []
+  for (const line of body.split('\n')) {
+    if (/^Step \d+: /.test(line)) blocks.push(line)
+    else if (blocks.length) blocks[blocks.length - 1] += `\n${line}`
+    else return ['<<explanation does not start with a Step line>>']
+  }
+  return blocks
+}
+const ARITH_TAIL = /[\d.+×÷−()[\] ]+$/
+const ARITH_HEAD = /^[\d.+×÷−()[\] ]+/
+function balanced(s: string): boolean {
+  let d = 0
+  for (const ch of s) {
+    if (ch === '(' || ch === '[') d++
+    else if (ch === ')' || ch === ']') d--
+    if (d < 0) return false
+  }
+  return d === 0
+}
+/** The arithmetic expression ending a piece of text, but only when it stands on its own (after a label colon / arrow or at the start). */
+function arithTail(s: string): string {
+  const m = ARITH_TAIL.exec(s)
+  if (!m) return ''
+  const before = s.slice(0, m.index).trim()
+  if (before !== '' && !/[:;→]$/.test(before)) return ''
+  let t = m[0].trim()
+  while (t && (!balanced(t) || !/^[\d([]/.test(t))) t = t.slice(1).trim()
+  return t
+}
+function arithHead(s: string): string {
+  const m = ARITH_HEAD.exec(s)
+  // "18 × x …": an operator left dangling in front of a symbol means this is not a closed expression
+  if (m && /[+×÷−]\s*$/.test(m[0]) && /^\s*[A-Za-z?√∛]/.test(s.slice(m[0].length))) return ''
+  let t = (m?.[0] ?? '').trim()
+  while (t && (!balanced(t) || !/[\d)\]]$/.test(t))) t = t.slice(0, -1).trim()
+  return t
+}
+/** Every "a op b … = c" link in a step line must be arithmetically true (exact rationals); returns an error or null. */
+function checkArithmeticLine(line: string): string | null {
+  const parts = ` ${line}`.split(' = ')
+  for (let i = 0; i + 1 < parts.length; i++) {
+    if (parts[i].includes(' : ') || parts[i + 1].includes(' : ')) continue // ratios (a : b = c : d) are not single expressions
+    const l = arithTail(parts[i]).replace(/(\d|\))\(/g, '$1 × (')
+    const r = arithHead(parts[i + 1]).replace(/(\d|\))\(/g, '$1 × (')
+    if (!l || !r || !/[+×÷−]/.test(l)) continue
+    let a: Q
+    let b: Q
+    try {
+      a = evalText(l, qDom)
+      b = evalText(r, qDom)
+    } catch {
+      return `cannot evaluate "${l}" = "${r}" in step line "${line}"`
+    }
+    if (!a.eq(b)) return `arithmetic error in step line: ${l} = ${r} but ${l} is ${a.str()} (line "${line.slice(0, 120)}")`
+  }
+  return null
+}
+function numbersIn(s: string): string[] {
+  return s.match(/\d+(?:\.\d+)?/g) ?? []
+}
+function checkDiSteps(q: QuestionDraft, g: Group): string | null {
+  const blocks = stepBlocks(q.explanation)
+  if (blocks.length < 3) return `only ${blocks.length} step(s)`
+  for (let i = 0; i < blocks.length; i++) if (!blocks[i].startsWith(`Step ${i + 1}: `)) return `step numbering broken at step ${i + 1}`
+  const last = blocks[blocks.length - 1]
+  if (!last.startsWith(`Step ${blocks.length}: Answer = `) || last.includes('\n')) return 'final step is not a single "Answer = …" line'
+  const key = q.options[q.answer]
+  if (key !== NONE && !last.includes(key)) return `final step "${last}" does not contain the keyed value "${key}"`
+  for (const b of blocks) for (const line of b.split('\n')) {
+    if (line.length > 150) return `step line too long (${line.length} chars): ${line.slice(0, 80)}…`
+    if (/\{R\}|NaN|undefined/.test(line)) return `unresolved placeholder in "${line}"`
+    const err = checkArithmeticLine(line)
+    if (err) return err
+  }
+  // the first step reads values / derives cells: every number it cites must be visible in the workings table or the stimulus
+  const st = g.stimulus
+  const wk = st?.workings
+  const meta = st ? WORKINGS_META.get(st) : undefined
+  if (st && wk && meta && meta.kind !== 'pop') {
+    const allowed = new Set<string>(['100', '360', '5', '18'])
+    const feed = (v: string | number): void => {
+      for (const n of numbersIn(String(v))) allowed.add(String(Number(n)))
+    }
+    for (const p of wk) if (p.kind === 'table') {
+      p.columns.forEach(feed)
+      p.rows.forEach((r) => r.forEach(feed))
+    }
+    numbersIn(JSON.stringify(st.parts)).forEach((n) => allowed.add(String(Number(n))))
+    for (const n of numbersIn(blocks[0].replace(/^Step \d+: /, ''))) if (!allowed.has(String(Number(n)))) return `step 1 cites ${n}, which is not in the workings table or the stimulus`
+  }
+  return null
+}
+
+/** Worked solutions of every non-DI topic (quadratics keep their factorisation lines): numbered steps, closing answer step, true arithmetic. */
+function checkGenericSteps(q: QuestionDraft): string | null {
+  const blocks = stepBlocks(q.explanation)
+  if (blocks.length < 2) return `only ${blocks.length} step(s)`
+  for (let i = 0; i < blocks.length; i++) if (!blocks[i].startsWith(`Step ${i + 1}: `)) return `step numbering broken at step ${i + 1}`
+  if (!blocks[blocks.length - 1].startsWith(`Step ${blocks.length}: Answer = `)) return 'last step is not "Answer = …"'
+  for (const b of blocks) for (const line of b.split('\n')) {
+    if (/\{R\}|NaN|undefined/.test(line)) return `unresolved placeholder in "${line}"`
+    const err = checkArithmeticLine(line)
+    if (err) return err
+  }
+  return null
+}
+
+function tableOf(p: StimulusPart | undefined): { columns: (string | number)[]; rows: (string | number)[][] } | null {
+  return p && p.kind === 'table' ? { columns: p.columns, rows: p.rows } : null
+}
+function partMatrix(p: StimulusPart): { cats: string[]; series: string[]; data: Q[][] } {
+  if (p.kind === 'table') return { cats: p.columns.slice(1).map(String), series: p.rows.map((r) => String(r[0])), data: p.rows.map((r) => r.slice(1).map((x) => Q.of(x))) }
+  if (p.kind === 'bar' || p.kind === 'line') return { cats: p.categories, series: p.series.map((s) => s.name), data: p.series.map((s) => s.values.map((x) => Q.of(x))) }
+  throw new Error('no matrix in this part')
+}
+const sumQ = (xs: Q[]): Q => xs.reduce((a, b) => a.add(b), new Q(0n))
+const cellQ = (x: string | number): Q => Q.of(x)
+
+/** Result-analysis workings: well formed, and re-derived independently from the given parts / paragraph. */
+function checkWorkings(g: Group): string | null {
+  const st = g.stimulus
+  if (!st) return null
+  if (!st.workings || st.workings.length === 0) return 'DI stimulus has no workings table'
+  const meta = WORKINGS_META.get(st)
+  if (!meta) return 'workings without metadata'
+  for (const p of st.workings) {
+    if (p.kind !== 'table') return 'workings must be tables'
+    if (!p.heading) return 'workings table without a heading'
+    if (p.rows.some((r) => r.length !== p.columns.length)) return 'ragged workings table'
+  }
+  const wk = tableOf(st.workings[0]) as { columns: (string | number)[]; rows: (string | number)[][] }
+  const text = st.parts.map((p) => (p.kind === 'text' ? p.paragraphs.join(' ') : '')).join(' ')
+  if (meta.kind === 'grid') {
+    const m = partMatrix(st.parts[0])
+    const nC = m.cats.length
+    if (wk.columns.slice(1, 1 + nC).map(String).join('|') !== m.cats.join('|')) return 'workings categories differ from the given data'
+    for (let s = 0; s < m.series.length; s++) {
+      const row = wk.rows[s]
+      if (String(row[0]) !== m.series[s]) return 'workings row label differs from the given data'
+      for (let c = 0; c < nC; c++) if (!cellQ(row[1 + c]).eq(m.data[s][c])) return `workings cell ${row[0]}/${m.cats[c]} differs from the given data`
+      if (meta.rowTotals && !cellQ(row[1 + nC]).eq(sumQ(m.data[s]))) return `row total of ${row[0]} is wrong`
+    }
+    if (meta.colTotals) {
+      const last = wk.rows[wk.rows.length - 1]
+      if (String(last[0]) !== 'Total') return 'missing Total row'
+      for (let c = 0; c < nC; c++) if (!cellQ(last[1 + c]).eq(sumQ(m.data.map((r) => r[c])))) return `column total for ${m.cats[c]} is wrong`
+      if (!cellQ(last[1 + nC]).eq(sumQ(m.data.flatMap((r) => r)))) return 'grand total is wrong'
+    } else if (wk.rows.length !== m.series.length) return 'unexpected extra workings rows'
+    return null
+  }
+  if (meta.kind === 'derived') {
+    let cats: string[]
+    let base: Q[]
+    let pct: Q[]
+    const p0 = st.parts[0]
+    if (p0.kind === 'table') {
+      cats = p0.rows.map((r) => String(r[0]))
+      base = p0.rows.map((r) => Q.of(r[1]))
+      pct = p0.rows.map((r) => Q.of(r[2]))
+    } else if (p0.kind === 'bar' || p0.kind === 'line') {
+      const p1 = st.parts[1]
+      if (!p1 || (p1.kind !== 'bar' && p1.kind !== 'line')) return 'derived set without a second graph'
+      cats = p0.categories
+      if (p1.categories.join('|') !== cats.join('|')) return 'the two graphs have different categories'
+      base = p0.series[0].values.map((x) => Q.of(x))
+      pct = p1.series[0].values.map((x) => Q.of(x))
+    } else return 'unexpected derived source part'
+    if (wk.columns.length !== 5) return 'derived workings need 5 columns'
+    const d1: Q[] = []
+    const d2: Q[] = []
+    for (let i = 0; i < cats.length; i++) {
+      const row = wk.rows[i]
+      if (String(row[0]) !== cats[i]) return 'derived workings category differs'
+      if (!cellQ(row[1]).eq(base[i]) || !cellQ(row[2]).eq(pct[i])) return `given columns of ${cats[i]} differ from the stimulus`
+      const part = base[i].mul(pct[i]).div(new Q(100n))
+      const rest = meta.income ? base[i].mul(new Q(100n).add(pct[i])).div(new Q(100n)) : base[i].sub(part)
+      if (!cellQ(row[3]).eq(part)) return `derived column 1 of ${cats[i]} is wrong`
+      if (!cellQ(row[4]).eq(rest)) return `derived column 2 of ${cats[i]} is wrong`
+      d1.push(part)
+      d2.push(rest)
+    }
+    const tot = wk.rows[cats.length]
+    if (String(tot[0]) !== 'Total' || !cellQ(tot[1]).eq(sumQ(base)) || !cellQ(tot[3]).eq(sumQ(d1)) || !cellQ(tot[4]).eq(sumQ(d2))) return 'derived Total row is wrong'
+    return null
+  }
+  if (meta.kind === 'pie') {
+    const pies = st.parts.filter((p): p is Extract<StimulusPart, { kind: 'pie' }> => p.kind === 'pie')
+    if (wk.columns.length !== 1 + 3 * pies.length) return 'pie workings column count'
+    for (let si = 0; si < pies.length; si++) {
+      const p = pies[si]
+      const T = meta.totals[si]
+      if (!new RegExp(`(?<![\\d.])${T}(?![\\d])`).test(p.heading ?? '')) return `pie total ${T} not stated in the pie heading`
+      let sumShare = new Q(0n)
+      for (let c = 0; c < p.slices.length; c++) {
+        const raw = Q.of(p.slices[c].value)
+        const share = meta.deg ? raw.mul(new Q(100n)).div(new Q(360n)) : raw
+        const angle = share.mul(new Q(360n)).div(new Q(100n))
+        const num = share.mul(new Q(BigInt(T))).div(new Q(100n))
+        const row = wk.rows[c]
+        if (String(row[0]) !== p.slices[c].label) return 'pie workings category label differs'
+        if (!cellQ(row[1 + 3 * si]).eq(share) || !cellQ(row[2 + 3 * si]).eq(angle) || !cellQ(row[3 + 3 * si]).eq(num)) return `pie workings row ${p.slices[c].label} (pie ${si + 1}) is wrong`
+        sumShare = sumShare.add(share)
+      }
+      if (!sumShare.eq(new Q(100n))) return 'pie shares do not sum to 100'
+      const tot = wk.rows[p.slices.length]
+      if (String(tot[0]) !== 'Total' || !cellQ(tot[1 + 3 * si]).eq(new Q(100n)) || !cellQ(tot[2 + 3 * si]).eq(new Q(360n)) || !cellQ(tot[3 + 3 * si]).eq(new Q(BigInt(T)))) return 'pie Total row must be 100 / 360 / total'
+      const numSum = sumQ(wk.rows.slice(0, p.slices.length).map((r) => cellQ(r[3 + 3 * si])))
+      if (!numSum.eq(new Q(BigInt(T)))) return 'pie numbers do not add up to the total'
+    }
+    return null
+  }
+  const nums = new Set(numbersIn(text).map((n) => Number(n)))
+  const val = (r: number, c = 1): number => Number(wk.rows[r][c])
+  if (meta.kind === 'venn2') {
+    const [oa, both, ob, none, T, A, B] = [0, 1, 2, 3, 4, 5, 6].map((i) => val(i))
+    if (oa + both + ob + none !== T) return 'venn2 regions do not add up to the total'
+    if (A !== oa + both || B !== ob + both) return 'venn2 set totals are wrong'
+    const stated = (x: number): boolean => nums.has(x) || nums.has((x * 100) / T)
+    if (!nums.has(T) || !stated(A) || !stated(B) || !nums.has(both)) return 'venn2 workings do not reproduce the figures stated in the paragraph'
+    return null
+  }
+  if (meta.kind === 'venn3') {
+    const r = [0, 1, 2, 3, 4, 5, 6, 7].map((i) => val(i))
+    const T = val(8)
+    if (r.reduce((a, b) => a + b, 0) !== T) return 'venn3 regions do not add up to the total'
+    const [a, b, c, ab, bc, ac, abc] = r
+    const expect = [a + ab + ac + abc, b + ab + bc + abc, c + ac + bc + abc, ab + abc, bc + abc, ac + abc, abc]
+    for (let i = 0; i < 7; i++) if (val(9 + i) !== expect[i]) return `venn3 set/pair total row ${9 + i} is wrong`
+    for (const x of [T, ...expect]) if (!nums.has(x)) return `venn3 figure ${x} is not stated in the paragraph`
+    return null
+  }
+  // pop: ratio, percentages and totals
+  const E = val(0, 3)
+  const male = val(0, 1)
+  const female = val(0, 2)
+  if (male + female !== E || !nums.has(E)) return 'pop group sizes do not add up to the stated total'
+  const rm = /is (\d+) : (\d+)\./.exec(text)
+  if (!rm) return 'cannot find the ratio in the paragraph'
+  const gg = bgcd(BigInt(male), BigInt(female))
+  if (BigInt(rm[1]) * (BigInt(female) / gg) !== BigInt(rm[2]) * (BigInt(male) / gg)) return 'pop ratio does not match the group sizes'
+  const pm = /(\d+)% of the [^.]*? and (\d+)% of the [^.]*? are /.exec(text)
+  if (!pm) return 'cannot find the percentages in the paragraph'
+  const [mT, fT] = [val(1, 1), val(1, 2)]
+  if (mT * 100 !== male * Number(pm[1]) || fT * 100 !== female * Number(pm[2])) return 'pop trait counts do not match the stated percentages'
+  if (val(1, 3) !== mT + fT || val(2, 1) !== male - mT || val(2, 2) !== female - fT || val(2, 3) !== E - mT - fT) return 'pop table rows/totals are wrong'
+  if (meta.hard) {
+    const sm = /Of the [^,]*?, (\d+)% are [^,]*?, while (\d+)% of/.exec(text)
+    if (!sm) return 'cannot find the second-level percentages'
+    const [mS, fS] = [val(3, 1), val(3, 2)]
+    if (mS * 100 !== mT * Number(sm[1]) || fS * 100 !== fT * Number(sm[2]) || val(3, 3) !== mS + fS) return 'pop second-level counts are wrong'
+    if (val(4, 1) !== mT - mS || val(4, 2) !== fT - fS || val(4, 3) !== mT + fT - mS - fS) return 'pop "but not" row is wrong'
+  }
+  return null
+}
+
 // topics that must (may) use "None of these"
 const NONE_TOPICS = new Set<QuantTopicId>(['simplification', 'missing-number-series', 'percentage', 'profit-loss', 'ratio-partnership', 'ages-averages', 'interest', 'time-work', 'speed-distance', 'mixture-alligation', 'mensuration', 'probability-pnc', 'number-system'])
+const SET_STEP_TOPICS = new Set<QuantTopicId>(['di-table', 'di-bar', 'di-line', 'di-pie', 'di-caselet'])
 const MAX_NUMERIC = 1e7
 const DUP_FAIL = 0.6 // a topic whose pool is this repetitive is considered broken; lower rates are only reported
 
@@ -711,6 +976,11 @@ for (const topic of TOPICS) {
           if (gi < groups.length - 1 && g.questions.length !== natural) {
             row.failures++
             note(topic, diff, seed, `non-final group has ${g.questions.length} questions`)
+          }
+          const wkErr = checkWorkings(g)
+          if (wkErr) {
+            row.failures++
+            note(topic, diff, seed, `workings: ${wkErr}`)
           }
           const bad = checkStimulusSanity(g)
           if (bad) {
@@ -785,6 +1055,20 @@ for (const topic of TOPICS) {
             row.failures++
             note(topic, diff, seed, `set question stem longer than 35 words: ${q.stem.slice(0, 200)}`)
           }
+          if (!natural && topic !== 'quadratic-equations') {
+            const ge = checkGenericSteps(q)
+            if (ge) {
+              row.failures++
+              note(topic, diff, seed, `steps: ${ge}\n      stem: ${q.stem.replace(/\n/g, ' ⏎ ').slice(0, 200)}\n      explanation: ${q.explanation.replace(/\n/g, ' ⏎ ').slice(0, 500)}`)
+            }
+          }
+          if (natural && SET_STEP_TOPICS.has(topic)) {
+            const se = checkDiSteps(q, g)
+            if (se) {
+              row.failures++
+              note(topic, diff, seed, `steps: ${se}\n      stem: ${q.stem.slice(0, 160)}\n      explanation: ${q.explanation.replace(/\n/g, ' ⏎ ').slice(0, 400)}`)
+            }
+          }
           const check = TOPIC_CHECKS[topic]
           if (check) {
             let err: string | null = null
@@ -839,7 +1123,8 @@ for (const topic of TOPICS) {
 // quadratic / quantity outcome distribution
 for (const topic of ['quadratic-equations', 'quantity-comparison'] as QuantTopicId[])
   for (const diff of DIFFS) {
-    const r = rows.find((x) => x.topic === topic && x.diff === diff) as Row
+    const r = rows.find((x) => x.topic === topic && x.diff === diff)
+    if (!r) continue
     r.hist.forEach((h, i) => {
       if (h / r.questions < 0.08) {
         r.failures++

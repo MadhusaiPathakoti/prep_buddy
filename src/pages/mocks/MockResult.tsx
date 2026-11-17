@@ -3,7 +3,7 @@ import { Link, Navigate, useNavigate, useParams } from 'react-router-dom'
 import QuestionReview from '../../components/mocks/QuestionReview'
 import { loadAnyAttempt, loadActive, newAttempt, saveActive } from '../../lib/mocks/attempts'
 import { COHORT_DISCLAIMER, TIERS, type Benchmark } from '../../lib/mocks/cohort'
-import { buildReport, kindLabel, pct, pdfFileName } from '../../lib/mocks/report'
+import { buildReport, hasLegacySolutions, kindLabel, LEGACY_SOLUTIONS_NOTE, pct, pdfFileName } from '../../lib/mocks/report'
 import { formatHms, formatScore, type QuestionResult } from '../../lib/mocks/scoring'
 import { downloadDailyPdf } from '../daily/downloadPdf'
 
@@ -165,6 +165,9 @@ export default function MockResult() {
           </button>
         </div>
       </div>
+      {hasLegacySolutions(paper) && (
+        <p className="mt-3 rounded-xl border border-amber-300 bg-amber-50 p-3 text-sm text-amber-900 dark:border-amber-500/40 dark:bg-amber-500/10 dark:text-amber-200">{LEGACY_SOLUTIONS_NOTE}</p>
+      )}
       {pdfError && (
         <p role="alert" className="mt-3 rounded-xl bg-red-50 p-3 text-sm text-red-700 dark:bg-red-500/10 dark:text-red-300">
           {pdfError}
@@ -387,7 +390,7 @@ export default function MockResult() {
           {filtered[tab].length === 0 ? (
             <p className="rounded-2xl bg-white p-6 text-center text-slate-500 ring-1 ring-slate-200 dark:bg-slate-800 dark:ring-slate-700">No questions in this category.</p>
           ) : (
-            filtered[tab].map((r) => <QuestionReview key={r.q.id} r={r} sectionName={sectionName(r)} stimulus={r.q.setId ? paper.sets[r.q.setId] : undefined} />)
+            filtered[tab].map((r, i, list) => <QuestionReview key={r.q.id} r={r} sectionName={sectionName(r)} stimulus={r.q.setId ? paper.sets[r.q.setId] : undefined} openData={!r.q.setId || r.q.setId !== list[i - 1]?.q.setId} />)
           )}
         </div>
       )}

@@ -4,7 +4,7 @@
 // it a third time with its own evaluator, so the key can never drift from what the candidate actually sees.
 import type { Rng } from '../rng'
 import type { Group, MockDifficulty, QuestionDraft, Stimulus, StimulusPart } from '../types'
-import { F, Reject, decStr, ensure, fadd, fcmp, fdec, fdiv, feq, fmul, fsub, fval, need, numQ, ratioStr, strQ, terminating, gcd, decOf } from './util'
+import { F, Reject, decStr, ensure, fadd, fcmp, fdec, fdiv, feq, fmul, fsub, fval, need, numQ, strQ, terminating, gcd, decOf } from './util'
 import type { Frac } from './util'
 
 // ------------------------------------------------------------------ recipes
@@ -106,7 +106,19 @@ export interface Grid {
     pie: boolean
     pct: boolean
   }
+  /** Derived grids: the formula head and one derivation line per cell/category the question reads. */
+  derive?: (cells: [number, number][]) => { head: string; lines: string[] }
 }
+
+/** What the result-analysis "workings" table of a stimulus contains, so the harness can re-derive it independently. */
+export type WMeta =
+  | { kind: 'grid'; rowTotals: boolean; colTotals: boolean }
+  | { kind: 'derived'; income: boolean }
+  | { kind: 'pie'; deg: boolean; totals: number[] }
+  | { kind: 'venn2' }
+  | { kind: 'venn3' }
+  | { kind: 'pop'; hard: boolean }
+export const WORKINGS_META = new WeakMap<object, WMeta>()
 
 const contiguous = (cs: number[]): boolean => cs.every((c, i) => i === 0 || c === cs[i - 1] + 1)
 
@@ -180,12 +192,22 @@ export interface Cand {
   v?: V
   ratio?: [V, V]
   wrong: (V | number)[]
-  why: string
+  /**
+   * Worked solution, one array element per step ("Step n: " is added by finish()). An element may hold several lines.
+   * "{R}" stands for the result of the question and is replaced by the formatted value.
+   */
+  steps: string[]
+  /** (series, category) cells whose values the solution reads: finish() adds the "values / derivation" step first. */
+  used?: [number, number][]
   labels?: string[]
   lv?: V[]
   extreme?: 'max' | 'min'
 }
 type Template = (rng: Rng, g: Grid, d: MockDifficulty) => Cand | null
+
+const sumStr = (xs: V[]): string => xs.map(fv).join(' + ')
+const cellsOf = (ss: number[], cs: number[]): [number, number][] => ss.flatMap((s) => cs.map((c) => [s, c] as [number, number]))
+const bigSmall = (a: V, b: V): [V, V] => (fcmp(a.val, b.val) >= 0 ? [a, b] : [b, a])
 
 function cells2(rng: Rng, g: Grid, d: MockDifficulty): [[number, number], [number, number]] {
   const S = g.series.length
@@ -222,7 +244,8 @@ const tDiff: Template = (rng, g, d) => {
   const x = cells2(rng, g, d)
   const [a, b] = [vv(g, x[0]), vv(g, x[1])]
   const v = vabs(a, b)
-  return { id: 'diff', stem: `What is the difference between ${pc(g, x[0])} and ${pc(g, x[1])}?`, kind: 'int', v, wrong: [vadd(a, b)], why: `${cap(pc(g, x[0]))} = ${fv(a)}; ${pc(g, x[1])} = ${fv(b)}.\nDifference = ${fv(v)}.` }
+  const [big, small] = bigSmall(a, b)
+  return { id: 'diff', stem: `What is the difference between ${pc(g, x[0])} and ${pc(g, x[1])}?`, kind: 'int', v, wrong: [vadd(a, b)], used: [x[0], x[1]], steps: [`Difference = larger value − smaller value = ${fv(big)} − ${fv(small)} = {R}`] }
 }
 const tSumCats: Template = (rng, g) => {
   if (g.pie) return null
@@ -230,7 +253,7 @@ const tSumCats: Template = (rng, g) => {
   const cs = catRange(rng, g, 3)
   const xs = cs.map((c) => g.cell(s, c))
   const v = vsum(xs)
-  return { id: 'sumCats', stem: `What is ${g.sumCatsP('total', s, cs)}?`, kind: 'int', v, wrong: [vavg(xs)], why: `${xs.map(fv).join(' + ')} = ${fv(v)}.` }
+  return { id: 'sumCats', stem: `What is ${g.sumCatsP('total', s, cs)}?`, kind: 'int', v, wrong: [vavg(xs)], used: cellsOf([s], cs), steps: [`Total = ${sumStr(xs)} = {R}`] }
 }
 const tAvgCats: Template = (rng, g) => {
   if (g.pie) return null
@@ -238,7 +261,7 @@ const tAvgCats: Template = (rng, g) => {
   const cs = catRange(rng, g, 3)
   const xs = cs.map((c) => g.cell(s, c))
   const v = vavg(xs)
-  return { id: 'avgCats', stem: `What is ${g.sumCatsP('average', s, cs)}?`, kind: 'dec', v, wrong: [vsum(xs)], why: `(${xs.map(fv).join(' + ')}) ÷ ${xs.length} = ${fv(v)}.` }
+  return { id: 'avgCats', stem: `What is ${g.sumCatsP('average', s, cs)}?`, kind: 'dec', v, wrong: [vsum(xs)], used: cellsOf([s], cs), steps: [`Sum = ${sumStr(xs)} = ${fv(vsum(xs))}`, `Average = Sum ÷ ${xs.length} = ${fv(vsum(xs))} ÷ ${xs.length} = {R}`] }
 }
 const tSumSer: Template = (rng, g) => {
   if (!g.additive || g.trivialSum || g.series.length < 2) return null
@@ -247,7 +270,7 @@ const tSumSer: Template = (rng, g) => {
   const ss = g.series.length > 2 && rng.chance(0.4) ? rng.sample(all, 2).sort() : all
   const xs = ss.map((s) => g.cell(s, c))
   const v = vsum(xs)
-  return { id: 'sumSer', stem: `What is ${g.sumSerP('total', ss, c)}?`, kind: 'int', v, wrong: [vavg(xs)], why: `${xs.map(fv).join(' + ')} = ${fv(v)}.` }
+  return { id: 'sumSer', stem: `What is ${g.sumSerP('total', ss, c)}?`, kind: 'int', v, wrong: [vavg(xs)], used: cellsOf(ss, [c]), steps: [`Total = ${sumStr(xs)} = {R}`] }
 }
 const tAvgSer: Template = (rng, g) => {
   if (!g.additive || !g.peers || g.series.length < 3) return null
@@ -255,18 +278,18 @@ const tAvgSer: Template = (rng, g) => {
   const all = [...Array(g.series.length).keys()]
   const xs = all.map((s) => g.cell(s, c))
   const v = vavg(xs)
-  return { id: 'avgSer', stem: `What is ${g.sumSerP('average', all, c)}?`, kind: 'dec', v, wrong: [vsum(xs)], why: `(${xs.map(fv).join(' + ')}) ÷ ${xs.length} = ${fv(v)}.` }
+  return { id: 'avgSer', stem: `What is ${g.sumSerP('average', all, c)}?`, kind: 'dec', v, wrong: [vsum(xs)], used: cellsOf(all, [c]), steps: [`Sum = ${sumStr(xs)} = ${fv(vsum(xs))}`, `Average = Sum ÷ ${xs.length} = ${fv(vsum(xs))} ÷ ${xs.length} = {R}`] }
 }
 const tRatio: Template = (rng, g, d) => {
   const x = cells2(rng, g, d)
   const [a, b] = [vv(g, x[0]), vv(g, x[1])]
-  return { id: 'ratio', stem: `What is the ratio of ${pc(g, x[0])} to ${pc(g, x[1])}?`, kind: 'ratio', ratio: [a, b], wrong: [], why: `${cap(pc(g, x[0]))} = ${fv(a)}; ${pc(g, x[1])} = ${fv(b)}.\nRatio = ${fv(a)} : ${fv(b)}.` }
+  return { id: 'ratio', stem: `What is the ratio of ${pc(g, x[0])} to ${pc(g, x[1])}?`, kind: 'ratio', ratio: [a, b], wrong: [], used: [x[0], x[1]], steps: [`Required ratio = first value : second value = ${fv(a)} : ${fv(b)}`] }
 }
 const tPctOf: Template = (rng, g, d) => {
   const x = cells2(rng, g, d)
   const [a, b] = [vv(g, x[0]), vv(g, x[1])]
   const v = pctOf(a, b)
-  return { id: 'pctOf', stem: `${cap(pc(g, x[0]))} is what percent of ${pc(g, x[1])}?`, kind: 'pct', v, wrong: [pctOf(b, a)], why: `${cap(pc(g, x[0]))} = ${fv(a)}; ${pc(g, x[1])} = ${fv(b)}.\n(${fv(a)} ÷ ${fv(b)}) × 100 = ${fv(v)}%.` }
+  return { id: 'pctOf', stem: `${cap(pc(g, x[0]))} is what percent of ${pc(g, x[1])}?`, kind: 'pct', v, wrong: [pctOf(b, a)], used: [x[0], x[1]], steps: [`Part = ${fv(a)}; base (the value after "of") = ${fv(b)}`, `Required % = (part ÷ base) × 100 = (${fv(a)} ÷ ${fv(b)}) × 100 = {R}`] }
 }
 const tPctMore: Template = (rng, g, d) => {
   const x = cells2(rng, g, d)
@@ -276,7 +299,8 @@ const tPctMore: Template = (rng, g, d) => {
   const diff = vabs(a, b)
   const v = pctOf(diff, b)
   const alt = pctOf(diff, a)
-  return { id: 'pctMore', stem: `${cap(pc(g, x[0]))} is what percent ${more ? 'more' : 'less'} than ${pc(g, x[1])}?`, kind: 'pct', v, wrong: [alt], why: `${cap(pc(g, x[0]))} = ${fv(a)}; ${pc(g, x[1])} = ${fv(b)}.\n(${fv(diff)} ÷ ${fv(b)}) × 100 = ${fv(v)}%.` }
+  const [big, small] = bigSmall(a, b)
+  return { id: 'pctMore', stem: `${cap(pc(g, x[0]))} is what percent ${more ? 'more' : 'less'} than ${pc(g, x[1])}?`, kind: 'pct', v, wrong: [alt], used: [x[0], x[1]], steps: [`Difference = ${fv(big)} − ${fv(small)} = ${fv(diff)}`, `Base = the value after "than" = ${fv(b)}`, `% ${more ? 'more' : 'less'} = (difference ÷ base) × 100 = (${fv(diff)} ÷ ${fv(b)}) × 100 = {R}`] }
 }
 const tPctChange: Template = (rng, g) => {
   if (!g.time) return null
@@ -288,7 +312,7 @@ const tPctChange: Template = (rng, g) => {
   const up = fcmp(b.val, a.val) > 0
   const diff = vabs(a, b)
   const v = pctOf(diff, a)
-  return { id: 'pctChange', stem: `What was the percentage ${up ? 'increase' : 'decrease'} in ${g.serP(s)} from ${g.cats[c]} to ${g.cats[c + 1]}?`, kind: 'pct', v, wrong: [pctOf(diff, b)], why: `${g.cats[c]}: ${fv(a)}; ${g.cats[c + 1]}: ${fv(b)}.\nChange = ${fv(diff)}; (${fv(diff)} ÷ ${fv(a)}) × 100 = ${fv(v)}%.` }
+  return { id: 'pctChange', stem: `What was the percentage ${up ? 'increase' : 'decrease'} in ${g.serP(s)} from ${g.cats[c]} to ${g.cats[c + 1]}?`, kind: 'pct', v, wrong: [pctOf(diff, b)], used: [[s, c], [s, c + 1]], steps: [`${cap(up ? 'increase' : 'decrease')} = ${fv(up ? b : a)} − ${fv(up ? a : b)} = ${fv(diff)}`, `Base = the earlier value (${g.cats[c]}) = ${fv(a)}`, `% ${up ? 'increase' : 'decrease'} = (${fv(diff)} ÷ ${fv(a)}) × 100 = {R}`] }
 }
 const tArgmax: Template = (rng, g) => {
   if (g.series.length < 2 || g.cats.length < 5) return null
@@ -298,68 +322,82 @@ const tArgmax: Template = (rng, g) => {
   const best = diffs.reduce((m, x) => (max ? (fcmp(x.val, m.val) > 0 ? x : m) : fcmp(x.val, m.val) < 0 ? x : m))
   if (diffs.filter((x) => feq(x.val, best.val)).length !== 1 || best.val.n === 0) return null
   const word = max ? 'maximum' : 'minimum'
-  return { id: 'argmax', stem: `In which ${g.catWord} was the difference between ${g.serP(a)} and ${g.serP(b)} the ${word}?`, kind: 'label', labels: g.cats, lv: diffs, extreme: max ? 'max' : 'min', wrong: [], why: `Differences: ${g.cats.map((c, i) => `${c}: ${fv(diffs[i])}`).join(', ')}.\nThe ${word} difference is ${fv(best)}.` }
+  const lines = g.cats.map((cat, c) => {
+    const [big, small] = bigSmall(g.cell(a, c), g.cell(b, c))
+    return `${cat}: ${fv(big)} − ${fv(small)} = ${fv(diffs[c])}`
+  })
+  const bi = diffs.findIndex((x) => feq(x.val, best.val))
+  return { id: 'argmax', stem: `In which ${g.catWord} was the difference between ${g.serP(a)} and ${g.serP(b)} the ${word}?`, kind: 'label', labels: g.cats, lv: diffs, extreme: max ? 'max' : 'min', wrong: [], used: cellsOf([a, b], g.cats.map((_, c) => c)), steps: [`Difference in each ${g.catWord} (larger − smaller):\n${lines.join('\n')}`, `The ${word} difference is ${fv(best)}, in ${g.cats[bi]}`] }
 }
 const tShareAll: Template = (rng, g) => {
   if (!g.additive || g.trivialSum || g.series.length < 2) return null
   const s = rng.int(0, g.series.length - 1)
   const c = rng.int(0, g.cats.length - 1)
   const all = [...Array(g.series.length).keys()]
-  const tot = vsum(all.map((i) => g.cell(i, c)))
+  const xs = all.map((i) => g.cell(i, c))
+  const tot = vsum(xs)
   const a = g.cell(s, c)
   const v = pctOf(a, tot)
-  return { id: 'shareAll', stem: `${cap(g.cellP(s, c))} is what percent of ${g.sumSerP('total', all, c)}?`, kind: 'pct', v, wrong: [pctOf(a, vsub(tot, a))], why: `${cap(g.cellP(s, c))} = ${fv(a)}; total = ${fv(tot)}.\n(${fv(a)} ÷ ${fv(tot)}) × 100 = ${fv(v)}%.` }
+  return { id: 'shareAll', stem: `${cap(g.cellP(s, c))} is what percent of ${g.sumSerP('total', all, c)}?`, kind: 'pct', v, wrong: [pctOf(a, vsub(tot, a))], used: cellsOf(all, [c]), steps: [`Total = ${sumStr(xs)} = ${fv(tot)}`, `Required % = (${fv(a)} ÷ ${fv(tot)}) × 100 = {R}`] }
 }
 const aggOf = (agg: string, phrase: string): string => phrase.replace(/^the /, `the ${agg} `)
 
 const tRatioSums: Template = (rng, g) => {
-  if (g.pie) return null
-  if (!g.additive || g.series.length < 2) return null
+  if (g.pie || !g.additive || g.series.length < 2) return null
   const [a, b] = rng.sample([...Array(g.series.length).keys()], 2)
   const cs = catRange(rng, g, 3)
-  const sa = vsum(cs.map((c) => g.cell(a, c)))
-  const sb = vsum(cs.map((c) => g.cell(b, c)))
-  return { id: 'ratioSums', stem: `${g.catsPhrase(cs)}, what is the ratio of ${aggOf('total', g.serP(a))} to ${aggOf('total', g.serP(b))}?`, kind: 'ratio', ratio: [sa, sb], wrong: [], why: `${cap(g.sumCatsP('total', a, cs))} = ${fv(sa)}; ${g.sumCatsP('total', b, cs)} = ${fv(sb)}.\nRatio = ${fv(sa)} : ${fv(sb)}.` }
+  const xa = cs.map((c) => g.cell(a, c))
+  const xb = cs.map((c) => g.cell(b, c))
+  const sa = vsum(xa)
+  const sb = vsum(xb)
+  return { id: 'ratioSums', stem: `${g.catsPhrase(cs)}, what is the ratio of ${aggOf('total', g.serP(a))} to ${aggOf('total', g.serP(b))}?`, kind: 'ratio', ratio: [sa, sb], wrong: [], used: cellsOf([a, b], cs), steps: [`Total for ${g.series[a]} = ${sumStr(xa)} = ${fv(sa)}`, `Total for ${g.series[b]} = ${sumStr(xb)} = ${fv(sb)}`, `Required ratio = ${fv(sa)} : ${fv(sb)}`] }
 }
 const tDiffSums: Template = (rng, g) => {
-  if (g.pie) return null
-  if (!g.additive || g.series.length < 2) return null
+  if (g.pie || !g.additive || g.series.length < 2) return null
   const [a, b] = rng.sample([...Array(g.series.length).keys()], 2)
   const cs = catRange(rng, g, 3)
-  const sa = vsum(cs.map((c) => g.cell(a, c)))
-  const sb = vsum(cs.map((c) => g.cell(b, c)))
+  const xa = cs.map((c) => g.cell(a, c))
+  const xb = cs.map((c) => g.cell(b, c))
+  const sa = vsum(xa)
+  const sb = vsum(xb)
   if (feq(sa.val, sb.val)) return null
   const v = vabs(sa, sb)
-  return { id: 'diffSums', stem: `${g.catsPhrase(cs)}, what is the difference between ${aggOf('total', g.serP(a))} and ${aggOf('total', g.serP(b))}?`, kind: 'int', v, wrong: [vadd(sa, sb)], why: `${cap(g.sumCatsP('total', a, cs))} = ${fv(sa)}; ${g.sumCatsP('total', b, cs)} = ${fv(sb)}.\nDifference = ${fv(v)}.` }
+  const [big, small] = bigSmall(sa, sb)
+  return { id: 'diffSums', stem: `${g.catsPhrase(cs)}, what is the difference between ${aggOf('total', g.serP(a))} and ${aggOf('total', g.serP(b))}?`, kind: 'int', v, wrong: [vadd(sa, sb)], used: cellsOf([a, b], cs), steps: [`Total for ${g.series[a]} = ${sumStr(xa)} = ${fv(sa)}`, `Total for ${g.series[b]} = ${sumStr(xb)} = ${fv(sb)}`, `Difference = ${fv(big)} − ${fv(small)} = {R}`] }
 }
 const tAvgDiff: Template = (rng, g) => {
-  if (g.pie) return null
-  if (g.series.length < 2) return null
+  if (g.pie || g.series.length < 2) return null
   const [a, b] = rng.sample([...Array(g.series.length).keys()], 2)
   const cs = catRange(rng, g, 3)
-  const aa = vavg(cs.map((c) => g.cell(a, c)))
-  const ab = vavg(cs.map((c) => g.cell(b, c)))
+  const xa = cs.map((c) => g.cell(a, c))
+  const xb = cs.map((c) => g.cell(b, c))
+  const aa = vavg(xa)
+  const ab = vavg(xb)
   if (feq(aa.val, ab.val)) return null
   const v = vabs(aa, ab)
-  return { id: 'avgDiff', stem: `${g.catsPhrase(cs)}, what is the difference between ${aggOf('average', g.serP(a))} and ${aggOf('average', g.serP(b))}?`, kind: 'dec', v, wrong: [vadd(aa, ab)], why: `${cap(g.sumCatsP('average', a, cs))} = ${fv(aa)}; ${g.sumCatsP('average', b, cs)} = ${fv(ab)}.\nDifference = ${fv(v)}.` }
+  const [big, small] = bigSmall(aa, ab)
+  const n = cs.length
+  return { id: 'avgDiff', stem: `${g.catsPhrase(cs)}, what is the difference between ${aggOf('average', g.serP(a))} and ${aggOf('average', g.serP(b))}?`, kind: 'dec', v, wrong: [vadd(aa, ab)], used: cellsOf([a, b], cs), steps: [`Average for ${g.series[a]} = (${sumStr(xa)}) ÷ ${n} = ${fv(vsum(xa))} ÷ ${n} = ${fv(aa)}`, `Average for ${g.series[b]} = (${sumStr(xb)}) ÷ ${n} = ${fv(vsum(xb))} ÷ ${n} = ${fv(ab)}`, `Difference = ${fv(big)} − ${fv(small)} = {R}`] }
 }
 const tShareGrand: Template = (rng, g) => {
-  if (g.pie) return null
-  if (!g.additive || g.series.length < 2) return null
+  if (g.pie || !g.additive || g.series.length < 2) return null
   const s = rng.int(0, g.series.length - 1)
   const all = [...Array(g.series.length).keys()]
   const allC = [...Array(g.cats.length).keys()]
-  const part = vsum(allC.map((c) => g.cell(s, c)))
-  const tot = vsum(all.flatMap((i) => allC.map((c) => g.cell(i, c))))
+  const rowsV = all.map((i) => allC.map((c) => g.cell(i, c)))
+  const rowTot = rowsV.map((r) => vsum(r))
+  const part = rowTot[s]
+  const tot = vsum(rowTot)
   const v = pctOf(part, tot)
-  return { id: 'shareGrand', stem: `${cap(g.time ? g.sumCatsP('total', s, allC).replace(/ from .*$/, ` over all the ${g.catPlural}`) : g.sumCatsP('total', s, allC).replace(/ in .*$/, ` in all the ${g.catPlural}`))} is what percent of ${g.grandP('total')}?`, kind: 'pct', v, wrong: [], why: `Total for ${g.series[s]} = ${fv(part)}; overall total = ${fv(tot)}.\n(${fv(part)} ÷ ${fv(tot)}) × 100 = ${fv(v)}%.` }
+  const phr = g.time ? g.sumCatsP('total', s, allC).replace(/ from .*$/, ` over all the ${g.catPlural}`) : g.sumCatsP('total', s, allC).replace(/ in .*$/, ` in all the ${g.catPlural}`)
+  return { id: 'shareGrand', stem: `${cap(phr)} is what percent of ${g.grandP('total')}?`, kind: 'pct', v, wrong: [], used: cellsOf(all, allC), steps: [`Total of each series:\n${all.map((i) => `${g.series[i]}: ${sumStr(rowsV[i])} = ${fv(rowTot[i])}`).join('\n')}`, `Overall total = ${rowTot.map(fv).join(' + ')} = ${fv(tot)}`, `Required % = (${fv(part)} ÷ ${fv(tot)}) × 100 = {R}`] }
 }
 const tProj: Template = (rng, g, d) => {
   const x = cells2(rng, g, d)
   const a = vv(g, x[0])
   const p = rng.pick([10, 20, 25, 30, 40, 50])
   const v = vmul(a, vdiv(lit(100 + p), lit(100)))
-  return { id: 'proj', stem: `What will be ${pc(g, x[0])} if it is increased by ${p}%?`, kind: 'dec', v, wrong: [vsub(a, vmul(a, vdiv(lit(p), lit(100))))], why: `${cap(pc(g, x[0]))} = ${fv(a)}.\nNew value = ${fv(a)} × ${100 + p}/100 = ${fv(v)}.` }
+  return { id: 'proj', stem: `What will be ${pc(g, x[0])} if it is increased by ${p}%?`, kind: 'dec', v, wrong: [vsub(a, vmul(a, vdiv(lit(p), lit(100))))], used: [x[0]], steps: [`New value = value × (100 + ${p}) ÷ 100 = ${fv(a)} × ${100 + p} ÷ 100 = {R}`] }
 }
 const tMixPct: Template = (rng, g, d) => {
   const x = cells2(rng, g, d)
@@ -370,23 +408,26 @@ const tMixPct: Template = (rng, g, d) => {
   const qb = vmul(b, vdiv(lit(q), lit(100)))
   const v = vabs(pa, qb)
   if (feq(pa.val, qb.val)) return null
-  return { id: 'mixPct', stem: `What is the difference between ${p}% of ${pc(g, x[0])} and ${q}% of ${pc(g, x[1])}?`, kind: 'dec', v, wrong: [vadd(pa, qb)], why: `${p}% of ${fv(a)} = ${fv(pa)}; ${q}% of ${fv(b)} = ${fv(qb)}.\nDifference = ${fv(v)}.` }
+  const [big, small] = bigSmall(pa, qb)
+  return { id: 'mixPct', stem: `What is the difference between ${p}% of ${pc(g, x[0])} and ${q}% of ${pc(g, x[1])}?`, kind: 'dec', v, wrong: [vadd(pa, qb)], used: [x[0], x[1]], steps: [`${p}% of ${fv(a)} = ${p} × ${fv(a)} ÷ 100 = ${fv(pa)}`, `${q}% of ${fv(b)} = ${q} × ${fv(b)} ÷ 100 = ${fv(qb)}`, `Difference = ${fv(big)} − ${fv(small)} = {R}`] }
 }
 const tAngle: Template = (rng, g) => {
   if (!g.extra || !g.extra.pie || !g.extra.pct) return null
   const s = rng.int(0, g.series.length - 1)
   const c = rng.int(0, g.cats.length - 1)
   const v = g.extra.angle(s, c)
-  return { id: 'angle', stem: `What is the central angle (in degrees) of the sector for ${g.cats[c]}${g.series.length > 1 ? ` in the pie chart of ${g.series[s]}` : ''}?`, kind: 'dec', v, wrong: [g.extra.share(s, c)], why: `${g.cats[c]} = ${fv(g.extra.share(s, c))}% of the total.\nAngle = ${fv(g.extra.share(s, c))} × 360/100 = ${fv(v)}°.` }
+  const sh = g.extra.share(s, c)
+  return { id: 'angle', stem: `What is the central angle (in degrees) of the sector for ${g.cats[c]}${g.series.length > 1 ? ` in the pie chart of ${g.series[s]}` : ''}?`, kind: 'dec', v, wrong: [sh], steps: [`Share of ${g.cats[c]}${g.series.length > 1 ? ` (${g.series[s]})` : ''} = ${fv(sh)}% (from the chart)`, `Central angle = share × 360 ÷ 100 = ${fv(sh)} × 360 ÷ 100 = {R}`] }
 }
 const tSharePie: Template = (rng, g) => {
   if (!g.extra || !g.extra.pie) return null
   const s = rng.int(0, g.series.length - 1)
   const [c1, c2] = rng.sample([...Array(g.cats.length).keys()], 2)
-  const v = vadd(g.extra.share(s, c1), g.extra.share(s, c2))
-  return { id: 'sharePie', stem: `What percent of the total do ${g.cats[c1]} and ${g.cats[c2]} together account for${g.series.length > 1 ? ` in the pie chart of ${g.series[s]}` : ''}?`, kind: 'pct', v, wrong: [vsub(lit(100), v)], why: `${g.cats[c1]} = ${fv(g.extra.share(s, c1))}%; ${g.cats[c2]} = ${fv(g.extra.share(s, c2))}%.\nTogether = ${fv(v)}%.` }
+  const e = g.extra
+  const v = vadd(e.share(s, c1), e.share(s, c2))
+  const line = (c: number): string => (e.pct ? `${g.cats[c]}: ${fv(e.share(s, c))}% (from the chart)` : `${g.cats[c]}: ${fv(e.angle(s, c))}° → ${fv(e.angle(s, c))} × 100 ÷ 360 = ${fv(e.share(s, c))}%`)
+  return { id: 'sharePie', stem: `What percent of the total do ${g.cats[c1]} and ${g.cats[c2]} together account for${g.series.length > 1 ? ` in the pie chart of ${g.series[s]}` : ''}?`, kind: 'pct', v, wrong: [vsub(lit(100), v)], steps: [`Share of each category${e.pct ? '' : ' (share % = angle × 100 ÷ 360)'}:\n${line(c1)}\n${line(c2)}`, `Together = ${fv(e.share(s, c1))} + ${fv(e.share(s, c2))} = {R}`] }
 }
-
 const tPieSum: Template = (rng, g) => {
   if (!g.pie) return null
   const s = rng.int(0, g.series.length - 1)
@@ -394,8 +435,7 @@ const tPieSum: Template = (rng, g) => {
   const a = g.cell(s, c1)
   const b = g.cell(s, c2)
   const v = vadd(a, b)
-  return { id: 'pieSum', stem: `What is the total of ${g.cellP(s, c1)} and ${g.cellP(s, c2)}?`, kind: 'int', v, wrong: [vabs(a, b)], why: `${cap(g.cellP(s, c1))} = ${fv(a)}; ${g.cellP(s, c2)} = ${fv(b)}.
-Total = ${fv(v)}.` }
+  return { id: 'pieSum', stem: `What is the total of ${g.cellP(s, c1)} and ${g.cellP(s, c2)}?`, kind: 'int', v, wrong: [vabs(a, b)], used: [[s, c1], [s, c2]], steps: [`Total = ${fv(a)} + ${fv(b)} = {R}`] }
 }
 
 export const MEDIUM_TEMPLATES: Template[] = [tDiff, tSumCats, tAvgCats, tSumSer, tAvgSer, tRatio, tPctOf, tPctChange, tPctMore, tAngle]
@@ -420,12 +460,29 @@ function ratioWrongs(a: number, b: number): string[] {
 }
 
 export type DiTopic = 'di-table' | 'di-bar' | 'di-line' | 'di-pie' | 'di-caselet'
-export function finish(rng: Rng, c: Cand, st: Stimulus, topic: DiTopic): QuestionDraft | null {
+
+/** "Step 1: Values from the data" / derivation lines for the cells a question reads. */
+function dataStep(g: Grid, used: [number, number][]): string {
+  const uniq = used.filter(([s, c], i) => used.findIndex(([s2, c2]) => s2 === s && c2 === c) === i)
+  if (g.derive) {
+    const d = g.derive(uniq)
+    return `${d.head}\n${d.lines.join('\n')}`
+  }
+  const bySeries = new Map<number, number[]>()
+  for (const [s, c] of uniq) bySeries.set(s, [...(bySeries.get(s) ?? []), c])
+  const lines = [...bySeries.entries()].sort((a, b) => a[0] - b[0]).map(([s, cs]) => `${g.series[s]}: ${cs.sort((x, y) => x - y).map((c) => `${g.cats[c]} = ${fv(g.cell(s, c))}`).join(', ')}`)
+  return `Values from the data:\n${lines.join('\n')}`
+}
+
+const numberSteps = (steps: string[]): string => steps.map((s, i) => `Step ${i + 1}: ${s}`).join('\n')
+
+export function finish(rng: Rng, c: Cand, st: Stimulus, topic: DiTopic, grid?: Grid): QuestionDraft | null {
   const confirm = (v: V): void => {
     ensure(feq(evalRc(v.rc, st), v.val), `DI: re-evaluating the recipe on the rendered stimulus gives ${decStr(evalRc(v.rc, st), 3)} not ${decStr(v.val, 3)} (${c.id})`)
   }
   const wrongNums = c.wrong.map((w) => (typeof w === 'number' ? w : fval(w.val)))
   const suffix = c.kind === 'pct' ? '%' : ''
+  const lead: string[] = grid && c.used && c.used.length ? [dataStep(grid, c.used)] : []
   if (c.kind === 'ratio') {
     const [a, b] = c.ratio as [V, V]
     confirm(a)
@@ -437,7 +494,8 @@ export function finish(rng: Rng, c: Cand, st: Stimulus, topic: DiTopic): Questio
     const ra = x / g
     const rb = y / g
     need(ra <= 40 && rb <= 40 && !(ra === rb), 'ugly ratio')
-    const q = strQ(rng, { topic, stem: c.stem, correct: `${ra} : ${rb}`, wrong: ratioWrongs(ra, rb), why: `${c.why}\n= ${ratioStr(x, y)}.` })
+    const steps = [...lead, ...c.steps.map((s) => s.replace('{R}', `${ra} : ${rb}`)), `HCF of ${x} and ${y} = ${g}; dividing both by ${g} gives ${ra} : ${rb}`, `Answer = ${ra} : ${rb}`]
+    const q = strQ(rng, { topic, stem: c.stem, correct: `${ra} : ${rb}`, wrong: ratioWrongs(ra, rb), why: numberSteps(steps) })
     DI_META.set(q, { kind: 'ratio', rcs: [a.rc, b.rc] })
     return q
   }
@@ -446,7 +504,8 @@ export function finish(rng: Rng, c: Cand, st: Stimulus, topic: DiTopic): Questio
     lv.forEach(confirm)
     const labels = c.labels as string[]
     const idx = lv.reduce((m, x, i) => ((c.extreme === 'max' ? fcmp(x.val, lv[m].val) > 0 : fcmp(x.val, lv[m].val) < 0) ? i : m), 0)
-    const q = strQ(rng, { topic, stem: c.stem, correct: labels[idx], wrong: labels.filter((_, i) => i !== idx), why: c.why })
+    const steps = [...lead, ...c.steps, `Answer = ${labels[idx]}`]
+    const q = strQ(rng, { topic, stem: c.stem, correct: labels[idx], wrong: labels.filter((_, i) => i !== idx), why: numberSteps(steps) })
     DI_META.set(q, { kind: 'label', rcs: lv.map((x) => x.rc), labels, extreme: c.extreme })
     return q
   }
@@ -475,7 +534,14 @@ export function finish(rng: Rng, c: Cand, st: Stimulus, topic: DiTopic): Questio
   }
   const dec = decOf(ans)
   const wrong = round ? [2, 3, 5, 8, 12, 18].flatMap((o) => [fval(ans) - o, fval(ans) + o]) : wrongNums
-  const q = numQ(rng, { topic, stem, ans: ans, dec, wrong, post: suffix, why: round ? `${c.why}\n≈ ${fval(ans)}%.` : c.why })
+  // result text used inside the steps ("≈" instead of "=" when the exact value is not a short decimal)
+  const exactShort = terminating(v.val, 2)
+  const rText = `${exactShort ? decStr(v.val, 2) : fval(v.val).toFixed(2)}${suffix}`
+  const body = c.steps.map((s) => (exactShort ? s.replace('{R}', rText) : s.replace('= {R}', `≈ ${rText}`).replace('{R}', rText)))
+  const steps = [...lead, ...body]
+  if (round) steps.push(`Rounding ${rText} to the nearest whole number = ${decStr(ans, 0)}%`)
+  steps.push(`Answer = ${decStr(ans, 2)}${suffix}${round ? ' (approx.)' : ''}`)
+  const q = numQ(rng, { topic, stem, ans: ans, dec, wrong, post: suffix, why: numberSteps(steps) })
   DI_META.set(q, { kind: 'value', rcs: [v.rc], round })
   return q
 }
@@ -496,7 +562,7 @@ export function drawQuestions(rng: Rng, g: Grid, st: Stimulus, topic: 'di-table'
     }
     if (!c || used.has(c.id)) continue
     try {
-      const q = finish(rng, c, st, topic)
+      const q = finish(rng, c, st, topic, g)
       if (q && !out.some((o) => o.stem === q.stem)) {
         out.push(q)
         used.add(c.id)
@@ -645,7 +711,18 @@ export function buildGrid(rng: Rng, d: MockDifficulty, type: 'di-table' | 'di-ba
     part = { kind: 'line', heading, categories: cats, series: labels.map((l, s) => ({ name: l, values: data[s] })), unit: scn.unit }
     directions = 'Study the following line graph carefully and answer the questions that follow.'
   }
-  return { grid, stimulus: { directions, parts: [part] } }
+  const rowTot = data.map((r) => r.reduce((a, b) => a + b, 0))
+  const colTot = cats.map((_, c) => data.reduce((a, r) => a + r[c], 0))
+  const colTotals = nSer > 1 && grid.additive
+  const wrows: (string | number)[][] = labels.map((l, si) => [l, ...data[si], rowTot[si]])
+  if (colTotals) wrows.push(['Total', ...colTot, rowTot.reduce((a, b) => a + b, 0)])
+  const stimulus: Stimulus = {
+    directions,
+    parts: [part],
+    workings: [{ kind: 'table', heading: `${heading} — data in tabular form${colTotals ? ' with totals' : ' with row totals'}`, columns: [scn.rowHdr, ...cats, 'Total'], rows: wrows }],
+  }
+  WORKINGS_META.set(stimulus, { kind: 'grid', rowTotals: true, colTotals })
+  return { grid, stimulus }
 }
 
 // ------------------------------------------------------------------ derived (two-source) scenarios for PO
@@ -704,6 +781,32 @@ export function buildDerived(rng: Rng, type: 'di-table' | 'di-bar' | 'di-line'):
   const rest = (c: number): V => (kind === 2 ? vdiv(vmul(base(c), vadd(lit(100), pctRef(c))), lit(100)) : vsub(base(c), part(c)))
   const ref = (s: number, c: number): V => (s === 0 ? part(c) : rest(c))
   const common = { series: sNames, cats, catWord, catPlural, ref }
+  const unitTag = kind === 2 ? ' (₹ in lakh)' : ''
+  const dNames = kind === 0 ? ['Girls', 'Boys'] : kind === 1 ? ['Literate people', 'Illiterate people'] : [`Profit${unitTag}`, `Income${unitTag}`]
+  const exactStr = (v: V): string => decStr(v.val, 2)
+  const derive = (cells: [number, number][]): { head: string; lines: string[] } => {
+    const cs = [...new Set(cells.map(([, c]) => c))].sort((a, b) => a - b)
+    const head =
+      kind === 0
+        ? `Girls = Total students × % of girls ÷ 100 and Boys = Total students − Girls, for each ${catWord}:`
+        : kind === 1
+          ? `Literate people = Total population × % literate ÷ 100 and Illiterate = Total − Literate, for each ${catWord}:`
+          : 'Profit = Expenditure × Profit % ÷ 100 and Income = Expenditure × (100 + Profit %) ÷ 100, for each company:'
+    const lines = cs.map((c) => {
+      const b = decStr(fdec(data0[c], 2), 2)
+      const p = pcts[c]
+      const v1 = exactStr(part(c))
+      const v2 = exactStr(rest(c))
+      return kind === 2 ? `${cats[c]}: ${b} × ${p} ÷ 100 = ${v1} profit; ${b} × (100 + ${p}) ÷ 100 = ${v2} income` : `${cats[c]}: ${b} × ${p} ÷ 100 = ${v1} ${sNames[0]}; ${b} − ${v1} = ${v2} ${sNames[1]}`
+    })
+    return { head, lines }
+  }
+  const sumV = (f: (c: number) => V): number => cats.reduce((a, _, c) => a + Number(exactStr(f(c))), 0)
+  const wrows: (string | number)[][] = cats.map((cat, c) => [cat, data0[c], pcts[c], Number(exactStr(part(c))), Number(exactStr(rest(c)))])
+  wrows.push(['Total', data0.reduce((a, b) => a + b, 0), '—', sumV(part), sumV(rest)])
+  const wpart: StimulusPart = { kind: 'table', heading: `Complete table (given data and derived values) — ${headingA} and ${headingB.toLowerCase()}`, columns: [catWord[0].toUpperCase() + catWord.slice(1), totalName, pctName, dNames[0], dNames[1]], rows: wrows }
+  stimulus.workings = [wpart]
+  WORKINGS_META.set(stimulus, { kind: 'derived', income: kind === 2 })
   if (kind === 2) {
     grid = styleOfc(common)
     grid.time = timeCats
@@ -715,6 +818,7 @@ export function buildDerived(rng: Rng, type: 'di-table' | 'di-bar' | 'di-line'):
       grid.cellP = (s, c) => `the number of ${sNames[s]} in ${cats[c]}`
     }
   }
+  grid.derive = derive
   return { grid, stimulus }
 }
 
@@ -818,10 +922,29 @@ export function buildPie(rng: Rng, d: MockDifficulty): GridSet {
     grandP: () => '',
     extra: { share, angle, pie: true, pct: !deg },
   }
+  grid.extra = { share, angle, pie: true, pct: !deg }
+  const pieName = (si: number): string => (grid.series[si] ?? '').replace(/^./, (m) => m.toUpperCase())
+  grid.derive = (cells) => {
+    const uniq = cells.filter(([a, b], i) => cells.findIndex(([a2, b2]) => a2 === a && b2 === b) === i).sort((x, y) => x[0] - y[0] || x[1] - y[1])
+    const head = `Number = share % × total ÷ 100${deg ? ' (share % = angle × 100 ÷ 360)' : ''}:`
+    const lines = uniq.map(([si, c]) => {
+      const sh = decStr(share(si, c).val, 2)
+      const cnt = decStr(cell(si, c).val, 2)
+      const tag = `${cats[c]} (${grid.series[si]})`
+      return deg ? `${tag}: ${decStr(angle(si, c).val, 2)}° → ${decStr(angle(si, c).val, 2)} × 100 ÷ 360 = ${sh}%; ${sh} × ${totals[si]} ÷ 100 = ${cnt}` : `${tag}: ${sh} × ${totals[si]} ÷ 100 = ${cnt}`
+    })
+    return { head, lines }
+  }
+  const wcols: string[] = ['Category']
+  for (let si = 0; si < nPies; si++) wcols.push(`${pieName(si)} (%)`, `${pieName(si)} angle (°)`, `${pieName(si)} number`)
+  const wrows: (string | number)[][] = cats.map((cat, c) => [cat, ...pies.flatMap((_, si) => [Number(decStr(share(si, c).val, 2)), Number(decStr(angle(si, c).val, 2)), Number(decStr(cell(si, c).val, 2))])])
+  wrows.push(['Total', ...pies.flatMap((_, si) => [100, 360, totals[si]])])
   const stimulus: Stimulus = {
     directions: single ? 'Study the following pie chart carefully and answer the questions that follow.' : 'Study the following pie charts carefully and answer the questions that follow.',
     parts,
+    workings: [{ kind: 'table', heading: 'Complete table: share, central angle and actual number for each category', columns: wcols, rows: wrows }],
   }
+  WORKINGS_META.set(stimulus, { kind: 'pie', deg, totals })
   return { grid, stimulus }
 }
 

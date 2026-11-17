@@ -690,7 +690,7 @@ Numbers of the form ${L}k + ${r}: the first one that is at least 100 is ${L} × 
     while (small % L !== 0) small++
     ensure(small === Math.ceil(lo / L) * L, 'smallest multiple mismatch')
     if (small > hi) continue
-    return nq(rng, 'number-system', `What is the smallest ${dgt}-digit number that is exactly divisible by ${nums.join(', ').replace(/, ([^,]*)$/, ' and $1')}?`, small, [small + L, small - L, lo, Math.floor(hi / L) * L], `LCM = ${L}. Smallest ${dgt}-digit number = ${lo}; ${lo} ÷ ${L} leaves ${lo % L}.\nRequired number = ${lo} + (${L} − ${lo % L}) = ${small}.`)
+    return nq(rng, 'number-system', `What is the smallest ${dgt}-digit number that is exactly divisible by ${nums.join(', ').replace(/, ([^,]*)$/, ' and $1')}?`, small, [small + L, small - L, lo, Math.floor(hi / L) * L], `LCM = ${L}. Smallest ${dgt}-digit number = ${lo}; ${lo} ÷ ${L} leaves remainder ${lo % L}.\n${lo % L === 0 ? `${lo} is already divisible by ${L}, so the required number is ${small}` : `Required number = ${lo} + (${L} − ${lo % L}) = ${small}`}`)
   }
   throw new Reject('lcm remainder')
 }
@@ -783,6 +783,18 @@ function nsRemainders(rng: Rng): QuestionDraft {
   throw new Reject('remainders')
 }
 
+function countSteps(lo: number, hi: number, a: number, b: number, form: number, cnt: number): string {
+  const up = (k: number): string => `⌊${hi - 1}/${k}⌋ − ⌊${lo}/${k}⌋ = ${Math.floor((hi - 1) / k)} − ${Math.floor(lo / k)} = ${Math.floor((hi - 1) / k) - Math.floor(lo / k)}`
+  const k1 = form === 0 ? a : form === 1 ? lcm(a, b) : a
+  const first = `Multiples of ${form === 1 ? `both ${a} and ${b} (LCM ${k1})` : String(a)} between ${lo} and ${hi}: ${up(k1)}`
+  if (form !== 2) return `${first}\nRequired count = ${cnt}`
+  const L = lcm(a, b)
+  return `${first}\nMultiples of ${a} and ${b} both (LCM ${L}): ${up(L)}\nRequired count = ${C2(a)} − ${C2(L)} = ${cnt}`
+  function C2(k: number): number {
+    return Math.floor((hi - 1) / k) - Math.floor(lo / k)
+  }
+}
+
 function nsCount(rng: Rng, d: MockDifficulty): QuestionDraft {
   for (let tries = 0; tries < 200; tries++) {
     const lo = rng.int(1, 20) * 10
@@ -798,7 +810,7 @@ function nsCount(rng: Rng, d: MockDifficulty): QuestionDraft {
     ensure(cnt === formula, 'count divisible: loop and formula disagree')
     need(cnt >= 3, 'too few')
     const desc = form === 0 ? `divisible by ${a}` : form === 1 ? `divisible by both ${a} and ${b}` : `divisible by ${a} but not by ${b}`
-    return nq(rng, 'number-system', `How many numbers between ${lo} and ${hi} are ${desc}?`, cnt, [cnt + 1, cnt - 1, Math.floor((hi - lo) / a), Math.floor((hi - lo) / a) + 2], `Numbers between ${lo} and ${hi} ${desc}: ${form === 2 ? `${C(a)} − ${C(lcm(a, b))}` : `⌊${hi - 1}/${form === 0 ? a : lcm(a, b)}⌋ − ⌊${lo}/${form === 0 ? a : lcm(a, b)}⌋`} = ${cnt}.`)
+    return nq(rng, 'number-system', `How many numbers between ${lo} and ${hi} are ${desc}?`, cnt, [cnt + 1, cnt - 1, Math.floor((hi - lo) / a), Math.floor((hi - lo) / a) + 2], countSteps(lo, hi, a, b, form, cnt))
   }
   throw new Reject('count divisible')
 }
@@ -876,6 +888,20 @@ function modpow(b: bigint, e: bigint, m: bigint): bigint {
   }
   return r
 }
+function powerSteps(base: number, e: number, m: number, rem: number): string {
+  const cycle: number[] = []
+  let cur = 1
+  do {
+    cur = (cur * base) % m
+    cycle.push(cur)
+  } while (cur !== 1 && cycle.length <= m)
+  ensure(cur === 1, 'power remainder: base is not coprime to the modulus')
+  const k = cycle.length
+  const r = e % k === 0 ? k : e % k
+  ensure(cycle[r - 1] === rem, 'power remainder: cycle disagrees with modular exponentiation')
+  return `Powers of ${base} modulo ${m}: ${cycle.join(', ')}; the pattern repeats every ${k} powers\n${e} ÷ ${k} leaves remainder ${e % k}, so ${base}^${e} behaves like ${base}^${r}\n${base}^${r} gives remainder ${rem} when divided by ${m}`
+}
+
 function nsUnitDigit(rng: Rng): QuestionDraft {
   const b = rng.int(2, 19)
   const e = rng.int(20, 250)
@@ -905,7 +931,7 @@ function nsUnitDigit(rng: Rng): QuestionDraft {
   }
   ensure(r === rem, 'power remainder: modpow and iteration disagree')
   need(rem > 0, 'zero remainder')
-  return nq(rng, 'number-system', `What is the remainder when ${base}^${e} is divided by ${m}?`, rem, [(rem + 1) % m, (rem + 2) % m, m - rem, base % m].filter((x) => x !== rem), `Powers of ${base} modulo ${m} repeat with a cycle; ${base}^${e} ≡ ${rem} (mod ${m}).`, { sort: 'asc' })
+  return nq(rng, 'number-system', `What is the remainder when ${base}^${e} is divided by ${m}?`, rem, [(rem + 1) % m, (rem + 2) % m, m - rem, base % m].filter((x) => x !== rem), powerSteps(base, e, m, rem), { sort: 'asc' })
 }
 
 function nsTrailingZeros(rng: Rng): QuestionDraft {

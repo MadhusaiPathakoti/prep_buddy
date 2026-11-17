@@ -1,4 +1,4 @@
-import type { QuestionDraft, Group, Stimulus } from './types'
+import type { QuestionDraft, Group, Stimulus, StimulusPart } from './types'
 
 const BAD_TOKENS = /undefined|NaN|Infinity|\[object|null\b/
 
@@ -16,9 +16,9 @@ export function validateDraft(q: QuestionDraft): string | null {
   return null
 }
 
-function validateStimulus(s: Stimulus): string | null {
-  if (!s || !Array.isArray(s.parts) || s.parts.length === 0) return 'stimulus has no parts'
-  for (const p of s.parts) {
+function validateParts(parts: StimulusPart[]): string | null {
+  if (!Array.isArray(parts) || parts.length === 0) return 'stimulus has no parts'
+  for (const p of parts) {
     if (p.kind === 'text') {
       if (!p.paragraphs.length || p.paragraphs.some((x) => typeof x !== 'string' || !x.trim())) return 'empty text paragraph'
     } else if (p.kind === 'table') {
@@ -28,6 +28,18 @@ function validateStimulus(s: Stimulus): string | null {
     } else if (p.kind === 'pie') {
       if (p.slices.length < 2 || p.slices.some((x) => !Number.isFinite(x.value) || x.value < 0)) return 'bad pie slices'
     } else return 'unknown stimulus part'
+  }
+  return null
+}
+
+function validateStimulus(s: Stimulus): string | null {
+  if (!s) return 'stimulus has no parts'
+  const bad = validateParts(s.parts)
+  if (bad) return bad
+  if (s.workings !== undefined) {
+    const w = validateParts(s.workings)
+    if (w) return `workings: ${w}`
+    if (!s.workings.some((p) => p.kind === 'table')) return 'workings must contain a table'
   }
   const json = JSON.stringify(s)
   if (BAD_TOKENS.test(json)) return 'stimulus contains undefined/NaN/null artefact'

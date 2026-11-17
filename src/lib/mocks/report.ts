@@ -47,3 +47,14 @@ export function questionPaperFileName(paper: Attempt['paper'], sectionIndex: num
   const section = paper.kind === 'full' ? `-${slug(paper.sections[sectionIndex].name)}` : ''
   return `prepbuddy-${slug(paper.title)}${section}-question-paper.pdf`
 }
+
+/**
+ * True for an attempt created before solutions were written step by step: its saved quant questions keep the
+ * explanation text they were generated with, so some solutions are short. Newer papers always carry "Step 1".
+ */
+export function hasLegacySolutions(paper: Attempt['paper']): boolean {
+  return paper.questions.some((q) => q.section === 'quant' && !/(^|\n)Step 1/.test(q.explanation))
+}
+
+export const LEGACY_SOLUTIONS_NOTE =
+  'This attempt was created before step-by-step solutions were added, so some solutions here are short. Start a new mock (not Re-attempt, which reuses these same questions) to get the full step-by-step solutions and complete data tables.'

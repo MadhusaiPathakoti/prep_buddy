@@ -370,6 +370,7 @@ function makeSeries(rng: Rng, d: MockDifficulty, N: number): SeriesDef {
 }
 
 // ---------------------------------------------------------------------------- questions
+const diffsOf = (xs: (number | string)[]): string => xs.slice(1).map((x, j) => (typeof x === 'number' && typeof xs[j] === 'number' ? String(x - (xs[j] as number)).replace('-', '−') : '?')).join(', ')
 const fmtSeries = (t: (number | string)[]): string => t.join('   ')
 
 function wrongNumber(rng: Rng, d: MockDifficulty): QuestionDraft {
@@ -391,7 +392,7 @@ function wrongNumber(rng: Rng, d: MockDifficulty): QuestionDraft {
   ensure(shown[i] !== s.t[i], 'wrong series: corrupted term equals the original')
   const others = s.t.filter((_, j) => j !== i)
   const pick4 = rng.sample(others, 4)
-  const why = `Pattern: ${s.rule}.\nSeries should be ${s.t.join(', ')}.\nSo ${w} is wrong; it should be ${s.t[i]}.`
+  const why = `Differences of consecutive terms as given: ${diffsOf(shown)}\nLook for a rule: ${s.rule}\nWith this rule the series is ${s.t.join(', ')}\nSo ${w} does not fit; it should be ${s.t[i]}`
   return strQ(rng, { topic: 'wrong-number-series', stem: `Find the wrong number in the following number series.\n${fmtSeries(shown)}`, correct: String(w), wrong: pick4.map(String), why })
 }
 
@@ -409,7 +410,7 @@ function missingNumber(rng: Rng, d: MockDifficulty): QuestionDraft {
   const prev = s.t[b - 1]
   if (b >= 2) nearMiss.push(2 * prev - s.t[b - 2])
   if (b >= 1 && b + 1 < N) nearMiss.push(Math.round((prev + s.t[b + 1]) / 2))
-  const why = `Pattern: ${s.rule}.\nSeries: ${s.t.join(', ')}.\nMissing term = ${s.t[b]}.`
+  const why = `Differences of consecutive terms (? is unknown): ${diffsOf(shown)}\nLook for a rule: ${s.rule}\nWith this rule the series is ${s.t.join(', ')}\nSo the missing term is ${s.t[b]}`
   return numQ(rng, { topic: 'missing-number-series', stem: `What will come in place of the question mark (?) in the following number series?\n${fmtSeries(shown)}`, ans: s.t[b], wrong: nearMiss, why, none: 0.15 })
 }
 

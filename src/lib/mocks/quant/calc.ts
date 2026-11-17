@@ -3,7 +3,7 @@
 // independent string evaluator (second method) before a question is emitted.
 import type { Rng } from '../rng'
 import type { Group, MockDifficulty, QuestionDraft } from '../types'
-import { F, Reject, ensure, fadd, fdiv, fdec, feq, fint, fmul, fsub, fval, divisorsOf, genSingles, lcm, decOf, need, numQ, rstep, roundTo, terminating, wpick, decStr, gcd } from './util'
+import { F, Reject, ensure, stepsText, fadd, fdiv, fdec, feq, fint, fmul, fsub, fval, divisorsOf, genSingles, lcm, decOf, need, numQ, rstep, roundTo, terminating, wpick, decStr, gcd } from './util'
 import type { Frac, Tpl } from './util'
 import { fmtNum } from '../options'
 
@@ -347,15 +347,19 @@ function fstr(f: Frac): string {
   return decStr(f, 2)
 }
 
-function evalSteps(root: Node): string[] {
+/** One line per operation, innermost first: every leaf that needs evaluating, then each operation of the tree in turn. */
+function reduceLines(n: Node, which: 's' | 'sr', skip?: Leaf): string[] {
   const lines: string[] = []
-  const walk = (n: Node, isRoot: boolean): void => {
-    if (n.k === 'n') return
-    walk(n.l, false)
-    walk(n.r, false)
-    if (!isRoot) lines.push(`${render(n, 'sr')} = ${fstr(n.v)}`)
+  const walk = (x: Node): void => {
+    if (x.k === 'n') {
+      if (x !== skip && x[which] !== fstr(x.v)) lines.push(`${x[which]} = ${fstr(x.v)}`)
+      return
+    }
+    walk(x.l)
+    walk(x.r)
+    lines.push(`${fstr(x.l.v)} ${x.op} ${fstr(x.r.v)} = ${fstr(x.v)}`)
   }
-  walk(root, true)
+  walk(n)
   return lines
 }
 
@@ -392,28 +396,41 @@ function simplFind(rng: Rng, d: MockDifficulty): QuestionDraft {
   // second method: substitute the answer in the text and re-evaluate; must reproduce the right-hand side
   const check = evalExact(shown.replace('?', decStr(ans, 2)))
   ensure(feq(check, t.v), `simplification: re-evaluation ${fstr(check)} != ${fstr(t.v)} for ${shown}`)
-  // third method: solve backwards along the path
+  // third method: solve backwards along the path (the steps a student writes)
   const path = pathTo(t, leaf) as { node: Bin; side: 'l' | 'r' }[]
   let target = t.v
-  const lines: string[] = []
+  const known: string[] = []
   const solve: string[] = []
   for (const { node, side } of path) {
     const other = side === 'l' ? node.r : node.l
     const ov = other.v
+    const os = fstr(ov)
     let nt: Frac
-    if (node.op === '+') nt = fsub(target, ov)
-    else if (node.op === '×') nt = fdiv(target, ov)
-    else if (node.op === '−') nt = side === 'l' ? fadd(target, ov) : fsub(ov, target)
-    else nt = side === 'l' ? fmul(target, ov) : fdiv(ov, target)
-    if (other.k === 'b' || other.sr !== fstr(ov)) lines.push(`${render(other, 'sr')} = ${fstr(ov)}`)
-    // The step a student would write: peel off one operation to isolate the part that holds the "?".
+    let how: string
+    if (node.op === '+') {
+      nt = fsub(target, ov)
+      how = `${fstr(target)} − ${os}`
+    } else if (node.op === '×') {
+      nt = fdiv(target, ov)
+      how = `${fstr(target)} ÷ ${os}`
+    } else if (node.op === '−') {
+      nt = side === 'l' ? fadd(target, ov) : fsub(ov, target)
+      how = side === 'l' ? `${fstr(target)} + ${os}` : `${os} − ${fstr(target)}`
+    } else {
+      nt = side === 'l' ? fmul(target, ov) : fdiv(ov, target)
+      how = side === 'l' ? `${fstr(target)} × ${os}` : `${os} ÷ ${fstr(target)}`
+    }
+    known.push(...reduceLines(other, 's'))
     const child = side === 'l' ? node.l : node.r
-    solve.push(`${render(child, 's', leaf)} = ${fstr(nt)}`)
+    const u = render(child, 's', leaf)
+    const eq = side === 'l' ? `${u} ${node.op} ${os} = ${fstr(target)}` : `${os} ${node.op} ${u} = ${fstr(target)}`
+    solve.push(`${eq}, so ${u} = ${how} = ${fstr(nt)}`)
     target = nt
   }
   ensure(feq(target, leaf.v), 'simplification: backward solve disagrees')
-  const closing = `? = ${fstr(ans)}`
-  const why = [...lines, `${shown} = ${fstr(t.v)}`, ...solve, ...(solve[solve.length - 1] !== closing ? [closing] : [])].join('\n')
+  if (saved) solve.push(`Since ${saved.s} = ${fstr(leaf.v)}, ? = ${fstr(leaf.v)}${saved.s === '√?' ? '²' : '³'} = ${fstr(ans)}`)
+  const steps = [...known.map((l, i) => (i === 0 ? `Work out the known part first: ${l}` : l)), ...solve]
+  const why = stepsText(steps, fstr(ans))
   return numQ(rng, { topic: 'simplification', stem: `What will come in place of the question mark (?) in the following question?\n${shown} = ${fstr(t.v)}`, ans, dec: decOf(ans), why, none: 0.15 })
 }
 
@@ -423,8 +440,7 @@ function simplEval(rng: Rng, d: MockDifficulty): QuestionDraft {
   const t = exprNode(rng, cfg, ops)
   const text = render(t, 's')
   ensure(feq(evalExact(text), t.v), `simplification: evaluation mismatch for ${text}`)
-  const steps = evalSteps(t)
-  const why = `${steps.slice(0, 4).join('\n')}${steps.length ? '\n' : ''}${text} = ${fstr(t.v)}`
+  const why = stepsText(reduceLines(t, 's'), fstr(t.v))
   return numQ(rng, { topic: 'simplification', stem: `What will come in place of the question mark (?) in the following question?\n${text} = ?`, ans: t.v, dec: decOf(t.v), why, none: 0.15 })
 }
 
@@ -440,7 +456,7 @@ function simplDiff(rng: Rng, d: MockDifficulty): QuestionDraft {
   const big = fval(a.v) > fval(b.v) ? a : b
   const small = big === a ? b : a
   const ans = fsub(big.v, small.v)
-  const why = `I. ${ta} = ${fstr(a.v)}\nII. ${tb} = ${fstr(b.v)}\nRequired difference = ${fstr(big.v)} − ${fstr(small.v)} = ${fstr(ans)}`
+  const why = stepsText([`Expression I: ${ta}\n${reduceLines(a, 's').join('\n')}`, `Expression II: ${tb}\n${reduceLines(b, 's').join('\n')}`, `Difference = larger − smaller = ${fstr(big.v)} − ${fstr(small.v)} = ${fstr(ans)}`], fstr(ans))
   return numQ(rng, { topic: 'simplification', stem: `What is the difference between the values of expression I and expression II?\nI. ${ta}\nII. ${tb}`, ans, dec: decOf(ans), wrong: [fadd(a.v, b.v)], why, none: 0.15 })
 }
 
@@ -478,7 +494,7 @@ function approxQ(rng: Rng, d: MockDifficulty): QuestionDraft {
     wrong.push(Math.round(K * (1 - r)), Math.round(K * (1 + r)))
   }
   for (const w of wrong) ensure(Math.abs(w - X) / X >= 0.03 && Math.abs(w - K) >= 2, `approximation: distractor ${w} too close (K=${K}, X=${X}) ${shown}`)
-  const why = `Rounding each number to the nearest convenient value: ${round} = ${K}.`
+  const why = stepsText([`Round every number to a convenient value:\n${round}`, ...reduceLines(t, 'sr')], `${K} (approximately)`)
   return numQ(rng, { topic: 'approximation', stem: `What approximate value will come in place of the question mark (?) in the following question?\n(You are not expected to calculate the exact value.)\n${shown} = ?`, ans: K, wrong, why })
 }
 const APPROX_TPLS: Tpl[] = [{ name: 'approx', gen: approxQ }]

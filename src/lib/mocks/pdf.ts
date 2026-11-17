@@ -1,7 +1,7 @@
 import { jsPDF } from 'jspdf'
 import { autoTable, type CellDef } from 'jspdf-autotable'
 import { COHORT_DISCLAIMER, TIERS } from './cohort'
-import { kindLabel, OPTION_LETTERS, pct, type Report } from './report'
+import { hasLegacySolutions, kindLabel, LEGACY_SOLUTIONS_NOTE, OPTION_LETTERS, pct, type Report } from './report'
 import { formatHms, formatScore, type QuestionResult } from './scoring'
 import { topicLabel } from './topics'
 import type { MockPaper, MockQuestion, Stimulus, StimulusPart } from './types'
@@ -424,12 +424,11 @@ export function createFlow(doc: jsPDF, startY = 20) {
       }
       f.y += gap
     },
-    drawStimulus(stim: Stimulus) {
-      if (stim.directions) f.para(stim.directions, 8.5, 'italic', MUTED)
-      for (const p of stim.parts) {
+    drawParts(parts: StimulusPart[], headingPartIsBold = true) {
+      for (const p of parts) {
         const s = stimulusParts(p)
         if (s.kind === 'text') {
-          s.lines.forEach((l, i) => f.para(l, 8.5, p.kind === 'text' && p.heading && i === 0 ? 'bold' : 'normal', [51, 65, 85], 3))
+          s.lines.forEach((l, i) => f.para(l, 8.5, headingPartIsBold && p.kind === 'text' && p.heading && i === 0 ? 'bold' : 'normal', [51, 65, 85], 3))
         } else {
           if (s.heading) f.para(s.heading, 8.5, 'bold', INK, 3)
           f.ensure(8 + (s.body.length + 1) * 6.5) // keep a data table on one page
@@ -447,7 +446,28 @@ export function createFlow(doc: jsPDF, startY = 20) {
           if (s.note) f.para(s.note, 7.5, 'italic', MUTED, 3)
         }
       }
+    },
+    drawStimulus(stim: Stimulus) {
+      if (stim.directions) f.para(stim.directions, 8.5, 'italic', MUTED)
+      f.drawParts(stim.parts)
       f.y += 1
+    },
+    /** Result analysis only: the complete table (derived columns included); a practice question paper must never call this. */
+    drawWorkings(stim: Stimulus) {
+      if (!stim.workings || stim.workings.length === 0) return
+      f.para('Complete data table (with derived values):', 8.5, 'bold', [67, 56, 202], 0, 0.5)
+      f.drawParts(stim.workings, false)
+      f.y += 1
+    },
+    /** A step-by-step solution: "Step N" lines in bold, the working beneath them indented. */
+    drawSolution(text: string) {
+      f.para('Solution', 8.5, 'bold', [67, 56, 202], 0, 0.4)
+      for (const line of text.split('\n')) {
+        const isStep = /^Step \d+/.test(line)
+        const isAnswer = /^Correct answer:/.test(line)
+        f.para(line, 8.5, isStep || isAnswer ? 'bold' : 'normal', isAnswer ? [5, 150, 105] : [67, 56, 202], isStep || isAnswer ? 0 : 4, 0.35)
+      }
+      f.y += 3.5
     },
   }
   return f
@@ -458,10 +478,11 @@ function solutionPages(doc: jsPDF, report: Report) {
   const paper = attempt.paper
   doc.addPage('a4', 'portrait')
   const f = createFlow(doc)
-  const { W, M, TW, ensure, para, drawStimulus } = f
+  const { W, M, TW, ensure, para, drawStimulus, drawWorkings, drawSolution } = f
 
   heading(doc, 'Solution Analysis', M, f.y)
   f.y += 8
+  if (hasLegacySolutions(paper)) para(LEGACY_SOLUTIONS_NOTE, 8.5, 'italic', [180, 83, 9], 0, 4)
   const shownSets = new Set<string>()
   const sectionIndexShown = new Set<number>()
 
@@ -483,6 +504,7 @@ function solutionPages(doc: jsPDF, report: Report) {
       ensure(20)
       para('Common data / passage for the following question(s):', 8.5, 'bold', INK, 0, 0.5)
       drawStimulus(paper.sets[q.setId])
+      drawWorkings(paper.sets[q.setId])
     }
     ensure(30)
     const color = r.verdict === 'correct' ? GREEN : r.verdict === 'incorrect' ? RED : GREY
@@ -507,7 +529,7 @@ function solutionPages(doc: jsPDF, report: Report) {
       para(`${OPTION_LETTERS[i]}. ${o}${tag}`, 9, isAnswer || isYours ? 'bold' : 'normal', isAnswer ? [5, 150, 105] : isYours ? RED : [51, 65, 85], 4, 0.4)
     })
     if (r.selected === null) para('Not attempted.', 8.5, 'italic', MUTED, 4, 0.4)
-    para(`Solution: ${q.explanation}`, 8.5, 'normal', [67, 56, 202], 0, 4)
+    drawSolution(q.explanation)
   }
 
   for (const r of sc.questions) drawQuestion(r)

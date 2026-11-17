@@ -66,8 +66,8 @@ function pctPopulation(rng: Rng, d: MockDifficulty): QuestionDraft {
   if (rng.chance(0.5)) return nq(rng, 'percentage', `The population of ${city.toLowerCase()} increases by ${r}% every year. If its present population is ${P0}, what will it be after two years?`, P2, [fadd(P(P0), fdiv(fmul(P(P0), P(2 * r)), P(100))), P1, fdiv(fmul(P(P0), P(100 - r)), P(100))], `After 1 year: ${P0} × ${100 + r}/100 = ${pc(P1)}.\nAfter 2 years: ${pc(P1)} × ${100 + r}/100 = ${pc(P2)}.`)
   const dec = rng.pick([10, 20, 25])
   const P3 = fdiv(fmul(P(P2.n), P(100 - dec)), P(100))
-  if (!fint(P3)) return nq(rng, 'percentage', `The population of ${city.toLowerCase()} increases by ${r}% every year. Its population two years ago was ${P0}. What is its present population?`, P2, [P1, fadd(P(P0), fdiv(fmul(P(P0), P(2 * r)), P(100)))], `${P0} × ${100 + r}/100 × ${100 + r}/100 = ${pc(P2)}.`)
-  return nq(rng, 'percentage', `${city} has a population of ${P0}. It increased by ${r}% in the first year and again by ${r}% in the second year. In the third year it decreased by ${dec}%. What is the population at the end of the third year?`, P3, [P2, fdiv(fmul(P(P0), P(100 - dec)), P(100)), P1], `Year 1: ${pc(P1)}; year 2: ${pc(P2)}; year 3: ${pc(P2)} × ${100 - dec}/100 = ${pc(P3)}.`)
+  if (!fint(P3)) return nq(rng, 'percentage', `The population of ${city.toLowerCase()} increases by ${r}% every year. Its population two years ago was ${P0}. What is its present population?`, P2, [P1, fadd(P(P0), fdiv(fmul(P(P0), P(2 * r)), P(100)))], `After 1 year: ${P0} × ${100 + r}/100 = ${pc(P1)}\nAfter 2 years: ${pc(P1)} × ${100 + r}/100 = ${pc(P2)}`)
+  return nq(rng, 'percentage', `${city} has a population of ${P0}. It increased by ${r}% in the first year and again by ${r}% in the second year. In the third year it decreased by ${dec}%. What is the population at the end of the third year?`, P3, [P2, fdiv(fmul(P(P0), P(100 - dec)), P(100)), P1], `Year 1: ${P0} × ${100 + r}/100 = ${pc(P1)}\nYear 2: ${pc(P1)} × ${100 + r}/100 = ${pc(P2)}\nYear 3: ${pc(P2)} × ${100 - dec}/100 = ${pc(P3)}`)
 }
 
 function pctMarks(rng: Rng, d: MockDifficulty): QuestionDraft {

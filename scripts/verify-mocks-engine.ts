@@ -5,7 +5,7 @@ import { newAttempt, type Attempt } from '../src/lib/mocks/attempts.ts'
 import { estimateCohort } from '../src/lib/mocks/cohort.ts'
 import { advanceSection, answer, begin, clearAnswer, countStatuses, finish, neighbour, remainingMs, setMarked, tick, totalRemainingMs, visit } from '../src/lib/mocks/engine.ts'
 import { buildQuestionPaperPdf, buildResultPdf, pdfText } from '../src/lib/mocks/pdf.ts'
-import { buildReport } from '../src/lib/mocks/report.ts'
+import { buildReport, hasLegacySolutions } from '../src/lib/mocks/report.ts'
 import { evaluate, statusOf } from '../src/lib/mocks/scoring.ts'
 import type { MockPaper, MockQuestion, MockSectionId } from '../src/lib/mocks/types.ts'
 
@@ -64,7 +64,10 @@ function fixture(locked: boolean): MockPaper {
       's-2': { parts: [{ kind: 'bar', heading: 'Sales (in lakh)', categories: ['2019', '2020', '2021'], series: [{ name: 'A', values: [10, 20, 30] }, { name: 'B', values: [15, 25, 5] }], unit: '₹ lakh' }] },
       's-3': { parts: [{ kind: 'pie', heading: 'Expenditure', slices: [{ label: 'Rent', value: 120 }, { label: 'Food', value: 90 }, { label: 'Misc', value: 150 }], unit: 'degrees' }] },
       's-4': { parts: [{ kind: 'line', heading: 'Production', categories: ['Mon', 'Tue', 'Wed'], series: [{ name: 'Units', values: [4, 9, 6] }] }] },
-      's-5': { parts: [{ kind: 'table', heading: 'Employees', columns: ['Dept', 'Men', 'Women'], rows: [['HR', 12, 8], ['IT', 40, 22]], note: 'All figures are headcounts.' }] },
+      's-5': {
+        parts: [{ kind: 'table', heading: 'Employees', columns: ['Dept', 'Men', 'Women'], rows: [['HR', 12, 8], ['IT', 40, 22]], note: 'All figures are headcounts.' }],
+        workings: [{ kind: 'table', heading: 'Employees with totals', columns: ['Dept', 'Men', 'Women', 'Total'], rows: [['HR', 12, 8, 20], ['IT', 40, 22, 62], ['Total', 52, 30, 82]] }],
+      },
     },
   }
 }
@@ -216,6 +219,28 @@ check('pdfText replaces unsupported glyphs', pdfText('hi 😀 你好') === 'hi ?
   const raw = Buffer.from(doc.output('arraybuffer')).toString('latin1')
   check('question paper contains no answer key or solutions', !/Correct answer|\[Correct\]|Solution:/.test(raw))
   check('question paper is limited to the requested section', buildQuestionPaperPdf(p, 2).getNumberOfPages() === 1)
+}
+
+// --- derived "complete data table" is analysis-only ---
+{
+  const p = fixture(true)
+  const attempt = finish(answer(begin(newAttempt(p), T0), 'q-1', 0), T0 + 1000)
+  const resultRaw = Buffer.from(buildResultPdf(buildReport(attempt)).output('arraybuffer')).toString('latin1')
+  check('result PDF shows the complete data table under the given data', /Complete data table/.test(resultRaw) && /Employees with totals/.test(resultRaw))
+  const paperRaw = Buffer.from(buildQuestionPaperPdf(p, 1).output('arraybuffer')).toString('latin1')
+  check('practice question paper never includes the derived workings', !/Complete data table|Employees with totals/.test(paperRaw) && /Employees/.test(paperRaw))
+  check('stimulus workings do not make two otherwise-different sets look identical (dedupe key ignores them)', JSON.stringify(p.sets['s-5'].parts) !== JSON.stringify([...p.sets['s-5'].parts, ...(p.sets['s-5'].workings ?? [])]))
+}
+
+// --- legacy (pre step-by-step) attempts are flagged; new papers are not ---
+{
+  const old = fixture(true)
+  check('an attempt whose quant solutions have no steps is flagged as legacy', hasLegacySolutions(old))
+  const fresh = fixture(true)
+  fresh.questions = fresh.questions.map((q) => (q.section === 'quant' ? { ...q, explanation: `Step 1: work.
+Step 2: Answer = 5
+Correct answer: (A) 5` } : q))
+  check('a paper whose quant solutions carry Step 1 is not flagged', !hasLegacySolutions(fresh))
 }
 
 console.log(failures === 0 ? '\nAll engine checks passed.' : `\n${failures} check(s) FAILED.`)
