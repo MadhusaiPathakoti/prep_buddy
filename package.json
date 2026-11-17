@@ -13,6 +13,7 @@
     "verify:surds": "tsx scripts/verify-surds.ts",
     "verify:quadratic": "tsx scripts/verify-quadratic.ts",
     "verify:puzzle": "tsx scripts/verify-puzzle-solver.ts",
+    "verify:syllogism": "tsx scripts/verify-syllogism-solver.ts",
     "preview": "vite preview"
   },
   "dependencies": {

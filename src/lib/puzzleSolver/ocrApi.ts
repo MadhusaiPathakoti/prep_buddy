@@ -28,7 +28,9 @@ async function toJpegBase64(file: Blob): Promise<string> {
   return btoa(bin)
 }
 
-export async function readPuzzleImage(file: Blob): Promise<OcrResult> {
+export type OcrKind = 'puzzle' | 'syllogism'
+
+export async function readPuzzleImage(file: Blob, kind: OcrKind = 'puzzle'): Promise<OcrResult> {
   if (!ACCEPTED_TYPES.includes(file.type)) return { ok: false, error: 'Please use a PNG, JPEG or WebP image.' }
   let image: string
   try {
@@ -42,7 +44,7 @@ export async function readPuzzleImage(file: Blob): Promise<OcrResult> {
     const res = await fetch('/api/puzzleOcr', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ image, mime: 'image/jpeg' }),
+      body: JSON.stringify({ image, mime: 'image/jpeg', kind }),
       signal: controller.signal,
     })
     const data = await res.json().catch(() => null)

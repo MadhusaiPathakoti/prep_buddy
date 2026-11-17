@@ -40,6 +40,7 @@ const DirectionSense = lazy(() => import('./pages/games/DirectionSense'))
 const RankingOrder = lazy(() => import('./pages/games/RankingOrder'))
 const InputOutput = lazy(() => import('./pages/games/InputOutput'))
 const PuzzleSolver = lazy(() => import('./pages/games/PuzzleSolver'))
+const SyllogismSolver = lazy(() => import('./pages/games/SyllogismSolver'))
 const Divisibility = lazy(() => import('./pages/games/Divisibility'))
 const PercentDegree = lazy(() => import('./pages/games/PercentDegree'))
 const English = lazy(() => import('./pages/English'))
@@ -139,6 +140,7 @@ export default function App() {
           <Route path="/reasoning/ranking-order" element={<RankingOrder />} />
           <Route path="/reasoning/input-output" element={<InputOutput />} />
           <Route path="/reasoning/puzzle-solver" element={<PuzzleSolver />} />
+          <Route path="/reasoning/syllogism-solver" element={<SyllogismSolver />} />
           <Route path="/quant/divisibility" element={<Divisibility />} />
           <Route path="/quant/percent-degree" element={<PercentDegree />} />
           <Route path="/english" element={<English />} />

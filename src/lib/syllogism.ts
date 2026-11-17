@@ -17,13 +17,13 @@ import { shuffle, type MCQQuestion } from './generators'
 export type SyllogismDifficulty = 'easy' | 'medium' | 'hard' | 'mixed'
 export type SyllogismFormat = 'conclusions' | 'which-follows' | 'mixed'
 
-type Form = 'A' | 'E' | 'I' | 'O' // All x are y · No x is y · Some x are y · Some x are not y
-interface Prop {
+export type Form = 'A' | 'E' | 'I' | 'O' // All x are y · No x is y · Some x are y · Some x are not y
+export interface Prop {
   form: Form
   x: number
   y: number
 }
-interface Stmt {
+export interface Stmt {
   props: Prop[]
   few: boolean // "Only a few x are y" = Some x are y AND Some x are not y
 }
@@ -33,7 +33,7 @@ interface Conc {
   x: number
   y: number
 }
-interface Term {
+export interface Term {
   plural: string
   singular: string
 }
@@ -60,7 +60,7 @@ const ANSWERS = [
 
 const article = (w: string) => (/^[aeiou]/.test(w) ? 'an' : 'a')
 
-function propText(p: Prop, t: Term[]): string {
+export function propText(p: Prop, t: Term[]): string {
   const X = t[p.x]
   const Y = t[p.y]
   switch (p.form) {
@@ -75,7 +75,7 @@ function propText(p: Prop, t: Term[]): string {
   }
 }
 
-function stmtText(s: Stmt, t: Term[]): string {
+export function stmtText(s: Stmt, t: Term[]): string {
   if (s.few) return `Only a few ${t[s.props[0].x].plural} are ${t[s.props[0].y].plural}`
   return propText(s.props[0], t)
 }
@@ -228,14 +228,14 @@ function describeArrangement(model: number, k: number, t: Term[]): string {
 
 // ---------- the rule engine (for the written proofs) ----------
 
-interface Fact {
+export interface Fact {
   p: Prop
   kind: 'given' | 'few' | 'derived'
   from: string[]
   src: number // statement index, for 'few'
 }
 
-const keyOf = (p: Prop) => `${p.form}${p.x}>${p.y}`
+export const keyOf = (p: Prop) => `${p.form}${p.x}>${p.y}`
 
 function combine(a: Prop, b: Prop): Prop | null {
   const A = a.form
@@ -267,7 +267,7 @@ function convert(a: Prop): Prop[] {
   return []
 }
 
-function closure(stmts: Stmt[]): Map<string, Fact> {
+export function closure(stmts: Stmt[]): Map<string, Fact> {
   const facts = new Map<string, Fact>()
   const add = (p: Prop, f: Omit<Fact, 'p'>) => {
     const k = keyOf(p)
@@ -296,7 +296,7 @@ function closure(stmts: Stmt[]): Map<string, Fact> {
 }
 
 /** Ordered list of proof lines for `target`, e.g. "Some pens are books + All books are tables ⇒ Some pens are tables". */
-function proofSteps(target: string, facts: Map<string, Fact>, stmts: Stmt[], t: Term[]): string[] {
+export function proofSteps(target: string, facts: Map<string, Fact>, stmts: Stmt[], t: Term[]): string[] {
   const lines: string[] = []
   const seen = new Set<string>()
   const walk = (k: string) => {

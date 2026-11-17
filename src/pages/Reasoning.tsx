@@ -73,6 +73,14 @@ export const REASONING_GAMES = [
     icon: '🧩',
     tool: true,
   },
+  {
+    id: 'syllogism-solver',
+    title: 'Syllogism Solver',
+    description: 'Paste a syllogism (text or screenshot) and watch the Venn diagram build, check each conclusion with animated pictures, and see why any answer you pick is right or wrong.',
+    to: '/reasoning/syllogism-solver',
+    icon: '◎',
+    tool: true,
+  },
 ]
 
 export default function Reasoning() {
