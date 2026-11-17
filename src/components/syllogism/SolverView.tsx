@@ -51,9 +51,19 @@ export default function SolverView({ solution, onEdit }: { solution: Solution; o
     setPlaying(false)
     setView({ kind: 'build', step: Math.max(0, Math.min(last, n)) })
   }
+  // start over: clear the answer, the verdict badges and the explanation, and replay the build-up from the first step
+  const restart = (autoplay: boolean) => {
+    setPicked(null)
+    setTried([])
+    setChecked([])
+    setView({ kind: 'build', step: 0 })
+    setPlaying(autoplay)
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
   const togglePlay = () => {
     if (isPlaying) return setPlaying(false)
-    setView({ kind: 'build', step: view.kind === 'build' && view.step < last ? view.step : 0 })
+    if (view.kind === 'build' && view.step >= last) return restart(true)
+    setView({ kind: 'build', step: view.kind === 'build' ? view.step : 0 })
     setPlaying(true)
   }
   const showPicture = (ref: PicRef | undefined, scrollToStage = true) => {
@@ -188,7 +198,7 @@ export default function SolverView({ solution, onEdit }: { solution: Solution; o
 
           {view.kind === 'build' ? (
             <div className="mt-2 flex flex-wrap items-center gap-2">
-              <button onClick={() => goStep(0)} className={stepBtn} title="Restart" aria-label="Restart">
+              <button onClick={() => restart(false)} className={stepBtn} title="Start over" aria-label="Start over">
                 ⏮
               </button>
               <button onClick={() => goStep((view.kind === 'build' ? view.step : 0) - 1)} disabled={view.step === 0} className={stepBtn} aria-label="Previous step">
