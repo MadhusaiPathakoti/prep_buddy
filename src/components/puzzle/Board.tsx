@@ -45,6 +45,60 @@ function Chip({ label, tone, pop: popIn, title, onClick, selected }: { label: st
   )
 }
 
+/** A circular table drawn as a ring of seats: who is seated where so far, numbered in the direction of "to the right of". */
+function RoundTable({ ctx, grid, beat }: { ctx: Ctx; grid: Grid; beat: Beat | null }) {
+  const { n, p } = ctx
+  const out = p.facing === 'out'
+  const dir = out ? 1 : -1 // seat + 1 is clockwise when everyone faces outside, anticlockwise when everyone faces the centre
+  const cx = 150
+  const cy = 150
+  const R = 100
+  const { fixed } = beatCells(beat)
+  return (
+    <svg viewBox="0 0 300 300" className="mx-auto mb-3 h-72 w-72 max-w-full" role="img" aria-label={`Round table of ${n} seats, everyone facing ${out ? 'outside' : 'the centre'}`}>
+      <circle cx={cx} cy={cy} r={R} className="fill-slate-100 stroke-slate-200 dark:fill-slate-900/50 dark:stroke-slate-700" strokeWidth="2" />
+      <text x={cx} y={cy - 6} textAnchor="middle" className="fill-slate-400 text-[10px] font-semibold dark:fill-slate-500">
+        everyone faces {out ? 'outside' : 'the centre'}
+      </text>
+      <text x={cx} y={cy + 9} textAnchor="middle" className="fill-slate-400 text-[9px] dark:fill-slate-500">
+        right = next seat ({dir === 1 ? 'clockwise' : 'anticlockwise'})
+      </text>
+      {Array.from({ length: n }, (_, f) => {
+        const ang = ((-90 + (dir * f * 360) / n) * Math.PI) / 180
+        const x = cx + R * Math.cos(ang)
+        const y = cy + R * Math.sin(ang)
+        const mask = grid.row(1, f, 0)
+        const locked = pop(mask) === 1
+        const person = locked ? ctx.lab(0, bits(mask)[0]) : null
+        const justFixed = locked && fixed.has(`0.${bits(mask)[0]}.1.${f}`)
+        // a small arrow beside each seat showing the way that person faces
+        const deg = (ang * 180) / Math.PI
+        const ax = cx + (R + (out ? 31 : -31)) * Math.cos(ang)
+        const ay = cy + (R + (out ? 31 : -31)) * Math.sin(ang)
+        return (
+          <g key={f}>
+            <circle
+              cx={x}
+              cy={y}
+              r="24"
+              style={{ transformBox: 'fill-box', transformOrigin: 'center' }} // so the pop animation grows from the seat, not from the corner of the picture
+              className={[locked ? 'fill-emerald-500' : 'fill-white stroke-slate-300 dark:fill-slate-800 dark:stroke-slate-600', justFixed ? 'animate-chip-lock' : ''].join(' ')}
+              strokeWidth="1.5"
+            />
+            <text x={x} y={y - 5} textAnchor="middle" className={['text-[9px] font-bold', locked ? 'fill-emerald-100' : 'fill-slate-400 dark:fill-slate-500'].join(' ')}>
+              {ctx.posNum(f)}
+            </text>
+            <text x={x} y={y + 8} textAnchor="middle" className={['text-[11px] font-extrabold', locked ? 'fill-white' : 'fill-slate-300 dark:fill-slate-600'].join(' ')}>
+              {person ?? '?'}
+            </text>
+            <polygon points="0,-5 4,3 -4,3" transform={`translate(${ax} ${ay}) rotate(${deg + (out ? 90 : -90)})`} className="fill-slate-300 dark:fill-slate-600" />
+          </g>
+        )
+      })}
+    </svg>
+  )
+}
+
 /** Cells crossed out / settled in the move on show, keyed "a.i.b.j" (normalised a < b). */
 function beatCells(beat: Beat | null) {
   const out = new Set<string>()
@@ -105,7 +159,7 @@ export default function Board({ ctx, grid, beat, beatKey, mode, clash, onPick, p
   return (
     <div className={['rounded-3xl p-3 shadow-sm ring-2 transition', clash ? 'animate-clash bg-rose-50 ring-rose-400 dark:bg-rose-500/10' : suppose ? 'bg-amber-50 ring-amber-300 dark:bg-amber-500/10 dark:ring-amber-500/50' : 'bg-white ring-slate-200 dark:bg-slate-800 dark:ring-slate-700'].join(' ')}>
       <div className="mb-2 flex items-center justify-between px-1 text-xs font-semibold uppercase tracking-wide text-slate-400 dark:text-slate-500">
-        <span>{p.axis === 'floor' ? 'The building' : p.axis === 'row' ? 'The row, left → right' : `The ${ctx.unit}s, first → last`}</span>
+        <span>{p.axis === 'floor' ? 'The building' : p.axis === 'row' ? 'The row, left → right' : p.axis === 'circle' ? 'The round table' : `The ${ctx.unit}s, first → last`}</span>
         {suppose ? (
           <span className="rounded-full bg-amber-400 px-2 py-0.5 text-[10px] font-bold text-slate-900">WHAT-IF · not the real answer</span>
         ) : (
@@ -113,6 +167,7 @@ export default function Board({ ctx, grid, beat, beatKey, mode, clash, onPick, p
         )}
       </div>
 
+      {p.axis === 'circle' && <RoundTable ctx={ctx} grid={grid} beat={beat} />}
       {vertical ? (
         <div role="table" aria-label={`Who could be at which ${ctx.unit}`} className="space-y-1">
           <div className="grid items-end gap-2 px-1 text-[10px] font-semibold uppercase tracking-wide text-slate-400 dark:text-slate-500" style={{ gridTemplateColumns: `${labelCol} repeat(${cols}, minmax(0, 1fr))` }}>

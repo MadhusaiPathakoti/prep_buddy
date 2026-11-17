@@ -18,6 +18,7 @@ export default function PuzzleSolver() {
   const [text, setText] = useState(loadDraft)
   const [trace, setTrace] = useState<Trace | null>(null)
   const [busy, setBusy] = useState(false)
+  const [runs, setRuns] = useState(0)
   const [error, setError] = useState<string | null>(null)
   const timer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined)
 
@@ -42,6 +43,7 @@ export default function PuzzleSolver() {
     timer.current = setTimeout(() => {
       try {
         setTrace(buildTrace(puzzle))
+        setRuns((r) => r + 1)
       } catch {
         setError('Something went wrong while solving this puzzle. Try rewording the clues, or use a simpler example.')
       } finally {
@@ -50,6 +52,6 @@ export default function PuzzleSolver() {
     }, 30)
   }, [])
 
-  if (trace) return <Walkthrough trace={trace} onEdit={() => setTrace(null)} />
+  if (trace) return <Walkthrough key={runs} trace={trace} onEdit={() => setTrace(null)} onResolve={solve} />
   return <PuzzleInput text={text} onText={setText} onSolve={solve} busy={busy} error={error} />
 }

@@ -79,10 +79,14 @@ export class Ctx {
   }
 
   get unit(): string {
-    return this.p.axis === 'floor' ? 'floor' : this.p.axis === 'row' ? 'seat' : (this.p.unit ?? 'position')
+    return this.p.axis === 'floor' ? 'floor' : this.p.axis === 'order' ? (this.p.unit ?? 'position') : 'seat'
+  }
+  /** positions wrap round (a circular table) */
+  get circular(): boolean {
+    return this.p.axis === 'circle'
   }
   get onWord(): string {
-    return this.p.axis === 'floor' ? 'on' : this.p.axis === 'row' ? 'at' : (this.p.on ?? 'in')
+    return this.p.axis === 'floor' ? 'on' : this.p.axis === 'order' ? (this.p.on ?? 'in') : 'at'
   }
   get named(): boolean {
     return this.p.axis === 'order' && !!this.p.labels
@@ -255,10 +259,15 @@ export class Ctx {
         return a.neg ? this.notPair(ca, ia, cb, ib) : this.pair(ca, ia, cb, ib)
       }
       case 'diff': {
-        const k = Math.abs(a.d)
-        const hi = a.d > 0
+        let d = a.d
+        if (this.circular) {
+          d = ((d % this.n) + this.n) % this.n
+          if (d * 2 === this.n) return `${L(a.x)} ${a.neg ? 'does not sit' : 'sits'} exactly opposite ${L(a.y)}`
+          if (d * 2 > this.n) d -= this.n
+        }
+        const k = Math.abs(d)
         const how = k === 1 ? 'immediately ' : `exactly ${k} ${this.unit}s `
-        return `${L(a.x)} is${not} ${how}${dir(hi)} ${L(a.y)}`
+        return `${L(a.x)} is${not} ${how}${dir(d > 0)} ${L(a.y)}`
       }
       case 'rank':
         return `${L(a.x)} is${not} somewhere ${dir(a.hi)} ${L(a.y)}`
@@ -267,53 +276,97 @@ export class Ctx {
       case 'gap':
         return a.neg
           ? `there are not exactly ${a.k} ${this.unit}s between ${L(a.x)} and ${L(a.y)}`
-          : `exactly ${a.k} ${a.k === 1 ? 'person' : 'people'} between ${L(a.x)} and ${L(a.y)}`
+          : `exactly ${a.k} ${a.k === 1 ? 'person' : 'people'} between ${L(a.x)} and ${L(a.y)}${this.circular ? ' (on one side or the other)' : ''}`
       case 'btw':
         return `${L(a.x)} is${not} between ${L(a.y)} and ${L(a.z)}`
+      case 'same':
+        return `${a.neg ? 'not ' : ''}the same number of people between ${L(a.x)} and ${L(a.y)} as between ${L(a.z)} and ${L(a.w)}`
       case 'set':
         return `${L(a.x)} is${not} ${this.onWord} ${this.setDesc(a.fs)}`
+      case 'logic': {
+        const x = this.describeAtom(a.a)
+        const y = this.describeAtom(a.b)
+        return a.op === 'imp' ? `if ${x}, then ${y}` : a.op === 'xor' ? `either ${x}, or ${y}, but not both` : `${x}, or ${y}, or both`
+      }
     }
   }
 }
 
 // ─── atoms as constraints over positions ─────────────────────────────────────
 
+export function sameTerm(x: Term, y: Term): boolean {
+  if (x.k !== y.k) return false
+  if (x.k === 'p') return x.i === (y as typeof x).i
+  if (x.k === 'f') return x.f === (y as typeof x).f
+  const w = y as typeof x
+  return x.c === w.c && x.i === w.i
+}
+
+/** The distinct terms an atom talks about, in a fixed order (the order its test reads its argument in). */
 export function atomTerms(a: Atom): Term[] {
   switch (a.t) {
     case 'btw':
       return [a.x, a.y, a.z]
+    case 'same':
+      return [a.x, a.y, a.z, a.w]
     case 'set':
       return [a.x]
+    case 'logic': {
+      const out: Term[] = []
+      for (const t of [...atomTerms(a.a), ...atomTerms(a.b)]) if (!out.some((u) => sameTerm(u, t))) out.push(t)
+      return out
+    }
     default:
       return [a.x, a.y]
   }
 }
 
-/** The atom as a test on the 0-based heights of its terms (link atoms are handled by the grid, not by a position test). */
-export function atomTest(a: Atom): (v: number[]) => boolean {
+/**
+ * The atom as a test on the 0-based positions of its terms (link atoms are handled by the grid, not by a position test).
+ * On a circular table (`circ`) differences wrap round, so "opposite" is half-way and "neighbours" includes seat n next to seat 1.
+ */
+export function atomTest(a: Atom, n = 0, circ = false): (v: number[]) => boolean {
+  const md = (x: number) => (circ ? ((x % n) + n) % n : x)
   let f: (v: number[]) => boolean
   switch (a.t) {
     case 'diff':
-      f = (v) => v[0] - v[1] === a.d
+      f = (v) => md(v[0] - v[1]) === md(a.d)
       break
     case 'rank':
       f = (v) => (a.hi ? v[0] > v[1] : v[0] < v[1])
       break
     case 'adj':
-      f = (v) => Math.abs(v[0] - v[1]) === 1
+      f = circ ? (v) => md(v[0] - v[1]) === 1 || md(v[0] - v[1]) === n - 1 : (v) => Math.abs(v[0] - v[1]) === 1
       break
     case 'gap':
-      f = (v) => Math.abs(v[0] - v[1]) === a.k + 1
+      f = circ ? (v) => md(v[0] - v[1]) === a.k + 1 || md(v[0] - v[1]) === n - a.k - 1 : (v) => Math.abs(v[0] - v[1]) === a.k + 1
       break
     case 'btw':
       f = (v) => (v[1] < v[0] && v[0] < v[2]) || (v[2] < v[0] && v[0] < v[1])
       break
+    case 'same':
+      f = (v) => Math.abs(v[0] - v[1]) === Math.abs(v[2] - v[3]) && v[0] !== v[1] && v[2] !== v[3]
+      break
     case 'set':
       f = (v) => a.fs.includes(v[0])
       break
+    case 'logic': {
+      const all = atomTerms(a)
+      const at = atomTerms(a.a).map((t) => all.findIndex((u) => sameTerm(u, t)))
+      const bt = atomTerms(a.b).map((t) => all.findIndex((u) => sameTerm(u, t)))
+      const ta = atomTest(a.a, n, circ)
+      const tb = atomTest(a.b, n, circ)
+      f = (v) => {
+        const x = ta(at.map((i) => v[i]))
+        const y = tb(bt.map((i) => v[i]))
+        return a.op === 'imp' ? !x || y : a.op === 'xor' ? x !== y : x || y
+      }
+      break
+    }
     case 'link':
-      f = () => true
+      // only reached inside a compound clue ("either Tina prefers Apple or …"): the same person ⇔ the same position
+      f = (v) => v[0] === v[1]
       break
   }
-  return a.neg && a.t !== 'link' ? (v) => !f(v) : f
+  return a.neg ? (v) => !f(v) : f
 }

@@ -1,12 +1,15 @@
 // Data model for the Puzzle Solver: a "linear arrangement + attributes" puzzle (people on floors / seats in a row, each
 // with one value from every extra category such as city, colour, profession).
 //
+// Positions are floors (bottom to top), seats in a row, named ordered slots (months, days) or the seats of a circular table
+// (axis 'circle': positions wrap round, and index + 1 is always the seat on a person's right).
+//
 // Internally every such puzzle is a logic grid over categories
 //     0 = people, 1 = positions (floors / seats), 2.. = the extra categories,
 // with a bijection between every pair of categories. A clue is a list of atoms over "terms": a person, a value of
 // one category ("the person from Bhopal") or a fixed position.
 
-export type Axis = 'floor' | 'row' | 'order'
+export type Axis = 'floor' | 'row' | 'order' | 'circle'
 
 export type Term =
   | { k: 'p'; i: number } // person i
@@ -19,8 +22,11 @@ export type Atom =
   | { t: 'rank'; x: Term; y: Term; hi: boolean; neg?: boolean } // pos(x) > pos(y) when hi, else <   (somewhere above / below)
   | { t: 'adj'; x: Term; y: Term; neg?: boolean } // neighbouring positions
   | { t: 'gap'; x: Term; y: Term; k: number; neg?: boolean } // exactly k positions strictly between x and y
+  | { t: 'same'; x: Term; y: Term; z: Term; w: Term; neg?: boolean } // as many people between x and y as between z and w
   | { t: 'btw'; x: Term; y: Term; z: Term; neg?: boolean } // x strictly between y and z (either way round)
   | { t: 'set'; x: Term; fs: number[]; neg?: boolean } // pos(x) is one of fs (or none of them when neg)
+  // compound clues: "if a then b", "either a or b but not both", "either a or b"
+  | { t: 'logic'; op: 'imp' | 'xor' | 'or'; a: Atom; b: Atom; neg?: boolean }
 
 export interface Clue {
   id: number // 1-based, in reading order
@@ -48,6 +54,8 @@ export interface Puzzle {
   on?: string
   /** axis 'order' only: how the text says it, singular ("was born") */
   verb?: string
+  /** axis 'circle' only: everyone faces the same way, so "to the right of" is always the next seat along; this says which way that is drawn */
+  facing?: 'in' | 'out'
 }
 
 /** One complete arrangement. pos[p] = 0-based height of person p; val[c][p] = value index of person p in extra category c. */

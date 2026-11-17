@@ -172,7 +172,7 @@ export default function PuzzleInput({ text, onText, onSolve, busy, error }: Puzz
                   {summary.people.length} people: {summary.people.join(', ')}
                 </span>
                 <span className="rounded-full bg-slate-100 px-2.5 py-1 font-semibold text-slate-700 dark:bg-slate-700 dark:text-slate-200">
-                  {summary.axis === 'floor' ? `floors 1–${puzzle.n}${summary.topDown ? ' (numbered from the top)' : ''}` : summary.axis === 'row' ? `a row of ${puzzle.n} seats` : summary.labels ? `${summary.labels[0]} → ${summary.labels[summary.labels.length - 1]} (${puzzle.n} ${summary.unit}s)` : `${puzzle.n} ${summary.unit}s, in order`}
+                  {summary.axis === 'floor' ? `floors 1–${puzzle.n}${summary.topDown ? ' (numbered from the top)' : ''}` : summary.axis === 'row' ? `a row of ${puzzle.n} seats` : summary.axis === 'circle' ? `a round table of ${puzzle.n} (everyone facing ${summary.facing === 'out' ? 'outside' : 'the centre'})` : summary.labels ? `${summary.labels[0]} → ${summary.labels[summary.labels.length - 1]} (${puzzle.n} ${summary.unit}s)` : `${puzzle.n} ${summary.unit}s, in order`}
                 </span>
                 {summary.cats.map((c) => (
                   <span key={c.name} className="rounded-full bg-slate-100 px-2.5 py-1 font-semibold text-slate-700 dark:bg-slate-700 dark:text-slate-200" title={c.values.join(', ')}>

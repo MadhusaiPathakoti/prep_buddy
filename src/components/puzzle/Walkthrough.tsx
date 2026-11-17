@@ -1,11 +1,11 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { failedClues } from '../../lib/puzzleSolver/engine'
-import { applyEvents, simulate, type Beat, type CellRef, type SimResult, type Step, type Trace } from '../../lib/puzzleSolver/trace'
+import { applyEvents, flipClue, simulate, type Beat, type CellRef, type SimResult, type Step, type Trace } from '../../lib/puzzleSolver/trace'
 import Board, { PeopleStrip } from './Board'
 import CellInspector from './CellInspector'
 import ClueList from './ClueList'
 import StepPanel, { BeatRow } from './StepPanel'
-import type { Solution } from '../../lib/puzzleSolver/types'
+import type { Puzzle, Solution } from '../../lib/puzzleSolver/types'
 
 const prefersReducedMotion = (): boolean => {
   try {
@@ -60,7 +60,7 @@ function SolutionTable({ trace, sol }: { trace: Trace; sol: Solution }) {
   )
 }
 
-function Outcome({ trace, step, onEdit }: { trace: Trace; step: Step; onEdit: () => void }) {
+function Outcome({ trace, step, onEdit, onResolve }: { trace: Trace; step: Step; onEdit: () => void; onResolve?: (p: Puzzle) => void }) {
   const { puzzle, ctx } = trace
   if (step.kind === 'done' && trace.final) {
     const bad = new Set(failedClues(puzzle, trace.final))
@@ -119,6 +119,31 @@ function Outcome({ trace, step, onEdit }: { trace: Trace; step: Step; onEdit: ()
     <div>
       <h2 className="text-lg font-extrabold text-slate-900 dark:text-slate-100">The clues contradict each other</h2>
       <p className="mt-2 text-sm text-slate-600 dark:text-slate-300">No arrangement satisfies every clue as I read it. That usually means a clue was misread or mistyped (for example by the screenshot reader).</p>
+      {trace.flips.length > 0 && (
+        <div className="mt-3 rounded-2xl border-2 border-indigo-300 bg-indigo-50 p-3 text-sm dark:border-indigo-500/50 dark:bg-indigo-500/10">
+          <div className="font-semibold text-indigo-800 dark:text-indigo-200">A likely culprit: a clue that lost its “not”.</div>
+          <p className="mt-1 text-xs text-slate-600 dark:text-slate-300">Read as its own opposite, each clue below leaves exactly one arrangement. A “not” is easy to lose when a puzzle is copied or typed, so this is worth checking against the original.</p>
+          <ul className="mt-2 space-y-2">
+            {trace.flips.map((id) => {
+              const c = puzzle.clues.find((x) => x.id === id)
+              const flipped = flipClue(puzzle, id)
+              return (
+                <li key={id} className="rounded-xl bg-white p-2 dark:bg-slate-800">
+                  <div className="text-slate-700 dark:text-slate-200">
+                    <b>Clue {id}:</b> “{c?.text}”
+                  </div>
+                  <div className="text-xs text-indigo-600 dark:text-indigo-300">as the opposite → {flipped?.clues.find((x) => x.id === id)?.atoms.map((a) => ctx.describeAtom(a)).join(' · ')}</div>
+                  {onResolve && flipped && (
+                    <button onClick={() => onResolve(flipped)} className="mt-1.5 rounded-lg bg-indigo-600 px-3 py-1.5 text-xs font-semibold text-white hover:bg-indigo-500">
+                      Solve with Clue {id} read as its opposite
+                    </button>
+                  )}
+                </li>
+              )
+            })}
+          </ul>
+        </div>
+      )}
       {trace.suspects.length > 0 && (
         <div className="mt-3 rounded-2xl bg-amber-50 p-3 text-sm dark:bg-amber-500/10">
           <div className="font-semibold text-amber-800 dark:text-amber-300">Dropping any one of these clues makes the puzzle solvable — check how I read them:</div>
@@ -172,7 +197,12 @@ function WhatIfPanel({ trace, sim, k, onJump, onReplay, onClose }: { trace: Trac
           </button>
         </div>
       )}
-      {done && last && (
+      {done && last && sim.rotation && (
+        <div className="mt-3 rounded-xl bg-violet-100 p-3 text-sm text-violet-900 dark:bg-violet-500/20 dark:text-violet-100">
+          <b>Not an error.</b> Seat numbers on a round table are only labels, so this is the same arrangement turned round.
+        </div>
+      )}
+      {done && last && !sim.rotation && (
         <div className={['mt-3 rounded-xl p-3 text-sm', sim.proven ? 'bg-rose-100 text-rose-800 dark:bg-rose-500/20 dark:text-rose-200' : 'bg-slate-100 text-slate-700 dark:bg-slate-700 dark:text-slate-200'].join(' ')}>
           {sim.proven ? <b>So {ctx.notPair(c.a, c.i, c.b, c.j)} — that placement is impossible.</b> : <b>No clash found.</b>}
         </div>
@@ -191,7 +221,7 @@ function WhatIfPanel({ trace, sim, k, onJump, onReplay, onClose }: { trace: Trac
 
 // ─── the walkthrough ─────────────────────────────────────────────────────────
 
-export default function Walkthrough({ trace, onEdit }: { trace: Trace; onEdit: () => void }) {
+export default function Walkthrough({ trace, onEdit, onResolve }: { trace: Trace; onEdit: () => void; onResolve?: (p: Puzzle) => void }) {
   const { ctx, steps } = trace
   const reduce = useMemo(() => prefersReducedMotion(), [])
   const [stepIdx, setStepIdx] = useState(0)
@@ -323,7 +353,7 @@ export default function Walkthrough({ trace, onEdit }: { trace: Trace; onEdit: (
             {sim ? (
               <WhatIfPanel trace={trace} sim={sim} k={simK} onJump={setSimK} onReplay={() => setSimK(0)} onClose={() => setSim(null)} />
             ) : outcome ? (
-              <Outcome trace={trace} step={step} onEdit={onEdit} />
+              <Outcome trace={trace} step={step} onEdit={onEdit} onResolve={onResolve} />
             ) : (
               <StepPanel trace={trace} step={step} k={k} onJump={setK} onWhatIf={runWhatIf} onClue={setHover} />
             )}

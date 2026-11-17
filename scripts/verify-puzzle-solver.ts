@@ -5,8 +5,10 @@
 //     are solved by the engine and by plain enumeration of every arrangement; the solution counts must be identical.
 //  3. Soundness of the teaching trace: no step ever crosses out a cell of a real solution, every crossing has a reason,
 //     the final arrangement satisfies every clue, and every "what if it were here instead" simulation ends in a contradiction.
+import { createRng } from '../src/lib/mocks/rng'
+import { MAINS_ARRANGE_WITH_PROOF } from '../src/lib/mocks/reasoning/mains/arrange'
 import { Ctx } from '../src/lib/puzzleSolver/core'
-import { enumerate } from '../src/lib/puzzleSolver/engine'
+import { anchorPerson, enumerate } from '../src/lib/puzzleSolver/engine'
 import { parsePuzzle } from '../src/lib/puzzleSolver/parse'
 import { SAMPLES } from '../src/lib/puzzleSolver/sample'
 import { applyEvents, buildTrace, simulate } from '../src/lib/puzzleSolver/trace'
@@ -131,7 +133,7 @@ const ORDER_CASES: [string, string][] = [
   ['B was born between C and D.', 'B is between C and D'],
   ['Only one person was born after B.', 'B is in November'],
   ['Two persons were born before C.', 'C is in July'],
-  ['Neither B nor C was born in December.', 'B is not in the last month (December) ; C is not in the last month (December)'],
+  ['Neither B nor C was born in December.', 'B was not born in December ; C was not born in December'],
 ]
 
 const DAY_HEADER = `Five friends - A, B, C, D, E - go to a gym on five different days, from Monday to Friday. Each of them likes a different colour - Red, Blue, Green, Yellow, Pink.
@@ -143,6 +145,48 @@ const DAY_CASES: [string, string][] = [
   ['C does not go on Friday.', 'C is not on Friday'],
   ['D goes on either Tuesday or Thursday.', 'D is on Tuesday or Thursday'],
   ['The one who likes Red goes on the last day.', 'the Red person is on the last day (Friday)'],
+]
+
+const CIRCLE_HEADER = `Eight persons - A, B, C, D, E, F, G, H - are sitting around a circular table, all of them facing outside (away from the centre). (Left and right of a person are with respect to the direction that person is facing.)
+Each of them has a different age - 21 years, 22 years, 23 years, 24 years, 25 years, 26 years, 27 years, 28 years (not necessarily in the same order).
+`
+
+const CIRCLE_CASES: [string, string][] = [
+  ['A sits third to the left of B.', 'A is exactly 3 seats to the left of B'],
+  ['A sits second to the right of B.', 'A is exactly 2 seats to the right of B'],
+  ['A sits at the immediate left of B.', 'A is immediately to the left of B'],
+  ['A sits to the immediate right of B.', 'A is immediately to the right of B'],
+  ['A sits exactly opposite to B.', 'A sits exactly opposite B'],
+  ['A does not sit opposite to B.', 'A does not sit exactly opposite B'],
+  ['A is an immediate neighbour of B.', 'A and B are on neighbouring seats'],
+  ['A is not an immediate neighbour of B.', 'A and B are not on neighbouring seats'],
+  ['Two persons sit between A and B when counted from the left of A.', 'B is exactly 3 seats to the left of A'],
+  ['One person sits between A and B when counted from the right of B.', 'A is exactly 2 seats to the right of B'],
+  ['Three persons sit between A and B when counted from the right of A.', 'B sits exactly opposite A'],
+  ['The person who is 23 years old sits third to the right of C.', 'the 23 years person is exactly 3 seats to the right of C'],
+  ['If A sits exactly opposite to B, then C sits second to the left of D.', 'if A sits exactly opposite B, then C is exactly 2 seats to the left of D'],
+  ['Either A is an immediate neighbour of B or C sits exactly opposite to D, but not both.', 'either A and B are on neighbouring seats, or C sits exactly opposite D, but not both'],
+  ['Either A is 23 years old or B sits second to the right of C, but not both.', "either A's age is 23 years, or B is exactly 2 seats to the right of C, but not both"],
+  ['If C is 23 years old, then A sits at the immediate left of B.', "if C's age is 23 years, then A is immediately to the left of B"],
+  ['Neither A nor B is an immediate neighbour of C.', 'A and C are not on neighbouring seats ; B and C are not on neighbouring seats'],
+  ['Neither A, B nor C sits second to the left of D.', 'A is not exactly 2 seats to the left of D ; B is not exactly 2 seats to the left of D ; C is not exactly 2 seats to the left of D'],
+  ['It is not true that two persons sit between A and B when counted from the left of A.', 'B is not exactly 3 seats to the left of A'],
+  ['A, who is 23 years old, sits exactly opposite to B.', "A's age is 23 years ; A sits exactly opposite B"],
+]
+
+const FLOOR_EXTRA: [string, string][] = [
+  ['A lives on a prime-numbered floor.', 'A is on floor 2, 3, 5 or 7'],
+  ['A does not live on a prime-numbered floor.', 'A is not on floor 2, 3, 5 or 7'],
+  ['A lives on a floor whose number is a multiple of 3.', 'A is on floor 3 or 6'],
+  ['The number of persons living between A and B is the same as the number of persons living between C and D.', 'the same number of people between A and B as between C and D'],
+  ['The number of persons living between A and B is not the same as the number of persons living between C and D.', 'not the same number of people between A and B as between C and D'],
+  ['Neither the person from Delhi, A nor B lives somewhere below C.', 'the Delhi person is not somewhere below C ; A is not somewhere below C ; B is not somewhere below C'],
+  ['Either A lives on either the topmost or the lowest floor or B lives adjacent to A, but not both.', 'either A is on either the topmost or the lowest floor, or B and A are on neighbouring floors, but not both'],
+]
+
+const ORDER_EXTRA: [string, string][] = [
+  ['A was born immediately before or after B.', 'A and B are on neighbouring months'],
+  ['A, who is from Delhi, was born immediately before or after the person from Pune.', "A's city is Delhi ; A and the Pune person are on neighbouring months"],
 ]
 
 function runParserTable(header: string, cases: [string, string][]) {
@@ -165,6 +209,9 @@ runParserTable(FLOOR_HEADER, FLOOR_CASES)
 runParserTable(ROW_HEADER, ROW_CASES)
 runParserTable(ORDER_HEADER, ORDER_CASES)
 runParserTable(DAY_HEADER, DAY_CASES)
+runParserTable(CIRCLE_HEADER, CIRCLE_CASES)
+runParserTable(FLOOR_HEADER, FLOOR_EXTRA)
+runParserTable(ORDER_HEADER, ORDER_EXTRA)
 
 // numbering from the top
 {
@@ -218,24 +265,47 @@ const shuffle = <T>(a: T[]): T[] => {
 function holds(p: Puzzle, sol: Solution, a: Atom): boolean {
   const personOf = (t: Term): number => (t.k === 'p' ? t.i : t.k === 'v' ? sol.val[t.c].indexOf(t.i) : sol.pos.indexOf(t.f))
   const at = (t: Term): number => (t.k === 'f' ? t.f : sol.pos[personOf(t)])
+  const circ = p.axis === 'circle'
+  const wrap = (x: number) => ((x % p.n) + p.n) % p.n
   let r: boolean
   switch (a.t) {
     case 'link':
       r = personOf(a.x) === personOf(a.y)
       return a.neg ? !r : r
     case 'diff':
-      r = at(a.x) - at(a.y) === a.d
+      r = circ ? wrap(at(a.x) - at(a.y)) === wrap(a.d) : at(a.x) - at(a.y) === a.d
       break
     case 'rank':
       r = a.hi ? at(a.x) > at(a.y) : at(a.x) < at(a.y)
       break
     case 'adj':
-      r = Math.abs(at(a.x) - at(a.y)) === 1
+      r = circ ? [1, p.n - 1].includes(wrap(at(a.x) - at(a.y))) : Math.abs(at(a.x) - at(a.y)) === 1
       break
     case 'gap': {
+      if (circ) {
+        // people strictly between, counted round either side of the table
+        const d = wrap(at(a.x) - at(a.y))
+        r = d !== 0 && (d - 1 === a.k || p.n - d - 1 === a.k)
+        break
+      }
       const lo = Math.min(at(a.x), at(a.y))
       const hi = Math.max(at(a.x), at(a.y))
       r = lo !== hi && sol.pos.filter((q) => q > lo && q < hi).length === a.k
+      break
+    }
+    case 'same': {
+      const between = (u: Term, v: Term) => {
+        const lo = Math.min(at(u), at(v))
+        const hi = Math.max(at(u), at(v))
+        return lo === hi ? -1 : sol.pos.filter((q) => q > lo && q < hi).length
+      }
+      r = between(a.x, a.y) >= 0 && between(a.x, a.y) === between(a.z, a.w)
+      break
+    }
+    case 'logic': {
+      const x = holds(p, sol, a.a)
+      const y = holds(p, sol, a.b)
+      r = a.op === 'imp' ? !x || y : a.op === 'xor' ? x !== y : x || y
       break
     }
     case 'btw':
@@ -260,7 +330,8 @@ function permutations(n: number): number[][] {
 
 /** Highest extra-category index (+1) an atom needs, 0 when it only involves people and positions. */
 function needLevel(a: Atom): number {
-  const ts: Term[] = a.t === 'btw' ? [a.x, a.y, a.z] : a.t === 'set' ? [a.x] : [a.x, a.y]
+  if (a.t === 'logic') return Math.max(needLevel(a.a), needLevel(a.b))
+  const ts: Term[] = a.t === 'btw' ? [a.x, a.y, a.z] : a.t === 'same' ? [a.x, a.y, a.z, a.w] : a.t === 'set' ? [a.x] : [a.x, a.y]
   return Math.max(0, ...ts.map((t) => (t.k === 'v' ? t.c + 1 : 0)))
 }
 
@@ -279,7 +350,8 @@ function bruteCount(p: Puzzle, cap: number): number {
     }
     for (const perm of perms) rec(level + 1, [...vals, perm], pos)
   }
-  for (const pos of perms) rec(0, [], pos)
+  const ap = p.axis === 'circle' ? anchorPerson(p) : -1
+  for (const pos of perms) if (ap < 0 || pos[ap] === 0) rec(0, [], pos)
   return count
 }
 
@@ -288,7 +360,39 @@ function randomTerm(p: Puzzle, allowFloat: boolean): Term {
   return { k: 'p', i: ri(p.n) }
 }
 
+/** A true clue about a round table: distances, opposite, neighbours, people between, and if/xor/or of two of those. */
+function randomCircleAtom(p: Puzzle, hidden: Solution): Atom {
+  const personOf = (t: Term): number => (t.k === 'p' ? t.i : hidden.val[t.c].indexOf(t.i))
+  const simple = (): Atom => {
+    const x = randomTerm(p, true)
+    let y = randomTerm(p, true)
+    let guard = 0
+    while (personOf(y) === personOf(x) && guard++ < 30) y = randomTerm(p, true)
+    const kind = ri(5)
+    if (kind === 0) return { t: 'diff', x, y, d: (ri(2) ? 1 : -1) * (1 + ri(p.n - 1)) }
+    if (kind === 1) return { t: 'adj', x, y }
+    if (kind === 2) return { t: 'gap', x, y, k: ri(Math.max(1, p.n - 2)) }
+    if (kind === 3 && p.n % 2 === 0) return { t: 'diff', x, y, d: p.n / 2 }
+    return { t: 'diff', x, y, d: ri(2) ? 1 : -1 }
+  }
+  for (;;) {
+    let atom: Atom
+    const r = rnd()
+    if (r < 0.3) atom = { t: 'logic', op: (['imp', 'xor', 'or'] as const)[ri(3)], a: simple(), b: simple() }
+    else if (r < 0.37 && p.cats.length) atom = { t: 'link', x: { k: 'p', i: ri(p.n) }, y: { k: 'v', c: ri(p.cats.length), i: ri(p.n) } }
+    else atom = simple()
+    if (!holds(p, hidden, atom)) {
+      if (atom.t === 'logic') continue
+      atom = { ...atom, neg: true } as Atom
+    }
+    if (!holds(p, hidden, atom)) continue
+    if (atom.t === 'link' && atom.neg && rnd() < 0.5) continue
+    return atom
+  }
+}
+
 function randomAtom(p: Puzzle, hidden: Solution): Atom {
+  if (p.axis === 'circle') return randomCircleAtom(p, hidden)
   for (;;) {
     const x = randomTerm(p, true)
     let y = randomTerm(p, true)
@@ -298,9 +402,12 @@ function randomAtom(p: Puzzle, hidden: Solution): Atom {
     while (personOf(y) === personOf(x) && guard++ < 20) y = randomTerm(p, true)
     guard = 0
     while ((personOf(z) === personOf(x) || personOf(z) === personOf(y)) && guard++ < 20) z = randomTerm(p, true)
-    const kind = ri(8)
+    const kind = ri(9)
     let atom: Atom
-    if (kind === 0) atom = { t: 'diff', x, y, d: (ri(2) ? 1 : -1) * (1 + ri(3)) }
+    if (kind === 8) {
+      const w = randomTerm(p, true)
+      atom = { t: 'same', x, y, z, w }
+    } else if (kind === 0) atom = { t: 'diff', x, y, d: (ri(2) ? 1 : -1) * (1 + ri(3)) }
     else if (kind === 1) atom = { t: 'rank', x, y, hi: rnd() < 0.5 }
     else if (kind === 2) atom = { t: 'adj', x, y }
     else if (kind === 3) atom = { t: 'gap', x, y, k: ri(4) }
@@ -324,7 +431,13 @@ function randomPuzzle(n: number, nCats: number, nClues: number, axis: Puzzle['ax
   const cats = Array.from({ length: nCats }, (_, c) => ({ name: `cat${c}`, values: Array.from({ length: n }, (_, i) => `v${c}${i}`) }))
   const hidden: Solution = { pos: shuffle(Array.from({ length: n }, (_, i) => i)), val: cats.map(() => shuffle(Array.from({ length: n }, (_, i) => i))) }
   const puzzle: Puzzle = { n, axis, topDown: false, people, cats, clues: [], ...(axis === 'order' ? { labels: ['May', 'June', 'July', 'August', 'September', 'October'].slice(0, n), unit: 'month', on: 'in', verb: 'was born' } : {}) }
+  if (axis === 'circle') puzzle.facing = 'out'
   for (let k = 0; k < nClues; k++) puzzle.clues.push({ id: k + 1, text: `random clue ${k + 1}`, atoms: [randomAtom(puzzle, hidden)] })
+  if (axis === 'circle') {
+    // the engine fixes one person in seat 1 (turning a round table gives the same arrangement), so compare against the turned copy
+    const shift = hidden.pos[anchorPerson(puzzle)]
+    hidden.pos = hidden.pos.map((q) => (((q - shift) % n) + n) % n)
+  }
   return { puzzle, hidden }
 }
 
@@ -339,7 +452,7 @@ for (let run = 0; run < RUNS; run++) {
   const n = 4 + (run % 3) // 4..6
   const nCats = n === 6 ? 1 : run % 3 === 0 ? 0 : 1 + (run % 2)
   const nClues = run % 5 === 0 ? 3 + ri(n) : 3 * n + ri(2 * n)
-  const axis = (['floor', 'row', 'order'] as const)[Math.floor(run / 3) % 3]
+  const axis = (['floor', 'row', 'order', 'circle'] as const)[Math.floor(run / 3) % 4]
   const { puzzle, hidden } = randomPuzzle(n, nCats, nClues, axis)
   const where = `run ${run} (${axis}, n=${n}, cats=${nCats}, clues=${nClues})`
 
@@ -411,7 +524,9 @@ for (let run = 0; run < RUNS; run++) {
       tested++
       whatIfs++
       if (!sim) fail(`${where}: no simulation for ${key}`)
-      else if (!sim.proven) fail(`${where}: what-if "${ctx.pair(a, i, b, j)}" at step ${sim.stepIdx + 1} did not end in a contradiction: ${sim.clash}`)
+      else if (trace.elim.get(key)?.why.kind === 'anchor') {
+        if (!sim.rotation) fail(`${where}: what-if for an anchor crossing should say it is only a rotation`)
+      } else if (!sim.proven) fail(`${where}: what-if "${ctx.pair(a, i, b, j)}" at step ${sim.stepIdx + 1} did not end in a contradiction: ${sim.clash}`)
       else if (!sim.beats.length || sim.beats[sim.beats.length - 1].tone !== 'clash') fail(`${where}: what-if "${ctx.pair(a, i, b, j)}" has no closing contradiction beat`)
     }
   }
@@ -431,11 +546,61 @@ for (const s of SAMPLES) {
     const [a, i, b, j] = key.split('.').map(Number)
     const sim = simulate(trace, { a, i, b, j })
     whatIfs++
-    if (!sim?.proven) fail(`sample "${s.title}": what-if ${key} not refuted (${sim?.clash})`)
+    if (trace.elim.get(key)?.why.kind === 'anchor') {
+      if (!sim?.rotation) fail(`sample "${s.title}": anchor what-if ${key} should be a rotation`)
+    } else if (!sim?.proven) fail(`sample "${s.title}": what-if ${key} not refuted (${sim?.clash})`)
   }
 }
 
-console.log(`parser: ${FLOOR_CASES.length + ROW_CASES.length + ORDER_CASES.length + DAY_CASES.length} phrasings checked`)
+// ─── 4. the app's own puzzle generator: its text → my parser → my solver must give the generator's answer ───
+
+{
+  const GEN_SEEDS = Number(process.env.GEN_SEEDS ?? 12)
+  const tally: Record<string, { checked: number; skipped: number }> = {}
+  for (const topic of ['seating-circular', 'seating-linear', 'puzzle-floor', 'puzzle-schedule'] as const) {
+    const gen = MAINS_ARRANGE_WITH_PROOF[topic] as (rng: ReturnType<typeof createRng>, d: string, n: number) => { groups: any[]; proofs: any[] }
+    tally[topic] = { checked: 0, skipped: 0 }
+    for (let seed = 1; seed <= GEN_SEEDS; seed++) {
+      const { groups, proofs } = gen(createRng(seed * 977), 'hard', 5)
+      groups.forEach((g, gi) => {
+        const proof = proofs[gi]
+        const kind: string = proof.geom.kind
+        // same-facing round tables and single rows are supported; two rows, mixed-facing / square tables and stacks are not (yet)
+        if (kind !== 'circle' && kind !== 'row') {
+          tally[topic].skipped++
+          return
+        }
+        tally[topic].checked++
+        const where = `generator ${topic} seed ${seed}.${gi} (${kind})`
+        const text = [g.stimulus.directions, ...g.stimulus.parts.flatMap((q: any) => q.paragraphs)].join('\n\n')
+        const r = parsePuzzle(text)
+        if (!r.puzzle || r.errors.length) return fail(`${where}: not parsed (${r.errors.join('; ')})`)
+        if (r.unparsed.length) return fail(`${where}: sentence not understood: ${r.unparsed[0]}`)
+        const e = enumerate(r.puzzle, 3, 800000)
+        if (e.sols.length !== 1) return fail(`${where}: ${e.sols.length} solutions where the generator proves exactly one`)
+        const sol = e.sols[0]
+        const n = proof.names.length
+        let shift: number | null = null
+        r.puzzle.people.forEach((nm, i) => {
+          const j = proof.names.indexOf(nm)
+          const mine = sol.pos[i]
+          const truth = proof.hidden[0][j]
+          const sh = kind === 'circle' ? (((mine - truth) % n) + n) % n : mine - truth
+          if (shift === null) shift = sh
+          else if (sh !== shift) fail(`${where}: seating differs from the generator's answer`)
+          r.puzzle!.cats.forEach((cat, c) => {
+            const tv = proof.attrValues[c]?.[proof.hidden[c + 1].indexOf(truth)]
+            if (!tv || cat.values[sol.val[c][i]].toLowerCase() !== String(tv).toLowerCase()) fail(`${where}: ${cat.name} of ${nm} differs from the generator's answer`)
+          })
+        })
+        if (kind === 'row' && shift !== 0) fail(`${where}: positions shifted`)
+      })
+    }
+  }
+  console.log('app generator, end to end: ' + Object.entries(tally).map(([k, v]) => `${k} ${v.checked} checked (${v.skipped} of an unsupported layout skipped)`).join('; '))
+}
+
+console.log(`parser: ${FLOOR_CASES.length + ROW_CASES.length + ORDER_CASES.length + DAY_CASES.length + CIRCLE_CASES.length + FLOOR_EXTRA.length + ORDER_EXTRA.length} phrasings checked`)
 console.log(`engine vs brute force: ${compared} random puzzles (${uniqueTraced} with a unique answer traced, ${multiple} with several answers)`)
 console.log(`step kinds: ${JSON.stringify(kinds)}; ${trials} case-analysis trials`)
 console.log(`teaching trace: ${eliminations} crossings checked for soundness, ${whatIfs} what-if simulations refuted`)

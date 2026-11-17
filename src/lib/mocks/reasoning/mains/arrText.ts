@@ -166,6 +166,8 @@ interface Parts {
   yes: string
   no: string
   whole?: string
+  /** the same statement denied; a whole-sentence clue without one cannot be printed as a negated clue */
+  wholeNo?: string
 }
 
 function verbs(th: Theme): { y: string; n: string } {
@@ -258,8 +260,10 @@ function parts(th: Theme, a: Atom, yText?: string): Parts {
       if (th.kind === 'stack') return { subj: a.x, yes: `is kept adjacent to ${Y}`, no: `is not kept adjacent to ${Y}` }
       return { subj: a.x, yes: `is an immediate neighbour of ${Y}`, no: `is not an immediate neighbour of ${Y}` }
     }
-    case 'btw':
-      return { subj: null, yes: '', no: '', whole: btwWhole(th, a, itemText(th, a.x), itemText(th, a.y)) + '.' }
+    case 'btw': {
+      const w = btwWhole(th, a, itemText(th, a.x), itemText(th, a.y))
+      return { subj: null, yes: '', no: '', whole: `${w}.`, wholeNo: `It is not true that ${w.charAt(0).toLowerCase()}${w.slice(1)}.` }
+    }
     case 'samegap': {
       const X = itemText(th, a.x)
       const Y = itemText(th, a.y)
@@ -279,7 +283,13 @@ function parts(th: Theme, a: Atom, yText?: string): Parts {
         default:
           what = 'persons sitting'
       }
-      return { subj: null, yes: '', no: '', whole: `The number of ${what} between ${X} and ${Y} is the same as the number of ${what} between ${Z} and ${W}.` }
+      return {
+        subj: null,
+        yes: '',
+        no: '',
+        whole: `The number of ${what} between ${X} and ${Y} is the same as the number of ${what} between ${Z} and ${W}.`,
+        wholeNo: `The number of ${what} between ${X} and ${Y} is not the same as the number of ${what} between ${Z} and ${W}.`,
+      }
     }
     case 'mid': {
       const t = mk(th, `between ${itemText(th, a.x)} and ${itemText(th, a.z)}`)
@@ -389,7 +399,12 @@ export function clause(th: Theme, a: Atom, neg = false, capFirst = true): string
   }
   if (a.t === 'and') return a.cs.map((c, i) => clause(th, c, false, capFirst && i === 0)).join(' and ')
   const p = parts(th, a)
-  if (p.whole !== undefined) return capFirst ? cap(p.whole) : p.whole.replace(/\.$/, '').replace(/^[A-Z]/, (ch) => ch.toLowerCase())
+  if (p.whole !== undefined) {
+    // a negated whole-sentence clue must say so — printing the positive sentence would state something false
+    if (neg && p.wholeNo === undefined) throw new Error(`clause: no negative wording for atom ${a.t}`)
+    const text = neg ? (p.wholeNo as string) : p.whole
+    return capFirst ? cap(text) : text.replace(/\.$/, '').replace(/^[A-Z]/, (ch) => ch.toLowerCase())
+  }
   const s = itemText(th, p.subj as Item)
   return `${capFirst ? cap(s) : s} ${neg ? p.no : p.yes}`
 }

@@ -40,7 +40,13 @@ export default function CellInspector({ trace, cell, stepIdx, onWhatIf, onGoStep
         </button>
       </div>
 
-      {out ? (
+      {out && out.why.kind === 'anchor' ? (
+        <div className="mt-2 space-y-2 text-sm">
+          <p className="font-semibold text-violet-700 dark:text-violet-300">That seat was ruled out only by the starting choice — not by a clue.</p>
+          <div className="rounded-xl bg-white p-3 text-slate-800 dark:bg-slate-800 dark:text-slate-100">{out.why.text}.</div>
+          <p className="text-xs text-slate-500 dark:text-slate-400">Turning a round table changes nobody's neighbours, so the seat numbers are only labels: any one person can be put in seat 1 first.</p>
+        </div>
+      ) : out ? (
         <div className="mt-2 space-y-2 text-sm">
           <p className="font-semibold text-rose-700 dark:text-rose-300">This is not possible.</p>
           <div className="rounded-xl bg-white p-3 dark:bg-slate-800">

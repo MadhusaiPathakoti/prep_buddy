@@ -9,7 +9,7 @@
 import { atomTerms, atomTest, bits, cellKey, Ctx, ctz, Grid, pop } from './core'
 import type { Atom, Puzzle, Solution, Term } from './types'
 
-export type WhyKind = 'given' | 'clue' | 'taken' | 'single' | 'trans' | 'case' | 'assume'
+export type WhyKind = 'given' | 'clue' | 'taken' | 'single' | 'trans' | 'case' | 'assume' | 'anchor'
 
 export interface Why {
   kind: WhyKind
@@ -41,13 +41,38 @@ export interface EngineInit {
 }
 
 const testCache = new WeakMap<Atom, (v: number[]) => boolean>()
-const testOf = (a: Atom) => {
+const testOf = (a: Atom, ctx: Ctx) => {
   let t = testCache.get(a)
   if (!t) {
-    t = atomTest(a)
+    t = atomTest(a, ctx.n, ctx.circular)
     testCache.set(a, t)
   }
   return t
+}
+
+/** How many times each person is named in the clues (a person inside an "if … then …" counts once per mention). */
+export function personMentions(puzzle: Puzzle): number[] {
+  const count = new Array<number>(puzzle.n).fill(0)
+  const walk = (a: Atom): void => {
+    if (a.t === 'logic') {
+      walk(a.a)
+      walk(a.b)
+      return
+    }
+    for (const t of atomTerms(a)) if (t.k === 'p') count[t.i]++
+  }
+  for (const c of puzzle.clues) for (const a of c.atoms) walk(a)
+  return count
+}
+
+/** Clues are about who sits where, so the person named in the most clues is the best one to start a round table with. */
+export function anchorPerson(puzzle: Puzzle): number {
+  const count = personMentions(puzzle)
+  let best = 0
+  count.forEach((v, i) => {
+    if (v > count[best]) best = i
+  })
+  return best
 }
 
 export class Engine {
@@ -124,7 +149,7 @@ export class Engine {
   }
 
   /** Records that (a,i) and (b,j) belong together and crosses out every competing candidate in both directions. */
-  private fix(a: number, i: number, b: number, j: number, why: Why): void {
+  private fix(a: number, i: number, b: number, j: number, why: Why, takenWhy?: Why): void {
     if (!this.grid.has(a, i, b, j)) {
       this.setContra(`${this.ctx.pair(a, i, b, j)} is already ruled out`, why.clue)
       return
@@ -136,7 +161,7 @@ export class Engine {
       const [A, I, B, J] = a < b ? [a, i, b, j] : [b, j, a, i]
       this.events.push({ op: 'fix', a: A, i: I, b: B, j: J, why, gid: this.curGid })
     }
-    const taken: Why = { kind: 'taken', text: this.ctx.pair(a, i, b, j), clue: undefined }
+    const taken: Why = takenWhy ?? { kind: 'taken', text: this.ctx.pair(a, i, b, j), clue: undefined }
     for (let j2 = 0; j2 < this.ctx.n; j2++) if (j2 !== j) this.clear(a, i, b, j2, taken)
     for (let i2 = 0; i2 < this.ctx.n; i2++) if (i2 !== i) this.clear(a, i2, b, j, taken)
   }
@@ -159,6 +184,23 @@ export class Engine {
         this.newGroup()
         this.fix(0, p, 2 + c, v, why)
       }),
+    )
+  }
+
+  /**
+   * A round table can be turned without changing who sits next to whom, so any one person may be put in the first seat
+   * without losing a single answer. This is the free first move of every circular puzzle.
+   */
+  anchor(person: number): void {
+    const c = this.ctx
+    this.newGroup()
+    this.fix(
+      0,
+      person,
+      1,
+      0,
+      { kind: 'anchor', text: `The table is round, so turning it changes nothing — I can start by putting ${c.lab(0, person)} in ${c.posLab(0)}` },
+      { kind: 'anchor', text: `${c.lab(0, person)} was fixed in ${c.posLab(0)}: a round table can be turned freely, so any one person can start there` },
     )
   }
 
@@ -212,38 +254,22 @@ export class Engine {
     const terms = atomTerms(atom)
     const k = terms.length
     const doms = terms.map((t) => this.dom(t))
-    const test = testOf(atom)
-    const sup = [0, 0, 0]
-    const v = [0, 0, 0]
-    if (k === 1) {
-      for (const f of bits(doms[0])) {
-        v[0] = f
-        if (test(v)) sup[0] |= 1 << f
+    const test = testOf(atom, c)
+    const sup = new Array<number>(k).fill(0)
+    const v = new Array<number>(k).fill(0)
+    // four-term clues are only worth checking once the people involved are fairly pinned down
+    if (k >= 3 && doms.reduce((m, d) => m * pop(d), 1) > 4096) return
+    const rec = (t: number): void => {
+      if (t === k) {
+        if (test(v)) for (let q = 0; q < k; q++) sup[q] |= 1 << v[q]
+        return
       }
-    } else if (k === 2) {
-      for (const f of bits(doms[0]))
-        for (const g of bits(doms[1])) {
-          v[0] = f
-          v[1] = g
-          if (test(v)) {
-            sup[0] |= 1 << f
-            sup[1] |= 1 << g
-          }
-        }
-    } else {
-      for (const f of bits(doms[0]))
-        for (const g of bits(doms[1]))
-          for (const h of bits(doms[2])) {
-            v[0] = f
-            v[1] = g
-            v[2] = h
-            if (test(v)) {
-              sup[0] |= 1 << f
-              sup[1] |= 1 << g
-              sup[2] |= 1 << h
-            }
-          }
+      for (const f of bits(doms[t])) {
+        v[t] = f
+        rec(t + 1)
+      }
     }
+    rec(0)
     let grouped = false // one narrated move per clue application, even when it narrows two people
     for (let ti = 0; ti < k; ti++) {
       const rem = doms[ti] & ~sup[ti]
@@ -275,8 +301,10 @@ export class Engine {
     const who = terms.length === 2 ? c.termLabel(terms[other]) : ''
     const dom = (k: number) => c.fmtMask(doms[k])
     const generic = () => `${me} ${on} ${here} would break the clue (${c.describeAtom(atom)})`
-    const needAt = (ps: number[], what: string) => {
-      const valid = ps.filter((p) => p >= 0 && p < n)
+    const wrap = (p: number) => (c.circular ? ((p % n) + n) % n : p)
+    const needAt = (ps0: number[], what: string) => {
+      const ps = ps0.map(wrap)
+      const valid = [...new Set(ps.filter((p) => p >= 0 && p < n))]
       if (valid.length === 0) {
         const lab = ps.map((p) => c.posLab(p)).join(' or ')
         return `${me} ${on} ${here} would put ${who} ${on} ${lab} — there is no such ${c.unit}`
@@ -286,10 +314,10 @@ export class Engine {
     if (atom.neg && atom.t !== 'set') return generic()
     switch (atom.t) {
       case 'diff': {
-        const p = ti === 0 ? f - atom.d : f + atom.d
-        const k = Math.abs(atom.d)
+        const p = wrap(ti === 0 ? f - atom.d : f + atom.d)
+        const k = c.circular ? Math.min(Math.abs(atom.d) % n, n - (Math.abs(atom.d) % n)) : Math.abs(atom.d)
         if (p < 0 || p >= n) return `${me} ${on} ${here} would put ${who} ${on} ${c.posLab(p)} — there is no such ${c.unit}`
-        return `${me} ${on} ${here} would need ${who} ${on} ${c.posLab(p)} (${k === 1 ? 'right next to it' : `${k} ${c.unit}s away`}), but ${who} can only be ${on} ${dom(other)}`
+        return `${me} ${on} ${here} would need ${who} ${on} ${c.posLab(p)} (${k === 1 ? 'right next to it' : c.circular && k * 2 === n ? 'exactly opposite' : `${k} ${c.unit}s away`}), but ${who} can only be ${on} ${dom(other)}`
       }
       case 'adj':
         return needAt([f - 1, f + 1], 'next to it')
@@ -466,7 +494,7 @@ export function failedClues(puzzle: Puzzle, sol: Solution): number[] {
       if (atom.t === 'link') {
         const same = personOf(atom.x) === personOf(atom.y) && personOf(atom.x) >= 0
         if (atom.neg ? same : !same) ok = false
-      } else if (!atomTest(atom)(atomTerms(atom).map(posOf))) ok = false
+      } else if (!atomTest(atom, n, puzzle.axis === 'circle')(atomTerms(atom).map(posOf))) ok = false
     }
     if (!ok) bad.push(clue.id)
   }
@@ -486,6 +514,7 @@ export function enumerate(puzzle: Puzzle, limit = 50, nodeCap = 200000): SearchR
   let complete = true
   const root = new Engine(puzzle)
   root.quiet = true
+  if (puzzle.axis === 'circle') root.anchor(anchorPerson(puzzle))
   for (const c of puzzle.clues) root.activate(c.id)
   const dfs = (e: Engine): void => {
     if (sols.length >= limit || !complete) return

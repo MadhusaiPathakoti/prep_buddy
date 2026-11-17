@@ -3,6 +3,7 @@
 //   category "Each of them is from a different city - Nagpur, Delhi, …"          → one extra category per such sentence
 //   clues    "T lives two floors below the person from Bhopal." and friends     → atoms (see types.ts)
 // Anything it cannot read is returned in `unparsed` rather than guessed at, so the solver never works from a wrong clue silently.
+import { sameTerm } from './core'
 import { MAX_N, type Atom, type Axis, type Category, type Clue, type Puzzle, type Term } from './types'
 
 export interface ParseSummary {
@@ -12,6 +13,7 @@ export interface ParseSummary {
   cats: Category[]
   labels?: string[]
   unit?: string
+  facing?: 'in' | 'out'
 }
 
 export interface ParseResult {
@@ -101,9 +103,12 @@ function parseCategorySentence(s: string): CatSentence | null {
   let rest = m[2].replace(/\([^)]*\)/g, ' ').replace(/[.)]+\s*$/, '')
   rest = rest.replace(/\s+/g, ' ').trim()
   if (!rest.includes(',') && !/\band\b/i.test(rest)) return null
+  // "₹55,000, ₹70,000": a comma between digit groups of three is a thousands separator, not a list separator
+  const SEP = '\u0001'
   const values = rest
+    .replace(/(\d),(\d{3})(?!\d)/g, `$1${SEP}$2`)
     .split(/\s*(?:,\s*and\s+|,|;|\band\b)\s*/i)
-    .map((v) => v.trim().replace(/[.]+$/, ''))
+    .map((v) => v.trim().replace(/[.]+$/, '').split(SEP).join(','))
     .filter(Boolean)
   if (values.length < 3) return null
   return { name: singular(m[1]), values }
@@ -187,12 +192,16 @@ function extract(sentence: string, lex: Lexicon): { text: string; ments: Term[] 
 
 function norm(t: string): string {
   let s = t.toLowerCase()
+  s = s.replace(/\bit is not (?:true|the case) that\b/g, ' not ')
+  s = s.replace(/\bper (?:month|year|annum)\b/g, ' ')
+  s = s.replace(/\b(?:immediate(?:ly)?|directly|just) (?:before or after|after or before)\b/g, 'adjacent to') // "born immediately before or after X" = right next to X
   s = s.replace(/\b(?:does not|doesn't|do not|don't|is not|isn't|are not|aren't|cannot|can't|never|was not|wasn't)\b/g, ' not ')
   s = s.replace(/\bimmediate(?:ly)?\b/g, 'immediately').replace(/\b(?:directly|just)\b/g, 'immediately')
   s = s.replace(/\b(higher|lower|taller|shorter)\s+(?:floor|seat|position)\s+than\b/g, '$1 than')
-  s = s.replace(/\b(?:on|to) the immediately (left|right) of\b/g, 'immediately $1 of')
-  s = s.replace(/\bimmediately (?:on|to) the (left|right) of\b/g, 'immediately $1 of')
-  s = s.replace(/\b(?:on|to) the (left|right) of\b/g, '$1 of')
+  s = s.replace(/\b(?:on|to|at) the immediately (left|right) of\b/g, 'immediately $1 of')
+  s = s.replace(/\bimmediately (?:on|to|at) the (left|right) of\b/g, 'immediately $1 of')
+  s = s.replace(/\b(?:on|to|at) the (left|right) of\b/g, '$1 of')
+  s = s.replace(/\b(?:exactly )?opposite(?: to)?\b/g, 'opposite')
   s = s.replace(/[^a-z0-9@#' ]+/g, ' ')
   s = s.replace(/\b(one|two|three|four|five|six|seven|eight|nine|ten)\b(?=\s+(?:floors?|places?|seats?|positions?|months?|days?|weeks?|years?|persons?|people|steps?|others?|friends?|students?|members?|boys?|girls?))/g, (w) => String(NUM[w]))
   s = s.replace(/\b(first|second|third|fourth|fifth|sixth|seventh|eighth|ninth|tenth)\b/g, (w) => `#${ORD[w]}`)
@@ -201,19 +210,45 @@ function norm(t: string): string {
   // "the person from @3" / "the one who likes @3" → "@3";  "@3 person" → "@3"
   s = s.replace(/\b(?:the\s+)?(?:person|one|man|woman|friend|student|employee|boy|girl|individual|member)\s+(?:(?:who|that)\s+(?:[a-z]+\s+){0,2}?)?(?:from|in|at|of|with)?\s*(?=@\d)/g, '')
   s = s.replace(/(@\d+)\s+(?:person|one|man|woman|friend|student|employee|boy|girl)\b/g, '$1')
+  s = s.replace(/(@\d+)\s+(?:years?\s+)?old\b/g, '$1') // "the person who is 29 years old"
   s = s.replace(/\bthe\s+(?=@)/g, '')
   return s.replace(/\s+/g, ' ').trim()
 }
 
 const HI_WORDS = ['above', 'over', 'higher than', 'right of', 'taller than', 'after', 'later than']
-const POSITION_WORDS = /\b(?:floors?|seats?|rows?|above|below|between|left|right|top|topmost|bottom|lowest|lowermost|highest|numbered|odd|even|ends?|adjacent|next|beside|storey|ground|uppermost)\b|#\d/
+const POSITION_WORDS = /\b(?:floors?|seats?|rows?|above|below|between|left|right|top|topmost|bottom|lowest|lowermost|highest|numbered|odd|even|prime|multiple|weekend|weekday|ends?|adjacent|next|beside|neighbou?rs?|opposite|counted|storey|ground|uppermost)\b|#\d/
 
 function interpretClause(s: string, ments: Term[], lex: Lexicon): Atom[] | null {
   const M = (k: string): Term => ments[Number(k)]
   const neg = /\bnot\b/.test(s) || undefined
 
+  // "The number of persons between x and y is (not) the same as the number of persons between z and w"
+  let m = s.match(new RegExp(`number of (?:[a-z]+\\s+){1,3}?between\\s+${ENT}\\s+and\\s+${ENT}\\s+(?:(?:is|are)\\s+)?(not\\s+)?(?:the\\s+)?same as\\s+(?:the\\s+)?number of (?:[a-z]+\\s+){1,3}?between\\s+${ENT}\\s+and\\s+${ENT}`))
+  if (m) return [{ t: 'same', x: M(m[1]), y: M(m[2]), z: M(m[4]), w: M(m[5]), neg: m[3] ? true : undefined }]
+
+  // "Two people sit between x and y when counted from the left / right of x": a direction and a distance
+  m = s.match(new RegExp(`(?:(?:exactly|only)\\s+)?(\\d+|no)\\s+${COUNT_NOUN}\\s+(?:[a-z]+\\s+){0,3}?between\\s+${ENT}\\s+and\\s+${ENT}\\s+(?:when\\s+)?counted\\s+from\\s+(?:the\\s+)?(left|right)\\s+of\\s+${ENT}`))
+  if (m) {
+    const k = m[1] === 'no' ? 0 : Number(m[1])
+    const a = M(m[2])
+    const b = M(m[3])
+    const from = M(m[5])
+    const dir = m[4] === 'left' ? -1 : 1
+    if (sameTerm(from, a)) return [{ t: 'diff', x: b, y: a, d: dir * (k + 1), neg }]
+    if (sameTerm(from, b)) return [{ t: 'diff', x: a, y: b, d: dir * (k + 1), neg }]
+    return null
+  }
+
+  // "x sits exactly opposite y" (round table)
+  m = s.match(new RegExp(`${ENT}\\s+(?:[a-z]+\\s+){0,4}?opposite\\s+${ENT}`))
+  if (m) return lex.axis === 'circle' ? [{ t: 'diff', x: M(m[1]), y: M(m[2]), d: lex.n / 2, neg }] : null
+
+  // "x faces y": on a round table, the person across the table
+  m = s.match(new RegExp(`${ENT}\\s+(?:[a-z]+\\s+){0,3}?faces?\\s+${ENT}`))
+  if (m) return lex.axis === 'circle' ? [{ t: 'diff', x: M(m[1]), y: M(m[2]), d: lex.n / 2, neg }] : null
+
   // exactly k people between x and y
-  let m = s.match(new RegExp(`(?:(?:exactly|only)\\s+)?(?:there (?:are|is)\\s+)?(?:(?:exactly|only)\\s+)?(\\d+|no)\\s+${COUNT_NOUN}\\s+(?:[a-z]+\\s+){0,3}?(?:exactly\\s+)?(?:in\\s+)?between\\s+${ENT}\\s+and\\s+${ENT}`))
+  m = s.match(new RegExp(`(?:(?:exactly|only)\\s+)?(?:there (?:are|is)\\s+)?(?:(?:exactly|only)\\s+)?(\\d+|no)\\s+${COUNT_NOUN}\\s+(?:[a-z]+\\s+){0,3}?(?:exactly\\s+)?(?:in\\s+)?between\\s+${ENT}\\s+and\\s+${ENT}`))
   if (m) return [{ t: 'gap', x: M(m[2]), y: M(m[3]), k: m[1] === 'no' ? 0 : Number(m[1]), neg }]
   m = s.match(new RegExp(`${ENT}\\s+and\\s+${ENT}\\s+(?:have|has)\\s+(\\d+|no)\\s+${COUNT_NOUN}\\s+between\\s+them`))
   if (m) return [{ t: 'gap', x: M(m[1]), y: M(m[2]), k: m[3] === 'no' ? 0 : Number(m[3]), neg }]
@@ -234,24 +269,26 @@ function interpretClause(s: string, ments: Term[], lex: Lexicon): Atom[] | null 
     const y = M(m[3])
     const z = M(m[4])
     const base: Atom = { t: 'btw', x, y, z, neg }
+    if (lex.axis === 'circle' && !m[2]) return null // "between" on a circle is ambiguous unless it means right next to both
     if (m[2] && !neg)
       return [base, { t: 'adj', x, y }, { t: 'adj', x, y: z }]
     return [base]
   }
 
   // x (immediately | N floors) above / below y
-  m = s.match(new RegExp(`${ENT}\\s+(?:[a-z]+\\s+){0,8}?(?:(immediately)\\s+)?(?:(\\d+)\\s+(?:floors?|places?|seats?|positions?|steps?|months?|days?|weeks?|years?)\\s+)?(above|below|over|under|higher than|lower than|left of|right of|taller than|shorter than|after|before|later than|earlier than)\\s+(?:(?:the\\s+)?(?:floor|seat|month|day) of\\s+)?${ENT}`))
+  m = s.match(new RegExp(`${ENT}\\s+(?:[a-z]+\\s+){0,8}?(?:(immediately)\\s+)?(?:#?(\\d+)\\s+(?:(?:floors?|places?|seats?|positions?|steps?|months?|days?|weeks?|years?)\\s+)?)?(above|below|over|under|higher than|lower than|left of|right of|taller than|shorter than|after|before|later than|earlier than)\\s+(?:(?:the\\s+)?(?:floor|seat|month|day) of\\s+)?${ENT}`))
   if (m) {
     const hi = HI_WORDS.includes(m[4])
     const x = M(m[1])
     const y = M(m[5])
     if (m[3]) return [{ t: 'diff', x, y, d: hi ? Number(m[3]) : -Number(m[3]), neg }]
     if (m[2]) return [{ t: 'diff', x, y, d: hi ? 1 : -1, neg }]
+    if (lex.axis === 'circle') return null // "to the left of" with no distance means nothing on a round table
     return [{ t: 'rank', x, y, hi, neg }]
   }
 
   // neighbours
-  m = s.match(new RegExp(`${ENT}\\s+(?:[a-z]+\\s+){0,3}?(?:next to|adjacent to|beside|neighbou?r of|neighbouring|adjoining)\\s+${ENT}`))
+  m = s.match(new RegExp(`${ENT}\\s+(?:[a-z]+\\s+){0,6}?(?:next to|adjacent to|beside|neighbou?r of|neighbouring|adjoining)\\s+${ENT}`))
   if (m) return [{ t: 'adj', x: M(m[1]), y: M(m[2]), neg }]
   m = s.match(new RegExp(`${ENT}\\s+and\\s+${ENT}\\s+(?:[a-z]+\\s+){0,4}?(?:adjacent|neighbou?rs?|next to each other|beside each other)`))
   if (m) return [{ t: 'adj', x: M(m[1]), y: M(m[2]), neg }]
@@ -285,7 +322,7 @@ function interpretClause(s: string, ments: Term[], lex: Lexicon): Atom[] | null 
   }
 
   // one person / value and a position: "topmost", "floor 3", "either the topmost or the lowest", "an odd-numbered floor" …
-  if (count === 1) {
+  if (count === 1 && lex.axis !== 'circle') {
     const x = M((s.match(/@(\d+)/) as RegExpMatchArray)[1])
     const fs = positionSet(s, lex)
     if (fs === 'bad') return null
@@ -332,6 +369,26 @@ function positionSet(sIn: string, lex: Lexicon): number[] | 'bad' | null {
     if (!any) return 'bad'
     s = s.replace(daysIn[0], ' ')
   }
+  // "a prime-numbered floor", "a floor whose number is a multiple of 3", "a weekend day"
+  const label = (f: number) => (lex.topDown ? n - f : f + 1)
+  const isPrime = (k: number) => k > 1 && Array.from({ length: k - 2 }, (_, i) => i + 2).every((d) => k % d !== 0)
+  if (/\bprime\b/.test(s)) {
+    for (let f = 0; f < n; f++) if (isPrime(label(f))) add(f)
+    s = s.replace(/\bprime\b/g, ' ')
+  }
+  const mult = s.match(/\bmultiple of (\d+)\b/)
+  if (mult) {
+    for (let f = 0; f < n; f++) if (label(f) % Number(mult[1]) === 0) add(f)
+    s = s.replace(mult[0], ' ')
+  }
+  if (lex.labels && /\bweek(?:end|day)\b/.test(s)) {
+    const end = /\bweekend\b/.test(s)
+    lex.labels.forEach((l, f) => {
+      const weekend = l === 'Saturday' || l === 'Sunday'
+      if (end ? weekend : !weekend) add(f)
+    })
+    s = s.replace(/\bweek(?:end|day)\b/g, ' ')
+  }
   const fromEnd = s.match(/#?(\d+)\s*(?:floor|seat|place|position|month|day)?\s+from\s+the\s+(?:extreme\s+)?(top|bottom|left|right|end|last|first)/)
   if (fromEnd) {
     const k = Number(fromEnd[1])
@@ -372,13 +429,58 @@ function positionSet(sIn: string, lex: Lexicon): number[] | 'bad' | null {
   return any ? [...set].sort((a, b) => a - b) : null
 }
 
+/** a clause that must read as exactly one position clue (no links, no conjunctions) so it can sit inside "if … then …" */
+function single(s: string, ments: Term[], lex: Lexicon): Atom | null {
+  const atoms = interpretClause(s.trim(), ments, lex)
+  return atoms && atoms.length === 1 ? atoms[0] : null
+}
+
+/**
+ * "If x then y", "Either x or y, but not both", "Either x or y", "Neither x nor y <relation>":
+ * each half is an ordinary clause over the same mentions.
+ */
+function compoundClause(s: string, ments: Term[], lex: Lexicon): Atom[] | null {
+  let m = s.match(/^if (.+?) then (.+)$/)
+  if (m) {
+    const a = single(m[1], ments, lex)
+    const b = single(m[2], ments, lex)
+    return a && b ? [{ t: 'logic', op: 'imp', a, b }] : null
+  }
+  m = s.match(/^either (.+?)(?: but not both)?$/)
+  if (m) {
+    const exclusive = / but not both$/.test(s)
+    const body = m[1]
+    // the "or" that separates the two statements is the one where both sides read as clauses on their own
+    const pieces = body.split(/\s+or\s+/)
+    const cuts = Array.from({ length: Math.max(0, pieces.length - 1) }, (_, i) => i + 1)
+    // an "or" that starts a new statement (next word is a person or value) is the real separator; try those first
+    cuts.sort((x, y) => Number(/^@\d/.test(pieces[y])) - Number(/^@\d/.test(pieces[x])) || x - y)
+    for (const cut of cuts) {
+      const left = pieces.slice(0, cut).join(' or ')
+      const right = pieces.slice(cut).join(' or ')
+      const a = single(left, ments, lex)
+      const b = single(right, ments, lex)
+      if (a && b) return [{ t: 'logic', op: exclusive ? 'xor' : 'or', a, b }]
+    }
+    return null
+  }
+  // "Neither x nor y is next to z": the same statement denied of both, i.e. two "not" clauses
+  m = s.match(/^neither ((?:@\d+\s+)+)nor (@\d+) (.+)$/)
+  if (m) {
+    const who = [...(m[1].match(/@\d+/g) ?? []), m[2]]
+    const parts = who.map((w) => single(`${w} not ${m![3]}`, ments, lex))
+    return parts.every(Boolean) ? (parts as Atom[]) : null
+  }
+  return null
+}
+
 function parseClueText(sentence: string, lex: Lexicon): Atom[] | null {
   const { text, ments } = extract(sentence.replace(/[.]+$/, ''), lex)
   if (ments.length === 0) return null
   const atoms: Atom[] = []
   // "A, who is from Kolkata, lives on …" → a link plus the rest
   const rest = text.replace(
-    new RegExp(`${ENT}\\s*,\\s*(?:who|which|that)\\s+(?:is|are|was|were|likes?|has|have|works?|lives?|stays?|comes?|belongs?|prefers?|owns?|drinks?|plays?|wears?|studies|uses?|reads?|eats?)(?:\\s+(?:from|in|at|to|of|with|as|for))?\\s+${ENT}\\s*(?:,|$)`, 'gi'),
+    new RegExp(`${ENT}\\s*,\\s*(?:who|which|that)\\s+[a-z]+(?:\\s+(?:from|in|at|to|of|with|as|for))?\\s+(?:(?:a|an|the)\\s+)?${ENT}(?:\\s+(?:old|per\\s+(?:month|year|annum)))?\\s*(?:,|$)`, 'gi'),
     (_m, a: string, b: string) => {
       const x = ments[Number(a)]
       const y = ments[Number(b)]
@@ -390,6 +492,8 @@ function parseClueText(sentence: string, lex: Lexicon): Atom[] | null {
   )
   const s = norm(rest)
   if (s) {
+    const compound = compoundClause(s, ments, lex)
+    if (compound) return [...atoms, ...compound]
     // "A lives immediately below B and is from Delhi": the second half starts with a verb, so it is a second statement about A
     const verbSplit = s.split(/\s+and\s+(?=(?:is|are|lives?|stays?|sits?|stands?|likes?|has|have|works?|comes?|belongs?)\b)/)
     if (verbSplit.length === 2) {
@@ -457,7 +561,8 @@ function orderFromList(values: string[]): OrderInfo | null {
 }
 
 /** statements that only restate the setup ("Each person was born in one month only.") — nothing to solve, so nothing to warn about */
-const isFiller = (s: string): boolean => /^(?:each|every)\s+(?:person|one|of them|friend|student)\b[^.]*\b(?:only|exactly one)\b/i.test(s) || /^no\s+two\b/i.test(s)
+const isFiller = (s: string): boolean =>
+  /^(?:each|every)\s+(?:person|one|of them|friend|student)\b[^.]*\b(?:only|exactly one)\b/i.test(s) || /^no\s+two\b/i.test(s) || /\bwith respect to\b[^.]*\bfacing\b/i.test(s) || /^\(?\s*left and right\b/i.test(s)
 
 // ─── entry point ─────────────────────────────────────────────────────────────
 
@@ -511,6 +616,27 @@ export function parsePuzzle(raw: string): ParseResult {
     }
   }
 
+  // a circular table: everyone faces the same way, so "right" is always the next seat along
+  const circle = /\b(?:circular|round)\s+table\b/i.test(text)
+  if (/\b(?:square|rectangular|hexagonal|triangular)\s+table\b/i.test(text)) {
+    result.errors.push('Only circular tables are supported so far (not square or rectangular ones).')
+    return result
+  }
+  if (/\b(?:two|2)\s+(?:parallel\s+)?rows\b|\bparallel\s+rows\b/i.test(text)) {
+    result.errors.push('Seating in two facing rows is not supported yet.')
+    return result
+  }
+  let facing: 'in' | 'out' | undefined
+  if (circle) {
+    const out = /\bfacing\s+(?:the\s+)?(?:outside|outwards?|away)\b|\bfacing\s+away\b/i.test(text)
+    const inn = /\bfacing\s+(?:the\s+)?(?:inside|inwards?|centre|center)\b|\bfacing\s+towards\b/i.test(text)
+    if ((out && inn) || /\b(?:some|few|half|four|three|two|one)\s+of\s+them\s+(?:are\s+)?facing\b/i.test(text)) {
+      result.errors.push('A table where some people face the centre and others face outside is not supported yet — everyone must face the same way.')
+      return result
+    }
+    facing = out ? 'out' : 'in'
+  }
+
   // named order (months, weekdays) from a range in the header: "from May to December"
   let order: OrderInfo | null = null
   const range = orderFromRange(header, n) ?? orderFromRange(text, n)
@@ -559,7 +685,7 @@ export function parsePuzzle(raw: string): ParseResult {
       result.warnings.push(`I could not tell which ${kw[1].toLowerCase()} (for example "from May to December"), so they are numbered 1 to ${n}; clues that name one will not be understood.`)
     }
   }
-  const axis: Axis = order ? 'order' : axisGuess
+  const axis: Axis = circle ? 'circle' : order ? 'order' : axisGuess
   const topDown = axis === 'floor' && topDownText
   axisGuess = axis
   const allValues = cats.flatMap((c) => c.values.map((v) => v.toLowerCase()))
@@ -586,7 +712,7 @@ export function parsePuzzle(raw: string): ParseResult {
   }
   const verbWord = header.match(/\b(?:were|are)\s+(born|seated|arranged|placed|ranked|appointed|promoted|admitted|selected|posted|scheduled|joined)\b/i)
   const extra = order ? { labels: order.labels, unit: order.unit, on: order.on, verb: verbWord ? `was ${verbWord[1].toLowerCase()}` : undefined } : {}
-  result.summary = { people, axis, topDown, cats, labels: order?.labels, unit: order?.unit }
-  result.puzzle = { n, axis, topDown, people, cats, clues, ...extra }
+  result.summary = { people, axis, topDown, cats, labels: order?.labels, unit: order?.unit, facing }
+  result.puzzle = { n, axis, topDown, people, cats, clues, ...extra, ...(circle ? { facing } : {}) }
   return result
 }

@@ -5,9 +5,9 @@
 //   • every possibility that dies carries its reason (so "why not anywhere else?" has an answer),
 //   • when no clue helps on its own, each remaining possibility is tested ("if it were here…") and the ones that break the puzzle go,
 //   • simulate() replays any crossed-out possibility as if it were true, until the puzzle contradicts itself.
-import { bits, cellKey, Ctx, Grid, pop } from './core'
-import { Engine, enumerate, failedClues, type Ev, type Why } from './engine'
-import type { Atom, Clue, Puzzle, Solution, Term } from './types'
+import { atomTerms, bits, cellKey, Ctx, Grid, pop } from './core'
+import { anchorPerson, Engine, enumerate, failedClues, personMentions, type Ev, type Why } from './engine'
+import type { Clue, Puzzle, Solution } from './types'
 
 // ─── types ───────────────────────────────────────────────────────────────────
 
@@ -101,6 +101,20 @@ export interface Trace {
   final: Solution | null
   unusedClues: number[]
   suspects: number[] // when there is no solution: clues whose removal would make it solvable
+  /** when there is no solution: clues that, read as their own opposite, leave exactly one arrangement (a "not" lost in copying) */
+  flips: number[]
+}
+
+/** The same puzzle with one clue read as its opposite ("it is NOT the case that …"). Null for clues that cannot be negated simply. */
+export function flipClue(puzzle: Puzzle, id: number): Puzzle | null {
+  const clue = puzzle.clues.find((c) => c.id === id)
+  if (!clue || clue.atoms.length !== 1) return null
+  const a = clue.atoms[0]
+  if (a.t === 'logic') return null
+  return {
+    ...puzzle,
+    clues: puzzle.clues.map((c) => (c.id === id ? { ...c, text: `${c.text} (read as its opposite)`, atoms: [{ ...a, neg: !a.neg } as typeof a] } : c)),
+  }
 }
 
 // ─── small helpers ───────────────────────────────────────────────────────────
@@ -117,21 +131,10 @@ export function entityLabel(ctx: Ctx, ea: number, ei: number): string {
   return ea === 0 ? ctx.p.people[ei] : `the ${ctx.p.cats[ea - 2].values[ei]} person`
 }
 
-function termsOf(a: Atom): Term[] {
-  switch (a.t) {
-    case 'btw':
-      return [a.x, a.y, a.z]
-    case 'set':
-      return [a.x]
-    default:
-      return [a.x, a.y]
-  }
-}
-
 export function clueKind(clue: Clue): ClueKind {
   if (clue.atoms.every((a) => a.t === 'link' && !a.neg)) return 'fact'
   if (clue.atoms.some((a) => a.t === 'set')) return 'pin'
-  const floating = clue.atoms.some((a) => a.t !== 'link' && termsOf(a).some((t) => t.k === 'v'))
+  const floating = clue.atoms.some((a) => a.t !== 'link' && atomTerms(a).some((t) => t.k === 'v'))
   return floating ? 'floating' : 'relation'
 }
 
@@ -155,7 +158,8 @@ export function makeBeats(evs: Ev[], ctx: Ctx, earlier: Set<number> = new Set())
       const cell = normCell(fix.a, fix.i, fix.b, fix.j)
       const pair = ctx.pair(cell.a, cell.i, cell.b, cell.j)
       const k = fix.why.kind
-      if (k === 'given') beats.push({ gid: fix.gid, tone: 'given', clue: fix.why.clue, headline: `Clue ${fix.why.clue} tells us: ${pair}.`, details: [], evs: g, minor: taken })
+      if (k === 'anchor') beats.push({ gid: fix.gid, tone: 'given', headline: `${fix.why.text}.`, details: [], evs: g, minor: xs.length })
+      else if (k === 'given') beats.push({ gid: fix.gid, tone: 'given', clue: fix.why.clue, headline: `Clue ${fix.why.clue} tells us: ${pair}.`, details: [], evs: g, minor: taken })
       else if (k === 'assume') beats.push({ gid: fix.gid, tone: 'assume', headline: `${fix.why.text}.`, details: [], evs: g, minor: taken })
       else beats.push({ gid: fix.gid, tone: 'deduce', headline: `${fix.why.text} — so ${pair}.`, details: reasoned.map((e) => `${ctx.notPair(e.a, e.i, e.b, e.j)} — ${e.why.text}`), evs: g, minor: taken })
       continue
@@ -329,6 +333,41 @@ export function buildTrace(puzzle: Puzzle): Trace {
     return step
   }
 
+  // 0 ─ a round table: any one person may start in the first seat (turning the table changes nothing)
+  if (puzzle.axis === 'circle') {
+    const who = anchorPerson(puzzle)
+    const pre = eng.grid.snapshot()
+    const start = eng.events.length
+    eng.anchor(who)
+    eng.propagate()
+    const mentions = personMentions(puzzle)[who]
+    const clockwise = puzzle.facing === 'in' ? 'anticlockwise' : 'clockwise'
+    finishStep(
+      {
+        kind: 'given',
+        clues: [],
+        title: `Fix one person in ${ctx.posLab(0)} (the table is round)`,
+        selection: {
+          chosen: [],
+          ranking: [],
+          headline: `Start by putting ${puzzle.people[who]} in ${ctx.posLab(0)} — a free choice, not a guess.`,
+          reasoning: [
+            'On a round table every seat looks like every other until someone is placed. Turning the whole table round changes nobody\'s neighbours, so any one person can be put in the first seat without losing a single possible answer.',
+            `I chose ${puzzle.people[who]}: named in ${mentions} clue${mentions === 1 ? '' : 's'}, more than anyone else, so fixing them gives the other clues the most to work with.`,
+            `Seats are numbered ${clockwise} from there: each person's right-hand neighbour is the next number up (and seat ${puzzle.n} is next to seat 1).`,
+          ],
+          basedOn: [],
+          opening: true,
+        },
+        trials: [],
+      },
+      pre,
+      [],
+      start,
+      [],
+    )
+  }
+
   // 1 ─ facts that are stated outright ("W is from Pune"), including the free half of mixed clues
   const linkClues = puzzle.clues.filter((c) => c.atoms.some((x) => x.t === 'link' && !x.neg))
   const linkedSoFar = (): number[] => linkClues.map((c) => c.id)
@@ -381,7 +420,7 @@ export function buildTrace(puzzle: Puzzle): Trace {
   const noteFor = (id: number, kind: ClueKind): string => {
     const clue = clueOf.get(id) as Clue
     const atom = clue.atoms.find((a) => a.t !== 'link') ?? clue.atoms[0]
-    const ts = termsOf(atom)
+    const ts = atomTerms(atom)
     if (kind === 'pin' && atom.t === 'set') {
       const k = atom.neg ? ctx.n - atom.fs.length : atom.fs.length
       return `pins ${ctx.termLabel(atom.x)} to ${k} of ${ctx.n} ${ctx.unit}s`
@@ -390,6 +429,7 @@ export function buildTrace(puzzle: Puzzle): Trace {
       const v = ts.find((t) => t.k === 'v')
       return `is partly about ${v ? ctx.termLabel(v) : 'someone'}, who has not been identified yet`
     }
+    if (atom.t === 'logic') return atom.op === 'imp' ? 'is an "if … then …" clue, which can only act once its condition is known' : 'gives two alternatives, so it can only act once one of them is settled'
     if (ts.length >= 2) return `only ties ${ctx.termLabel(ts[0])} to ${ctx.termLabel(ts[1])}`
     return 'adds a small restriction'
   }
@@ -400,7 +440,7 @@ export function buildTrace(puzzle: Puzzle): Trace {
     for (const id of ids)
       for (const atom of (clueOf.get(id) as Clue).atoms) {
         if (atom.t === 'link') continue
-        for (const t of termsOf(atom)) {
+        for (const t of atomTerms(atom)) {
           if (t.k === 'f') continue
           const key = `${t.k}.${t.k === 'p' ? t.i : `${t.c}.${t.i}`}`
           if (seen.has(key)) continue
@@ -605,10 +645,13 @@ export function buildTrace(puzzle: Puzzle): Trace {
   const unused = [...remaining]
   const kind: StepKind = status === 'unique' ? 'done' : status === 'multiple' ? 'stuck' : 'conflict'
   const suspects: number[] = []
+  const flips: number[] = []
   if (status === 'none') {
     for (const c of puzzle.clues) {
       const without: Puzzle = { ...puzzle, clues: puzzle.clues.filter((x) => x.id !== c.id) }
       if (enumerate(without, 1, 20000).sols.length > 0) suspects.push(c.id)
+      const flipped = flipClue(puzzle, c.id)
+      if (flipped && enumerate(flipped, 2, 60000).sols.length === 1) flips.push(c.id)
     }
   }
   steps.push({
@@ -629,7 +672,7 @@ export function buildTrace(puzzle: Puzzle): Trace {
   })
 
   const finalSol = final && failedClues(puzzle, final).length === 0 ? final : null
-  return { puzzle, ctx, status, solutions: search.sols, steps, elim, fixes, final: finalSol, unusedClues: unused, suspects }
+  return { puzzle, ctx, status, solutions: search.sols, steps, elim, fixes, final: finalSol, unusedClues: unused, suspects, flips }
 }
 
 // ─── "why not anywhere else?" ────────────────────────────────────────────────
@@ -688,6 +731,8 @@ export interface SimResult {
   beats: Beat[]
   clash: string
   proven: boolean // a contradiction was reached
+  /** the "impossible" option was only ruled out by fixing one person on a round table: same arrangement, turned round */
+  rotation?: boolean
 }
 
 export function simulate(trace: Trace, cell: CellRef): SimResult | null {
@@ -695,6 +740,22 @@ export function simulate(trace: Trace, cell: CellRef): SimResult | null {
   if (!info) return null
   const { puzzle, ctx } = trace
   const step = trace.steps[info.step]
+  if (info.why.kind === 'anchor') {
+    const pairText = ctx.pair(cell.a, cell.i, cell.b, cell.j)
+    const note = 'That is not a contradiction: it is the same arrangement turned round the table, so the seat numbers are only labels. Fixing the first person in seat 1 was a free choice, not something the clues proved.'
+    return {
+      cell,
+      stepIdx: info.step,
+      base: step.pre,
+      beats: [
+        { gid: -2, tone: 'assume', headline: `Suppose ${pairText}.`, details: [], evs: [], minor: 0 },
+        { gid: -1, tone: 'case', headline: note, details: [], evs: [], minor: 0 },
+      ],
+      clash: note,
+      proven: false,
+      rotation: true,
+    }
+  }
   const eng = Engine.fromSnapshot(puzzle, step.pre, step.activeBefore, step.linkedBefore)
   for (const id of step.clues) eng.activate(id, step.kind === 'given')
   const base = eng.grid.snapshot()

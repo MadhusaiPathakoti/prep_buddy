@@ -60,6 +60,39 @@ The person from Nagpur was born immediately after the person from Lucknow.
 Y is from Indore.`,
   },
   {
+    id: 'round-ages',
+    title: 'Round table & ages',
+    text: `Eight persons - Isha, Henry, Quinn, Frank, Yash, Mia, Walt, Olivia - are sitting around a circular table, all of them facing outside (away from the centre). (Left and right of a person are with respect to the direction that person is facing.)
+
+Each of them has a different age - 26 years, 28 years, 37 years, 32 years, 23 years, 41 years, 35 years, 29 years (not necessarily in the same order).
+
+The person who is 29 years old sits third to the left of the person who is 26 years old.
+
+The person who is 41 years old sits at the immediate left of Frank.
+
+If the person who is 32 years old sits exactly opposite to Frank, then the person who is 32 years old sits second to the left of the person who is 29 years old.
+
+Henry sits at the immediate left of Yash.
+
+Two persons sit between Henry and the person who is 28 years old when counted from the left of Henry.
+
+Two persons sit between Mia and Walt when counted from the right of Mia.
+
+The person who is 37 years old sits third to the right of Isha.
+
+Olivia sits exactly opposite to Henry.
+
+Either Frank sits exactly opposite to Walt or the person who is 32 years old sits second to the left of Frank, but not both.
+
+It is not true that two persons sit between the person who is 41 years old and the person who is 37 years old when counted from the right of the person who is 41 years old.
+
+If one person sits between the person who is 41 years old and Isha when counted from the left of the person who is 41 years old, then one person sits between the person who is 35 years old and the person who is 41 years old when counted from the right of the person who is 35 years old.
+
+Neither Olivia nor the person who is 41 years old is an immediate neighbour of the person who is 35 years old.
+
+Walt is 32 years old.`,
+  },
+  {
     id: 'row-colours',
     title: 'A row & colours',
     text: `Six friends - A, B, C, D, E and F - sit in a row. Each of them likes a different colour - Red, Blue, Green, Yellow, Pink, Black.
