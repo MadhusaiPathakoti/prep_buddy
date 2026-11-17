@@ -177,6 +177,13 @@ export const SHORTCUT_GAMES: MathGame[] = [
     icon: 'x²',
   },
   {
+    id: 'quantity-comparison',
+    title: 'Quantity Comparison',
+    description: 'Quantity I: x, where 5x + 13 = 43 against Quantity II: y, where 4y + 13 = 49. Pick > , ≥ , < , ≤ or no relation.',
+    to: '/maths/quantity-comparison',
+    icon: 'I⇄II',
+  },
+  {
     id: 'series-warmup',
     title: 'Number Series Warm-up',
     description: 'Type the next term: squares, cubes, n² ± n, primes, running totals, interleaved series.',

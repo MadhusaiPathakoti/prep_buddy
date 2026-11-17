@@ -10,6 +10,7 @@ const VedicLesson =lazy(() => import('./pages/vedic/VedicLesson'))
 const VedicPractice = lazy(() => import('./pages/vedic/VedicPractice'))
 const SquareCubeRoots =lazy(() => import('./pages/games/SquareCubeRoots'))
 const QuadraticEquations = lazy(() => import('./pages/games/QuadraticEquations'))
+const QuantityComparison = lazy(() => import('./pages/games/QuantityComparison'))
 const SeriesWarmup = lazy(() => import('./pages/games/SeriesWarmup'))
 const FlashChain = lazy(() => import('./pages/games/FlashChain'))
 const MentalMemory = lazy(() => import('./pages/games/MentalMemory'))
@@ -112,6 +113,7 @@ export default function App() {
           <Route path="/maths/missing-digit" element={<MissingDigit />} />
           <Route path="/maths/square-cube-roots" element={<SquareCubeRoots />} />
           <Route path="/maths/quadratic-equations" element={<QuadraticEquations />} />
+          <Route path="/maths/quantity-comparison" element={<QuantityComparison />} />
           <Route path="/maths/series-warmup" element={<SeriesWarmup />} />
           <Route path="/maths/flash-chain" element={<FlashChain />} />
           <Route path="/maths/mental-memory" element={<MentalMemory />} />
