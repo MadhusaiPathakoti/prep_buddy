@@ -11,6 +11,8 @@ import { parseQuestion, type ParsedQuestion, type Sentence } from '../src/lib/sy
 import { SAMPLES } from '../src/lib/syllogismSolver/sample'
 import { holdsIn } from '../src/lib/syllogismSolver/engine'
 import { resolveHighlight, solve } from '../src/lib/syllogismSolver/solve'
+import { generateSyllogismQuestions, syllogismQuestionText } from '../src/lib/syllogism'
+import { OPTION_TEXT } from '../src/lib/syllogismSolver/engine'
 
 const RUNS = Number(process.env.RUNS ?? 120)
 let failures = 0
@@ -275,6 +277,32 @@ for (const s of SAMPLES) {
     const f = sol.feedback(o)
     if (!f.correct && f.points.length === 0) fail(`sample "${s.title}": option ${o} has no explanation`)
   }
+}
+
+// ─── 5. the game's "Check with Syllogism Solver" button: text built from a game question must give the game's own answer ───
+
+{
+  let agree = 0
+  let total = 0
+  for (const difficulty of ['easy', 'medium', 'hard'] as const) {
+    for (const format of ['conclusions', 'which-follows'] as const) {
+      for (const g of generateSyllogismQuestions(difficulty, format, 60)) {
+        total++
+        const q = parseQuestion(syllogismQuestionText(g))
+        if (q.errors.length || q.unparsed.length) {
+          fail(`game question not readable by the solver (${difficulty}/${format}): ${q.errors.join(' ')} ${q.unparsed.join(' | ')}
+${syllogismQuestionText(g)}`)
+          continue
+        }
+        const sol = solve(q)
+        const answer = q.mode === 'which' ? (sol.correct === null ? '' : `${g.options.find((o) => o.replace(/\.$/, '') === sol.conclusions[sol.correct!].text) ?? ''}`) : sol.correct === null ? '' : OPTION_TEXT[sol.correct]
+        if (answer === g.correctMeaning && q.mode === (format === 'conclusions' ? 'conclusions' : 'which')) agree++
+        else fail(`solver answer differs from the game's (${difficulty}/${format}): solver "${answer}" vs game "${g.correctMeaning}"
+${syllogismQuestionText(g)}`)
+      }
+    }
+  }
+  console.log(`game questions sent to the solver: ${agree}/${total} give the same answer as the game`)
 }
 
 console.log(failures ? `\n${failures} failure(s)` : '\nall checks passed')

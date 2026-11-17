@@ -24,7 +24,7 @@ function verdictBadge(c: ConclusionInfo) {
 
 const stepBtn = 'rounded-lg bg-slate-100 px-3 py-1.5 text-sm font-semibold text-slate-700 transition hover:bg-slate-200 disabled:cursor-not-allowed disabled:opacity-40 dark:bg-slate-700 dark:text-slate-200 dark:hover:bg-slate-600'
 
-export default function SolverView({ solution, onEdit }: { solution: Solution; onEdit: () => void }) {
+export default function SolverView({ solution, onEdit, onBackToGame }: { solution: Solution; onEdit: () => void; onBackToGame?: () => void }) {
   const { q, conclusions, steps, buildWorld } = solution
   const last = steps.length - 1
   const [view, setView] = useState<View>({ kind: 'build', step: 0 })
@@ -129,9 +129,16 @@ export default function SolverView({ solution, onEdit }: { solution: Solution; o
           </Link>
           <h1 className="mt-1 text-2xl font-extrabold text-slate-900 dark:text-slate-100">Syllogism Solver</h1>
         </div>
-        <button onClick={onEdit} className="rounded-xl bg-white px-3 py-2 text-sm font-semibold text-slate-700 shadow-sm ring-1 ring-slate-200 hover:bg-slate-50 dark:bg-slate-800 dark:text-slate-200 dark:ring-slate-700">
-          ✎ New / edit question
-        </button>
+        <div className="flex flex-wrap items-center gap-2">
+          {onBackToGame && (
+            <button onClick={onBackToGame} className="rounded-xl bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 active:scale-95">
+              ← Back to the game
+            </button>
+          )}
+          <button onClick={onEdit} className="rounded-xl bg-white px-3 py-2 text-sm font-semibold text-slate-700 shadow-sm ring-1 ring-slate-200 hover:bg-slate-50 dark:bg-slate-800 dark:text-slate-200 dark:ring-slate-700">
+            ✎ New / edit question
+          </button>
+        </div>
       </div>
 
       <div className="mt-5 grid gap-5 lg:grid-cols-[minmax(0,5fr)_minmax(0,6fr)]">

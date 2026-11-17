@@ -577,6 +577,14 @@ function buildWhichFollows(level: Level): MCQQuestion | null {
   }
 }
 
+/** A generated question as plain text the Syllogism Solver can read (statements, then conclusions I/II or lettered options). */
+export function syllogismQuestionText(q: MCQQuestion): string {
+  const statements = q.context ?? ''
+  // "Conclusions I and II" questions keep them in `term`; "which follows" questions have the lettered options as the answers
+  if (/^I\./.test(q.term)) return [statements, 'Conclusions:', q.term].join('\n')
+  return [statements, q.term, ...q.options.map((o, i) => `${'ABCDE'[i]}. ${o.replace(/\.$/, '')}`)].join('\n')
+}
+
 /** Weighted so that every answer position turns up, with "Either" at a realistic ~12%. */
 function pickTarget(): number {
   const r = rnd(100)

@@ -1,6 +1,6 @@
-import { useState, type ReactNode } from 'react'
-import { Link } from 'react-router-dom'
-import MCQQuizRunner from './MCQQuizRunner'
+import { useEffect, useState, type ReactNode } from 'react'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
+import MCQQuizRunner, { type RunnerSnapshot } from './MCQQuizRunner'
 import type { MCQQuestion } from '../lib/generators'
 
 export interface SetupOption {
@@ -16,6 +16,23 @@ export interface SetupGroup {
   defaultId: string
 }
 
+/** Lets a game hand its current question to a solver page and later pick the quiz up again where it was left. */
+export interface SolverLink {
+  /** Route of the solver page. */
+  path: string
+  /** Button label on each question. */
+  label: string
+  /** The question as plain text the solver can read. */
+  toText: (q: MCQQuestion) => string
+}
+
+interface SavedQuiz {
+  questions: MCQQuestion[]
+  snapshot: RunnerSnapshot
+}
+
+const resumeKey = (gameId: string) => `prepbuddy:resume:${gameId}`
+
 interface ReasoningSetupProps {
   gameId: string
   title: string
@@ -25,18 +42,56 @@ interface ReasoningSetupProps {
   defaultCount?: number
   /** Builds a fresh set of questions from the chosen option ids (keyed by group key). */
   generate: (choice: Record<string, string>, count: number) => MCQQuestion[]
+  /** Adds a "check with solver" button to each question; the solver can send the player back to the quiz. */
+  solver?: SolverLink
 }
 
 /** Shared setup screen for the deterministic Reasoning games: pick options, then hand the questions to MCQQuizRunner. */
-export default function ReasoningSetup({ gameId, title, intro, groups, counts = [8, 12, 16, 20, 24], defaultCount = 12, generate }: ReasoningSetupProps) {
+export default function ReasoningSetup({ gameId, title, intro, groups, counts = [8, 12, 16, 20, 24], defaultCount = 12, generate, solver }: ReasoningSetupProps) {
+  const location = useLocation()
+  const navigate = useNavigate()
   const [choice, setChoice] = useState<Record<string, string>>(() => Object.fromEntries(groups.map((g) => [g.key, g.defaultId])))
   const [count, setCount] = useState(defaultCount)
-  const [questions, setQuestions] = useState<MCQQuestion[] | null>(null)
+  // coming back from the solver (history state { resume: true }) the quiz is rebuilt from what was saved when the player left
+  const [saved] = useState<SavedQuiz | null>(() => {
+    if (!solver || !(location.state as { resume?: boolean } | null)?.resume) return null
+    try {
+      const raw = sessionStorage.getItem(resumeKey(gameId))
+      const parsed = raw ? (JSON.parse(raw) as SavedQuiz) : null
+      return parsed && Array.isArray(parsed.questions) && parsed.questions.length > 0 && parsed.snapshot ? parsed : null
+    } catch {
+      return null
+    }
+  })
+  useEffect(() => {
+    if (saved) {
+      try {
+        sessionStorage.removeItem(resumeKey(gameId))
+      } catch {
+        // nothing to clean up
+      }
+    }
+  }, [saved, gameId])
+  const [questions, setQuestions] = useState<MCQQuestion[] | null>(saved?.questions ?? null)
+  const [initial, setInitial] = useState<RunnerSnapshot | null>(saved?.snapshot ?? null)
   const [sessionKey, setSessionKey] = useState(0)
 
   function begin() {
     setQuestions(generate(choice, count))
+    setInitial(null)
     setSessionKey((k) => k + 1)
+  }
+
+  function checkWithSolver(q: MCQQuestion, snapshot: RunnerSnapshot) {
+    if (!solver || !questions) return
+    try {
+      sessionStorage.setItem(resumeKey(gameId), JSON.stringify({ questions, snapshot } satisfies SavedQuiz))
+    } catch {
+      // storage unavailable: the solver still opens, but the quiz cannot be picked up again
+    }
+    // mark this history entry as "resume me", so both the solver's back button and the browser's Back return to the quiz
+    navigate(location.pathname, { replace: true, state: { resume: true } })
+    navigate(solver.path, { state: { text: solver.toText(q), returnTo: location.pathname } })
   }
 
   if (questions) {
@@ -46,6 +101,9 @@ export default function ReasoningSetup({ gameId, title, intro, groups, counts = 
         gameId={gameId}
         questions={questions}
         showCorrectInReview
+        initial={initial}
+        onCheckWithSolver={solver ? checkWithSolver : undefined}
+        solverLabel={solver?.label}
         onExit={() => setQuestions(null)}
         onRestart={begin}
       />

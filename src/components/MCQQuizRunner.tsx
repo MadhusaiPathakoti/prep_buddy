@@ -6,6 +6,20 @@ import Stat from './Stat'
 import { Phonetic, SpeakerButton } from './Pronounce'
 import ReviewList, { type ReviewItem } from './ReviewList'
 
+/** Everything needed to put a quiz back exactly where it was (used when the player leaves to look something up and returns). */
+export interface RunnerSnapshot {
+  index: number
+  eliminated: string[]
+  correct: number
+  wrongAttempts: number
+  skipped: number
+  reviewItems: ReviewItem[]
+  correctItems: ReviewItem[]
+  hintShown: boolean
+  /** Time on the clock when the player left — the time spent away is not counted. */
+  elapsedMs: number
+}
+
 interface MCQQuizRunnerProps {
   gameId: string
   questions: MCQQuestion[]
@@ -15,24 +29,29 @@ interface MCQQuizRunnerProps {
   showCorrectInReview?: boolean
   /** Adds speaker buttons: `term` next to the question word (with its IPA), `options` next to each answer that is itself a single word. */
   pronounce?: { term?: boolean; options?: boolean }
+  /** Resume a quiz from a snapshot instead of starting at question 1. */
+  initial?: RunnerSnapshot | null
+  /** Adds a button at the top right of each question that hands the question (and a snapshot of the quiz) to the caller. */
+  onCheckWithSolver?: (question: MCQQuestion, snapshot: RunnerSnapshot) => void
+  solverLabel?: string
 }
 
-export default function MCQQuizRunner({ gameId, questions, onExit, onRestart, showCorrectInReview = false, pronounce }: MCQQuizRunnerProps) {
-  const [index, setIndex] = useState(0)
-  const [eliminated, setEliminated] = useState<Set<string>>(new Set())
+export default function MCQQuizRunner({ gameId, questions, onExit, onRestart, showCorrectInReview = false, pronounce, initial, onCheckWithSolver, solverLabel = 'Check with solver' }: MCQQuizRunnerProps) {
+  const [index, setIndex] = useState(() => Math.max(0, Math.min(initial?.index ?? 0, questions.length - 1)))
+  const [eliminated, setEliminated] = useState<Set<string>>(() => new Set(initial?.eliminated ?? []))
   const [justCorrect, setJustCorrect] = useState<string | null>(null)
   const [flashWrong, setFlashWrong] = useState<string | null>(null)
-  const [hintShown, setHintShown] = useState(false)
+  const [hintShown, setHintShown] = useState(initial?.hintShown ?? false)
   const [revealAnswer, setRevealAnswer] = useState(false)
   const [locked, setLocked] = useState(false)
-  const [correct, setCorrect] = useState(0)
-  const [wrongAttempts, setWrongAttempts] = useState(0)
-  const [skipped, setSkipped] = useState(0)
+  const [correct, setCorrect] = useState(initial?.correct ?? 0)
+  const [wrongAttempts, setWrongAttempts] = useState(initial?.wrongAttempts ?? 0)
+  const [skipped, setSkipped] = useState(initial?.skipped ?? 0)
   const [finished, setFinished] = useState(false)
-  const [startTime] = useState(() => Date.now())
-  const [elapsedMs, setElapsedMs] = useState(0)
-  const [reviewItems, setReviewItems] = useState<ReviewItem[]>([])
-  const [correctItems, setCorrectItems] = useState<ReviewItem[]>([])
+  const [startTime] = useState(() => Date.now() - (initial?.elapsedMs ?? 0))
+  const [elapsedMs, setElapsedMs] = useState(initial?.elapsedMs ?? 0)
+  const [reviewItems, setReviewItems] = useState<ReviewItem[]>(initial?.reviewItems ?? [])
+  const [correctItems, setCorrectItems] = useState<ReviewItem[]>(initial?.correctItems ?? [])
 
   const savedRef = useRef(false)
 
@@ -110,6 +129,11 @@ export default function MCQQuizRunner({ gameId, questions, onExit, onRestart, sh
     }
   }
 
+  function checkWithSolver() {
+    if (!onCheckWithSolver || locked || revealAnswer) return
+    onCheckWithSolver(current, { index, eliminated: [...eliminated], correct, wrongAttempts, skipped, reviewItems, correctItems, hintShown, elapsedMs: Date.now() - startTime })
+  }
+
   function handleSkip() {
     if (locked || revealAnswer) return
     setLocked(true)
@@ -180,6 +204,17 @@ export default function MCQQuizRunner({ gameId, questions, onExit, onRestart, sh
       </div>
 
       <div className="mt-8 rounded-3xl bg-white dark:bg-slate-800 p-8 shadow-sm ring-1 ring-slate-200 dark:ring-slate-700">
+        {onCheckWithSolver && (
+          <div className="-mt-3 mb-4 flex justify-end">
+            <button
+              onClick={checkWithSolver}
+              disabled={locked || revealAnswer}
+              className="rounded-full bg-indigo-50 px-3 py-1.5 text-xs font-semibold text-indigo-700 ring-1 ring-indigo-200 transition hover:bg-indigo-100 disabled:opacity-50 dark:bg-indigo-500/15 dark:text-indigo-300 dark:ring-indigo-500/40"
+            >
+              🔍 {solverLabel}
+            </button>
+          </div>
+        )}
         {current.context && (
           <div className="mb-6 whitespace-pre-line rounded-xl bg-slate-50 dark:bg-slate-900/40 px-4 py-3 text-left text-sm leading-relaxed text-slate-700 dark:text-slate-300">
             {current.context}

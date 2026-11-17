@@ -1,5 +1,5 @@
 import ReasoningSetup from '../../components/ReasoningSetup'
-import { generateSyllogismQuestions, type SyllogismDifficulty, type SyllogismFormat } from '../../lib/syllogism'
+import { generateSyllogismQuestions, syllogismQuestionText, type SyllogismDifficulty, type SyllogismFormat } from '../../lib/syllogism'
 
 export default function Syllogism() {
   return (
@@ -38,6 +38,7 @@ export default function Syllogism() {
         },
       ]}
       generate={(c, count) => generateSyllogismQuestions(c.difficulty as SyllogismDifficulty, c.format as SyllogismFormat, count)}
+      solver={{ path: '/reasoning/syllogism-solver', label: 'Check with Syllogism Solver', toText: syllogismQuestionText }}
     />
   )
 }

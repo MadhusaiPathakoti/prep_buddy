@@ -11,13 +11,14 @@ interface Props {
   onSolve: (q: ParsedQuestion) => void
   busy: boolean
   error: string | null
+  onBackToGame?: () => void
 }
 
 type OcrState = { kind: 'idle' } | { kind: 'reading' } | { kind: 'error'; message: string } | { kind: 'done'; previous: string }
 
 const kindLabel = (s: Sentence) => (s.few ? 'Only a few' : s.possibility ? (s.form === 'O' ? 'May not be' : s.form === 'A' ? 'All can be' : 'Can be') : { A: 'All', E: 'No', I: 'Some', O: 'Some … not' }[s.form])
 
-export default function SyllogismInput({ text, onText, onSolve, busy, error }: Props) {
+export default function SyllogismInput({ text, onText, onSolve, busy, error, onBackToGame }: Props) {
   const parsed = useMemo(() => parseQuestion(text), [text])
   const [ocr, setOcr] = useState<OcrState>({ kind: 'idle' })
   const [preview, setPreview] = useState<string | null>(null)
@@ -69,9 +70,16 @@ export default function SyllogismInput({ text, onText, onSolve, busy, error }: P
 
   return (
     <div className="mx-auto max-w-3xl px-4 py-10">
-      <Link to="/reasoning" className="text-sm text-slate-400 hover:text-slate-600 dark:text-slate-500">
-        ← Reasoning
-      </Link>
+      <div className="flex flex-wrap items-center justify-between gap-2">
+        <Link to="/reasoning" className="text-sm text-slate-400 hover:text-slate-600 dark:text-slate-500">
+          ← Reasoning
+        </Link>
+        {onBackToGame && (
+          <button onClick={onBackToGame} className="rounded-xl bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 active:scale-95">
+            ← Back to the game
+          </button>
+        )}
+      </div>
       <h1 className="mt-2 text-3xl font-extrabold text-slate-900 dark:text-slate-100">Syllogism Solver</h1>
       <p className="mt-2 text-slate-500 dark:text-slate-400">
         Type or paste a syllogism question — or drop a screenshot of it. You get an animated Venn diagram that builds the statements one by one, a <em>Check</em> button beside every conclusion that shows the pictures that prove or break it, and an explanation of why
