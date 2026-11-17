@@ -30,10 +30,6 @@ function rootStr(f: Frac): string {
   const s = terminating(f, 2) ? decStr(f, 2) : fracStr(f)
   return s.replace(/^-/, '−')
 }
-const rootsStr = (rs: Frac[]): string => {
-  const uniq = rs.filter((r, i) => rs.findIndex((q) => feq(q, r)) === i)
-  return uniq.map(rootStr).join(', ')
-}
 
 function signed(n: number, first = false): string {
   if (first) return n < 0 ? `−${-n}` : `${n}`
@@ -165,7 +161,8 @@ function genEq(rng: Rng, d: MockDifficulty, v: string, hint: Frac[] | undefined)
     const k = rng.int(2, 9)
     const N = k * k
     const text = a > 0 ? `(${v} + ${a})² = ${N}` : `(${v} − ${-a})² = ${N}`
-    return { text, roots: [F(-a + k), F(-a - k)], sol: `${v} ${a > 0 ? '+' : '−'} ${Math.abs(a)} = ±${k} ⇒ ${v} = ${rootsStr([F(-a + k), F(-a - k)])}`, kind: 'shift' }
+    const sol = [`Take the square root of both sides: ${v} ${a > 0 ? '+' : '−'} ${Math.abs(a)} = ±√${N} = ±${k}`, `${v} = ${mn(-a)} + ${k} = ${mn(-a + k)} or ${v} = ${mn(-a)} − ${k} = ${mn(-a - k)}`].join('\n')
+    return { text, roots: [F(-a + k), F(-a - k)], sol, kind: 'shift' }
   }
   // rearranged: v² + p v + q = r v + s
   const r1 = pickInt(rng, lo, range, h0)
@@ -180,7 +177,14 @@ function genEq(rng: Rng, d: MockDifficulty, v: string, hint: Frac[] | undefined)
   const lhs = `${v}²${term(p, v, false)}${q === 0 ? '' : signed(q)}`
   const rhs = `${term(r, v, true)}${signed(s)}`
   const roots = [F(r1), F(r2)]
-  return { text: `${lhs} = ${rhs}`, roots, sol: `${polyText(1, b, c, v)} = 0 ⇒ ${factor(r1, 1, v)}${factor(r2, 1, v)} = 0 ⇒ ${v} = ${rootsStr(roots)}`, kind: 'rearr' }
+  ensure(p - r === b && q - s === c, 'quadratic: rearranged coefficients do not combine to the monic form')
+  const sol = [
+    `Bring all terms to one side: ${v}²${term(p, v, false)}${q === 0 ? '' : signed(q)}${term(-r, v, false)}${signed(-s)} = 0`,
+    `Combine like terms: ${v}² + (${mn(p)} ${r < 0 ? '+' : '−'} ${Math.abs(r)})${v} + (${mn(q)} ${s < 0 ? '+' : '−'} ${Math.abs(s)}) = 0`,
+    `${polyText(1, b, c, v)} = 0`,
+    factorSteps(r1, 1, r2, 1, v, roots),
+  ].join('\n')
+  return { text: `${lhs} = ${rhs}`, roots, sol, kind: 'rearr' }
 }
 
 /** Equations for the Quantity-Comparison "x such that…" quantities (adds simple linear equations). */
@@ -189,7 +193,7 @@ function genEqQ(rng: Rng, d: MockDifficulty, v: string, hint: Frac[] | undefined
     const x = nz(rng, 2, 15)
     const a = rng.int(2, 7)
     const b = rng.int(1, 20)
-    return { text: `${a}${v} + ${b} = ${a * x + b}`, roots: [F(x)], sol: `${a}${v} = ${a * x + b} − ${b} = ${a * x} ⇒ ${v} = ${x}`, kind: 'linear' }
+    return { text: `${a}${v} + ${b} = ${a * x + b}`, roots: [F(x)], sol: [`Subtract ${b} from both sides: ${a}${v} = ${a * x + b} − ${b} = ${a * x}`, `Divide both sides by ${a}: ${v} = ${a * x} ÷ ${a} = ${x}`].join('\n'), kind: 'linear' }
   }
   return genEq(rng, d, v, hint)
 }
@@ -201,14 +205,32 @@ const DOM_WORDS = [
   'Quantity I is at most Quantity II for every x, with equality for some x',
   'the comparison changes with x (or the quantities are always equal)',
 ]
-const REL_WORDS = [
-  'each value of x is greater than each value of y',
-  'each value of x is greater than or equal to each value of y, and equality occurs for some pair',
-  'each value of x is less than each value of y',
-  'each value of x is less than or equal to each value of y, and equality occurs for some pair',
-  'the relation is not the same for every pair (or the values are equal), so no single relation holds',
-]
-const REL_TEXT = ['x > y', 'x ≥ y', 'x < y', 'x ≤ y', 'x = y or no relation can be established']
+
+/** Pairwise comparison of every root of the first equation with every root of the second, with the reason for the verdict. */
+function compareStep(X: Frac[], Y: Frac[], rel: number, n1: string, n2: string): string {
+  const uniq = (rs: Frac[]): Frac[] => rs.filter((r, i) => rs.findIndex((q) => feq(q, r)) === i)
+  const pairs: string[] = []
+  let g = 0
+  let e = 0
+  let l = 0
+  for (const a of uniq(X))
+    for (const b of uniq(Y)) {
+      const c = fcmp(a, b)
+      pairs.push(`${rootStr(a)} ${c > 0 ? '>' : c < 0 ? '<' : '='} ${rootStr(b)}`)
+      if (c > 0) g++
+      else if (c < 0) l++
+      else e++
+    }
+  const why = [
+    `every pair gives ${n1} > ${n2}, so ${n1} > ${n2}`,
+    `no pair gives ${n1} < ${n2} and at least one pair gives ${n1} = ${n2}, so ${n1} ≥ ${n2}`,
+    `every pair gives ${n1} < ${n2}, so ${n1} < ${n2}`,
+    `no pair gives ${n1} > ${n2} and at least one pair gives ${n1} = ${n2}, so ${n1} ≤ ${n2}`,
+    g === 0 && l === 0 ? `every pair gives ${n1} = ${n2}, so ${n1} = ${n2}` : `some pairs give ${n1} > ${n2} and some give ${n1} < ${n2}, so no definite relation can be established`,
+  ][rel]
+  ensure(rel === relationIndex(X, Y), 'quadratic: comparison text disagrees with the relation')
+  return `Compare every value of x with every value of y:\n${pairs.join(', ')}\nHence ${why}`
+}
 
 function quadratic(rng: Rng, d: MockDifficulty): QuestionDraft {
   const target = d === 'hard' ? wpick<number>(rng, [[0, 18], [1, 18], [2, 18], [3, 18], [4, 28]]) : rng.int(0, 4)
@@ -236,7 +258,7 @@ function quadratic(rng: Rng, d: MockDifficulty): QuestionDraft {
       }
     const rel2 = l === 0 && q === 0 ? 0 : l === 0 && g === 0 ? 4 : l === 0 ? 1 : g === 0 && q === 0 ? 2 : g === 0 ? 3 : 4
     ensure(rel2 === rel, 'quadratic: relation methods disagree')
-    const why = `I. ${e1.sol}\nII. ${e2.sol}\nx = ${rootsStr(e1.roots)}; y = ${rootsStr(e2.roots)} ⇒ ${REL_TEXT[rel]}`
+    const why = stepsText([`Solve equation I (x):\n${e1.sol}`, `Solve equation II (y):\n${e2.sol}`, compareStep(e1.roots, e2.roots, rel, 'x', 'y')], QUADRATIC_OPTIONS[rel])
     return fixedQ('quadratic-equations', `In each of the following questions, two equations I and II are given. Solve both the equations and give answer:\nI. ${e1.text}\nII. ${e2.text}`, QUADRATIC_OPTIONS, rel, why)
   }
   throw new Reject('no equation pair for target relation')
@@ -397,7 +419,7 @@ function qcRoots(rng: Rng, d: MockDifficulty): QuestionDraft {
     }
     const rel = relationIndex(e1.roots, e2.roots)
     if (rel !== target) continue
-    const why = stepsText([`I. ${e1.sol}`, `II. ${e2.sol}`, `x = ${rootsStr(e1.roots)}; y = ${rootsStr(e2.roots)}`, `Compare every value of x with every value of y: ${REL_WORDS[rel]}`], QUANTITY_OPTIONS[rel])
+    const why = stepsText([`Solve the equation for Quantity I (x):\n${e1.sol}`, `Solve the equation for Quantity II (y):\n${e2.sol}`, compareStep(e1.roots, e2.roots, rel, 'Quantity I', 'Quantity II')], QUANTITY_OPTIONS[rel])
     return fixedQ('quantity-comparison', `${qtyHeader()}\nQuantity I: x, where ${e1.text}\nQuantity II: y, where ${e2.text}`, QUANTITY_OPTIONS, rel, why)
   }
   throw new Reject('no pair')

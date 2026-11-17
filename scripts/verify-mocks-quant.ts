@@ -131,6 +131,10 @@ function evalText<T>(src: string, dom: Dom<T>): T {
     return v
   }
   const unary = (): T => {
+    if (toks[i] === '−') {
+      i++
+      return dom.sub(dom.lit('0'), unary())
+    }
     if (toks[i] === '√' || toks[i] === '∛') {
       const k = toks[i++] === '√' ? 2 : 3
       return dom.root(primary(), k)
@@ -681,7 +685,7 @@ function arithTail(s: string): string {
   const before = s.slice(0, m.index).trim()
   if (before !== '' && !/[:;→]$/.test(before)) return ''
   let t = m[0].trim()
-  while (t && (!balanced(t) || !/^[\d([]/.test(t))) t = t.slice(1).trim()
+  while (t && (!balanced(t) || !/^(−\s*)?[\d([]/.test(t))) t = t.slice(1).trim()
   return t
 }
 function arithHead(s: string): string {
@@ -751,13 +755,107 @@ function checkDiSteps(q: QuestionDraft, g: Group): string | null {
 /** Worked solutions of every non-DI topic (quadratics keep their factorisation lines): numbered steps, closing answer step, true arithmetic. */
 function checkGenericSteps(q: QuestionDraft): string | null {
   const blocks = stepBlocks(q.explanation)
-  if (blocks.length < 2) return `only ${blocks.length} step(s)`
+  if (blocks.length < 3) return `only ${blocks.length} step(s): a working line plus the answer is not step by step`
   for (let i = 0; i < blocks.length; i++) if (!blocks[i].startsWith(`Step ${i + 1}: `)) return `step numbering broken at step ${i + 1}`
   if (!blocks[blocks.length - 1].startsWith(`Step ${blocks.length}: Answer = `)) return 'last step is not "Answer = …"'
   for (const b of blocks) for (const line of b.split('\n')) {
     if (/\{R\}|NaN|undefined/.test(line)) return `unresolved placeholder in "${line}"`
     const err = checkArithmeticLine(line)
     if (err) return err
+  }
+  return null
+}
+
+// ------------------------------------------------------------------ equation working (quadratics, quantity comparison with equations)
+function polyEq(a: Poly, b: Poly): boolean {
+  const keys = new Set([...a.keys(), ...b.keys()])
+  for (const k of keys) if (!(a.get(k) ?? new Q(0n)).eq(b.get(k) ?? new Q(0n))) return false
+  return true
+}
+function parseRootText(s: string): Q {
+  const t = s.trim().replace(/−/g, '-')
+  const m = /^(-?\d+)\/(\d+)$/.exec(t)
+  return m ? new Q(BigInt(m[1]), BigInt(m[2])) : Q.of(t)
+}
+const uniqQ = (xs: Q[]): Q[] => xs.filter((x, i) => xs.findIndex((y) => y.eq(x)) === i)
+
+/**
+ * Solve-steps of both equations plus the pairwise comparison: the polynomial on every "… = 0" line must equal the
+ * equation, the split numbers must have sum b and product a·c, the roots printed must be the true roots, and each
+ * "p > q" in the comparison must be true and cover every pair.
+ */
+function checkEquationSteps(q: QuestionDraft, eqs: { text: string; v: string }[], names: [string, string]): string | null {
+  const blocks = stepBlocks(q.explanation)
+  if (blocks.length < 4) return `only ${blocks.length} steps (two solves, a comparison and the answer are needed)`
+  const rootSets: Q[][] = []
+  for (let i = 0; i < eqs.length; i++) {
+    const { text, v } = eqs[i]
+    const [l, r] = text.split('=').map((s) => s.trim())
+    const P = padd(parsePoly(l, v), parsePoly(r, v), -1)
+    const trueRoots = uniqQ(solveEquation(text, v))
+    rootSets.push(trueRoots)
+    if (!/^Step \d+: Solve /.test(blocks[i])) return `step ${i + 1} is not a "Solve …" step`
+    const lines = blocks[i].split('\n').slice(1)
+    if (lines.length < 2) return `equation ${i + 1}: working is a single line`
+    let split = false
+    for (const line of lines) {
+      const body = line.replace(/^[A-Za-z ]+: /, '')
+      if (/ = 0$/.test(body) && !body.includes(' or ') && !body.replace(/ = 0$/, '').includes(' = ')) {
+        let lp: Poly
+        try {
+          lp = parsePoly(body.replace(/ = 0$/, ''), v)
+        } catch (e) {
+          return `cannot parse working line "${line}": ${(e as Error).message}`
+        }
+        if (!polyEq(lp, P)) return `working line "${line}" is not the equation ${text}`
+      }
+      const sm = /^Two numbers with product (−?\d+) and sum (−?\d+) are (−?\d+) and (−?\d+)$/.exec(line)
+      if (sm) {
+        split = true
+        const [prod, sum, u, w] = sm.slice(1).map((x) => BigInt(x.replace('−', '-')))
+        const a = P.get(2) ?? new Q(0n)
+        const b = P.get(1) ?? new Q(0n)
+        const c = P.get(0) ?? new Q(0n)
+        if (a.d !== 1n || b.d !== 1n || c.d !== 1n) return 'equation coefficients are not integers'
+        if (prod !== a.n * c.n || sum !== b.n || u + w !== sum || u * w !== prod) return `split numbers ${u}, ${w} do not have sum ${b.n} and product ${a.n * c.n}`
+      }
+      const ac = /^Split the middle term: a × c = (\d+) × \((−?\d+)\) = (−?\d+), b = (−?\d+)$|^Split the middle term: a × c = (\d+) × (\d+) = (\d+), b = (−?\d+)$/.exec(line)
+      if (ac) {
+        const g = ac.slice(1).filter((x) => x !== undefined).map((x) => BigInt(x.replace('−', '-')))
+        if (g[0] !== (P.get(2) as Q).n || g[1] !== (P.get(0) as Q).n || g[2] !== g[0] * g[1] || g[3] !== (P.get(1) as Q).n) return `"${line}" does not match the equation's a, b, c`
+      }
+    }
+    const needSplit = polyDeg(P) === 2 && (P.get(1) ?? new Q(0n)).n !== 0n && !text.startsWith('(')
+    if (needSplit && !split) return `equation ${i + 1} (${text}) is solved without the split-the-middle-term working`
+    const last = lines[lines.length - 1]
+    const printed = uniqQ(last.split(' or ').map((seg) => parseRootText(seg.slice(seg.lastIndexOf('= ') + 2))))
+    if (printed.length !== trueRoots.length || !printed.every((p) => trueRoots.some((t) => t.eq(p)))) return `printed roots "${last}" differ from the true roots of ${text}`
+  }
+  // comparison step
+  const cmp = blocks[2]
+  if (!/^Step 3: Compare every value of x with every value of y:/.test(cmp)) return 'step 3 is not the pairwise comparison'
+  const cl = cmp.split('\n')
+  const pairs = cl[1].split(', ').map((s) => /^(-?[\d./]+|−[\d./]+) ([<>=]) (-?[\d./]+|−[\d./]+)$/.exec(s))
+  if (pairs.some((p) => p === null)) return `cannot parse the pair list "${cl[1]}"`
+  if (pairs.length !== rootSets[0].length * rootSets[1].length) return 'pair list does not cover every pair of roots'
+  for (const p of pairs as RegExpExecArray[]) {
+    const a = parseRootText(p[1])
+    const b = parseRootText(p[3])
+    const c = a.cmp(b)
+    if ((p[2] === '>' && c <= 0) || (p[2] === '<' && c >= 0) || (p[2] === '=' && c !== 0)) return `false pair statement "${p[0]}"`
+    if (!rootSets[0].some((t) => t.eq(a)) || !rootSets[1].some((t) => t.eq(b))) return `pair "${p[0]}" uses values that are not roots`
+  }
+  const rel = relation(rootSets[0], rootSets[1])
+  const [n1, n2] = names
+  const want = [`so ${n1} > ${n2}`, `so ${n1} ≥ ${n2}`, `so ${n1} < ${n2}`, `so ${n1} ≤ ${n2}`, rel === 4 ? '' : ''][rel]
+  const concl = cl[2] ?? ''
+  if (rel < 4 ? !concl.endsWith(want) : !(concl.includes('no definite relation') || concl.endsWith(`so ${n1} = ${n2}`))) return `comparison conclusion "${concl}" does not state relation ${rel}`
+  if (rel === 4) {
+    const hasG = (pairs as RegExpExecArray[]).some((p) => p[2] === '>')
+    const hasL = (pairs as RegExpExecArray[]).some((p) => p[2] === '<')
+    const allEq = (pairs as RegExpExecArray[]).every((p) => p[2] === '=')
+    if (!((hasG && hasL) || allEq)) return 'relation 4 without mixed pairs or all-equal pairs'
+    if (allEq !== concl.endsWith(`so ${n1} = ${n2}`)) return 'relation 4 explained with the wrong reason'
   }
   return null
 }
@@ -1055,7 +1153,24 @@ for (const topic of TOPICS) {
             row.failures++
             note(topic, diff, seed, `set question stem longer than 35 words: ${q.stem.slice(0, 200)}`)
           }
-          if (!natural && topic !== 'quadratic-equations') {
+          if (topic === 'quadratic-equations' || topic === 'quantity-comparison') {
+            const mq = /\nI\. (.+)\nII\. (.+)$/.exec(q.stem)
+            const mc = /Quantity I: x, where (.+)\nQuantity II: y, where (.+)$/.exec(q.stem)
+            const m = topic === 'quadratic-equations' ? mq : mc
+            if (m) {
+              let ee: string | null
+              try {
+                ee = checkEquationSteps(q, [{ text: m[1], v: 'x' }, { text: m[2], v: 'y' }], topic === 'quadratic-equations' ? ['x', 'y'] : ['Quantity I', 'Quantity II'])
+              } catch (e) {
+                ee = `equation check threw: ${(e as Error).message}`
+              }
+              if (ee) {
+                row.failures++
+                note(topic, diff, seed, `equation steps: ${ee}\n      stem: ${q.stem.replace(/\n/g, ' ⏎ ').slice(0, 200)}\n      explanation: ${q.explanation.replace(/\n/g, ' ⏎ ').slice(0, 600)}`)
+              }
+            }
+          }
+          if (!natural) {
             const ge = checkGenericSteps(q)
             if (ge) {
               row.failures++
