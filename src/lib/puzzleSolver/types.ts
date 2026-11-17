@@ -6,7 +6,7 @@
 // with a bijection between every pair of categories. A clue is a list of atoms over "terms": a person, a value of
 // one category ("the person from Bhopal") or a fixed position.
 
-export type Axis = 'floor' | 'row'
+export type Axis = 'floor' | 'row' | 'order'
 
 export type Term =
   | { k: 'p'; i: number } // person i
@@ -41,6 +41,13 @@ export interface Puzzle {
   people: string[]
   cats: Category[]
   clues: Clue[]
+  /** axis 'order' only: the named positions from first to last (months, weekdays ...) */
+  labels?: string[]
+  /** axis 'order' only: the noun for one position ("month") and the word used with it ("in July" / "on Monday") */
+  unit?: string
+  on?: string
+  /** axis 'order' only: how the text says it, singular ("was born") */
+  verb?: string
 }
 
 /** One complete arrangement. pos[p] = 0-based height of person p; val[c][p] = value index of person p in extra category c. */

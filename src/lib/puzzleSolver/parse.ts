@@ -10,6 +10,8 @@ export interface ParseSummary {
   axis: Axis
   topDown: boolean
   cats: Category[]
+  labels?: string[]
+  unit?: string
 }
 
 export interface ParseResult {
@@ -118,11 +120,14 @@ interface Lexicon {
   valueRe: RegExp | null
   valueIndex: Map<string, { c: number; i: number }>
   personRe: RegExp
+  /** axis 'order' with named positions ("July"): the names, matched like values but standing for a fixed position */
+  labels?: string[]
+  posRe: RegExp | null
 }
 
 const escapeRe = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
 
-function buildLexicon(people: string[], cats: Category[], axis: Axis, topDown: boolean): Lexicon {
+function buildLexicon(people: string[], cats: Category[], axis: Axis, topDown: boolean, labels?: string[]): Lexicon {
   const valueIndex = new Map<string, { c: number; i: number }>()
   const all: string[] = []
   cats.forEach((cat, c) =>
@@ -134,8 +139,12 @@ function buildLexicon(people: string[], cats: Category[], axis: Axis, topDown: b
   all.sort((a, b) => b.length - a.length)
   const valueRe = all.length ? new RegExp(`(?<![A-Za-z0-9])(?:${all.map(escapeRe).join('|')})(?![A-Za-z0-9])`, 'gi') : null
   const personRe = new RegExp(`(?<![A-Za-z0-9'])(${[...people].sort((a, b) => b.length - a.length).map(escapeRe).join('|')})(?![A-Za-z0-9])`, 'g')
-  return { n: people.length, axis, topDown, people, cats, valueRe, valueIndex, personRe }
+  const posRe = labels ? new RegExp(`(?<![A-Za-z0-9])(?:${[...labels].sort((a, b) => b.length - a.length).map(escapeRe).join('|')})(?![A-Za-z0-9])`, 'gi') : null
+  return { n: people.length, axis, topDown, people, cats, valueRe, valueIndex, personRe, labels, posRe }
 }
+
+/** "may" / "march" in lower case are ordinary English words, not months */
+const LOWER_WORDS = new Set(['may', 'march'])
 
 /** Replaces every person / value in the sentence by an @k placeholder and returns the mentions in order. */
 function extract(sentence: string, lex: Lexicon): { text: string; ments: Term[] } {
@@ -146,6 +155,16 @@ function extract(sentence: string, lex: Lexicon): { text: string; ments: Term[] 
       const hit = lex.valueIndex.get(m.toLowerCase())
       if (!hit) return m
       ments.push({ k: 'v', c: hit.c, i: hit.i })
+      return ` @${ments.length - 1} `
+    })
+  }
+  if (lex.posRe && lex.labels) {
+    const labels = lex.labels
+    t = t.replace(lex.posRe, (m) => {
+      if (m === m.toLowerCase() && LOWER_WORDS.has(m)) return m
+      const f = labels.findIndex((l) => l.toLowerCase() === m.toLowerCase())
+      if (f < 0) return m
+      ments.push({ k: 'f', f })
       return ` @${ments.length - 1} `
     })
   }
@@ -175,7 +194,7 @@ function norm(t: string): string {
   s = s.replace(/\bimmediately (?:on|to) the (left|right) of\b/g, 'immediately $1 of')
   s = s.replace(/\b(?:on|to) the (left|right) of\b/g, '$1 of')
   s = s.replace(/[^a-z0-9@#' ]+/g, ' ')
-  s = s.replace(/\b(one|two|three|four|five|six|seven|eight|nine|ten)\b(?=\s+(?:floors?|places?|seats?|positions?|persons?|people|steps?|others?|friends?|students?|members?|boys?|girls?))/g, (w) => String(NUM[w]))
+  s = s.replace(/\b(one|two|three|four|five|six|seven|eight|nine|ten)\b(?=\s+(?:floors?|places?|seats?|positions?|months?|days?|weeks?|years?|persons?|people|steps?|others?|friends?|students?|members?|boys?|girls?))/g, (w) => String(NUM[w]))
   s = s.replace(/\b(first|second|third|fourth|fifth|sixth|seventh|eighth|ninth|tenth)\b/g, (w) => `#${ORD[w]}`)
   s = s.replace(/\b(\d+)(?:st|nd|rd|th)\b/g, '#$1')
   s = s.replace(/'s\b/g, '')
@@ -186,7 +205,7 @@ function norm(t: string): string {
   return s.replace(/\s+/g, ' ').trim()
 }
 
-const HI_WORDS = ['above', 'over', 'higher than', 'right of', 'taller than']
+const HI_WORDS = ['above', 'over', 'higher than', 'right of', 'taller than', 'after', 'later than']
 const POSITION_WORDS = /\b(?:floors?|seats?|rows?|above|below|between|left|right|top|topmost|bottom|lowest|lowermost|highest|numbered|odd|even|ends?|adjacent|next|beside|storey|ground|uppermost)\b|#\d/
 
 function interpretClause(s: string, ments: Term[], lex: Lexicon): Atom[] | null {
@@ -194,10 +213,19 @@ function interpretClause(s: string, ments: Term[], lex: Lexicon): Atom[] | null 
   const neg = /\bnot\b/.test(s) || undefined
 
   // exactly k people between x and y
-  let m = s.match(new RegExp(`(?:exactly\\s+)?(?:there (?:are|is)\\s+)?(?:exactly\\s+)?(\\d+|no)\\s+${COUNT_NOUN}\\s+(?:(?:live|lives|stay|stays|sit|sits|stand|stands|are|is|there|resides?)\\s+)*(?:exactly\\s+)?(?:in\\s+)?between\\s+${ENT}\\s+and\\s+${ENT}`))
+  let m = s.match(new RegExp(`(?:(?:exactly|only)\\s+)?(?:there (?:are|is)\\s+)?(?:(?:exactly|only)\\s+)?(\\d+|no)\\s+${COUNT_NOUN}\\s+(?:[a-z]+\\s+){0,3}?(?:exactly\\s+)?(?:in\\s+)?between\\s+${ENT}\\s+and\\s+${ENT}`))
   if (m) return [{ t: 'gap', x: M(m[2]), y: M(m[3]), k: m[1] === 'no' ? 0 : Number(m[1]), neg }]
   m = s.match(new RegExp(`${ENT}\\s+and\\s+${ENT}\\s+(?:have|has)\\s+(\\d+|no)\\s+${COUNT_NOUN}\\s+between\\s+them`))
   if (m) return [{ t: 'gap', x: M(m[1]), y: M(m[2]), k: m[3] === 'no' ? 0 : Number(m[3]), neg }]
+
+  // "N people above / after / below / before x": exactly N people on that side, so x has one exact position
+  m = s.match(new RegExp(`(?:(?:exactly|only)\\s+)?(\\d+|no)\\s+${COUNT_NOUN}\\s+(?:[a-z]+\\s+){0,3}?(above|below|after|before|higher than|lower than|left of|right of)\\s+${ENT}`))
+  if (m && !/@\d/.test(s.slice(0, m.index))) {
+    const count = m[1] === 'no' ? 0 : Number(m[1])
+    const idx = HI_WORDS.includes(m[2]) ? lex.n - 1 - count : count
+    if (idx < 0 || idx >= lex.n) return null
+    return [{ t: 'set', x: M(m[3]), fs: [idx], neg }]
+  }
 
   // x between y and z
   m = s.match(new RegExp(`^${ENT}\\s+(?:[a-z]+\\s+){0,3}?(immediately\\s+)?between\\s+${ENT}\\s+and\\s+${ENT}$`))
@@ -212,7 +240,7 @@ function interpretClause(s: string, ments: Term[], lex: Lexicon): Atom[] | null 
   }
 
   // x (immediately | N floors) above / below y
-  m = s.match(new RegExp(`${ENT}\\s+(?:[a-z]+\\s+){0,4}?(?:(immediately)\\s+)?(?:(\\d+)\\s+(?:floors?|places?|seats?|positions?|steps?)\\s+)?(above|below|over|under|higher than|lower than|left of|right of|taller than|shorter than)\\s+(?:(?:the\\s+)?(?:floor|seat) of\\s+)?${ENT}`))
+  m = s.match(new RegExp(`${ENT}\\s+(?:[a-z]+\\s+){0,8}?(?:(immediately)\\s+)?(?:(\\d+)\\s+(?:floors?|places?|seats?|positions?|steps?|months?|days?|weeks?|years?)\\s+)?(above|below|over|under|higher than|lower than|left of|right of|taller than|shorter than|after|before|later than|earlier than)\\s+(?:(?:the\\s+)?(?:floor|seat|month|day) of\\s+)?${ENT}`))
   if (m) {
     const hi = HI_WORDS.includes(m[4])
     const x = M(m[1])
@@ -229,6 +257,32 @@ function interpretClause(s: string, ments: Term[], lex: Lexicon): Atom[] | null 
   if (m) return [{ t: 'adj', x: M(m[1]), y: M(m[2]), neg }]
 
   const count = (s.match(/@\d+/g) ?? []).length
+
+  // "Neither A nor B lives on the top floor", "Both A and B live on odd floors", "A and B do not live on the lowest floor"
+  const listed = s.match(/(?:^|\s)(?:neither\s+|both\s+)?((?:@\d+)(?:\s+(?:and|nor)\s+@\d+)+)(?=\s)/)
+  if (count >= 2 && listed && (listed[1].match(/@/g) ?? []).length === count) {
+    const who = (s.match(/@(\d+)/g) ?? []).map((t) => M(t.slice(1)))
+    if (who.every((t) => t.k !== 'f')) {
+      const fs = positionSet(s, lex)
+      if (fs && fs !== 'bad' && fs.length) {
+        const no = neg || /\bneither\b/.test(s) ? true : undefined
+        return who.map((x) => ({ t: 'set', x, fs, neg: no }) as Atom)
+      }
+    }
+  }
+
+  // a person / value and one or more named positions: "V was born in July", "not in May or June"
+  {
+    const all = (s.match(/@(\d+)/g) ?? []).map((t) => M(t.slice(1)))
+    const named = all.filter((t): t is Extract<Term, { k: 'f' }> => t.k === 'f')
+    const others = all.filter((t) => t.k !== 'f')
+    const chain = others.length === 1 || /(?:^|\s)(?:neither\s+|both\s+)?@\d+(?:\s+(?:and|nor)\s+@\d+)+\s/.test(s)
+    if (named.length >= 1 && others.length >= 1 && chain) {
+      const fs = [...new Set(named.map((t) => t.f))].sort((a, b) => a - b)
+      const either = /\b(?:either|neither)\b/.test(s)
+      return others.map((x) => (fs.length === 1 && !either ? { t: 'link', x, y: named[0], neg } : { t: 'set', x, fs, neg: neg || (/\bneither\b/.test(s) ? true : undefined) }) as Atom)
+    }
+  }
 
   // one person / value and a position: "topmost", "floor 3", "either the topmost or the lowest", "an odd-numbered floor" …
   if (count === 1) {
@@ -264,10 +318,24 @@ function positionSet(sIn: string, lex: Lexicon): number[] | 'bad' | null {
     any = true
   }
   const label2idx = (k: number) => (lex.topDown ? n - k : k - 1)
-  const fromEnd = s.match(/#?(\d+)\s*(?:floor|seat|place|position)?\s+from\s+the\s+(?:extreme\s+)?(top|bottom|left|right|end)/)
+  const daysIn = s.match(/\b(31|30|28|29)\s+days\b/)
+  if (daysIn && lex.labels) {
+    const want: Record<string, string[]> = {
+      '31': ['January', 'March', 'May', 'July', 'August', 'October', 'December'],
+      '30': ['April', 'June', 'September', 'November'],
+      '28': ['February'],
+      '29': ['February'],
+    }
+    lex.labels.forEach((l, f) => {
+      if (want[daysIn[1]].includes(l)) add(f)
+    })
+    if (!any) return 'bad'
+    s = s.replace(daysIn[0], ' ')
+  }
+  const fromEnd = s.match(/#?(\d+)\s*(?:floor|seat|place|position|month|day)?\s+from\s+the\s+(?:extreme\s+)?(top|bottom|left|right|end|last|first)/)
   if (fromEnd) {
     const k = Number(fromEnd[1])
-    const idx = fromEnd[2] === 'top' || fromEnd[2] === 'right' ? n - k : k - 1
+    const idx = fromEnd[2] === 'top' || fromEnd[2] === 'right' || fromEnd[2] === 'last' ? n - k : k - 1
     if (idx < 0 || idx >= n) return 'bad'
     add(idx)
     s = s.replace(fromEnd[0], ' ')
@@ -275,6 +343,12 @@ function positionSet(sIn: string, lex: Lexicon): number[] | 'bad' | null {
   if (lex.axis === 'floor') {
     if (/\b(?:topmost|top|highest|uppermost)\b/.test(s)) add(n - 1)
     if (/\b(?:lowest|lowermost|bottom|bottommost|ground)\b/.test(s)) add(0)
+  } else if (lex.axis === 'order') {
+    if (/\b(?:last|latest|final)\b/.test(s)) add(n - 1)
+    if (/\b(?:earliest|first)\b/.test(s)) {
+      add(0)
+      s = s.replace(/#1\b/g, ' ') // "first" already counted as position 1
+    }
   } else {
     if (/\b(?:leftmost|left end|left most)\b/.test(s)) add(0)
     if (/\b(?:rightmost|right end|right most)\b/.test(s)) add(n - 1)
@@ -342,6 +416,49 @@ function parseClueText(sentence: string, lex: Lexicon): Atom[] | null {
   return atoms.length ? atoms : null
 }
 
+// ─── ordered, named positions (months, weekdays) ─────────────────────────────
+
+const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+const DAYS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+const ORDER_KINDS = [
+  { names: MONTHS, unit: 'month', on: 'in' },
+  { names: DAYS, unit: 'day', on: 'on' },
+]
+
+interface OrderInfo {
+  labels?: string[] // undefined = ordered but unnamed ("first month", "third month" still work)
+  unit: string
+  on: string
+}
+
+/** "from May to December", "Monday to Friday" (wrapping round the year / week is allowed) */
+function orderFromRange(text: string, n: number): OrderInfo | { error: string } | null {
+  for (const kind of ORDER_KINDS) {
+    const alt = kind.names.join('|')
+    const m = text.match(new RegExp(`\\b(${alt})\\b\\s*(?:to|-|through|till|until)\\s*\\b(${alt})\\b`, 'i'))
+    if (!m) continue
+    const idx = (w: string) => kind.names.findIndex((x) => x.toLowerCase() === w.toLowerCase())
+    const a = idx(m[1])
+    const b = idx(m[2])
+    const len = ((b - a + kind.names.length) % kind.names.length) + 1
+    if (len !== n) return { error: `${kind.names[a]} to ${kind.names[b]} is ${len} ${kind.unit}s, but there are ${n} people — they must match.` }
+    return { labels: Array.from({ length: n }, (_, k) => kind.names[(a + k) % kind.names.length]), unit: kind.unit, on: kind.on }
+  }
+  return null
+}
+
+/** a category whose values are all month / weekday names is really the order of the positions */
+function orderFromList(values: string[]): OrderInfo | null {
+  for (const kind of ORDER_KINDS) {
+    const canon = values.map((v) => kind.names.find((x) => x.toLowerCase() === v.toLowerCase()))
+    if (canon.every(Boolean)) return { labels: canon as string[], unit: kind.unit, on: kind.on }
+  }
+  return null
+}
+
+/** statements that only restate the setup ("Each person was born in one month only.") — nothing to solve, so nothing to warn about */
+const isFiller = (s: string): boolean => /^(?:each|every)\s+(?:person|one|of them|friend|student)\b[^.]*\b(?:only|exactly one)\b/i.test(s) || /^no\s+two\b/i.test(s)
+
 // ─── entry point ─────────────────────────────────────────────────────────────
 
 export function parsePuzzle(raw: string): ParseResult {
@@ -385,21 +502,30 @@ export function parsePuzzle(raw: string): ParseResult {
     const said = NUM[countWord[1].toLowerCase()] ?? Number(countWord[1])
     if (said !== n) result.warnings.push(`The text says ${said} people but ${n} names are listed — using the ${n} names.`)
   }
-  const floorCount = header.match(/\b(one|two|three|four|five|six|seven|eight|nine|ten|\d+)\s+(?:different\s+)?(?:floors|storeys|seats|positions)\b/i)
+  const floorCount = header.match(/\b(one|two|three|four|five|six|seven|eight|nine|ten|\d+)\s+(?:different\s+)?(floors|storeys|seats|positions|months|days|weeks|years)\b/i)
   if (floorCount) {
     const said = NUM[floorCount[1].toLowerCase()] ?? Number(floorCount[1])
     if (said !== n) {
-      result.errors.push(`${n} people on ${said} floors/seats is not supported yet — the number of people must equal the number of floors/seats.`)
+      result.errors.push(`${n} people for ${said} ${floorCount[2].toLowerCase()} is not supported yet — the number of people must equal the number of ${floorCount[2].toLowerCase()}.`)
       return result
     }
   }
+
+  // named order (months, weekdays) from a range in the header: "from May to December"
+  let order: OrderInfo | null = null
+  const range = orderFromRange(header, n) ?? orderFromRange(text, n)
+  if (range && 'error' in range) {
+    result.errors.push(range.error)
+    return result
+  }
+  order = range
 
   // axis and numbering direction
   const lower = text.toLowerCase()
   const floorScore = (lower.match(/floor|storey|building|above|below|topmost|lowest/g) ?? []).length
   const rowScore = (lower.match(/\brow\b|\bline\b|\bleft\b|\bright\b|\bseat|\bqueue\b|\bbench\b/g) ?? []).length
-  const axis: Axis = rowScore > floorScore ? 'row' : 'floor'
-  const topDown = axis === 'floor' && (/(?:topmost|top)\s+floor[^.]*?\bnumbered\s*(?:as\s*)?1\b/i.test(text) || /numbered\s+(?:from|starting from|beginning from)\s+(?:the\s+)?top/i.test(text))
+  let axisGuess: Axis = rowScore > floorScore ? 'row' : 'floor'
+  const topDownText = /(?:topmost|top)\s+floor[^.]*?\bnumbered\s*(?:as\s*)?1\b/i.test(text) ||/numbered\s+(?:from|starting from|beginning from)\s+(?:the\s+)?top/i.test(text)
 
   // extra categories
   const cats: Category[] = []
@@ -417,14 +543,30 @@ export function parsePuzzle(raw: string): ParseResult {
       result.errors.push(`The ${cs.name} values must all be different.`)
       return
     }
+    const asOrder = !order ? orderFromList(cs.values) : null
+    if (asOrder) {
+      order = asOrder // "different month - January, February, ..." names the positions, it is not an attribute
+      return
+    }
     cats.push({ name: cs.name, values: cs.values })
   })
   if (result.errors.length) return result
+  // "different months" with no names given: ordered positions that are only numbered
+  if (!order) {
+    const kw = header.match(/\b(?:different|distinct|separate)\s+(months|days|weeks|years)\b/i)
+    if (kw) {
+      order = { unit: singular(kw[1]), on: kw[1].toLowerCase() === 'days' ? 'on' : 'in' }
+      result.warnings.push(`I could not tell which ${kw[1].toLowerCase()} (for example "from May to December"), so they are numbered 1 to ${n}; clues that name one will not be understood.`)
+    }
+  }
+  const axis: Axis = order ? 'order' : axisGuess
+  const topDown = axis === 'floor' && topDownText
+  axisGuess = axis
   const allValues = cats.flatMap((c) => c.values.map((v) => v.toLowerCase()))
   if (new Set(allValues).size !== allValues.length) result.warnings.push('Some values appear in more than one category, which can confuse clue reading.')
   for (const v of allValues) if (people.some((p) => p.toLowerCase() === v)) result.warnings.push(`"${v}" is both a person and a value.`)
 
-  const lex = buildLexicon(people, cats, axis, topDown)
+  const lex = buildLexicon(people, cats, axis, topDown, order?.labels)
   const clues: Clue[] = []
   sentences.forEach((s, k) => {
     if (used.has(k) || isBoilerplate(s)) return
@@ -433,6 +575,7 @@ export function parsePuzzle(raw: string): ParseResult {
       return
     }
     if (/^\(?[a-e]\)\s/i.test(s)) return // answer options
+    if (isFiller(s)) return
     const atoms = parseClueText(s, lex)
     if (atoms && atoms.length) clues.push({ id: clues.length + 1, text: s, atoms })
     else result.unparsed.push(s)
@@ -441,7 +584,9 @@ export function parsePuzzle(raw: string): ParseResult {
     result.errors.push('I could not read any clues from the text.')
     return result
   }
-  result.summary = { people, axis, topDown, cats }
-  result.puzzle = { n, axis, topDown, people, cats, clues }
+  const verbWord = header.match(/\b(?:were|are)\s+(born|seated|arranged|placed|ranked|appointed|promoted|admitted|selected|posted|scheduled|joined)\b/i)
+  const extra = order ? { labels: order.labels, unit: order.unit, on: order.on, verb: verbWord ? `was ${verbWord[1].toLowerCase()}` : undefined } : {}
+  result.summary = { people, axis, topDown, cats, labels: order?.labels, unit: order?.unit }
+  result.puzzle = { n, axis, topDown, people, cats, clues, ...extra }
   return result
 }

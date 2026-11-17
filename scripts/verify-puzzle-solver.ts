@@ -68,6 +68,15 @@ const FLOOR_CASES: [string, string][] = [
   ['G does not live on any of the odd numbered floors.', 'G is not on an odd-numbered floor'],
   ['A lives on a floor immediately above the floor of B.', 'A is immediately above B'],
   ['A lives on either the topmost or the lowest floor.', 'A is on either the topmost or the lowest floor'],
+  ['Two persons live above A.', 'A is on floor 6'],
+  ['Three persons live below A.', 'A is on floor 4'],
+  ['Only one person lives above A.', 'A is on floor 7'],
+  ['No one lives below A.', 'A is on the lowest floor'],
+  ['A lives on one of the floors above B.', 'A is somewhere above B'],
+  ['A does not live on any of the floors below B.', 'A is not somewhere below B'],
+  ['Neither A nor B lives on the topmost floor.', 'A is not on the topmost floor ; B is not on the topmost floor'],
+  ['Both A and B live on odd numbered floors.', 'A is on an odd-numbered floor ; B is on an odd-numbered floor'],
+  ['A and B do not live on the lowest floor.', 'A is not on the lowest floor ; B is not on the lowest floor'],
   ['A lives on a higher floor than B.', 'A is somewhere above B'],
   ['A lives on a lower floor than B.', 'A is somewhere below B'],
   ['A lives immediately above B.', 'A is immediately above B'],
@@ -88,6 +97,54 @@ const ROW_CASES: [string, string][] = [
   ['E sits between the one who likes Red and the one who likes Blue.', 'E is between the Red person and the Blue person'],
 ]
 
+const ORDER_HEADER = `Eight persons - A, B, C, D, E, F, G, H - were born in eight different months of the same year, from May to December.
+Each of them is from a different city - Nagpur, Delhi, Bhopal, Kolkata, Pune, Jaipur, Mumbai, Patna.
+`
+
+const ORDER_CASES: [string, string][] = [
+  ['A was born in July.', 'A was born in July'],
+  ['A was not born in July.', 'A was not born in July'],
+  ['B was born immediately after C.', 'B is immediately after C'],
+  ['B was born immediately before C.', 'B is immediately before C'],
+  ['B was born two months before C.', 'B is exactly 2 months before C'],
+  ['B was born three months after C.', 'B is exactly 3 months after C'],
+  ['B was born before C.', 'B is somewhere before C'],
+  ['B was born after C.', 'B is somewhere after C'],
+  ['B was born later than C.', 'B is somewhere after C'],
+  ['B was born earlier than C.', 'B is somewhere before C'],
+  ['B was born in the last month.', 'B is in the last month (December)'],
+  ['B was born in the first month.', 'B is in the first month (May)'],
+  ['B was born in either the first or the last month of the list.', 'B is in either the first or the last month (May or December)'],
+  ['B was born in either May or July.', 'B is in May or July'],
+  ['B was not born in May or June.', 'B is not in May or June'],
+  ['B was born in the second month.', 'B is in June'],
+  ['B was born in a month which has 31 days.', 'B is in May, July, August, October or December'],
+  ['B was born in a month having 30 days.', 'B is in June, September or November'],
+  ['Only one person was born between B and C.', 'exactly 1 person between B and C'],
+  ['Three persons were born between B and C.', 'exactly 3 people between B and C'],
+  ['There are two persons born between B and C.', 'exactly 2 people between B and C'],
+  ['No one was born between B and C.', 'exactly 0 people between B and C'],
+  ['The person from Delhi was born in December.', 'the city of the person born in December is Delhi'],
+  ['B was born immediately after the person from Delhi.', 'B is immediately after the Delhi person'],
+  ['B was born in the month immediately before the month of C.', 'B is immediately before C'],
+  ['B, who is from Pune, was born in August.', "B's city is Pune ; B was born in August"],
+  ['B was born between C and D.', 'B is between C and D'],
+  ['Only one person was born after B.', 'B is in November'],
+  ['Two persons were born before C.', 'C is in July'],
+  ['Neither B nor C was born in December.', 'B is not in the last month (December) ; C is not in the last month (December)'],
+]
+
+const DAY_HEADER = `Five friends - A, B, C, D, E - go to a gym on five different days, from Monday to Friday. Each of them likes a different colour - Red, Blue, Green, Yellow, Pink.
+`
+
+const DAY_CASES: [string, string][] = [
+  ['A goes on Monday.', 'A is on Monday'],
+  ['B goes immediately after A.', 'B is immediately after A'],
+  ['C does not go on Friday.', 'C is not on Friday'],
+  ['D goes on either Tuesday or Thursday.', 'D is on Tuesday or Thursday'],
+  ['The one who likes Red goes on the last day.', 'the Red person is on the last day (Friday)'],
+]
+
 function runParserTable(header: string, cases: [string, string][]) {
   for (const [sentence, expected] of cases) {
     const r = parsePuzzle(`${header}\n${sentence}`)
@@ -106,6 +163,8 @@ function runParserTable(header: string, cases: [string, string][]) {
 }
 runParserTable(FLOOR_HEADER, FLOOR_CASES)
 runParserTable(ROW_HEADER, ROW_CASES)
+runParserTable(ORDER_HEADER, ORDER_CASES)
+runParserTable(DAY_HEADER, DAY_CASES)
 
 // numbering from the top
 {
@@ -260,11 +319,11 @@ function randomAtom(p: Puzzle, hidden: Solution): Atom {
   }
 }
 
-function randomPuzzle(n: number, nCats: number, nClues: number): { puzzle: Puzzle; hidden: Solution } {
+function randomPuzzle(n: number, nCats: number, nClues: number, axis: Puzzle['axis'] = 'floor'): { puzzle: Puzzle; hidden: Solution } {
   const people = 'ABCDEFGHIJ'.slice(0, n).split('')
   const cats = Array.from({ length: nCats }, (_, c) => ({ name: `cat${c}`, values: Array.from({ length: n }, (_, i) => `v${c}${i}`) }))
   const hidden: Solution = { pos: shuffle(Array.from({ length: n }, (_, i) => i)), val: cats.map(() => shuffle(Array.from({ length: n }, (_, i) => i))) }
-  const puzzle: Puzzle = { n, axis: 'floor', topDown: false, people, cats, clues: [] }
+  const puzzle: Puzzle = { n, axis, topDown: false, people, cats, clues: [], ...(axis === 'order' ? { labels: ['May', 'June', 'July', 'August', 'September', 'October'].slice(0, n), unit: 'month', on: 'in', verb: 'was born' } : {}) }
   for (let k = 0; k < nClues; k++) puzzle.clues.push({ id: k + 1, text: `random clue ${k + 1}`, atoms: [randomAtom(puzzle, hidden)] })
   return { puzzle, hidden }
 }
@@ -280,8 +339,9 @@ for (let run = 0; run < RUNS; run++) {
   const n = 4 + (run % 3) // 4..6
   const nCats = n === 6 ? 1 : run % 3 === 0 ? 0 : 1 + (run % 2)
   const nClues = run % 5 === 0 ? 3 + ri(n) : 3 * n + ri(2 * n)
-  const { puzzle, hidden } = randomPuzzle(n, nCats, nClues)
-  const where = `run ${run} (n=${n}, cats=${nCats}, clues=${nClues})`
+  const axis = (['floor', 'row', 'order'] as const)[Math.floor(run / 3) % 3]
+  const { puzzle, hidden } = randomPuzzle(n, nCats, nClues, axis)
+  const where = `run ${run} (${axis}, n=${n}, cats=${nCats}, clues=${nClues})`
 
   const limit = 40
   const res = enumerate(puzzle, limit)
@@ -369,7 +429,7 @@ for (const s of SAMPLES) {
   }
 }
 
-console.log(`parser: ${FLOOR_CASES.length + ROW_CASES.length} phrasings checked`)
+console.log(`parser: ${FLOOR_CASES.length + ROW_CASES.length + ORDER_CASES.length + DAY_CASES.length} phrasings checked`)
 console.log(`engine vs brute force: ${compared} random puzzles (${uniqueTraced} with a unique answer traced, ${multiple} with several answers)`)
 console.log(`step kinds: ${JSON.stringify(kinds)}; ${trials} case-analysis trials`)
 console.log(`teaching trace: ${eliminations} crossings checked for soundness, ${whatIfs} what-if simulations refuted`)

@@ -84,19 +84,21 @@ export default function Board({ ctx, grid, beat, beatKey, mode, clash }: BoardPr
   }
 
   const catHeads = ['Person', ...p.cats.map((c) => c.name.replace(/^./, (m) => m.toUpperCase()))]
-  const vertical = p.axis === 'floor'
+  const vertical = p.axis !== 'row'
+  const labelCol = ctx.named ? '3rem' : '2.25rem'
+  const unitHead = ctx.unit.replace(/^./, (m) => m.toUpperCase())
 
   return (
     <div className={['rounded-3xl p-3 shadow-sm ring-2 transition', clash ? 'animate-clash bg-rose-50 ring-rose-400 dark:bg-rose-500/10' : suppose ? 'bg-amber-50 ring-amber-300 dark:bg-amber-500/10 dark:ring-amber-500/50' : 'bg-white ring-slate-200 dark:bg-slate-800 dark:ring-slate-700'].join(' ')}>
       <div className="mb-2 flex items-center justify-between px-1 text-xs font-semibold uppercase tracking-wide text-slate-400 dark:text-slate-500">
-        <span>{vertical ? 'The building' : 'The row, left → right'}</span>
+        <span>{p.axis === 'floor' ? 'The building' : p.axis === 'row' ? 'The row, left → right' : `The ${ctx.unit}s, first → last`}</span>
         {suppose && <span className="rounded-full bg-amber-400 px-2 py-0.5 text-[10px] font-bold text-slate-900">WHAT-IF · not the real answer</span>}
       </div>
 
       {vertical ? (
-        <div role="table" aria-label="Who could be on which floor" className="space-y-1">
-          <div className="grid items-end gap-2 px-1 text-[10px] font-semibold uppercase tracking-wide text-slate-400 dark:text-slate-500" style={{ gridTemplateColumns: `2.25rem repeat(${cols}, minmax(0, 1fr))` }}>
-            <span>Floor</span>
+        <div role="table" aria-label={`Who could be at which ${ctx.unit}`} className="space-y-1">
+          <div className="grid items-end gap-2 px-1 text-[10px] font-semibold uppercase tracking-wide text-slate-400 dark:text-slate-500" style={{ gridTemplateColumns: `${labelCol} repeat(${cols}, minmax(0, 1fr))` }}>
+            <span>{unitHead}</span>
             {catHeads.map((h) => (
               <span key={h}>{h}</span>
             ))}
@@ -106,9 +108,9 @@ export default function Board({ ctx, grid, beat, beatKey, mode, clash }: BoardPr
               key={f}
               role="row"
               className="grid items-center gap-2 rounded-xl bg-slate-50 px-1 py-0.5 dark:bg-slate-900/40"
-              style={{ gridTemplateColumns: `2.25rem repeat(${cols}, minmax(0, 1fr))` }}
+              style={{ gridTemplateColumns: `${labelCol} repeat(${cols}, minmax(0, 1fr))` }}
             >
-              <span className="text-center text-base font-extrabold text-slate-400 dark:text-slate-500">{ctx.posNum(f)}</span>
+              <span className={['text-center font-extrabold text-slate-400 dark:text-slate-500', ctx.named ? 'text-sm' : 'text-base'].join(' ')}>{ctx.posShort(f)}</span>
               {[0, ...p.cats.map((_, c) => c + 2)].map((cat) => (
                 <div key={cat} role="cell">
                   {cell(f, cat)}
@@ -121,7 +123,7 @@ export default function Board({ ctx, grid, beat, beatKey, mode, clash }: BoardPr
         <div className="flex gap-1 overflow-x-auto pb-1">
           {order.map((f) => (
             <div key={f} className="min-w-[3.4rem] flex-1 rounded-xl bg-slate-50 p-1 dark:bg-slate-900/40">
-              <div className="mb-1 text-center text-base font-extrabold text-slate-400 dark:text-slate-500">{ctx.posNum(f)}</div>
+              <div className="mb-1 text-center text-base font-extrabold text-slate-400 dark:text-slate-500">{ctx.posShort(f)}</div>
               <div className="space-y-2">
                 {[0, ...p.cats.map((_, c) => c + 2)].map((cat) => (
                   <div key={cat}>
@@ -153,7 +155,7 @@ export function PeopleStrip({ ctx, grid, beat, beatKey }: Pick<BoardProps, 'ctx'
             <div className="flex items-baseline justify-between gap-1">
               <span className="text-base font-extrabold text-slate-800 dark:text-slate-100">{name}</span>
               <span className="truncate text-[11px] text-slate-500 dark:text-slate-400">
-                {placed ? `${ctx.unit} ${ctx.posNum(bits(fm)[0])}` : `${pop(fm)} ${ctx.unit}s open`}
+                {placed ? ctx.posLab(bits(fm)[0]) : `${pop(fm)} ${ctx.unit}s open`}
               </span>
             </div>
             <div className="mt-1 flex gap-[3px]" aria-label={`${name}: possible ${ctx.unit}s`}>

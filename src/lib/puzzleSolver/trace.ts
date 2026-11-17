@@ -182,8 +182,7 @@ export function makeBeats(evs: Ev[], ctx: Ctx, earlier: Set<number> = new Set())
     }
     for (const h of seen.values()) {
       if (h.target === 1) {
-        const nums = h.tjs.map((f) => ctx.posNum(f)).sort((x, y) => x - y)
-        lines.push(`${entityLabel(ctx, h.ea, h.ei)} is not ${on} ${ctx.fmtNums(nums)} — ${h.text}`)
+        lines.push(`${entityLabel(ctx, h.ea, h.ei)} is not ${on} ${ctx.fmtPositions(h.tjs)} — ${h.text}`)
       } else for (const c of h.cells) lines.push(`${ctx.notPair(c.a, c.i, c.b, c.j)} — ${h.text}`)
     }
     if (kind === 'clue') {
@@ -662,7 +661,7 @@ export function whyNotRows(trace: Trace, step: Step): WhyNotRow[] {
       const info = trace.elim.get(cellKey(cell.a, cell.i, cell.b, cell.j))
       options.push({
         j,
-        label: r.target === 1 ? String(ctx.posNum(j)) : ctx.lab(r.target, j),
+        label: r.target === 1 ? ctx.posShort(j) : ctx.lab(r.target, j),
         state: alive ? (r.fixed && pop(after) === 1 ? 'chosen' : 'open') : 'out',
         now: !alive && info?.step === step.idx,
         why: alive ? undefined : info?.why,

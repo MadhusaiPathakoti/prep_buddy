@@ -275,14 +275,13 @@ export class Engine {
     const who = terms.length === 2 ? c.termLabel(terms[other]) : ''
     const dom = (k: number) => c.fmtMask(doms[k])
     const generic = () => `${me} ${on} ${here} would break the clue (${c.describeAtom(atom)})`
-    const orList = (ps: number[]) => ps.map((p) => c.posNum(p)).join(' or ')
     const needAt = (ps: number[], what: string) => {
       const valid = ps.filter((p) => p >= 0 && p < n)
       if (valid.length === 0) {
         const lab = ps.map((p) => c.posLab(p)).join(' or ')
         return `${me} ${on} ${here} would put ${who} ${on} ${lab} — there is no such ${c.unit}`
       }
-      return `${me} ${on} ${here} would need ${who} ${on} ${c.unit}${valid.length > 1 ? 's' : ''} ${orList(valid)} (${what}), but ${who} can only be ${on} ${dom(other)}`
+      return `${me} ${on} ${here} would need ${who} ${on} ${c.fmtOr(valid)} (${what}), but ${who} can only be ${on} ${dom(other)}`
     }
     if (atom.neg && atom.t !== 'set') return generic()
     switch (atom.t) {

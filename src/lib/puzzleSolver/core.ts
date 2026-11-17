@@ -79,27 +79,43 @@ export class Ctx {
   }
 
   get unit(): string {
-    return this.p.axis === 'floor' ? 'floor' : 'seat'
+    return this.p.axis === 'floor' ? 'floor' : this.p.axis === 'row' ? 'seat' : (this.p.unit ?? 'position')
   }
   get onWord(): string {
-    return this.p.axis === 'floor' ? 'on' : 'at'
+    return this.p.axis === 'floor' ? 'on' : this.p.axis === 'row' ? 'at' : (this.p.on ?? 'in')
+  }
+  get named(): boolean {
+    return this.p.axis === 'order' && !!this.p.labels
   }
   /** the number printed for a 0-based height (may fall outside 1..n for positions that do not exist) */
   posNum(f: number): number {
     return this.p.topDown ? this.n - f : f + 1
   }
+  /** the position's own name: "3" for floor 3, "July" for a named month; positions outside the range are described, not numbered */
+  posName(f: number): string {
+    if (!this.named) return String(this.posNum(f))
+    const labels = this.p.labels as string[]
+    if (f < 0) return `the ${this.unit} before ${labels[0]}`
+    if (f >= this.n) return `the ${this.unit} after ${labels[this.n - 1]}`
+    return labels[f]
+  }
   posLab(f: number): string {
-    return `${this.unit} ${this.posNum(f)}`
+    return this.named ? this.posName(f) : `${this.unit} ${this.posNum(f)}`
+  }
+  /** short tag for a position on the board */
+  posShort(f: number): string {
+    return this.named ? (this.p.labels as string[])[f].slice(0, 3) : String(this.posNum(f))
   }
   /** words for "higher / lower" along the axis */
   dirWord(hi: boolean): string {
+    if (this.p.axis === 'order') return hi ? 'after' : 'before'
     return this.p.axis === 'floor' ? (hi ? 'above' : 'below') : hi ? 'to the right of' : 'to the left of'
   }
   get topWord(): string {
-    return this.p.axis === 'floor' ? 'topmost floor' : 'rightmost seat'
+    return this.p.axis === 'floor' ? 'topmost floor' : this.p.axis === 'row' ? 'rightmost seat' : `last ${this.unit}`
   }
   get bottomWord(): string {
-    return this.p.axis === 'floor' ? 'lowest floor' : 'leftmost seat'
+    return this.p.axis === 'floor' ? 'lowest floor' : this.p.axis === 'row' ? 'leftmost seat' : `first ${this.unit}`
   }
 
   catName(a: number): string {
@@ -111,7 +127,7 @@ export class Ctx {
   /** short chip text: people and floors as they are, long values abbreviated */
   shortLab(a: number, i: number): string {
     if (a === 0) return this.p.people[i]
-    if (a === 1) return String(this.posNum(i))
+    if (a === 1) return this.posShort(i)
     const vals = this.p.cats[a - 2].values
     for (let len = 2; len <= 5; len++) {
       const mine = vals[i].slice(0, len).toLowerCase()
@@ -120,19 +136,35 @@ export class Ctx {
     return vals[i]
   }
 
+  /** where a person is, in the words of the puzzle: "A is on floor 3", "V was born in July" */
+  private whereIs(i: number, f: number, negate: boolean): string {
+    const who = this.lab(0, i)
+    if (this.p.axis === 'order' && this.p.verb) {
+      const verb = negate ? this.p.verb.replace(/^(\w+)/, '$1 not') : this.p.verb
+      return `${who} ${verb} ${this.onWord} ${this.posLab(f)}`
+    }
+    return `${who} is${negate ? ' not' : ''} ${this.onWord} ${this.posLab(f)}`
+  }
+
   /** "A is on floor 3", "A's city is Kolkata", "the city on floor 3 is Kolkata" */
   pair(a: number, i: number, b: number, j: number): string {
     if (a > b) return this.pair(b, j, a, i)
-    if (a === 0 && b === 1) return `${this.lab(0, i)} is ${this.onWord} ${this.lab(1, j)}`
+    if (a === 0 && b === 1) return this.whereIs(i, j, false)
     if (a === 0) return `${this.lab(0, i)}'s ${this.catName(b)} is ${this.lab(b, j)}`
-    if (a === 1) return `the ${this.catName(b)} ${this.onWord} ${this.lab(1, i)} is ${this.lab(b, j)}`
+    if (a === 1) return `${this.ofPersonAt(b, i)} is ${this.lab(b, j)}`
     return `the ${this.lab(a, i)} person's ${this.catName(b)} is ${this.lab(b, j)}`
+  }
+  /** "the city on floor 3", "the city of the person born in May" */
+  private ofPersonAt(cat: number, f: number): string {
+    if (!this.named) return `the ${this.catName(cat)} ${this.onWord} ${this.posLab(f)}`
+    const participle = this.p.verb ? this.p.verb.replace(/^\w+\s+/, '') : ''
+    return participle ? `the ${this.catName(cat)} of the person ${participle} ${this.onWord} ${this.posLab(f)}` : `the ${this.catName(cat)} for ${this.posLab(f)}`
   }
   notPair(a: number, i: number, b: number, j: number): string {
     if (a > b) return this.notPair(b, j, a, i)
-    if (a === 0 && b === 1) return `${this.lab(0, i)} is not ${this.onWord} ${this.lab(1, j)}`
+    if (a === 0 && b === 1) return this.whereIs(i, j, true)
     if (a === 0) return `${this.lab(0, i)}'s ${this.catName(b)} is not ${this.lab(b, j)}`
-    if (a === 1) return `the ${this.catName(b)} ${this.onWord} ${this.lab(1, i)} is not ${this.lab(b, j)}`
+    if (a === 1) return `${this.ofPersonAt(b, i)} is not ${this.lab(b, j)}`
     return `the ${this.lab(a, i)} person's ${this.catName(b)} is not ${this.lab(b, j)}`
   }
 
@@ -148,47 +180,65 @@ export class Ctx {
     return `the ${this.p.cats[t.c].values[t.i]} person`
   }
 
-  /** "floor 5", "floors 2–4", "floors 3, 5 and 8" for a mask of positions */
+  /** "floor 5", "floors 2–4", "floors 3, 5 and 8" — or "July", "May–July", "May, June and August" — for a mask of positions */
   fmtMask(mask: number): string {
-    const nums = bits(mask)
-      .map((f) => this.posNum(f))
-      .sort((x, y) => x - y)
-    return this.fmtNums(nums)
+    return this.fmtPositions(bits(mask))
   }
-  fmtNums(nums: number[]): string {
-    if (nums.length === 0) return `no ${this.unit}`
+  /** the same for a list of 0-based positions */
+  fmtPositions(fs: number[]): string {
+    const sorted = [...fs].sort((x, y) => this.posNum(x) - this.posNum(y))
+    if (sorted.length === 0) return `no ${this.unit}`
+    const names = sorted.map((f) => (this.named ? this.posName(f) : String(this.posNum(f))))
+    const consecutive = (k: number) => this.posNum(sorted[k + 1]) === this.posNum(sorted[k]) + 1
     const parts: string[] = []
     let s = 0
-    while (s < nums.length) {
+    while (s < sorted.length) {
       let e = s
-      while (e + 1 < nums.length && nums[e + 1] === nums[e] + 1) e++
-      if (e - s >= 2) parts.push(`${nums[s]}–${nums[e]}`)
-      else for (let k = s; k <= e; k++) parts.push(String(nums[k]))
+      while (e + 1 < sorted.length && consecutive(e)) e++
+      if (e - s >= 2) parts.push(`${names[s]}–${names[e]}`)
+      else for (let k = s; k <= e; k++) parts.push(names[k])
       s = e + 1
     }
     const body = parts.length === 1 ? parts[0] : `${parts.slice(0, -1).join(', ')} and ${parts[parts.length - 1]}`
-    return nums.length === 1 ? `${this.unit} ${body}` : `${this.unit}s ${body}`
+    if (this.named) return body
+    return sorted.length === 1 ? `${this.unit} ${body}` : `${this.unit}s ${body}`
+  }
+  /** "floor 3 or 5", "seats 2 or 4", "May or July" */
+  fmtOr(fs: number[]): string {
+    const sorted = [...fs].sort((x, y) => this.posNum(x) - this.posNum(y))
+    if (this.named) {
+      const names = sorted.map((f) => this.posName(f))
+      return names.length === 1 ? names[0] : `${names.slice(0, -1).join(', ')} or ${names[names.length - 1]}`
+    }
+    return `${this.unit}${sorted.length > 1 ? 's' : ''} ${sorted.map((f) => this.posNum(f)).join(' or ')}`
   }
 
   /** description of a set of positions: "the topmost floor", "either the topmost or the lowest floor", "an odd-numbered floor" … */
   setDesc(fs: number[]): string {
     const n = this.n
     const s = [...new Set(fs)].sort((x, y) => x - y)
-    if (s.length === 1 && s[0] === n - 1) return `the ${this.topWord}`
-    if (s.length === 1 && s[0] === 0) return `the ${this.bottomWord}`
+    // named positions: say both the role and the name, so "the last month" and "December" read the same
+    const tag = (words: string) => (this.named ? `${words} (${this.fmtOr(s)})` : words)
+    if (s.length === 1 && s[0] === n - 1) return tag(`the ${this.topWord}`)
+    if (s.length === 1 && s[0] === 0) return tag(`the ${this.bottomWord}`)
     if (s.length === 2 && s[0] === 0 && s[1] === n - 1) {
+      if (this.p.axis === 'order') return tag(`either the first or the last ${this.unit}`)
       return this.p.axis === 'floor' ? 'either the topmost or the lowest floor' : 'either the leftmost or the rightmost seat'
     }
-    const nums = s.map((f) => this.posNum(f)).sort((x, y) => x - y)
-    const all = (par: number) => {
-      const wanted: number[] = []
-      for (let f = 0; f < n; f++) if (this.posNum(f) % 2 === par) wanted.push(f)
-      return wanted.length === s.length && wanted.every((f) => s.includes(f))
+    if (this.p.axis !== 'order') {
+      const all = (par: number) => {
+        const wanted: number[] = []
+        for (let f = 0; f < n; f++) if (this.posNum(f) % 2 === par) wanted.push(f)
+        return wanted.length === s.length && wanted.every((f) => s.includes(f))
+      }
+      if (s.length >= 2 && all(1)) return `an odd-numbered ${this.unit}`
+      if (s.length >= 2 && all(0)) return `an even-numbered ${this.unit}`
     }
-    if (s.length >= 2 && all(1)) return `an odd-numbered ${this.unit}`
-    if (s.length >= 2 && all(0)) return `an even-numbered ${this.unit}`
-    if (nums.length === 1) return `${this.unit} ${nums[0]}`
-    return `${this.unit} ${nums.slice(0, -1).join(', ')} or ${nums[nums.length - 1]}`
+    if (!this.named) {
+      const nums = s.map((f) => this.posNum(f)).sort((x, y) => x - y)
+      return nums.length === 1 ? `${this.unit} ${nums[0]}` : `${this.unit} ${nums.slice(0, -1).join(', ')} or ${nums[nums.length - 1]}`
+    }
+    return this.fmtOr(s)
   }
 
   /** The clue atom, in plain English. */

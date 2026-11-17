@@ -22,7 +22,7 @@ function solutionRows(trace: Trace, sol: Solution) {
   const { puzzle, ctx } = trace
   const rows = puzzle.people.map((name, p) => ({ f: sol.pos[p], name, vals: sol.val.map((v, c) => puzzle.cats[c].values[v[p]]) }))
   rows.sort((a, b) => (puzzle.axis === 'floor' ? b.f - a.f : a.f - b.f))
-  return rows.map((r) => ({ ...r, label: String(ctx.posNum(r.f)) }))
+  return rows.map((r) => ({ ...r, label: ctx.posName(r.f) }))
 }
 
 function SolutionTable({ trace, sol }: { trace: Trace; sol: Solution }) {

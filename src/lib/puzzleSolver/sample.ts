@@ -35,6 +35,31 @@ The person from Patna lives immediately above X.
 D is from Jaipur.`,
   },
   {
+    id: 'months-cities',
+    title: 'Months & cities',
+    text: `Eight persons - D, G, J, N, T, V, W, Y - were born in eight different months of the same year, from May to December (not necessarily in the same order). Each person was born in one month only.
+
+Each of them is from a different city - Mumbai, Jaipur, Pune, Lucknow, Indore, Chennai, Nagpur, Delhi (not necessarily in the same order).
+
+T was born immediately after N.
+
+The person from Jaipur was born immediately before the person from Mumbai.
+
+D is from Chennai.
+
+Two persons were born between D and G.
+
+V, who is from Jaipur, was born in July.
+
+D was born immediately after the person from Pune.
+
+W, who is from Lucknow, was born in either the first or the last month of the list.
+
+The person from Nagpur was born immediately after the person from Lucknow.
+
+Y is from Indore.`,
+  },
+  {
     id: 'row-colours',
     title: 'A row & colours',
     text: `Six friends - A, B, C, D, E and F - sit in a row. Each of them likes a different colour - Red, Blue, Green, Yellow, Pink, Black.
