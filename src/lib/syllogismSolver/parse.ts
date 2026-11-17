@@ -22,6 +22,10 @@ export interface ParsedTerm extends Term {
 }
 
 export interface ParsedQuestion {
+  /** 'conclusions' = judge conclusions I, II … · 'which' = five lettered options, each a conclusion: which one definitely follows? */
+  mode: 'conclusions' | 'which'
+  /** "Which of the following does NOT follow?" */
+  negate: boolean
   terms: ParsedTerm[]
   statements: Sentence[]
   conclusions: Sentence[]
@@ -32,6 +36,7 @@ export interface ParsedQuestion {
 
 export const MAX_TERMS = 6
 export const MAX_CONCLUSIONS = 4
+export const MAX_OPTIONS = 5
 
 // ---------- plural / singular ----------
 
@@ -192,10 +197,13 @@ const OPTION_LINE = /^\(?[a-e][).:]\s+\S/i
 const BOILERPLATE = /(commonly known facts|at variance|decide which of the (?:given )?conclusions|give answer|logically follow|^directions?\b|^instructions?\b|^note\b)/i
 const ROMAN_LABEL = /^\(?(?:i{1,3}|iv|v)[).:]\s+/i
 const ANY_LABEL = /^\(?(?:i{1,3}|iv|v|[1-9]|[a-d])[).:]\s+/i
+const QUESTION_LINE = /^which\b.*\b(?:follows?|true|false|conclusions?|inferences?)\b/i
+const NEGATE = /\bnot\b|\bcannot\b|can't|\bnever\b/i
+const LETTER_OPTION = /^\(?([a-e])[).:]\s+(\S.*)$/i
 const OPTION_WORDS = /\b(?:only|either|neither|both|none)\b.*\b(?:conclusions?|follows?)\b|\bconclusions?\b.*\bfollows?\b/i
 
 export function parseQuestion(text: string): ParsedQuestion {
-  const out: ParsedQuestion = { terms: [], statements: [], conclusions: [], unparsed: [], errors: [], warnings: [] }
+  const out: ParsedQuestion = { mode: 'conclusions', negate: false, terms: [], statements: [], conclusions: [], unparsed: [], errors: [], warnings: [] }
   const lines = text
     .replace(/\r/g, '')
     .replace(/[“”]/g, '"')
@@ -207,8 +215,20 @@ export function parseQuestion(text: string): ParsedQuestion {
   let section: 'stmt' | 'conc' = 'stmt'
   const stmtLines: string[] = []
   const concLines: string[] = []
+  const letterLines: string[] = []
+  let whichSeen = false
   for (let line of lines) {
     if (OPTION_LINE.test(line) && OPTION_WORDS.test(line)) continue
+    if (QUESTION_LINE.test(line) && !/^(?:all|no|some|only|every)\b/i.test(line)) {
+      whichSeen = true // "Which of the following conclusions definitely follows …?"
+      if (NEGATE.test(line)) out.negate = true
+      continue
+    }
+    const lo = line.match(LETTER_OPTION)
+    if (lo && shapeOf(lo[2])) {
+      letterLines.push(lo[2]) // an answer option that is itself a conclusion, e.g. "A. Some boxes are not tables"
+      continue
+    }
     if (BOILERPLATE.test(line) && !/^(?:all|no|some|only|every)\b/i.test(line)) continue
     const head = line.match(/^(statements?|conclusions?)\s*[:\-–]?\s*(.*)$/i)
     if (head) {
@@ -249,19 +269,24 @@ export function parseQuestion(text: string): ParsedQuestion {
       out.warnings.push(`"${l}" is a possibility — those are only used in conclusions, so it was ignored as a statement.`)
     } else out.statements.push(s)
   }
-  for (const l of concLines) {
+  const asOptions = letterLines.length >= 2 && (whichSeen || concLines.length === 0)
+  if (asOptions) out.mode = 'which'
+  for (const l of asOptions ? letterLines : concLines) {
     const s = read(l)
     if (!s) out.unparsed.push(l)
     else out.conclusions.push(s)
   }
+  if (!asOptions) out.negate = false
 
   out.terms = reg.finish()
   if (out.terms.length > MAX_TERMS) out.errors.push(`This question has ${out.terms.length} different groups — I can draw up to ${MAX_TERMS}.`)
   if (out.statements.length === 0) out.errors.push('I could not find any statement. Write them one per line, like “All clocks are keys.”')
-  if (out.conclusions.length === 0) out.errors.push('I could not find any conclusion. Put them after a “Conclusions:” line, as “I. …”, “II. …”.')
-  if (out.conclusions.length > MAX_CONCLUSIONS) {
-    out.warnings.push(`Only the first ${MAX_CONCLUSIONS} conclusions are used.`)
-    out.conclusions.length = MAX_CONCLUSIONS
+  const cap = out.mode === 'which' ? MAX_OPTIONS : MAX_CONCLUSIONS
+  if (out.conclusions.length === 0) out.errors.push('I could not find any conclusion. Put them after a “Conclusions:” line, as “I. …”, “II. …” — or list the options as “A. …”, “B. …”.')
+  if (out.mode === 'which' && out.conclusions.length < 2) out.errors.push('I could read fewer than two of the lettered options as conclusions.')
+  if (out.conclusions.length > cap) {
+    out.warnings.push(`Only the first ${cap} ${out.mode === 'which' ? 'options' : 'conclusions'} are used.`)
+    out.conclusions.length = cap
   }
   return out
 }

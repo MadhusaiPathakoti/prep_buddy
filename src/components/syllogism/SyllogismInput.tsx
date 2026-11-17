@@ -111,7 +111,7 @@ export default function SyllogismInput({ text, onText, onSolve, busy, error }: P
           className="mt-2 w-full resize-y rounded-xl border border-slate-200 bg-slate-50 p-3 font-mono text-sm text-slate-800 outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-200 dark:border-slate-600 dark:bg-slate-900/50 dark:text-slate-100 dark:focus:ring-indigo-500/30"
         />
         <p className="mt-1 text-[11px] text-slate-400 dark:text-slate-500">
-          You can include the answer options (A–E) if you copied them too — they are ignored; the solver works out the right one itself.
+          Two question types work: conclusions “I.” / “II.” (answer options A–E such as “Only conclusion I follows” are ignored if pasted), or “Which of the following conclusions definitely follows?” with options “A. …” to “E. …” that are themselves conclusions.
         </p>
 
         <div
@@ -193,11 +193,11 @@ export default function SyllogismInput({ text, onText, onSolve, busy, error }: P
                 </ol>
               </div>
               <div>
-                <div className="text-sm font-semibold text-slate-700 dark:text-slate-200">Conclusions</div>
+                <div className="text-sm font-semibold text-slate-700 dark:text-slate-200">{parsed.mode === 'which' ? (parsed.negate ? 'Options — which does NOT follow?' : 'Options — which definitely follows?') : 'Conclusions'}</div>
                 <ol className="mt-1 space-y-1">
                   {conclusions.map((s, i) => (
                     <li key={i} className="flex items-start gap-2 text-sm text-slate-600 dark:text-slate-300">
-                      <span className="mt-0.5 shrink-0 rounded-full bg-indigo-50 px-2 py-0.5 text-[10px] font-bold text-indigo-700 dark:bg-indigo-500/15 dark:text-indigo-300">{['I', 'II', 'III', 'IV'][i]}</span>
+                      <span className="mt-0.5 shrink-0 rounded-full bg-indigo-50 px-2 py-0.5 text-[10px] font-bold text-indigo-700 dark:bg-indigo-500/15 dark:text-indigo-300">{(parsed.mode === 'which' ? 'ABCDE' : 'I,II,III,IV'.split(','))[i]}</span>
                       <span>
                         {s.text}. <span className="text-[10px] font-bold text-slate-400">{kindLabel(s)}</span>
                       </span>

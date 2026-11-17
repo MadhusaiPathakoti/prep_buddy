@@ -80,7 +80,7 @@ export default function SolverView({ solution, onEdit }: { solution: Solution; o
   }
   const choose = (o: number) => {
     setPicked(o)
-    if (o !== solution.correct) setTried((t) => (t.includes(o) ? t : [...t, o]))
+    if (!solution.isRight(o)) setTried((t) => (t.includes(o) ? t : [...t, o]))
     const f = solution.feedback(o)
     for (const p of f.points) if (p.ref && p.ref.conc >= 0) setChecked((c) => (c.includes(p.ref!.conc) ? c : [...c, p.ref!.conc]))
     showPicture(f.points.find((p) => p.ref)?.ref, false)
@@ -156,8 +156,13 @@ export default function SolverView({ solution, onEdit }: { solution: Solution; o
             })}
           </ol>
 
-          <h2 className="mt-5 text-xs font-bold uppercase tracking-wide text-slate-400 dark:text-slate-500">Conclusions</h2>
-          <ul className="mt-2 space-y-2">
+          {solution.mode === 'which' && (
+            <p className="mt-4 rounded-xl bg-indigo-50 px-3 py-2.5 text-[15px] font-semibold text-indigo-900 dark:bg-indigo-500/15 dark:text-indigo-100">
+              Which of the following conclusions {q.negate ? <span className="underline decoration-rose-400">does NOT</span> : 'definitely'} follow{q.negate ? '' : 's'} from the statements?
+            </p>
+          )}
+          {solution.mode !== 'which' && <h2 className="mt-5 text-xs font-bold uppercase tracking-wide text-slate-400 dark:text-slate-500">Conclusions</h2>}
+          <ul className={solution.mode === 'which' ? 'hidden' : 'mt-2 space-y-2'}>
             {conclusions.map((c, i) => {
               const showing = view.kind === 'pic' && view.ref.conc === i
               return (
@@ -177,6 +182,7 @@ export default function SolverView({ solution, onEdit }: { solution: Solution; o
             })}
           </ul>
           <p className="mt-3 text-[11px] leading-snug text-slate-400 dark:text-slate-500">As in the exam: every group named has at least one member, and “Only a few” means some are and some are not. A conclusion <em>follows</em> only if it is true in every possible picture.</p>
+          {solution.note && <p className="mt-2 rounded-lg bg-amber-50 px-3 py-2 text-xs text-amber-800 dark:bg-amber-500/10 dark:text-amber-300">⚠ {solution.note}</p>}
         </section>
 
         {/* ── the stage ── */}
@@ -259,7 +265,7 @@ export default function SolverView({ solution, onEdit }: { solution: Solution; o
 
         {/* ── the answer ── */}
         <section className="rounded-3xl bg-white p-5 shadow-sm ring-1 ring-slate-200 dark:bg-slate-800 dark:ring-slate-700 lg:col-start-1 lg:row-start-2">
-          {solution.hasOptions ? (
+          {solution.hasOptions || solution.mode === 'which' ? (
             <>
               <div className="flex flex-wrap items-center justify-between gap-2">
                 <h2 className="text-xs font-bold uppercase tracking-wide text-slate-400 dark:text-slate-500">Your answer</h2>
@@ -268,14 +274,15 @@ export default function SolverView({ solution, onEdit }: { solution: Solution; o
                 </button>
               </div>
               <div className="mt-2 space-y-2">
-                {OPTION_TEXT.map((t, i) => {
+                {(solution.mode === 'which' ? conclusions.map((c) => `${c.text}.`) : [...OPTION_TEXT]).map((t, i) => {
                   const isPicked = picked === i
-                  const right = isPicked && i === solution.correct
-                  const wrong = isPicked && i !== solution.correct
+                  const right = isPicked && solution.isRight(i)
+                  const wrong = isPicked && !solution.isRight(i)
+                  const showing = solution.mode === 'which' && view.kind === 'pic' && view.ref.conc === i
                   const earlier = !isPicked && tried.includes(i)
                   return (
+                    <div key={`${i}-${isPicked ? tried.length : 0}`} className="flex items-stretch gap-2">
                     <button
-                      key={`${i}-${isPicked ? tried.length : 0}`}
                       onClick={() => choose(i)}
                       className={[
                         'flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left text-[15px] ring-1 transition active:scale-[0.99]',
@@ -286,8 +293,20 @@ export default function SolverView({ solution, onEdit }: { solution: Solution; o
                       ].join(' ')}
                     >
                       <span className={['flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-sm font-bold', right ? 'bg-emerald-500 text-white' : wrong ? 'bg-rose-500 text-white' : 'bg-slate-100 text-slate-600 dark:bg-slate-700 dark:text-slate-300'].join(' ')}>{right ? '✓' : wrong ? '✗' : OPTION_LETTERS[i]}</span>
-                      {t}
+                      <span className="min-w-0 flex-1">
+                        {t}
+                        {solution.mode === 'which' && checked.includes(i) && <span className="ml-2 align-middle">{verdictBadge(conclusions[i])}</span>}
+                      </span>
                     </button>
+                    {solution.mode === 'which' && (
+                      <button
+                        onClick={() => checkConclusion(i)}
+                        className={['shrink-0 rounded-xl px-3 text-sm font-semibold transition active:scale-95', showing ? 'bg-indigo-600 text-white' : 'bg-white text-indigo-700 ring-1 ring-indigo-200 hover:bg-indigo-50 dark:bg-slate-800 dark:text-indigo-300 dark:ring-indigo-500/40 dark:hover:bg-indigo-500/10'].join(' ')}
+                      >
+                        🔍 {showing ? 'Showing' : 'Check'}
+                      </button>
+                    )}
+                    </div>
                   )
                 })}
               </div>
@@ -313,7 +332,7 @@ export default function SolverView({ solution, onEdit }: { solution: Solution; o
                       )
                     })}
                   </ul>
-                  {!feedback.correct && <p className="mt-3 text-xs text-slate-500 dark:text-slate-400">Try another option — or use “Check” beside a conclusion to explore its pictures yourself.</p>}
+                  {!feedback.correct && <p className="mt-3 text-xs text-slate-500 dark:text-slate-400">Try another option — or use “Check” beside {solution.mode === 'which' ? 'an option' : 'a conclusion'} to explore its pictures yourself.</p>}
                   {feedback.correct && (
                     <button onClick={onEdit} className="mt-3 rounded-lg bg-indigo-600 px-3 py-1.5 text-sm font-semibold text-white hover:bg-indigo-500">
                       Try another question →

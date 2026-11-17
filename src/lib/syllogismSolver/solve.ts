@@ -68,9 +68,15 @@ export interface Solution {
   conclusions: ConclusionInfo[]
   buildWorld: World | null
   steps: BuildStep[]
-  /** Only questions with exactly two conclusions use the five answer options. */
+  /** two = conclusions I and II with the five fixed options A–E · which = five lettered options that are conclusions · free = any other number of conclusions */
+  mode: 'two' | 'which' | 'free'
+  /** The five fixed options (A: Only I follows …) apply. */
   hasOptions: boolean
   correct: number | null
+  /** Is picking this option right? (In "which follows" questions, the option that follows — or, for "does NOT follow", the one that does not.) */
+  isRight: (option: number) => boolean
+  /** A warning about the question itself, e.g. when more than one option follows. */
+  note: string | null
   either: boolean
   bothFalse: Picture | null
   contradictory: boolean
@@ -201,7 +207,7 @@ export function solve(q: ParsedQuestion): Solution {
   const conclusions: ConclusionInfo[] = q.conclusions.map((c, index) => {
     const v = verdictOf(model, c)
     const focus = focusTerms(q, c.x, c.y)
-    const labelText = ROMAN[index] ?? String(index + 1)
+    const labelText = q.mode === 'which' ? 'ABCDE'[index] : (ROMAN[index] ?? String(index + 1))
     const claim = quote(c)
     const hl = (tone: Highlight['tone']): Highlight[] => [{ form: c.form, x: c.x, y: c.y, tone }]
     const trueHl = hl('ok')
@@ -292,7 +298,8 @@ export function solve(q: ParsedQuestion): Solution {
   })
 
   // ---- the five options ----
-  const hasOptions = conclusions.length === 2
+  const which = q.mode === 'which'
+  const hasOptions = !which && conclusions.length === 2
   let correct: number | null = null
   let either = false
   let bothFalse: Picture | null = null
@@ -320,6 +327,14 @@ export function solve(q: ParsedQuestion): Solution {
     }
   }
 
+  const rightOptions = which ? conclusions.filter((c) => (q.negate ? !c.follows : c.follows)).map((c) => c.index) : []
+  if (which) correct = rightOptions[0] ?? null
+  let note: string | null = null
+  if (which && rightOptions.length !== 1) {
+    note = rightOptions.length === 0 ? `No option ${q.negate ? 'fails to follow' : 'definitely follows'} here — check the statements and options were read correctly.` : `More than one option ${q.negate ? 'does not follow' : 'follows'} (${rightOptions.map((i) => 'ABCDE'[i]).join(', ')}) — an exam question has exactly one, so check the statements were read correctly.`
+  }
+  const isRight = (option: number) => (which ? rightOptions.includes(option) : option === correct)
+
   const picture = (ref: PicRef): Picture | null => (ref.conc < 0 ? bothFalse : (conclusions[ref.conc]?.pictures[ref.idx] ?? null))
   const picOf = (i: number, truth: boolean): PicRef | undefined => {
     const idx = conclusions[i].pictures.findIndex((p) => p.truth === truth)
@@ -340,7 +355,30 @@ export function solve(q: ParsedQuestion): Solution {
     }
   }
 
+  const feedbackWhich = (option: number): Feedback => {
+    const c = conclusions[option]
+    const claim = `${c.label}. “${c.text}”`
+    const ref = c.pictures.length ? { conc: option, idx: 0 } : undefined
+    const wanted = q.negate ? 'does NOT follow' : 'definitely follows'
+    if (isRight(option)) {
+      const points: Point[] = [{ tone: 'good', text: `${c.headline}. ${c.reasons.join(' ')}`, ref }]
+      for (const o of conclusions) {
+        if (o.index === option) continue
+        const r = o.pictures.length ? { conc: o.index, idx: 0 } : undefined
+        points.push({ tone: 'info', text: `${o.label}. “${o.text}” — ${o.follows ? 'also follows' : 'does not follow'}: ${o.reasons[0] ?? ''}`, ref: r })
+      }
+      return { option, correct: true, headline: `Correct — ${claim} ${wanted}`, points }
+    }
+    return {
+      option,
+      correct: false,
+      headline: q.negate ? `Not quite — ${claim} does follow` : `Not quite — ${claim} does not definitely follow`,
+      points: [{ tone: 'bad', text: `${c.headline}. ${c.reasons.join(' ')}`, ref }],
+    }
+  }
+
   const feedback = (option: number): Feedback => {
+    if (which) return feedbackWhich(option)
     const ok = option === correct
     const points: Point[] = []
     const [a, b] = conclusions
@@ -397,7 +435,8 @@ export function solve(q: ParsedQuestion): Solution {
     return { option, correct: false, headline, points }
   }
 
-  return { q, model, conclusions, buildWorld, steps, hasOptions, correct, either, bothFalse, contradictory, feedback, picture }
+  const mode: Solution['mode'] = which ? 'which' : hasOptions ? 'two' : 'free'
+  return { q, model, conclusions, buildWorld, steps, mode, hasOptions, correct, isRight, note, either, bothFalse, contradictory, feedback, picture }
 }
 
 // ---------- reading a highlight off a set of zones ----------

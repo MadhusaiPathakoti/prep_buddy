@@ -84,6 +84,27 @@ E. Both conclusions I and II follow`
   if (noHeading.statements.length !== 2 || noHeading.conclusions.length !== 2) fail('question without headings was not split into statements / conclusions')
 }
 
+// "Which of the following conclusions definitely follows?" with five lettered options
+{
+  const q = parseQuestion(SAMPLES.find((x) => x.id === 'which')!.text)
+  if (q.mode !== 'which' || q.conclusions.length !== 5 || q.statements.length !== 5 || q.terms.length !== 5 || q.unparsed.length) fail(`which-question misread: ${JSON.stringify({ m: q.mode, c: q.conclusions.length, s: q.statements.length, t: q.terms.length, u: q.unparsed })}`)
+  const sol = solve(q)
+  const kinds = sol.conclusions.map((c) => c.kind).join(',')
+  if (kinds !== 'never,open,open,follows,never') fail(`which-question verdicts: ${kinds}`)
+  if (sol.correct !== 3 || sol.mode !== 'which' || sol.note) fail('which-question should have exactly one right option, D')
+  for (let o = 0; o < 5; o++) {
+    const f = sol.feedback(o)
+    if (f.correct !== (o === 3) || !f.points.length) fail(`which-question feedback ${o}`)
+    if (!sol.conclusions[o].pictures.length) fail(`which-question: no picture for option ${o}`)
+  }
+  // "does NOT follow" variant: the one option that fails to follow is right
+  const neg = parseQuestion('All pens are books.\nAll books are tables.\nWhich of the following does not follow?\nA. All pens are tables\nB. Some pens are tables\nC. Some tables are pens\nD. No table is a pen\nE. Some pens are books')
+  const ns = solve(neg)
+  if (!neg.negate || ns.correct !== 3 || ns.note) fail(`negated question: negate=${neg.negate} correct=${ns.correct} note=${ns.note}`)
+  // a pasted question that also lists the usual "Only conclusion I follows" options is still the I/II kind
+  if (parseQuestion(PASTED).mode !== 'conclusions') fail('I/II question was taken for a which-question')
+}
+
 // ─── 2/3. brute force ────────────────────────────────────────────────────────
 
 const rnd = (n: number) => Math.floor(Math.random() * n)
@@ -113,6 +134,8 @@ function randomQuestion(k: number): ParsedQuestion {
     concs.push(mk(a, b, Math.random() < 0.2))
   }
   return {
+    mode: 'conclusions',
+    negate: false,
     terms: NAMES.slice(0, k).map((n) => ({ plural: n, singular: n.slice(0, -1), label: n[0].toUpperCase() + n.slice(1) })),
     statements: stmts,
     conclusions: concs,

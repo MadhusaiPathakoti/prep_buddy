@@ -9,6 +9,22 @@ export interface Sample {
 
 export const SAMPLES: Sample[] = [
   {
+    id: 'which',
+    title: 'Which follows?',
+    answer: 'D',
+    text: `All hills are rivers.
+Only a few hills are boxes.
+All mobiles are rivers.
+All boxes are tables.
+Some rivers are not tables.
+Which of the following conclusions definitely follows from the above statements?
+A. Some boxes are not tables
+B. All mobiles are tables
+C. Some boxes are not mobiles
+D. Some tables are hills
+E. No table is a hill`,
+  },
+  {
     id: 'either',
     title: 'Clocks, keys & mobiles',
     answer: 'C',
