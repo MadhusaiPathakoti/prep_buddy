@@ -96,6 +96,8 @@ export interface Trace {
   solutions: Solution[]
   steps: Step[]
   elim: Map<string, ElimInfo>
+  /** pairing ("a.i.b.j") → the step in which it became certain, and why */
+  fixes: Map<string, ElimInfo>
   final: Solution | null
   unusedClues: number[]
   suspects: number[] // when there is no solution: clues whose removal would make it solvable
@@ -296,12 +298,14 @@ export function buildTrace(puzzle: Puzzle): Trace {
   const steps: Step[] = []
   const remaining = new Set(puzzle.clues.map((c) => c.id))
   const elim = new Map<string, ElimInfo>()
+  const fixes = new Map<string, ElimInfo>()
 
   const noteElims = (idx: number, evs: Ev[]) => {
     for (const e of evs) {
-      if (e.op !== 'x') continue
       const key = cellKey(e.a, e.i, e.b, e.j)
-      if (!elim.has(key)) elim.set(key, { step: idx, why: e.why })
+      if (e.op === 'fix') {
+        if (e.why.kind !== 'assume' && !fixes.has(key)) fixes.set(key, { step: idx, why: e.why })
+      } else if (!elim.has(key)) elim.set(key, { step: idx, why: e.why })
     }
   }
 
@@ -625,7 +629,7 @@ export function buildTrace(puzzle: Puzzle): Trace {
   })
 
   const finalSol = final && failedClues(puzzle, final).length === 0 ? final : null
-  return { puzzle, ctx, status, solutions: search.sols, steps, elim, final: finalSol, unusedClues: unused, suspects }
+  return { puzzle, ctx, status, solutions: search.sols, steps, elim, fixes, final: finalSol, unusedClues: unused, suspects }
 }
 
 // ─── "why not anywhere else?" ────────────────────────────────────────────────

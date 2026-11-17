@@ -1,6 +1,6 @@
 import { bits, pop } from '../../lib/puzzleSolver/core'
 import type { Ctx, Grid } from '../../lib/puzzleSolver/core'
-import type { Beat } from '../../lib/puzzleSolver/trace'
+import type { Beat, CellRef } from '../../lib/puzzleSolver/trace'
 
 export type BoardMode = 'real' | 'whatif'
 
@@ -13,7 +13,12 @@ interface BoardProps {
   beatKey: string
   mode: BoardMode
   clash: boolean
+  /** click a name / city / pip to ask "why is this possible, or not?" (left out while a what-if is playing) */
+  onPick?: (cell: CellRef) => void
+  picked?: CellRef | null
 }
+
+const sameCell = (x: CellRef | null | undefined, y: CellRef): boolean => !!x && x.a === y.a && x.i === y.i && x.b === y.b && x.j === y.j
 
 type Tone = 'cand' | 'lock' | 'out' | 'suppose' | 'empty'
 
@@ -25,12 +30,18 @@ const CHIP: Record<Tone, string> = {
   empty: 'rounded px-1.5 py-0.5 text-xs font-bold leading-none bg-rose-500 text-white',
 }
 
-function Chip({ label, tone, pop: popIn, title }: { label: string; tone: Tone; pop?: 'lock' | 'suppose'; title?: string }) {
-  const extra = popIn === 'lock' ? ' animate-chip-lock' : popIn === 'suppose' ? ' animate-chip-suppose' : ''
+function Chip({ label, tone, pop: popIn, title, onClick, selected }: { label: string; tone: Tone; pop?: 'lock' | 'suppose'; title?: string; onClick?: () => void; selected?: boolean }) {
+  const extra = (popIn === 'lock' ? ' animate-chip-lock' : popIn === 'suppose' ? ' animate-chip-suppose' : '') + (selected ? ' ring-2 ring-indigo-500 ring-offset-1 dark:ring-offset-slate-800' : '')
+  if (!onClick)
+    return (
+      <span title={title ?? label} className={`inline-block ${CHIP[tone]}${extra}`}>
+        {label}
+      </span>
+    )
   return (
-    <span title={title ?? label} className={`inline-block ${CHIP[tone]}${extra}`}>
+    <button type="button" onClick={onClick} title={`${title ?? label} — click to see why`} aria-pressed={selected} className={`inline-block cursor-pointer transition hover:scale-110 hover:ring-2 hover:ring-indigo-400 ${CHIP[tone]}${extra}`}>
       {label}
-    </span>
+    </button>
   )
 }
 
@@ -47,7 +58,7 @@ function beatCells(beat: Beat | null) {
   return { out, fixed }
 }
 
-export default function Board({ ctx, grid, beat, beatKey, mode, clash }: BoardProps) {
+export default function Board({ ctx, grid, beat, beatKey, mode, clash, onPick, picked }: BoardProps) {
   const { n, p } = ctx
   const { out, fixed } = beatCells(beat)
   const suppose = mode === 'whatif'
@@ -69,12 +80,15 @@ export default function Board({ ctx, grid, beat, beatKey, mode, clash }: BoardPr
     const single = pop(mask) === 1
     const j = single ? bits(mask)[0] : -1
     const justFixed = single && fixed.has(cat === 0 ? `0.${j}.1.${f}` : `1.${f}.${cat}.${j}`)
+    // the table cell behind a chip: person x at position f, or value x of category `cat` at position f
+    const ref = (x: number): CellRef => (cat === 0 ? { a: 0, i: x, b: 1, j: f } : { a: 1, i: f, b: cat, j: x })
+    const pick = (x: number) => (onPick ? () => onPick(ref(x)) : undefined)
     return (
       <div className="flex min-h-[2.25rem] flex-wrap content-center items-center gap-1">
         {single ? (
-          <Chip label={ctx.lab(cat, j)} tone={suppose && justFixed ? 'suppose' : 'lock'} pop={justFixed ? (suppose ? 'suppose' : 'lock') : undefined} />
+          <Chip label={ctx.lab(cat, j)} tone={suppose && justFixed ? 'suppose' : 'lock'} pop={justFixed ? (suppose ? 'suppose' : 'lock') : undefined} onClick={pick(j)} selected={sameCell(picked, ref(j))} />
         ) : (
-          bits(mask).map((x) => <Chip key={x} label={ctx.shortLab(cat, x)} title={ctx.lab(cat, x)} tone="cand" />)
+          bits(mask).map((x) => <Chip key={x} label={ctx.shortLab(cat, x)} title={ctx.lab(cat, x)} tone="cand" onClick={pick(x)} selected={sameCell(picked, ref(x))} />)
         )}
         {ghosts.map((x) => (
           <Chip key={`g${beatKey}.${x}`} label={ctx.shortLab(cat, x)} title={`${ctx.lab(cat, x)} crossed out`} tone="out" />
@@ -92,7 +106,11 @@ export default function Board({ ctx, grid, beat, beatKey, mode, clash }: BoardPr
     <div className={['rounded-3xl p-3 shadow-sm ring-2 transition', clash ? 'animate-clash bg-rose-50 ring-rose-400 dark:bg-rose-500/10' : suppose ? 'bg-amber-50 ring-amber-300 dark:bg-amber-500/10 dark:ring-amber-500/50' : 'bg-white ring-slate-200 dark:bg-slate-800 dark:ring-slate-700'].join(' ')}>
       <div className="mb-2 flex items-center justify-between px-1 text-xs font-semibold uppercase tracking-wide text-slate-400 dark:text-slate-500">
         <span>{p.axis === 'floor' ? 'The building' : p.axis === 'row' ? 'The row, left → right' : `The ${ctx.unit}s, first → last`}</span>
-        {suppose && <span className="rounded-full bg-amber-400 px-2 py-0.5 text-[10px] font-bold text-slate-900">WHAT-IF · not the real answer</span>}
+        {suppose ? (
+          <span className="rounded-full bg-amber-400 px-2 py-0.5 text-[10px] font-bold text-slate-900">WHAT-IF · not the real answer</span>
+        ) : (
+          onPick && <span className="hidden text-[10px] font-medium normal-case tracking-normal sm:inline">tip: click any name or city to see why it fits — or doesn't</span>
+        )}
       </div>
 
       {vertical ? (
@@ -141,7 +159,7 @@ export default function Board({ ctx, grid, beat, beatKey, mode, clash }: BoardPr
 }
 
 /** Who's who: for every person, the floors still possible (pips) and what is known about their other attributes. */
-export function PeopleStrip({ ctx, grid, beat, beatKey }: Pick<BoardProps, 'ctx' | 'grid' | 'beat' | 'beatKey'>) {
+export function PeopleStrip({ ctx, grid, beat, beatKey, onPick, picked }: Pick<BoardProps, 'ctx' | 'grid' | 'beat' | 'beatKey' | 'onPick' | 'picked'>) {
   const { n, p } = ctx
   const { out } = beatCells(beat)
   const floors = Array.from({ length: n }, (_, f) => f).sort((x, y) => ctx.posNum(x) - ctx.posNum(y))
@@ -162,17 +180,22 @@ export function PeopleStrip({ ctx, grid, beat, beatKey }: Pick<BoardProps, 'ctx'
               {floors.map((f) => {
                 const alive = ((fm >> f) & 1) === 1
                 const justOut = out.has(`0.${i}.1.${f}`)
+                const cell: CellRef = { a: 0, i, b: 1, j: f }
+                const Tag = onPick ? 'button' : 'span'
                 return (
-                  <span
+                  <Tag
                     key={`${f}${justOut ? beatKey : ''}`}
-                    title={`${ctx.posLab(f)}${alive ? (placed ? ' — placed' : ' — still possible') : justOut ? ' — just crossed out' : ' — ruled out'}`}
+                    {...(onPick ? { type: 'button' as const, onClick: () => onPick(cell) } : {})}
+                    title={`${ctx.posLab(f)}${alive ? (placed ? ' — placed' : ' — still possible') : justOut ? ' — just crossed out' : ' — ruled out'}${onPick ? ' — click to see why' : ''}`}
                     className={[
                       'flex h-4 min-w-0 flex-1 items-center justify-center rounded-[3px] text-[8px] font-bold leading-none',
+                      onPick ? 'cursor-pointer hover:ring-2 hover:ring-indigo-400' : '',
+                      sameCell(picked, cell) ? 'ring-2 ring-indigo-500' : '',
                       alive ? (placed ? 'bg-emerald-500 text-white' : 'bg-indigo-200 text-indigo-700 dark:bg-indigo-500/30 dark:text-indigo-200') : justOut ? 'bg-rose-400 text-white animate-pulse' : 'bg-slate-100 text-slate-300 dark:bg-slate-700/60 dark:text-slate-600',
                     ].join(' ')}
                   >
                     {ctx.posNum(f)}
-                  </span>
+                  </Tag>
                 )
               })}
             </div>

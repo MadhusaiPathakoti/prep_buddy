@@ -396,6 +396,12 @@ for (let run = 0; run < RUNS; run++) {
     uniqueTraced++
     const f = trace.final
     if (!f || !f.pos.every((v, i) => v === res.sols[0].pos[i]) || !f.val.every((row, c) => row.every((v, i) => v === res.sols[0].val[c][i]))) fail(`${where}: trace final arrangement differs from the unique solution`)
+    // every pairing of the answer must say which step settled it (the board's "why is it here?" answer)
+    const truth = res.sols[0]
+    for (let pp = 0; pp < puzzle.n; pp++) {
+      const cells: [number, number, number, number][] = [[0, pp, 1, truth.pos[pp]], ...truth.val.map((row, c) => [0, pp, c + 2, row[pp]] as [number, number, number, number])]
+      for (const [a, i, b, j] of cells) if (!trace.fixes.has(`${a}.${i}.${b}.${j}`)) fail(`${where}: no "settled" record for ${ctx.pair(a, i, b, j)}`)
+    }
     // every crossed-out pairing, replayed as a supposition, must end in a contradiction
     let tested = 0
     for (const key of trace.elim.keys()) {

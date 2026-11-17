@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react'
 import { failedClues } from '../../lib/puzzleSolver/engine'
 import { applyEvents, simulate, type Beat, type CellRef, type SimResult, type Step, type Trace } from '../../lib/puzzleSolver/trace'
 import Board, { PeopleStrip } from './Board'
+import CellInspector from './CellInspector'
 import ClueList from './ClueList'
 import StepPanel, { BeatRow } from './StepPanel'
 import type { Solution } from '../../lib/puzzleSolver/types'
@@ -200,6 +201,7 @@ export default function Walkthrough({ trace, onEdit }: { trace: Trace; onEdit: (
   const [sim, setSim] = useState<SimResult | null>(null)
   const [simK, setSimK] = useState(0)
   const [hover, setHover] = useState<number[] | null>(null)
+  const [picked, setPicked] = useState<CellRef | null>(null)
 
   const step = steps[stepIdx]
   const outcome = step.kind === 'done' || step.kind === 'stuck' || step.kind === 'conflict'
@@ -246,6 +248,9 @@ export default function Walkthrough({ trace, onEdit }: { trace: Trace; onEdit: (
     },
     [trace, reduce],
   )
+
+  // clicking the chip that is already open closes the inspector
+  const pick = useCallback((cell: CellRef) => setPicked((cur) => (cur && cur.a === cell.a && cur.i === cell.i && cur.b === cell.b && cur.j === cell.j ? null : cell)), [])
 
   const grid = useMemo(() => {
     const base = sim ? sim.base : step.pre
@@ -309,10 +314,11 @@ export default function Walkthrough({ trace, onEdit }: { trace: Trace; onEdit: (
 
       <div className="mt-4 grid gap-6 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,1fr)]">
         <div className="space-y-4 self-start lg:sticky lg:top-4">
-          <Board ctx={ctx} grid={grid} beat={current} beatKey={beatKey} mode={sim ? 'whatif' : 'real'} clash={clash} />
-          <PeopleStrip ctx={ctx} grid={grid} beat={current} beatKey={beatKey} />
+          <Board ctx={ctx} grid={grid} beat={current} beatKey={beatKey} mode={sim ? 'whatif' : 'real'} clash={clash} onPick={sim ? undefined : pick} picked={sim ? null : picked} />
+          <PeopleStrip ctx={ctx} grid={grid} beat={current} beatKey={beatKey} onPick={sim ? undefined : pick} picked={sim ? null : picked} />
         </div>
         <div className="space-y-4">
+          {picked && !sim && <CellInspector trace={trace} cell={picked} stepIdx={stepIdx} onWhatIf={runWhatIf} onGoStep={goStep} onClue={setHover} onClose={() => setPicked(null)} />}
           <div className="rounded-3xl bg-white p-5 shadow-sm ring-1 ring-slate-200 dark:bg-slate-800 dark:ring-slate-700">
             {sim ? (
               <WhatIfPanel trace={trace} sim={sim} k={simK} onJump={setSimK} onReplay={() => setSimK(0)} onClose={() => setSim(null)} />
