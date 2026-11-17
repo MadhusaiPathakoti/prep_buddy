@@ -3,24 +3,31 @@
 /**
  * Calls one Gemini model and returns {ok:true, result} when `extract(parsedJson)` yields something usable, otherwise
  * {ok:false, status, error}. Upstream error text is logged on the server and never returned to the browser.
+ * `thinkingBudget: 0` switches the model's hidden "thinking" off — much faster for plain transcription.
  */
-export async function callGeminiJson(model, apiKey, prompt, { extract, timeoutMs = 9000, temperature = 1, seed, parentSignal, images = [] }) {
+export async function callGeminiJson(model, apiKey, prompt, { extract, timeoutMs = 9000, temperature = 1, seed, parentSignal, images = [], thinkingBudget }) {
   const controller = new AbortController()
   parentSignal?.addEventListener('abort', () => controller.abort(), { once: true })
   const timeoutId = setTimeout(() => controller.abort(), timeoutMs)
 
-  let res
-  try {
-    res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`, {
+  const send = (withThinking) =>
+    fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'x-goog-api-key': apiKey },
       body: JSON.stringify({
         // `images` is optional: [{ mimeType, data(base64) }] placed before the text so the model reads the picture first
         contents: [{ parts: [...images.map((img) => ({ inlineData: { mimeType: img.mimeType, data: img.data } })), { text: prompt }] }],
-        generationConfig: { responseMimeType: 'application/json', temperature, topP: 0.95, ...(Number.isInteger(seed) ? { seed } : {}) },
+        generationConfig: { responseMimeType: 'application/json', temperature, topP: 0.95, ...(Number.isInteger(seed) ? { seed } : {}), ...(withThinking ? { thinkingConfig: { thinkingBudget } } : {}) },
       }),
       signal: controller.signal,
     })
+
+  let res
+  try {
+    const wantsThinkingOff = Number.isInteger(thinkingBudget)
+    res = await send(wantsThinkingOff)
+    // some models (e.g. the "lite" ones) reject a thinking setting: ask again without it
+    if (res.status === 400 && wantsThinkingOff) res = await send(false)
   } catch (err) {
     const timedOut = err && err.name === 'AbortError'
     return { ok: false, status: 504, error: timedOut ? 'Gemini took too long to respond.' : 'Could not reach Gemini.' }

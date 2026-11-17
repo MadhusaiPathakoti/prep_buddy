@@ -212,6 +212,12 @@ export function parseQuestion(text: string): ParsedQuestion {
     .map((l) => l.trim())
     .filter(Boolean)
 
+  // Copied from some sites/PDFs, the letter of an option sits on its own line ("A." then the sentence on the next line): join them
+  for (let i = 0; i < lines.length - 1; i++) {
+    const lone = lines[i].match(/^\(?([a-e])[).:]?\)?$/i)
+    if (lone && !/^\(?[a-e][).:]?\)?$/i.test(lines[i + 1])) lines.splice(i, 2, `${lone[1].toUpperCase()}. ${lines[i + 1]}`)
+  }
+
   let section: 'stmt' | 'conc' = 'stmt'
   const stmtLines: string[] = []
   const concLines: string[] = []

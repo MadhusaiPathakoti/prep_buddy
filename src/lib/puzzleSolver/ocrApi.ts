@@ -4,7 +4,7 @@
 export type OcrResult = { ok: true; text: string } | { ok: false; error: string }
 
 const MAX_SIDE = 1600
-const REQUEST_TIMEOUT_MS = 25000
+const REQUEST_TIMEOUT_MS = 50000
 export const ACCEPTED_TYPES = ['image/png', 'image/jpeg', 'image/webp']
 
 async function toJpegBase64(file: Blob): Promise<string> {

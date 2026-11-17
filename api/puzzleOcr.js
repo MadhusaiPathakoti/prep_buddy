@@ -7,8 +7,11 @@ import { rateLimit } from './_lib/guard.js'
 import { callGeminiJson, firstSuccessful } from './_lib/gemini.js'
 
 const MODEL_CANDIDATES = process.env.GEMINI_MODEL ? [process.env.GEMINI_MODEL] : ['gemini-3.5-flash', 'gemini-3.5-flash-lite']
-const GEMINI_TIMEOUT_MS = 9000
-const HEDGE_MS = 5000
+// Reading a picture is slower than text-only calls (the image alone is ~1,000 tokens) and Gemini is sometimes slow or busy, so this
+// endpoint gets a much longer budget than the generators; the browser waits up to 50 s (see ocrApi.ts) and maxDuration allows 60 s.
+export const config = { maxDuration: 60 }
+const GEMINI_TIMEOUT_MS = 28000
+const HEDGE_MS = 4000
 const MAX_BASE64_CHARS = 3_800_000 // the browser downscales to well under this; Vercel rejects bodies over ~4.5 MB anyway
 const MAX_TEXT = 6000
 const ALLOWED = { 'image/png': 'png', 'image/jpeg': 'jpeg', 'image/webp': 'webp' }
@@ -81,7 +84,7 @@ export default async function handler(req, res) {
 
   const outcome = await firstSuccessful(
     MODEL_CANDIDATES.map((model) => (signal) =>
-      callGeminiJson(model, apiKey, prompt, { extract, timeoutMs: GEMINI_TIMEOUT_MS, temperature: 0.1, parentSignal: signal, images: [{ mimeType: mime, data: image }] }),
+      callGeminiJson(model, apiKey, prompt, { extract, timeoutMs: GEMINI_TIMEOUT_MS, temperature: 0.1, thinkingBudget: 0, parentSignal: signal, images: [{ mimeType: mime, data: image }] }),
     ),
     HEDGE_MS,
   )

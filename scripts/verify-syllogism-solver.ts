@@ -97,6 +97,9 @@ E. Both conclusions I and II follow`
     if (f.correct !== (o === 3) || !f.points.length) fail(`which-question feedback ${o}`)
     if (!sol.conclusions[o].pictures.length) fail(`which-question: no picture for option ${o}`)
   }
+  // the same question with each option letter on its own line, as copied from some sites
+  const split = parseQuestion(SAMPLES.find((x) => x.id === 'which')!.text.replace(/^([A-E])\. /gm, '$1.\n'))
+  if (split.mode !== 'which' || split.conclusions.length !== 5 || split.statements.length !== 5 || split.unparsed.length || solve(split).correct !== 3) fail(`letters on their own lines misread: ${JSON.stringify({ m: split.mode, c: split.conclusions.length, s: split.statements.length, u: split.unparsed })}`)
   // "does NOT follow" variant: the one option that fails to follow is right
   const neg = parseQuestion('All pens are books.\nAll books are tables.\nWhich of the following does not follow?\nA. All pens are tables\nB. Some pens are tables\nC. Some tables are pens\nD. No table is a pen\nE. Some pens are books')
   const ns = solve(neg)
