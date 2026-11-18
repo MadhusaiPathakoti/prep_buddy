@@ -1,0 +1,142 @@
+{
+ "version": 1,
+ "total": 4590,
+ "topics": {
+  "simplification": {
+   "count": 270,
+   "byDifficulty": {
+    "easy": 0,
+    "medium": 90,
+    "hard": 180
+   }
+  },
+  "approximation": {
+   "count": 270,
+   "byDifficulty": {
+    "easy": 0,
+    "medium": 90,
+    "hard": 180
+   }
+  },
+  "wrong-number-series": {
+   "count": 270,
+   "byDifficulty": {
+    "easy": 0,
+    "medium": 90,
+    "hard": 180
+   }
+  },
+  "missing-number-series": {
+   "count": 270,
+   "byDifficulty": {
+    "easy": 0,
+    "medium": 90,
+    "hard": 180
+   }
+  },
+  "quadratic-equations": {
+   "count": 270,
+   "byDifficulty": {
+    "easy": 0,
+    "medium": 90,
+    "hard": 180
+   }
+  },
+  "quantity-comparison": {
+   "count": 270,
+   "byDifficulty": {
+    "easy": 0,
+    "medium": 90,
+    "hard": 180
+   }
+  },
+  "percentage": {
+   "count": 270,
+   "byDifficulty": {
+    "easy": 0,
+    "medium": 90,
+    "hard": 180
+   }
+  },
+  "profit-loss": {
+   "count": 270,
+   "byDifficulty": {
+    "easy": 0,
+    "medium": 90,
+    "hard": 180
+   }
+  },
+  "ratio-partnership": {
+   "count": 270,
+   "byDifficulty": {
+    "easy": 0,
+    "medium": 90,
+    "hard": 180
+   }
+  },
+  "ages-averages": {
+   "count": 270,
+   "byDifficulty": {
+    "easy": 0,
+    "medium": 90,
+    "hard": 180
+   }
+  },
+  "interest": {
+   "count": 270,
+   "byDifficulty": {
+    "easy": 0,
+    "medium": 90,
+    "hard": 180
+   }
+  },
+  "time-work": {
+   "count": 270,
+   "byDifficulty": {
+    "easy": 0,
+    "medium": 90,
+    "hard": 180
+   }
+  },
+  "speed-distance": {
+   "count": 270,
+   "byDifficulty": {
+    "easy": 0,
+    "medium": 90,
+    "hard": 180
+   }
+  },
+  "mixture-alligation": {
+   "count": 270,
+   "byDifficulty": {
+    "easy": 0,
+    "medium": 90,
+    "hard": 180
+   }
+  },
+  "mensuration": {
+   "count": 270,
+   "byDifficulty": {
+    "easy": 0,
+    "medium": 90,
+    "hard": 180
+   }
+  },
+  "probability-pnc": {
+   "count": 270,
+   "byDifficulty": {
+    "easy": 0,
+    "medium": 90,
+    "hard": 180
+   }
+  },
+  "number-system": {
+   "count": 270,
+   "byDifficulty": {
+    "easy": 0,
+    "medium": 90,
+    "hard": 180
+   }
+  }
+ }
+}

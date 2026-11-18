@@ -155,5 +155,15 @@ service cloud.firestore {
       allow create, update: if validOverride(wordId);
       allow delete: if false;
     }
+
+    // ---- Quant question bank -----------------------------------------------------------------------------------
+    // Anyone may read. Nobody may write from the browser: new questions go through the server (/api), which checks
+    // the sign-in, rejects duplicates, has the answer solved and verified, and only then saves the question using the
+    // service account (which is not subject to these rules). That is what stops scripted junk, wrong answer keys and
+    // deletions, without needing any per-field rules here.
+    match /quantQuestions/{questionId} {
+      allow read: if true;
+      allow write: if false;
+    }
   }
 }
