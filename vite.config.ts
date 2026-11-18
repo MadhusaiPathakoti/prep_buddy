@@ -14,9 +14,10 @@ function localApi(): Plugin {
     apply: 'serve',
     configureServer(server) {
       const env = loadEnv(server.config.mode, process.cwd(), '')
-      // Provider keys and the mock-English model/chain overrides (see api/mockEnglish.js).
+      // Provider keys, the mock-English model/chain overrides (see api/mockEnglish.js), and the Redis / Firebase
+      // settings the question bank's sync needs (api/_lib/qbSync.js).
       for (const key of Object.keys(env)) {
-        if (/^(GEMINI|GROQ|MISTRAL|OPENROUTER|MOCK_ENGLISH)_/.test(key) && !process.env[key]) process.env[key] = env[key]
+        if (/^(GEMINI|GROQ|MISTRAL|OPENROUTER|MOCK_ENGLISH|UPSTASH|FIREBASE)_/.test(key) && !process.env[key]) process.env[key] = env[key]
       }
 
       server.middlewares.use(async (req: IncomingMessage, res: ServerResponse, next) => {

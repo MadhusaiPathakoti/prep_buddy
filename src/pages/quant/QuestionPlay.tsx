@@ -7,7 +7,7 @@ import { loadIndex, loadQuestion, preloadTopic } from '../../lib/qbank/store'
 import { shortcutsFor } from '../../lib/qbank/topicTips'
 import { bankTopicLabel, DEFAULT_EXAM_NAME } from '../../lib/qbank/types'
 import type { QuantQuestion, QuestionIndexEntry } from '../../lib/qbank/types'
-import { getFavouriteMap, getProgress, recordAnswer, toggleFavouriteQuestion } from '../../lib/qbank/userData'
+import { getFavouriteMap, getProgress, recordAnswer, toggleFavouriteQuestion, USER_DATA_EVENT } from '../../lib/qbank/userData'
 
 const LETTERS = 'ABCDE'
 
@@ -210,6 +210,16 @@ export default function QuestionPlay() {
   // The list "Next" walks is frozen when this screen opens, so answering a question does not remove it
   // from "Not played yet" (or reorder "Recently played") under your feet.
   const [startView] = useState(() => ({ favourites: new Set(getFavouriteMap().keys()), progress: getProgress() }))
+
+  // After signing in, the synced favourites and plays arrive a moment later: re-read them when they do.
+  useEffect(() => {
+    const reload = () => {
+      setFavourites(getFavouriteMap())
+      setProgress(getProgress())
+    }
+    window.addEventListener(USER_DATA_EVENT, reload)
+    return () => window.removeEventListener(USER_DATA_EVENT, reload)
+  }, [])
 
   useEffect(() => {
     let cancelled = false

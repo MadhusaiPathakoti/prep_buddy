@@ -45,6 +45,11 @@ function saveFavorites(bankKey: string, favorites: Map<string, string | null>) {
   }
 }
 
+/** Replaces a bank's favourites wholesale (used when favourites are pulled down from the server after signing in). */
+export function setFavorites(bankKey: string, favorites: Map<string, string | null>) {
+  saveFavorites(bankKey, favorites)
+}
+
 /** Toggles one entry's favorite status (stamping the current time when it's added) and returns the updated favorites for that bank. */
 export function toggleFavorite(bankKey: string, id: string, current: FavoriteMap = getFavorites(bankKey)): Map<string, string | null> {
   const next = new Map(current)

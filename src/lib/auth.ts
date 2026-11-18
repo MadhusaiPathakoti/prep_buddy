@@ -111,9 +111,9 @@ export async function signOutUser(): Promise<void> {
 }
 
 /** A fresh ID token for calling our own API (it proves who the user is to the server). Null when signed out. */
-export async function getIdToken(): Promise<string | null> {
+export async function getIdToken(forceRefresh = false): Promise<string | null> {
   const { auth } = await loadAuth()
-  return auth.currentUser ? auth.currentUser.getIdToken() : null
+  return auth.currentUser ? auth.currentUser.getIdToken(forceRefresh) : null
 }
 
 /** Plain-English text for a Firebase auth error, or null when nothing should be shown (the user just closed the popup). */

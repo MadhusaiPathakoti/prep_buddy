@@ -7,7 +7,7 @@ import type { BankFilters } from '../../lib/qbank/filters'
 import { loadIndex } from '../../lib/qbank/store'
 import { BANK_TOPICS, bankTopicLabel, DEFAULT_EXAM_NAME, DIFFICULTIES, EXAM_TYPES } from '../../lib/qbank/types'
 import type { QuestionIndexEntry } from '../../lib/qbank/types'
-import { getFavouriteMap, getProgress, toggleFavouriteQuestion } from '../../lib/qbank/userData'
+import { getFavouriteMap, getProgress, toggleFavouriteQuestion, USER_DATA_EVENT } from '../../lib/qbank/userData'
 
 const PAGE_SIZE = 25
 
@@ -33,7 +33,17 @@ export default function QuestionBank() {
   const [failed, setFailed] = useState(false)
   const [attempt, setAttempt] = useState(0)
   const [favourites, setFavourites] = useState(getFavouriteMap)
-  const [progress] = useState(getProgress)
+  const [progress, setProgress] = useState(getProgress)
+
+  // After signing in, the synced favourites and plays arrive a moment later: re-read them when they do.
+  useEffect(() => {
+    const reload = () => {
+      setFavourites(getFavouriteMap())
+      setProgress(getProgress())
+    }
+    window.addEventListener(USER_DATA_EVENT, reload)
+    return () => window.removeEventListener(USER_DATA_EVENT, reload)
+  }, [])
 
   useEffect(() => {
     let cancelled = false

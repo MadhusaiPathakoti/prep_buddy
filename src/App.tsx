@@ -3,6 +3,7 @@ import { HashRouter, Routes, Route, Navigate } from 'react-router-dom'
 import ErrorBoundary from './components/ErrorBoundary'
 import Layout from './components/Layout'
 import AuthProvider from './components/AuthProvider'
+import QbankSync from './components/QbankSync'
 const Home = lazy(() => import('./pages/Home'))
 const NotFound = lazy(() => import('./pages/NotFound'))
 const Maths = lazy(() => import('./pages/Maths'))
@@ -99,6 +100,7 @@ export default function App() {
   return (
     <HashRouter>
       <AuthProvider>
+      <QbankSync />
       {/* the exam window sits outside Layout, so it needs its own boundary and loading state */}
       <ErrorBoundary>
         <Suspense fallback={null}>

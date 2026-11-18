@@ -9,6 +9,7 @@
     "lint": "oxlint",
     "verify:mocks": "tsx scripts/verify-mocks-engine.ts && tsx scripts/verify-mocks-quant.ts && tsx scripts/verify-mocks-reasoning.ts --quiet && tsx scripts/verify-mocks-english.ts",
     "build:qbank": "tsx scripts/build-quant-seed.ts",
+    "verify:qbank-sync": "tsx --env-file=.env.local scripts/verify-qb-sync.ts && tsx scripts/verify-qb-client-sync.ts",
     "verify:daily": "tsx scripts/verify-daily.ts",
     "verify:vedic": "tsx scripts/verify-vedic.ts",
     "verify:surds": "tsx scripts/verify-surds.ts",
