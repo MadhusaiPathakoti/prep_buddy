@@ -1,6 +1,6 @@
 // Shared plumbing for the Puzzle Solver engine: the candidate grid, bit-mask helpers, and every piece of wording
 // (labels, "A is on floor 3", clue descriptions) so the engine and the UI always phrase things the same way.
-import type { Atom, GridRel, Puzzle, Term } from './types'
+import type { Atom, GridRel, Puzzle, Term, VarTerm } from './types'
 
 // ─── bit helpers ─────────────────────────────────────────────────────────────
 
@@ -89,6 +89,26 @@ export class Ctx {
   get unit(): string {
     return this.p.axis === 'floor' ? (this.p.place ?? 'floor') : this.p.axis === 'order' ? (this.p.unit ?? 'position') : this.p.axis === 'grid' ? 'flat' : 'seat'
   }
+  /** two parallel rows facing each other: positions 0..m-1 are row 1, m..2m-1 are row 2 (each counted from that row's own left) */
+  get tworow(): boolean {
+    return this.p.axis === 'tworow'
+  }
+  get rowLen(): number {
+    return this.p.rowLen ?? this.n
+  }
+  /** which row (0 / 1) and which seat in the row (0 = the person's own left end) */
+  rowIdx(f: number): number {
+    return this.tworow ? Math.floor(f / this.rowLen) : 0
+  }
+  seatIdx(f: number): number {
+    return this.tworow ? f % this.rowLen : f
+  }
+  /** the position `d` seats along from f within its row (to the right of the people for d > 0), or -1 when that is off the end */
+  shiftPos(f: number, d: number): number {
+    if (this.circular) return (((f + d) % this.n) + this.n) % this.n
+    const j = this.seatIdx(f) + d
+    return j < 0 || j >= this.rowLen ? -1 : this.rowIdx(f) * this.rowLen + j
+  }
   /** a building with several flats per floor: position = floor * cols + flat (floor 0 = ground floor, flat 0 = westmost) */
   get grid(): boolean {
     return this.p.axis === 'grid'
@@ -111,7 +131,7 @@ export class Ctx {
     return this.p.axis === 'circle'
   }
   get onWord(): string {
-    return this.p.axis === 'floor' ? (this.p.place ? 'in' : 'on') : this.p.axis === 'order' ? (this.p.on ?? 'in') : this.p.axis === 'grid' ? 'in' : 'at'
+    return this.p.axis === 'floor' ? (this.p.place ? 'in' : 'on') : this.p.axis === 'order' ? (this.p.on ?? 'in') : this.p.axis === 'grid' || this.p.axis === 'tworow' ? 'in' : 'at'
   }
   get named(): boolean {
     return this.p.axis === 'order' && !!this.p.labels
@@ -123,6 +143,7 @@ export class Ctx {
   /** the position's own name: "3" for floor 3, "July" for a named month; positions outside the range are described, not numbered */
   posName(f: number): string {
     if (this.grid) return this.cellName(f)
+    if (this.tworow) return `seat ${this.seatIdx(f) + 1} of row ${this.rowIdx(f) + 1}`
     if (!this.named) return String(this.posNum(f))
     const labels = this.p.labels as string[]
     if (f < 0) return `the ${this.unit} before ${labels[0]}`
@@ -131,11 +152,13 @@ export class Ctx {
   }
   posLab(f: number): string {
     if (this.grid) return this.cellName(f)
+    if (this.tworow) return `seat ${this.seatIdx(f) + 1} of row ${this.rowIdx(f) + 1}`
     return this.named ? this.posName(f) : `${this.unit} ${this.posNum(f)}`
   }
   /** short tag for a position on the board */
   posShort(f: number): string {
     if (this.grid) return `${this.rowOf(f) + 1}${this.flatLetter(f)}`
+    if (this.tworow) return `${this.rowIdx(f) + 1}.${this.seatIdx(f) + 1}`
     return this.named ? (this.p.labels as string[])[f].slice(0, 3) : String(this.posNum(f))
   }
   /** words for "higher / lower" along the axis */
@@ -201,13 +224,19 @@ export class Ctx {
     return `the ${this.lab(a, i)} ${this.noun}'s ${this.catName(b)} is not ${this.lab(b, j)}`
   }
 
-  termCat(t: Term): number {
+  termCat(t: VarTerm): number {
     return t.k === 'p' ? 0 : t.k === 'f' ? 1 : 2 + t.c
   }
-  termIdx(t: Term): number {
+  termIdx(t: VarTerm): number {
     return t.k === 'p' ? t.i : t.k === 'f' ? t.f : t.i
   }
   termLabel(t: Term): string {
+    if (t.k === 'r') {
+      const b = this.termLabel(t.base)
+      if (t.op === 'opp') return `the one opposite ${b}`
+      const k = Math.abs(t.d)
+      return `the one ${k === 1 ? 'immediately ' : `${k} ${this.unit}s `}${this.dirWord(t.d > 0)} ${b}`
+    }
     if (t.k === 'p') return this.p.people[t.i]
     if (t.k === 'f') return this.posLab(t.f)
     return `the ${this.p.cats[t.c].values[t.i]} ${this.noun}`
@@ -220,6 +249,7 @@ export class Ctx {
   /** the same for a list of 0-based positions */
   fmtPositions(fs: number[]): string {
     if (this.grid) return this.gridSetParts(fs).text
+    if (this.tworow) return this.rowSetText(fs)
     const sorted = [...fs].sort((x, y) => this.posNum(x) - this.posNum(y))
     if (sorted.length === 0) return `no ${this.unit}`
     const names = sorted.map((f) => (this.named ? this.posName(f) : String(this.posNum(f))))
@@ -313,8 +343,22 @@ export class Ctx {
   }
 
   /** description of a set of positions: "the topmost floor", "either the topmost or the lowest floor", "an odd-numbered floor" … */
+  /** a set of seats in a two-row layout: a whole row, "an end seat of its row", or the individual seats */
+  rowSetText(fs: number[]): string {
+    const m = this.rowLen
+    const cells = [...new Set(fs)].sort((x, y) => x - y)
+    const idx = (f: number) => this.seatIdx(f)
+    const names = (list: number[]) => (list.length === 1 ? this.posLab(list[0]) : `${list.slice(0, -1).map((f) => this.posLab(f)).join(', ')} or ${this.posLab(list[list.length - 1])}`)
+    if (cells.length === m && cells.every((f) => this.rowIdx(f) === this.rowIdx(cells[0]))) return `row ${this.rowIdx(cells[0]) + 1}`
+    if (cells.length === 4 && cells.every((f) => idx(f) === 0 || idx(f) === m - 1)) return 'an end seat of a row'
+    if (cells.length === 2 && cells.every((f) => idx(f) === 0)) return 'a left-end seat'
+    if (cells.length === 2 && cells.every((f) => idx(f) === m - 1)) return 'a right-end seat'
+    return names(cells)
+  }
+
   setDesc(fs: number[]): string {
     if (this.grid) return this.gridSetParts(fs).text
+    if (this.tworow) return this.rowSetText(fs)
     const n = this.n
     const s = [...new Set(fs)].sort((x, y) => x - y)
     // named positions: say both the role and the name, so "the last month" and "December" read the same
@@ -323,7 +367,7 @@ export class Ctx {
     if (s.length === 1 && s[0] === 0) return tag(`the ${this.bottomWord}`)
     if (s.length === 2 && s[0] === 0 && s[1] === n - 1) {
       if (this.p.axis === 'order') return tag(`either the first or the last ${this.unit}`)
-      return this.p.axis === 'floor' ? 'either the topmost or the lowest floor' : 'either the leftmost or the rightmost seat'
+      return this.p.axis === 'floor' ? `either the topmost or the lowest ${this.unit}` : 'either the leftmost or the rightmost seat'
     }
     if (this.p.axis !== 'order') {
       const all = (par: number) => {
@@ -379,6 +423,14 @@ export class Ctx {
         return `${a.neg ? 'not ' : ''}the same number of ${this.nouns} between ${L(a.x)} and ${L(a.y)} as between ${L(a.z)} and ${L(a.w)}`
       case 'set':
         return `${L(a.x)} is${not} ${this.setPhrase(a.fs)}`
+      case 'opp':
+        return a.neg ? `${L(a.x)} does not face ${L(a.y)}` : `${L(a.x)} faces ${L(a.y)}`
+      case 'samerow':
+        return `${L(a.x)} and ${L(a.y)} are${not} in the same row`
+      case 'cnt': {
+        const side = (s: 'l' | 'r') => (s === 'l' ? 'to the left of' : 'to the right of')
+        return `${a.neg ? 'not ' : ''}as many ${this.nouns} ${side(a.xs)} ${L(a.x)} as ${side(a.ys)} ${L(a.y)}`
+      }
       case 'grid': {
         const up = a.row === 'gt'
         const down = a.row === 'lt'
@@ -413,12 +465,21 @@ export function sameTerm(x: Term, y: Term): boolean {
   if (x.k !== y.k) return false
   if (x.k === 'p') return x.i === (y as typeof x).i
   if (x.k === 'f') return x.f === (y as typeof x).f
+  if (x.k === 'r') {
+    const w = y as typeof x
+    return x.op === w.op && x.d === w.d && sameTerm(x.base, w.base)
+  }
   const w = y as typeof x
   return x.c === w.c && x.i === w.i
 }
 
-/** The distinct terms an atom talks about, in a fixed order (the order its test reads its argument in). */
-export function atomTerms(a: Atom): Term[] {
+/** the unknowns a (possibly derived) term depends on */
+function termVars(t: Term): VarTerm[] {
+  return t.k === 'r' ? termVars(t.base) : [t]
+}
+
+/** every term as written in the clue, derived ones included */
+function writtenTerms(a: Atom): Term[] {
   switch (a.t) {
     case 'btw':
       return [a.x, a.y, a.z]
@@ -426,59 +487,155 @@ export function atomTerms(a: Atom): Term[] {
       return [a.x, a.y, a.z, a.w]
     case 'set':
       return [a.x]
-    case 'logic': {
-      const out: Term[] = []
-      for (const t of [...atomTerms(a.a), ...atomTerms(a.b)]) if (!out.some((u) => sameTerm(u, t))) out.push(t)
-      return out
-    }
+    case 'logic':
+      return [...writtenTerms(a.a), ...writtenTerms(a.b)]
     default:
       return [a.x, a.y]
   }
 }
 
+/** The distinct unknowns an atom talks about, in a fixed order (the order its test reads its argument in). */
+export function atomTerms(a: Atom): VarTerm[] {
+  const out: VarTerm[] = []
+  for (const t of writtenTerms(a)) for (const u of termVars(t)) if (!out.some((v) => sameTerm(v, u))) out.push(u)
+  return out
+}
+
+/** does the clue involve a derived person ("the one who faces E")? */
+export function hasDerived(a: Atom): boolean {
+  return writtenTerms(a).some((t) => t.k === 'r')
+}
+
 /**
- * The atom as a test on the 0-based positions of its terms (link atoms are handled by the grid, not by a position test).
- * On a circular table (`circ`) differences wrap round, so "opposite" is half-way and "neighbours" includes seat n next to seat 1.
+ * The atom as a test on the 0-based positions of its unknowns (link atoms are handled by the grid, not by a position test).
+ * `circ`: a round table (differences wrap); `cols`: flats per floor; `m`: people per row of a two-row layout (0 otherwise).
  */
-export function atomTest(a: Atom, n = 0, circ = false, cols = 1): (v: number[]) => boolean {
+export function atomTest(a: Atom, n = 0, circ = false, cols = 1, m = 0): (v: number[]) => boolean {
   const md = (x: number) => (circ ? ((x % n) + n) % n : x)
+  const rowLen = m || n
   const rel = (r: GridRel | undefined, x: number, y: number) => r === undefined || (r === 'gt' ? x > y : r === 'lt' ? x < y : r === 'eq' ? x === y : x !== y)
+  const vars = atomTerms(a)
+  const grp = (p: number) => (m ? Math.floor(p / m) : 0)
+  const idx = (p: number) => (m ? p % m : p)
+  /** position of a term (-1 when it describes someone who does not exist, e.g. "the one 3 seats right of" the last seat) */
+  const getter = (t: Term): ((v: number[]) => number) => {
+    if (t.k === 'r') {
+      const b = getter(t.base)
+      if (t.op === 'opp') return (v) => (b(v) < 0 || !m ? -1 : (1 - grp(b(v))) * m + (m - 1 - idx(b(v))))
+      return (v) => {
+        const p = b(v)
+        if (p < 0) return -1
+        if (circ) return (((p + t.d) % n) + n) % n
+        const j = idx(p) + t.d
+        return j < 0 || j >= rowLen ? -1 : grp(p) * rowLen + j
+      }
+    }
+    if (t.k === 'f') {
+      const f = t.f
+      return () => f
+    }
+    const k = vars.findIndex((u) => sameTerm(u, t))
+    return (v) => v[k]
+  }
+  const gx = a.t === 'logic' ? null : getter(a.x)
+  const gy = a.t === 'logic' || a.t === 'set' ? null : getter(a.y)
+  const gz = a.t === 'btw' ? getter(a.z) : null
+  const gz2 = a.t === 'same' ? getter(a.z) : null
+  const gw = a.t === 'same' ? getter(a.w) : null
   let f: (v: number[]) => boolean
   switch (a.t) {
     case 'diff':
-      f = (v) => md(v[0] - v[1]) === md(a.d)
+      f = (v) => {
+        const x = (gx as (v: number[]) => number)(v)
+        const y = (gy as (v: number[]) => number)(v)
+        if (x < 0 || y < 0) return false
+        return circ ? md(x - y) === md(a.d) : grp(x) === grp(y) && idx(x) - idx(y) === a.d
+      }
       break
     case 'rank':
-      f = (v) => (a.hi ? v[0] > v[1] : v[0] < v[1])
+      f = (v) => {
+        const x = (gx as (v: number[]) => number)(v)
+        const y = (gy as (v: number[]) => number)(v)
+        if (x < 0 || y < 0 || grp(x) !== grp(y)) return false
+        return a.hi ? idx(x) > idx(y) : idx(x) < idx(y)
+      }
       break
     case 'adj':
-      f = circ ? (v) => md(v[0] - v[1]) === 1 || md(v[0] - v[1]) === n - 1 : (v) => Math.abs(v[0] - v[1]) === 1
+      f = (v) => {
+        const x = (gx as (v: number[]) => number)(v)
+        const y = (gy as (v: number[]) => number)(v)
+        if (x < 0 || y < 0) return false
+        return circ ? md(x - y) === 1 || md(x - y) === n - 1 : grp(x) === grp(y) && Math.abs(idx(x) - idx(y)) === 1
+      }
       break
     case 'gap':
-      f = circ ? (v) => md(v[0] - v[1]) === a.k + 1 || md(v[0] - v[1]) === n - a.k - 1 : (v) => Math.abs(v[0] - v[1]) === a.k + 1
+      f = (v) => {
+        const x = (gx as (v: number[]) => number)(v)
+        const y = (gy as (v: number[]) => number)(v)
+        if (x < 0 || y < 0) return false
+        return circ ? md(x - y) === a.k + 1 || md(x - y) === n - a.k - 1 : grp(x) === grp(y) && Math.abs(idx(x) - idx(y)) === a.k + 1
+      }
       break
     case 'btw':
-      f = (v) => (v[1] < v[0] && v[0] < v[2]) || (v[2] < v[0] && v[0] < v[1])
+      f = (v) => {
+        const x = (gx as (v: number[]) => number)(v)
+        const y = (gy as (v: number[]) => number)(v)
+        const z = (gz as (v: number[]) => number)(v)
+        if (x < 0 || y < 0 || z < 0 || grp(x) !== grp(y) || grp(x) !== grp(z)) return false
+        return (idx(y) < idx(x) && idx(x) < idx(z)) || (idx(z) < idx(x) && idx(x) < idx(y))
+      }
       break
     case 'same':
-      f = (v) => Math.abs(v[0] - v[1]) === Math.abs(v[2] - v[3]) && v[0] !== v[1] && v[2] !== v[3]
-      break
-    case 'grid':
       f = (v) => {
-        const rx = Math.floor(v[0] / cols)
-        const ry = Math.floor(v[1] / cols)
-        return rel(a.row, rx, ry) && rel(a.col, v[0] % cols, v[1] % cols) && (a.rowDiff === undefined || rx - ry === a.rowDiff)
+        const x = (gx as (v: number[]) => number)(v)
+        const y = (gy as (v: number[]) => number)(v)
+        const z = (gz2 as (v: number[]) => number)(v)
+        const w = (gw as (v: number[]) => number)(v)
+        if (x < 0 || y < 0 || z < 0 || w < 0 || grp(x) !== grp(y) || grp(z) !== grp(w) || x === y || z === w) return false
+        return Math.abs(idx(x) - idx(y)) === Math.abs(idx(z) - idx(w))
       }
       break
     case 'set':
-      f = (v) => a.fs.includes(v[0])
+      f = (v) => a.fs.includes((gx as (v: number[]) => number)(v))
+      break
+    case 'grid':
+      f = (v) => {
+        const x = (gx as (v: number[]) => number)(v)
+        const y = (gy as (v: number[]) => number)(v)
+        const rx = Math.floor(x / cols)
+        const ry = Math.floor(y / cols)
+        return rel(a.row, rx, ry) && rel(a.col, x % cols, y % cols) && (a.rowDiff === undefined || rx - ry === a.rowDiff)
+      }
+      break
+    case 'opp':
+      f = (v) => {
+        const x = (gx as (v: number[]) => number)(v)
+        const y = (gy as (v: number[]) => number)(v)
+        return x >= 0 && y >= 0 && m > 0 && grp(x) !== grp(y) && idx(x) + idx(y) === m - 1
+      }
+      break
+    case 'samerow':
+      f = (v) => {
+        const x = (gx as (v: number[]) => number)(v)
+        const y = (gy as (v: number[]) => number)(v)
+        return x >= 0 && y >= 0 && grp(x) === grp(y)
+      }
+      break
+    case 'cnt':
+      f = (v) => {
+        const x = (gx as (v: number[]) => number)(v)
+        const y = (gy as (v: number[]) => number)(v)
+        if (x < 0 || y < 0) return false
+        const side = (p: number, s: 'l' | 'r') => (s === 'l' ? idx(p) : rowLen - 1 - idx(p))
+        return side(x, a.xs) === side(y, a.ys)
+      }
       break
     case 'logic': {
-      const all = atomTerms(a)
+      const all = vars
       const at = atomTerms(a.a).map((t) => all.findIndex((u) => sameTerm(u, t)))
       const bt = atomTerms(a.b).map((t) => all.findIndex((u) => sameTerm(u, t)))
-      const ta = atomTest(a.a, n, circ, cols)
-      const tb = atomTest(a.b, n, circ, cols)
+      const ta = atomTest(a.a, n, circ, cols, m)
+      const tb = atomTest(a.b, n, circ, cols, m)
       f = (v) => {
         const x = ta(at.map((i) => v[i]))
         const y = tb(bt.map((i) => v[i]))
@@ -488,7 +645,7 @@ export function atomTest(a: Atom, n = 0, circ = false, cols = 1): (v: number[]) 
     }
     case 'link':
       // only reached inside a compound clue ("either Tina prefers Apple or …"): the same person ⇔ the same position
-      f = (v) => v[0] === v[1]
+      f = (v) => (gx as (v: number[]) => number)(v) === (gy as (v: number[]) => number)(v)
       break
   }
   return a.neg ? (v) => !f(v) : f

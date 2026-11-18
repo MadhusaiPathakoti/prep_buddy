@@ -4,7 +4,7 @@
 //   clues    "T lives two floors below the person from Bhopal." and friends     → atoms (see types.ts)
 // Anything it cannot read is returned in `unparsed` rather than guessed at, so the solver never works from a wrong clue silently.
 import { sameTerm } from './core'
-import { MAX_N, type Atom, type Axis, type Category, type Clue, type Puzzle, type Term } from './types'
+import { MAX_N, type Atom, type Axis, type Category, type Clue, type Puzzle, type Term, type VarTerm } from './types'
 
 export interface ParseSummary {
   people: string[]
@@ -18,6 +18,7 @@ export interface ParseSummary {
   flats?: string[]
   noun?: string
   place?: string
+  rowLen?: number
 }
 
 export interface ParseResult {
@@ -57,7 +58,7 @@ function splitSentences(text: string): string[] {
       continue
     }
     cur = cur ? `${cur} ${line}` : line
-    if (/[.?!:]$/.test(line)) {
+    if (/[.?!:]\)?$/.test(line)) {
       chunks.push(cur)
       cur = ''
     }
@@ -65,7 +66,7 @@ function splitSentences(text: string): string[] {
   if (cur) chunks.push(cur)
   const out: string[] = []
   for (const ch of chunks)
-    for (const s of ch.split(/(?<=[.?!])\s+(?=[A-Z0-9("])/)) {
+    for (const s of ch.split(/(?<=[.?!]\)?)\s+(?=[A-Z0-9("])/)) {
       const t = s
         .trim()
         .replace(/^(?:\d+[.)]|\([a-z0-9]{1,3}\)|[-*•])\s+/i, '')
@@ -138,11 +139,15 @@ interface Lexicon {
   cols?: number
   flats?: string[]
   flatRe: RegExp | null
+  /** axis 'tworow': people per row */
+  rowLen?: number
 }
+
+const isVar = (t: Term): t is VarTerm => t.k !== 'r'
 
 const escapeRe = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
 
-function buildLexicon(people: string[], cats: Category[], axis: Axis, topDown: boolean, labels?: string[], building?: { cols: number; flats: string[] }): Lexicon {
+function buildLexicon(people: string[], cats: Category[], axis: Axis, topDown: boolean, labels?: string[], building?: { cols: number; flats: string[] }, rowLen?: number): Lexicon {
   const valueIndex = new Map<string, { c: number; i: number }>()
   const all: string[] = []
   cats.forEach((cat, c) =>
@@ -173,7 +178,7 @@ function buildLexicon(people: string[], cats: Category[], axis: Axis, topDown: b
   const personRe = new RegExp(`(?<![A-Za-z0-9'])(${[...people].sort((a, b) => b.length - a.length).map(escapeRe).join('|')})(?![A-Za-z0-9])`, 'g')
   const posRe = labels ? new RegExp(`(?<![A-Za-z0-9])(?:${[...labels].sort((a, b) => b.length - a.length).map(escapeRe).join('|')})(?![A-Za-z0-9])`, 'gi') : null
   const flatRe = building ? /\b[Ff]lats?\s+([A-Z])\b/g : null
-  return { n: people.length, axis, topDown, people, cats, valueRe, valueIndex, personRe, labels, posRe, cols: building?.cols, flats: building?.flats, flatRe }
+  return { n: people.length, axis, topDown, people, cats, valueRe, valueIndex, personRe, labels, posRe, cols: building?.cols, flats: building?.flats, flatRe, rowLen }
 }
 
 /** "may" / "march" in lower case are ordinary English words, not months */
@@ -225,7 +230,31 @@ function extract(sentence: string, lex: Lexicon): { text: string; ments: Term[] 
 
 // ─── skeleton and clause patterns ────────────────────────────────────────────
 
-function norm(t: string): string {
+/**
+ * "the one who stands third to the right of @3" / "the one who faces @5": a person described by where they are, not by name.
+ * Each becomes a derived mention appended to `ments` (see Term kind 'r'); the clause then reads as if it named that person.
+ */
+function foldDerived(sIn: string, ments: Term[], axis: Axis): string {
+  let s = sIn
+  const WHO = '(?:the\\s+)?(?:one|person|man|woman|boy|girl|friend|student)\\s+(?:(?:who|that|which)\\s+)?(?:[a-z]+\\s+){0,2}?'
+  const opp = new RegExp(`\\b${WHO}(?:opposite|faces?|facing)\\s+@(\\d+)`, 'g')
+  const shift = new RegExp(`\\b${WHO}(?:the\\s+)?(#\\d+|\\d+|immediately)\\s+(?:(?:seats?|places?|positions?|persons?)\\s+)?(left|right)\\s+of\\s+@(\\d+)`, 'g')
+  for (let round = 0; round < 2; round++) {
+    if (axis === 'tworow')
+      s = s.replace(opp, (_m, b: string) => {
+        ments.push({ k: 'r', base: ments[Number(b)], op: 'opp', d: 0 })
+        return ` @${ments.length - 1} `
+      })
+    s = s.replace(shift, (_m, dist: string, side: string, b: string) => {
+      const k = dist === 'immediately' ? 1 : Number(dist.replace('#', ''))
+      ments.push({ k: 'r', base: ments[Number(b)], op: 'shift', d: side === 'left' ? -k : k })
+      return ` @${ments.length - 1} `
+    })
+  }
+  return s
+}
+
+function norm(t: string, ments?: Term[], axis?: Axis): string {
   let s = t.toLowerCase()
   s = s.replace(/\b(north|south)[\s-]*(east|west)\b/g, '$1$2')
   s = s.replace(/\bit is not (?:true|the case) that\b/g, ' not ')
@@ -243,6 +272,7 @@ function norm(t: string): string {
   s = s.replace(/\b(first|second|third|fourth|fifth|sixth|seventh|eighth|ninth|tenth)\b/g, (w) => `#${ORD[w]}`)
   s = s.replace(/\b(\d+)(?:st|nd|rd|th)\b/g, '#$1')
   s = s.replace(/'s\b/g, '')
+  if (ments && axis && axis !== 'grid') s = foldDerived(s, ments, axis)
   // "the person from @3" / "the one who likes @3" → "@3";  "@3 person" → "@3"
   s = s.replace(/\b(?:the\s+)?(?:person|one|man|woman|friend|student|employee|boy|girl|individual|member|box)\s+(?:(?:who|that|which)\s+(?:[a-z]+\s+){0,2}?|to be sent to\s+)?(?:from|in|at|of|with)?\s*(?=@\d)/g, '')
   s = s.replace(/(@\d+)\s+(?:person|one|man|woman|friend|student|employee|boy|girl|box)\b/g, '$1')
@@ -316,13 +346,30 @@ function interpretClause(s: string, ments: Term[], lex: Lexicon): Atom[] | null 
     return null
   }
 
-  // "x sits exactly opposite y" (round table)
+  // "The number of persons to the left of x is the same as the number of persons to the right of y"
+  m = s.match(new RegExp(`number of (?:[a-z]+\\s+){1,3}?(left|right) of\\s+${ENT}\\s+(?:(?:is|are)\\s+)?(not\\s+)?(?:the\\s+)?same as\\s+(?:the\\s+)?number of (?:[a-z]+\\s+){1,3}?(left|right) of\\s+${ENT}`))
+  if (m) {
+    if (lex.axis === 'circle') return null
+    return [{ t: 'cnt', x: M(m[2]), xs: m[1] === 'left' ? 'l' : 'r', y: M(m[5]), ys: m[4] === 'left' ? 'l' : 'r', neg: m[3] || neg ? true : undefined }]
+  }
+
+  // two facing rows: "x sits in the same row as y", "x and y sit in different rows"
+  if (lex.axis === 'tworow') {
+    m = s.match(new RegExp(`^${ENT}\\s+and\\s+${ENT}\\s+(?:[a-z]+\\s+){0,3}?(?:in\\s+)?(?:the\\s+)?(same|different)\\s+rows?\\b`))
+    if (m) return [{ t: 'samerow', x: M(m[1]), y: M(m[2]), neg: (m[3] === 'different') !== !!neg ? true : undefined }]
+    m = s.match(new RegExp(`${ENT}\\s+(?:[a-z]+\\s+){0,3}?(?:in\\s+)?(?:the\\s+)?same row as\\s+${ENT}`))
+    if (m) return [{ t: 'samerow', x: M(m[1]), y: M(m[2]), neg }]
+    m = s.match(new RegExp(`${ENT}\\s+(?:[a-z]+\\s+){0,3}?(?:in\\s+)?(?:a\\s+)?different rows? (?:from|than)\\s+${ENT}`))
+    if (m) return [{ t: 'samerow', x: M(m[1]), y: M(m[2]), neg: neg ? undefined : true }]
+  }
+
+  // "x sits exactly opposite y" (round table: across the table; two rows: the person facing x)
   m = s.match(new RegExp(`${ENT}\\s+(?:[a-z]+\\s+){0,4}?opposite\\s+${ENT}`))
-  if (m) return lex.axis === 'circle' ? [{ t: 'diff', x: M(m[1]), y: M(m[2]), d: lex.n / 2, neg }] : null
+  if (m) return lex.axis === 'circle' ? [{ t: 'diff', x: M(m[1]), y: M(m[2]), d: lex.n / 2, neg }] : lex.axis === 'tworow' ? [{ t: 'opp', x: M(m[1]), y: M(m[2]), neg }] : null
 
   // "x faces y": on a round table, the person across the table
   m = s.match(new RegExp(`${ENT}\\s+(?:[a-z]+\\s+){0,3}?faces?\\s+${ENT}`))
-  if (m) return lex.axis === 'circle' ? [{ t: 'diff', x: M(m[1]), y: M(m[2]), d: lex.n / 2, neg }] : null
+  if (m) return lex.axis === 'circle' ? [{ t: 'diff', x: M(m[1]), y: M(m[2]), d: lex.n / 2, neg }] : lex.axis === 'tworow' ? [{ t: 'opp', x: M(m[1]), y: M(m[2]), neg }] : null
 
   // exactly k people between x and y
   m = s.match(new RegExp(`(?:(?:exactly|only)\\s+)?(?:there (?:are|is)\\s+)?(?:(?:exactly|only)\\s+)?(\\d+|no)\\s+${COUNT_NOUN}\\s+(?:[a-z]+\\s+){0,3}?(?:exactly\\s+)?(?:in\\s+)?between\\s+${ENT}\\s+and\\s+${ENT}`))
@@ -392,7 +439,7 @@ function interpretClause(s: string, ments: Term[], lex: Lexicon): Atom[] | null 
     const all = (s.match(/@(\d+)/g) ?? []).map((t) => M(t.slice(1)))
     const named = all.filter((t): t is Extract<Term, { k: 'f' }> => t.k === 'f')
     const others = all.filter((t) => t.k !== 'f')
-    const chain = others.length === 1 || /(?:^|\s)(?:neither\s+|both\s+)?@\d+(?:\s+(?:and|nor)\s+@\d+)+\s/.test(s)
+    const chain = others.every(isVar) && (others.length === 1 || /(?:^|\s)(?:neither\s+|both\s+)?@\d+(?:\s+(?:and|nor)\s+@\d+)+\s/.test(s))
     if (named.length >= 1 && others.length >= 1 && chain) {
       const fs = [...new Set(named.map((t) => t.f))].sort((a, b) => a - b)
       const either = /\b(?:either|neither)\b/.test(s)
@@ -413,12 +460,14 @@ function interpretClause(s: string, ments: Term[], lex: Lexicon): Atom[] | null 
   if (count >= 2 && !POSITION_WORDS.test(s)) {
     const ids = (s.match(/@(\d+)/g) ?? []).map((t) => M(t.slice(1)))
     const cat = (t: Term) => (t.k === 'p' ? -1 : t.k === 'v' ? t.c : -2)
-    if (/\bneither\b/.test(s) && /\bnor\b/.test(s) && ids.length === 3) {
-      const [a, b, c] = ids
+    const vars = ids.filter(isVar)
+    if (vars.length !== ids.length) return null // "the one who faces E" has no row of its own in the tables, so it cannot be linked directly
+    if (/\bneither\b/.test(s) && /\bnor\b/.test(s) && vars.length === 3) {
+      const [a, b, c] = vars
       if (cat(a) === cat(b) || cat(a) === cat(c)) return null
       return [{ t: 'link', x: a, y: b, neg: true }, { t: 'link', x: a, y: c, neg: true }]
     }
-    if (ids.length === 2 && cat(ids[0]) !== cat(ids[1])) return [{ t: 'link', x: ids[0], y: ids[1], neg }]
+    if (vars.length === 2 && cat(vars[0]) !== cat(vars[1])) return [{ t: 'link', x: vars[0], y: vars[1], neg }]
   }
   return null
 }
@@ -448,8 +497,38 @@ function gridCells(sIn: string, lex: Lexicon): number[] | 'bad' | null {
   return cells
 }
 
+/**
+ * Two facing rows: the cells a unary clue allows — "in row 1", "at either end of the row", "third from the left end of row 2".
+ * Seats are counted inside a row, so a seat clue without a row names that seat in both rows.
+ */
+function twoRowCells(sIn: string, lex: Lexicon): number[] | 'bad' | null {
+  const m = lex.rowLen ?? lex.n / 2
+  let s = sIn.replace(/@\d+/g, ' ')
+  const rows = new Set<number>()
+  for (const r of s.matchAll(/\brow\s*#?([12])\b|#([12])\s+row\b/g)) rows.add(Number(r[1] ?? r[2]) - 1)
+  s = s.replace(/\brow\s*#?[12]\b|#[12]\s+row\b/g, ' ')
+  const END = /(?<!left\s)(?<!right\s)\bends?\b/
+  const ends = END.test(s)
+  if (ends) s = s.replace(new RegExp(END.source, 'g'), ' ')
+  const idx = positionSet(s, { ...lex, n: m, axis: 'row', topDown: false, labels: undefined, posRe: null })
+  if (idx === 'bad') return 'bad'
+  const seats = new Set<number>(idx ?? [])
+  if (ends) {
+    seats.add(0)
+    seats.add(m - 1)
+  }
+  if (!seats.size && !rows.size) return null
+  const cells: number[] = []
+  for (let r = 0; r < 2; r++) {
+    if (rows.size && !rows.has(r)) continue
+    for (let i = 0; i < m; i++) if (!seats.size || seats.has(i)) cells.push(r * m + i)
+  }
+  return cells
+}
+
 function positionSet(sIn: string, lex: Lexicon): number[] | 'bad' | null {
   if (lex.axis === 'grid') return gridCells(sIn, lex)
+  if (lex.axis === 'tworow') return twoRowCells(sIn, lex)
   const n = lex.n
   let s = sIn.replace(/@\d+/g, ' ') // the @k mention placeholders are not floor numbers
   const set = new Set<number>()
@@ -562,11 +641,19 @@ function compoundClause(s: string, ments: Term[], lex: Lexicon): Atom[] | null {
     for (const cut of cuts) {
       const left = pieces.slice(0, cut).join(' or ')
       const right = pieces.slice(cut).join(' or ')
+      // "… at either the top or the bottom of its stack or …": an "either" with its own "or" still to come must not be cut in half
+      if (/\beither\b/.test(left) && !/\bor\b/.test(left)) continue
       const a = single(left, ments, lex)
       const b = single(right, ments, lex)
       if (a && b) return [{ t: 'logic', op: exclusive ? 'xor' : 'or', a, b }]
     }
     return null
+  }
+  // "O neither stands opposite C nor F": one subject, the same relation denied of two others
+  m = s.match(/^(@\d+) neither ((?:[a-z]+ ){0,3}?(?:opposite|faces?|next to|adjacent to|beside|left of|right of|above|below|in the same row as)) (@\d+) nor (@\d+)$/)
+  if (m) {
+    const parts = [m[3], m[4]].map((w) => single(`${m![1]} not ${m![2]} ${w}`, ments, lex))
+    return parts.every(Boolean) ? (parts as Atom[]) : null
   }
   // "Neither x nor y is next to z": the same statement denied of both, i.e. two "not" clauses
   m = s.match(/^neither ((?:@\d+\s+)+)nor (@\d+) (.+)$/)
@@ -588,13 +675,14 @@ function parseClueText(sentence: string, lex: Lexicon): Atom[] | null {
     (_m, a: string, b: string) => {
       const x = ments[Number(a)]
       const y = ments[Number(b)]
+      if (!isVar(x) || !isVar(y)) return `@${a} `
       const cx = x.k === 'p' ? -1 : x.k === 'v' ? x.c : -2
       const cy = y.k === 'p' ? -1 : y.k === 'v' ? y.c : -2
       if (cx !== cy) atoms.push({ t: 'link', x, y })
       return `@${a} `
     },
   )
-  const s = norm(rest)
+  const s = norm(rest, ments, lex.axis)
   if (s) {
     const compound = compoundClause(s, ments, lex)
     if (compound) return [...atoms, ...compound]
@@ -680,6 +768,9 @@ const isFiller = (s: string): boolean =>
 const isGridFiller = (s: string): boolean =>
   /^each floor\b/i.test(s) || /^(?:all\s+(?:the\s+)?)?flats?\b[^.]*\b(?:same size|west|east)\b/i.test(s) || /^flat\s+[A-Z]\b[^.]*\bfloor\b/i.test(s) || /similarly in case of/i.test(s)
 
+/** sentences that only describe the two-row layout ("… sitting in two parallel rows …", "The persons of row 1 face south …") */
+const ROW_INTRO = /\b(?:two|2)\s+(?:parallel\s+)?rows\b|\bparallel\s+rows\b|\b(?:face|faces|facing)\s+each\s+other\b|\b(?:persons|people)\s+of\s+row\b/i
+
 const NUMW: Record<string, number> = { one: 1, two: 2, three: 3, four: 4, five: 5, six: 6, seven: 7, eight: 8, nine: 9, ten: 10 }
 
 /** "a four storeyed building … Each floor has 2 flats, Flat A and Flat B … Flat A is to the west of Flat B" */
@@ -719,10 +810,38 @@ export function parsePuzzle(raw: string): ParseResult {
   }
   const sentences = splitSentences(text)
 
-  // people: the first sentence that lists three or more capitalised names
+  // two facing rows: each row's members may be listed ("In Row 1 - A, B, C …"); otherwise one list is given and the clues say who sits where
+  const tworow = /\b(?:two|2)\s+(?:parallel\s+)?rows\b|\bparallel\s+rows\b/i.test(text)
+  const rowSentence = new Map<number, number>() // sentence index → the row (0 or 1) whose members it lists
+  const rowPeople: string[][] = [[], []]
   let people: string[] = []
   let headerIdx = -1
-  for (let k = 0; k < sentences.length; k++) {
+  let header = ''
+  if (tworow) {
+    const found: { k: number; r: number; names: string[] }[] = []
+    sentences.forEach((s, k) => {
+      if (isBoilerplate(s) || isQuestion(s)) return
+      const marks = s.match(/\brow\s*-?\s*(?:1|2|one|two)\b/gi) ?? []
+      const rm = s.match(/\brow\s*-?\s*(1|2|one|two)\b/i)
+      const nl = s.match(NAME_LIST)
+      if (marks.length !== 1 || !rm || !nl) return
+      const names = parseNames(nl[1])
+      if (names.length < 3 || new Set(names).size !== names.length) return
+      found.push({ k, r: /^(?:1|one)$/i.test(rm[1]) ? 0 : 1, names })
+    })
+    const r1 = found.find((f) => f.r === 0)
+    const r2 = found.find((f) => f.r === 1)
+    if (r1 && r2 && r1.names.length === r2.names.length && new Set([...r1.names, ...r2.names]).size === r1.names.length * 2) {
+      rowPeople[0] = r1.names
+      rowPeople[1] = r2.names
+      rowSentence.set(r1.k, 0)
+      rowSentence.set(r2.k, 1)
+      people = [...r1.names, ...r2.names]
+      headerIdx = Math.min(r1.k, r2.k)
+      header = sentences.slice(0, Math.max(r1.k, r2.k) + 1).join(' ')
+    }
+  }
+  for (let k = 0; k < sentences.length && people.length === 0; k++) {
     if (isBoilerplate(sentences[k]) || isQuestion(sentences[k])) continue
     const m = sentences[k].match(NAME_LIST)
     if (m) {
@@ -743,7 +862,11 @@ export function parsePuzzle(raw: string): ParseResult {
     result.errors.push(`Up to ${MAX_N} people are supported (found ${n}).`)
     return result
   }
-  const header = sentences[headerIdx]
+  if (!header) header = sentences[headerIdx]
+  if (tworow && n % 2 !== 0) {
+    result.errors.push(`Two facing rows must hold the same number of people, but ${n} people are listed.`)
+    return result
+  }
 
   // boxes in a vertical stack: the people are boxes and a position is a "place"; several stacks side by side are a different layout
   const boxes = /\bboxes\b/i.test(header)
@@ -779,10 +902,6 @@ export function parsePuzzle(raw: string): ParseResult {
   const circle = /\b(?:circular|round)\s+table\b/i.test(text)
   if (/\b(?:square|rectangular|hexagonal|triangular)\s+table\b/i.test(text)) {
     result.errors.push('Only circular tables are supported so far (not square or rectangular ones).')
-    return result
-  }
-  if (/\b(?:two|2)\s+(?:parallel\s+)?rows\b|\bparallel\s+rows\b/i.test(text)) {
-    result.errors.push('Seating in two facing rows is not supported yet.')
     return result
   }
   let facing: 'in' | 'out' | undefined
@@ -844,16 +963,25 @@ export function parsePuzzle(raw: string): ParseResult {
       result.warnings.push(`I could not tell which ${kw[1].toLowerCase()} (for example "from May to December"), so they are numbered 1 to ${n}; clues that name one will not be understood.`)
     }
   }
-  const axis: Axis = building ? 'grid' : circle ? 'circle' : order ? 'order' : axisGuess
+  const axis: Axis = building ? 'grid' : circle ? 'circle' : tworow ? 'tworow' : order ? 'order' : axisGuess
+  const rowLen = axis === 'tworow' ? n / 2 : undefined
   const topDown = axis === 'floor' && topDownText
   axisGuess = axis
   const allValues = cats.flatMap((c) => c.values.map((v) => v.toLowerCase()))
   if (new Set(allValues).size !== allValues.length) result.warnings.push('Some values appear in more than one category, which can confuse clue reading.')
   for (const v of allValues) if (people.some((p) => p.toLowerCase() === v)) result.warnings.push(`"${v}" is both a person and a value.`)
 
-  const lex = buildLexicon(people, cats, axis, topDown, order?.labels, building ? { cols: building.cols, flats: building.flats } : undefined)
+  const lex = buildLexicon(people, cats, axis, topDown, order?.labels, building ? { cols: building.cols, flats: building.flats } : undefined, rowLen)
   const clues: Clue[] = []
   sentences.forEach((s, k) => {
+    const listed = rowSentence.get(k)
+    if (listed !== undefined && rowLen) {
+      // "In Row 1 - A, B, C …": each person listed sits somewhere in that row
+      const cells = Array.from({ length: rowLen }, (_, i) => listed * rowLen + i)
+      clues.push({ id: clues.length + 1, text: s, atoms: rowPeople[listed].map((name) => ({ t: 'set', x: { k: 'p', i: people.indexOf(name) }, fs: cells }) as Atom) })
+      return
+    }
+    if (axis === 'tworow' && ROW_INTRO.test(s)) return
     if (used.has(k) || isBoilerplate(s)) return
     if (isQuestion(s)) {
       result.questions.push(s)
@@ -872,7 +1000,7 @@ export function parsePuzzle(raw: string): ParseResult {
   const verbWord = header.match(/\b(?:were|are)\s+(born|seated|arranged|placed|ranked|appointed|promoted|admitted|selected|posted|scheduled|joined)\b/i)
   const extra = order ? { labels: order.labels, unit: order.unit, on: order.on, verb: verbWord ? `was ${verbWord[1].toLowerCase()}` : undefined } : {}
   const stack = boxes && axis === 'floor' ? { noun: 'box', place: 'place' } : boxes ? { noun: 'box' } : {}
-  result.summary = { people, axis, topDown, cats, labels: order?.labels, unit: order?.unit, facing, cols: building?.cols, flats: building?.flats, ...stack }
-  result.puzzle = { n, axis, topDown, people, cats, clues, ...extra, ...(circle ? { facing } : {}), ...(building ? { cols: building.cols, flats: building.flats } : {}), ...stack }
+  result.summary = { people, axis, topDown, cats, labels: order?.labels, unit: order?.unit, facing, cols: building?.cols, flats: building?.flats, rowLen, ...stack }
+  result.puzzle = { n, axis, topDown, people, cats, clues, ...extra, ...(circle ? { facing } : {}), ...(building ? { cols: building.cols, flats: building.flats } : {}), ...(rowLen ? { rowLen } : {}), ...stack }
   return result
 }

@@ -9,15 +9,21 @@
 // with a bijection between every pair of categories. A clue is a list of atoms over "terms": a person, a value of
 // one category ("the person from Bhopal") or a fixed position.
 
-export type Axis = 'floor' | 'row' | 'order' | 'circle' | 'grid'
+export type Axis = 'floor' | 'row' | 'order' | 'circle' | 'grid' | 'tworow'
 
 export type Term =
   | { k: 'p'; i: number } // person i
   | { k: 'v'; c: number; i: number } // value i of extra category c ("the person from Bhopal")
   | { k: 'f'; f: number } // a fixed position, 0-based height (0 = lowest floor / leftmost seat)
+  // a person described by where they stand relative to someone: "the one who stands third to the right of A" (shift d, within the
+  // row) or "the one who faces E" (op 'opp', the seat across). Its position is computed from the base term's position.
+  | { k: 'r'; base: Term; op: 'shift' | 'opp'; d: number }
+
+/** a term that is a real unknown (a person, a value, a fixed seat) — as opposed to a derived one */
+export type VarTerm = Exclude<Term, { k: 'r' }>
 
 export type Atom =
-  | { t: 'link'; x: Term; y: Term; neg?: boolean } // x and y are the same person ("A is from Kolkata")
+  | { t: 'link'; x: VarTerm; y: VarTerm; neg?: boolean } // x and y are the same person ("A is from Kolkata")
   | { t: 'diff'; x: Term; y: Term; d: number; neg?: boolean } // pos(x) - pos(y) = d   (immediately above: d = 1)
   | { t: 'rank'; x: Term; y: Term; hi: boolean; neg?: boolean } // pos(x) > pos(y) when hi, else <   (somewhere above / below)
   | { t: 'adj'; x: Term; y: Term; neg?: boolean } // neighbouring positions
@@ -29,6 +35,11 @@ export type Atom =
   | { t: 'set'; x: Term; fs: number[]; neg?: boolean } // pos(x) is one of fs (or none of them when neg)
   // compound clues: "if a then b", "either a or b but not both", "either a or b"
   | { t: 'logic'; op: 'imp' | 'xor' | 'or'; a: Atom; b: Atom; neg?: boolean }
+  // two parallel rows facing each other: x faces y (the seat across the gap); x and y are in the same row
+  | { t: 'opp'; x: Term; y: Term; neg?: boolean }
+  | { t: 'samerow'; x: Term; y: Term; neg?: boolean }
+  // "the number of persons to the left of x is the same as the number to the right of y" (side 'l' = left of, 'r' = right of)
+  | { t: 'cnt'; x: Term; xs: 'l' | 'r'; y: Term; ys: 'l' | 'r'; neg?: boolean }
 
 export type GridRel = 'gt' | 'lt' | 'eq' | 'ne'
 
@@ -64,6 +75,8 @@ export interface Puzzle {
   /** axis 'grid' only: flats per floor, and their letters from west to east (positions are floor-major: index = floor * cols + flat) */
   cols?: number
   flats?: string[]
+  /** axis 'tworow' only: people per row; positions 0..m-1 are row 1, m..2m-1 row 2, each counted from that row's own left */
+  rowLen?: number
   /** axis 'circle' only: everyone faces the same way, so "to the right of" is always the next seat along; this says which way that is drawn */
   facing?: 'in' | 'out'
 }
@@ -74,4 +87,4 @@ export interface Solution {
   val: number[][]
 }
 
-export const MAX_N = 10
+export const MAX_N = 12

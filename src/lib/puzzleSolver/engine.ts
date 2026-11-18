@@ -6,8 +6,8 @@
 //   clue     each active clue removes positions that no placement of the other people could support
 //   unique   a person with one candidate left is placed; a floor with one candidate left is filled; the rest of that row/column goes
 //   link     tables must agree: if A is on floor 1 and floor 1 can't be Delhi, A can't be from Delhi
-import { atomTerms, atomTest, bits, cellKey, Ctx, ctz, Grid, pop } from './core'
-import type { Atom, Puzzle, Solution, Term } from './types'
+import { atomTerms, atomTest, bits, hasDerived, cellKey, Ctx, ctz, Grid, pop } from './core'
+import type { Atom, Puzzle, Solution, VarTerm } from './types'
 
 export type WhyKind = 'given' | 'clue' | 'taken' | 'single' | 'trans' | 'case' | 'assume' | 'anchor'
 
@@ -44,7 +44,7 @@ const testCache = new WeakMap<Atom, (v: number[]) => boolean>()
 const testOf = (a: Atom, ctx: Ctx) => {
   let t = testCache.get(a)
   if (!t) {
-    t = atomTest(a, ctx.n, ctx.circular, ctx.cols)
+    t = atomTest(a, ctx.n, ctx.circular, ctx.cols, ctx.tworow ? ctx.rowLen : 0)
     testCache.set(a, t)
   }
   return t
@@ -243,7 +243,7 @@ export class Engine {
     }
   }
 
-  private dom(t: Term): number {
+  private dom(t: VarTerm): number {
     if (t.k === 'f') return 1 << t.f
     return this.grid.row(this.ctx.termCat(t), this.ctx.termIdx(t), 1)
   }
@@ -291,7 +291,7 @@ export class Engine {
   }
 
   /** Why position f is impossible for term ti of the atom, given where the other terms can still be. */
-  private reason(atom: Atom, ti: number, f: number, terms: Term[], doms: number[]): string {
+  private reason(atom: Atom, ti: number, f: number, terms: VarTerm[], doms: number[]): string {
     const c = this.ctx
     const n = c.n
     const me = c.termLabel(terms[ti])
@@ -312,6 +312,8 @@ export class Engine {
       return `${me} ${on} ${here} would need ${who} ${on} ${c.fmtOr(valid)} (${what}), but ${who} can only be ${on} ${dom(other)}`
     }
     if (atom.neg && atom.t !== 'set') return generic()
+    // the arithmetic below assumes one line of seats and plain people; two rows and "the one on the left of X" need the generic wording
+    if (c.tworow || hasDerived(atom)) return atom.t === 'set' ? (atom.neg ? `${me} cannot be ${c.setPhrase(atom.fs)}` : `${me} must be ${c.setPhrase(atom.fs)}`) : generic()
     switch (atom.t) {
       case 'diff': {
         const p = wrap(ti === 0 ? f - atom.d : f + atom.d)
@@ -485,8 +487,8 @@ export class Engine {
 export function failedClues(puzzle: Puzzle, sol: Solution): number[] {
   const n = puzzle.n
   const personAt = (c: number, v: number) => sol.val[c].indexOf(v)
-  const personOf = (t: Term): number => (t.k === 'p' ? t.i : t.k === 'v' ? personAt(t.c, t.i) : sol.pos.indexOf(t.f))
-  const posOf = (t: Term): number => (t.k === 'f' ? t.f : sol.pos[personOf(t)])
+  const personOf = (t: VarTerm): number => (t.k === 'p' ? t.i : t.k === 'v' ? personAt(t.c, t.i) : sol.pos.indexOf(t.f))
+  const posOf = (t: VarTerm): number => (t.k === 'f' ? t.f : sol.pos[personOf(t)])
   const bad: number[] = []
   for (const clue of puzzle.clues) {
     let ok = true
@@ -494,7 +496,7 @@ export function failedClues(puzzle: Puzzle, sol: Solution): number[] {
       if (atom.t === 'link') {
         const same = personOf(atom.x) === personOf(atom.y) && personOf(atom.x) >= 0
         if (atom.neg ? same : !same) ok = false
-      } else if (!atomTest(atom, n, puzzle.axis === 'circle', puzzle.cols ?? 1)(atomTerms(atom).map(posOf))) ok = false
+      } else if (!atomTest(atom, n, puzzle.axis === 'circle', puzzle.cols ?? 1, puzzle.axis === 'tworow' ? (puzzle.rowLen ?? 0) : 0)(atomTerms(atom).map(posOf))) ok = false
     }
     if (!ok) bad.push(clue.id)
   }

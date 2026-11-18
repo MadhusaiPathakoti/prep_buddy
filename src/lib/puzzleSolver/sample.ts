@@ -149,4 +149,19 @@ C does not sit at either end.
 F likes Black.
 B likes Yellow.`,
   },
+  {
+    id: 'two-rows',
+    title: 'Two facing rows',
+    text: `Twelve persons are standing in two parallel rows and facing each other. In Row1- A, B, C, D, E & F are standing and facing south. In row2- L, M, N, O, P & Q are standing and facing north.
+
+C stands immediate left of the one who stands third to the right of A.
+The number of persons standing to the left of D is the same as the number of persons standing to the right of A.
+The one who stands opposite to C stands third to the left of M.
+L stands second to the left of M.
+O neither stands opposite to C nor F.
+Only one person stands between E and D.
+Q stands fourth to the left of the one who stands the immediate right of P.
+E does not stand at the end of the row.
+N stands third to the left of the one who faces E.`,
+  },
 ]

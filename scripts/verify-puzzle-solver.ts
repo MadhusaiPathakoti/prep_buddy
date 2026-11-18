@@ -174,6 +174,46 @@ const CIRCLE_CASES: [string, string][] = [
   ['A, who is 23 years old, sits exactly opposite to B.', "A's age is 23 years ; A sits exactly opposite B"],
 ]
 
+const TWOROW_HEADER = `Eight persons - A, B, C, D, E, F, G, H - are sitting in two parallel rows containing four persons each, in such a way that each person of one row faces a person of the other row. The persons of row 1 face south and the persons of row 2 face north. (Left and right of a person are with respect to the direction that person is facing.)
+`
+
+const TWOROW_CASES: [string, string][] = [
+  ['A sits in row 1.', 'A is in row 1'],
+  ['A does not sit in row 2.', 'A is not in row 2'],
+  ['A sits in the first row.', 'A is in row 1'],
+  ['A sits in row 2 and B sits in row 1.', 'A is in row 2 ; B is in row 1'],
+  ['A sits in the same row as B.', 'A and B are in the same row'],
+  ['A does not sit in the same row as B.', 'A and B are not in the same row'],
+  ['A and B sit in the same row.', 'A and B are in the same row'],
+  ['A and B sit in different rows.', 'A and B are not in the same row'],
+  ['A faces B.', 'A faces B'],
+  ['A does not face B.', 'A does not face B'],
+  ['A sits exactly opposite to B.', 'A faces B'],
+  ['A does not sit opposite to B.', 'A does not face B'],
+  ['Neither A nor B faces C.', 'A does not face C ; B does not face C'],
+  ['A neither faces B nor C.', 'A does not face B ; A does not face C'],
+  ['A sits at one of the extreme ends of the row.', 'A is in an end seat of a row'],
+  ['A does not sit at any of the extreme ends of the row.', 'A is not in an end seat of a row'],
+  ['A sits at the extreme left end.', 'A is in a left-end seat'],
+  ['A sits at the extreme right end of row 2.', 'A is in seat 4 of row 2'],
+  ['A sits third from the left end.', 'A is in seat 3 of row 1 or seat 3 of row 2'],
+  ['A sits second to the left of B.', 'A is exactly 2 seats to the left of B'],
+  ['A sits immediately to the right of B.', 'A is immediately to the right of B'],
+  ['A is an immediate neighbour of B.', 'A and B are on neighbouring seats'],
+  ['A is not an immediate neighbour of B.', 'A and B are not on neighbouring seats'],
+  ['Two persons sit between A and B.', 'exactly 2 people between A and B'],
+  ['A sits between B and C.', 'A is between B and C'],
+  ['A sits at the immediate left of the one who faces B.', 'A is immediately to the left of the one opposite B'],
+  ['A sits third to the right of the one who sits opposite to B.', 'A is exactly 3 seats to the right of the one opposite B'],
+  ['The one who faces A sits second to the left of B.', 'the one opposite A is exactly 2 seats to the left of B'],
+  ['The one who sits immediate left of A faces B.', 'the one immediately to the left of A faces B'],
+  ['A sits second to the left of the person who sits to the immediate right of B.', 'A is exactly 2 seats to the left of the one immediately to the right of B'],
+  ['The number of persons to the left of A is the same as the number of persons to the right of B.', 'as many people to the left of A as to the right of B'],
+  ['The number of persons standing to the left of A is not the same as the number of persons standing to the right of B.', 'not as many people to the left of A as to the right of B'],
+  ['If A faces B, then C sits in the same row as D.', 'if A faces B, then C and D are in the same row'],
+  ['Either A faces B or C sits in row 1, but not both.', 'either A faces B, or C is in row 1, but not both'],
+]
+
 const FLOOR_EXTRA: [string, string][] = [
   ['A lives on a prime-numbered floor.', 'A is on floor 2, 3, 5 or 7'],
   ['A does not live on a prime-numbered floor.', 'A is not on floor 2, 3, 5 or 7'],
@@ -246,6 +286,7 @@ const BOX_CASES: [string, string][] = [
   ['Box, which contains Banana, is placed two places above the box, which contains Kiwi.', 'the Bananas box is exactly 2 places above the Kiwi box'],
   ['The box which contains Kiwi is placed immediately below box J.', 'the Kiwi box is immediately below J'],
   ['Box L is not kept immediately above box M.', 'L is not immediately above M'],
+  ['Either box K is kept at either the top or the bottom of its stack or one box is kept between box L and box K, but not both.', 'either K is in either the topmost or the lowest place, or exactly 1 box between L and K, but not both'],
 ]
 
 function runParserTable(header: string, cases: [string, string][]) {
@@ -271,6 +312,7 @@ runParserTable(DAY_HEADER, DAY_CASES)
 runParserTable(CIRCLE_HEADER, CIRCLE_CASES)
 runParserTable(GRID_HEADER, GRID_CASES)
 runParserTable(BOX_HEADER, BOX_CASES)
+runParserTable(TWOROW_HEADER, TWOROW_CASES)
 runParserTable(FLOOR_HEADER, FLOOR_EXTRA)
 runParserTable(ORDER_HEADER, ORDER_EXTRA)
 
@@ -290,6 +332,18 @@ for (const s of SAMPLES) {
   else {
     const e = enumerate(r.puzzle, 5)
     if (e.sols.length !== 1) fail(`sample "${s.title}" has ${e.sols.length} solutions`)
+  }
+}
+
+// the 12-person two-row puzzle from the app's own sample list: the answer was checked by hand against every clue
+{
+  const two = SAMPLES.find((x) => x.id === 'two-rows')
+  const r = two ? parsePuzzle(two.text) : null
+  const e = r?.puzzle ? enumerate(r.puzzle, 3) : null
+  if (!r?.puzzle || !e || e.sols.length !== 1) fail('two-rows sample: expected exactly one solution')
+  else {
+    const rowsOf = (sol: Solution, row: number) => Array.from({ length: 6 }, (_, i) => r.puzzle!.people[sol.pos.indexOf(row * 6 + i)]).join('')
+    if (rowsOf(e.sols[0], 0) !== 'BEADCF' || rowsOf(e.sols[0], 1) !== 'QNLPMO') fail(`two-rows sample: got ${rowsOf(e.sols[0], 0)} / ${rowsOf(e.sols[0], 1)}`)
   }
 }
 
@@ -324,12 +378,81 @@ const shuffle = <T>(a: T[]): T[] => {
 
 /** Plain-meaning evaluation of a clue atom against a complete arrangement (shares no code with the engine). */
 function holds(p: Puzzle, sol: Solution, a: Atom): boolean {
-  const personOf = (t: Term): number => (t.k === 'p' ? t.i : t.k === 'v' ? sol.val[t.c].indexOf(t.i) : sol.pos.indexOf(t.f))
-  const at = (t: Term): number => (t.k === 'f' ? t.f : sol.pos[personOf(t)])
+  const m = p.axis === 'tworow' ? p.n / 2 : 0
+  const rowOf = (q: number) => (m ? Math.floor(q / m) : 0)
+  const seatOf = (q: number) => (m ? q % m : q)
+  // the person a term stands for (-1 when "the one three seats to the right of X" does not exist)
+  const personOf = (t: Term): number => {
+    if (t.k === 'p') return t.i
+    if (t.k === 'v') return sol.val[t.c].indexOf(t.i)
+    if (t.k === 'f') return sol.pos.indexOf(t.f)
+    const b = personOf(t.base)
+    if (b < 0) return -1
+    const q = sol.pos[b]
+    if (t.op === 'opp') return sol.pos.findIndex((w) => rowOf(w) !== rowOf(q) && seatOf(w) === m - 1 - seatOf(q))
+    return sol.pos.findIndex((w) => rowOf(w) === rowOf(q) && seatOf(w) === seatOf(q) + t.d)
+  }
+  const at = (t: Term): number => (t.k === 'f' ? t.f : personOf(t) < 0 ? -1 : sol.pos[personOf(t)])
   const circ = p.axis === 'circle'
   const wrap = (x: number) => ((x % p.n) + p.n) % p.n
   let r: boolean
+  if (m && a.t !== 'logic' && a.t !== 'link') {
+    // two facing rows: a derived person who does not exist makes the clue false; relations along a row need both people in that row
+    const ts: Term[] = a.t === 'btw' ? [a.x, a.y, a.z] : a.t === 'same' ? [a.x, a.y, a.z, a.w] : a.t === 'set' ? [a.x] : [a.x, a.y]
+    const px = at(a.x)
+    const py = a.t === 'set' ? -1 : at(a.y)
+    if (ts.some((t) => at(t) < 0)) return !!a.neg
+    const inRow = (u: number, v: number) => rowOf(u) === rowOf(v)
+    switch (a.t) {
+      case 'diff':
+        r = inRow(px, py) && seatOf(px) - seatOf(py) === a.d
+        break
+      case 'rank':
+        r = inRow(px, py) && (a.hi ? seatOf(px) > seatOf(py) : seatOf(px) < seatOf(py))
+        break
+      case 'adj':
+        r = inRow(px, py) && Math.abs(seatOf(px) - seatOf(py)) === 1
+        break
+      case 'gap':
+        r = inRow(px, py) && px !== py && sol.pos.filter((q) => inRow(q, px) && seatOf(q) > Math.min(seatOf(px), seatOf(py)) && seatOf(q) < Math.max(seatOf(px), seatOf(py))).length === a.k
+        break
+      case 'btw': {
+        const pz = at(a.z)
+        r = inRow(px, py) && inRow(px, pz) && Math.min(seatOf(py), seatOf(pz)) < seatOf(px) && seatOf(px) < Math.max(seatOf(py), seatOf(pz))
+        break
+      }
+      case 'same': {
+        const pz = at(a.z)
+        const pw = at(a.w)
+        const between = (u: number, v: number) => sol.pos.filter((q) => inRow(q, u) && seatOf(q) > Math.min(seatOf(u), seatOf(v)) && seatOf(q) < Math.max(seatOf(u), seatOf(v))).length
+        r = inRow(px, py) && inRow(pz, pw) && px !== py && pz !== pw && between(px, py) === between(pz, pw)
+        break
+      }
+      case 'set':
+        r = a.fs.includes(px)
+        break
+      case 'opp':
+        r = !inRow(px, py) && seatOf(px) + seatOf(py) === m - 1
+        break
+      case 'samerow':
+        r = inRow(px, py)
+        break
+      case 'cnt': {
+        // how many people stand on the stated side of each person, inside that person's own row
+        const count = (q: number, side: 'l' | 'r') => sol.pos.filter((w) => inRow(w, q) && (side === 'l' ? seatOf(w) < seatOf(q) : seatOf(w) > seatOf(q))).length
+        r = count(px, a.xs) === count(py, a.ys)
+        break
+      }
+      default:
+        r = false
+    }
+    return a.neg ? !r : r
+  }
   switch (a.t) {
+    case 'opp':
+    case 'samerow':
+    case 'cnt':
+      return false
     case 'link':
       r = personOf(a.x) === personOf(a.y)
       return a.neg ? !r : r
@@ -403,7 +526,8 @@ function permutations(n: number): number[][] {
 function needLevel(a: Atom): number {
   if (a.t === 'logic') return Math.max(needLevel(a.a), needLevel(a.b))
   const ts: Term[] = a.t === 'btw' ? [a.x, a.y, a.z] : a.t === 'same' ? [a.x, a.y, a.z, a.w] : a.t === 'set' ? [a.x] : [a.x, a.y]
-  return Math.max(0, ...ts.map((t) => (t.k === 'v' ? t.c + 1 : 0)))
+  const base = (t: Term): Term => (t.k === 'r' ? base(t.base) : t)
+  return Math.max(0, ...ts.map((t) => { const b = base(t); return b.k === 'v' ? b.c + 1 : 0 }))
 }
 
 function bruteCount(p: Puzzle, cap: number): number {
@@ -491,7 +615,66 @@ function randomGridAtom(p: Puzzle, hidden: Solution): Atom {
   }
 }
 
+/** A true clue about two facing rows: relations inside a row, opposite, same row, counts, row / seat sets, and "the one who …" people. */
+function randomTworowAtom(p: Puzzle, hidden: Solution): Atom {
+  const m = p.n / 2
+  const seatOf = (q: number) => q % m
+  const personOf = (t: Term): number => (t.k === 'p' ? t.i : t.k === 'v' ? hidden.val[t.c].indexOf(t.i) : -1)
+  /** does the derived person exist in the hidden arrangement? */
+  const exists = (t: Term): boolean => {
+    if (t.k !== 'r' || t.op === 'opp') return true
+    const seat = seatOf(hidden.pos[personOf(t.base)]) + t.d // derived people are only ever built on a named person or value
+    return seat >= 0 && seat < m
+  }
+  const derived = (): Term => {
+    const base = randomTerm(p, true)
+    return rnd() < 0.45 ? { k: 'r', base, op: 'opp', d: 0 } : { k: 'r', base, op: 'shift', d: (ri(2) ? 1 : -1) * (1 + ri(Math.max(1, m - 1))) }
+  }
+  const term = (allowDerived: boolean): Term => (allowDerived && rnd() < 0.25 ? derived() : randomTerm(p, true))
+  const simple = (allowDerived: boolean): Atom => {
+    const x = term(allowDerived)
+    let y = term(allowDerived)
+    let guard = 0
+    while (x.k !== 'r' && y.k !== 'r' && personOf(y) === personOf(x) && guard++ < 30) y = term(allowDerived)
+    const z = randomTerm(p, true)
+    const kind = ri(11)
+    if (kind === 0) return { t: 'diff', x, y, d: (ri(2) ? 1 : -1) * (1 + ri(Math.max(1, m - 1))) }
+    if (kind === 1) return { t: 'rank', x, y, hi: rnd() < 0.5 }
+    if (kind === 2) return { t: 'adj', x, y }
+    if (kind === 3) return { t: 'gap', x, y, k: ri(Math.max(1, m - 1)) }
+    if (kind === 4) return { t: 'btw', x, y, z }
+    if (kind === 5) {
+      const row = ri(2)
+      return { t: 'set', x, fs: rnd() < 0.4 ? Array.from({ length: m }, (_, i) => row * m + i) : shuffle(Array.from({ length: p.n }, (_, i) => i)).slice(0, 1 + ri(4)).sort((a, b) => a - b) }
+    }
+    if (kind === 6 || kind === 7) return { t: 'opp', x, y }
+    if (kind === 8) return { t: 'samerow', x, y }
+    if (kind === 9) return { t: 'cnt', x, xs: ri(2) ? 'l' : 'r', y, ys: ri(2) ? 'l' : 'r' }
+    return { t: 'diff', x, y, d: ri(2) ? 1 : -1 }
+  }
+  for (;;) {
+    let atom: Atom
+    const r = rnd()
+    if (r < 0.12) atom = { t: 'logic', op: (['imp', 'xor', 'or'] as const)[ri(3)], a: simple(false), b: simple(false) }
+    else if (r < 0.2 && p.cats.length) atom = { t: 'link', x: { k: 'p', i: ri(p.n) }, y: { k: 'v', c: ri(p.cats.length), i: ri(p.n) } }
+    else atom = simple(true)
+    if (atom.t !== 'logic' && atom.t !== 'link') {
+      const ts: Term[] = atom.t === 'btw' ? [atom.x, atom.y, atom.z] : atom.t === 'set' ? [atom.x] : [atom.x, atom.y]
+      // a clue about someone who does not exist is neither true nor false in plain English: leave those out
+      if (ts.some((t) => !exists(t))) continue
+    }
+    if (!holds(p, hidden, atom)) {
+      if (atom.t === 'logic') continue
+      atom = { ...atom, neg: true } as Atom
+    }
+    if (!holds(p, hidden, atom)) continue
+    if (atom.t === 'link' && atom.neg && rnd() < 0.5) continue
+    return atom
+  }
+}
+
 function randomAtom(p: Puzzle, hidden: Solution): Atom {
+  if (p.axis === 'tworow') return randomTworowAtom(p, hidden)
   if (p.axis === 'grid') return randomGridAtom(p, hidden)
   if (p.axis === 'circle') return randomCircleAtom(p, hidden)
   for (;;) {
@@ -533,6 +716,7 @@ function randomPuzzle(n: number, nCats: number, nClues: number, axis: Puzzle['ax
   const hidden: Solution = { pos: shuffle(Array.from({ length: n }, (_, i) => i)), val: cats.map(() => shuffle(Array.from({ length: n }, (_, i) => i))) }
   const puzzle: Puzzle = { n, axis, topDown: false, people, cats, clues: [], ...(axis === 'order' ? { labels: ['May', 'June', 'July', 'August', 'September', 'October'].slice(0, n), unit: 'month', on: 'in', verb: 'was born' } : {}) }
   if (axis === 'circle') puzzle.facing = 'out'
+  if (axis === 'tworow') puzzle.rowLen = n / 2
   if (axis === 'grid') {
     puzzle.cols = n % 2 === 0 ? 2 : 1
     puzzle.flats = ['A', 'B'].slice(0, puzzle.cols)
@@ -554,10 +738,10 @@ let multiple = 0
 let whatIfs = 0
 let eliminations = 0
 for (let run = 0; run < RUNS; run++) {
-  const n = 4 + (run % 3) // 4..6
+  const axis = (['floor', 'row', 'order', 'circle', 'grid', 'tworow'] as const)[Math.floor(run / 3) % 6]
+  const n = axis === 'tworow' ? (run % 2 ? 4 : 6) : 4 + (run % 3) // 4..6 (two rows need an even number)
   const nCats = n === 6 ? 1 : run % 3 === 0 ? 0 : 1 + (run % 2)
   const nClues = run % 5 === 0 ? 3 + ri(n) : 3 * n + ri(2 * n)
-  const axis = (['floor', 'row', 'order', 'circle', 'grid'] as const)[Math.floor(run / 3) % 5]
   const { puzzle, hidden } = randomPuzzle(n, nCats, nClues, axis)
   const where = `run ${run} (${axis}, n=${n}, cats=${nCats}, clues=${nClues})`
 
@@ -671,8 +855,8 @@ for (const s of SAMPLES) {
         const proof = proofs[gi]
         // one vertical stack is a line of places, like a row; stacks side by side are not supported yet
         const kind: string = proof.geom.kind === 'stacks' && proof.geom.stacks === 1 ? 'row' : proof.geom.kind
-        // same-facing round tables, single rows and single stacks are supported; two rows, mixed-facing / square tables and side-by-side stacks are not (yet)
-        if (kind !== 'circle' && kind !== 'row') {
+        // same-facing round tables, single rows, two facing rows and single stacks are supported; mixed-facing / square tables and side-by-side stacks are not (yet)
+        if (kind !== 'circle' && kind !== 'row' && kind !== 'tworow') {
           tally[topic].skipped++
           return
         }
@@ -699,14 +883,14 @@ for (const s of SAMPLES) {
             if (!tv || cat.values[sol.val[c][i]].toLowerCase() !== String(tv).toLowerCase()) fail(`${where}: ${cat.name} of ${nm} differs from the generator's answer`)
           })
         })
-        if (kind === 'row' && shift !== 0) fail(`${where}: positions shifted`)
+        if ((kind === 'row' || kind === 'tworow') && shift !== 0) fail(`${where}: positions shifted`)
       })
     }
   }
   console.log('app generator, end to end: ' + Object.entries(tally).map(([k, v]) => `${k} ${v.checked} checked (${v.skipped} of an unsupported layout skipped)`).join('; '))
 }
 
-console.log(`parser: ${FLOOR_CASES.length + ROW_CASES.length + ORDER_CASES.length + DAY_CASES.length + CIRCLE_CASES.length + GRID_CASES.length + BOX_CASES.length + FLOOR_EXTRA.length + ORDER_EXTRA.length} phrasings checked`)
+console.log(`parser: ${FLOOR_CASES.length + ROW_CASES.length + ORDER_CASES.length + DAY_CASES.length + CIRCLE_CASES.length + GRID_CASES.length + BOX_CASES.length + TWOROW_CASES.length + FLOOR_EXTRA.length + ORDER_EXTRA.length} phrasings checked`)
 console.log(`engine vs brute force: ${compared} random puzzles (${uniqueTraced} with a unique answer traced, ${multiple} with several answers)`)
 console.log(`step kinds: ${JSON.stringify(kinds)}; ${trials} case-analysis trials`)
 console.log(`teaching trace: ${eliminations} crossings checked for soundness, ${whatIfs} what-if simulations refuted`)
