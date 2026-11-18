@@ -6,8 +6,8 @@
 //   clue     each active clue removes positions that no placement of the other people could support
 //   unique   a person with one candidate left is placed; a floor with one candidate left is filled; the rest of that row/column goes
 //   link     tables must agree: if A is on floor 1 and floor 1 can't be Delhi, A can't be from Delhi
-import { atomTerms, atomTest, bits, hasDerived, cellKey, Ctx, ctz, Grid, pop } from './core'
-import type { Atom, Puzzle, Solution, VarTerm } from './types'
+import { atomTerms, atomVars, atomTest, bits, hasDerived, cellKey, Ctx, ctz, Grid, pop } from './core'
+import type { Atom, DirTerm, Puzzle, Solution, VarTerm } from './types'
 
 export type WhyKind = 'given' | 'clue' | 'taken' | 'single' | 'trans' | 'case' | 'assume' | 'anchor'
 
@@ -99,7 +99,7 @@ export class Engine {
       this.fixed = init.fixed
       this.linked = init.linked
     } else {
-      this.grid = new Grid(this.ctx.n, this.ctx.K)
+      this.grid = new Grid(this.ctx.n, this.ctx.K, undefined, this.ctx.sizes)
       this.active = new Set()
       this.fixed = new Set()
       this.linked = new Set()
@@ -145,7 +145,7 @@ export class Engine {
     if (this.contra) return
     const c = this.ctx
     if (this.grid.row(a, i, b) === 0) this.setContra(b === 0 ? `Nobody is left for ${c.lab(a, i)}` : `${c.lab(a, i)} has no ${c.catName(b)} left`, why.clue)
-    else if (this.grid.row(b, j, a) === 0) this.setContra(a === 0 ? `Nobody is left for ${c.lab(b, j)}` : `${c.lab(b, j)} has no ${c.catName(a)} left`, why.clue)
+    else if (this.grid.row(b, j, a) === 0 && !c.isDir(b)) this.setContra(a === 0 ? `Nobody is left for ${c.lab(b, j)}` : `${c.lab(b, j)} has no ${c.catName(a)} left`, why.clue)
   }
 
   /** Records that (a,i) and (b,j) belong together and crosses out every competing candidate in both directions. */
@@ -162,8 +162,8 @@ export class Engine {
       this.events.push({ op: 'fix', a: A, i: I, b: B, j: J, why, gid: this.curGid })
     }
     const taken: Why = takenWhy ?? { kind: 'taken', text: this.ctx.pair(a, i, b, j), clue: undefined }
-    for (let j2 = 0; j2 < this.ctx.n; j2++) if (j2 !== j) this.clear(a, i, b, j2, taken)
-    for (let i2 = 0; i2 < this.ctx.n; i2++) if (i2 !== i) this.clear(a, i2, b, j, taken)
+    for (let j2 = 0; j2 < this.ctx.sizes[b]; j2++) if (j2 !== j) this.clear(a, i, b, j2, taken)
+    if (!this.ctx.isDir(b)) for (let i2 = 0; i2 < this.ctx.n; i2++) if (i2 !== i) this.clear(a, i2, b, j, taken)
   }
 
   /** Crosses one candidate out for a stated reason (used by case analysis: "if it were here, the puzzle would break"). */
@@ -243,7 +243,8 @@ export class Engine {
     }
   }
 
-  private dom(t: VarTerm): number {
+  private dom(t: VarTerm | DirTerm): number {
+    if (t.k === 'd') return this.grid.row(this.ctx.termCat(t.of), this.ctx.termIdx(t.of), this.ctx.dirK)
     if (t.k === 'f') return 1 << t.f
     return this.grid.row(this.ctx.termCat(t), this.ctx.termIdx(t), 1)
   }
@@ -251,7 +252,7 @@ export class Engine {
   private revise(atom: Atom, clue: number): void {
     if (atom.t === 'link') return
     const c = this.ctx
-    const terms = atomTerms(atom)
+    const terms = atomVars(atom)
     const k = terms.length
     const doms = terms.map((t) => this.dom(t))
     const test = testOf(atom, c)
@@ -284,21 +285,25 @@ export class Engine {
         grouped = true
       }
       for (const f of bits(rem)) {
-        this.clear(c.termCat(t), c.termIdx(t), 1, f, { kind: 'clue', clue, text: this.quiet ? '' : this.reason(atom, ti, f, terms, doms) })
+        const [ca, ia, cb] = t.k === 'd' ? [c.termCat(t.of), c.termIdx(t.of), c.dirK] : [c.termCat(t), c.termIdx(t), 1]
+        this.clear(ca, ia, cb, f, { kind: 'clue', clue, text: this.quiet ? '' : this.reason(atom, ti, f, terms, doms) })
         if (this.contra) return
       }
     }
   }
 
   /** Why position f is impossible for term ti of the atom, given where the other terms can still be. */
-  private reason(atom: Atom, ti: number, f: number, terms: VarTerm[], doms: number[]): string {
+  private reason(atom: Atom, ti: number, f: number, terms: (VarTerm | DirTerm)[], doms: number[]): string {
     const c = this.ctx
+    const t0 = terms[ti]
+    if (t0.k === 'd') return `${c.termLabel(t0.of)} facing ${c.lab(c.dirK, f)} would break the clue (${c.describeAtom(atom)})`
+    if (terms.some((t) => t.k === 'd')) return `${c.termLabel(t0)} ${c.onWord} ${c.posLab(f)} would break the clue (${c.describeAtom(atom)})`
     const n = c.n
-    const me = c.termLabel(terms[ti])
+    const me = c.termLabel(terms[ti] as VarTerm)
     const here = c.posLab(f)
     const on = c.onWord
     const other = 1 - ti
-    const who = terms.length === 2 ? c.termLabel(terms[other]) : ''
+    const who = terms.length === 2 ? c.termLabel(terms[other] as VarTerm) : ''
     const dom = (k: number) => c.fmtMask(doms[k])
     const generic = () => `${me} ${on} ${here} would break the clue (${c.describeAtom(atom)})`
     const wrap = (p: number) => (c.circular ? ((p % n) + n) % n : p)
@@ -334,8 +339,8 @@ export class Engine {
       case 'set':
         return atom.neg ? `${me} cannot be ${c.setPhrase(atom.fs)}` : `${me} must be ${c.setPhrase(atom.fs)}`
       case 'btw':
-        if (ti === 0) return `${c.termLabel(terms[1])} and ${c.termLabel(terms[2])} cannot stand on opposite sides of ${here}`
-        return `${me} ${on} ${here} leaves no way to put ${c.termLabel(terms[0])} between ${c.termLabel(terms[1])} and ${c.termLabel(terms[2])}`
+        if (ti === 0) return `${c.termLabel(terms[1] as VarTerm)} and ${c.termLabel(terms[2] as VarTerm)} cannot stand on opposite sides of ${here}`
+        return `${me} ${on} ${here} leaves no way to put ${c.termLabel(terms[0] as VarTerm)} between ${c.termLabel(terms[1] as VarTerm)} and ${c.termLabel(terms[2] as VarTerm)}`
       default:
         return generic()
     }
@@ -357,13 +362,14 @@ export class Engine {
           if (pop(r) === 1) {
             const j = ctz(r)
             const col = this.grid.row(b, j, a)
-            if (!this.fixed.has(cellKey(a, i, b, j)) || col !== 1 << i) {
+            if (!this.fixed.has(cellKey(a, i, b, j)) || (col !== 1 << i && !c.isDir(b))) {
               this.newGroup()
               this.fix(a, i, b, j, { kind: 'single', text: `Only ${c.lab(b, j)} is left for ${c.lab(a, i)}` })
               if (this.contra) return
             }
           }
         }
+        if (c.isDir(b)) continue // many people may face the same way: only the people ↔ direction rows above apply
         for (let j = 0; j < n; j++) {
           const col = this.grid.row(b, j, a)
           if (col === 0) {
@@ -488,15 +494,22 @@ export function failedClues(puzzle: Puzzle, sol: Solution): number[] {
   const n = puzzle.n
   const personAt = (c: number, v: number) => sol.val[c].indexOf(v)
   const personOf = (t: VarTerm): number => (t.k === 'p' ? t.i : t.k === 'v' ? personAt(t.c, t.i) : sol.pos.indexOf(t.f))
-  const posOf = (t: VarTerm): number => (t.k === 'f' ? t.f : sol.pos[personOf(t)])
+  const posOf = (t: VarTerm | DirTerm): number => (t.k === 'd' ? sol.val[puzzle.dirCat as number][personOf(t.of)] : t.k === 'f' ? t.f : sol.pos[personOf(t)])
   const bad: number[] = []
   for (const clue of puzzle.clues) {
     let ok = true
     for (const atom of clue.atoms) {
       if (atom.t === 'link') {
-        const same = personOf(atom.x) === personOf(atom.y) && personOf(atom.x) >= 0
+        // a direction is shared by many people: "L faces south" means L's own direction is south
+        const dirVal = (t: VarTerm) => (puzzle.dirCat !== undefined && t.k === 'v' && t.c === puzzle.dirCat ? t.i : -1)
+        const same =
+          dirVal(atom.y) >= 0 && atom.x.k !== 'f'
+            ? sol.val[puzzle.dirCat as number][personOf(atom.x)] === dirVal(atom.y)
+            : dirVal(atom.x) >= 0 && atom.y.k !== 'f'
+              ? sol.val[puzzle.dirCat as number][personOf(atom.y)] === dirVal(atom.x)
+              : personOf(atom.x) === personOf(atom.y) && personOf(atom.x) >= 0
         if (atom.neg ? same : !same) ok = false
-      } else if (!atomTest(atom, n, puzzle.axis === 'circle', puzzle.cols ?? 1, puzzle.axis === 'tworow' ? (puzzle.rowLen ?? 0) : 0)(atomTerms(atom).map(posOf))) ok = false
+      } else if (!atomTest(atom, n, puzzle.axis === 'circle', puzzle.cols ?? 1, puzzle.axis === 'tworow' ? (puzzle.rowLen ?? 0) : 0)(atomVars(atom).map(posOf))) ok = false
     }
     if (!ok) bad.push(clue.id)
   }

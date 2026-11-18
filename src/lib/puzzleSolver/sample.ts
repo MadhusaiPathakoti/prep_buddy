@@ -194,4 +194,25 @@ Only two floors are there between the one who is a Author and G, who is a Nurse.
 C is not a Author whereas E is not an Farmer.
 D is a Baker but doesn't stay above B.`,
   },
+  {
+    id: 'facing-line',
+    title: 'A line facing north / south',
+    text: `Eight friends are sitting in a straight line equidistant from each other but not necessarily in the same order. Each of them like one fruit. Some of them are facing south while some are facing north.
+
+I sits to the left of L, who is not at any end.
+B and I faces same direction.
+One who likes Kiwi sits at one end immediate left of M, who likes Guava.
+D who likes Fig sits immediate right of P, who does not like Apple.
+F is to the right of D.
+One who likes Apple sits to the left of the person who likes Grapes.
+P do not sit at any end.
+F sits fourth to the left of Q, who sits at one end.
+One who likes Papaya sits immediate right of one who likes Lemon.
+One who likes Mango sits immediate to the person who likes Guava.
+Two persons sits between P and F.
+Persons who likes Apple and Papaya faces towards same direction.
+L faces towards south direction.
+One who likes Papaya do not sit immediate to one who likes Fig.
+B neither likes Mango nor likes Kiwi.`,
+  },
 ]

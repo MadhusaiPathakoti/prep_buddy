@@ -341,7 +341,9 @@ export default function Board({
             : p.axis === "floor" || p.axis === "grid"
               ? "The building"
               : p.axis === "row"
-                ? "The row, left → right"
+                ? p.dirCat !== undefined
+                  ? "The line, west → east"
+                  : "The row, left → right"
                 : p.axis === "circle"
                   ? "The round table"
                   : p.axis === "tworow"

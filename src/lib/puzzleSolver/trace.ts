@@ -701,7 +701,7 @@ export function whyNotRows(trace: Trace, step: Step): WhyNotRow[] {
   return step.rows.map((r) => {
     const after = rowMask(post, r)
     const options: WhyOption[] = []
-    for (let j = 0; j < ctx.n; j++) {
+    for (let j = 0; j < ctx.sizes[r.target]; j++) {
       const cell = r.ea < r.target ? { a: r.ea, i: r.ei, b: r.target, j } : { a: r.target, i: j, b: r.ea, j: r.ei }
       const alive = ((after >> j) & 1) === 1
       const info = trace.elim.get(cellKey(cell.a, cell.i, cell.b, cell.j))

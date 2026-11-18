@@ -1,6 +1,6 @@
 // Shared plumbing for the Puzzle Solver engine: the candidate grid, bit-mask helpers, and every piece of wording
 // (labels, "A is on floor 3", clue descriptions) so the engine and the UI always phrase things the same way.
-import type { Atom, GridRel, Puzzle, Term, VarTerm } from './types'
+import type { Atom, GridRel, Puzzle, Term, VarTerm, DirTerm } from './types'
 
 // ─── bit helpers ─────────────────────────────────────────────────────────────
 
@@ -34,10 +34,15 @@ export class Grid {
   readonly K: number
   m: Uint16Array
 
-  constructor(n: number, K: number, m?: Uint16Array) {
+  /** `sizes[c]`: how many values category c has (n unless it is a two-valued direction category) */
+  constructor(n: number, K: number, m?: Uint16Array, sizes?: number[]) {
     this.n = n
     this.K = K
-    this.m = m ?? new Uint16Array(K * K * n).fill((1 << n) - 1)
+    if (m) this.m = m
+    else {
+      this.m = new Uint16Array(K * K * n)
+      for (let a = 0; a < K; a++) for (let b = 0; b < K; b++) for (let i = 0; i < n; i++) this.m[(a * K + b) * n + i] = (1 << (sizes?.[b] ?? n)) - 1
+    }
   }
 
   row(a: number, i: number, b: number): number {
@@ -76,6 +81,18 @@ export class Ctx {
     this.p = p
     this.n = p.n
     this.K = 2 + p.cats.length
+  }
+
+  /** category index of the facing direction (north / south) of a line of people who face either way, or -1 */
+  get dirK(): number {
+    return this.p.dirCat === undefined ? -1 : 2 + this.p.dirCat
+  }
+  isDir(c: number): boolean {
+    return c === this.dirK
+  }
+  /** number of values of every category (a direction has two; everything else one per person) */
+  get sizes(): number[] {
+    return Array.from({ length: this.K }, (_, c) => (c === this.dirK ? 2 : this.n))
   }
 
   /** what the people are: "person" or, say, "box" */
@@ -228,6 +245,8 @@ export class Ctx {
   pair(a: number, i: number, b: number, j: number): string {
     if (a > b) return this.pair(b, j, a, i)
     if (a === 0 && b === 1) return this.whereIs(i, j, false)
+    if (a === 0 && this.isDir(b)) return `${this.lab(0, i)} faces ${this.lab(b, j)}`
+    if (a === 1 && this.isDir(b)) return `the person in ${this.posLab(i)} faces ${this.lab(b, j)}`
     if (a === 0) return `${this.lab(0, i)}'s ${this.catName(b)} is ${this.lab(b, j)}`
     if (a === 1) return `${this.ofPersonAt(b, i)} is ${this.lab(b, j)}`
     return `the ${this.lab(a, i)} ${this.noun}'s ${this.catName(b)} is ${this.lab(b, j)}`
@@ -241,6 +260,8 @@ export class Ctx {
   notPair(a: number, i: number, b: number, j: number): string {
     if (a > b) return this.notPair(b, j, a, i)
     if (a === 0 && b === 1) return this.whereIs(i, j, true)
+    if (a === 0 && this.isDir(b)) return `${this.lab(0, i)} does not face ${this.lab(b, j)}`
+    if (a === 1 && this.isDir(b)) return `the person in ${this.posLab(i)} does not face ${this.lab(b, j)}`
     if (a === 0) return `${this.lab(0, i)}'s ${this.catName(b)} is not ${this.lab(b, j)}`
     if (a === 1) return `${this.ofPersonAt(b, i)} is not ${this.lab(b, j)}`
     return `the ${this.lab(a, i)} ${this.noun}'s ${this.catName(b)} is not ${this.lab(b, j)}`
@@ -433,10 +454,12 @@ export class Ctx {
         }
         const k = Math.abs(d)
         const how = k === 1 ? 'immediately ' : `exactly ${k} ${this.unit}s `
-        return `${L(a.x)} is${not} ${how}${dir(d > 0)} ${L(a.y)}`
+        return `${L(a.x)} is${not} ${how}${dir(d > 0)} ${L(a.y)}${a.ref ? `, as seen by ${L(a.y)}` : ''}`
       }
       case 'rank':
-        return `${L(a.x)} is${not} somewhere ${dir(a.hi)} ${L(a.y)}`
+        return `${L(a.x)} is${not} somewhere ${dir(a.hi)} ${L(a.y)}${a.ref ? `, as seen by ${L(a.y)}` : ''}`
+      case 'sdir':
+        return `${L(a.x)} and ${L(a.y)} ${a.neg ? 'face different directions' : 'face the same direction'}`
       case 'adj':
         return `${L(a.x)} and ${L(a.y)} are${not} on neighbouring ${this.unit}s`
       case 'gap':
@@ -533,6 +556,22 @@ export function atomTerms(a: Atom): VarTerm[] {
   return out
 }
 
+/** the unknowns an atom's test reads: positions (atomTerms) plus, for clues about facing, the direction of a person */
+export function atomVars(a: Atom): (VarTerm | DirTerm)[] {
+  if (a.t === 'sdir') return [{ k: 'd', of: a.x }, { k: 'd', of: a.y }]
+  const out: (VarTerm | DirTerm)[] = [...atomTerms(a)]
+  const extra: DirTerm[] = []
+  if ((a.t === 'diff' || a.t === 'rank') && a.ref) extra.push({ k: 'd', of: termVars(a.y)[0] })
+  if (a.t === 'logic') for (const u of [...atomVars(a.a), ...atomVars(a.b)]) if (u.k === 'd') extra.push(u)
+  for (const u of extra) if (!out.some((v) => sameVar(v, u))) out.push(u)
+  return out
+}
+
+export function sameVar(u: VarTerm | DirTerm, t: Term | DirTerm): boolean {
+  if (u.k === 'd' || t.k === 'd') return u.k === 'd' && t.k === 'd' && sameTerm(u.of, t.of)
+  return sameTerm(u, t)
+}
+
 /** does the clue involve a derived person ("the one who faces E")? */
 export function hasDerived(a: Atom): boolean {
   return writtenTerms(a).some((t) => t.k === 'r')
@@ -546,11 +585,11 @@ export function atomTest(a: Atom, n = 0, circ = false, cols = 1, m = 0): (v: num
   const md = (x: number) => (circ ? ((x % n) + n) % n : x)
   const rowLen = m || n
   const rel = (r: GridRel | undefined, x: number, y: number) => r === undefined || (r === 'gt' ? x > y : r === 'lt' ? x < y : r === 'eq' ? x === y : x !== y)
-  const vars = atomTerms(a)
+  const vars = atomVars(a)
   const grp = (p: number) => (m ? Math.floor(p / m) : 0)
   const idx = (p: number) => (m ? p % m : p)
   /** position of a term (-1 when it describes someone who does not exist, e.g. "the one 3 seats right of" the last seat) */
-  const getter = (t: Term): ((v: number[]) => number) => {
+  const getter = (t: Term | DirTerm): ((v: number[]) => number) => {
     if (t.k === 'r') {
       const b = getter(t.base)
       if (t.op === 'opp') return (v) => (b(v) < 0 || !m ? -1 : (1 - grp(b(v))) * m + (m - 1 - idx(b(v))))
@@ -566,11 +605,13 @@ export function atomTest(a: Atom, n = 0, circ = false, cols = 1, m = 0): (v: num
       const f = t.f
       return () => f
     }
-    const k = vars.findIndex((u) => sameTerm(u, t))
+    const k = vars.findIndex((u) => sameVar(u, t))
     return (v) => v[k]
   }
-  const gx = a.t === 'logic' ? null : getter(a.x)
-  const gy = a.t === 'logic' || a.t === 'set' ? null : getter(a.y)
+  /** which way the person a term stands for faces (0 north, 1 south) */
+  const dirOf = (t: Term): ((v: number[]) => number) => getter({ k: 'd', of: t as VarTerm })
+  const gx = a.t === 'logic' ? null : a.t === 'sdir' ? dirOf(a.x) : getter(a.x)
+  const gy = a.t === 'logic' || a.t === 'set' ? null : a.t === 'sdir' ? dirOf(a.y) : getter(a.y)
   const gz = a.t === 'btw' ? getter(a.z) : null
   const gz2 = a.t === 'same' ? getter(a.z) : null
   const gw = a.t === 'same' ? getter(a.w) : null
@@ -581,7 +622,9 @@ export function atomTest(a: Atom, n = 0, circ = false, cols = 1, m = 0): (v: num
         const x = (gx as (v: number[]) => number)(v)
         const y = (gy as (v: number[]) => number)(v)
         if (x < 0 || y < 0) return false
-        return circ ? md(x - y) === md(a.d) : grp(x) === grp(y) && idx(x) - idx(y) === a.d
+        // facing south, a person's left is to the east: the same words mean the opposite way round
+        const flip = a.ref && (dirOf(a.y) as (v: number[]) => number)(v) === 1 ? -1 : 1
+        return circ ? md(x - y) === md(a.d) : grp(x) === grp(y) && idx(x) - idx(y) === a.d * flip
       }
       break
     case 'rank':
@@ -589,7 +632,8 @@ export function atomTest(a: Atom, n = 0, circ = false, cols = 1, m = 0): (v: num
         const x = (gx as (v: number[]) => number)(v)
         const y = (gy as (v: number[]) => number)(v)
         if (x < 0 || y < 0 || grp(x) !== grp(y)) return false
-        return a.hi ? idx(x) > idx(y) : idx(x) < idx(y)
+        const flip = a.ref && (dirOf(a.y) as (v: number[]) => number)(v) === 1 ? -1 : 1
+        return (a.hi ? 1 : -1) * flip * (idx(x) - idx(y)) > 0
       }
       break
     case 'adj':
@@ -639,6 +683,9 @@ export function atomTest(a: Atom, n = 0, circ = false, cols = 1, m = 0): (v: num
         return rel(a.row, rx, ry) && rel(a.col, x % cols, y % cols) && (a.rowDiff === undefined || rx - ry === a.rowDiff)
       }
       break
+    case 'sdir':
+      f = (v) => (gx as (v: number[]) => number)(v) === (gy as (v: number[]) => number)(v)
+      break
     case 'opp':
       f = (v) => {
         const x = (gx as (v: number[]) => number)(v)
@@ -664,8 +711,8 @@ export function atomTest(a: Atom, n = 0, circ = false, cols = 1, m = 0): (v: num
       break
     case 'logic': {
       const all = vars
-      const at = atomTerms(a.a).map((t) => all.findIndex((u) => sameTerm(u, t)))
-      const bt = atomTerms(a.b).map((t) => all.findIndex((u) => sameTerm(u, t)))
+      const at = atomVars(a.a).map((t) => all.findIndex((u) => sameVar(u, t)))
+      const bt = atomVars(a.b).map((t) => all.findIndex((u) => sameVar(u, t)))
       const ta = atomTest(a.a, n, circ, cols, m)
       const tb = atomTest(a.b, n, circ, cols, m)
       f = (v) => {

@@ -377,6 +377,23 @@ for (const s of SAMPLES) {
   }
 }
 
+// the mixed-facing line (people and fruits not listed; left / right as seen by the second person named): answer found by brute force
+{
+  const mix = SAMPLES.find((x) => x.id === 'facing-line')
+  const r = mix ? parsePuzzle(mix.text) : null
+  const e = r?.puzzle ? enumerate(r.puzzle, 3) : null
+  if (!r?.puzzle || !e || e.sols.length !== 1 || r.unparsed.length) fail('facing-line sample: expected exactly one solution and every clue read')
+  else {
+    const P = r.puzzle
+    const sol = e.sols[0]
+    const line = Array.from({ length: P.n }, (_, i) => {
+      const q = sol.pos.indexOf(i)
+      return `${P.people[q]}${P.cats[0].values[sol.val[0][q]]}${P.cats[1].values[sol.val[1][q]][0]}`
+    }).join(' ')
+    if (line !== 'QApples PGrapesn DFign BLemonn FPapayas LMangos MGuavas IKiwin') fail(`facing-line sample: got ${line}`)
+  }
+}
+
 // mistakes in the input are reported, not guessed at
 for (const [label, text, needle] of [
   ['no people', 'Hello there. A lives above B.', 'list of people'],
@@ -478,20 +495,33 @@ function holds(p: Puzzle, sol: Solution, a: Atom): boolean {
     }
     return a.neg ? !r : r
   }
+  // people who face north (0) or south (1): the way person q faces
+  const dirOf = (q: number): number => sol.val[p.dirCat as number][q]
+  const isDirVal = (t: Term) => p.dirCat !== undefined && t.k === 'v' && t.c === p.dirCat
   switch (a.t) {
     case 'opp':
     case 'samerow':
     case 'cnt':
       return false
+    case 'sdir':
+      r = dirOf(personOf(a.x)) === dirOf(personOf(a.y))
+      break
     case 'link':
-      r = personOf(a.x) === personOf(a.y)
+      if (isDirVal(a.y)) r = dirOf(personOf(a.x)) === (a.y as { i: number }).i
+      else if (isDirVal(a.x)) r = dirOf(personOf(a.y)) === (a.x as { i: number }).i
+      else r = personOf(a.x) === personOf(a.y)
       return a.neg ? !r : r
-    case 'diff':
-      r = circ ? wrap(at(a.x) - at(a.y)) === wrap(a.d) : at(a.x) - at(a.y) === a.d
+    case 'diff': {
+      // facing south, a person's left is to the east: "x is 2 to the left of y" is seen by y
+      const flip = a.ref && dirOf(personOf(a.y)) === 1 ? -1 : 1
+      r = circ ? wrap(at(a.x) - at(a.y)) === wrap(a.d) : at(a.x) - at(a.y) === a.d * flip
       break
-    case 'rank':
-      r = a.hi ? at(a.x) > at(a.y) : at(a.x) < at(a.y)
+    }
+    case 'rank': {
+      const flip = a.ref && dirOf(personOf(a.y)) === 1 ? -1 : 1
+      r = a.hi ? flip * (at(a.x) - at(a.y)) > 0 : flip * (at(a.x) - at(a.y)) < 0
       break
+    }
     case 'adj':
       r = circ ? [1, p.n - 1].includes(wrap(at(a.x) - at(a.y))) : Math.abs(at(a.x) - at(a.y)) === 1
       break
@@ -553,8 +583,9 @@ function permutations(n: number): number[][] {
 }
 
 /** Highest extra-category index (+1) an atom needs, 0 when it only involves people and positions. */
-function needLevel(a: Atom): number {
-  if (a.t === 'logic') return Math.max(needLevel(a.a), needLevel(a.b))
+function needLevel(a: Atom, p?: Puzzle): number {
+  if (a.t === 'logic') return Math.max(needLevel(a.a, p), needLevel(a.b, p))
+  if (p && p.dirCat !== undefined && (a.t === 'sdir' || ((a.t === 'diff' || a.t === 'rank') && a.ref))) return Math.max(p.dirCat + 1, needLevel({ ...a, ref: undefined } as Atom))
   const ts: Term[] = a.t === 'btw' ? [a.x, a.y, a.z] : a.t === 'same' ? [a.x, a.y, a.z, a.w] : a.t === 'set' ? [a.x] : [a.x, a.y]
   const base = (t: Term): Term => (t.k === 'r' ? base(t.base) : t)
   return Math.max(0, ...ts.map((t) => { const b = base(t); return b.k === 'v' ? b.c + 1 : 0 }))
@@ -563,7 +594,9 @@ function needLevel(a: Atom): number {
 function bruteCount(p: Puzzle, cap: number): number {
   const perms = permutations(p.n)
   const byLevel: Atom[][] = Array.from({ length: p.cats.length + 1 }, () => [])
-  for (const cl of p.clues) for (const a of cl.atoms) byLevel[needLevel(a)].push(a)
+  for (const cl of p.clues) for (const a of cl.atoms) byLevel[needLevel(a, p)].push(a)
+  // a direction is any pattern of north / south, not a permutation
+  const dirPatterns = Array.from({ length: 1 << p.n }, (_, mask) => Array.from({ length: p.n }, (_, i) => (mask >> i) & 1))
   let count = 0
   const rec = (level: number, vals: number[][], pos: number[]) => {
     if (count >= cap) return
@@ -573,7 +606,7 @@ function bruteCount(p: Puzzle, cap: number): number {
       count++
       return
     }
-    for (const perm of perms) rec(level + 1, [...vals, perm], pos)
+    for (const perm of level === p.dirCat ? dirPatterns : perms) rec(level + 1, [...vals, perm], pos)
   }
   const ap = p.axis === 'circle' ? anchorPerson(p) : -1
   for (const pos of perms) if (ap < 0 || pos[ap] === 0) rec(0, [], pos)
@@ -581,7 +614,8 @@ function bruteCount(p: Puzzle, cap: number): number {
 }
 
 function randomTerm(p: Puzzle, allowFloat: boolean): Term {
-  if (allowFloat && p.cats.length && rnd() < 0.35) return { k: 'v', c: ri(p.cats.length), i: ri(p.n) }
+  const plain = p.dirCat === undefined ? p.cats.length : p.dirCat // the direction category is last; it is not a one-to-one attribute
+  if (allowFloat && plain && rnd() < 0.35) return { k: 'v', c: ri(plain), i: ri(p.n) }
   return { k: 'p', i: ri(p.n) }
 }
 
@@ -703,7 +737,36 @@ function randomTworowAtom(p: Puzzle, hidden: Solution): Atom {
   }
 }
 
+/** A true clue about a line of people who face north or south: relations as seen by the second person, same direction, facing links. */
+function randomMixedAtom(p: Puzzle, hidden: Solution): Atom {
+  const dirOf = (q: number) => hidden.val[p.dirCat as number][q]
+  for (;;) {
+    const x = randomTerm(p, true)
+    let y = randomTerm(p, true)
+    let guard = 0
+    const personOf = (t: Term): number => (t.k === 'p' ? t.i : t.k === 'v' ? hidden.val[t.c].indexOf(t.i) : -1)
+    while (personOf(y) === personOf(x) && guard++ < 20) y = randomTerm(p, true)
+    const z = randomTerm(p, true)
+    const kind = ri(10)
+    let atom: Atom
+    if (kind <= 2) atom = { t: 'diff', x, y, d: (ri(2) ? 1 : -1) * (1 + ri(3)), ref: true }
+    else if (kind === 3 || kind === 4) atom = { t: 'rank', x, y, hi: rnd() < 0.5, ref: true }
+    else if (kind === 5) atom = { t: 'sdir', x: { k: 'p', i: ri(p.n) }, y: { k: 'p', i: ri(p.n) } }
+    else if (kind === 6) atom = { t: 'link', x: { k: 'p', i: ri(p.n) }, y: { k: 'v', c: p.dirCat as number, i: ri(2) } }
+    else if (kind === 7) atom = { t: 'set', x, fs: shuffle(Array.from({ length: p.n }, (_, i) => i)).slice(0, 1 + ri(3)).sort((a, b) => a - b) }
+    else if (kind === 8) atom = { t: 'gap', x, y, k: ri(3) }
+    else atom = ri(2) ? { t: 'adj', x, y } : { t: 'btw', x, y, z }
+    void dirOf
+    if (!holds(p, hidden, atom)) atom = { ...atom, neg: true } as Atom
+    if (!holds(p, hidden, atom)) continue
+    if (atom.t === 'sdir' && personOfTerm(atom.x) === personOfTerm(atom.y)) continue
+    return atom
+  }
+}
+const personOfTerm = (t: Term): number => (t.k === 'p' ? t.i : -1)
+
 function randomAtom(p: Puzzle, hidden: Solution): Atom {
+  if (p.dirCat !== undefined) return randomMixedAtom(p, hidden)
   if (p.axis === 'tworow') return randomTworowAtom(p, hidden)
   if (p.axis === 'grid') return randomGridAtom(p, hidden)
   if (p.axis === 'circle') return randomCircleAtom(p, hidden)
@@ -740,12 +803,18 @@ function randomAtom(p: Puzzle, hidden: Solution): Atom {
   }
 }
 
-function randomPuzzle(n: number, nCats: number, nClues: number, axis: Puzzle['axis'] = 'floor'): { puzzle: Puzzle; hidden: Solution } {
+function randomPuzzle(n: number, nCats: number, nClues: number, axis: Puzzle['axis'] = 'floor', mixed = false): { puzzle: Puzzle; hidden: Solution } {
   const people = 'ABCDEFGHIJ'.slice(0, n).split('')
   const cats = Array.from({ length: nCats }, (_, c) => ({ name: `cat${c}`, values: Array.from({ length: n }, (_, i) => `v${c}${i}`) }))
   const hidden: Solution = { pos: shuffle(Array.from({ length: n }, (_, i) => i)), val: cats.map(() => shuffle(Array.from({ length: n }, (_, i) => i))) }
+  if (mixed) {
+    // everyone faces north (0) or south (1), whichever they like
+    cats.push({ name: 'direction', values: ['north', 'south'] })
+    hidden.val.push(Array.from({ length: n }, () => ri(2)))
+  }
   const puzzle: Puzzle = { n, axis, topDown: false, people, cats, clues: [], ...(axis === 'order' ? { labels: ['May', 'June', 'July', 'August', 'September', 'October'].slice(0, n), unit: 'month', on: 'in', verb: 'was born' } : {}) }
   if (axis === 'circle') puzzle.facing = 'out'
+  if (mixed) puzzle.dirCat = cats.length - 1
   if (axis === 'tworow') puzzle.rowLen = n / 2
   if (axis === 'grid') {
     puzzle.cols = n % 2 === 0 ? 2 : 1
@@ -772,8 +841,9 @@ for (let run = 0; run < RUNS; run++) {
   const n = axis === 'tworow' ? (run % 2 ? 4 : 6) : 4 + (run % 3) // 4..6 (two rows need an even number)
   const nCats = n === 6 ? 1 : run % 3 === 0 ? 0 : 1 + (run % 2)
   const nClues = run % 5 === 0 ? 3 + ri(n) : 3 * n + ri(2 * n)
-  const { puzzle, hidden } = randomPuzzle(n, nCats, nClues, axis)
-  const where = `run ${run} (${axis}, n=${n}, cats=${nCats}, clues=${nClues})`
+  const mixed = run % 7 === 3
+  const { puzzle, hidden } = randomPuzzle(n, nCats, nClues, mixed ? 'row' : axis, mixed)
+  const where = `run ${run} (${mixed ? 'row, facing north/south' : axis}, n=${n}, cats=${nCats}, clues=${nClues})`
 
   const limit = 40
   const res = enumerate(puzzle, limit)
@@ -815,7 +885,10 @@ for (let run = 0; run < RUNS; run++) {
       // (a,i)-(b,j) belongs to the solution when they denote the same person-slot
       const personWith = (cat: number, idx: number): number => (cat === 0 ? idx : cat === 1 ? sol.pos.indexOf(idx) : sol.val[cat - 2].indexOf(idx))
       void itemOf
-      if (personWith(a, i) === personWith(b, j)) fail(`${where}: step ${info.step + 1} crossed out ${ctx.pair(a, i, b, j)}, which holds in a real solution (${info.why.text})`)
+      const dirK = puzzle.dirCat === undefined ? -1 : puzzle.dirCat + 2
+      // a direction is shared by many people: the cell holds when the other side's person faces that way
+      const holdsHere = a === dirK || b === dirK ? (a === dirK ? sol.val[dirK - 2][personWith(b, j)] === i : sol.val[dirK - 2][personWith(a, i)] === j) : personWith(a, i) === personWith(b, j)
+      if (holdsHere) fail(`${where}: step ${info.step + 1} crossed out ${ctx.pair(a, i, b, j)}, which holds in a real solution (${info.why.text})`)
     }
   }
   // the animated board is driven by replaying events, so a step's events must reproduce its saved result exactly

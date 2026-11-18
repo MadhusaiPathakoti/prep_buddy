@@ -22,10 +22,14 @@ export type Term =
 /** a term that is a real unknown (a person, a value, a fixed seat) — as opposed to a derived one */
 export type VarTerm = Exclude<Term, { k: 'r' }>
 
+/** the way a person faces (0 = north, 1 = south): an extra unknown of clues that depend on facing */
+export type DirTerm = { k: 'd'; of: VarTerm }
+
 export type Atom =
   | { t: 'link'; x: VarTerm; y: VarTerm; neg?: boolean } // x and y are the same person ("A is from Kolkata")
-  | { t: 'diff'; x: Term; y: Term; d: number; neg?: boolean } // pos(x) - pos(y) = d   (immediately above: d = 1)
-  | { t: 'rank'; x: Term; y: Term; hi: boolean; neg?: boolean } // pos(x) > pos(y) when hi, else <   (somewhere above / below)
+  // `ref`: people face north or south, and left / right are as seen by y (a south-facing y has its left to the east)
+  | { t: 'diff'; x: Term; y: Term; d: number; ref?: boolean; neg?: boolean } // pos(x) - pos(y) = d   (immediately above: d = 1)
+  | { t: 'rank'; x: Term; y: Term; hi: boolean; ref?: boolean; neg?: boolean } // pos(x) > pos(y) when hi, else <   (somewhere above / below)
   | { t: 'adj'; x: Term; y: Term; neg?: boolean } // neighbouring positions
   | { t: 'gap'; x: Term; y: Term; k: number; neg?: boolean } // exactly k positions strictly between x and y
   | { t: 'same'; x: Term; y: Term; z: Term; w: Term; neg?: boolean } // as many people between x and y as between z and w
@@ -40,6 +44,8 @@ export type Atom =
   | { t: 'samerow'; x: Term; y: Term; neg?: boolean }
   // "the number of persons to the left of x is the same as the number to the right of y" (side 'l' = left of, 'r' = right of)
   | { t: 'cnt'; x: Term; xs: 'l' | 'r'; y: Term; ys: 'l' | 'r'; neg?: boolean }
+  // x and y face the same direction (north / south)
+  | { t: 'sdir'; x: VarTerm; y: VarTerm; neg?: boolean }
 
 export type GridRel = 'gt' | 'lt' | 'eq' | 'ne'
 
@@ -77,6 +83,8 @@ export interface Puzzle {
   flats?: string[]
   /** axis 'tworow' only: people per row; positions 0..m-1 are row 1, m..2m-1 row 2, each counted from that row's own left */
   rowLen?: number
+  /** a line of people some of whom face north and some south: index (within `cats`) of the category 'direction' (values north, south) */
+  dirCat?: number
   /** axis 'circle' only: everyone faces the same way, so "to the right of" is always the next seat along; this says which way that is drawn */
   facing?: 'in' | 'out'
 }
