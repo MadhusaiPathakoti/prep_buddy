@@ -2,9 +2,9 @@ import { useEffect, useMemo, useState } from 'react'
 import type { ReactNode } from 'react'
 import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import { DifficultyBadge, StarButton, StatusMark, TagChip } from '../../components/qbank/QuestionBadges'
-import { activeFilterCount, applyFilters, facetsOf, filtersToParams, NO_FILTERS, parseFilters, SHOW_MODES } from '../../lib/qbank/filters'
+import { activeFilterCount, applyFilters, describeFilters, exportBlockedReason, facetsOf, filtersToParams, NO_FILTERS, parseFilters, SHOW_MODES } from '../../lib/qbank/filters'
 import type { BankFilters } from '../../lib/qbank/filters'
-import { loadIndex } from '../../lib/qbank/store'
+import { loadIndex, loadQuestions } from '../../lib/qbank/store'
 import { BANK_TOPICS, bankTopicLabel, DEFAULT_EXAM_NAME, DIFFICULTIES, EXAM_TYPES } from '../../lib/qbank/types'
 import type { QuestionIndexEntry } from '../../lib/qbank/types'
 import { getFavouriteMap, getProgress, toggleFavouriteQuestion, USER_DATA_EVENT } from '../../lib/qbank/userData'
@@ -91,6 +91,30 @@ export default function QuestionBank() {
 
   function random() {
     if (matches.length) navigate(playLink(matches[Math.floor(Math.random() * matches.length)].id))
+  }
+
+  // ---- Export the filtered favourites to a PDF
+  const exportBlocked = exportBlockedReason(filters, matches.length)
+  const [exporting, setExporting] = useState(false)
+  const [exportError, setExportError] = useState('')
+  const [exportNote, setExportNote] = useState('')
+
+  async function exportPdf() {
+    if (exportBlocked || exporting) return
+    setExporting(true)
+    setExportError('')
+    setExportNote('')
+    try {
+      // the PDF code is large, so it is only downloaded when someone exports
+      const [{ questions, missing }, pdf] = await Promise.all([loadQuestions(matches), import('../../lib/qbank/exportPdf')])
+      if (questions.length === 0) throw new Error('none loaded')
+      pdf.downloadFavouritesPdf(filters, describeFilters(filters), questions)
+      setExportNote(missing > 0 ? `${missing} question${missing === 1 ? '' : 's'} could not be loaded and ${missing === 1 ? 'was' : 'were'} left out.` : `Downloaded ${questions.length} question${questions.length === 1 ? '' : 's'}.`)
+    } catch {
+      setExportError('Could not prepare the PDF. Check your connection and try again.')
+    } finally {
+      setExporting(false)
+    }
   }
 
   return (
@@ -243,6 +267,25 @@ export default function QuestionBank() {
                 </button>
               </div>
             </div>
+
+            {filters.show === 'favourites' && (
+              <div className="mt-4 flex flex-wrap items-center justify-between gap-3 rounded-xl bg-indigo-50 p-3 dark:bg-indigo-500/10" aria-label="Export favourites">
+                <p className="min-w-0 flex-1 text-sm text-indigo-900 dark:text-indigo-100" aria-live="polite">
+                  {exportError ||
+                    exportBlocked ||
+                    `Ready: ${matches.length} favourite${matches.length === 1 ? '' : 's'} matching your filters, with the answer key, step-by-step solutions and shortcuts.`}
+                  {exportNote && !exportError && <span className="block text-xs text-indigo-700 dark:text-indigo-300">{exportNote}</span>}
+                </p>
+                <button
+                  type="button"
+                  disabled={!!exportBlocked || exporting}
+                  onClick={() => void exportPdf()}
+                  className="shrink-0 rounded-lg bg-indigo-600 px-4 py-1.5 text-sm font-semibold text-white transition hover:bg-indigo-700 disabled:opacity-50"
+                >
+                  {exporting ? 'Preparing PDF…' : '⬇ Export to PDF'}
+                </button>
+              </div>
+            )}
           </section>
 
           {matches.length === 0 ? (

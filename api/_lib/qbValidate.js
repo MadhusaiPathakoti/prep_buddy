@@ -22,10 +22,13 @@ const MIN_YEAR = 2000
 const CONTROL = /[\u0000-\u0008\u000b\u000c\u000e-\u001f\u007f\u200b-\u200f\u202a-\u202e\u2066-\u2069]/g
 const LINK = /https?:\/\/|www\.|\b[a-z0-9-]+\.(?:com|in|org|net|io|co)\b/i
 
-/** Plain text from a string: normalised line breaks, no control or direction-changing characters, tidy spaces. */
+/**
+ * Plain text from a string: normalised line breaks, no control or direction-changing characters, tidy spaces.
+ * Uses NFC, not NFKC: NFKC would turn "19²" into "192" and "½" into "1⁄2", silently changing a maths question.
+ */
 function tidy(value, { multiline }) {
-  let s = String(value ?? '').normalize('NFKC').replace(/\r\n?/g, '\n').replace(CONTROL, '')
-  s = s.replace(/[ \t\f\v]+/g, ' ')
+  let s = String(value ?? '').normalize('NFC').replace(/\r\n?/g, '\n').replace(CONTROL, '')
+  s = s.replace(/[^\S\n]+/g, ' ') // any run of spaces, tabs or odd space characters (such as no-break spaces)
   s = multiline ? s.replace(/ ?\n ?/g, '\n').replace(/\n{3,}/g, '\n\n') : s.replace(/\s*\n\s*/g, ' ')
   return s.trim()
 }

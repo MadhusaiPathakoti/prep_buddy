@@ -73,10 +73,13 @@ Reply with ONLY a JSON object. Write the "working" first, calculating step by st
 Use "needs-figure" when a chart, table or figure is missing, "incomplete" when information is missing, "ambiguous" when no option matches your result (and none says "None of these"), and "not-quant" when it is not a quantitative-aptitude question.`
 }
 
-/** One line of plain text from a model's reply: no control or direction characters, look-alike hyphens made plain, tidy spaces. */
+/**
+ * One line of plain text from a model's reply: no control or direction characters, look-alike hyphens made plain, tidy spaces.
+ * NFC, not NFKC (which would turn "19²" into "192" inside a solution).
+ */
 const tidyLine = (s) =>
   String(s ?? '')
-    .normalize('NFKC')
+    .normalize('NFC')
     // eslint-disable-next-line no-control-regex -- control characters are exactly what is being removed
     .replace(/[\u0000-\u001f\u007f\u200b-\u200f\u202a-\u202e]/g, ' ')
     .replace(/[\u2010-\u2012]/g, '-')

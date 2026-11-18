@@ -1,4 +1,4 @@
-import { DIFFICULTIES, EXAM_TYPES, isBankTopic } from './types'
+import { bankTopicLabel, DIFFICULTIES, EXAM_TYPES, isBankTopic } from './types'
 import type { BankTopicId, ExamType, QuestionIndexEntry, QuestionSource } from './types'
 import type { ProgressMap } from './userData'
 import type { Difficulty } from '../types'
@@ -68,6 +68,39 @@ export function filtersToParams(filters: BankFilters): URLSearchParams {
 /** How many filters are switched on (the "Show" views count as one). */
 export function activeFilterCount(filters: BankFilters): number {
   return [filters.topic, filters.difficulty, filters.examType, filters.examName, filters.year, filters.source, filters.q.trim(), filters.show !== 'all' ? 'x' : ''].filter(Boolean).length
+}
+
+/** How many questions one exported PDF can hold. */
+export const MAX_EXPORT = 200
+
+/** Tag filters switched on (topic, difficulty, exam type, exam name, year, source). The "Show" views and the text search are not tags. */
+export function tagFilterCount(filters: BankFilters): number {
+  return [filters.topic, filters.difficulty, filters.examType, filters.examName, filters.year, filters.source].filter(Boolean).length
+}
+
+/**
+ * Why the favourites cannot be exported right now, or null when they can. Exporting is only offered for favourites that
+ * have been narrowed by at least one tag filter, so each PDF is a focused revision set and not an unfiltered dump.
+ */
+export function exportBlockedReason(filters: BankFilters, matchCount: number): string | null {
+  if (filters.show !== 'favourites') return 'Open your favourites to export them.'
+  if (tagFilterCount(filters) === 0) return 'To export, first filter your favourites by at least one tag (topic, difficulty, exam type, exam name, year or source).'
+  if (matchCount === 0) return 'None of your favourites match these filters yet.'
+  if (matchCount > MAX_EXPORT) return `A PDF holds up to ${MAX_EXPORT} questions and ${matchCount} match. Narrow the filters a little more.`
+  return null
+}
+
+/** The tag filters in words, for the top of an exported PDF: ["Topic: Percentage", "Difficulty: Hard"]. */
+export function describeFilters(filters: BankFilters): string[] {
+  const out: string[] = []
+  if (filters.topic) out.push(`Topic: ${bankTopicLabel(filters.topic)}`)
+  if (filters.difficulty) out.push(`Difficulty: ${filters.difficulty[0].toUpperCase()}${filters.difficulty.slice(1)}`)
+  if (filters.examType) out.push(`Exam type: ${filters.examType}`)
+  if (filters.examName) out.push(`Exam: ${filters.examName}`)
+  if (filters.year) out.push(`Year: ${filters.year === 'unknown' ? 'Unknown' : filters.year}`)
+  if (filters.source) out.push(`Source: ${filters.source === 'user' ? 'Added by students' : 'Practice questions'}`)
+  if (filters.q.trim()) out.push(`Search: "${filters.q.trim()}"`)
+  return out
 }
 
 export interface UserView {

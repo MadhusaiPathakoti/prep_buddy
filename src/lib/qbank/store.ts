@@ -91,6 +91,43 @@ export async function loadQuestion(entry: Pick<QuestionIndexEntry, 'id' | 'topic
   return topic.get(entry.id) ?? null
 }
 
+/** How many added questions are fetched from the server at the same time when many are needed at once. */
+const BATCH_CONCURRENCY = 6
+
+/**
+ * The full questions for a list of index rows, in the same order (for the PDF export). Launch questions come from their
+ * topic files (one download per topic, shared with playing); added ones are fetched a few at a time. A question that cannot
+ * be loaded is left out and counted in `missing`, so one bad one does not spoil the rest.
+ */
+export async function loadQuestions(entries: Pick<QuestionIndexEntry, 'id' | 'topic' | 'source'>[]): Promise<{ questions: QuantQuestion[]; missing: number }> {
+  const found = new Map<string, QuantQuestion>()
+  const launch = entries.filter((e) => e.source !== 'user')
+  const added = entries.filter((e) => e.source === 'user')
+
+  await Promise.all(
+    [...new Set(launch.map((e) => e.topic))].map(async (topic) => {
+      const list = await loadTopic(topic).catch(() => null)
+      if (list) for (const e of launch) if (e.topic === topic) {
+        const q = list.get(e.id)
+        if (q) found.set(e.id, q)
+      }
+    }),
+  )
+
+  let next = 0
+  const worker = async () => {
+    while (next < added.length) {
+      const entry = added[next++]
+      const q = await loadAddedQuestion(entry.id).catch(() => null)
+      if (q) found.set(entry.id, q)
+    }
+  }
+  await Promise.all(Array.from({ length: Math.min(BATCH_CONCURRENCY, added.length) }, worker))
+
+  const questions = entries.map((e) => found.get(e.id)).filter((q): q is QuantQuestion => !!q)
+  return { questions, missing: entries.length - questions.length }
+}
+
 /** Warms the next question's data in the background so "Next" feels instant. Failures are ignored. */
 export function preloadQuestionData(entry: Pick<QuestionIndexEntry, 'id' | 'topic' | 'source'>): void {
   if (entry.source === 'user') loadAddedQuestion(entry.id).catch(() => {})
