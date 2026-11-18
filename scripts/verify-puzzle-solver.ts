@@ -84,6 +84,13 @@ const FLOOR_CASES: [string, string][] = [
   ['A lives immediately above B.', 'A is immediately above B'],
 ]
 
+const FLOOR_VIZ: [string, string][] = [
+  ['As many floors between A and B is same as between C and D.', 'the same number of people between A and B as between C and D'],
+  ['The number of floors above A is the same as the number of floors below B.', 'as many people above A as below B'],
+  ['A stays on an even-numbered floor and immediately below B.', 'A is on an even-numbered floor ; A is immediately below B'],
+  ['A is not on the topmost floor whereas B is not on the lowest floor.', 'A is not on the topmost floor ; B is not on the lowest floor'],
+]
+
 const ROW_CASES: [string, string][] = [
   ['A sits at the extreme left end.', 'A is at the leftmost seat'],
   ['F sits at the right end.', 'F is at the rightmost seat'],
@@ -327,6 +334,7 @@ function runParserTable(header: string, cases: [string, string][]) {
   }
 }
 runParserTable(FLOOR_HEADER, FLOOR_CASES)
+runParserTable(FLOOR_HEADER, FLOOR_VIZ)
 runParserTable(ROW_HEADER, ROW_CASES)
 runParserTable(ORDER_HEADER, ORDER_CASES)
 runParserTable(DAY_HEADER, DAY_CASES)
@@ -912,7 +920,7 @@ for (const s of SAMPLES) {
   console.log('app generator, end to end: ' + Object.entries(tally).map(([k, v]) => `${k} ${v.checked} checked (${v.skipped} of an unsupported layout skipped)`).join('; '))
 }
 
-console.log(`parser: ${FLOOR_CASES.length + ROW_CASES.length + ORDER_CASES.length + DAY_CASES.length + CIRCLE_CASES.length + GRID_CASES.length + BOX_CASES.length + TWOROW_CASES.length + BDAY_CASES.length + FLOOR_EXTRA.length + ORDER_EXTRA.length} phrasings checked`)
+console.log(`parser: ${FLOOR_CASES.length + ROW_CASES.length + ORDER_CASES.length + DAY_CASES.length + CIRCLE_CASES.length + GRID_CASES.length + BOX_CASES.length + TWOROW_CASES.length + BDAY_CASES.length + FLOOR_VIZ.length + FLOOR_EXTRA.length + ORDER_EXTRA.length} phrasings checked`)
 console.log(`engine vs brute force: ${compared} random puzzles (${uniqueTraced} with a unique answer traced, ${multiple} with several answers)`)
 console.log(`step kinds: ${JSON.stringify(kinds)}; ${trials} case-analysis trials`)
 console.log(`teaching trace: ${eliminations} crossings checked for soundness, ${whatIfs} what-if simulations refuted`)

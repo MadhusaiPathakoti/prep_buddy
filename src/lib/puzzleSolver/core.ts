@@ -261,7 +261,9 @@ export class Ctx {
     }
     if (t.k === 'p') return this.p.people[t.i]
     if (t.k === 'f') return this.posLab(t.f)
-    return `the ${this.p.cats[t.c].values[t.i]} ${this.noun}`
+    const cat = this.p.cats[t.c]
+    // a profession is a person already: "the Fireman", not "the Fireman person"
+    return /profession|occupation|designation|job/i.test(cat.name) ? `the ${cat.values[t.i]}` : `the ${cat.values[t.i]} ${this.noun}`
   }
 
   /** "floor 5", "floors 2–4", "floors 3, 5 and 8" — or "July", "May–July", "May, June and August" — for a mask of positions */
@@ -452,7 +454,7 @@ export class Ctx {
       case 'samerow':
         return `${L(a.x)} and ${L(a.y)} are${not} in the same row`
       case 'cnt': {
-        const side = (s: 'l' | 'r') => (s === 'l' ? 'to the left of' : 'to the right of')
+        const side = (s: 'l' | 'r') => this.dirWord(s === 'r')
         return `${a.neg ? 'not ' : ''}as many ${this.nouns} ${side(a.xs)} ${L(a.x)} as ${side(a.ys)} ${L(a.y)}`
       }
       case 'grid': {

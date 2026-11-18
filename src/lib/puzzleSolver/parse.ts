@@ -44,6 +44,7 @@ function normalizeText(raw: string): string {
     .replace(/[‐-―−]/g, '-')
     .replace(/[‘’]/g, "'")
     .replace(/[“”]/g, '"')
+    .replace(/\bviz\.?\s*,?\s*/gi, ' - ') // "Seven persons viz. A, B, C" / "different profession viz. Dentist, Farmer"
     .replace(/\bi\.\s*e\.\s*,?/gi, ' - ') // "different fruits i.e., Banana, Cherry …" introduces the list like a dash would
     .replace(/ /g, ' ')
 }
@@ -395,7 +396,7 @@ function interpretClause(s: string, ments: Term[], lex: Lexicon): Atom[] | null 
   if (!grid) {
 
   // "The number of persons between x and y is (not) the same as the number of persons between z and w"
-  let m = s.match(new RegExp(`number of (?:[a-z]+\\s+){1,3}?between\\s+${ENT}\\s+and\\s+${ENT}\\s+(?:(?:is|are)\\s+)?(not\\s+)?(?:the\\s+)?same as\\s+(?:the\\s+)?number of (?:[a-z]+\\s+){1,3}?between\\s+${ENT}\\s+and\\s+${ENT}`))
+  let m = s.match(new RegExp(`(?:number of|as many) (?:[a-z]+\\s+){1,3}?between\\s+${ENT}\\s+and\\s+${ENT}\\s+(?:(?:is|are)\\s+)?(not\\s+)?(?:the\\s+)?same as\\s+(?:(?:the\\s+)?number of (?:[a-z]+\\s+){1,3}?)?between\\s+${ENT}\\s+and\\s+${ENT}`))
   if (m) return [{ t: 'same', x: M(m[1]), y: M(m[2]), z: M(m[4]), w: M(m[5]), neg: m[3] ? true : undefined }]
 
   // "Two people sit between x and y when counted from the left / right of x": a direction and a distance
@@ -412,10 +413,13 @@ function interpretClause(s: string, ments: Term[], lex: Lexicon): Atom[] | null 
   }
 
   // "The number of persons to the left of x is the same as the number of persons to the right of y"
-  m = s.match(new RegExp(`number of (?:[a-z]+\\s+){1,3}?(left|right) of\\s+${ENT}\\s+(?:(?:is|are)\\s+)?(not\\s+)?(?:the\\s+)?same as\\s+(?:the\\s+)?number of (?:[a-z]+\\s+){1,3}?(left|right) of\\s+${ENT}`))
+  // ("the number of floors above G is the same as the number of floors below the Fireman")
+  const SIDE = '(left of|right of|above|below|before|after)'
+  m = s.match(new RegExp(`number of (?:[a-z]+\\s+){1,3}?${SIDE}\\s+${ENT}\\s+(?:(?:is|are)\\s+)?(not\\s+)?(?:the\\s+)?same as\\s+(?:the\\s+)?number of (?:[a-z]+\\s+){1,3}?${SIDE}\\s+${ENT}`))
   if (m) {
     if (lex.axis === 'circle') return null
-    return [{ t: 'cnt', x: M(m[2]), xs: m[1] === 'left' ? 'l' : 'r', y: M(m[5]), ys: m[4] === 'left' ? 'l' : 'r', neg: m[3] || neg ? true : undefined }]
+    const low = (w: string) => w === 'left of' || w === 'below' || w === 'before'
+    return [{ t: 'cnt', x: M(m[2]), xs: low(m[1]) ? 'l' : 'r', y: M(m[5]), ys: low(m[4]) ? 'l' : 'r', neg: m[3] || neg ? true : undefined }]
   }
 
   // two facing rows: "x sits in the same row as y", "x and y sit in different rows"
@@ -773,7 +777,7 @@ function parseClueText(sentence: string, lex: Lexicon): Atom[] | null {
     const compound = compoundClause(s, ments, lex)
     if (compound) return [...atoms, ...compound]
     // "E lives in flat A but not on floor number 1": the second half borrows the subject of the first
-    const but = s.split(/\s+but\s+/)
+    const but = s.split(/\s+(?:but|whereas|while)\s+/)
     if (but.length === 2 && !/^not both\b/.test(but[1])) {
       const subject = but[0].match(/@\d+/)?.[0]
       const a1 = interpretClause(but[0], ments, lex)
@@ -781,7 +785,7 @@ function parseClueText(sentence: string, lex: Lexicon): Atom[] | null {
       if (a1 && a2) return [...atoms, ...a1, ...a2]
     }
     // "A lives immediately below B and is from Delhi": the second half starts with a verb, so it is a second statement about A
-    const verbSplit = s.split(/\s+and\s+(?=(?:is|are|lives?|stays?|sits?|stands?|likes?|has|have|works?|comes?|belongs?|placed|kept|situated|located)\b)/)
+    const verbSplit = s.split(/\s+and\s+(?=(?:is|are|lives?|stays?|sits?|stands?|likes?|has|have|works?|comes?|belongs?|placed|kept|situated|located|immediately|below|above|somewhere|next|adjacent|between|not|in|on|at|to)\b)/)
     if (verbSplit.length === 2) {
       const subject = verbSplit[0].match(/@\d+/)?.[0]
       const a1 = interpretClause(verbSplit[0], ments, lex)
@@ -857,7 +861,7 @@ function orderFromList(values: string[]): OrderInfo | null {
 
 /** statements that only restate the setup ("Each person was born in one month only.") — nothing to solve, so nothing to warn about */
 const isFiller = (s: string): boolean =>
-  /^(?:each|every)\s+(?:person|one|of them|friend|student)\b[^.]*\b(?:only|exactly one)\b/i.test(s) || /^no\s+two\b/i.test(s) || /\bwith respect to\b[^.]*\bfacing\b/i.test(s) || /^\(?\s*left and right\b/i.test(s) || /^\(?\s*(?:the\s+)?(?:bottommost|lowermost|lowest|ground|topmost|position 1)\b[^.]*\b(?:numbered|is the bottom)\b/i.test(s)
+  /^(?:not more than|at most|only) one (?:person|box|friend|student)\b[^.]*\bsame\b/i.test(s) || /^(?:each|every)\s+(?:person|one|of them|friend|student)\b[^.]*\b(?:only|exactly one)\b/i.test(s) || /^no\s+two\b/i.test(s) || /\bwith respect to\b[^.]*\bfacing\b/i.test(s) || /^\(?\s*left and right\b/i.test(s) || /^\(?\s*(?:the\s+)?(?:bottommost|lowermost|lowest|ground|topmost|position 1)\b[^.]*\b(?:numbered|is the bottom)\b/i.test(s)
 
 /** sentences that only describe how the building is laid out ("Flat A is to the west of Flat B", "All the flats are of same size") */
 const isGridFiller = (s: string): boolean =>

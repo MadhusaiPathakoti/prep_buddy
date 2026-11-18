@@ -179,4 +179,19 @@ Three persons were born between E and H.
 D was born before B on the 16th of a month.
 Not more than four persons were born before E.`,
   },
+  {
+    id: 'professions',
+    title: 'Professions in a building',
+    text: `Seven persons viz. A, B, C, D, E, F & G are staying in a seven-storey building, but not necessarily in the same order. Each of them is of different profession viz. Dentist, Farmer, Chef, Fireman, Nurse, Baker, and Author. Not more than one person from the same profession stays on the same floor. The lowermost floor is numbered as 1 and the floor immediately above is numbered as 2 and so on.
+
+Two floors are between E and the one who is the Fireman.
+As many floors between B and D is same as between E and A.
+The number of floors above G is the same as the number of floors below the one who is the Fireman.
+B stays on an even-numbered floor and immediately below the one who is a Author.
+The one who is a Chef stays above F.
+The one who is a Dentist stays on the topmost floor.
+Only two floors are there between the one who is a Author and G, who is a Nurse.
+C is not a Author whereas E is not an Farmer.
+D is a Baker but doesn't stay above B.`,
+  },
 ]
