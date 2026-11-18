@@ -7,7 +7,8 @@ const MAX_SIDE = 1600
 const REQUEST_TIMEOUT_MS = 50000
 export const ACCEPTED_TYPES = ['image/png', 'image/jpeg', 'image/webp']
 
-async function toJpegBase64(file: Blob): Promise<string> {
+/** Downscales an image (long side 1600px) and returns it as base64 JPEG, so uploads stay small and fast. */
+export async function toJpegBase64(file: Blob): Promise<string> {
   const bitmap = await createImageBitmap(file)
   const scale = Math.min(1, MAX_SIDE / Math.max(bitmap.width, bitmap.height))
   const canvas = document.createElement('canvas')

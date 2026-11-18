@@ -46,6 +46,7 @@ const PuzzleSolver = lazy(() => import('./pages/games/PuzzleSolver'))
 const SyllogismSolver = lazy(() => import('./pages/games/SyllogismSolver'))
 const QuestionBank = lazy(() => import('./pages/quant/QuestionBank'))
 const QuestionPlay = lazy(() => import('./pages/quant/QuestionPlay'))
+const AddQuestion = lazy(() => import('./pages/quant/AddQuestion'))
 const Divisibility = lazy(() => import('./pages/games/Divisibility'))
 const PercentDegree = lazy(() => import('./pages/games/PercentDegree'))
 const English = lazy(() => import('./pages/English'))
@@ -150,6 +151,7 @@ export default function App() {
           <Route path="/reasoning/puzzle-solver" element={<PuzzleSolver />} />
           <Route path="/reasoning/syllogism-solver" element={<SyllogismSolver />} />
           <Route path="/quant/bank" element={<QuestionBank />} />
+          <Route path="/quant/bank/add" element={<AddQuestion />} />
           <Route path="/quant/bank/q/:id" element={<QuestionPlay />} />
           <Route path="/quant/divisibility" element={<Divisibility />} />
           <Route path="/quant/percent-degree" element={<PercentDegree />} />

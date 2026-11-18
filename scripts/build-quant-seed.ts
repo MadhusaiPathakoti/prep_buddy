@@ -6,11 +6,14 @@
 // Writes:  public/qbank/seed/<topic>.json   one file per topic, an array of QuantQuestion
 //          public/qbank/manifest.json       counts, so the app can show totals without loading every file
 //          public/qbank/index.json          one short row per question (tags + a preview line), so the table can filter without loading any question text
+//          api/_lib/seedSigs.json           each question's id and similarity fingerprint, so the server can tell a new question is a copy of one of these
 // Run:     npm run build:qbank [perSet]     perSet = questions per (generator, difficulty); default 90, fewer for topics whose templates run out
 
 import { mkdirSync, rmSync, writeFileSync } from 'node:fs'
 import { join } from 'node:path'
+import { previewOf } from '../api/_lib/qbIndex.js'
 import { questionKey } from '../api/_lib/qbankKey.js'
+import { signatureOf } from '../api/_lib/qbSimilar.js'
 import { QUANT_GENERATORS } from '../src/lib/mocks/quant'
 import { QUANT_MAINS_GENERATORS } from '../src/lib/mocks/quant/mains'
 import { createRng } from '../src/lib/mocks/rng'
@@ -131,14 +134,6 @@ for (const topic of BANK_TOPIC_IDS) {
   }
 }
 
-/** One line for the question table: the stem on a single line, without a leading instruction line such as "…in the following question?" or "…give answer:". */
-function previewOf(stem: string): string {
-  let lines = stem.split('\n').map((l) => l.trim()).filter(Boolean)
-  if (lines.length > 1 && /[:?.]$/.test(lines[0]) && !/\d/.test(lines[0])) lines = lines.slice(1)
-  const flat = lines.join('  ·  ')
-  return flat.length > 110 ? `${flat.slice(0, 107).trimEnd()}…` : flat
-}
-
 // Generation runs medium, then hard, then mains-style, so mix each topic in a fixed order: "next question" should
 // not mean ninety easy ones followed by ninety hard ones.
 for (const [topic, list] of byTopic) byTopic.set(topic, createRng(seedOf(`qbank:order:${topic}`)).shuffle(list))
@@ -161,6 +156,8 @@ for (const topic of BANK_TOPIC_IDS) {
   }
 }
 writeFileSync(join(OUT_DIR, 'index.json'), JSON.stringify(index))
+const sigs = [...byTopic.values()].flat().map((q) => { const s = signatureOf(q.stem); return [q.id, s.n, s.w] })
+writeFileSync(join(process.cwd(), 'api', '_lib', 'seedSigs.json'), JSON.stringify(sigs))
 writeFileSync(join(OUT_DIR, 'manifest.json'), JSON.stringify(manifest, null, 1) + '\n')
 
 console.log(`questions: ${manifest.total} across ${Object.keys(manifest.topics).length} topics (${PER_SET} per generator and difficulty)`)

@@ -105,6 +105,12 @@ export default function QuestionBank() {
             Pick a question, answer it, and see the step-by-step solution with the exam shortcut straight away, whether you got it right or not. Star questions to revise later.
           </p>
         </div>
+        <Link
+          to="/quant/bank/add"
+          className="shrink-0 rounded-lg border border-indigo-300 px-4 py-2 text-sm font-semibold text-indigo-700 transition hover:bg-indigo-50 dark:border-indigo-500/50 dark:text-indigo-300 dark:hover:bg-indigo-500/10"
+        >
+          + Add a question
+        </Link>
       </div>
 
       {failed && !index ? (
@@ -194,6 +200,13 @@ export default function QuestionBank() {
                     </option>
                   ))}
                   {facets.hasUnknownYear && <option value="unknown">Unknown</option>}
+                </select>
+              </Field>
+              <Field label="Source">
+                <select className={selectClass} value={filters.source} onChange={(e) => setFilters({ source: e.target.value as BankFilters['source'] })}>
+                  <option value="">All questions</option>
+                  <option value="generated">Practice questions (generated)</option>
+                  <option value="user">Added by students</option>
                 </select>
               </Field>
               <Field label="Search the question">

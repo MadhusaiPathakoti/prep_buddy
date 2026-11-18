@@ -3,7 +3,7 @@ import { Link, useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import { DifficultyBadge, StarButton, TagChip } from '../../components/qbank/QuestionBadges'
 import { applyFilters, filtersToParams, parseFilters } from '../../lib/qbank/filters'
 import { parseSolution } from '../../lib/qbank/solution'
-import { loadIndex, loadQuestion, preloadTopic } from '../../lib/qbank/store'
+import { loadIndex, loadQuestion, preloadQuestionData } from '../../lib/qbank/store'
 import { shortcutsFor } from '../../lib/qbank/topicTips'
 import { bankTopicLabel, DEFAULT_EXAM_NAME } from '../../lib/qbank/types'
 import type { QuantQuestion, QuestionIndexEntry } from '../../lib/qbank/types'
@@ -85,6 +85,7 @@ function QuestionCard({ question, number, isFavourite, onToggleFavourite, onAnsw
             <TagChip>{question.examType}</TagChip>
             {question.examName !== DEFAULT_EXAM_NAME && <TagChip>{question.examName}</TagChip>}
             {question.year !== null && <TagChip>{question.year}</TagChip>}
+            {question.source === 'user' && <TagChip>Added by a student · AI-checked</TagChip>}
           </div>
           <StarButton active={isFavourite} onToggle={onToggleFavourite} />
         </div>
@@ -253,7 +254,7 @@ export default function QuestionPlay() {
 
   // Warm the next question's topic file so "Next" is instant even when the topic changes.
   useEffect(() => {
-    if (nextEntry) preloadTopic(nextEntry.topic)
+    if (nextEntry) preloadQuestionData(nextEntry)
   }, [nextEntry])
 
   const backTo = `/quant/bank${suffix}`
