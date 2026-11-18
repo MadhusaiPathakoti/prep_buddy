@@ -110,6 +110,35 @@ interface CatSentence {
   values: string[]
 }
 
+const ROMAN = ['', 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X', 'XI', 'XII']
+const ordSuffix = (k: number) => (k % 100 >= 11 && k % 100 <= 13 ? 'th' : ['th', 'st', 'nd', 'rd'][k % 10 < 4 ? k % 10 : 0])
+
+/**
+ * "Each person holds different ranks from I to VI": the values are I … VI, never listed one by one. The text then says "IIIrd rank",
+ * "Vth rank", "top rank" (= rank I), "lowest rank" (= the last one).
+ */
+function parseRankRange(s: string, n: number): (Category & { aliases: string[][] }) | { error: string } | null {
+  const m = s.match(/\b(?:different|distinct)\s+([a-z]+)\s+from\s+([IVXivx]+|\d+)\s+to\s+([IVXivx]+|\d+)\b/)
+  if (!m) return null
+  const num = (w: string) => (/^\d+$/.test(w) ? Number(w) : ROMAN.indexOf(w.toUpperCase()))
+  const from = num(m[2])
+  const to = num(m[3])
+  if (from < 1 || to < from) return null
+  if (to - from + 1 !== n) return { error: `"${m[1]}" run from ${m[2]} to ${m[3]} (${to - from + 1} values) but there are ${n} people — they must match.` }
+  const roman = !/^\d+$/.test(m[2])
+  const name = singular(m[1])
+  const values = Array.from({ length: n }, (_, i) => (roman ? ROMAN[from + i] : String(from + i)))
+  const aliases = values.map((v, i) => {
+    const k = from + i
+    const base = roman ? [`${v}${ordSuffix(k)}`, `${v}th`, `${v}st`, `${v}nd`, `${v}rd`] : [`${k}${ordSuffix(k)}`]
+    const out = [...new Set(base)].flatMap((b) => [`${b} ${name}`, b])
+    if (i === 0) out.push(`top ${name}`, `topmost ${name}`, `highest ${name}`, `first ${name}`)
+    if (i === n - 1) out.push(`lowest ${name}`, `bottom ${name}`, `last ${name}`)
+    return out
+  })
+  return { name, values, aliases }
+}
+
 function parseCategorySentence(s: string): CatSentence | null {
   const m = s.match(/\bdifferent\s+([a-z][a-z' ]*?)\s*(?:-|:|\()\s*(.+)$/i)
   if (!m) return null
@@ -167,6 +196,13 @@ function buildLexicon(people: string[], cats: Category[], axis: Axis, topDown: b
   const all: string[] = []
   cats.forEach((cat, c) =>
     cat.values.forEach((v, i) => {
+      if (cat.aliases) {
+        for (const al of cat.aliases[i]) {
+          valueIndex.set(al.toLowerCase(), { c, i })
+          all.push(al)
+        }
+        return
+      }
       valueIndex.set(v.toLowerCase(), { c, i })
       all.push(v)
     }),
@@ -456,7 +492,7 @@ function interpretClauseRaw(s: string, ments: Term[], lex: Lexicon): Atom[] | nu
   // "The number of persons to the left of x is the same as the number of persons to the right of y"
   // ("the number of floors above G is the same as the number of floors below the Fireman")
   const SIDE = '(left of|right of|above|below|before|after)'
-  m = s.match(new RegExp(`number of (?:[a-z]+\\s+){1,3}?${SIDE}\\s+${ENT}\\s+(?:(?:is|are)\\s+)?(not\\s+)?(?:the\\s+)?same as\\s+(?:the\\s+)?number of (?:[a-z]+\\s+){1,3}?${SIDE}\\s+${ENT}`))
+  m = s.match(new RegExp(`(?:number of|as many) (?:[a-z]+\\s+){1,3}?${SIDE}\\s+${ENT}\\s+(?:(?:is|are)\\s+)?(not\\s+)?(?:the\\s+)?same as\\s+(?:(?:the\\s+)?number of (?:[a-z]+\\s+){1,3}?)?${SIDE}\\s+${ENT}`))
   if (m) {
     if (lex.axis === 'circle') return null
     const low = (w: string) => w === 'left of' || w === 'below' || w === 'before'
@@ -725,6 +761,15 @@ function positionSet(sIn: string, lex: Lexicon): number[] | 'bad' | null {
       if (end ? weekend : !weekend) add(f)
     })
     s = s.replace(/\bweek(?:end|day)\b/g, ' ')
+  }
+  // "second from one of the ends": that seat counted from either end
+  const fromEnds = s.match(/#?(\d+)\s*(?:seat|place|position)?\s+from\s+(?:one of|both|either of)\s+(?:the\s+)?(?:two\s+)?ends\b/)
+  if (fromEnds) {
+    const k = Number(fromEnds[1])
+    if (k < 1 || k > n) return 'bad'
+    add(k - 1)
+    add(n - k)
+    s = s.replace(fromEnds[0], ' ')
   }
   const fromEnd = s.match(/#?(\d+)\s*(?:floor|seat|place|position|month|day)?\s+from\s+the\s+(?:extreme\s+)?(top|bottom|left|right|end|last|first)/)
   if (fromEnd) {
@@ -1181,7 +1226,15 @@ export function parsePuzzle(raw: string): ParseResult {
   sentences.forEach((s, k) => {
     if (k === headerIdx || isBoilerplate(s) || isQuestion(s)) return
     const cs = parseCategorySentence(s)
-    if (!cs) return
+    if (!cs) {
+      const rr = parseRankRange(s, n)
+      if (rr) {
+        used.add(k)
+        if ('error' in rr) result.errors.push(rr.error)
+        else cats.push(rr)
+      }
+      return
+    }
     used.add(k)
     if (cs.values.length !== n) {
       result.errors.push(`"${cs.name}" lists ${cs.values.length} values but there are ${n} people — they must match.`)

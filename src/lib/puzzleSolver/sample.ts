@@ -242,4 +242,16 @@ I sits immediate right and immediate left of A and C respectively.
 C sits second to the left of H.
 I does not sit on the side of the table.`,
   },
+  {
+    id: 'ranks-line',
+    title: 'A line & ranks',
+    text: `Six students viz. T, U, W, X, Y & Z are standing in a straight line such that all of them are facing towards north, but not necessarily in the same order. Each person holds different ranks from I to VI but not necessarily in the same order.
+
+Y stands at the right most end and immediate right of the one who holds the top rank.
+Z doesn’t hold IInd rank whereas U doesn’t hold Vth rank.
+Only two persons stand between the one who holds IIIrd rank and Z, who stands second to the left of the one who holds VIth rank.
+X stands second from one of the ends and immediate right of the one who holds IIIrd rank.
+The one who holds Vth rank stands third to the left of the one who holds the top rank and immediate left of W.
+As many persons to the left of the one who holds VIth rank is same as to the right of T.`,
+  },
 ]

@@ -58,6 +58,8 @@ export interface Clue {
 export interface Category {
   name: string // "city"
   values: string[]
+  /** other ways the text names each value ("IIIrd rank", "top rank" for rank I); when given, the plain value is not matched on its own */
+  aliases?: string[][]
 }
 
 export interface Puzzle {

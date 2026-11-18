@@ -273,6 +273,21 @@ const PENT_CASES: [string, string][] = [
   ['Two persons sit between D and E, who does not sit adjacent to K.', 'exactly 2 people between D and E (on one side or the other) ; E and K are not on neighbouring seats'],
 ]
 
+const RANK_HEADER = `Six students viz. A, B, C, D, E & F are standing in a straight line such that all of them are facing towards north. Each person holds different ranks from I to VI but not necessarily in the same order.
+`
+
+const RANK_CASES: [string, string][] = [
+  ['A holds the top rank.', "A's rank is I"],
+  ['A holds IInd rank.', "A's rank is II"],
+  ['A holds IIIrd rank whereas B doesn’t hold Vth rank.', "A's rank is III ; B's rank is not V"],
+  ['A holds VIth rank.', "A's rank is VI"],
+  ['A holds the lowest rank.', "A's rank is VI"],
+  ['A stands second from one of the ends.', 'A is at seat 2 or 5'],
+  ['As many persons to the left of A is same as to the right of B.', 'as many people to the left of A as to the right of B'],
+  ['As many persons to the left of the one who holds VIth rank is same as to the right of B.', 'as many people to the left of the person with rank VI as to the right of B'],
+  ['A stands at the right most end and immediate right of the one who holds the top rank.', 'A is at the rightmost seat ; A is immediately to the right of the person with rank I'],
+]
+
 const FLOOR_EXTRA: [string, string][] = [
   ['A lives on a prime-numbered floor.', 'A is on floor 2, 3, 5 or 7'],
   ['A does not live on a prime-numbered floor.', 'A is not on floor 2, 3, 5 or 7'],
@@ -376,6 +391,7 @@ runParserTable(TWOROW_HEADER, TWOROW_CASES)
 runParserTable(BDAY_HEADER, BDAY_CASES)
 runParserTable(SQUARE_HEADER, SQUARE_CASES)
 runParserTable(PENT_HEADER, PENT_CASES)
+runParserTable(RANK_HEADER, RANK_CASES)
 runParserTable(FLOOR_HEADER, FLOOR_EXTRA)
 runParserTable(ORDER_HEADER, ORDER_EXTRA)
 
@@ -452,6 +468,22 @@ for (const s of SAMPLES) {
     const seats = Array.from({ length: 10 }, (_, i) => r.puzzle!.people[e.sols[0].pos.indexOf(i)]).join('')
     const turned = Array.from({ length: 5 }, (_, k) => 'BDJHECIAKF'.slice(2 * k) + 'BDJHECIAKF'.slice(0, 2 * k))
     if (!turned.includes(seats)) fail(`pentagon-table sample: ${seats} is not BDJHECIAKF turned by an even number of seats`)
+  }
+}
+
+// the ranks puzzle (ranks I to VI named only through "IIIrd rank" / "top rank"): one arrangement, confirmed by brute force
+{
+  const rk = SAMPLES.find((x) => x.id === 'ranks-line')
+  const r = rk ? parsePuzzle(rk.text) : null
+  const e = r?.puzzle ? enumerate(r.puzzle, 3) : null
+  if (!r?.puzzle || !e || e.sols.length !== 1 || r.unparsed.length) fail('ranks-line sample: expected exactly one solution and every clue read')
+  else {
+    const P = r.puzzle
+    const line = Array.from({ length: P.n }, (_, i) => {
+      const q = e.sols[0].pos.indexOf(i)
+      return `${P.people[q]}${P.cats[0].values[e.sols[0].val[0][q]]}`
+    }).join(' ')
+    if (line !== 'TIII XV WII ZIV UI YVI') fail(`ranks-line sample: got ${line}`)
   }
 }
 
@@ -1067,7 +1099,7 @@ for (const s of SAMPLES) {
   console.log('app generator, end to end: ' + Object.entries(tally).map(([k, v]) => `${k} ${v.checked} checked (${v.skipped} of an unsupported layout skipped)`).join('; '))
 }
 
-console.log(`parser: ${FLOOR_CASES.length + ROW_CASES.length + ORDER_CASES.length + DAY_CASES.length + CIRCLE_CASES.length + GRID_CASES.length + BOX_CASES.length + TWOROW_CASES.length + BDAY_CASES.length + SQUARE_CASES.length + PENT_CASES.length + FLOOR_VIZ.length + FLOOR_EXTRA.length + ORDER_EXTRA.length} phrasings checked`)
+console.log(`parser: ${FLOOR_CASES.length + ROW_CASES.length + ORDER_CASES.length + DAY_CASES.length + CIRCLE_CASES.length + GRID_CASES.length + BOX_CASES.length + TWOROW_CASES.length + BDAY_CASES.length + SQUARE_CASES.length + PENT_CASES.length + RANK_CASES.length + FLOOR_VIZ.length + FLOOR_EXTRA.length + ORDER_EXTRA.length} phrasings checked`)
 console.log(`engine vs brute force: ${compared} random puzzles (${uniqueTraced} with a unique answer traced, ${multiple} with several answers)`)
 console.log(`step kinds: ${JSON.stringify(kinds)}; ${trials} case-analysis trials`)
 console.log(`teaching trace: ${eliminations} crossings checked for soundness, ${whatIfs} what-if simulations refuted`)

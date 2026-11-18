@@ -291,6 +291,7 @@ export class Ctx {
     if (t.k === 'p') return this.p.people[t.i]
     if (t.k === 'f') return this.posLab(t.f)
     const cat = this.p.cats[t.c]
+    if (cat.aliases) return `the person with ${cat.name} ${cat.values[t.i]}` // ranks and the like: "the person with rank III"
     // a profession is a person already: "the Fireman", not "the Fireman person"
     return /profession|occupation|designation|job/i.test(cat.name) ? `the ${cat.values[t.i]}` : `the ${cat.values[t.i]} ${this.noun}`
   }
