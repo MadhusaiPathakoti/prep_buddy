@@ -292,6 +292,11 @@ const RANK_CASES: [string, string][] = [
   ['A stands at the right most end and immediate right of the one who holds the top rank.', 'A is at the rightmost seat ; A is immediately to the right of the person with rank I'],
 ]
 
+const ROW_NEITHER: [string, string][] = [
+  ['Neither A nor B likes Red and Blue.', "A's colour is not Red ; A's colour is not Blue ; B's colour is not Red ; B's colour is not Blue"],
+  ['A does not like Red or Blue.', "A's colour is not Red ; A's colour is not Blue"],
+]
+
 const FLOOR_EXTRA: [string, string][] = [
   ['A lives on a prime-numbered floor.', 'A is on floor 2, 3, 5 or 7'],
   ['A does not live on a prime-numbered floor.', 'A is not on floor 2, 3, 5 or 7'],
@@ -396,6 +401,7 @@ runParserTable(BDAY_HEADER, BDAY_CASES)
 runParserTable(SQUARE_HEADER, SQUARE_CASES)
 runParserTable(PENT_HEADER, PENT_CASES)
 runParserTable(RANK_HEADER, RANK_CASES)
+runParserTable(ROW_HEADER, ROW_NEITHER)
 runParserTable(FLOOR_HEADER, FLOOR_EXTRA)
 runParserTable(ORDER_HEADER, ORDER_EXTRA)
 
@@ -414,7 +420,7 @@ for (const s of SAMPLES) {
   if (!r.puzzle || r.unparsed.length || r.errors.length) fail(`sample "${s.title}" did not parse cleanly`)
   else {
     const e = enumerate(r.puzzle, 5)
-    if (e.sols.length !== 1) fail(`sample "${s.title}" has ${e.sols.length} solutions`)
+    if (s.multi ? e.sols.length < 2 : e.sols.length !== 1) fail(`sample "${s.title}" has ${e.sols.length} solutions`)
   }
 }
 
@@ -506,6 +512,21 @@ for (const s of SAMPLES) {
     const want = ['N:Kiwi', 'S:Orange', 'Q:Guava', 'T:Lemon', 'O:Grapes', 'M:Cherry', 'R:Mango', 'P:Fig']
     const turned = Array.from({ length: 4 }, (_, k) => [...want.slice(2 * k), ...want.slice(0, 2 * k)].join(' '))
     if (!turned.includes(seats.join(' '))) fail(`square-fruits sample: got ${seats.join(' ')}`)
+  }
+}
+
+// people matched with cities and bikes only (no seating): several arrangements fit, and the union of them is what the answer key shows
+{
+  const cb = SAMPLES.find((x) => x.id === 'cities-bikes')
+  const r = cb ? parsePuzzle(cb.text) : null
+  const e = r?.puzzle ? enumerate(r.puzzle, 600) : null
+  if (!r?.puzzle || !e || !e.complete || r.unparsed.length) fail('cities-bikes sample: expected every clue read and a complete search')
+  else {
+    const P = r.puzzle
+    const uniq = (xs: string[]) => [...new Set(xs)].sort().join('/')
+    const got = P.people.map((name, p) => `${name} ${uniq(e.sols.map((s) => (P.labels as string[])[s.pos[p]]))} ${uniq(e.sols.map((s) => P.cats[0].values[s.val[0][p]]))}`).join('; ')
+    const want = 'A Agra/Jaipur Apache; E Agra/Pune Honda; B Bhopal Ducati/Yamaha; F Mumbai Ducati/Yamaha; C Raipur Pulsar; G Jaipur/Pune Bajaj; D Ranchi Hero'
+    if (e.sols.length !== 4 || got !== want) fail(`cities-bikes sample: ${e.sols.length} arrangements, got ${got}`)
   }
 }
 
@@ -1056,7 +1077,7 @@ for (const s of SAMPLES) {
   const r = parsePuzzle(s.text)
   if (!r.puzzle) continue
   const trace = buildTrace(r.puzzle)
-  if (trace.status !== 'unique' || !trace.final) fail(`sample "${s.title}": trace did not end with a unique solution`)
+  if (s.multi ? trace.status !== 'multiple' : trace.status !== 'unique' || !trace.final) fail(`sample "${s.title}": trace did not end as expected (${trace.status})`)
   for (const st of trace.steps) {
     const replayed = applyEvents(st.pre, trace.ctx, st.beats.flatMap((b) => b.evs))
     if (replayed.m.some((v, k) => v !== st.post[k])) fail(`sample "${s.title}": step ${st.idx + 1} events do not reproduce its end state`)
@@ -1121,7 +1142,7 @@ for (const s of SAMPLES) {
   console.log('app generator, end to end: ' + Object.entries(tally).map(([k, v]) => `${k} ${v.checked} checked (${v.skipped} of an unsupported layout skipped)`).join('; '))
 }
 
-console.log(`parser: ${FLOOR_CASES.length + ROW_CASES.length + ORDER_CASES.length + DAY_CASES.length + CIRCLE_CASES.length + GRID_CASES.length + BOX_CASES.length + TWOROW_CASES.length + BDAY_CASES.length + SQUARE_CASES.length + PENT_CASES.length + RANK_CASES.length + FLOOR_VIZ.length + FLOOR_EXTRA.length + ORDER_EXTRA.length} phrasings checked`)
+console.log(`parser: ${FLOOR_CASES.length + ROW_CASES.length + ORDER_CASES.length + DAY_CASES.length + CIRCLE_CASES.length + GRID_CASES.length + BOX_CASES.length + TWOROW_CASES.length + BDAY_CASES.length + SQUARE_CASES.length + PENT_CASES.length + RANK_CASES.length + ROW_NEITHER.length + FLOOR_VIZ.length + FLOOR_EXTRA.length + ORDER_EXTRA.length} phrasings checked`)
 console.log(`engine vs brute force: ${compared} random puzzles (${uniqueTraced} with a unique answer traced, ${multiple} with several answers)`)
 console.log(`step kinds: ${JSON.stringify(kinds)}; ${trials} case-analysis trials`)
 console.log(`teaching trace: ${eliminations} crossings checked for soundness, ${whatIfs} what-if simulations refuted`)

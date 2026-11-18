@@ -205,6 +205,7 @@ export class Ctx {
   posShort(f: number): string {
     if (this.grid) return `${this.rowOf(f) + 1}${this.flatLetter(f)}`
     if (this.tworow) return `${this.rowIdx(f) + 1}.${this.seatIdx(f) + 1}`
+    if (this.p.unordered) return (this.p.labels as string[])[f]
     if (this.dated) return (this.p.labels as string[])[f].replace(/^(\w{3})\w*/, '$1')
     return this.named ? (this.p.labels as string[])[f].slice(0, 3) : String(this.posNum(f))
   }
@@ -243,7 +244,8 @@ export class Ctx {
     const who = this.lab(0, i)
     if (this.grid) return `${who} ${negate ? 'does not live' : 'lives'} in ${this.cellName(f)}`
     if (this.p.axis === 'order' && this.p.verb) {
-      const verb = negate ? this.p.verb.replace(/^(\w+)/, '$1 not') : this.p.verb
+      const base: Record<string, string> = { lives: 'live', stays: 'stay', works: 'work', studies: 'study', resides: 'reside' }
+      const verb = negate ? (base[this.p.verb] ? `does not ${base[this.p.verb]}` : this.p.verb.replace(/^(\w+)/, '$1 not')) : this.p.verb
       return `${who} ${verb} ${this.onWord} ${this.posLab(f)}`
     }
     return `${who} is${negate ? ' not' : ''} ${this.onWord} ${this.posLab(f)}`
@@ -262,7 +264,8 @@ export class Ctx {
   /** "the city on floor 3", "the city of the person born in May" */
   private ofPersonAt(cat: number, f: number): string {
     if (!this.named) return `the ${this.catName(cat)} ${this.onWord} ${this.posLab(f)}`
-    const participle = this.p.verb ? this.p.verb.replace(/^\w+\s+/, '') : ''
+    const verb = this.p.verb ?? ''
+    const participle = verb.includes(' ') ? verb.replace(/^\w+\s+/, '') : verb ? `who ${verb}` : ''
     return participle ? `the ${this.catName(cat)} of the person ${participle} ${this.onWord} ${this.posLab(f)}` : `the ${this.catName(cat)} for ${this.posLab(f)}`
   }
   notPair(a: number, i: number, b: number, j: number): string {

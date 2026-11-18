@@ -75,6 +75,8 @@ export interface Puzzle {
   /** axis 'order' only: the noun for one position ("month") and the word used with it ("in July" / "on Monday") */
   unit?: string
   on?: string
+  /** axis 'order' only: the slots have no order — the puzzle only matches people with attributes ("live in different cities", "like different bikes") and the first attribute stands in for the positions */
+  unordered?: boolean
   /** axis 'order' only: how the text says it, singular ("was born") */
   verb?: string
   /** what the people are ("box"; default "person") and, for a vertical stack, what a position is called ("place"; default "floor") */

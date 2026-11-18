@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
-import { failedClues } from '../../lib/puzzleSolver/engine'
+import { enumerate, failedClues } from '../../lib/puzzleSolver/engine'
 import { applyEvents, flipClue, simulate, type Beat, type CellRef, type SimResult, type Step, type Trace } from '../../lib/puzzleSolver/trace'
 import Board, { PeopleStrip } from './Board'
 import CellInspector from './CellInspector'
@@ -22,7 +22,7 @@ const beatDelay = (b: Beat): number => (b.tone === 'link' ? 1000 : b.tone === 'g
 function solutionRows(trace: Trace, sol: Solution) {
   const { puzzle, ctx } = trace
   const rows = puzzle.people.map((name, p) => ({ f: sol.pos[p], name, vals: sol.val.map((v, c) => puzzle.cats[c].values[v[p]]) }))
-  rows.sort((a, b) => (puzzle.axis === 'floor' ? b.f - a.f : puzzle.axis === 'grid' ? ctx.rowOf(b.f) - ctx.rowOf(a.f) || a.f - b.f : a.f - b.f))
+  if (!puzzle.unordered) rows.sort((a, b) => (puzzle.axis === 'floor' ? b.f - a.f : puzzle.axis === 'grid' ? ctx.rowOf(b.f) - ctx.rowOf(a.f) || a.f - b.f : a.f - b.f))
   return rows.map((r) => ({ ...r, label: ctx.posName(r.f) }))
 }
 
@@ -56,6 +56,48 @@ function SolutionTable({ trace, sol }: { trace: Trace; sol: Solution }) {
           ))}
         </tbody>
       </table>
+    </div>
+  )
+}
+
+/** When several arrangements fit: what every one of them agrees on (bold) and what is still open (alternatives separated by /). */
+function OpenTable({ trace }: { trace: Trace }) {
+  const { puzzle, ctx } = trace
+  const found = useMemo(() => enumerate(puzzle, 600, 600000), [puzzle])
+  if (!found.sols.length) return null
+  const uniq = (xs: string[]) => [...new Set(xs)]
+  const heads = [ctx.unit.replace(/^./, (m) => m.toUpperCase()), ...puzzle.cats.map((c) => c.name.replace(/^./, (m) => m.toUpperCase()))]
+  const rows = puzzle.people.map((_, p) => [uniq(found.sols.map((s) => ctx.posLab(s.pos[p]))), ...puzzle.cats.map((c, ci) => uniq(found.sols.map((s) => c.values[s.val[ci][p]])))])
+  return (
+    <div className="mt-3 overflow-x-auto rounded-2xl bg-white p-3 shadow-sm ring-1 ring-indigo-200 dark:bg-slate-800 dark:ring-indigo-500/40">
+      <div className="mb-1 text-xs font-bold uppercase tracking-wide text-indigo-500">What the clues settle</div>
+      <table className="w-full text-left text-sm">
+        <thead>
+          <tr className="text-xs uppercase tracking-wide text-slate-400 dark:text-slate-500">
+            <th className="py-1 pr-3 font-semibold">{ctx.noun.replace(/^./, (m) => m.toUpperCase())}</th>
+            {heads.map((h) => (
+              <th key={h} className="py-1 pr-3 font-semibold">
+                {h}
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {rows.map((cells, p) => (
+            <tr key={puzzle.people[p]} className="border-t border-slate-100 dark:border-slate-700">
+              <td className="py-1.5 pr-3 font-bold text-slate-700 dark:text-slate-200">{puzzle.people[p]}</td>
+              {cells.map((opts, i) => (
+                <td key={i} className={opts.length === 1 ? 'py-1.5 pr-3 font-bold text-emerald-600 dark:text-emerald-400' : 'py-1.5 pr-3 text-slate-600 dark:text-slate-300'}>
+                  {opts.join(' / ')}
+                </td>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      <p className="mt-2 text-xs text-slate-500 dark:text-slate-400">
+        Bold = the same in all {found.complete ? found.sols.length : `the first ${found.sols.length}`} arrangements. Where options are separated by “/” the clues do not decide between them.
+      </p>
     </div>
   )
 }
@@ -101,6 +143,7 @@ function Outcome({ trace, step, onEdit, onResolve }: { trace: Trace; step: Step;
           After using every clue, the puzzle still allows {trace.solutions.length >= 12 ? 'at least 12' : trace.solutions.length} different arrangements, so the clues as I understood them are not enough to decide. Either a clue is missing, or one was read
           differently from how it was meant — check the clue readings below.
         </p>
+        <OpenTable trace={trace} />
         <div className="mt-3 space-y-3">
           {trace.solutions.slice(0, 3).map((s, i) => (
             <div key={i} className="rounded-2xl bg-white p-3 shadow-sm ring-1 ring-slate-200 dark:bg-slate-800 dark:ring-slate-700">

@@ -4,6 +4,8 @@ export interface SamplePuzzle {
   id: string
   title: string
   text: string
+  /** the clues deliberately leave several arrangements open (the answer key lists the alternatives) */
+  multi?: boolean
 }
 
 export const SAMPLES: SamplePuzzle[] = [
@@ -268,5 +270,22 @@ N, who likes Kiwi, doesn't sit immediate right of M and S.
 Only two persons sit between R and T, who sits second to the left of M.
 O, who likes Grapes, sits immediate left of the one, who likes Cherry.
 S, who likes Orange, sits second to the right of P.`,
+  },
+  {
+    id: 'cities-bikes',
+    multi: true,
+    title: 'Cities & bikes (no seating)',
+    text: `Seven persons A, E, B, F, C, G & D live in different cities among Agra, Bhopal, Jaipur, Pune, Mumbai, Ranchi and Raipur. Also, each person like different bikes among Honda, Yamaha, Hero, Bajaj, Ducati, Apache and Pulsar but not necessarily in the same order.
+
+G lives neither in Raipur nor in Ranchi.
+Neither F nor B likes Bajaj and Hero.
+The one, who lives in Jaipur, doesn't like Honda.
+A likes Apache and E likes Honda.
+The one, who lives in Agra, likes neither Hero nor Bajaj.
+The one, who lives in Pune, doesn't like Apache.
+D likes neither Pulsar nor Bajaj.
+The one, who likes Pulsar, lives in Raipur.
+The one, who likes Hero, lives in neither Pune nor Jaipur.
+F lives in Mumbai and B lives in Bhopal.`,
   },
 ]

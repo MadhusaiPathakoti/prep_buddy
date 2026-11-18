@@ -25,6 +25,8 @@ export interface ParseSummary {
   square?: boolean
   shape?: string
   cornersIn?: boolean
+  /** no seating or order at all: people are only matched with attributes */
+  unordered?: boolean
 }
 
 export interface ParseResult {
@@ -612,6 +614,17 @@ function interpretClauseRaw(s: string, ments: Term[], lex: Lexicon): Atom[] | nu
 
   const count = (s.match(/@\d+/g) ?? []).length
 
+  // "Neither F nor B likes Bajaj and Hero": every person named is denied every value named
+  const cross = s.match(/^(?:neither\s+)?((?:@\d+\s+(?:nor|and|or)\s+)*@\d+)\s+(?:[a-z]+\s+){0,2}?((?:@\d+\s+(?:nor|and|or)\s+)+@\d+)$/)
+  if (cross && (/^neither\b/.test(s) || /\bnot\b/.test(s))) {
+    const who = (cross[1].match(/@(\d+)/g) ?? []).map((t) => M(t.slice(1)))
+    const what = (cross[2].match(/@(\d+)/g) ?? []).map((t) => M(t.slice(1)))
+    const cat = (t: Term) => (t.k === 'p' ? -1 : t.k === 'v' ? t.c : -2)
+    if (who.every(isVar) && what.every(isVar) && who.every((x) => what.every((y) => cat(x) !== cat(y)))) {
+      return who.flatMap((x) => what.map((y) => ({ t: 'link', x: x as VarTerm, y: y as VarTerm, neg: true }) as Atom))
+    }
+  }
+
   // "Neither A nor B lives on the top floor", "Both A and B live on odd floors", "A and B do not live on the lowest floor"
   const listed = s.match(/(?:^|\s)(?:neither\s+|both\s+)?((?:@\d+)(?:\s+(?:and|nor)\s+@\d+)+)(?=\s)/)
   if (count >= 2 && listed && (listed[1].match(/@/g) ?? []).length === count) {
@@ -630,7 +643,7 @@ function interpretClauseRaw(s: string, ments: Term[], lex: Lexicon): Atom[] | nu
     const all = (s.match(/@(\d+)/g) ?? []).map((t) => M(t.slice(1)))
     const named = all.filter((t): t is Extract<Term, { k: 'f' }> => t.k === 'f')
     const others = all.filter((t) => t.k !== 'f')
-    const chain = others.every(isVar) && (others.length === 1 || /(?:^|\s)(?:neither\s+|both\s+)?@\d+(?:\s+(?:and|nor)\s+@\d+)+\s/.test(s))
+    const chain = others.every(isVar) && (others.length === 1 || /^(?:neither\s+|both\s+)?@\d+(?:\s+(?:and|nor)\s+@\d+)+\s/.test(s))
     if (named.length >= 1 && others.length >= 1 && chain) {
       const fs = [...new Set(named.map((t) => t.f))].sort((a, b) => a - b)
       const either = /\b(?:either|neither)\b/.test(s)
@@ -1236,6 +1249,9 @@ export function parsePuzzle(raw: string): ParseResult {
   // extra categories
   const cats: Category[] = []
   const used = new Set<number>([headerIdx])
+  // "Seven persons A, B … live in different cities among Agra, Bhopal, …": the people and the first category share one sentence
+  const headCat = tworow ? null : parseCategorySentence(sentences[headerIdx])
+  if (headCat && headCat.values.length === n && new Set(headCat.values.map((v) => v.toLowerCase())).size === n && !orderFromList(headCat.values)) cats.push({ name: headCat.name, values: headCat.values })
   sentences.forEach((s, k) => {
     if (k === headerIdx || isBoilerplate(s) || isQuestion(s)) return
     const cs = parseCategorySentence(s)
@@ -1282,6 +1298,15 @@ export function parsePuzzle(raw: string): ParseResult {
     result.warnings.push('Some people face north and some south: "left" and "right" are taken as seen by the person the clue is about (the one named after "of"), and seats are counted from the west end.')
   }
   if (result.errors.length) return result
+  // no seating, floors or order anywhere ("live in different cities … like different bikes"): the first attribute stands in for the positions
+  const arranged = /\b(?:floors?|storeys?|rows?|line|queue|seats?|table|left|right|above|below|before|after|north|south|east|west|corners?|stacks?|bench|topmost|top|bottom|lowest|highest|adjacent|between|opposite|neighbou?rs?|born|months?|days?|weeks?|ranks?)\b/i.test(text)
+  let unordered = false
+  if (!arranged && cats.length >= 2 && !order && !circle && !tworow && !building && !bday && dirCat === undefined) {
+    const first = cats.shift() as Category
+    order = { labels: first.values, unit: first.name, on: 'in' }
+    unordered = true
+    result.warnings.push(`There is no seating or order in this puzzle, so I matched the people with the ${first.name.replace(/y$/, 'ie')}s and the other attributes.`)
+  }
   // "different months" with no names given: ordered positions that are only numbered
   if (!order) {
     const kw = header.match(/\b(?:different|distinct|separate)\s+(months|days|weeks|years)\b/i)
@@ -1333,9 +1358,11 @@ export function parsePuzzle(raw: string): ParseResult {
     return result
   }
   const verbWord = header.match(/\b(?:were|are)\s+(born|seated|arranged|placed|ranked|appointed|promoted|admitted|selected|posted|scheduled|joined)\b/i)
-  const extra = order ? { labels: order.labels, unit: order.unit, on: order.on, verb: verbWord ? `was ${verbWord[1].toLowerCase()}` : bday ? 'was born' : undefined, ...(bday ? { cols: bday.dates.length } : {}) } : {}
+  const lifeVerb = header.match(/\b(live|stay|work|study|reside)s?\b/i)
+  const unorderedVerb = lifeVerb ? (lifeVerb[1].toLowerCase() === 'study' ? 'studies' : `${lifeVerb[1].toLowerCase()}s`) : undefined
+  const extra = order ? { labels: order.labels, unit: order.unit, on: order.on, verb: verbWord ? `was ${verbWord[1].toLowerCase()}` : bday ? 'was born' : unordered ? unorderedVerb : undefined, ...(bday ? { cols: bday.dates.length } : {}), ...(unordered ? { unordered: true } : {}) } : {}
   const stack = boxes && axis === 'floor' ? { noun: 'box', place: 'place' } : boxes ? { noun: 'box' } : {}
-  result.summary = { people, axis, topDown, cats, labels: order?.labels, unit: order?.unit, facing, cols: building?.cols, flats: building?.flats, rowLen, mixed: dirCat !== undefined || undefined, square: square || undefined, shape: shape?.name, cornersIn: square ? cornersIn : undefined, ...stack }
+  result.summary = { people, axis, topDown, cats, labels: order?.labels, unit: order?.unit, facing, cols: building?.cols, flats: building?.flats, rowLen, unordered: unordered || undefined, mixed: dirCat !== undefined || undefined, square: square || undefined, shape: shape?.name, cornersIn: square ? cornersIn : undefined, ...stack }
   result.puzzle = { n, axis, topDown, people, cats, clues, ...extra, ...(dirCat !== undefined ? { dirCat } : {}), ...(circle ? { facing } : {}), ...(square ? { square: true, shape: shape?.name, cornersIn } : {}), ...(building ? { cols: building.cols, flats: building.flats } : {}), ...(rowLen ? { rowLen } : {}), ...stack }
   return result
 }

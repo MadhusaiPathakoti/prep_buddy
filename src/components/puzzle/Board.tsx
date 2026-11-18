@@ -340,7 +340,7 @@ export default function Board({
   ];
   const flatCols = ctx.cols;
   const floorRows = n / flatCols;
-  const labelCol = ctx.dated ? "4.25rem" : ctx.named ? "3rem" : "2.25rem";
+  const labelCol = p.unordered ? "5.5rem" : ctx.dated ? "4.25rem" : ctx.named ? "3rem" : "2.25rem";
   const unitHead = ctx.unit.replace(/^./, (m) => m.toUpperCase());
 
   return (
@@ -368,7 +368,9 @@ export default function Board({
                   ? "The round table"
                   : p.axis === "tworow"
                     ? "The two rows"
-                    : `The ${ctx.unit}s, first → last`}
+                    : p.unordered
+                      ? `Who could be in which ${ctx.unit}`
+                      : `The ${ctx.unit}s, first → last`}
         </span>
         {suppose ? (
           <span className="rounded-full bg-amber-400 px-2 py-0.5 text-[10px] font-bold text-slate-900">
