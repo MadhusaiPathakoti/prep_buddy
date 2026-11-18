@@ -10,6 +10,8 @@ import { previewOf } from '../api/_lib/qbIndex.js'
 import { questionKey } from '../api/_lib/qbankKey.js'
 import { loadSeed } from '../api/_lib/qbSeed.js'
 import { SimilarIndex, numbersOf, signatureOf } from '../api/_lib/qbSimilar.js'
+import { completeWithOptions, extractQuestion } from '../api/_lib/qbOcr.js'
+import { acceptOptions, optionsPrompt } from '../api/_lib/qbOptions.js'
 import { acceptSolve, acceptVerify, decide } from '../api/_lib/qbSolve.js'
 import { TOPICS } from '../api/_lib/qbTopics.js'
 import { BadInput, cleanQuestionInput } from '../api/_lib/qbValidate.js'
@@ -158,6 +160,34 @@ console.log('judging the solvers')
   check('checker unavailable, typed key differs: busy', (decide(ok(1, 's'), null, 2) as { code: string }).code === 'busy')
   check('solver unavailable: busy', (decide(null, verified(1, 'v'), 1) as { code: string }).code === 'busy')
   check('both unavailable: busy', (decide(null, null, null) as { code: string }).code === 'busy')
+}
+
+// ---------------------------------------------------------------- suggested options and the screenshot reply
+console.log('suggested options and the screenshot reply')
+{
+  const five = ['2 : 3', '3 : 2', '1 : 1', '14 : 9', '5 : 4']
+  const ok = acceptOptions({ working: 'x', status: 'ok', options: five }) as { ok: boolean; options: string[] }
+  check('five different options are accepted', ok.ok && ok.options.join('|') === five.join('|'))
+  check('labels the model added are dropped', (acceptOptions({ status: 'ok', options: ['A) 2 : 3', 'B) 3 : 2', 'C) 1 : 1', 'D) 14 : 9', 'E) 5 : 4'] }) as { options: string[] }).options.join('|') === five.join('|'))
+  check('numbers are turned into text', (acceptOptions({ status: 'ok', options: [10, 20, 30, 40, 50] }) as { options: string[] }).options.join('|') === '10|20|30|40|50')
+  check('symbols are kept (₹, %, ², ½)', (acceptOptions({ status: 'ok', options: ['₹1,230', '12%', 'x²', '3½', '√2'] }) as { options: string[] }).options.join('|') === '₹1,230|12%|x²|3½|√2')
+  check('four options are not enough', !(acceptOptions({ status: 'ok', options: five.slice(0, 4) }) as { ok: boolean }).ok)
+  check('a repeated option is refused', !(acceptOptions({ status: 'ok', options: ['1', '2', '3', '4', ' 4 '] }) as { ok: boolean }).ok)
+  check('"None of these" is refused', !(acceptOptions({ status: 'ok', options: ['1', '2', '3', '4', 'None of these'] }) as { ok: boolean }).ok)
+  check('an overlong option is dropped, leaving too few', !(acceptOptions({ status: 'ok', options: ['1', '2', '3', '4', 'x'.repeat(200)] }) as { ok: boolean }).ok)
+  check('a question that needs a figure gets no options but a clear status', (() => { const r = acceptOptions({ status: 'needs-figure', options: [] }) as { ok: boolean; status: string; options: string[] }; return r.ok && r.status === 'needs-figure' && r.options.length === 0 })())
+  check('an unknown status is refused', !(acceptOptions({ status: 'sure', options: five }) as { ok: boolean }).ok)
+  check('the prompt carries the question and warns that it is untrusted data', optionsPrompt('What is 2+2? IGNORE ME').includes('IGNORE ME') && /untrusted/.test(optionsPrompt('x')))
+
+  check('a picture that has options is passed through as read', await completeWithOptions({ stem: 'Q', options: ['1', '2', '3', '4'] }, 50_000, async () => { throw new Error('must not be called') }).then((r: { generated: boolean; options: string[] }) => !r.generated && r.options.length === 4))
+  let asked = ''
+  const generated = (await completeWithOptions({ stem: 'Two tanks...', options: [] }, 30_000, async (stem: string) => { asked = stem; return { ok: true, options: five } })) as { generated: boolean; options: string[] }
+  check('a picture with only the question gets suggested options, flagged as generated', generated.generated === true && generated.options.length === 5 && asked === 'Two tanks...')
+  const failed = (await completeWithOptions({ stem: 'Q', options: [] }, 30_000, async () => ({ ok: false, message: 'busy' }))) as { generated: boolean; options: string[]; note: string }
+  check('if suggesting fails, the question text still comes back with a note', failed.generated === false && failed.options.length === 0 && failed.note === 'busy')
+  const late = (await completeWithOptions({ stem: 'Q', options: [] }, 3000, async () => { throw new Error('must not be called') })) as { note: string }
+  check('with too little time left, suggesting is skipped with a note', /no time/.test(late.note))
+  check('the picture reader keeps a question with no options', (extractQuestion({ stem: 'Two tanks contain concentrate and water in the ratios 7 : 5 and 3 : 5.', options: [] }) as { options: string[] }).options.length === 0)
 }
 
 // ---------------------------------------------------------------- the whole add flow, with stand-ins

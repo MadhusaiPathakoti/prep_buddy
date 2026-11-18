@@ -3,7 +3,7 @@ import type { ReactNode } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { DifficultyBadge, TagChip } from '../../components/qbank/QuestionBadges'
 import { useAuth } from '../../lib/authContext'
-import { readScreenshot, submitQuestion } from '../../lib/qbank/addApi'
+import { readScreenshot, submitQuestion, suggestOptions } from '../../lib/qbank/addApi'
 import type { AddResult } from '../../lib/qbank/addApi'
 import { loadIndex, rememberAddedQuestion } from '../../lib/qbank/store'
 import { bankTopicLabel, EXAM_NAME_SUGGESTIONS, EXAM_TYPES } from '../../lib/qbank/types'
@@ -56,10 +56,11 @@ export default function AddQuestion() {
   const [examName, setExamName] = useState('')
   const [examType, setExamType] = useState<ExamType>('General')
   const [year, setYear] = useState('')
-  const [busy, setBusy] = useState<null | 'reading' | 'adding'>(null)
+  const [busy, setBusy] = useState<null | 'reading' | 'adding' | 'suggesting'>(null)
   const [result, setResult] = useState<AddResult | null>(null)
   const [existing, setExisting] = useState<QuestionIndexEntry | null>(null)
   const [shotNote, setShotNote] = useState<{ ok: boolean; text: string } | null>(null)
+  const [optionsNote, setOptionsNote] = useState<{ ok: boolean; text: string } | null>(null)
   const [showAuth, setShowAuth] = useState(false)
   const [dragging, setDragging] = useState(false)
 
@@ -81,7 +82,33 @@ export default function AddQuestion() {
     while (read.length < 4) read.push('')
     setOptions(read)
     setAnswer(null)
+    setOptionsNote(null)
     setShotNote({ ok: true, text: 'Read from your picture (the picture itself is not kept). Check every number, fraction and power carefully before adding.' })
+    if (out.generated) {
+      setOptionsNote({ ok: true, text: 'The picture showed only the question, so five options were suggested. None is marked as correct: check them. The two solvers still work out the answer on their own, and a question whose options lack the right answer is refused.' })
+    } else if (out.note) {
+      setOptionsNote({ ok: false, text: out.note })
+    } else if (out.options.length > 0 && out.options.length < 4) {
+      setOptionsNote({ ok: false, text: `Only ${out.options.length} option${out.options.length === 1 ? ' was' : 's were'} found in the picture. Fill in the rest, or clear them and use "Suggest options".` })
+    }
+  }
+
+  /** Asks for five suggested options for the question typed so far. */
+  async function suggest() {
+    if (busy) return
+    if (options.some((o) => o.trim()) && !window.confirm('Replace the options you have typed with suggested ones?')) return
+    setBusy('suggesting')
+    setOptionsNote(null)
+    setResult(null)
+    const out = await suggestOptions(stem.trim())
+    setBusy(null)
+    if (!out.ok) {
+      setOptionsNote({ ok: false, text: out.error })
+      return
+    }
+    setOptions(out.options.slice(0, 5))
+    setAnswer(null)
+    setOptionsNote({ ok: true, text: 'Five options were suggested. None is marked as correct: check them. The two solvers still work out the answer on their own.' })
   }
 
   // Ctrl+V with an image on the clipboard reads it, like choosing a file.
@@ -137,6 +164,7 @@ export default function AddQuestion() {
     setResult(null)
     setExisting(null)
     setShotNote(null)
+    setOptionsNote(null)
   }
 
   const setOption = (i: number, value: string) => setOptions((list) => list.map((o, k) => (k === i ? value : o)))
@@ -247,6 +275,9 @@ export default function AddQuestion() {
                 </div>
               ))}
               <div className="flex flex-wrap gap-2 pt-1">
+                <button type="button" disabled={busy !== null || stem.trim().length < 15} onClick={() => void suggest()} className={secondaryButton} title={stem.trim().length < 15 ? 'Type the question first' : 'Let AI write five options for this question'}>
+                  {busy === 'suggesting' ? 'Suggesting options…' : '✨ Suggest options'}
+                </button>
                 {options.length < 5 && (
                   <button type="button" onClick={() => setOptions((list) => [...list, ''])} className={secondaryButton}>
                     + Add option E
@@ -265,6 +296,7 @@ export default function AddQuestion() {
                   </button>
                 )}
               </div>
+              {optionsNote && <p className={`text-sm ${optionsNote.ok ? 'text-emerald-700 dark:text-emerald-300' : 'text-amber-700 dark:text-amber-300'}`}>{optionsNote.text}</p>}
               <p className="text-xs text-slate-400 dark:text-slate-500">Marking the correct option is optional. If you do, the AI solvers must agree with you before the question is published.</p>
             </div>
           </Card>

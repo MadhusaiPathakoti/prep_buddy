@@ -105,7 +105,10 @@ export async function submitQuestion(input: AddInput): Promise<AddResult> {
   }
 }
 
-export type ScreenshotResult = { ok: true; stem: string; options: string[] } | { ok: false; error: string }
+export type ScreenshotResult =
+  /** `generated` is true when the picture showed only the question and the options were suggested by AI. `note` explains why none were found. */
+  | { ok: true; stem: string; options: string[]; generated: boolean; note: string | null }
+  | { ok: false; error: string }
 
 /** Reads a screenshot of a question into text for the person to check. The picture is not stored anywhere. */
 export async function readScreenshot(file: Blob): Promise<ScreenshotResult> {
@@ -119,8 +122,29 @@ export async function readScreenshot(file: Blob): Promise<ScreenshotResult> {
   const out = await postJson('ocr', { image, mime: 'image/jpeg' }, OCR_TIMEOUT_MS)
   if (out.status === 0) return { ok: false, error: 'Could not read the image in time. Try a tighter crop, or type the question.' }
   const data = out.data ?? {}
-  if (out.status === 200 && typeof data.stem === 'string') return { ok: true, stem: data.stem, options: Array.isArray(data.options) ? data.options.filter((o): o is string => typeof o === 'string') : [] }
+  if (out.status === 200 && typeof data.stem === 'string') {
+    return {
+      ok: true,
+      stem: data.stem,
+      options: Array.isArray(data.options) ? data.options.filter((o): o is string => typeof o === 'string') : [],
+      generated: data.generated === true,
+      note: typeof data.note === 'string' && data.note ? data.note : null,
+    }
+  }
   if (out.status === 401) return { ok: false, error: 'Please sign in to read a screenshot.' }
   if (out.status === 429) return { ok: false, error: 'Too many screenshots in a short time. Wait a minute, or type the question.' }
   return { ok: false, error: text(data.error, 'Could not read the image. Type the question instead.') }
+}
+
+export type OptionsResult = { ok: true; options: string[] } | { ok: false; error: string }
+
+/** Asks the server to write five answer options (one right, four plausible wrong ones) for a question typed without any. */
+export async function suggestOptions(stem: string): Promise<OptionsResult> {
+  const out = await postJson('options', { stem }, 45_000)
+  if (out.status === 0) return { ok: false, error: 'Could not reach the server in time. Try again, or type the options.' }
+  const data = out.data ?? {}
+  if (out.status === 200 && Array.isArray(data.options)) return { ok: true, options: data.options.filter((o): o is string => typeof o === 'string') }
+  if (out.status === 401) return { ok: false, error: 'Please sign in to get option suggestions.' }
+  if (out.status === 429) return { ok: false, error: 'Too many suggestions in a short time. Please wait a while, or type the options.' }
+  return { ok: false, error: text(data.message, 'Could not suggest options. Type them yourself.') }
 }
