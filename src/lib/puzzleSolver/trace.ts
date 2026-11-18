@@ -128,7 +128,7 @@ export function entityOf(c: CellRef): { ea: number; ei: number; target: number; 
 }
 
 export function entityLabel(ctx: Ctx, ea: number, ei: number): string {
-  return ea === 0 ? ctx.p.people[ei] : `the ${ctx.p.cats[ea - 2].values[ei]} person`
+  return ea === 0 ? ctx.p.people[ei] : `the ${ctx.p.cats[ea - 2].values[ei]} ${ctx.noun}`
 }
 
 export function clueKind(clue: Clue): ClueKind {
@@ -391,7 +391,7 @@ export function buildTrace(puzzle: Puzzle): Trace {
           headline: ids.length === 1 ? `Clue ${ids[0]} states a fact directly.` : `Clues ${ids.join(', ')} simply state who is who.`,
           reasoning: [
             'These facts need no thinking: each one just says that two things go together, so I note them before anything else.',
-            `They do not say where anyone ${ctx.p.axis === 'floor' ? 'lives' : 'sits'} yet, but they turn later clues about "the person who ..." into clues about a named person.`,
+            `They do not say where anyone ${ctx.p.axis === 'floor' ? (ctx.p.place ? 'is' : 'lives') : 'sits'} yet, but they turn later clues about "the ${ctx.noun} that ..." into clues about a named ${ctx.noun}.`,
             ...(mixed.length ? [`Clue${mixed.length > 1 ? 's' : ''} ${mixed.join(', ')} also say${mixed.length > 1 ? '' : 's'} where someone lives - only the "is from" part is used now; the rest waits for its turn.`] : []),
           ],
           basedOn: [],

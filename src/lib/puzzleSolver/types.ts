@@ -58,6 +58,9 @@ export interface Puzzle {
   on?: string
   /** axis 'order' only: how the text says it, singular ("was born") */
   verb?: string
+  /** what the people are ("box"; default "person") and, for a vertical stack, what a position is called ("place"; default "floor") */
+  noun?: string
+  place?: string
   /** axis 'grid' only: flats per floor, and their letters from west to east (positions are floor-major: index = floor * cols + flat) */
   cols?: number
   flats?: string[]

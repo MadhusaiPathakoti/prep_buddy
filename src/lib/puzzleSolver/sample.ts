@@ -113,6 +113,27 @@ number of A’s flat. E lives in flat A but not on floor
 number 1. A’s flat is to the north-east of I’s flat.`,
   },
   {
+    id: 'stack-boxes',
+    title: 'Stack of boxes',
+    text: `Seven boxes H, I, J, K, L, M & O are kept one above
+the other. Each of the boxes contains seven
+different fruits i.e., Bananas, Cherry, Avocado,
+Papaya, Kiwi, Pear and Mango but not in the same
+order. The bottommost box is numbered 1 and the
+topmost box is numbered 7.
+The box, which contains Mango, is placed three
+boxes below the box L. Box H is a prime numbered
+box and placed immediately above the box, which
+contains Avocado. Box J is placed immediately
+above the box, which contains Pear. The box, which
+contains Avocado, is placed two boxes above the
+box M. Box K is placed immediately below the box,
+which contains Cherry. Box M is two boxes above
+the box, which contains Papaya. Box O is placed
+below box I. Box, which contains Banana, is placed
+two places above the box, which contains Kiwi.`,
+  },
+  {
     id: 'row-colours',
     title: 'A row & colours',
     text: `Six friends - A, B, C, D, E and F - sit in a row. Each of them likes a different colour - Red, Blue, Green, Yellow, Pink, Black.

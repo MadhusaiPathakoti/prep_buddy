@@ -34,7 +34,7 @@ function SolutionTable({ trace, sol }: { trace: Trace; sol: Solution }) {
         <thead>
           <tr className="text-xs uppercase tracking-wide text-slate-400 dark:text-slate-500">
             <th className="py-1 pr-3 font-semibold">{ctx.unit}</th>
-            <th className="py-1 pr-3 font-semibold">Person</th>
+            <th className="py-1 pr-3 font-semibold">{ctx.noun.replace(/^./, (m) => m.toUpperCase())}</th>
             {puzzle.cats.map((c) => (
               <th key={c.name} className="py-1 pr-3 font-semibold">
                 {c.name}

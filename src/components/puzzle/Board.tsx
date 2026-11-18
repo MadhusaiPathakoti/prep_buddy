@@ -151,7 +151,7 @@ export default function Board({ ctx, grid, beat, beatKey, mode, clash, onPick, p
     )
   }
 
-  const catHeads = ['Person', ...p.cats.map((c) => c.name.replace(/^./, (m) => m.toUpperCase()))]
+  const catHeads = [ctx.noun.replace(/^./, (m) => m.toUpperCase()), ...p.cats.map((c) => c.name.replace(/^./, (m) => m.toUpperCase()))]
   const vertical = p.axis !== 'row'
   const flatCols = ctx.cols
   const floorRows = n / flatCols
@@ -161,7 +161,7 @@ export default function Board({ ctx, grid, beat, beatKey, mode, clash, onPick, p
   return (
     <div className={['rounded-3xl p-3 shadow-sm ring-2 transition', clash ? 'animate-clash bg-rose-50 ring-rose-400 dark:bg-rose-500/10' : suppose ? 'bg-amber-50 ring-amber-300 dark:bg-amber-500/10 dark:ring-amber-500/50' : 'bg-white ring-slate-200 dark:bg-slate-800 dark:ring-slate-700'].join(' ')}>
       <div className="mb-2 flex items-center justify-between px-1 text-xs font-semibold uppercase tracking-wide text-slate-400 dark:text-slate-500">
-        <span>{p.axis === 'floor' || p.axis === 'grid' ? 'The building' : p.axis === 'row' ? 'The row, left → right' : p.axis === 'circle' ? 'The round table' : `The ${ctx.unit}s, first → last`}</span>
+        <span>{p.axis === 'floor' && p.place ? `The stack of ${ctx.nouns}, top first` : p.axis === 'floor' || p.axis === 'grid' ? 'The building' : p.axis === 'row' ? 'The row, left → right' : p.axis === 'circle' ? 'The round table' : `The ${ctx.unit}s, first → last`}</span>
         {suppose ? (
           <span className="rounded-full bg-amber-400 px-2 py-0.5 text-[10px] font-bold text-slate-900">WHAT-IF · not the real answer</span>
         ) : (

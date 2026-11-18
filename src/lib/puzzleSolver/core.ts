@@ -78,8 +78,16 @@ export class Ctx {
     this.K = 2 + p.cats.length
   }
 
+  /** what the people are: "person" or, say, "box" */
+  get noun(): string {
+    return this.p.noun ?? 'person'
+  }
+  get nouns(): string {
+    const n = this.noun
+    return n === 'person' ? 'people' : /(?:s|x|ch|sh)$/.test(n) ? `${n}es` : `${n}s`
+  }
   get unit(): string {
-    return this.p.axis === 'floor' ? 'floor' : this.p.axis === 'order' ? (this.p.unit ?? 'position') : this.p.axis === 'grid' ? 'flat' : 'seat'
+    return this.p.axis === 'floor' ? (this.p.place ?? 'floor') : this.p.axis === 'order' ? (this.p.unit ?? 'position') : this.p.axis === 'grid' ? 'flat' : 'seat'
   }
   /** a building with several flats per floor: position = floor * cols + flat (floor 0 = ground floor, flat 0 = westmost) */
   get grid(): boolean {
@@ -103,7 +111,7 @@ export class Ctx {
     return this.p.axis === 'circle'
   }
   get onWord(): string {
-    return this.p.axis === 'floor' ? 'on' : this.p.axis === 'order' ? (this.p.on ?? 'in') : this.p.axis === 'grid' ? 'in' : 'at'
+    return this.p.axis === 'floor' ? (this.p.place ? 'in' : 'on') : this.p.axis === 'order' ? (this.p.on ?? 'in') : this.p.axis === 'grid' ? 'in' : 'at'
   }
   get named(): boolean {
     return this.p.axis === 'order' && !!this.p.labels
@@ -136,14 +144,14 @@ export class Ctx {
     return this.p.axis === 'floor' ? (hi ? 'above' : 'below') : hi ? 'to the right of' : 'to the left of'
   }
   get topWord(): string {
-    return this.p.axis === 'floor' ? 'topmost floor' : this.p.axis === 'row' ? 'rightmost seat' : `last ${this.unit}`
+    return this.p.axis === 'floor' ? `topmost ${this.unit}` : this.p.axis === 'row' ? 'rightmost seat' : `last ${this.unit}`
   }
   get bottomWord(): string {
-    return this.p.axis === 'floor' ? 'lowest floor' : this.p.axis === 'row' ? 'leftmost seat' : `first ${this.unit}`
+    return this.p.axis === 'floor' ? `lowest ${this.unit}` : this.p.axis === 'row' ? 'leftmost seat' : `first ${this.unit}`
   }
 
   catName(a: number): string {
-    return a === 0 ? 'person' : a === 1 ? this.unit : this.p.cats[a - 2].name
+    return a === 0 ? this.noun : a === 1 ? this.unit : this.p.cats[a - 2].name
   }
   lab(a: number, i: number): string {
     return a === 0 ? this.p.people[i] : a === 1 ? this.posLab(i) : this.p.cats[a - 2].values[i]
@@ -177,7 +185,7 @@ export class Ctx {
     if (a === 0 && b === 1) return this.whereIs(i, j, false)
     if (a === 0) return `${this.lab(0, i)}'s ${this.catName(b)} is ${this.lab(b, j)}`
     if (a === 1) return `${this.ofPersonAt(b, i)} is ${this.lab(b, j)}`
-    return `the ${this.lab(a, i)} person's ${this.catName(b)} is ${this.lab(b, j)}`
+    return `the ${this.lab(a, i)} ${this.noun}'s ${this.catName(b)} is ${this.lab(b, j)}`
   }
   /** "the city on floor 3", "the city of the person born in May" */
   private ofPersonAt(cat: number, f: number): string {
@@ -190,7 +198,7 @@ export class Ctx {
     if (a === 0 && b === 1) return this.whereIs(i, j, true)
     if (a === 0) return `${this.lab(0, i)}'s ${this.catName(b)} is not ${this.lab(b, j)}`
     if (a === 1) return `${this.ofPersonAt(b, i)} is not ${this.lab(b, j)}`
-    return `the ${this.lab(a, i)} person's ${this.catName(b)} is not ${this.lab(b, j)}`
+    return `the ${this.lab(a, i)} ${this.noun}'s ${this.catName(b)} is not ${this.lab(b, j)}`
   }
 
   termCat(t: Term): number {
@@ -202,7 +210,7 @@ export class Ctx {
   termLabel(t: Term): string {
     if (t.k === 'p') return this.p.people[t.i]
     if (t.k === 'f') return this.posLab(t.f)
-    return `the ${this.p.cats[t.c].values[t.i]} person`
+    return `the ${this.p.cats[t.c].values[t.i]} ${this.noun}`
   }
 
   /** "floor 5", "floors 2–4", "floors 3, 5 and 8" — or "July", "May–July", "May, June and August" — for a mask of positions */
@@ -364,11 +372,11 @@ export class Ctx {
       case 'gap':
         return a.neg
           ? `there are not exactly ${a.k} ${this.unit}s between ${L(a.x)} and ${L(a.y)}`
-          : `exactly ${a.k} ${a.k === 1 ? 'person' : 'people'} between ${L(a.x)} and ${L(a.y)}${this.circular ? ' (on one side or the other)' : ''}`
+          : `exactly ${a.k} ${a.k === 1 ? this.noun : this.nouns} between ${L(a.x)} and ${L(a.y)}${this.circular ? ' (on one side or the other)' : ''}`
       case 'btw':
         return `${L(a.x)} is${not} between ${L(a.y)} and ${L(a.z)}`
       case 'same':
-        return `${a.neg ? 'not ' : ''}the same number of people between ${L(a.x)} and ${L(a.y)} as between ${L(a.z)} and ${L(a.w)}`
+        return `${a.neg ? 'not ' : ''}the same number of ${this.nouns} between ${L(a.x)} and ${L(a.y)} as between ${L(a.z)} and ${L(a.w)}`
       case 'set':
         return `${L(a.x)} is${not} ${this.setPhrase(a.fs)}`
       case 'grid': {

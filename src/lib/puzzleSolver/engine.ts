@@ -322,7 +322,7 @@ export class Engine {
       case 'adj':
         return needAt([f - 1, f + 1], 'next to it')
       case 'gap':
-        return needAt([f - atom.k - 1, f + atom.k + 1], `${atom.k} ${atom.k === 1 ? 'person' : 'people'} in between`)
+        return needAt([f - atom.k - 1, f + atom.k + 1], `${atom.k} ${atom.k === 1 ? c.noun : c.nouns} in between`)
       case 'rank': {
         const partnerHigher = (atom.hi && ti === 1) || (!atom.hi && ti === 0)
         const exists = partnerHigher ? f < n - 1 : f > 0

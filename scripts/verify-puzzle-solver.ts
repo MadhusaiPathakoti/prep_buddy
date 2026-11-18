@@ -228,6 +228,26 @@ const GRID_CASES: [string, string][] = [
   ['If C lives in flat A, then D lives on the same floor as E.', 'if C is in flat A, then D is on the same floor as E'],
 ]
 
+const BOX_HEADER = `Seven boxes H, I, J, K, L, M & O are kept one above
+the other. Each of the boxes contains seven
+different fruits i.e., Bananas, Cherry, Avocado,
+Papaya, Kiwi, Pear and Mango but not in the same
+order. The bottommost box is numbered 1 and the
+topmost box is numbered 7.
+`
+
+const BOX_CASES: [string, string][] = [
+  ['The box, which contains Mango, is placed three boxes below the box L.', 'the Mango box is exactly 3 places below L'],
+  ['Box H is a prime numbered box and placed immediately above the box, which contains Avocado.', 'H is in place 2, 3, 5 or 7 ; H is immediately above the Avocado box'],
+  ['Box J is placed immediately above the box, which contains Pear.', 'J is immediately above the Pear box'],
+  ['Box O is placed below box I.', 'O is somewhere below I'],
+  ['Box M is two boxes above the box, which contains Papaya.', 'M is exactly 2 places above the Papaya box'],
+  ['Box K contains Cherry.', "K's fruit is Cherry"],
+  ['Box, which contains Banana, is placed two places above the box, which contains Kiwi.', 'the Bananas box is exactly 2 places above the Kiwi box'],
+  ['The box which contains Kiwi is placed immediately below box J.', 'the Kiwi box is immediately below J'],
+  ['Box L is not kept immediately above box M.', 'L is not immediately above M'],
+]
+
 function runParserTable(header: string, cases: [string, string][]) {
   for (const [sentence, expected] of cases) {
     const r = parsePuzzle(`${header}\n${sentence}`)
@@ -250,6 +270,7 @@ runParserTable(ORDER_HEADER, ORDER_CASES)
 runParserTable(DAY_HEADER, DAY_CASES)
 runParserTable(CIRCLE_HEADER, CIRCLE_CASES)
 runParserTable(GRID_HEADER, GRID_CASES)
+runParserTable(BOX_HEADER, BOX_CASES)
 runParserTable(FLOOR_HEADER, FLOOR_EXTRA)
 runParserTable(ORDER_HEADER, ORDER_EXTRA)
 
@@ -641,15 +662,16 @@ for (const s of SAMPLES) {
 {
   const GEN_SEEDS = Number(process.env.GEN_SEEDS ?? 12)
   const tally: Record<string, { checked: number; skipped: number }> = {}
-  for (const topic of ['seating-circular', 'seating-linear', 'puzzle-floor', 'puzzle-schedule'] as const) {
+  for (const topic of ['seating-circular', 'seating-linear', 'puzzle-floor', 'puzzle-schedule', 'puzzle-box'] as const) {
     const gen = MAINS_ARRANGE_WITH_PROOF[topic] as (rng: ReturnType<typeof createRng>, d: string, n: number) => { groups: any[]; proofs: any[] }
     tally[topic] = { checked: 0, skipped: 0 }
     for (let seed = 1; seed <= GEN_SEEDS; seed++) {
       const { groups, proofs } = gen(createRng(seed * 977), 'hard', 5)
       groups.forEach((g, gi) => {
         const proof = proofs[gi]
-        const kind: string = proof.geom.kind
-        // same-facing round tables and single rows are supported; two rows, mixed-facing / square tables and stacks are not (yet)
+        // one vertical stack is a line of places, like a row; stacks side by side are not supported yet
+        const kind: string = proof.geom.kind === 'stacks' && proof.geom.stacks === 1 ? 'row' : proof.geom.kind
+        // same-facing round tables, single rows and single stacks are supported; two rows, mixed-facing / square tables and side-by-side stacks are not (yet)
         if (kind !== 'circle' && kind !== 'row') {
           tally[topic].skipped++
           return
@@ -684,7 +706,7 @@ for (const s of SAMPLES) {
   console.log('app generator, end to end: ' + Object.entries(tally).map(([k, v]) => `${k} ${v.checked} checked (${v.skipped} of an unsupported layout skipped)`).join('; '))
 }
 
-console.log(`parser: ${FLOOR_CASES.length + ROW_CASES.length + ORDER_CASES.length + DAY_CASES.length + CIRCLE_CASES.length + GRID_CASES.length + FLOOR_EXTRA.length + ORDER_EXTRA.length} phrasings checked`)
+console.log(`parser: ${FLOOR_CASES.length + ROW_CASES.length + ORDER_CASES.length + DAY_CASES.length + CIRCLE_CASES.length + GRID_CASES.length + BOX_CASES.length + FLOOR_EXTRA.length + ORDER_EXTRA.length} phrasings checked`)
 console.log(`engine vs brute force: ${compared} random puzzles (${uniqueTraced} with a unique answer traced, ${multiple} with several answers)`)
 console.log(`step kinds: ${JSON.stringify(kinds)}; ${trials} case-analysis trials`)
 console.log(`teaching trace: ${eliminations} crossings checked for soundness, ${whatIfs} what-if simulations refuted`)

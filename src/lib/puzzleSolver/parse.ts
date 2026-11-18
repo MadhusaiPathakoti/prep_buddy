@@ -16,6 +16,8 @@ export interface ParseSummary {
   facing?: 'in' | 'out'
   cols?: number
   flats?: string[]
+  noun?: string
+  place?: string
 }
 
 export interface ParseResult {
@@ -29,7 +31,7 @@ export interface ParseResult {
 
 const NUM: Record<string, number> = { zero: 0, one: 1, two: 2, three: 3, four: 4, five: 5, six: 6, seven: 7, eight: 8, nine: 9, ten: 10 }
 const ORD: Record<string, number> = { first: 1, second: 2, third: 3, fourth: 4, fifth: 5, sixth: 6, seventh: 7, eighth: 8, ninth: 9, tenth: 10 }
-const COUNT_NOUN = '(?:persons?|people|ones?|floors?|seats?|others?|friends?|students?|members?|boys?|girls?|men|women|individuals?)'
+const COUNT_NOUN = '(?:persons?|people|ones?|floors?|seats?|boxes|box|others?|friends?|students?|members?|boys?|girls?|men|women|individuals?)'
 const ENT = '@(\\d+)'
 const ARTICLE_NOUNS = new Set(['person', 'man', 'woman', 'boy', 'girl', 'friend', 'student', 'floor', 'seat', 'row', 'few', 'couple', 'number', 'different', 'certain', 'particular', 'lot', 'building', 'group', 'member', 'colleague', 'child'])
 
@@ -41,6 +43,7 @@ function normalizeText(raw: string): string {
     .replace(/[‐-―−]/g, '-')
     .replace(/[‘’]/g, "'")
     .replace(/[“”]/g, '"')
+    .replace(/\bi\.\s*e\.\s*,?/gi, ' - ') // "different fruits i.e., Banana, Cherry …" introduces the list like a dash would
     .replace(/ /g, ' ')
 }
 
@@ -104,6 +107,7 @@ function parseCategorySentence(s: string): CatSentence | null {
   if (!m) return null
   let rest = m[2].replace(/\([^)]*\)/g, ' ').replace(/[.)]+\s*$/, '')
   rest = rest.replace(/\s+/g, ' ').trim()
+  rest = rest.replace(/[,;]?\s*(?:but\s+)?not\s+(?:necessarily\s+)?in\s+the\s+same\s+order\.?\s*$/i, '').trim() // "… but not in the same order"
   if (!rest.includes(',') && !/\band\b/i.test(rest)) return null
   // "₹55,000, ₹70,000": a comma between digit groups of three is a thousands separator, not a list separator
   const SEP = '\u0001'
@@ -145,6 +149,23 @@ function buildLexicon(people: string[], cats: Category[], axis: Axis, topDown: b
     cat.values.forEach((v, i) => {
       valueIndex.set(v.toLowerCase(), { c, i })
       all.push(v)
+    }),
+  )
+  // the list says "Bananas" but a clue says "the box which contains Banana": a plural / singular spelling means the same value
+  cats.forEach((cat, c) =>
+    cat.values.forEach((v, i) => {
+      const w = v.toLowerCase()
+      if (!/^[a-z]{4,}$/.test(w)) return
+      const forms = new Set<string>([`${w}s`, `${w}es`])
+      if (w.endsWith('y')) forms.add(`${w.slice(0, -1)}ies`)
+      if (w.endsWith('ies')) forms.add(`${w.slice(0, -3)}y`)
+      if (w.endsWith('es')) forms.add(w.slice(0, -2))
+      if (w.endsWith('s')) forms.add(w.slice(0, -1))
+      for (const f of forms) {
+        if (f.length < 4 || valueIndex.has(f)) continue
+        valueIndex.set(f, { c, i })
+        all.push(f)
+      }
     }),
   )
   all.sort((a, b) => b.length - a.length)
@@ -218,13 +239,13 @@ function norm(t: string): string {
   s = s.replace(/\b(?:on|to|at) the (left|right) of\b/g, '$1 of')
   s = s.replace(/\b(?:exactly )?opposite(?: to)?\b/g, 'opposite')
   s = s.replace(/[^a-z0-9@#' ]+/g, ' ')
-  s = s.replace(/\b(one|two|three|four|five|six|seven|eight|nine|ten)\b(?=\s+(?:floors?|places?|seats?|positions?|months?|days?|weeks?|years?|persons?|people|steps?|others?|friends?|students?|members?|boys?|girls?))/g, (w) => String(NUM[w]))
+  s = s.replace(/\b(one|two|three|four|five|six|seven|eight|nine|ten)\b(?=\s+(?:floors?|places?|seats?|positions?|boxes|box|months?|days?|weeks?|years?|persons?|people|steps?|others?|friends?|students?|members?|boys?|girls?))/g, (w) => String(NUM[w]))
   s = s.replace(/\b(first|second|third|fourth|fifth|sixth|seventh|eighth|ninth|tenth)\b/g, (w) => `#${ORD[w]}`)
   s = s.replace(/\b(\d+)(?:st|nd|rd|th)\b/g, '#$1')
   s = s.replace(/'s\b/g, '')
   // "the person from @3" / "the one who likes @3" → "@3";  "@3 person" → "@3"
-  s = s.replace(/\b(?:the\s+)?(?:person|one|man|woman|friend|student|employee|boy|girl|individual|member)\s+(?:(?:who|that)\s+(?:[a-z]+\s+){0,2}?)?(?:from|in|at|of|with)?\s*(?=@\d)/g, '')
-  s = s.replace(/(@\d+)\s+(?:person|one|man|woman|friend|student|employee|boy|girl)\b/g, '$1')
+  s = s.replace(/\b(?:the\s+)?(?:person|one|man|woman|friend|student|employee|boy|girl|individual|member|box)\s+(?:(?:who|that|which)\s+(?:[a-z]+\s+){0,2}?|to be sent to\s+)?(?:from|in|at|of|with)?\s*(?=@\d)/g, '')
+  s = s.replace(/(@\d+)\s+(?:person|one|man|woman|friend|student|employee|boy|girl|box)\b/g, '$1')
   s = s.replace(/(@\d+)\s+(?:years?\s+)?old\b/g, '$1') // "the person who is 29 years old"
   s = s.replace(/\bthe\s+(?=@)/g, '')
   return s.replace(/\s+/g, ' ').trim()
@@ -332,7 +353,7 @@ function interpretClause(s: string, ments: Term[], lex: Lexicon): Atom[] | null 
   }
 
   // x (immediately | N floors) above / below y
-  m = s.match(new RegExp(`${ENT}\\s+(?:[a-z]+\\s+){0,8}?(?:(immediately)\\s+)?(?:#?(\\d+)\\s+(?:(?:floors?|places?|seats?|positions?|steps?|months?|days?|weeks?|years?)\\s+)?)?(above|below|over|under|higher than|lower than|left of|right of|taller than|shorter than|after|before|later than|earlier than)\\s+(?:(?:the\\s+)?(?:floor|seat|month|day) of\\s+)?${ENT}`))
+  m = s.match(new RegExp(`${ENT}\\s+(?:[a-z]+\\s+){0,8}?(?:(immediately)\\s+)?(?:#?(\\d+)\\s+(?:(?:floors?|places?|seats?|positions?|boxes|box|steps?|months?|days?|weeks?|years?)\\s+)?)?(above|below|over|under|higher than|lower than|left of|right of|taller than|shorter than|after|before|later than|earlier than)\\s+(?:(?:the\\s+)?(?:floor|seat|month|day) of\\s+)?${ENT}`))
   if (m) {
     const hi = HI_WORDS.includes(m[4])
     const x = M(m[1])
@@ -563,7 +584,7 @@ function parseClueText(sentence: string, lex: Lexicon): Atom[] | null {
   const atoms: Atom[] = []
   // "A, who is from Kolkata, lives on …" → a link plus the rest
   const rest = text.replace(
-    new RegExp(`${ENT}\\s*,\\s*(?:who|which|that)\\s+[a-z]+(?:\\s+(?:from|in|at|to|of|with|as|for))?\\s+(?:(?:a|an|the)\\s+)?${ENT}(?:\\s+(?:old|per\\s+(?:month|year|annum)))?\\s*(?:,|$)`, 'gi'),
+    new RegExp(`${ENT}\\s*,\\s*(?:who|which|that)\\s+(?:[a-z]+\\s+){1,6}?(?:(?:a|an|the)\\s+)?${ENT}(?:\\s+(?:old|per\\s+(?:month|year|annum)))?\\s*(?:,|$)`, 'gi'),
     (_m, a: string, b: string) => {
       const x = ments[Number(a)]
       const y = ments[Number(b)]
@@ -586,7 +607,7 @@ function parseClueText(sentence: string, lex: Lexicon): Atom[] | null {
       if (a1 && a2) return [...atoms, ...a1, ...a2]
     }
     // "A lives immediately below B and is from Delhi": the second half starts with a verb, so it is a second statement about A
-    const verbSplit = s.split(/\s+and\s+(?=(?:is|are|lives?|stays?|sits?|stands?|likes?|has|have|works?|comes?|belongs?)\b)/)
+    const verbSplit = s.split(/\s+and\s+(?=(?:is|are|lives?|stays?|sits?|stands?|likes?|has|have|works?|comes?|belongs?|placed|kept|situated|located)\b)/)
     if (verbSplit.length === 2) {
       const subject = verbSplit[0].match(/@\d+/)?.[0]
       const a1 = interpretClause(verbSplit[0], ments, lex)
@@ -653,7 +674,7 @@ function orderFromList(values: string[]): OrderInfo | null {
 
 /** statements that only restate the setup ("Each person was born in one month only.") — nothing to solve, so nothing to warn about */
 const isFiller = (s: string): boolean =>
-  /^(?:each|every)\s+(?:person|one|of them|friend|student)\b[^.]*\b(?:only|exactly one)\b/i.test(s) || /^no\s+two\b/i.test(s) || /\bwith respect to\b[^.]*\bfacing\b/i.test(s) || /^\(?\s*left and right\b/i.test(s)
+  /^(?:each|every)\s+(?:person|one|of them|friend|student)\b[^.]*\b(?:only|exactly one)\b/i.test(s) || /^no\s+two\b/i.test(s) || /\bwith respect to\b[^.]*\bfacing\b/i.test(s) || /^\(?\s*left and right\b/i.test(s) || /^\(?\s*(?:the\s+)?(?:bottommost|lowermost|lowest|ground|topmost|position 1)\b[^.]*\b(?:numbered|is the bottom)\b/i.test(s)
 
 /** sentences that only describe how the building is laid out ("Flat A is to the west of Flat B", "All the flats are of same size") */
 const isGridFiller = (s: string): boolean =>
@@ -724,6 +745,13 @@ export function parsePuzzle(raw: string): ParseResult {
   }
   const header = sentences[headerIdx]
 
+  // boxes in a vertical stack: the people are boxes and a position is a "place"; several stacks side by side are a different layout
+  const boxes = /\bboxes\b/i.test(header)
+  if (boxes && /\bstacks\b/i.test(text)) {
+    result.errors.push('Boxes in several stacks side by side are not supported yet — only one stack, with the boxes kept one above the other.')
+    return result
+  }
+
   // a building with several flats on each floor
   const building = buildingFromText(text, n)
   if (building && 'error' in building) {
@@ -733,7 +761,7 @@ export function parsePuzzle(raw: string): ParseResult {
 
 
   // count words in the header must agree with the list
-  const countWord = header.match(/\b(one|two|three|four|five|six|seven|eight|nine|ten|\d+)\s+(?:different\s+)?(?:persons?|people|friends|students|members|boys|girls|colleagues|employees)\b/i)
+  const countWord = header.match(/\b(one|two|three|four|five|six|seven|eight|nine|ten|\d+)\s+(?:different\s+)?(?:persons?|people|friends|students|members|boys|girls|colleagues|employees|boxes)\b/i)
   if (countWord) {
     const said = NUM[countWord[1].toLowerCase()] ?? Number(countWord[1])
     if (said !== n) result.warnings.push(`The text says ${said} people but ${n} names are listed — using the ${n} names.`)
@@ -843,7 +871,8 @@ export function parsePuzzle(raw: string): ParseResult {
   }
   const verbWord = header.match(/\b(?:were|are)\s+(born|seated|arranged|placed|ranked|appointed|promoted|admitted|selected|posted|scheduled|joined)\b/i)
   const extra = order ? { labels: order.labels, unit: order.unit, on: order.on, verb: verbWord ? `was ${verbWord[1].toLowerCase()}` : undefined } : {}
-  result.summary = { people, axis, topDown, cats, labels: order?.labels, unit: order?.unit, facing, cols: building?.cols, flats: building?.flats }
-  result.puzzle = { n, axis, topDown, people, cats, clues, ...extra, ...(circle ? { facing } : {}), ...(building ? { cols: building.cols, flats: building.flats } : {}) }
+  const stack = boxes && axis === 'floor' ? { noun: 'box', place: 'place' } : boxes ? { noun: 'box' } : {}
+  result.summary = { people, axis, topDown, cats, labels: order?.labels, unit: order?.unit, facing, cols: building?.cols, flats: building?.flats, ...stack }
+  result.puzzle = { n, axis, topDown, people, cats, clues, ...extra, ...(circle ? { facing } : {}), ...(building ? { cols: building.cols, flats: building.flats } : {}), ...stack }
   return result
 }
