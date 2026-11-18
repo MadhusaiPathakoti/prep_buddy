@@ -320,7 +320,7 @@ export default function Board({
   ];
   const flatCols = ctx.cols;
   const floorRows = n / flatCols;
-  const labelCol = ctx.named ? "3rem" : "2.25rem";
+  const labelCol = ctx.dated ? "4.25rem" : ctx.named ? "3rem" : "2.25rem";
   const unitHead = ctx.unit.replace(/^./, (m) => m.toUpperCase());
 
   return (

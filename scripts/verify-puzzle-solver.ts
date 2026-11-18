@@ -214,6 +214,27 @@ const TWOROW_CASES: [string, string][] = [
   ['Either A faces B or C sits in row 1, but not both.', 'either A faces B, or C is in row 1, but not both'],
 ]
 
+const BDAY_HEADER = `6 persons named A, B, C, D, E & F have birthdays in the month of January, April and May on two different dates i.e. 11th and 16th of the same year. No two persons have birthdays on the same day.
+`
+
+const BDAY_CASES: [string, string][] = [
+  ['A and B were born in the same month.', 'A is in the same month as B'],
+  ['A and B were born in different months.', 'A is in a different month from B'],
+  ['A and B were not born in the same month.', 'A is not in the same month as B'],
+  ['A and B were born on the same date.', 'A is on the same date as B'],
+  ['A and B were born on the same date but in different months.', 'A is on the same date as B, but in a different month'],
+  ['A was born in the month of April.', 'A is in April'],
+  ['A was not born in January.', 'A is not in January'],
+  ['A was born in the month having 31 days.', 'A is in January or May'],
+  ['A was born on the 16th.', 'A is on the 16th'],
+  ['A was born on the 11th of a month.', 'A is on the 11th'],
+  ['A was born before B on the 16th of a month.', 'A is somewhere before B ; A is on the 16th ; B is on the 16th'],
+  ['A was not born immediately before B, who was born in April.', 'A is not immediately before B ; B is in April'],
+  ['Not more than two persons were born before A.', 'A is on January 11, January 16 or April 11'],
+  ['At least three persons were born after A.', 'A is on January 11, January 16 or April 11'],
+  ['Two persons were born between A and B.', 'exactly 2 people between A and B'],
+]
+
 const FLOOR_EXTRA: [string, string][] = [
   ['A lives on a prime-numbered floor.', 'A is on floor 2, 3, 5 or 7'],
   ['A does not live on a prime-numbered floor.', 'A is not on floor 2, 3, 5 or 7'],
@@ -313,6 +334,7 @@ runParserTable(CIRCLE_HEADER, CIRCLE_CASES)
 runParserTable(GRID_HEADER, GRID_CASES)
 runParserTable(BOX_HEADER, BOX_CASES)
 runParserTable(TWOROW_HEADER, TWOROW_CASES)
+runParserTable(BDAY_HEADER, BDAY_CASES)
 runParserTable(FLOOR_HEADER, FLOOR_EXTRA)
 runParserTable(ORDER_HEADER, ORDER_EXTRA)
 
@@ -890,7 +912,7 @@ for (const s of SAMPLES) {
   console.log('app generator, end to end: ' + Object.entries(tally).map(([k, v]) => `${k} ${v.checked} checked (${v.skipped} of an unsupported layout skipped)`).join('; '))
 }
 
-console.log(`parser: ${FLOOR_CASES.length + ROW_CASES.length + ORDER_CASES.length + DAY_CASES.length + CIRCLE_CASES.length + GRID_CASES.length + BOX_CASES.length + TWOROW_CASES.length + FLOOR_EXTRA.length + ORDER_EXTRA.length} phrasings checked`)
+console.log(`parser: ${FLOOR_CASES.length + ROW_CASES.length + ORDER_CASES.length + DAY_CASES.length + CIRCLE_CASES.length + GRID_CASES.length + BOX_CASES.length + TWOROW_CASES.length + BDAY_CASES.length + FLOOR_EXTRA.length + ORDER_EXTRA.length} phrasings checked`)
 console.log(`engine vs brute force: ${compared} random puzzles (${uniqueTraced} with a unique answer traced, ${multiple} with several answers)`)
 console.log(`step kinds: ${JSON.stringify(kinds)}; ${trials} case-analysis trials`)
 console.log(`teaching trace: ${eliminations} crossings checked for soundness, ${whatIfs} what-if simulations refuted`)

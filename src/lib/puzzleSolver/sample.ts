@@ -164,4 +164,19 @@ Q stands fourth to the left of the one who stands the immediate right of P.
 E does not stand at the end of the row.
 N stands third to the left of the one who faces E.`,
   },
+  {
+    id: 'birthdays',
+    title: 'Birthdays: months & dates',
+    text: `8 persons named A, B, C, D, E, F, G & H have birthdays in the month of January, April, May and September on two different dates i.e. 11th and 16th of the same year, not necessarily in the same order. No two persons have birthdays on the same day.
+
+D was not born immediately before B, who was born in the month of April.
+H was not born in the month of January.
+C and H were born in the same month.
+F was born in the month having 31 days.
+A and G were born in different months.
+G and F were born on the same date but in different months.
+Three persons were born between E and H.
+D was born before B on the 16th of a month.
+Not more than four persons were born before E.`,
+  },
 ]

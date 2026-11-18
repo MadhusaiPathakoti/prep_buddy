@@ -133,6 +133,27 @@ export class Ctx {
   get onWord(): string {
     return this.p.axis === 'floor' ? (this.p.place ? 'in' : 'on') : this.p.axis === 'order' ? (this.p.on ?? 'in') : this.p.axis === 'grid' || this.p.axis === 'tworow' ? 'in' : 'at'
   }
+  /** ordered slots that are (month, date) pairs: "April 11", "April 16", …; `cols` dates per month */
+  get dated(): boolean {
+    return this.p.axis === 'order' && !!this.p.cols && !!this.p.labels
+  }
+  /** a set of such slots described as whole months or a whole date: "in April or May", "on the 16th" (null when it is neither) */
+  datedSet(fs: number[]): string | null {
+    const cols = this.cols
+    const labels = this.p.labels as string[]
+    const has = new Set(fs)
+    const rows = Math.floor(this.n / cols)
+    const monthName = (r: number) => labels[r * cols].split(' ')[0]
+    const full = Array.from({ length: rows }, (_, r) => r).filter((r) => Array.from({ length: cols }, (_, c) => r * cols + c).every((f) => has.has(f)))
+    if (full.length && full.length * cols === has.size) return `in ${full.map(monthName).join(' or ')}`
+    const dates = Array.from({ length: cols }, (_, c) => c).filter((c) => Array.from({ length: rows }, (_, r) => r * cols + c).every((f) => has.has(f)))
+    const nth = (d: string) => {
+      const k = Number(d)
+      return `${k}${k % 100 >= 11 && k % 100 <= 13 ? 'th' : ['th', 'st', 'nd', 'rd'][k % 10 < 4 ? k % 10 : 0]}`
+    }
+    if (dates.length && dates.length * rows === has.size) return `on the ${dates.map((c) => nth(labels[c].split(' ')[1])).join(' or ')}`
+    return null
+  }
   get named(): boolean {
     return this.p.axis === 'order' && !!this.p.labels
   }
@@ -159,6 +180,7 @@ export class Ctx {
   posShort(f: number): string {
     if (this.grid) return `${this.rowOf(f) + 1}${this.flatLetter(f)}`
     if (this.tworow) return `${this.rowIdx(f) + 1}.${this.seatIdx(f) + 1}`
+    if (this.dated) return (this.p.labels as string[])[f].replace(/^(\w{3})\w*/, '$1')
     return this.named ? (this.p.labels as string[])[f].slice(0, 3) : String(this.posNum(f))
   }
   /** words for "higher / lower" along the axis */
@@ -319,6 +341,7 @@ export class Ctx {
   /** the same for a list of positions */
   positionsPhrase(fs: number[]): string {
     if (this.grid) return this.setPhrase(fs)
+    if (this.dated) return this.datedSet(fs) ?? `${this.onWord} ${this.fmtPositions(fs)}`
     return `${this.onWord} ${this.fmtPositions(fs)}`
   }
 
@@ -328,6 +351,7 @@ export class Ctx {
       const p = this.gridSetParts(fs)
       return `${p.prep} ${p.text}`
     }
+    if (this.dated) return this.datedSet(fs) ?? `${this.onWord} ${this.setDesc(fs)}`
     return `${this.onWord} ${this.setDesc(fs)}`
   }
 
@@ -432,6 +456,12 @@ export class Ctx {
         return `${a.neg ? 'not ' : ''}as many ${this.nouns} ${side(a.xs)} ${L(a.x)} as ${side(a.ys)} ${L(a.y)}`
       }
       case 'grid': {
+        if (this.dated) {
+          const mo = a.row === 'eq' ? 'in the same month' : a.row === 'ne' ? 'in a different month' : ''
+          const da = a.col === 'eq' ? 'on the same date' : a.col === 'ne' ? 'on a different date' : ''
+          const both = da && mo ? `${da} as ${L(a.y)}, but ${mo}` : da ? `${da} as ${L(a.y)}` : `${mo} from ${L(a.y)}`.replace('same month from', 'same month as')
+          return `${L(a.x)} is${not} ${both}`
+        }
         const up = a.row === 'gt'
         const down = a.row === 'lt'
         const east = a.col === 'gt'

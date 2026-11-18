@@ -141,6 +141,8 @@ interface Lexicon {
   flatRe: RegExp | null
   /** axis 'tworow': people per row */
   rowLen?: number
+  /** axis 'order' made of (month, date) slots: the months in calendar order and the dates; slot = month * dates + date */
+  birth?: { months: string[]; dates: number[] }
 }
 
 const isVar = (t: Term): t is VarTerm => t.k !== 'r'
@@ -284,6 +286,65 @@ function norm(t: string, ments?: Term[], axis?: Axis): string {
 const HI_WORDS = ['above', 'over', 'higher than', 'right of', 'taller than', 'after', 'later than']
 const POSITION_WORDS = /\b(?:floors?|seats?|rows?|above|below|between|left|right|top|topmost|bottom|lowest|lowermost|highest|numbered|odd|even|prime|multiple|weekend|weekday|ends?|adjacent|next|beside|neighbou?rs?|opposite|counted|storey|ground|uppermost)\b|#\d/
 
+const DAYS_IN: Record<string, number> = { january: 31, february: 28, march: 31, april: 30, may: 31, june: 30, july: 31, august: 31, september: 30, october: 31, november: 30, december: 31 }
+
+/** "in the month of January", "in the month having 31 days", "on the 16th": the (month, date) slots a clue allows */
+function birthCells(sIn: string, lex: Lexicon): number[] | 'bad' | null {
+  const { months, dates } = lex.birth as { months: string[]; dates: number[] }
+  let s = sIn.replace(/@\d+/g, ' ')
+  const rows = new Set<number>()
+  const cols = new Set<number>()
+  const isWord = (name: string) => (name === 'may' ? /\b(?:in|of|on|during|and|or|from|to|before|after|than)\s+may\b/.test(s) : new RegExp(`\\b${name}\\b`).test(s))
+  for (const name of Object.keys(DAYS_IN)) {
+    if (!isWord(name)) continue
+    const r = months.findIndex((mo) => mo.toLowerCase() === name)
+    if (r < 0) return 'bad'
+    rows.add(r)
+    s = s.replace(new RegExp(`\\b${name}\\b`, 'g'), ' ')
+  }
+  const days = s.match(/\b(28|29|30|31)\s+days\b/)
+  if (days) {
+    const want = Number(days[1])
+    const hit = months.map((mo, r) => (DAYS_IN[mo.toLowerCase()] === want || (want === 29 && DAYS_IN[mo.toLowerCase()] === 28) ? r : -1)).filter((r) => r >= 0)
+    if (!hit.length) return 'bad'
+    hit.forEach((r) => rows.add(r))
+    s = s.replace(days[0], ' ')
+  }
+  for (const m of s.matchAll(/#?(\d+)/g)) {
+    const c = dates.indexOf(Number(m[1]))
+    if (c < 0) return 'bad'
+    cols.add(c)
+  }
+  if (!rows.size && !cols.size) return null
+  const out: number[] = []
+  for (let r = 0; r < months.length; r++) for (let c = 0; c < dates.length; c++) if ((!rows.size || rows.has(r)) && (!cols.size || cols.has(c))) out.push(r * dates.length + c)
+  return out
+}
+
+/** Birthdays on a few dates of a few months: "same month", "same date but different months", "born before B on the 16th" */
+function interpretBirth(s: string, ments: Term[], lex: Lexicon): Atom[] | null {
+  const M = (k: string): Term => ments[Number(k)]
+  const ids = s.match(/@\d+/g) ?? []
+  const neg = /\bnot\b/.test(s) || undefined
+  if (ids.length === 2) {
+    const row = /\bsame month\b/.test(s) ? 'eq' : /\bdifferent months?\b/.test(s) ? 'ne' : undefined
+    const col = /\bsame (?:date|day)\b/.test(s) ? 'eq' : /\bdifferent (?:dates?|days?)\b/.test(s) ? 'ne' : undefined
+    if (row || col) {
+      if (neg && row && col) return null
+      return [{ t: 'grid', x: M(ids[0].slice(1)), y: M(ids[1].slice(1)), row, col, neg }]
+    }
+  }
+  // "D was born before B on the 16th of a month": both people were born on that date (D in an earlier month than B)
+  const tail = s.match(/^(.*@\d+.*?)\s+on the #?(\d+)(?: of (?:a|the|any|that) month)?$/)
+  if (tail && ids.length >= 2) {
+    const head = interpretClause(tail[1], ments, lex)
+    const cells = birthCells(`#${tail[2]}`, lex)
+    const named = [...new Set((tail[1].match(/@\d+/g) ?? []).map((t) => t.slice(1)))]
+    if (head && cells && cells !== 'bad') return [...head, ...named.map((k) => ({ t: 'set', x: M(k), fs: cells }) as Atom)]
+  }
+  return null
+}
+
 /** Clues about a building with several flats per floor: same floor, different lettered flats, north-east of, above in the same flat … */
 function interpretGrid(s: string, ments: Term[]): Atom[] | null {
   const M = (k: string): Term => ments[Number(k)]
@@ -323,6 +384,10 @@ function interpretClause(s: string, ments: Term[], lex: Lexicon): Atom[] | null 
   const M = (k: string): Term => ments[Number(k)]
   const neg = /\bnot\b/.test(s) || undefined
   const grid = lex.axis === 'grid'
+  if (lex.birth) {
+    const b = interpretBirth(s, ments, lex)
+    if (b) return b
+  }
   if (grid) {
     const g = interpretGrid(s, ments)
     if (g) return g
@@ -376,6 +441,19 @@ function interpretClause(s: string, ments: Term[], lex: Lexicon): Atom[] | null 
   if (m) return [{ t: 'gap', x: M(m[2]), y: M(m[3]), k: m[1] === 'no' ? 0 : Number(m[1]), neg }]
   m = s.match(new RegExp(`${ENT}\\s+and\\s+${ENT}\\s+(?:have|has)\\s+(\\d+|no)\\s+${COUNT_NOUN}\\s+between\\s+them`))
   if (m) return [{ t: 'gap', x: M(m[1]), y: M(m[2]), k: m[3] === 'no' ? 0 : Number(m[3]), neg }]
+
+  // "Not more than four persons were born before E", "at least two people sit to the left of X": a range of positions
+  m = s.match(new RegExp(`((?:not\\s+|no\\s+)?(?:more|less|fewer)\\s+than|at\\s+(?:most|least))\\s+(\\d+)\\s+${COUNT_NOUN}\\s+(?:[a-z]+\\s+){0,3}?(above|below|after|before|higher than|lower than|left of|right of)\\s+${ENT}`))
+  if (m && !/@\d/.test(s.slice(0, m.index)) && lex.axis !== 'circle') {
+    const k = Number(m[2])
+    const phrase = m[1].replace(/\s+/g, ' ')
+    const ok = (c: number) => (/^(?:not|no) more than|^at most/.test(phrase) ? c <= k : /^(?:not|no) (?:less|fewer) than|^at least/.test(phrase) ? c >= k : /^more than/.test(phrase) ? c > k : c < k)
+    const fs = Array.from({ length: lex.n }, (_, c) => c)
+      .filter(ok)
+      .map((c) => (HI_WORDS.includes(m![3]) ? lex.n - 1 - c : c))
+      .sort((a, b) => a - b)
+    if (fs.length && fs.length < lex.n) return [{ t: 'set', x: M(m[4]), fs }]
+  }
 
   // "N people above / after / below / before x": exactly N people on that side, so x has one exact position
   m = s.match(new RegExp(`(?:(?:exactly|only)\\s+)?(\\d+|no)\\s+${COUNT_NOUN}\\s+(?:[a-z]+\\s+){0,3}?(above|below|after|before|higher than|lower than|left of|right of)\\s+${ENT}`))
@@ -529,6 +607,7 @@ function twoRowCells(sIn: string, lex: Lexicon): number[] | 'bad' | null {
 function positionSet(sIn: string, lex: Lexicon): number[] | 'bad' | null {
   if (lex.axis === 'grid') return gridCells(sIn, lex)
   if (lex.axis === 'tworow') return twoRowCells(sIn, lex)
+  if (lex.birth) return birthCells(sIn, lex)
   const n = lex.n
   let s = sIn.replace(/@\d+/g, ' ') // the @k mention placeholders are not floor numbers
   const set = new Set<number>()
@@ -684,6 +763,13 @@ function parseClueText(sentence: string, lex: Lexicon): Atom[] | null {
   )
   const s = norm(rest, ments, lex.axis)
   if (s) {
+    // "D was not born immediately before B, who was born in April": a second statement about the person just named
+    const who = s.match(/^(.+@(\d+))\s+who\s+(.+)$/)
+    if (who) {
+      const a1 = interpretClause(who[1], ments, lex)
+      const a2 = interpretClause(`@${who[2]} ${who[3]}`, ments, lex)
+      if (a1 && a2) return [...atoms, ...a1, ...a2]
+    }
     const compound = compoundClause(s, ments, lex)
     if (compound) return [...atoms, ...compound]
     // "E lives in flat A but not on floor number 1": the second half borrows the subject of the first
@@ -736,6 +822,15 @@ interface OrderInfo {
 }
 
 /** "from May to December", "Monday to Friday" (wrapping round the year / week is allowed) */
+/** "birthdays in January, April, May and September on two different dates, 11th and 16th": months × dates slots in calendar order */
+function birthdayGrid(header: string, n: number): { labels: string[]; months: string[]; dates: number[] } | null {
+  const monthRe = new RegExp(`\\b(${MONTHS.join('|')})\\b`, 'gi')
+  const months = [...new Set([...header.matchAll(monthRe)].map((m) => MONTHS.find((x) => x.toLowerCase() === m[1].toLowerCase()) as string))].sort((a, b) => MONTHS.indexOf(a) - MONTHS.indexOf(b))
+  const dates = [...new Set([...header.matchAll(/\b(\d{1,2})(?:st|nd|rd|th)\b/g)].map((m) => Number(m[1])))].sort((a, b) => a - b)
+  if (months.length < 2 || dates.length < 2 || months.length * dates.length !== n) return null
+  return { labels: months.flatMap((mo) => dates.map((d) => `${mo} ${d}`)), months, dates }
+}
+
 function orderFromRange(text: string, n: number): OrderInfo | { error: string } | null {
   for (const kind of ORDER_KINDS) {
     const alt = kind.names.join('|')
@@ -917,12 +1012,14 @@ export function parsePuzzle(raw: string): ParseResult {
 
   // named order (months, weekdays) from a range in the header: "from May to December"
   let order: OrderInfo | null = null
-  const range = orderFromRange(header, n) ?? orderFromRange(text, n)
+  const bday = birthdayGrid(header, n)
+  if (bday) order = { labels: bday.labels, unit: 'date', on: 'on' }
+  const range = bday ? null : (orderFromRange(header, n) ?? orderFromRange(text, n))
   if (range && 'error' in range) {
     result.errors.push(range.error)
     return result
   }
-  order = range
+  if (!bday) order = range
 
   // axis and numbering direction
   const lower = text.toLowerCase()
@@ -972,6 +1069,11 @@ export function parsePuzzle(raw: string): ParseResult {
   for (const v of allValues) if (people.some((p) => p.toLowerCase() === v)) result.warnings.push(`"${v}" is both a person and a value.`)
 
   const lex = buildLexicon(people, cats, axis, topDown, order?.labels, building ? { cols: building.cols, flats: building.flats } : undefined, rowLen)
+  if (bday) {
+    lex.birth = { months: bday.months, dates: bday.dates }
+    lex.labels = undefined
+    lex.posRe = null
+  }
   const clues: Clue[] = []
   sentences.forEach((s, k) => {
     const listed = rowSentence.get(k)
@@ -998,7 +1100,7 @@ export function parsePuzzle(raw: string): ParseResult {
     return result
   }
   const verbWord = header.match(/\b(?:were|are)\s+(born|seated|arranged|placed|ranked|appointed|promoted|admitted|selected|posted|scheduled|joined)\b/i)
-  const extra = order ? { labels: order.labels, unit: order.unit, on: order.on, verb: verbWord ? `was ${verbWord[1].toLowerCase()}` : undefined } : {}
+  const extra = order ? { labels: order.labels, unit: order.unit, on: order.on, verb: verbWord ? `was ${verbWord[1].toLowerCase()}` : bday ? 'was born' : undefined, ...(bday ? { cols: bday.dates.length } : {}) } : {}
   const stack = boxes && axis === 'floor' ? { noun: 'box', place: 'place' } : boxes ? { noun: 'box' } : {}
   result.summary = { people, axis, topDown, cats, labels: order?.labels, unit: order?.unit, facing, cols: building?.cols, flats: building?.flats, rowLen, ...stack }
   result.puzzle = { n, axis, topDown, people, cats, clues, ...extra, ...(circle ? { facing } : {}), ...(building ? { cols: building.cols, flats: building.flats } : {}), ...(rowLen ? { rowLen } : {}), ...stack }
