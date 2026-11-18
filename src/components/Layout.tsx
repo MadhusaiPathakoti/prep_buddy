@@ -1,6 +1,7 @@
 import { Suspense } from 'react'
 import { Link, Outlet, useLocation } from 'react-router-dom'
 import ErrorBoundary from './ErrorBoundary'
+import AuthButton from './AuthButton'
 import ThemeToggle from './ThemeToggle'
 
 function PageLoading() {
@@ -17,7 +18,10 @@ export default function Layout() {
             <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-indigo-600 text-white">P</span>
             PrepBuddy
           </Link>
-          <ThemeToggle />
+          <div className="flex items-center gap-2">
+            <AuthButton />
+            <ThemeToggle />
+          </div>
         </div>
       </header>
 

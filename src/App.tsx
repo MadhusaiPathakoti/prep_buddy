@@ -2,6 +2,7 @@ import { lazy, Suspense } from 'react'
 import { HashRouter, Routes, Route, Navigate } from 'react-router-dom'
 import ErrorBoundary from './components/ErrorBoundary'
 import Layout from './components/Layout'
+import AuthProvider from './components/AuthProvider'
 const Home = lazy(() => import('./pages/Home'))
 const NotFound = lazy(() => import('./pages/NotFound'))
 const Maths = lazy(() => import('./pages/Maths'))
@@ -95,6 +96,7 @@ const DailyQuiz = lazy(() => import('./pages/daily/DailyQuiz'))
 export default function App() {
   return (
     <HashRouter>
+      <AuthProvider>
       {/* the exam window sits outside Layout, so it needs its own boundary and loading state */}
       <ErrorBoundary>
         <Suspense fallback={null}>
@@ -197,6 +199,7 @@ export default function App() {
       </Routes>
         </Suspense>
       </ErrorBoundary>
+      </AuthProvider>
     </HashRouter>
   )
 }
