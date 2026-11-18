@@ -90,6 +90,9 @@ export interface Puzzle {
    * (odd seats) face the centre — so "to the right of" depends on where the person it is said of sits.
    */
   square?: boolean
+  /** such a table with corners and sides (square, pentagon-shaped …): its name, and whether the people at the corners face the centre (the people on the sides face the other way) */
+  shape?: string
+  cornersIn?: boolean
   /** axis 'circle' only: everyone faces the same way, so "to the right of" is always the next seat along; this says which way that is drawn */
   facing?: 'in' | 'out'
 }

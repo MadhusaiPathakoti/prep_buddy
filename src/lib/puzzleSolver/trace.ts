@@ -355,9 +355,9 @@ export function buildTrace(puzzle: Puzzle): Trace {
           ranking: [],
           headline: puzzle.square ? `Start by putting ${puzzle.people[who]} in seat 1 or seat 2 — a free choice, not a guess.` : `Start by putting ${puzzle.people[who]} in ${ctx.posLab(0)} — a free choice, not a guess.`,
           reasoning: puzzle.square ? [
-            "Turning a square table by two seats puts every corner on a corner and every side on a side, so nobody's neighbours or facing change. Any one person can therefore be assumed to be in seat 1 (a corner) or seat 2 (a side) without losing a single possible answer.",
+            `Turning a ${ctx.tableName} by two seats puts every corner on a corner and every side on a side, so nobody's neighbours or facing change. Any one person can therefore be assumed to be in seat 1 (a corner) or seat 2 (a side) without losing a single possible answer.`,
             `I chose ${puzzle.people[who]}: named in ${mentions} clue${mentions === 1 ? '' : 's'}, more than anyone else, so narrowing them gives the other clues the most to work with.`,
-            'Seats are numbered anticlockwise: the odd seats 1, 3, 5, 7 are the corners (facing outside) and the even seats 2, 4, 6, 8 the middles of the sides (facing the centre). A person on a side has the next seat on their right; a person on a corner has the previous seat on their right.',
+            `Seats are numbered anticlockwise: the odd-numbered seats are the corners (facing ${puzzle.cornersIn ? 'the centre' : 'outside'}) and the even-numbered seats the middles of the sides (facing ${puzzle.cornersIn ? 'outside' : 'the centre'}). A person on a corner has the ${puzzle.cornersIn ? 'next' : 'previous'} seat on their right; a person on a side has the ${puzzle.cornersIn ? 'previous' : 'next'} seat on their right.`,
           ] : [
             'On a round table every seat looks like every other until someone is placed. Turning the whole table round changes nobody\'s neighbours, so any one person can be put in the first seat without losing a single possible answer.',
             `I chose ${puzzle.people[who]}: named in ${mentions} clue${mentions === 1 ? '' : 's'}, more than anyone else, so fixing them gives the other clues the most to work with.`,

@@ -83,6 +83,13 @@ export class Ctx {
     this.K = 2 + p.cats.length
   }
 
+  /** a table with corners and sides: +1 when the people at the corners face the centre, -1 when they face outside, 0 otherwise */
+  get cornerRight(): number {
+    return this.p.square ? (this.p.cornersIn ? 1 : -1) : 0
+  }
+  get tableName(): string {
+    return `${this.p.shape ?? 'square'} table`
+  }
   /** category index of the facing direction (north / south) of a line of people who face either way, or -1 */
   get dirK(): number {
     return this.p.dirCat === undefined ? -1 : 2 + this.p.dirCat
@@ -588,10 +595,14 @@ export function hasDerived(a: Atom): boolean {
  * The atom as a test on the 0-based positions of its unknowns (link atoms are handled by the grid, not by a position test).
  * `circ`: a round table (differences wrap); `cols`: flats per floor; `m`: people per row of a two-row layout (0 otherwise).
  */
-export function atomTest(a: Atom, n = 0, circ = false, cols = 1, m = 0, sq = false): (v: number[]) => boolean {
+/**
+ * `sq`: a table with corners and sides — +1 when the people at the corners face the centre (their right is the next seat, anticlockwise),
+ * -1 when they face outside; the people on the sides face the other way. 0 = no such table.
+ */
+export function atomTest(a: Atom, n = 0, circ = false, cols = 1, m = 0, sq = 0): (v: number[]) => boolean {
   const md = (x: number) => (circ ? ((x % n) + n) % n : x)
   // square table: a corner (even seat) faces outside, so its right is the previous seat; a side (odd seat) faces the centre
-  const right = (seat: number) => (sq && seat % 2 === 0 ? -1 : 1)
+  const right = (seat: number) => (sq === 0 ? 1 : seat % 2 === 0 ? sq : -sq)
   const rowLen = m || n
   const rel = (r: GridRel | undefined, x: number, y: number) => r === undefined || (r === 'gt' ? x > y : r === 'lt' ? x < y : r === 'eq' ? x === y : x !== y)
   const vars = atomVars(a)
@@ -700,7 +711,7 @@ export function atomTest(a: Atom, n = 0, circ = false, cols = 1, m = 0, sq = fal
         const x = (gx as (v: number[]) => number)(v)
         const y = (gy as (v: number[]) => number)(v)
         // square table: faces = across the table, and on a side (corners face outside, so they face nobody at the table)
-        if (sq) return x >= 0 && y >= 0 && md(x - y) === n / 2 && x % 2 === 1
+        if (sq !== 0) return x >= 0 && y >= 0 && md(x - y) === n / 2 && x % 2 === (sq > 0 ? 0 : 1)
         return x >= 0 && y >= 0 && m > 0 && grp(x) !== grp(y) && idx(x) + idx(y) === m - 1
       }
       break

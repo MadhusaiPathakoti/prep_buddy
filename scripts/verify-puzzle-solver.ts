@@ -259,6 +259,20 @@ const SQUARE_CASES: [string, string][] = [
   ['Z sits diagonally opposite to X.', 'Z sits exactly opposite X'],
 ]
 
+const PENT_HEADER = `Ten people A, B, C, D, E, F, H, I, J & K are sitting around a pentagon shaped table. Five people are sitting at the corners of the table and five people are sitting on each side of the table. Persons sitting at the corners are facing inside and the persons sitting at the side are facing outside.
+`
+
+const PENT_CASES: [string, string][] = [
+  ['I sits immediate right and immediate left of A and C respectively.', 'I is immediately to the right of A, as seen by A ; I is immediately to the left of C, as seen by C'],
+  ['I sits second right and immediate left of A and C respectively.', 'I is exactly 2 seats to the right of A, as seen by A ; I is immediately to the left of C, as seen by C'],
+  ['I does not sit on the side of the table.', 'I is not at a side seat (the middle of a side)'],
+  ['A sits at one of the corners of the table.', 'A is at a corner seat'],
+  ['A faces the centre.', 'A is at a corner seat'],
+  ['A faces outside.', 'A is at a side seat (the middle of a side)'],
+  ['D sits third to the right of K.', 'D is exactly 3 seats to the right of K, as seen by K'],
+  ['Two persons sit between D and E, who does not sit adjacent to K.', 'exactly 2 people between D and E (on one side or the other) ; E and K are not on neighbouring seats'],
+]
+
 const FLOOR_EXTRA: [string, string][] = [
   ['A lives on a prime-numbered floor.', 'A is on floor 2, 3, 5 or 7'],
   ['A does not live on a prime-numbered floor.', 'A is not on floor 2, 3, 5 or 7'],
@@ -361,6 +375,7 @@ runParserTable(BOX_HEADER, BOX_CASES)
 runParserTable(TWOROW_HEADER, TWOROW_CASES)
 runParserTable(BDAY_HEADER, BDAY_CASES)
 runParserTable(SQUARE_HEADER, SQUARE_CASES)
+runParserTable(PENT_HEADER, PENT_CASES)
 runParserTable(FLOOR_HEADER, FLOOR_EXTRA)
 runParserTable(ORDER_HEADER, ORDER_EXTRA)
 
@@ -424,6 +439,19 @@ for (const s of SAMPLES) {
     // the same cyclic order, turned by an even number of seats only
     const turned = Array.from({ length: 4 }, (_, k) => 'SXVTYWZU'.slice(2 * k) + 'SXVTYWZU'.slice(0, 2 * k))
     if (!turned.includes(seats)) fail(`square-table sample: ${seats} is not SXVTYWZU turned by an even number of seats`)
+  }
+}
+
+// the pentagon-shaped table (corners face the centre, sides face outside): one arrangement up to turning the table by two seats; brute force agrees
+{
+  const pe = SAMPLES.find((x) => x.id === 'pentagon-table')
+  const r = pe ? parsePuzzle(pe.text) : null
+  const e = r?.puzzle ? enumerate(r.puzzle, 3) : null
+  if (!r?.puzzle || !e || e.sols.length !== 1 || r.unparsed.length) fail('pentagon-table sample: expected exactly one solution and every clue read')
+  else {
+    const seats = Array.from({ length: 10 }, (_, i) => r.puzzle!.people[e.sols[0].pos.indexOf(i)]).join('')
+    const turned = Array.from({ length: 5 }, (_, k) => 'BDJHECIAKF'.slice(2 * k) + 'BDJHECIAKF'.slice(0, 2 * k))
+    if (!turned.includes(seats)) fail(`pentagon-table sample: ${seats} is not BDJHECIAKF turned by an even number of seats`)
   }
 }
 
@@ -1039,7 +1067,7 @@ for (const s of SAMPLES) {
   console.log('app generator, end to end: ' + Object.entries(tally).map(([k, v]) => `${k} ${v.checked} checked (${v.skipped} of an unsupported layout skipped)`).join('; '))
 }
 
-console.log(`parser: ${FLOOR_CASES.length + ROW_CASES.length + ORDER_CASES.length + DAY_CASES.length + CIRCLE_CASES.length + GRID_CASES.length + BOX_CASES.length + TWOROW_CASES.length + BDAY_CASES.length + SQUARE_CASES.length + FLOOR_VIZ.length + FLOOR_EXTRA.length + ORDER_EXTRA.length} phrasings checked`)
+console.log(`parser: ${FLOOR_CASES.length + ROW_CASES.length + ORDER_CASES.length + DAY_CASES.length + CIRCLE_CASES.length + GRID_CASES.length + BOX_CASES.length + TWOROW_CASES.length + BDAY_CASES.length + SQUARE_CASES.length + PENT_CASES.length + FLOOR_VIZ.length + FLOOR_EXTRA.length + ORDER_EXTRA.length} phrasings checked`)
 console.log(`engine vs brute force: ${compared} random puzzles (${uniqueTraced} with a unique answer traced, ${multiple} with several answers)`)
 console.log(`step kinds: ${JSON.stringify(kinds)}; ${trials} case-analysis trials`)
 console.log(`teaching trace: ${eliminations} crossings checked for soundness, ${whatIfs} what-if simulations refuted`)

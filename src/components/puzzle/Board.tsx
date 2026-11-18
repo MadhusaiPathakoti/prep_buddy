@@ -97,8 +97,15 @@ function RoundTable({
   const R = 100;
   const { fixed } = beatCells(beat);
   const sq = !!p.square;
-  const H = 96; // half the side of a square table
-  const SQ = [[1, 1], [1, 0], [1, -1], [0, -1], [-1, -1], [-1, 0], [-1, 1], [0, 1]]; // anticlockwise on screen, seat 1 at the bottom-right corner
+  // a table with corners and sides: seats alternate corner, side, corner … anticlockwise, seat 1 at the bottom-right corner
+  const kc = sq ? n / 2 : 0;
+  const Rv = kc === 4 ? 136 : 118;
+  const seatPt = (f: number) => {
+    const a = ((-90 + 180 / kc + Math.floor(f / 2) * (360 / kc) + (f % 2) * (180 / kc)) * Math.PI) / 180;
+    const r = f % 2 ? Rv * Math.cos(Math.PI / kc) : Rv;
+    return { x: cx + r * Math.cos(a), y: cy - r * Math.sin(a), ang: Math.atan2(-Math.sin(a), Math.cos(a)) };
+  };
+  const cornersFaceOut = !p.cornersIn;
   return (
     <svg
       viewBox="0 0 300 300"
@@ -107,11 +114,8 @@ function RoundTable({
       aria-label={`Round table of ${n} seats, everyone facing ${out ? "outside" : "the centre"}`}
     >
       {sq ? (
-        <rect
-          x={cx - H}
-          y={cy - H}
-          width={2 * H}
-          height={2 * H}
+        <polygon
+          points={Array.from({ length: kc }, (_, j) => `${seatPt(2 * j).x},${seatPt(2 * j).y}`).join(" ")}
           className="fill-slate-100 stroke-slate-200 dark:fill-slate-900/50 dark:stroke-slate-700"
           strokeWidth="2"
         />
@@ -130,7 +134,7 @@ function RoundTable({
         textAnchor="middle"
         className="fill-slate-400 text-[10px] font-semibold dark:fill-slate-500"
       >
-        {sq ? "corners face outside, sides face the centre" : `everyone faces ${out ? "outside" : "the centre"}`}
+        {sq ? `corners face ${cornersFaceOut ? "outside" : "the centre"}, sides face ${cornersFaceOut ? "the centre" : "outside"}` : `everyone faces ${out ? "outside" : "the centre"}`}
       </text>
       <text
         x={cx}
@@ -141,11 +145,11 @@ function RoundTable({
         {sq ? "seats count anticlockwise" : `right = next seat (${dir === 1 ? "clockwise" : "anticlockwise"})`}
       </text>
       {Array.from({ length: n }, (_, f) => {
-        const [sx, sy] = SQ[f % 8];
-        const ang = sq ? Math.atan2(sy, sx) : ((-90 + (dir * f * 360) / n) * Math.PI) / 180;
-        const x = sq ? cx + H * sx : cx + R * Math.cos(ang);
-        const y = sq ? cy + H * sy : cy + R * Math.sin(ang);
-        const outward = sq ? f % 2 === 0 : out; // on a square table the corners face outside and the sides face the centre
+        const pt = sq ? seatPt(f) : null;
+        const ang = pt ? pt.ang : ((-90 + (dir * f * 360) / n) * Math.PI) / 180;
+        const x = pt ? pt.x : cx + R * Math.cos(ang);
+        const y = pt ? pt.y : cy + R * Math.sin(ang);
+        const outward = sq ? (f % 2 === 0) === cornersFaceOut : out; // corners and sides face opposite ways
         const mask = grid.row(1, f, 0);
         const locked = pop(mask) === 1;
         const person = locked ? ctx.lab(0, bits(mask)[0]) : null;

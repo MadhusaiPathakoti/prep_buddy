@@ -229,4 +229,17 @@ There are two persons sits between S and W, when counted from the right of W.
 Z sits at one of the corners of the table but not adjacent to X.
 W sits adjacent to Z.`,
   },
+  {
+    id: 'pentagon-table',
+    title: 'A pentagon table',
+    text: `Ten people A, B, C, D, E, F, H, I, J & K are sitting around a pentagon shaped table, but not necessarily in the same order. Five people are sitting at the corners of the table and five people are sitting on each side of the table. Persons sitting at the corners are facing inside and the persons sitting at the side are facing outside.
+
+D sits third to the right of K.
+Two persons sit between D and E, who does not sit adjacent to K.
+Three persons sit between E and B.
+J sits second to the right of B.
+I sits immediate right and immediate left of A and C respectively.
+C sits second to the left of H.
+I does not sit on the side of the table.`,
+  },
 ]
