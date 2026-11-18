@@ -215,4 +215,18 @@ L faces towards south direction.
 One who likes Papaya do not sit immediate to one who likes Fig.
 B neither likes Mango nor likes Kiwi.`,
   },
+  {
+    id: 'square-table',
+    title: 'A square table',
+    text: `Eight friends S, T, U, V, W, X, Y & Z are sitting around a square table, but not necessarily in the same order. Each corner and each side of the table have only one seat. No seat is left vacant. People sitting at the corners are facing outside the table and the remaining all are facing inside the table.
+
+T sits adjacent to Y.
+V sits immediate left of T.
+U sits second to the left of X.
+Y is third to the left of U.
+S sits adjacent to U.
+There are two persons sits between S and W, when counted from the right of W.
+Z sits at one of the corners of the table but not adjacent to X.
+W sits adjacent to Z.`,
+  },
 ]

@@ -44,7 +44,7 @@ const testCache = new WeakMap<Atom, (v: number[]) => boolean>()
 const testOf = (a: Atom, ctx: Ctx) => {
   let t = testCache.get(a)
   if (!t) {
-    t = atomTest(a, ctx.n, ctx.circular, ctx.cols, ctx.tworow ? ctx.rowLen : 0)
+    t = atomTest(a, ctx.n, ctx.circular, ctx.cols, ctx.tworow ? ctx.rowLen : 0, !!ctx.p.square)
     testCache.set(a, t)
   }
   return t
@@ -193,6 +193,13 @@ export class Engine {
    */
   anchor(person: number): void {
     const c = this.ctx
+    if (c.p.square) {
+      // turning a square table by two seats keeps corners as corners and sides as sides, so one person may be assumed in seat 1 or 2
+      this.newGroup()
+      const why: Why = { kind: 'anchor', text: `A square table can be turned by two seats without changing who is next to whom or who faces which way, so I can start by assuming ${c.lab(0, person)} is in seat 1 (a corner) or seat 2 (a side)` }
+      for (let j = 2; j < c.n; j++) this.clear(0, person, 1, j, why)
+      return
+    }
     this.newGroup()
     this.fix(
       0,
@@ -318,7 +325,7 @@ export class Engine {
     }
     if (atom.neg && atom.t !== 'set') return generic()
     // the arithmetic below assumes one line of seats and plain people; two rows and "the one on the left of X" need the generic wording
-    if (c.tworow || hasDerived(atom)) return atom.t === 'set' ? (atom.neg ? `${me} cannot be ${c.setPhrase(atom.fs)}` : `${me} must be ${c.setPhrase(atom.fs)}`) : generic()
+    if (c.tworow || c.p.square || hasDerived(atom)) return atom.t === 'set' ? (atom.neg ? `${me} cannot be ${c.setPhrase(atom.fs)}` : `${me} must be ${c.setPhrase(atom.fs)}`) : generic()
     switch (atom.t) {
       case 'diff': {
         const p = wrap(ti === 0 ? f - atom.d : f + atom.d)
@@ -509,7 +516,7 @@ export function failedClues(puzzle: Puzzle, sol: Solution): number[] {
               ? sol.val[puzzle.dirCat as number][personOf(atom.y)] === dirVal(atom.x)
               : personOf(atom.x) === personOf(atom.y) && personOf(atom.x) >= 0
         if (atom.neg ? same : !same) ok = false
-      } else if (!atomTest(atom, n, puzzle.axis === 'circle', puzzle.cols ?? 1, puzzle.axis === 'tworow' ? (puzzle.rowLen ?? 0) : 0)(atomVars(atom).map(posOf))) ok = false
+      } else if (!atomTest(atom, n, puzzle.axis === 'circle', puzzle.cols ?? 1, puzzle.axis === 'tworow' ? (puzzle.rowLen ?? 0) : 0, !!puzzle.square)(atomVars(atom).map(posOf))) ok = false
     }
     if (!ok) bad.push(clue.id)
   }

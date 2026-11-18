@@ -21,6 +21,8 @@ export interface ParseSummary {
   rowLen?: number
   /** some people face north and some south (left / right are as seen by the second person named) */
   mixed?: boolean
+  /** a square table: corners face outside, the middles of the sides face the centre */
+  square?: boolean
 }
 
 export interface ParseResult {
@@ -148,6 +150,8 @@ interface Lexicon {
   birth?: { months: string[]; dates: number[] }
   /** people face north or south: index (within the categories) of the 'direction' category */
   dirCat?: number
+  /** a square table with 8 seats: even seats are corners (facing outside), odd seats the middles of the sides (facing the centre) */
+  square?: boolean
 }
 
 const isVar = (t: Term): t is VarTerm => t.k !== 'r'
@@ -405,7 +409,7 @@ function interpretClause(s: string, ments: Term[], lex: Lexicon): Atom[] | null 
 
 function interpretClauseRaw(s: string, ments: Term[], lex: Lexicon): Atom[] | null {
   const M = (k: string): Term => ments[Number(k)]
-  const neg = /\bnot\b/.test(s) || undefined
+  const neg = /\bnot\b/.test(s.replace(/\bbut not both\b/g, '')) || undefined
   const grid = lex.axis === 'grid'
   if (lex.birth) {
     const b = interpretBirth(s, ments, lex)
@@ -477,6 +481,8 @@ function interpretClauseRaw(s: string, ments: Term[], lex: Lexicon): Atom[] | nu
 
   // "x faces y": on a round table, the person across the table
   m = s.match(new RegExp(`${ENT}\\s+(?:[a-z]+\\s+){0,3}?faces?\\s+${ENT}`))
+  // on a square table only people on the sides face the centre: "x faces y" = x is across the table from y and sits on a side
+  if (m && lex.square) return [{ t: 'opp', x: M(m[1]), y: M(m[2]), neg }]
   if (m) return lex.axis === 'circle' ? [{ t: 'diff', x: M(m[1]), y: M(m[2]), d: lex.n / 2, neg }] : lex.axis === 'tworow' ? [{ t: 'opp', x: M(m[1]), y: M(m[2]), neg }] : null
 
   // exactly k people between x and y
@@ -569,7 +575,7 @@ function interpretClauseRaw(s: string, ments: Term[], lex: Lexicon): Atom[] | nu
   }
 
   // one person / value and a position: "topmost", "floor 3", "either the topmost or the lowest", "an odd-numbered floor" …
-  if (count === 1 && lex.axis !== 'circle') {
+  if (count === 1 && (lex.axis !== 'circle' || lex.square)) {
     const x = M((s.match(/@(\d+)/) as RegExpMatchArray)[1])
     const fs = positionSet(s, lex)
     if (fs === 'bad') return null
@@ -647,8 +653,17 @@ function twoRowCells(sIn: string, lex: Lexicon): number[] | 'bad' | null {
   return cells
 }
 
+/** square table: "at one of the corners" (even seats), "at the middle of a side" / "faces the centre" (odd seats) */
+function squareSeats(s: string, lex: Lexicon): number[] | 'bad' | null {
+  const corner = /\bcorners?\b|\bfaces?\s+(?:the\s+)?outside\b|\bfacing\s+(?:the\s+)?outside\b|\bfaces?\s+away\b/.test(s)
+  const side = /\b(?:middle|centre|center)\s+of\s+(?:a|an|the|each|any)\s+sides?\b|\bmiddles?\b|\bsides?\b|\bfaces?\s+(?:the\s+)?(?:centre|center|inside)\b|\bfacing\s+(?:the\s+)?(?:centre|center|inside)\b/.test(s.replace(/\bcorners? of the table\b/g, ''))
+  if (corner === side) return null
+  return Array.from({ length: lex.n }, (_, f) => f).filter((f) => (corner ? f % 2 === 0 : f % 2 === 1))
+}
+
 function positionSet(sIn: string, lex: Lexicon): number[] | 'bad' | null {
   if (lex.axis === 'grid') return gridCells(sIn, lex)
+  if (lex.square) return squareSeats(sIn, lex)
   if (lex.axis === 'tworow') return twoRowCells(sIn, lex)
   if (lex.birth) return birthCells(sIn, lex)
   const n = lex.n
@@ -909,6 +924,7 @@ function orderFromList(values: string[]): OrderInfo | null {
 
 /** statements that only restate the setup ("Each person was born in one month only.") — nothing to solve, so nothing to warn about */
 const isFiller = (s: string): boolean =>
+  /^each corner\b/i.test(s) || /^no seat is\b/i.test(s) || /^(?:the\s+)?(?:people|persons)\s+(?:sitting|seated)\s+(?:at|on)\s+the\s+corners\b/i.test(s) ||
   /^some of them (?:are )?facing\b/i.test(s) || /^each of them (?:likes?|has|have|owns?|plays?|drinks?|eats?|prefers?)\s+(?:one|a|an)\s+[a-z]+\s*\.?$/i.test(s) ||
   /^(?:not more than|at most|only) one (?:person|box|friend|student)\b[^.]*\bsame\b/i.test(s) || /^(?:each|every)\s+(?:person|one|of them|friend|student)\b[^.]*\b(?:only|exactly one)\b/i.test(s) || /^no\s+two\b/i.test(s) || /\bwith respect to\b[^.]*\bfacing\b/i.test(s) || /^\(?\s*left and right\b/i.test(s) || /^\(?\s*(?:the\s+)?(?:bottommost|lowermost|lowest|ground|topmost|position 1)\b[^.]*\b(?:numbered|is the bottom)\b/i.test(s)
 
@@ -1082,13 +1098,18 @@ export function parsePuzzle(raw: string): ParseResult {
   }
 
   // a circular table: everyone faces the same way, so "right" is always the next seat along
-  const circle = /\b(?:circular|round)\s+table\b/i.test(text)
-  if (/\b(?:square|rectangular|hexagonal|triangular)\s+table\b/i.test(text)) {
-    result.errors.push('Only circular tables are supported so far (not square or rectangular ones).')
+  const square = /\bsquare\s+table\b/i.test(text)
+  const circle = /\b(?:circular|round)\s+table\b/i.test(text) || square
+  if (/\b(?:rectangular|hexagonal|triangular)\s+table\b/i.test(text)) {
+    result.errors.push('Only circular and square tables are supported so far (not rectangular ones).')
+    return result
+  }
+  if (square && n !== 8) {
+    result.errors.push(`A square table is read as 4 corners and 4 side seats (8 people); ${n} people are listed.`)
     return result
   }
   let facing: 'in' | 'out' | undefined
-  if (circle) {
+  if (circle && !square) {
     const out = /\bfacing\s+(?:the\s+)?(?:outside|outwards?|away)\b|\bfacing\s+away\b/i.test(text)
     const inn = /\bfacing\s+(?:the\s+)?(?:inside|inwards?|centre|center)\b|\bfacing\s+towards\b/i.test(text)
     if ((out && inn) || /\b(?:some|few|half|four|three|two|one)\s+of\s+them\s+(?:are\s+)?facing\b/i.test(text)) {
@@ -1181,6 +1202,7 @@ export function parsePuzzle(raw: string): ParseResult {
 
   const lex = buildLexicon(people, cats, axis, topDown, order?.labels, building ? { cols: building.cols, flats: building.flats } : undefined, rowLen)
   lex.dirCat = dirCat
+  lex.square = square
   if (bday) {
     lex.birth = { months: bday.months, dates: bday.dates }
     lex.labels = undefined
@@ -1214,7 +1236,7 @@ export function parsePuzzle(raw: string): ParseResult {
   const verbWord = header.match(/\b(?:were|are)\s+(born|seated|arranged|placed|ranked|appointed|promoted|admitted|selected|posted|scheduled|joined)\b/i)
   const extra = order ? { labels: order.labels, unit: order.unit, on: order.on, verb: verbWord ? `was ${verbWord[1].toLowerCase()}` : bday ? 'was born' : undefined, ...(bday ? { cols: bday.dates.length } : {}) } : {}
   const stack = boxes && axis === 'floor' ? { noun: 'box', place: 'place' } : boxes ? { noun: 'box' } : {}
-  result.summary = { people, axis, topDown, cats, labels: order?.labels, unit: order?.unit, facing, cols: building?.cols, flats: building?.flats, rowLen, mixed: dirCat !== undefined || undefined, ...stack }
-  result.puzzle = { n, axis, topDown, people, cats, clues, ...extra, ...(dirCat !== undefined ? { dirCat } : {}), ...(circle ? { facing } : {}), ...(building ? { cols: building.cols, flats: building.flats } : {}), ...(rowLen ? { rowLen } : {}), ...stack }
+  result.summary = { people, axis, topDown, cats, labels: order?.labels, unit: order?.unit, facing, cols: building?.cols, flats: building?.flats, rowLen, mixed: dirCat !== undefined || undefined, square: square || undefined, ...stack }
+  result.puzzle = { n, axis, topDown, people, cats, clues, ...extra, ...(dirCat !== undefined ? { dirCat } : {}), ...(circle ? { facing } : {}), ...(square ? { square: true } : {}), ...(building ? { cols: building.cols, flats: building.flats } : {}), ...(rowLen ? { rowLen } : {}), ...stack }
   return result
 }

@@ -96,6 +96,9 @@ function RoundTable({
   const cy = 150;
   const R = 100;
   const { fixed } = beatCells(beat);
+  const sq = !!p.square;
+  const H = 96; // half the side of a square table
+  const SQ = [[1, 1], [1, 0], [1, -1], [0, -1], [-1, -1], [-1, 0], [-1, 1], [0, 1]]; // anticlockwise on screen, seat 1 at the bottom-right corner
   return (
     <svg
       viewBox="0 0 300 300"
@@ -103,20 +106,31 @@ function RoundTable({
       role="img"
       aria-label={`Round table of ${n} seats, everyone facing ${out ? "outside" : "the centre"}`}
     >
-      <circle
-        cx={cx}
-        cy={cy}
-        r={R}
-        className="fill-slate-100 stroke-slate-200 dark:fill-slate-900/50 dark:stroke-slate-700"
-        strokeWidth="2"
-      />
+      {sq ? (
+        <rect
+          x={cx - H}
+          y={cy - H}
+          width={2 * H}
+          height={2 * H}
+          className="fill-slate-100 stroke-slate-200 dark:fill-slate-900/50 dark:stroke-slate-700"
+          strokeWidth="2"
+        />
+      ) : (
+        <circle
+          cx={cx}
+          cy={cy}
+          r={R}
+          className="fill-slate-100 stroke-slate-200 dark:fill-slate-900/50 dark:stroke-slate-700"
+          strokeWidth="2"
+        />
+      )}
       <text
         x={cx}
         y={cy - 6}
         textAnchor="middle"
         className="fill-slate-400 text-[10px] font-semibold dark:fill-slate-500"
       >
-        everyone faces {out ? "outside" : "the centre"}
+        {sq ? "corners face outside, sides face the centre" : `everyone faces ${out ? "outside" : "the centre"}`}
       </text>
       <text
         x={cx}
@@ -124,20 +138,22 @@ function RoundTable({
         textAnchor="middle"
         className="fill-slate-400 text-[9px] dark:fill-slate-500"
       >
-        right = next seat ({dir === 1 ? "clockwise" : "anticlockwise"})
+        {sq ? "seats count anticlockwise" : `right = next seat (${dir === 1 ? "clockwise" : "anticlockwise"})`}
       </text>
       {Array.from({ length: n }, (_, f) => {
-        const ang = ((-90 + (dir * f * 360) / n) * Math.PI) / 180;
-        const x = cx + R * Math.cos(ang);
-        const y = cy + R * Math.sin(ang);
+        const [sx, sy] = SQ[f % 8];
+        const ang = sq ? Math.atan2(sy, sx) : ((-90 + (dir * f * 360) / n) * Math.PI) / 180;
+        const x = sq ? cx + H * sx : cx + R * Math.cos(ang);
+        const y = sq ? cy + H * sy : cy + R * Math.sin(ang);
+        const outward = sq ? f % 2 === 0 : out; // on a square table the corners face outside and the sides face the centre
         const mask = grid.row(1, f, 0);
         const locked = pop(mask) === 1;
         const person = locked ? ctx.lab(0, bits(mask)[0]) : null;
         const justFixed = locked && fixed.has(`0.${bits(mask)[0]}.1.${f}`);
         // a small arrow beside each seat showing the way that person faces
         const deg = (ang * 180) / Math.PI;
-        const ax = cx + (R + (out ? 31 : -31)) * Math.cos(ang);
-        const ay = cy + (R + (out ? 31 : -31)) * Math.sin(ang);
+        const ax = sq ? x + (outward ? 31 : -31) * Math.cos(ang) : cx + (R + (out ? 31 : -31)) * Math.cos(ang);
+        const ay = sq ? y + (outward ? 31 : -31) * Math.sin(ang) : cy + (R + (out ? 31 : -31)) * Math.sin(ang);
         return (
           <g key={f}>
             <circle
@@ -179,7 +195,7 @@ function RoundTable({
             </text>
             <polygon
               points="0,-5 4,3 -4,3"
-              transform={`translate(${ax} ${ay}) rotate(${deg + (out ? 90 : -90)})`}
+              transform={`translate(${ax} ${ay}) rotate(${deg + (outward ? 90 : -90)})`}
               className="fill-slate-300 dark:fill-slate-600"
             />
           </g>

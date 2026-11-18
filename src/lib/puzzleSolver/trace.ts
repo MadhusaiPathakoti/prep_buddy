@@ -153,6 +153,10 @@ export function makeBeats(evs: Ev[], ctx: Ctx, earlier: Set<number> = new Set())
     const xs = g.filter((e) => e.op === 'x')
     const reasoned = xs.filter((e) => e.why.kind !== 'taken')
     const taken = xs.length - reasoned.length
+    if (!fix && xs.length > 0 && xs.every((e) => e.why.kind === 'anchor')) {
+      beats.push({ gid: xs[0].gid, tone: 'given', headline: `${xs[0].why.text}.`, details: [], evs: g, minor: xs.length })
+      continue
+    }
     if (fix) {
       const cell = normCell(fix.a, fix.i, fix.b, fix.j)
       const pair = ctx.pair(cell.a, cell.i, cell.b, cell.j)
@@ -345,12 +349,16 @@ export function buildTrace(puzzle: Puzzle): Trace {
       {
         kind: 'given',
         clues: [],
-        title: `Fix one person in ${ctx.posLab(0)} (the table is round)`,
+        title: puzzle.square ? `Place ${puzzle.people[who]} in seat 1 or 2 (the table can be turned)` : `Fix one person in ${ctx.posLab(0)} (the table is round)`,
         selection: {
           chosen: [],
           ranking: [],
-          headline: `Start by putting ${puzzle.people[who]} in ${ctx.posLab(0)} — a free choice, not a guess.`,
-          reasoning: [
+          headline: puzzle.square ? `Start by putting ${puzzle.people[who]} in seat 1 or seat 2 — a free choice, not a guess.` : `Start by putting ${puzzle.people[who]} in ${ctx.posLab(0)} — a free choice, not a guess.`,
+          reasoning: puzzle.square ? [
+            "Turning a square table by two seats puts every corner on a corner and every side on a side, so nobody's neighbours or facing change. Any one person can therefore be assumed to be in seat 1 (a corner) or seat 2 (a side) without losing a single possible answer.",
+            `I chose ${puzzle.people[who]}: named in ${mentions} clue${mentions === 1 ? '' : 's'}, more than anyone else, so narrowing them gives the other clues the most to work with.`,
+            'Seats are numbered anticlockwise: the odd seats 1, 3, 5, 7 are the corners (facing outside) and the even seats 2, 4, 6, 8 the middles of the sides (facing the centre). A person on a side has the next seat on their right; a person on a corner has the previous seat on their right.',
+          ] : [
             'On a round table every seat looks like every other until someone is placed. Turning the whole table round changes nobody\'s neighbours, so any one person can be put in the first seat without losing a single possible answer.',
             `I chose ${puzzle.people[who]}: named in ${mentions} clue${mentions === 1 ? '' : 's'}, more than anyone else, so fixing them gives the other clues the most to work with.`,
             `Seats are numbered ${clockwise} from there: each person's right-hand neighbour is the next number up (and seat ${puzzle.n} is next to seat 1).`,
@@ -741,7 +749,9 @@ export function simulate(trace: Trace, cell: CellRef): SimResult | null {
   const step = trace.steps[info.step]
   if (info.why.kind === 'anchor') {
     const pairText = ctx.pair(cell.a, cell.i, cell.b, cell.j)
-    const note = 'That is not a contradiction: it is the same arrangement turned round the table, so the seat numbers are only labels. Fixing the first person in seat 1 was a free choice, not something the clues proved.'
+    const note = puzzle.square
+      ? 'That is not a contradiction: it is the same arrangement turned by two seats, so the seat numbers are only labels. Starting one person in seat 1 or 2 was a free choice, not something the clues proved.'
+      : 'That is not a contradiction: it is the same arrangement turned round the table, so the seat numbers are only labels. Fixing the first person in seat 1 was a free choice, not something the clues proved.'
     return {
       cell,
       stepIdx: info.step,

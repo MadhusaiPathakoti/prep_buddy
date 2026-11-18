@@ -242,6 +242,23 @@ const BDAY_CASES: [string, string][] = [
   ['Two persons were born between A and B.', 'exactly 2 people between A and B'],
 ]
 
+const SQUARE_HEADER = `Eight friends S, T, U, V, W, X, Y & Z are sitting around a square table. People sitting at the corners are facing outside the table and the remaining all are facing inside the table.
+`
+
+const SQUARE_CASES: [string, string][] = [
+  ['T sits adjacent to Y.', 'T and Y are on neighbouring seats'],
+  ['V sits immediate left of T.', 'V is immediately to the left of T, as seen by T'],
+  ['U sits second to the left of X.', 'U is exactly 2 seats to the left of X, as seen by X'],
+  ['Y is third to the right of U.', 'Y is exactly 3 seats to the right of U, as seen by U'],
+  ['There are two persons sits between S and W, when counted from the right of W.', 'S is exactly 3 seats to the right of W, as seen by W'],
+  ['Z sits at one of the corners of the table.', 'Z is at a corner seat'],
+  ['Z does not sit at a corner of the table.', 'Z is not at a corner seat'],
+  ['Z sits at the middle of a side of the table.', 'Z is at a side seat (the middle of a side)'],
+  ['Z faces outside.', 'Z is at a corner seat'],
+  ['Z sits at the corner but not adjacent to X.', 'Z is at a corner seat ; Z and X are not on neighbouring seats'],
+  ['Z sits diagonally opposite to X.', 'Z sits exactly opposite X'],
+]
+
 const FLOOR_EXTRA: [string, string][] = [
   ['A lives on a prime-numbered floor.', 'A is on floor 2, 3, 5 or 7'],
   ['A does not live on a prime-numbered floor.', 'A is not on floor 2, 3, 5 or 7'],
@@ -343,6 +360,7 @@ runParserTable(GRID_HEADER, GRID_CASES)
 runParserTable(BOX_HEADER, BOX_CASES)
 runParserTable(TWOROW_HEADER, TWOROW_CASES)
 runParserTable(BDAY_HEADER, BDAY_CASES)
+runParserTable(SQUARE_HEADER, SQUARE_CASES)
 runParserTable(FLOOR_HEADER, FLOOR_EXTRA)
 runParserTable(ORDER_HEADER, ORDER_EXTRA)
 
@@ -391,6 +409,21 @@ for (const s of SAMPLES) {
       return `${P.people[q]}${P.cats[0].values[sol.val[0][q]]}${P.cats[1].values[sol.val[1][q]][0]}`
     }).join(' ')
     if (line !== 'QApples PGrapesn DFign BLemonn FPapayas LMangos MGuavas IKiwin') fail(`facing-line sample: got ${line}`)
+  }
+}
+
+// the square-table puzzle (corners face outside, sides face the centre): one arrangement up to turning the table by two seats
+{
+  const sq = SAMPLES.find((x) => x.id === 'square-table')
+  const r = sq ? parsePuzzle(sq.text) : null
+  const e = r?.puzzle ? enumerate(r.puzzle, 3) : null
+  if (!r?.puzzle || !e || e.sols.length !== 1 || r.unparsed.length) fail('square-table sample: expected exactly one solution and every clue read')
+  else {
+    const seats = Array.from({ length: 8 }, (_, i) => r.puzzle!.people[e.sols[0].pos.indexOf(i)]).join('')
+    if (!'SXVTYWZU'.repeat(2).includes(seats) || seats.length !== 8) fail(`square-table sample: got ${seats}`)
+    // the same cyclic order, turned by an even number of seats only
+    const turned = Array.from({ length: 4 }, (_, k) => 'SXVTYWZU'.slice(2 * k) + 'SXVTYWZU'.slice(0, 2 * k))
+    if (!turned.includes(seats)) fail(`square-table sample: ${seats} is not SXVTYWZU turned by an even number of seats`)
   }
 }
 
@@ -514,7 +547,9 @@ function holds(p: Puzzle, sol: Solution, a: Atom): boolean {
     case 'diff': {
       // facing south, a person's left is to the east: "x is 2 to the left of y" is seen by y
       const flip = a.ref && dirOf(personOf(a.y)) === 1 ? -1 : 1
-      r = circ ? wrap(at(a.x) - at(a.y)) === wrap(a.d) : at(a.x) - at(a.y) === a.d * flip
+      // square table: a corner (even seat) faces outside, so what is on its right is the previous seat
+      const sqFlip = p.square && at(a.y) % 2 === 0 ? -1 : 1
+      r = circ ? wrap(at(a.x) - at(a.y)) === wrap(a.d * sqFlip) : at(a.x) - at(a.y) === a.d * flip
       break
     }
     case 'rank': {
@@ -609,7 +644,7 @@ function bruteCount(p: Puzzle, cap: number): number {
     for (const perm of level === p.dirCat ? dirPatterns : perms) rec(level + 1, [...vals, perm], pos)
   }
   const ap = p.axis === 'circle' ? anchorPerson(p) : -1
-  for (const pos of perms) if (ap < 0 || pos[ap] === 0) rec(0, [], pos)
+  for (const pos of perms) if (ap < 0 || (p.square ? pos[ap] < 2 : pos[ap] === 0)) rec(0, [], pos)
   return count
 }
 
@@ -766,6 +801,12 @@ function randomMixedAtom(p: Puzzle, hidden: Solution): Atom {
 const personOfTerm = (t: Term): number => (t.k === 'p' ? t.i : -1)
 
 function randomAtom(p: Puzzle, hidden: Solution): Atom {
+  if (p.square && rnd() < 0.2) {
+    const parity = ri(2)
+    let atom: Atom = { t: 'set', x: { k: 'p', i: ri(p.n) }, fs: Array.from({ length: p.n }, (_, f) => f).filter((f) => f % 2 === parity) }
+    if (!holds(p, hidden, atom)) atom = { ...atom, neg: true }
+    return atom
+  }
   if (p.dirCat !== undefined) return randomMixedAtom(p, hidden)
   if (p.axis === 'tworow') return randomTworowAtom(p, hidden)
   if (p.axis === 'grid') return randomGridAtom(p, hidden)
@@ -803,7 +844,7 @@ function randomAtom(p: Puzzle, hidden: Solution): Atom {
   }
 }
 
-function randomPuzzle(n: number, nCats: number, nClues: number, axis: Puzzle['axis'] = 'floor', mixed = false): { puzzle: Puzzle; hidden: Solution } {
+function randomPuzzle(n: number, nCats: number, nClues: number, axis: Puzzle['axis'] = 'floor', mixed = false, square = false): { puzzle: Puzzle; hidden: Solution } {
   const people = 'ABCDEFGHIJ'.slice(0, n).split('')
   const cats = Array.from({ length: nCats }, (_, c) => ({ name: `cat${c}`, values: Array.from({ length: n }, (_, i) => `v${c}${i}`) }))
   const hidden: Solution = { pos: shuffle(Array.from({ length: n }, (_, i) => i)), val: cats.map(() => shuffle(Array.from({ length: n }, (_, i) => i))) }
@@ -815,6 +856,7 @@ function randomPuzzle(n: number, nCats: number, nClues: number, axis: Puzzle['ax
   const puzzle: Puzzle = { n, axis, topDown: false, people, cats, clues: [], ...(axis === 'order' ? { labels: ['May', 'June', 'July', 'August', 'September', 'October'].slice(0, n), unit: 'month', on: 'in', verb: 'was born' } : {}) }
   if (axis === 'circle') puzzle.facing = 'out'
   if (mixed) puzzle.dirCat = cats.length - 1
+  if (square) puzzle.square = true
   if (axis === 'tworow') puzzle.rowLen = n / 2
   if (axis === 'grid') {
     puzzle.cols = n % 2 === 0 ? 2 : 1
@@ -823,7 +865,8 @@ function randomPuzzle(n: number, nCats: number, nClues: number, axis: Puzzle['ax
   for (let k = 0; k < nClues; k++) puzzle.clues.push({ id: k + 1, text: `random clue ${k + 1}`, atoms: [randomAtom(puzzle, hidden)] })
   if (axis === 'circle') {
     // the engine fixes one person in seat 1 (turning a round table gives the same arrangement), so compare against the turned copy
-    const shift = hidden.pos[anchorPerson(puzzle)]
+    const at0 = hidden.pos[anchorPerson(puzzle)]
+    const shift = square ? at0 - (at0 % 2) : at0 // a square table can only be turned by an even number of seats
     hidden.pos = hidden.pos.map((q) => (((q - shift) % n) + n) % n)
   }
   return { puzzle, hidden }
@@ -842,9 +885,11 @@ for (let run = 0; run < RUNS; run++) {
   const nCats = n === 6 ? 1 : run % 3 === 0 ? 0 : 1 + (run % 2)
   const nClues = run % 5 === 0 ? 3 + ri(n) : 3 * n + ri(2 * n)
   const mixed = run % 7 === 3
-  const { puzzle, hidden } = randomPuzzle(n, nCats, nClues, mixed ? 'row' : axis, mixed)
-  const where = `run ${run} (${mixed ? 'row, facing north/south' : axis}, n=${n}, cats=${nCats}, clues=${nClues})`
+  const square = !mixed && run % 11 === 5
+  const { puzzle, hidden } = randomPuzzle(square ? 8 : n, square ? 0 : nCats, nClues, mixed ? 'row' : square ? 'circle' : axis, mixed, square)
+  const where = `run ${run} (${mixed ? 'row, facing north/south' : square ? 'square table' : axis}, n=${puzzle.n}, cats=${puzzle.cats.length}, clues=${nClues})`
 
+  if (process.env.TRACE_RUNS) console.error('run', run, where)
   const limit = 40
   const res = enumerate(puzzle, limit)
   const brute = bruteCount(puzzle, limit)
@@ -957,9 +1002,9 @@ for (const s of SAMPLES) {
       groups.forEach((g, gi) => {
         const proof = proofs[gi]
         // one vertical stack is a line of places, like a row; stacks side by side are not supported yet
-        const kind: string = proof.geom.kind === 'stacks' && proof.geom.stacks === 1 ? 'row' : proof.geom.kind
+        const kind: string = proof.geom.kind === 'stacks' && proof.geom.stacks === 1 ? 'row' : proof.geom.kind === 'mixed' && proof.geom.square ? 'square' : proof.geom.kind
         // same-facing round tables, single rows, two facing rows and single stacks are supported; mixed-facing / square tables and side-by-side stacks are not (yet)
-        if (kind !== 'circle' && kind !== 'row' && kind !== 'tworow') {
+        if (kind !== 'circle' && kind !== 'row' && kind !== 'tworow' && kind !== 'square') {
           tally[topic].skipped++
           return
         }
@@ -978,7 +1023,7 @@ for (const s of SAMPLES) {
           const j = proof.names.indexOf(nm)
           const mine = sol.pos[i]
           const truth = proof.hidden[0][j]
-          const sh = kind === 'circle' ? (((mine - truth) % n) + n) % n : mine - truth
+          const sh = kind === 'circle' || kind === 'square' ? (((mine - truth) % n) + n) % n : mine - truth
           if (shift === null) shift = sh
           else if (sh !== shift) fail(`${where}: seating differs from the generator's answer`)
           r.puzzle!.cats.forEach((cat, c) => {
@@ -986,6 +1031,7 @@ for (const s of SAMPLES) {
             if (!tv || cat.values[sol.val[c][i]].toLowerCase() !== String(tv).toLowerCase()) fail(`${where}: ${cat.name} of ${nm} differs from the generator's answer`)
           })
         })
+        if (kind === 'square' && (shift as number | null) !== null && (shift as unknown as number) % 2 !== 0) fail(`${where}: corners and sides swapped places`)
         if ((kind === 'row' || kind === 'tworow') && shift !== 0) fail(`${where}: positions shifted`)
       })
     }
@@ -993,7 +1039,7 @@ for (const s of SAMPLES) {
   console.log('app generator, end to end: ' + Object.entries(tally).map(([k, v]) => `${k} ${v.checked} checked (${v.skipped} of an unsupported layout skipped)`).join('; '))
 }
 
-console.log(`parser: ${FLOOR_CASES.length + ROW_CASES.length + ORDER_CASES.length + DAY_CASES.length + CIRCLE_CASES.length + GRID_CASES.length + BOX_CASES.length + TWOROW_CASES.length + BDAY_CASES.length + FLOOR_VIZ.length + FLOOR_EXTRA.length + ORDER_EXTRA.length} phrasings checked`)
+console.log(`parser: ${FLOOR_CASES.length + ROW_CASES.length + ORDER_CASES.length + DAY_CASES.length + CIRCLE_CASES.length + GRID_CASES.length + BOX_CASES.length + TWOROW_CASES.length + BDAY_CASES.length + SQUARE_CASES.length + FLOOR_VIZ.length + FLOOR_EXTRA.length + ORDER_EXTRA.length} phrasings checked`)
 console.log(`engine vs brute force: ${compared} random puzzles (${uniqueTraced} with a unique answer traced, ${multiple} with several answers)`)
 console.log(`step kinds: ${JSON.stringify(kinds)}; ${trials} case-analysis trials`)
 console.log(`teaching trace: ${eliminations} crossings checked for soundness, ${whatIfs} what-if simulations refuted`)

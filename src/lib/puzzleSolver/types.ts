@@ -85,6 +85,11 @@ export interface Puzzle {
   rowLen?: number
   /** a line of people some of whom face north and some south: index (within `cats`) of the category 'direction' (values north, south) */
   dirCat?: number
+  /**
+   * axis 'circle' only: a square table with 8 seats — corners (even seats 0, 2, 4, 6) face outside, the middles of the sides
+   * (odd seats) face the centre — so "to the right of" depends on where the person it is said of sits.
+   */
+  square?: boolean
   /** axis 'circle' only: everyone faces the same way, so "to the right of" is always the next seat along; this says which way that is drawn */
   facing?: 'in' | 'out'
 }

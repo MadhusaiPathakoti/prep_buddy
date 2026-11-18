@@ -189,6 +189,7 @@ export class Ctx {
     return labels[f]
   }
   posLab(f: number): string {
+    if (this.p.square) return `seat ${f + 1} (${f % 2 === 0 ? 'a corner' : 'a side'})`
     if (this.grid) return this.cellName(f)
     if (this.tworow) return `seat ${this.seatIdx(f) + 1} of row ${this.rowIdx(f) + 1}`
     return this.named ? this.posName(f) : `${this.unit} ${this.posNum(f)}`
@@ -405,6 +406,12 @@ export class Ctx {
 
   setDesc(fs: number[]): string {
     if (this.grid) return this.gridSetParts(fs).text
+    if (this.p.square) {
+      const evens = fs.length > 0 && fs.every((f) => f % 2 === 0) && new Set(fs).size === this.n / 2
+      const odds = fs.length > 0 && fs.every((f) => f % 2 === 1) && new Set(fs).size === this.n / 2
+      if (evens) return 'a corner seat'
+      if (odds) return 'a side seat (the middle of a side)'
+    }
     if (this.tworow) return this.rowSetText(fs)
     const n = this.n
     const s = [...new Set(fs)].sort((x, y) => x - y)
@@ -454,7 +461,7 @@ export class Ctx {
         }
         const k = Math.abs(d)
         const how = k === 1 ? 'immediately ' : `exactly ${k} ${this.unit}s `
-        return `${L(a.x)} is${not} ${how}${dir(d > 0)} ${L(a.y)}${a.ref ? `, as seen by ${L(a.y)}` : ''}`
+        return `${L(a.x)} is${not} ${how}${dir(d > 0)} ${L(a.y)}${a.ref || this.p.square ? `, as seen by ${L(a.y)}` : ''}`
       }
       case 'rank':
         return `${L(a.x)} is${not} somewhere ${dir(a.hi)} ${L(a.y)}${a.ref ? `, as seen by ${L(a.y)}` : ''}`
@@ -581,8 +588,10 @@ export function hasDerived(a: Atom): boolean {
  * The atom as a test on the 0-based positions of its unknowns (link atoms are handled by the grid, not by a position test).
  * `circ`: a round table (differences wrap); `cols`: flats per floor; `m`: people per row of a two-row layout (0 otherwise).
  */
-export function atomTest(a: Atom, n = 0, circ = false, cols = 1, m = 0): (v: number[]) => boolean {
+export function atomTest(a: Atom, n = 0, circ = false, cols = 1, m = 0, sq = false): (v: number[]) => boolean {
   const md = (x: number) => (circ ? ((x % n) + n) % n : x)
+  // square table: a corner (even seat) faces outside, so its right is the previous seat; a side (odd seat) faces the centre
+  const right = (seat: number) => (sq && seat % 2 === 0 ? -1 : 1)
   const rowLen = m || n
   const rel = (r: GridRel | undefined, x: number, y: number) => r === undefined || (r === 'gt' ? x > y : r === 'lt' ? x < y : r === 'eq' ? x === y : x !== y)
   const vars = atomVars(a)
@@ -624,7 +633,7 @@ export function atomTest(a: Atom, n = 0, circ = false, cols = 1, m = 0): (v: num
         if (x < 0 || y < 0) return false
         // facing south, a person's left is to the east: the same words mean the opposite way round
         const flip = a.ref && (dirOf(a.y) as (v: number[]) => number)(v) === 1 ? -1 : 1
-        return circ ? md(x - y) === md(a.d) : grp(x) === grp(y) && idx(x) - idx(y) === a.d * flip
+        return circ ? md(x - y) === md(a.d * right(y)) : grp(x) === grp(y) && idx(x) - idx(y) === a.d * flip
       }
       break
     case 'rank':
@@ -690,6 +699,8 @@ export function atomTest(a: Atom, n = 0, circ = false, cols = 1, m = 0): (v: num
       f = (v) => {
         const x = (gx as (v: number[]) => number)(v)
         const y = (gy as (v: number[]) => number)(v)
+        // square table: faces = across the table, and on a side (corners face outside, so they face nobody at the table)
+        if (sq) return x >= 0 && y >= 0 && md(x - y) === n / 2 && x % 2 === 1
         return x >= 0 && y >= 0 && m > 0 && grp(x) !== grp(y) && idx(x) + idx(y) === m - 1
       }
       break
@@ -713,8 +724,8 @@ export function atomTest(a: Atom, n = 0, circ = false, cols = 1, m = 0): (v: num
       const all = vars
       const at = atomVars(a.a).map((t) => all.findIndex((u) => sameVar(u, t)))
       const bt = atomVars(a.b).map((t) => all.findIndex((u) => sameVar(u, t)))
-      const ta = atomTest(a.a, n, circ, cols, m)
-      const tb = atomTest(a.b, n, circ, cols, m)
+      const ta = atomTest(a.a, n, circ, cols, m, sq)
+      const tb = atomTest(a.b, n, circ, cols, m, sq)
       f = (v) => {
         const x = ta(at.map((i) => v[i]))
         const y = tb(bt.map((i) => v[i]))
