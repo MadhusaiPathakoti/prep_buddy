@@ -140,7 +140,7 @@ function parseRankRange(s: string, n: number): (Category & { aliases: string[][]
 }
 
 function parseCategorySentence(s: string): CatSentence | null {
-  const m = s.match(/\bdifferent\s+([a-z][a-z' ]*?)\s*(?:-|:|\()\s*(.+)$/i)
+  const m = s.match(/\bdifferent\s+([a-z][a-z' ]*?)\s*(?:-|:|\(|\bamong\b|\bnamely\b)\s*(.+)$/i)
   if (!m) return null
   let rest = m[2].replace(/\([^)]*\)/g, ' ').replace(/[.)]+\s*$/, '')
   rest = rest.replace(/\s+/g, ' ').trim()
@@ -526,6 +526,19 @@ function interpretClauseRaw(s: string, ments: Term[], lex: Lexicon): Atom[] | nu
     }
   }
 
+  // "The one who likes Lemon and the one who likes Fig sit opposite to each other"
+  m = s.match(new RegExp(`^${ENT}\\s+and\\s+${ENT}\\s+(?:[a-z]+\\s+){0,3}?opposite\\s+(?:to\\s+)?each other$`))
+  if (m) return lex.axis === 'circle' ? [{ t: 'diff', x: M(m[1]), y: M(m[2]), d: lex.n / 2, neg }] : lex.axis === 'tworow' ? [{ t: 'opp', x: M(m[1]), y: M(m[2]), neg }] : null
+
+  // "N doesn't sit immediate right of M and S": the denial holds for each of the people named
+  m = s.match(new RegExp(`^${ENT}\\s+(?:[a-z]+\\s+){0,3}?(?:(immediately)\\s+|#(\\d+)\\s+)?(left|right) of\\s+${ENT}\\s+(?:and|or|nor)\\s+${ENT}$`))
+  if (m && neg) {
+    const mk = (y: string): Atom | null => (m![2] || m![3] ? { t: 'diff', x: M(m![1]), y: M(y), d: (m![4] === 'right' ? 1 : -1) * (m![3] ? Number(m![3]) : 1), neg: true } : lex.axis === 'circle' ? null : { t: 'rank', x: M(m![1]), y: M(y), hi: m![4] === 'right', neg: true })
+    const a1 = mk(m[5])
+    const a2 = mk(m[6])
+    if (a1 && a2) return [a1, a2]
+  }
+
   // "x sits exactly opposite y" (round table: across the table; two rows: the person facing x)
   m = s.match(new RegExp(`${ENT}\\s+(?:[a-z]+\\s+){0,4}?opposite\\s+${ENT}`))
   if (m) return lex.axis === 'circle' ? [{ t: 'diff', x: M(m[1]), y: M(m[2]), d: lex.n / 2, neg }] : lex.axis === 'tworow' ? [{ t: 'opp', x: M(m[1]), y: M(m[2]), neg }] : null
@@ -706,8 +719,8 @@ function twoRowCells(sIn: string, lex: Lexicon): number[] | 'bad' | null {
 
 /** square table: "at one of the corners" (even seats), "at the middle of a side" / "faces the centre" (odd seats) */
 function squareSeats(s: string, lex: Lexicon): number[] | 'bad' | null {
-  const faceOut = /\bfaces?\s+(?:the\s+)?outside\b|\bfacing\s+(?:the\s+)?outside\b|\bfaces?\s+away\b/.test(s)
-  const faceIn = /\bfaces?\s+(?:the\s+)?(?:centre|center|inside)\b|\bfacing\s+(?:the\s+)?(?:centre|center|inside)\b/.test(s)
+  const faceOut = /\bfac(?:e|es|ing)\s+(?:towards?\s+)?(?:the\s+)?outside\b|\bfac(?:e|es|ing)\s+away\b/.test(s)
+  const faceIn = /\bfac(?:e|es|ing)\s+(?:towards?\s+)?(?:the\s+)?(?:centre|center|inside)\b/.test(s)
   const corner = /\bcorners?\b/.test(s) || (lex.cornersIn ? faceIn : faceOut)
   const side = /\b(?:middle|centre|center)\s+of\s+(?:a|an|the|each|any)\s+sides?\b|\bmiddles?\b|\bsides?\b/.test(s.replace(/\bcorners? of the table\b/g, '')) || (lex.cornersIn ? faceOut : faceIn)
   if (corner === side) return null
@@ -986,7 +999,7 @@ function orderFromList(values: string[]): OrderInfo | null {
 
 /** statements that only restate the setup ("Each person was born in one month only.") — nothing to solve, so nothing to warn about */
 const isFiller = (s: string): boolean =>
-  /^each corner\b/i.test(s) || /^\w+\s+(?:people|persons)\s+(?:are\s+)?sitting\s+at\s+the\s+corners\b/i.test(s) || /^no seat is\b/i.test(s) || /^(?:the\s+)?(?:people|persons)\s+(?:sitting|seated)\s+(?:at|on)\s+the\s+corners\b/i.test(s) ||
+  /^each corner\b/i.test(s) || /^the distance between\b/i.test(s) || /^the (?:persons?|people),? who (?:sit|sits|are sitting) at the (?:side|corner)s?\b/i.test(s) || /^\w+\s+(?:people|persons)\s+(?:are\s+)?sitting\s+at\s+the\s+corners\b/i.test(s) || /^no seat is\b/i.test(s) || /^(?:the\s+)?(?:people|persons)\s+(?:sitting|seated)\s+(?:at|on)\s+the\s+corners\b/i.test(s) ||
   /^some of them (?:are )?facing\b/i.test(s) || /^each of them (?:likes?|has|have|owns?|plays?|drinks?|eats?|prefers?)\s+(?:one|a|an)\s+[a-z]+\s*\.?$/i.test(s) ||
   /^(?:not more than|at most|only) one (?:person|box|friend|student)\b[^.]*\bsame\b/i.test(s) || /^(?:each|every)\s+(?:person|one|of them|friend|student)\b[^.]*\b(?:only|exactly one)\b/i.test(s) || /^no\s+two\b/i.test(s) || /\bwith respect to\b[^.]*\bfacing\b/i.test(s) || /^\(?\s*left and right\b/i.test(s) || /^\(?\s*(?:the\s+)?(?:bottommost|lowermost|lowest|ground|topmost|position 1)\b[^.]*\b(?:numbered|is the bottom)\b/i.test(s)
 

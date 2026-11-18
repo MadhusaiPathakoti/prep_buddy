@@ -257,6 +257,10 @@ const SQUARE_CASES: [string, string][] = [
   ['Z faces outside.', 'Z is at a corner seat'],
   ['Z sits at the corner but not adjacent to X.', 'Z is at a corner seat ; Z and X are not on neighbouring seats'],
   ['Z sits diagonally opposite to X.', 'Z sits exactly opposite X'],
+  ['Z faces towards the centre of the table.', 'Z is at a side seat (the middle of a side)'],
+  ['Z faces away from the centre.', 'Z is at a corner seat'],
+  ["Z doesn't sit immediate right of X and Y.", 'Z is not immediately to the right of X, as seen by X ; Z is not immediately to the right of Y, as seen by Y'],
+  ['S and T sit opposite to each other.', 'S sits exactly opposite T'],
 ]
 
 const PENT_HEADER = `Ten people A, B, C, D, E, F, H, I, J & K are sitting around a pentagon shaped table. Five people are sitting at the corners of the table and five people are sitting on each side of the table. Persons sitting at the corners are facing inside and the persons sitting at the side are facing outside.
@@ -484,6 +488,24 @@ for (const s of SAMPLES) {
       return `${P.people[q]}${P.cats[0].values[e.sols[0].val[0][q]]}`
     }).join(' ')
     if (line !== 'TIII XV WII ZIV UI YVI') fail(`ranks-line sample: got ${line}`)
+  }
+}
+
+// the square table with fruits (list introduced by "among"; neither M nor S; opposite to each other): brute force found one arrangement
+{
+  const sf = SAMPLES.find((x) => x.id === 'square-fruits')
+  const r = sf ? parsePuzzle(sf.text) : null
+  const e = r?.puzzle ? enumerate(r.puzzle, 3) : null
+  if (!r?.puzzle || !e || e.sols.length !== 1 || r.unparsed.length) fail('square-fruits sample: expected exactly one solution and every clue read')
+  else {
+    const P = r.puzzle
+    const seats = Array.from({ length: 8 }, (_, i) => {
+      const q = e.sols[0].pos.indexOf(i)
+      return `${P.people[q]}:${P.cats[0].values[e.sols[0].val[0][q]]}`
+    })
+    const want = ['N:Kiwi', 'S:Orange', 'Q:Guava', 'T:Lemon', 'O:Grapes', 'M:Cherry', 'R:Mango', 'P:Fig']
+    const turned = Array.from({ length: 4 }, (_, k) => [...want.slice(2 * k), ...want.slice(0, 2 * k)].join(' '))
+    if (!turned.includes(seats.join(' '))) fail(`square-fruits sample: got ${seats.join(' ')}`)
   }
 }
 

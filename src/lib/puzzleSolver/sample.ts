@@ -254,4 +254,19 @@ X stands second from one of the ends and immediate right of the one who holds II
 The one who holds Vth rank stands third to the left of the one who holds the top rank and immediate left of W.
 As many persons to the left of the one who holds VIth rank is same as to the right of T.`,
   },
+  {
+    id: 'square-fruits',
+    title: 'Square table & fruits',
+    text: `Eight persons M, N, O, P, Q, R, S & T sit around a square shaped table such that one person sits at each side of the table and one person sits at each corner of the table. The distance between two adjacent persons is same. Each of them likes different fruits among Grapes, Mango, Cherry, Kiwi, Orange, Guava, Fig and Lemon but not necessarily in the same order. The persons, who sit at the side of the table, face towards the centre and the persons, who sit at the corner of the table face away from the centre.
+
+The one, who likes Lemon and the one, who likes Fig sit opposite to each other.
+R, who likes Mango, sits adjacent to P.
+T doesn't like Cherry.
+The one, who likes Guava, sits immediate left of the one, who likes Lemon.
+P faces towards the centre of the table.
+N, who likes Kiwi, doesn't sit immediate right of M and S.
+Only two persons sit between R and T, who sits second to the left of M.
+O, who likes Grapes, sits immediate left of the one, who likes Cherry.
+S, who likes Orange, sits second to the right of P.`,
+  },
 ]
