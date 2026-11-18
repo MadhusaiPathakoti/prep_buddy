@@ -14,6 +14,8 @@ export interface ParseSummary {
   labels?: string[]
   unit?: string
   facing?: 'in' | 'out'
+  cols?: number
+  flats?: string[]
 }
 
 export interface ParseResult {
@@ -128,11 +130,15 @@ interface Lexicon {
   /** axis 'order' with named positions ("July"): the names, matched like values but standing for a fixed position */
   labels?: string[]
   posRe: RegExp | null
+  /** axis 'grid': flats per floor, their letters west → east, and a matcher for "flat B" */
+  cols?: number
+  flats?: string[]
+  flatRe: RegExp | null
 }
 
 const escapeRe = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
 
-function buildLexicon(people: string[], cats: Category[], axis: Axis, topDown: boolean, labels?: string[]): Lexicon {
+function buildLexicon(people: string[], cats: Category[], axis: Axis, topDown: boolean, labels?: string[], building?: { cols: number; flats: string[] }): Lexicon {
   const valueIndex = new Map<string, { c: number; i: number }>()
   const all: string[] = []
   cats.forEach((cat, c) =>
@@ -145,7 +151,8 @@ function buildLexicon(people: string[], cats: Category[], axis: Axis, topDown: b
   const valueRe = all.length ? new RegExp(`(?<![A-Za-z0-9])(?:${all.map(escapeRe).join('|')})(?![A-Za-z0-9])`, 'gi') : null
   const personRe = new RegExp(`(?<![A-Za-z0-9'])(${[...people].sort((a, b) => b.length - a.length).map(escapeRe).join('|')})(?![A-Za-z0-9])`, 'g')
   const posRe = labels ? new RegExp(`(?<![A-Za-z0-9])(?:${[...labels].sort((a, b) => b.length - a.length).map(escapeRe).join('|')})(?![A-Za-z0-9])`, 'gi') : null
-  return { n: people.length, axis, topDown, people, cats, valueRe, valueIndex, personRe, labels, posRe }
+  const flatRe = building ? /\b[Ff]lats?\s+([A-Z])\b/g : null
+  return { n: people.length, axis, topDown, people, cats, valueRe, valueIndex, personRe, labels, posRe, cols: building?.cols, flats: building?.flats, flatRe }
 }
 
 /** "may" / "march" in lower case are ordinary English words, not months */
@@ -173,6 +180,13 @@ function extract(sentence: string, lex: Lexicon): { text: string; ments: Term[] 
       return ` @${ments.length - 1} `
     })
   }
+  if (lex.flatRe && lex.flats) {
+    const flats = lex.flats
+    t = t.replace(lex.flatRe, (m, letter: string) => {
+      const c = flats.indexOf(letter.toUpperCase())
+      return c < 0 ? m : ` colx${c} `
+    })
+  }
   t = t.replace(lex.personRe, (m: string, _g: string, offset: number, whole: string) => {
     const i = lex.people.indexOf(m)
     if (i < 0) return m
@@ -192,6 +206,7 @@ function extract(sentence: string, lex: Lexicon): { text: string; ments: Term[] 
 
 function norm(t: string): string {
   let s = t.toLowerCase()
+  s = s.replace(/\b(north|south)[\s-]*(east|west)\b/g, '$1$2')
   s = s.replace(/\bit is not (?:true|the case) that\b/g, ' not ')
   s = s.replace(/\bper (?:month|year|annum)\b/g, ' ')
   s = s.replace(/\b(?:immediate(?:ly)?|directly|just) (?:before or after|after or before)\b/g, 'adjacent to') // "born immediately before or after X" = right next to X
@@ -218,9 +233,50 @@ function norm(t: string): string {
 const HI_WORDS = ['above', 'over', 'higher than', 'right of', 'taller than', 'after', 'later than']
 const POSITION_WORDS = /\b(?:floors?|seats?|rows?|above|below|between|left|right|top|topmost|bottom|lowest|lowermost|highest|numbered|odd|even|prime|multiple|weekend|weekday|ends?|adjacent|next|beside|neighbou?rs?|opposite|counted|storey|ground|uppermost)\b|#\d/
 
+/** Clues about a building with several flats per floor: same floor, different lettered flats, north-east of, above in the same flat … */
+function interpretGrid(s: string, ments: Term[]): Atom[] | null {
+  const M = (k: string): Term => ments[Number(k)]
+  const neg = /\bnot\b/.test(s) || undefined
+  const sameFlat = /\bsame (?:type of |lettered )?flats?\b|\bsame (?:type of )?(?:lettered )?flat\b/.test(s)
+  let m = s.match(new RegExp(`^${ENT}\\s+and\\s+${ENT}\\b.*\\bsame floor\\b`))
+  if (m) return [{ t: 'grid', x: M(m[1]), y: M(m[2]), row: 'eq', neg }]
+  m = s.match(new RegExp(`^${ENT}\\b.*\\bsame floor as\\s+${ENT}`))
+  if (m) return [{ t: 'grid', x: M(m[1]), y: M(m[2]), row: 'eq', neg }]
+  m = s.match(new RegExp(`^${ENT}\\s+and\\s+${ENT}\\b.*\\bdifferent floors?\\b`))
+  if (m) return [{ t: 'grid', x: M(m[1]), y: M(m[2]), row: 'ne', neg }]
+  m = s.match(new RegExp(`^${ENT}\\s+and\\s+${ENT}\\b.*\\b(different|same)\\b.*\\bflats?\\b`))
+  if (m && !/\bfloor/.test(s)) return [{ t: 'grid', x: M(m[1]), y: M(m[2]), col: m[3] === 'same' ? 'eq' : 'ne', neg }]
+  // "U's flat is to the south-east of E's flat"
+  m = s.match(new RegExp(`${ENT}\\b(?:\\s+flat)?\\s+(?:[a-z]+\\s+){0,4}?(northeast|northwest|southeast|southwest|north|south|east|west)\\s+(?:of\\s+)?${ENT}`))
+  if (m) {
+    const d = m[2]
+    const row = d.startsWith('north') ? 'gt' : d.startsWith('south') ? 'lt' : undefined
+    const col = d.endsWith('east') ? 'gt' : d.endsWith('west') ? 'lt' : undefined
+    return [{ t: 'grid', x: M(m[1]), y: M(m[3]), row, col, neg }]
+  }
+  // "L lives above R in the same type of flat", "X lives immediately below Y", "X lives two floors above Y"
+  m = s.match(new RegExp(`${ENT}\\b.*?(?:\\b(immediately)\\s+)?(?:(\\d+)\\s+floors?\\s+)?\\b(above|below|higher than|lower than)\\s+${ENT}(.*)$`))
+  if (m && !/floor number/.test(s)) {
+    // groups: 1 = x, 2 = "immediately", 3 = N floors, 4 = above / below, 5 = y, 6 = the rest of the sentence
+    const up = m[4] === 'above' || m[4] === 'higher than'
+    const k = m[3] ? Number(m[3]) : m[2] ? 1 : undefined
+    return [{ t: 'grid', x: M(m[1]), y: M(m[5]), row: up ? 'gt' : 'lt', rowDiff: k === undefined ? undefined : up ? k : -k, col: sameFlat || m[2] ? 'eq' : undefined, neg }]
+  }
+  // "The floor number of O's flat is more than the floor number of A's flat"
+  m = s.match(new RegExp(`floor number of\\s+${ENT}\\b(?:\\s+flat)?\\s+(?:is\\s+)?(more|greater|higher|less|lower)\\s+than\\s+(?:the\\s+)?floor number of\\s+${ENT}`))
+  if (m) return [{ t: 'grid', x: M(m[1]), y: M(m[3]), row: m[2] === 'more' || m[2] === 'greater' || m[2] === 'higher' ? 'gt' : 'lt', neg }]
+  return null
+}
+
 function interpretClause(s: string, ments: Term[], lex: Lexicon): Atom[] | null {
   const M = (k: string): Term => ments[Number(k)]
   const neg = /\bnot\b/.test(s) || undefined
+  const grid = lex.axis === 'grid'
+  if (grid) {
+    const g = interpretGrid(s, ments)
+    if (g) return g
+  }
+  if (!grid) {
 
   // "The number of persons between x and y is (not) the same as the number of persons between z and w"
   let m = s.match(new RegExp(`number of (?:[a-z]+\\s+){1,3}?between\\s+${ENT}\\s+and\\s+${ENT}\\s+(?:(?:is|are)\\s+)?(not\\s+)?(?:the\\s+)?same as\\s+(?:the\\s+)?number of (?:[a-z]+\\s+){1,3}?between\\s+${ENT}\\s+and\\s+${ENT}`))
@@ -293,6 +349,8 @@ function interpretClause(s: string, ments: Term[], lex: Lexicon): Atom[] | null 
   m = s.match(new RegExp(`${ENT}\\s+and\\s+${ENT}\\s+(?:[a-z]+\\s+){0,4}?(?:adjacent|neighbou?rs?|next to each other|beside each other)`))
   if (m) return [{ t: 'adj', x: M(m[1]), y: M(m[2]), neg }]
 
+  }
+
   const count = (s.match(/@\d+/g) ?? []).length
 
   // "Neither A nor B lives on the top floor", "Both A and B live on odd floors", "A and B do not live on the lowest floor"
@@ -345,7 +403,32 @@ function interpretClause(s: string, ments: Term[], lex: Lexicon): Atom[] | null 
 }
 
 /** The set of heights a unary clue allows ('bad' when it names a floor that does not exist). */
+/** The cells of a building a unary clue allows: "in flat A", "on floor 3", "on an even-numbered floor", "in flat B on floor 2". */
+function gridCells(sIn: string, lex: Lexicon): number[] | 'bad' | null {
+  const cols = lex.cols ?? 1
+  const rows = lex.n / cols
+  let s = sIn.replace(/@\d+/g, ' ')
+  const colSel = new Set<number>()
+  for (const m of s.matchAll(/\bcolx(\d+)\b/g)) colSel.add(Number(m[1]))
+  s = s.replace(/\bcolx\d+\b/g, ' ')
+  const rowSel = new Set<number>()
+  for (const m of s.matchAll(/#?(\d+)/g)) {
+    const r = Number(m[1]) - 1
+    if (r < 0 || r >= rows) return 'bad'
+    rowSel.add(r)
+  }
+  if (/\b(?:topmost|top|highest|uppermost)\b/.test(s)) rowSel.add(rows - 1)
+  if (/\b(?:ground|lowest|lowermost|bottom|bottommost)\b/.test(s)) rowSel.add(0)
+  const par = s.match(/\b(odd|even)\b/)
+  if (par) for (let r = 0; r < rows; r++) if ((r + 1) % 2 === (par[1] === 'odd' ? 1 : 0)) rowSel.add(r)
+  if (!colSel.size && !rowSel.size) return null
+  const cells: number[] = []
+  for (let f = 0; f < lex.n; f++) if ((!rowSel.size || rowSel.has(Math.floor(f / cols))) && (!colSel.size || colSel.has(f % cols))) cells.push(f)
+  return cells
+}
+
 function positionSet(sIn: string, lex: Lexicon): number[] | 'bad' | null {
+  if (lex.axis === 'grid') return gridCells(sIn, lex)
   const n = lex.n
   let s = sIn.replace(/@\d+/g, ' ') // the @k mention placeholders are not floor numbers
   const set = new Set<number>()
@@ -494,6 +577,14 @@ function parseClueText(sentence: string, lex: Lexicon): Atom[] | null {
   if (s) {
     const compound = compoundClause(s, ments, lex)
     if (compound) return [...atoms, ...compound]
+    // "E lives in flat A but not on floor number 1": the second half borrows the subject of the first
+    const but = s.split(/\s+but\s+/)
+    if (but.length === 2 && !/^not both\b/.test(but[1])) {
+      const subject = but[0].match(/@\d+/)?.[0]
+      const a1 = interpretClause(but[0], ments, lex)
+      const a2 = subject || /^@\d+/.test(but[1]) ? interpretClause(/^@\d+/.test(but[1]) ? but[1] : `${subject} ${but[1]}`, ments, lex) : null
+      if (a1 && a2) return [...atoms, ...a1, ...a2]
+    }
     // "A lives immediately below B and is from Delhi": the second half starts with a verb, so it is a second statement about A
     const verbSplit = s.split(/\s+and\s+(?=(?:is|are|lives?|stays?|sits?|stands?|likes?|has|have|works?|comes?|belongs?)\b)/)
     if (verbSplit.length === 2) {
@@ -564,6 +655,38 @@ function orderFromList(values: string[]): OrderInfo | null {
 const isFiller = (s: string): boolean =>
   /^(?:each|every)\s+(?:person|one|of them|friend|student)\b[^.]*\b(?:only|exactly one)\b/i.test(s) || /^no\s+two\b/i.test(s) || /\bwith respect to\b[^.]*\bfacing\b/i.test(s) || /^\(?\s*left and right\b/i.test(s)
 
+/** sentences that only describe how the building is laid out ("Flat A is to the west of Flat B", "All the flats are of same size") */
+const isGridFiller = (s: string): boolean =>
+  /^each floor\b/i.test(s) || /^(?:all\s+(?:the\s+)?)?flats?\b[^.]*\b(?:same size|west|east)\b/i.test(s) || /^flat\s+[A-Z]\b[^.]*\bfloor\b/i.test(s) || /similarly in case of/i.test(s)
+
+const NUMW: Record<string, number> = { one: 1, two: 2, three: 3, four: 4, five: 5, six: 6, seven: 7, eight: 8, nine: 9, ten: 10 }
+
+/** "a four storeyed building … Each floor has 2 flats, Flat A and Flat B … Flat A is to the west of Flat B" */
+function buildingFromText(text: string, n: number): { rows: number; cols: number; flats: string[] } | { error: string } | null {
+  if (!(/\bstorey(?:ed)?\b|\bstoried\b/i.test(text) && /\bflats?\b/i.test(text) && /\beach\s+floor\s+(?:has|have|contains)\b/i.test(text))) return null
+  const num = (w: string) => NUMW[w.toLowerCase()] ?? Number(w)
+  const st = text.match(/\b(one|two|three|four|five|six|seven|eight|nine|ten|\d+)[\s-]+(?:storey(?:ed)?|storied)\b/i) ?? text.match(/top floor[^.]*?numbered\s*(?:as\s*)?()(\d+)/i)
+  const fl = text.match(/\beach\s+floor\s+(?:has|have|contains)\s+(one|two|three|four|five|\d+)\s+flats?\b/i)
+  const rows = st ? num(st[2] && st[1] === '' ? st[2] : st[1]) : 0
+  const cols = fl ? num(fl[1]) : 0
+  if (!rows || !cols) return { error: 'I could not tell how many floors the building has and how many flats are on each floor.' }
+  if (rows * cols !== n) return { error: `${rows} floors with ${cols} flats each is ${rows * cols} flats, but there are ${n} people — every flat must be occupied.` }
+  const sentence = text.split(/(?<=[.])\s+/).find((x) => /\beach\s+floor\b/i.test(x)) ?? ''
+  const letters: string[] = []
+  for (const m of sentence.matchAll(/\bflats?\s+([A-Z])\b/g)) if (!letters.includes(m[1])) letters.push(m[1])
+  for (let c = letters.length; c < cols; c++) letters.push(String.fromCharCode(65 + c))
+  const flats = letters.slice(0, cols)
+  // which letter is the westmost: "Flat A is to the west of Flat B" (default: the letters run west → east)
+  const dir = text.match(/\bflat\s+([A-Z])\s+is\s+(?:to\s+the\s+)?(west|east)\s+of\s+flat\s+([A-Z])\b/i)
+  if (dir && cols === 2) {
+    const [a, , b] = [dir[1].toUpperCase(), dir[2], dir[3].toUpperCase()]
+    const westFirst = dir[2].toLowerCase() === 'west' ? a : b
+    const eastLast = westFirst === a ? b : a
+    if (flats.includes(westFirst) && flats.includes(eastLast)) return { rows, cols, flats: [westFirst, eastLast] }
+  }
+  return { rows, cols, flats }
+}
+
 // ─── entry point ─────────────────────────────────────────────────────────────
 
 export function parsePuzzle(raw: string): ParseResult {
@@ -601,13 +724,21 @@ export function parsePuzzle(raw: string): ParseResult {
   }
   const header = sentences[headerIdx]
 
+  // a building with several flats on each floor
+  const building = buildingFromText(text, n)
+  if (building && 'error' in building) {
+    result.errors.push(building.error)
+    return result
+  }
+
+
   // count words in the header must agree with the list
   const countWord = header.match(/\b(one|two|three|four|five|six|seven|eight|nine|ten|\d+)\s+(?:different\s+)?(?:persons?|people|friends|students|members|boys|girls|colleagues|employees)\b/i)
   if (countWord) {
     const said = NUM[countWord[1].toLowerCase()] ?? Number(countWord[1])
     if (said !== n) result.warnings.push(`The text says ${said} people but ${n} names are listed — using the ${n} names.`)
   }
-  const floorCount = header.match(/\b(one|two|three|four|five|six|seven|eight|nine|ten|\d+)\s+(?:different\s+)?(floors|storeys|seats|positions|months|days|weeks|years)\b/i)
+  const floorCount = building ? null : header.match(/\b(one|two|three|four|five|six|seven|eight|nine|ten|\d+)\s+(?:different\s+)?(floors|storeys|seats|positions|months|days|weeks|years)\b/i)
   if (floorCount) {
     const said = NUM[floorCount[1].toLowerCase()] ?? Number(floorCount[1])
     if (said !== n) {
@@ -685,14 +816,14 @@ export function parsePuzzle(raw: string): ParseResult {
       result.warnings.push(`I could not tell which ${kw[1].toLowerCase()} (for example "from May to December"), so they are numbered 1 to ${n}; clues that name one will not be understood.`)
     }
   }
-  const axis: Axis = circle ? 'circle' : order ? 'order' : axisGuess
+  const axis: Axis = building ? 'grid' : circle ? 'circle' : order ? 'order' : axisGuess
   const topDown = axis === 'floor' && topDownText
   axisGuess = axis
   const allValues = cats.flatMap((c) => c.values.map((v) => v.toLowerCase()))
   if (new Set(allValues).size !== allValues.length) result.warnings.push('Some values appear in more than one category, which can confuse clue reading.')
   for (const v of allValues) if (people.some((p) => p.toLowerCase() === v)) result.warnings.push(`"${v}" is both a person and a value.`)
 
-  const lex = buildLexicon(people, cats, axis, topDown, order?.labels)
+  const lex = buildLexicon(people, cats, axis, topDown, order?.labels, building ? { cols: building.cols, flats: building.flats } : undefined)
   const clues: Clue[] = []
   sentences.forEach((s, k) => {
     if (used.has(k) || isBoilerplate(s)) return
@@ -701,7 +832,7 @@ export function parsePuzzle(raw: string): ParseResult {
       return
     }
     if (/^\(?[a-e]\)\s/i.test(s)) return // answer options
-    if (isFiller(s)) return
+    if (isFiller(s) || (building && isGridFiller(s))) return
     const atoms = parseClueText(s, lex)
     if (atoms && atoms.length) clues.push({ id: clues.length + 1, text: s, atoms })
     else result.unparsed.push(s)
@@ -712,7 +843,7 @@ export function parsePuzzle(raw: string): ParseResult {
   }
   const verbWord = header.match(/\b(?:were|are)\s+(born|seated|arranged|placed|ranked|appointed|promoted|admitted|selected|posted|scheduled|joined)\b/i)
   const extra = order ? { labels: order.labels, unit: order.unit, on: order.on, verb: verbWord ? `was ${verbWord[1].toLowerCase()}` : undefined } : {}
-  result.summary = { people, axis, topDown, cats, labels: order?.labels, unit: order?.unit, facing }
-  result.puzzle = { n, axis, topDown, people, cats, clues, ...extra, ...(circle ? { facing } : {}) }
+  result.summary = { people, axis, topDown, cats, labels: order?.labels, unit: order?.unit, facing, cols: building?.cols, flats: building?.flats }
+  result.puzzle = { n, axis, topDown, people, cats, clues, ...extra, ...(circle ? { facing } : {}), ...(building ? { cols: building.cols, flats: building.flats } : {}) }
   return result
 }

@@ -1,6 +1,6 @@
 // Shared plumbing for the Puzzle Solver engine: the candidate grid, bit-mask helpers, and every piece of wording
 // (labels, "A is on floor 3", clue descriptions) so the engine and the UI always phrase things the same way.
-import type { Atom, Puzzle, Term } from './types'
+import type { Atom, GridRel, Puzzle, Term } from './types'
 
 // ─── bit helpers ─────────────────────────────────────────────────────────────
 
@@ -79,14 +79,31 @@ export class Ctx {
   }
 
   get unit(): string {
-    return this.p.axis === 'floor' ? 'floor' : this.p.axis === 'order' ? (this.p.unit ?? 'position') : 'seat'
+    return this.p.axis === 'floor' ? 'floor' : this.p.axis === 'order' ? (this.p.unit ?? 'position') : this.p.axis === 'grid' ? 'flat' : 'seat'
+  }
+  /** a building with several flats per floor: position = floor * cols + flat (floor 0 = ground floor, flat 0 = westmost) */
+  get grid(): boolean {
+    return this.p.axis === 'grid'
+  }
+  get cols(): number {
+    return this.p.cols ?? 1
+  }
+  rowOf(f: number): number {
+    return Math.floor(f / this.cols)
+  }
+  flatLetter(f: number): string {
+    const c = f % this.cols
+    return this.p.flats?.[c] ?? String.fromCharCode(65 + c)
+  }
+  private cellName(f: number): string {
+    return `flat ${this.flatLetter(f)} on floor ${this.rowOf(f) + 1}`
   }
   /** positions wrap round (a circular table) */
   get circular(): boolean {
     return this.p.axis === 'circle'
   }
   get onWord(): string {
-    return this.p.axis === 'floor' ? 'on' : this.p.axis === 'order' ? (this.p.on ?? 'in') : 'at'
+    return this.p.axis === 'floor' ? 'on' : this.p.axis === 'order' ? (this.p.on ?? 'in') : this.p.axis === 'grid' ? 'in' : 'at'
   }
   get named(): boolean {
     return this.p.axis === 'order' && !!this.p.labels
@@ -97,6 +114,7 @@ export class Ctx {
   }
   /** the position's own name: "3" for floor 3, "July" for a named month; positions outside the range are described, not numbered */
   posName(f: number): string {
+    if (this.grid) return this.cellName(f)
     if (!this.named) return String(this.posNum(f))
     const labels = this.p.labels as string[]
     if (f < 0) return `the ${this.unit} before ${labels[0]}`
@@ -104,10 +122,12 @@ export class Ctx {
     return labels[f]
   }
   posLab(f: number): string {
+    if (this.grid) return this.cellName(f)
     return this.named ? this.posName(f) : `${this.unit} ${this.posNum(f)}`
   }
   /** short tag for a position on the board */
   posShort(f: number): string {
+    if (this.grid) return `${this.rowOf(f) + 1}${this.flatLetter(f)}`
     return this.named ? (this.p.labels as string[])[f].slice(0, 3) : String(this.posNum(f))
   }
   /** words for "higher / lower" along the axis */
@@ -143,6 +163,7 @@ export class Ctx {
   /** where a person is, in the words of the puzzle: "A is on floor 3", "V was born in July" */
   private whereIs(i: number, f: number, negate: boolean): string {
     const who = this.lab(0, i)
+    if (this.grid) return `${who} ${negate ? 'does not live' : 'lives'} in ${this.cellName(f)}`
     if (this.p.axis === 'order' && this.p.verb) {
       const verb = negate ? this.p.verb.replace(/^(\w+)/, '$1 not') : this.p.verb
       return `${who} ${verb} ${this.onWord} ${this.posLab(f)}`
@@ -190,6 +211,7 @@ export class Ctx {
   }
   /** the same for a list of 0-based positions */
   fmtPositions(fs: number[]): string {
+    if (this.grid) return this.gridSetParts(fs).text
     const sorted = [...fs].sort((x, y) => this.posNum(x) - this.posNum(y))
     if (sorted.length === 0) return `no ${this.unit}`
     const names = sorted.map((f) => (this.named ? this.posName(f) : String(this.posNum(f))))
@@ -207,8 +229,73 @@ export class Ctx {
     if (this.named) return body
     return sorted.length === 1 ? `${this.unit} ${body}` : `${this.unit}s ${body}`
   }
+  /**
+   * A set of cells of a building described the way a person would: whole floors ("floors 2 and 4", "an even-numbered floor"),
+   * a whole flat letter ("flat A"), a single cell, or a list of cells — with the preposition that goes in front of it.
+   */
+  gridSetParts(fs: number[]): { prep: string; text: string } {
+    const rows = this.n / this.cols
+    const cells = [...new Set(fs)].sort((x, y) => x - y)
+    const has = new Set(cells)
+    const fullRows: number[] = []
+    for (let r = 0; r < rows; r++) if (Array.from({ length: this.cols }, (_, c) => r * this.cols + c).every((f) => has.has(f))) fullRows.push(r)
+    if (fullRows.length && fullRows.length * this.cols === cells.length) {
+      const labels = fullRows.map((r) => r + 1)
+      const all = Array.from({ length: rows }, (_, r) => r + 1)
+      const same = (x: number[], y: number[]) => x.length === y.length && x.every((v) => y.includes(v))
+      if (labels.length >= 2 && same(labels, all.filter((l) => l % 2 === 0))) return { prep: 'on', text: 'an even-numbered floor' }
+      if (labels.length >= 2 && same(labels, all.filter((l) => l % 2 === 1))) return { prep: 'on', text: 'an odd-numbered floor' }
+      if (labels.length === 1 && labels[0] === rows) return { prep: 'on', text: 'the top floor' }
+      if (labels.length === 1 && labels[0] === 1) return { prep: 'on', text: 'the ground floor' }
+      const list = labels.length === 1 ? `${labels[0]}` : `${labels.slice(0, -1).join(', ')} and ${labels[labels.length - 1]}`
+      return { prep: 'on', text: `${labels.length === 1 ? 'floor' : 'floors'} ${list}` }
+    }
+    const fullCols: number[] = []
+    for (let c = 0; c < this.cols; c++) if (Array.from({ length: rows }, (_, r) => r * this.cols + c).every((f) => has.has(f))) fullCols.push(c)
+    if (fullCols.length && fullCols.length * rows === cells.length) {
+      const names = fullCols.map((c) => this.p.flats?.[c] ?? String.fromCharCode(65 + c))
+      return { prep: 'in', text: names.length === 1 ? `flat ${names[0]}` : `flats ${names.slice(0, -1).join(', ')} or ${names[names.length - 1]}` }
+    }
+    // several floors of one flat letter: "flat B on floors 1–3"
+    if (cells.length > 1 && new Set(cells.map((f) => f % this.cols)).size === 1) {
+      const floors = cells.map((f) => this.rowOf(f) + 1)
+      const parts: string[] = []
+      for (let i = 0; i < floors.length; ) {
+        let e = i
+        while (e + 1 < floors.length && floors[e + 1] === floors[e] + 1) e++
+        if (e - i >= 2) parts.push(`${floors[i]}–${floors[e]}`)
+        else for (let k = i; k <= e; k++) parts.push(String(floors[k]))
+        i = e + 1
+      }
+      const list = parts.length === 1 ? parts[0] : `${parts.slice(0, -1).join(', ')} and ${parts[parts.length - 1]}`
+      return { prep: 'in', text: `flat ${this.flatLetter(cells[0])} on floor${floors.length > 1 ? 's' : ''} ${list}` }
+    }
+    const names = cells.map((f) => this.cellName(f))
+    return { prep: 'in', text: names.length === 1 ? names[0] : `${names.slice(0, -1).join(', ')} or ${names[names.length - 1]}` }
+  }
+
+  /** the places a candidate mask still allows, with the right preposition: "on floors 2–4", "in flat B on floor 3", "in July" */
+  maskPhrase(mask: number): string {
+    return this.positionsPhrase(bits(mask))
+  }
+  /** the same for a list of positions */
+  positionsPhrase(fs: number[]): string {
+    if (this.grid) return this.setPhrase(fs)
+    return `${this.onWord} ${this.fmtPositions(fs)}`
+  }
+
+  /** "on floor 3", "in flat A", "on the topmost floor", "in May or July": a set of positions with the right preposition */
+  setPhrase(fs: number[]): string {
+    if (this.grid) {
+      const p = this.gridSetParts(fs)
+      return `${p.prep} ${p.text}`
+    }
+    return `${this.onWord} ${this.setDesc(fs)}`
+  }
+
   /** "floor 3 or 5", "seats 2 or 4", "May or July" */
   fmtOr(fs: number[]): string {
+    if (this.grid) return this.gridSetParts(fs).text
     const sorted = [...fs].sort((x, y) => this.posNum(x) - this.posNum(y))
     if (this.named) {
       const names = sorted.map((f) => this.posName(f))
@@ -219,6 +306,7 @@ export class Ctx {
 
   /** description of a set of positions: "the topmost floor", "either the topmost or the lowest floor", "an odd-numbered floor" … */
   setDesc(fs: number[]): string {
+    if (this.grid) return this.gridSetParts(fs).text
     const n = this.n
     const s = [...new Set(fs)].sort((x, y) => x - y)
     // named positions: say both the role and the name, so "the last month" and "December" read the same
@@ -282,7 +370,26 @@ export class Ctx {
       case 'same':
         return `${a.neg ? 'not ' : ''}the same number of people between ${L(a.x)} and ${L(a.y)} as between ${L(a.z)} and ${L(a.w)}`
       case 'set':
-        return `${L(a.x)} is${not} ${this.onWord} ${this.setDesc(a.fs)}`
+        return `${L(a.x)} is${not} ${this.setPhrase(a.fs)}`
+      case 'grid': {
+        const up = a.row === 'gt'
+        const down = a.row === 'lt'
+        const east = a.col === 'gt'
+        const west = a.col === 'lt'
+        let how: string
+        if ((up || down) && (east || west)) how = `to the ${up ? 'north' : 'south'}-${east ? 'east' : 'west'} of`
+        else if (up || down) {
+          const step = a.rowDiff !== undefined ? (Math.abs(a.rowDiff) === 1 ? 'immediately ' : `exactly ${Math.abs(a.rowDiff)} floors `) : ''
+          how = `${step}${up ? 'above' : 'below'}`
+          if (a.col === 'eq') how += ', in the same lettered flat as'
+          else if (a.col === 'ne') how += ', in a different lettered flat from'
+        } else if (east || west) how = `${east ? 'east' : 'west'} of`
+        else if (a.row === 'eq') how = a.col === 'eq' ? 'in the very same flat as' : 'on the same floor as'
+        else if (a.row === 'ne') how = 'on a different floor from'
+        else if (a.col === 'eq') how = 'in the same lettered flat as'
+        else how = 'in a different lettered flat from'
+        return `${L(a.x)} is${not} ${how} ${L(a.y)}`
+      }
       case 'logic': {
         const x = this.describeAtom(a.a)
         const y = this.describeAtom(a.b)
@@ -325,8 +432,9 @@ export function atomTerms(a: Atom): Term[] {
  * The atom as a test on the 0-based positions of its terms (link atoms are handled by the grid, not by a position test).
  * On a circular table (`circ`) differences wrap round, so "opposite" is half-way and "neighbours" includes seat n next to seat 1.
  */
-export function atomTest(a: Atom, n = 0, circ = false): (v: number[]) => boolean {
+export function atomTest(a: Atom, n = 0, circ = false, cols = 1): (v: number[]) => boolean {
   const md = (x: number) => (circ ? ((x % n) + n) % n : x)
+  const rel = (r: GridRel | undefined, x: number, y: number) => r === undefined || (r === 'gt' ? x > y : r === 'lt' ? x < y : r === 'eq' ? x === y : x !== y)
   let f: (v: number[]) => boolean
   switch (a.t) {
     case 'diff':
@@ -347,6 +455,13 @@ export function atomTest(a: Atom, n = 0, circ = false): (v: number[]) => boolean
     case 'same':
       f = (v) => Math.abs(v[0] - v[1]) === Math.abs(v[2] - v[3]) && v[0] !== v[1] && v[2] !== v[3]
       break
+    case 'grid':
+      f = (v) => {
+        const rx = Math.floor(v[0] / cols)
+        const ry = Math.floor(v[1] / cols)
+        return rel(a.row, rx, ry) && rel(a.col, v[0] % cols, v[1] % cols) && (a.rowDiff === undefined || rx - ry === a.rowDiff)
+      }
+      break
     case 'set':
       f = (v) => a.fs.includes(v[0])
       break
@@ -354,8 +469,8 @@ export function atomTest(a: Atom, n = 0, circ = false): (v: number[]) => boolean
       const all = atomTerms(a)
       const at = atomTerms(a.a).map((t) => all.findIndex((u) => sameTerm(u, t)))
       const bt = atomTerms(a.b).map((t) => all.findIndex((u) => sameTerm(u, t)))
-      const ta = atomTest(a.a, n, circ)
-      const tb = atomTest(a.b, n, circ)
+      const ta = atomTest(a.a, n, circ, cols)
+      const tb = atomTest(a.b, n, circ, cols)
       f = (v) => {
         const x = ta(at.map((i) => v[i]))
         const y = tb(bt.map((i) => v[i]))

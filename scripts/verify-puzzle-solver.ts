@@ -189,6 +189,45 @@ const ORDER_EXTRA: [string, string][] = [
   ['A, who is from Delhi, was born immediately before or after the person from Pune.', "A's city is Delhi ; A and the Pune person are on neighbouring months"],
 ]
 
+const GRID_HEADER = `8 persons named A, B, C, D, E, F, G & H live on a four
+storeyed building, such that the ground floor is numbered as 1 and the top floor is numbered as 4. Each floor
+has 2 flats, which is Flat A and Flat B. Flat A of floor 2 is immediately above Flat A of floor 1 and similarly in case of Flat B also. Flat A is to the west of Flat B.
+All the flats are of same size.
+`
+
+const GRID_CASES: [string, string][] = [
+  ['C and D live on the same floor.', 'C is on the same floor as D'],
+  ['C and D are having flats on the same floor.', 'C is on the same floor as D'],
+  ['C and D do not live on the same floor.', 'C is not on the same floor as D'],
+  ['C and D live on different floors.', 'C is on a different floor from D'],
+  ['C lives in flat B.', 'C is in flat B'],
+  ['C does not live in flat A.', 'C is not in flat A'],
+  ['C lives on floor 3.', 'C is on floor 3'],
+  ['C lives in flat A on floor 2.', 'C is in flat A on floor 2'],
+  ['C lives on an odd numbered floor.', 'C is on an odd-numbered floor'],
+  ['C lives on the topmost floor.', 'C is on the top floor'],
+  ['C lives on the ground floor.', 'C is on the ground floor'],
+  ['C lives above D.', 'C is above D'],
+  ['C lives below D.', 'C is below D'],
+  ['C lives immediately above D.', 'C is immediately above, in the same lettered flat as D'],
+  ['C lives two floors below D.', 'C is exactly 2 floors below D'],
+  ['C lives above D in the same type of flat.', 'C is above, in the same lettered flat as D'],
+  ['C and D live on different lettered flats.', 'C is in a different lettered flat from D'],
+  ['C and D live on the same lettered flat.', 'C is in the same lettered flat as D'],
+  ["C's flat is to the north-east of D's flat.", 'C is to the north-east of D'],
+  ["C's flat is to the south-west of D's flat.", 'C is to the south-west of D'],
+  ["C's flat is to the south-east of D's flat.", 'C is to the south-east of D'],
+  ["C's flat is to the east of D's flat.", 'C is east of D'],
+  ["C's flat is to the west of D's flat.", 'C is west of D'],
+  ["The floor number of C's flat is more than the floor number of D's flat.", 'C is above D'],
+  ["The floor number of C's flat is less than the floor number of D's flat.", 'C is below D'],
+  ['C and D live on even numbered floors.', 'C is on an even-numbered floor ; D is on an even-numbered floor'],
+  ['C lives in flat A but not on floor number 1.', 'C is in flat A ; C is not on the ground floor'],
+  ['Neither C nor D lives in flat A.', 'C is not in flat A ; D is not in flat A'],
+  ['C lives in flat B and D lives in flat A.', 'C is in flat B ; D is in flat A'],
+  ['If C lives in flat A, then D lives on the same floor as E.', 'if C is in flat A, then D is on the same floor as E'],
+]
+
 function runParserTable(header: string, cases: [string, string][]) {
   for (const [sentence, expected] of cases) {
     const r = parsePuzzle(`${header}\n${sentence}`)
@@ -210,6 +249,7 @@ runParserTable(ROW_HEADER, ROW_CASES)
 runParserTable(ORDER_HEADER, ORDER_CASES)
 runParserTable(DAY_HEADER, DAY_CASES)
 runParserTable(CIRCLE_HEADER, CIRCLE_CASES)
+runParserTable(GRID_HEADER, GRID_CASES)
 runParserTable(FLOOR_HEADER, FLOOR_EXTRA)
 runParserTable(ORDER_HEADER, ORDER_EXTRA)
 
@@ -291,6 +331,16 @@ function holds(p: Puzzle, sol: Solution, a: Atom): boolean {
       const lo = Math.min(at(a.x), at(a.y))
       const hi = Math.max(at(a.x), at(a.y))
       r = lo !== hi && sol.pos.filter((q) => q > lo && q < hi).length === a.k
+      break
+    }
+    case 'grid': {
+      const cols = p.cols ?? 1
+      const px = at(a.x)
+      const py = at(a.y)
+      const rx = Math.floor(px / cols)
+      const ry = Math.floor(py / cols)
+      const cmp = (rel: string | undefined, u: number, v: number) => (rel === undefined ? true : rel === 'gt' ? u > v : rel === 'lt' ? u < v : rel === 'eq' ? u === v : u !== v)
+      r = cmp(a.row, rx, ry) && cmp(a.col, px % cols, py % cols) && (a.rowDiff === undefined || rx - ry === a.rowDiff)
       break
     }
     case 'same': {
@@ -391,7 +441,37 @@ function randomCircleAtom(p: Puzzle, hidden: Solution): Atom {
   }
 }
 
+/** A true clue about a building with several flats per floor: 2-D relations, cell sets, links. */
+function randomGridAtom(p: Puzzle, hidden: Solution): Atom {
+  const personOf = (t: Term): number => (t.k === 'p' ? t.i : hidden.val[t.c].indexOf(t.i))
+  const cols = p.cols ?? 1
+  const rows = p.n / cols
+  const rels = ['gt', 'lt', 'eq', 'ne'] as const
+  for (;;) {
+    const x = randomTerm(p, true)
+    let y = randomTerm(p, true)
+    let guard = 0
+    while (personOf(y) === personOf(x) && guard++ < 30) y = randomTerm(p, true)
+    let atom: Atom
+    const r = rnd()
+    if (r < 0.6) {
+      const row = rnd() < 0.7 ? rels[ri(4)] : undefined
+      const col = row === undefined || rnd() < 0.5 ? rels[ri(4)] : undefined
+      const rowDiff = row === 'gt' && rnd() < 0.3 ? 1 + ri(Math.max(1, rows - 1)) : undefined
+      atom = { t: 'grid', x, y, row, col, rowDiff: rowDiff === undefined ? undefined : rowDiff }
+    } else if (r < 0.93 || !p.cats.length) {
+      const cells = Array.from({ length: p.n }, (_, i) => i)
+      atom = { t: 'set', x, fs: shuffle(cells).slice(0, 1 + ri(Math.max(1, p.n - 2))).sort((a, b) => a - b) }
+    } else atom = { t: 'link', x: { k: 'p', i: ri(p.n) }, y: { k: 'v', c: ri(p.cats.length), i: ri(p.n) } }
+    if (!holds(p, hidden, atom)) atom = { ...atom, neg: true } as Atom
+    if (!holds(p, hidden, atom)) continue
+    if (atom.t === 'link' && atom.neg && rnd() < 0.5) continue
+    return atom
+  }
+}
+
 function randomAtom(p: Puzzle, hidden: Solution): Atom {
+  if (p.axis === 'grid') return randomGridAtom(p, hidden)
   if (p.axis === 'circle') return randomCircleAtom(p, hidden)
   for (;;) {
     const x = randomTerm(p, true)
@@ -432,6 +512,10 @@ function randomPuzzle(n: number, nCats: number, nClues: number, axis: Puzzle['ax
   const hidden: Solution = { pos: shuffle(Array.from({ length: n }, (_, i) => i)), val: cats.map(() => shuffle(Array.from({ length: n }, (_, i) => i))) }
   const puzzle: Puzzle = { n, axis, topDown: false, people, cats, clues: [], ...(axis === 'order' ? { labels: ['May', 'June', 'July', 'August', 'September', 'October'].slice(0, n), unit: 'month', on: 'in', verb: 'was born' } : {}) }
   if (axis === 'circle') puzzle.facing = 'out'
+  if (axis === 'grid') {
+    puzzle.cols = n % 2 === 0 ? 2 : 1
+    puzzle.flats = ['A', 'B'].slice(0, puzzle.cols)
+  }
   for (let k = 0; k < nClues; k++) puzzle.clues.push({ id: k + 1, text: `random clue ${k + 1}`, atoms: [randomAtom(puzzle, hidden)] })
   if (axis === 'circle') {
     // the engine fixes one person in seat 1 (turning a round table gives the same arrangement), so compare against the turned copy
@@ -452,7 +536,7 @@ for (let run = 0; run < RUNS; run++) {
   const n = 4 + (run % 3) // 4..6
   const nCats = n === 6 ? 1 : run % 3 === 0 ? 0 : 1 + (run % 2)
   const nClues = run % 5 === 0 ? 3 + ri(n) : 3 * n + ri(2 * n)
-  const axis = (['floor', 'row', 'order', 'circle'] as const)[Math.floor(run / 3) % 4]
+  const axis = (['floor', 'row', 'order', 'circle', 'grid'] as const)[Math.floor(run / 3) % 5]
   const { puzzle, hidden } = randomPuzzle(n, nCats, nClues, axis)
   const where = `run ${run} (${axis}, n=${n}, cats=${nCats}, clues=${nClues})`
 
@@ -600,7 +684,7 @@ for (const s of SAMPLES) {
   console.log('app generator, end to end: ' + Object.entries(tally).map(([k, v]) => `${k} ${v.checked} checked (${v.skipped} of an unsupported layout skipped)`).join('; '))
 }
 
-console.log(`parser: ${FLOOR_CASES.length + ROW_CASES.length + ORDER_CASES.length + DAY_CASES.length + CIRCLE_CASES.length + FLOOR_EXTRA.length + ORDER_EXTRA.length} phrasings checked`)
+console.log(`parser: ${FLOOR_CASES.length + ROW_CASES.length + ORDER_CASES.length + DAY_CASES.length + CIRCLE_CASES.length + GRID_CASES.length + FLOOR_EXTRA.length + ORDER_EXTRA.length} phrasings checked`)
 console.log(`engine vs brute force: ${compared} random puzzles (${uniqueTraced} with a unique answer traced, ${multiple} with several answers)`)
 console.log(`step kinds: ${JSON.stringify(kinds)}; ${trials} case-analysis trials`)
 console.log(`teaching trace: ${eliminations} crossings checked for soundness, ${whatIfs} what-if simulations refuted`)

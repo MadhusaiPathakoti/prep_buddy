@@ -44,7 +44,7 @@ const testCache = new WeakMap<Atom, (v: number[]) => boolean>()
 const testOf = (a: Atom, ctx: Ctx) => {
   let t = testCache.get(a)
   if (!t) {
-    t = atomTest(a, ctx.n, ctx.circular)
+    t = atomTest(a, ctx.n, ctx.circular, ctx.cols)
     testCache.set(a, t)
   }
   return t
@@ -330,7 +330,7 @@ export class Engine {
         return `${me} ${on} ${here} needs ${who} ${c.dirWord(partnerHigher)} ${here}, but ${who} can only be ${on} ${dom(other)}`
       }
       case 'set':
-        return atom.neg ? `${me} cannot be ${on} ${c.setDesc(atom.fs)}` : `${me} must be ${on} ${c.setDesc(atom.fs)}`
+        return atom.neg ? `${me} cannot be ${c.setPhrase(atom.fs)}` : `${me} must be ${c.setPhrase(atom.fs)}`
       case 'btw':
         if (ti === 0) return `${c.termLabel(terms[1])} and ${c.termLabel(terms[2])} cannot stand on opposite sides of ${here}`
         return `${me} ${on} ${here} leaves no way to put ${c.termLabel(terms[0])} between ${c.termLabel(terms[1])} and ${c.termLabel(terms[2])}`
@@ -494,7 +494,7 @@ export function failedClues(puzzle: Puzzle, sol: Solution): number[] {
       if (atom.t === 'link') {
         const same = personOf(atom.x) === personOf(atom.y) && personOf(atom.x) >= 0
         if (atom.neg ? same : !same) ok = false
-      } else if (!atomTest(atom, n, puzzle.axis === 'circle')(atomTerms(atom).map(posOf))) ok = false
+      } else if (!atomTest(atom, n, puzzle.axis === 'circle', puzzle.cols ?? 1)(atomTerms(atom).map(posOf))) ok = false
     }
     if (!ok) bad.push(clue.id)
   }

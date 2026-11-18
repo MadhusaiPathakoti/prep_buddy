@@ -9,7 +9,7 @@
 // with a bijection between every pair of categories. A clue is a list of atoms over "terms": a person, a value of
 // one category ("the person from Bhopal") or a fixed position.
 
-export type Axis = 'floor' | 'row' | 'order' | 'circle'
+export type Axis = 'floor' | 'row' | 'order' | 'circle' | 'grid'
 
 export type Term =
   | { k: 'p'; i: number } // person i
@@ -23,10 +23,14 @@ export type Atom =
   | { t: 'adj'; x: Term; y: Term; neg?: boolean } // neighbouring positions
   | { t: 'gap'; x: Term; y: Term; k: number; neg?: boolean } // exactly k positions strictly between x and y
   | { t: 'same'; x: Term; y: Term; z: Term; w: Term; neg?: boolean } // as many people between x and y as between z and w
+  // a building with several flats per floor: how x's flat compares with y's, floor-wise and flat-wise (gt = above / further east)
+  | { t: 'grid'; x: Term; y: Term; row?: GridRel; col?: GridRel; rowDiff?: number; neg?: boolean }
   | { t: 'btw'; x: Term; y: Term; z: Term; neg?: boolean } // x strictly between y and z (either way round)
   | { t: 'set'; x: Term; fs: number[]; neg?: boolean } // pos(x) is one of fs (or none of them when neg)
   // compound clues: "if a then b", "either a or b but not both", "either a or b"
   | { t: 'logic'; op: 'imp' | 'xor' | 'or'; a: Atom; b: Atom; neg?: boolean }
+
+export type GridRel = 'gt' | 'lt' | 'eq' | 'ne'
 
 export interface Clue {
   id: number // 1-based, in reading order
@@ -54,6 +58,9 @@ export interface Puzzle {
   on?: string
   /** axis 'order' only: how the text says it, singular ("was born") */
   verb?: string
+  /** axis 'grid' only: flats per floor, and their letters from west to east (positions are floor-major: index = floor * cols + flat) */
+  cols?: number
+  flats?: string[]
   /** axis 'circle' only: everyone faces the same way, so "to the right of" is always the next seat along; this says which way that is drawn */
   facing?: 'in' | 'out'
 }

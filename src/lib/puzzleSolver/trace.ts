@@ -148,7 +148,6 @@ export function makeBeats(evs: Ev[], ctx: Ctx, earlier: Set<number> = new Set())
     else groups.push([e])
   }
   const beats: Beat[] = []
-  const on = ctx.onWord
   for (const g of groups) {
     const fix = g.find((e) => e.op === 'fix')
     const xs = g.filter((e) => e.op === 'x')
@@ -188,7 +187,7 @@ export function makeBeats(evs: Ev[], ctx: Ctx, earlier: Set<number> = new Set())
     }
     for (const h of seen.values()) {
       if (h.target === 1) {
-        lines.push(`${entityLabel(ctx, h.ea, h.ei)} is not ${on} ${ctx.fmtPositions(h.tjs)} — ${h.text}`)
+        lines.push(`${entityLabel(ctx, h.ea, h.ei)} is not ${ctx.positionsPhrase(h.tjs)} — ${h.text}`)
       } else for (const c of h.cells) lines.push(`${ctx.notPair(c.a, c.i, c.b, c.j)} — ${h.text}`)
     }
     if (kind === 'clue') {
@@ -281,7 +280,7 @@ function summarise(ctx: Ctx, beats: Beat[], fixes: CellRef[], rows: RowChange[],
   const narrowed = rows
     .filter((r) => r.target === 1 && !r.fixed)
     .slice(0, 3)
-    .map((r) => `${entityLabel(ctx, r.ea, r.ei)} can now only be ${ctx.onWord} ${ctx.fmtMask(post.row(r.ea, r.ei, 1))}`)
+    .map((r) => `${entityLabel(ctx, r.ea, r.ei)} can now only be ${ctx.maskPhrase(post.row(r.ea, r.ei, 1))}`)
   if (narrowed.length) return narrowed.join('; ')
   const other = fixes.slice(0, 3).map((f) => ctx.pair(f.a, f.i, f.b, f.j))
   if (other.length) return other.join('; ')
@@ -446,8 +445,8 @@ export function buildTrace(puzzle: Puzzle): Trace {
           if (seen.has(key)) continue
           seen.add(key)
           const mask = e.grid.row(ctx.termCat(t), ctx.termIdx(t), 1)
-          if (pop(mask) === 1) out.push(`${ctx.termLabel(t)} is already known to be ${ctx.onWord} ${ctx.fmtMask(mask)}`)
-          else if (pop(mask) < ctx.n) out.push(`${ctx.termLabel(t)} can only be ${ctx.onWord} ${ctx.fmtMask(mask)}`)
+          if (pop(mask) === 1) out.push(`${ctx.termLabel(t)} is already known to be ${ctx.maskPhrase(mask)}`)
+          else if (pop(mask) < ctx.n) out.push(`${ctx.termLabel(t)} can only be ${ctx.maskPhrase(mask)}`)
         }
       }
     return out

@@ -153,13 +153,15 @@ export default function Board({ ctx, grid, beat, beatKey, mode, clash, onPick, p
 
   const catHeads = ['Person', ...p.cats.map((c) => c.name.replace(/^./, (m) => m.toUpperCase()))]
   const vertical = p.axis !== 'row'
+  const flatCols = ctx.cols
+  const floorRows = n / flatCols
   const labelCol = ctx.named ? '3rem' : '2.25rem'
   const unitHead = ctx.unit.replace(/^./, (m) => m.toUpperCase())
 
   return (
     <div className={['rounded-3xl p-3 shadow-sm ring-2 transition', clash ? 'animate-clash bg-rose-50 ring-rose-400 dark:bg-rose-500/10' : suppose ? 'bg-amber-50 ring-amber-300 dark:bg-amber-500/10 dark:ring-amber-500/50' : 'bg-white ring-slate-200 dark:bg-slate-800 dark:ring-slate-700'].join(' ')}>
       <div className="mb-2 flex items-center justify-between px-1 text-xs font-semibold uppercase tracking-wide text-slate-400 dark:text-slate-500">
-        <span>{p.axis === 'floor' ? 'The building' : p.axis === 'row' ? 'The row, left → right' : p.axis === 'circle' ? 'The round table' : `The ${ctx.unit}s, first → last`}</span>
+        <span>{p.axis === 'floor' || p.axis === 'grid' ? 'The building' : p.axis === 'row' ? 'The row, left → right' : p.axis === 'circle' ? 'The round table' : `The ${ctx.unit}s, first → last`}</span>
         {suppose ? (
           <span className="rounded-full bg-amber-400 px-2 py-0.5 text-[10px] font-bold text-slate-900">WHAT-IF · not the real answer</span>
         ) : (
@@ -168,7 +170,31 @@ export default function Board({ ctx, grid, beat, beatKey, mode, clash, onPick, p
       </div>
 
       {p.axis === 'circle' && <RoundTable ctx={ctx} grid={grid} beat={beat} />}
-      {vertical ? (
+      {p.axis === 'grid' ? (
+        <div role="table" aria-label="Who could live in which flat" className="space-y-1">
+          <div className="grid items-end gap-2 px-1 text-[10px] font-semibold uppercase tracking-wide text-slate-400 dark:text-slate-500" style={{ gridTemplateColumns: `2.25rem repeat(${flatCols}, minmax(0, 1fr))` }}>
+            <span>Floor</span>
+            {Array.from({ length: flatCols }, (_, c) => (
+              <span key={c}>
+                Flat {p.flats?.[c] ?? String.fromCharCode(65 + c)}
+                {c === 0 && flatCols > 1 ? ' (west)' : c === flatCols - 1 && flatCols > 1 ? ' (east)' : ''}
+              </span>
+            ))}
+          </div>
+          {Array.from({ length: floorRows }, (_, k) => floorRows - 1 - k).map((r) => (
+            <div key={r} role="row" className="grid items-stretch gap-2 rounded-xl bg-slate-50 px-1 py-0.5 dark:bg-slate-900/40" style={{ gridTemplateColumns: `2.25rem repeat(${flatCols}, minmax(0, 1fr))` }}>
+              <span className="self-center text-center text-base font-extrabold text-slate-400 dark:text-slate-500">{r + 1}</span>
+              {Array.from({ length: flatCols }, (_, c) => (
+                <div key={c} role="cell" className="space-y-1 rounded-lg bg-white/70 p-1 ring-1 ring-slate-200 dark:bg-slate-800/60 dark:ring-slate-700">
+                  {[0, ...p.cats.map((_, ci) => ci + 2)].map((cat) => (
+                    <div key={cat}>{cell(r * flatCols + c, cat)}</div>
+                  ))}
+                </div>
+              ))}
+            </div>
+          ))}
+        </div>
+      ) : vertical ? (
         <div role="table" aria-label={`Who could be at which ${ctx.unit}`} className="space-y-1">
           <div className="grid items-end gap-2 px-1 text-[10px] font-semibold uppercase tracking-wide text-slate-400 dark:text-slate-500" style={{ gridTemplateColumns: `${labelCol} repeat(${cols}, minmax(0, 1fr))` }}>
             <span>{unitHead}</span>
@@ -249,7 +275,7 @@ export function PeopleStrip({ ctx, grid, beat, beatKey, onPick, picked }: Pick<B
                       alive ? (placed ? 'bg-emerald-500 text-white' : 'bg-indigo-200 text-indigo-700 dark:bg-indigo-500/30 dark:text-indigo-200') : justOut ? 'bg-rose-400 text-white animate-pulse' : 'bg-slate-100 text-slate-300 dark:bg-slate-700/60 dark:text-slate-600',
                     ].join(' ')}
                   >
-                    {ctx.posNum(f)}
+                    {ctx.grid ? ctx.posShort(f) : ctx.posNum(f)}
                   </Tag>
                 )
               })}

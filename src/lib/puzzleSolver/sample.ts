@@ -93,6 +93,26 @@ Neither Olivia nor the person who is 41 years old is an immediate neighbour of t
 Walt is 32 years old.`,
   },
   {
+    id: 'flats-building',
+    title: 'Flats in a building',
+    text: `8 persons named A, I, O, U, E, L, R & Z live on a four
+storeyed building, such that the ground floor is
+numbered as 1, immediate above that is numbered
+as 2 and the top floor is numbered as 4. Each floor
+has 2 flats, which is Flat A and Flat B. Flat A of
+floor 2 is immediately above Flat A of floor 1 and
+immediately below Flat A of floor 3 and similarly
+in case of Flat B also. Flat A is to the west of Flat B.
+All the flats are of same size.
+R and Z are having flats on the same floor. U’s flat
+is to the south-east of E’s flat. O and A live on
+different lettered flats. L lives above R in the same
+type of flat. L and R live on even numbered floors.
+The floor number of O’s flat is more than the floor
+number of A’s flat. E lives in flat A but not on floor
+number 1. A’s flat is to the north-east of I’s flat.`,
+  },
+  {
     id: 'row-colours',
     title: 'A row & colours',
     text: `Six friends - A, B, C, D, E and F - sit in a row. Each of them likes a different colour - Red, Blue, Green, Yellow, Pink, Black.
