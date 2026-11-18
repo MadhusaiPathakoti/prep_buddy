@@ -89,9 +89,27 @@ export interface QuantQuestion {
   addedBy: string | null
 }
 
+/**
+ * One short row per question: everything the table needs to filter and list, without the question text,
+ * options or solution (those load only for the topic being played).
+ */
+export interface QuestionIndexEntry {
+  id: string
+  topic: BankTopicId
+  difficulty: Difficulty
+  examName: string
+  examType: ExamType
+  year: number | null
+  source: QuestionSource
+  trust: QuestionTrust
+  /** The first line or so of the question, for the table. */
+  preview: string
+}
+
 /** Where the generated questions are served from (one file per topic, built by `npm run build:qbank`). */
 export const SEED_BASE_URL = '/qbank/seed'
 export const SEED_MANIFEST_URL = '/qbank/manifest.json'
+export const SEED_INDEX_URL = '/qbank/index.json'
 
 export interface SeedManifest {
   version: number

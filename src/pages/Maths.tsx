@@ -15,6 +15,20 @@ export default function Maths() {
         </p>
       </div>
 
+      <Link
+        to="/quant/bank"
+        className="group mb-10 flex items-center gap-4 rounded-3xl bg-indigo-600 p-6 text-white shadow-sm transition hover:-translate-y-0.5 hover:bg-indigo-700 hover:shadow-md"
+      >
+        <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-white/15 text-2xl">📚</div>
+        <div className="min-w-0 flex-1">
+          <h2 className="text-xl font-bold">Quant Question Bank</h2>
+          <p className="mt-1 text-sm text-indigo-100">
+            Thousands of SBI/IBPS-style questions you can filter by topic, difficulty and exam. Every answer comes with a step-by-step solution and the exam shortcut.
+          </p>
+        </div>
+        <span className="shrink-0 text-sm font-semibold transition group-hover:translate-x-0.5">Browse →</span>
+      </Link>
+
       {MATH_SECTIONS.map((section) => (
         <section key={section.id} className="mb-10">
           <h2 className="text-xl font-bold text-slate-900 dark:text-slate-100">{section.title}</h2>

@@ -5,6 +5,7 @@
 //
 // Writes:  public/qbank/seed/<topic>.json   one file per topic, an array of QuantQuestion
 //          public/qbank/manifest.json       counts, so the app can show totals without loading every file
+//          public/qbank/index.json          one short row per question (tags + a preview line), so the table can filter without loading any question text
 // Run:     npm run build:qbank [perSet]     perSet = questions per (generator, difficulty); default 90, fewer for topics whose templates run out
 
 import { mkdirSync, rmSync, writeFileSync } from 'node:fs'
@@ -16,7 +17,7 @@ import { createRng } from '../src/lib/mocks/rng'
 import type { MockDifficulty, TopicGenerator } from '../src/lib/mocks/types'
 import { validateDraft } from '../src/lib/mocks/validate'
 import { BANK_TOPIC_IDS, GENERATED_EXAM_NAME, isBankTopic } from '../src/lib/qbank/types'
-import type { BankTopicId, ExamType, QuantQuestion, SeedManifest } from '../src/lib/qbank/types'
+import type { BankTopicId, ExamType, QuantQuestion, QuestionIndexEntry, SeedManifest } from '../src/lib/qbank/types'
 import type { Difficulty } from '../src/lib/types'
 
 const PER_SET = Number(process.argv[2] ?? 90)
@@ -130,10 +131,23 @@ for (const topic of BANK_TOPIC_IDS) {
   }
 }
 
+/** One line for the question table: the stem on a single line, without a leading instruction line such as "…in the following question?" or "…give answer:". */
+function previewOf(stem: string): string {
+  let lines = stem.split('\n').map((l) => l.trim()).filter(Boolean)
+  if (lines.length > 1 && /[:?.]$/.test(lines[0]) && !/\d/.test(lines[0])) lines = lines.slice(1)
+  const flat = lines.join('  ·  ')
+  return flat.length > 110 ? `${flat.slice(0, 107).trimEnd()}…` : flat
+}
+
+// Generation runs medium, then hard, then mains-style, so mix each topic in a fixed order: "next question" should
+// not mean ninety easy ones followed by ninety hard ones.
+for (const [topic, list] of byTopic) byTopic.set(topic, createRng(seedOf(`qbank:order:${topic}`)).shuffle(list))
+
 rmSync(join(OUT_DIR, 'seed'), { recursive: true, force: true })
 mkdirSync(join(OUT_DIR, 'seed'), { recursive: true })
 
 const manifest: SeedManifest = { version: 1, total: 0, topics: {} }
+const index: QuestionIndexEntry[] = []
 for (const topic of BANK_TOPIC_IDS) {
   const list = byTopic.get(topic)
   if (!list?.length) continue
@@ -142,7 +156,11 @@ for (const topic of BANK_TOPIC_IDS) {
   for (const q of list) byDifficulty[q.difficulty]++
   manifest.topics[topic] = { count: list.length, byDifficulty }
   manifest.total += list.length
+  for (const q of list) {
+    index.push({ id: q.id, topic: q.topic, difficulty: q.difficulty, examName: q.examName, examType: q.examType, year: q.year, source: q.source, trust: q.trust, preview: previewOf(q.stem) })
+  }
 }
+writeFileSync(join(OUT_DIR, 'index.json'), JSON.stringify(index))
 writeFileSync(join(OUT_DIR, 'manifest.json'), JSON.stringify(manifest, null, 1) + '\n')
 
 console.log(`questions: ${manifest.total} across ${Object.keys(manifest.topics).length} topics (${PER_SET} per generator and difficulty)`)
