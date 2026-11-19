@@ -1,9 +1,11 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Link, useNavigate, useParams, useSearchParams } from 'react-router-dom'
+import DeleteQuestion from '../../components/qbank/DeleteQuestion'
 import { DifficultyBadge, StarButton, TagChip } from '../../components/qbank/QuestionBadges'
+import { useAuth } from '../../lib/authContext'
 import { applyFilters, filtersToParams, parseFilters } from '../../lib/qbank/filters'
 import { parseSolution } from '../../lib/qbank/solution'
-import { loadIndex, loadQuestion, preloadQuestionData } from '../../lib/qbank/store'
+import { forgetQuestion, loadIndex, loadQuestion, preloadQuestionData } from '../../lib/qbank/store'
 import { shortcutsFor } from '../../lib/qbank/topicTips'
 import { bankTopicLabel, DEFAULT_EXAM_NAME } from '../../lib/qbank/types'
 import type { QuantQuestion, QuestionIndexEntry } from '../../lib/qbank/types'
@@ -21,10 +23,12 @@ interface CardProps {
   onPrev: (() => void) | null
   onNext: (() => void) | null
   backTo: string
+  /** Set when this question was added by a student and someone is signed in: shows "Delete this question". */
+  onDeleted: (() => void) | null
 }
 
 /** One question: choose an option and the result, the step-by-step solution and the shortcut appear at once. */
-function QuestionCard({ question, number, isFavourite, onToggleFavourite, onAnswered, position, onPrev, onNext, backTo }: CardProps) {
+function QuestionCard({ question, number, isFavourite, onToggleFavourite, onAnswered, position, onPrev, onNext, backTo, onDeleted }: CardProps) {
   const [chosen, setChosen] = useState<number | null>(null)
   const answered = chosen !== null
   const correct = chosen === question.answer
@@ -186,6 +190,8 @@ function QuestionCard({ question, number, isFavourite, onToggleFavourite, onAnsw
           )}
         </div>
       </div>
+
+      {onDeleted && <DeleteQuestion questionId={question.id} onDeleted={onDeleted} />}
     </div>
   )
 }
@@ -202,6 +208,7 @@ export default function QuestionPlay() {
     return qs ? `?${qs}` : ''
   }, [filters])
 
+  const { user } = useAuth()
   const [index, setIndex] = useState<QuestionIndexEntry[] | null>(null)
   const [indexFailed, setIndexFailed] = useState(false)
   const [attempt, setAttempt] = useState(0)
@@ -320,6 +327,14 @@ export default function QuestionPlay() {
         onPrev={go(prevEntry)}
         onNext={go(nextEntry)}
         backTo={backTo}
+        onDeleted={
+          user && current.question.source === 'user'
+            ? () => {
+                forgetQuestion(current.question!.id)
+                navigate(backTo)
+              }
+            : null
+        }
       />
     )
   }

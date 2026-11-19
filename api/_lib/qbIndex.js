@@ -69,3 +69,8 @@ export async function loadUserLookup() {
 export async function putIndexEntry(entry) {
   await redisPipeline([['HSET', INDEX_KEY, entry.id, JSON.stringify(entry)]])
 }
+
+/** Takes a question out of the list (nothing happens if it is not there). */
+export async function removeIndexEntry(id) {
+  await redisPipeline([['HDEL', INDEX_KEY, id]])
+}

@@ -134,6 +134,23 @@ export function preloadQuestionData(entry: Pick<QuestionIndexEntry, 'id' | 'topi
   else loadTopic(entry.topic).catch(() => {})
 }
 
+/** Takes a deleted question out of the loaded list and the question cache; the list is fetched fresh for a few minutes. */
+export function forgetQuestion(id: string): void {
+  addedLoads.delete(id)
+  try {
+    localStorage.setItem(ADDED_AT_KEY, String(Date.now()))
+  } catch {
+    /* ignore */
+  }
+  if (indexLoad) {
+    const without = indexLoad.then((list) => list.filter((e) => e.id !== id))
+    indexLoad = without
+    without.catch(() => {
+      indexLoad = null
+    })
+  }
+}
+
 /** Puts a question this person has just added into the loaded list and the question cache, so it can be opened straight away. */
 export function rememberAddedQuestion(entry: QuestionIndexEntry, question: QuantQuestion): void {
   addedLoads.set(question.id, Promise.resolve(question))

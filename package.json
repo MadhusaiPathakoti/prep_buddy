@@ -19,7 +19,8 @@
     "verify:quadratic": "tsx scripts/verify-quadratic.ts",
     "verify:puzzle": "tsx scripts/verify-puzzle-solver.ts",
     "verify:syllogism": "tsx scripts/verify-syllogism-solver.ts",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "verify:qbank-delete": "tsx scripts/verify-qb-delete.ts"
   },
   "dependencies": {
     "firebase": "^12.19.0",

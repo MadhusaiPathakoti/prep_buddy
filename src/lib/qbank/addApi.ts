@@ -51,7 +51,7 @@ async function authHeaders(): Promise<Record<string, string> | null> {
   return token ? { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' } : null
 }
 
-async function postJson(action: string, body: unknown, timeoutMs: number): Promise<{ status: number; data: Record<string, unknown> | null }> {
+export async function postJson(action: string, body: unknown, timeoutMs: number): Promise<{ status: number; data: Record<string, unknown> | null }> {
   const headers = await authHeaders()
   if (!headers) return { status: 401, data: { code: 'sign-in', message: 'Please sign in to add a question.' } }
   const controller = new AbortController()

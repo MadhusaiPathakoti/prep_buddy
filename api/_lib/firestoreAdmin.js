@@ -87,6 +87,19 @@ export async function createDoc(collection, id, data) {
   throw new Error(`Firestore create failed (${res.status})`)
 }
 
+/** Deletes a document. Returns 'deleted' (a missing document counts: the result is the same). Anything else is an error. */
+export async function deleteDoc(collection, id) {
+  const res = await request(`${BASE}/${collection}/${encodeURIComponent(id)}`, { method: 'DELETE' })
+  if (res.ok || res.status === 404) return 'deleted'
+  throw new Error(`Firestore delete failed (${res.status})`)
+}
+
+/** A secret only this server knows (derived from the service-account key), for signing short-lived tokens. Null when not configured. */
+export function serverSecret() {
+  const key = serviceAccount()?.private_key
+  return key ? `qb-server-secret-v1|${key}` : null
+}
+
 /** Reads one document as a plain object, or null when it does not exist. */
 export async function getDoc(collection, id) {
   const res = await request(`${BASE}/${collection}/${encodeURIComponent(id)}`, { method: 'GET' })
