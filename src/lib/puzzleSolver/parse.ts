@@ -27,6 +27,8 @@ export interface ParseSummary {
   cornersIn?: boolean
   /** no seating or order at all: people are only matched with attributes */
   unordered?: boolean
+  /** more dates than people: every date of every month, in order (the unused ones stay vacant) */
+  dates?: string[]
 }
 
 export interface ParseResult {
@@ -180,7 +182,7 @@ interface Lexicon {
   /** axis 'tworow': people per row */
   rowLen?: number
   /** axis 'order' made of (month, date) slots: the months in calendar order and the dates; slot = month * dates + date */
-  birth?: { months: string[]; dates: number[] }
+  birth?: { months: string[]; dates: number[]; slotMode?: boolean }
   /** people face north or south: index (within the categories) of the 'direction' category */
   dirCat?: number
   /** a table with corners and sides: even seats are corners, odd seats the middles of the sides */
@@ -341,6 +343,13 @@ const DAYS_IN: Record<string, number> = { january: 31, february: 28, march: 31, 
 
 /** "in the month of January", "in the month having 31 days", "on the 16th": the (month, date) slots a clue allows */
 function birthCells(sIn: string, lex: Lexicon): number[] | 'bad' | null {
+  // "neither in October nor on the 16th": the slots of either part
+  if (/\bneither\b/.test(sIn) && /\bnor\b/.test(sIn)) {
+    const parts = sIn.replace(/\bneither\b/g, ' ').split(/\bnor\b/)
+    const sets = parts.map((part) => birthCells(part, lex))
+    if (sets.some((x) => x === 'bad' || x === null)) return 'bad'
+    return [...new Set((sets as number[][]).flat())].sort((a, b) => a - b)
+  }
   const { months, dates } = lex.birth as { months: string[]; dates: number[] }
   let s = sIn.replace(/@\d+/g, ' ')
   const rows = new Set<number>()
@@ -361,6 +370,15 @@ function birthCells(sIn: string, lex: Lexicon): number[] | 'bad' | null {
     hit.forEach((r) => rows.add(r))
     s = s.replace(days[0], ' ')
   }
+  // "an even-numbered date": the date numbers 16, 20, … (not the position in the list)
+  const parity = s.match(/\b(odd|even)\s*(?:numbered\s+)?(?:dates?|days?)\b/)
+  if (parity) {
+    dates.forEach((d, c) => {
+      if (d % 2 === (parity[1] === 'odd' ? 1 : 0)) cols.add(c)
+    })
+    if (!cols.size) return 'bad'
+    s = s.replace(parity[0], ' ')
+  }
   for (const m of s.matchAll(/#?(\d+)/g)) {
     const c = dates.indexOf(Number(m[1]))
     if (c < 0) return 'bad'
@@ -373,6 +391,9 @@ function birthCells(sIn: string, lex: Lexicon): number[] | 'bad' | null {
 }
 
 /** Birthdays on a few dates of a few months: "same month", "same date but different months", "born before B on the 16th" */
+/** with vacant dates a clue about a month or a date is about the person's date slot, not about their place in the order */
+const onSlot = (lex: Lexicon): { on?: 'slot' } => (lex.birth?.slotMode ? { on: 'slot' } : {})
+
 function interpretBirth(s: string, ments: Term[], lex: Lexicon): Atom[] | null {
   const M = (k: string): Term => ments[Number(k)]
   const ids = s.match(/@\d+/g) ?? []
@@ -382,7 +403,7 @@ function interpretBirth(s: string, ments: Term[], lex: Lexicon): Atom[] | null {
     const col = /\bsame (?:date|day)\b/.test(s) ? 'eq' : /\bdifferent (?:dates?|days?)\b/.test(s) ? 'ne' : undefined
     if (row || col) {
       if (neg && row && col) return null
-      return [{ t: 'grid', x: M(ids[0].slice(1)), y: M(ids[1].slice(1)), row, col, neg }]
+      return [{ t: 'grid', x: M(ids[0].slice(1)), y: M(ids[1].slice(1)), row, col, neg, ...onSlot(lex) }]
     }
   }
   // "D was born before B on the 16th of a month": both people were born on that date (D in an earlier month than B)
@@ -391,7 +412,7 @@ function interpretBirth(s: string, ments: Term[], lex: Lexicon): Atom[] | null {
     const head = interpretClause(tail[1], ments, lex)
     const cells = birthCells(`#${tail[2]}`, lex)
     const named = [...new Set((tail[1].match(/@\d+/g) ?? []).map((t) => t.slice(1)))]
-    if (head && cells && cells !== 'bad') return [...head, ...named.map((k) => ({ t: 'set', x: M(k), fs: cells }) as Atom)]
+    if (head && cells && cells !== 'bad') return [...head, ...named.map((k) => ({ t: 'set', x: M(k), fs: cells, ...onSlot(lex) }) as Atom)]
   }
   return null
 }
@@ -551,6 +572,16 @@ function interpretClauseRaw(s: string, ments: Term[], lex: Lexicon): Atom[] | nu
   if (m && lex.square) return [{ t: 'opp', x: M(m[1]), y: M(m[2]), neg }]
   if (m) return lex.axis === 'circle' ? [{ t: 'diff', x: M(m[1]), y: M(m[2]), d: lex.n / 2, neg }] : lex.axis === 'tworow' ? [{ t: 'opp', x: M(m[1]), y: M(m[2]), neg }] : null
 
+  // "more than one person between x and y", "at most two people between …": any gap that fits the bound
+  m = s.match(new RegExp(`((?:not\\s+)?(?:more|less|fewer)\\s+than|at\\s+(?:most|least))\\s+(\\d+)\\s+${COUNT_NOUN}\\s+(?:[a-z]+\\s+){0,3}?(?:in\\s+)?between\\s+${ENT}\\s+and\\s+${ENT}`))
+  if (m && lex.axis !== 'circle') {
+    const k = Number(m[2])
+    const phrase = m[1].replace(/\\s+/g, ' ')
+    const ok = (c: number) => (/^not more than|^at most/.test(phrase) ? c <= k : /^not (?:less|fewer) than|^at least/.test(phrase) ? c >= k : /^more than/.test(phrase) ? c > k : c < k)
+    const gaps = Array.from({ length: Math.max(0, lex.n - 1) }, (_, c) => c).filter(ok)
+    if (gaps.length) return [{ t: 'gap', x: M(m[3]), y: M(m[4]), k: gaps[0], hi: gaps[gaps.length - 1] }]
+  }
+
   // exactly k people between x and y
   m = s.match(new RegExp(`(?:(?:exactly|only)\\s+)?(?:there (?:are|is)\\s+)?(?:(?:exactly|only)\\s+)?(\\d+|no)\\s+${COUNT_NOUN}\\s+(?:[a-z]+\\s+){0,3}?(?:exactly\\s+)?(?:in\\s+)?between\\s+${ENT}\\s+and\\s+${ENT}`))
   if (m) return [{ t: 'gap', x: M(m[2]), y: M(m[3]), k: m[1] === 'no' ? 0 : Number(m[1]), neg }]
@@ -633,7 +664,7 @@ function interpretClauseRaw(s: string, ments: Term[], lex: Lexicon): Atom[] | nu
       const fs = positionSet(s, lex)
       if (fs && fs !== 'bad' && fs.length) {
         const no = neg || /\bneither\b/.test(s) ? true : undefined
-        return who.map((x) => ({ t: 'set', x, fs, neg: no }) as Atom)
+        return who.map((x) => ({ t: 'set', x, fs, neg: no, ...onSlot(lex) }) as Atom)
       }
     }
   }
@@ -656,7 +687,7 @@ function interpretClauseRaw(s: string, ments: Term[], lex: Lexicon): Atom[] | nu
     const x = M((s.match(/@(\d+)/) as RegExpMatchArray)[1])
     const fs = positionSet(s, lex)
     if (fs === 'bad') return null
-    if (fs && fs.length) return [{ t: 'set', x, fs, neg: neg || (/\bneither\b/.test(s) ? true : undefined) }]
+    if (fs && fs.length) return [{ t: 'set', x, fs, neg: neg || (/\bneither\b/.test(s) ? true : undefined), ...onSlot(lex) }]
     return null
   }
 
@@ -936,7 +967,7 @@ function parseClueText(sentence: string, lex: Lexicon): Atom[] | null {
       if (a1 && a2) return [...atoms, ...a1, ...a2]
     }
     // "A lives immediately below B and is from Delhi": the second half starts with a verb, so it is a second statement about A
-    const verbSplit = s.split(/\s+and\s+(?=(?:is|are|lives?|stays?|sits?|stands?|likes?|has|have|works?|comes?|belongs?|placed|kept|situated|located|immediately|below|above|somewhere|next|adjacent|between|not|in|on|at|to)\b)/)
+    const verbSplit = s.split(/\s+and\s+(?=(?:is|are|lives?|stays?|sits?|stands?|likes?|has|have|works?|comes?|belongs?|placed|kept|situated|located|immediately|below|above|somewhere|next|adjacent|between|not|in|on|at|to|(?:more|less|fewer) than|at (?:least|most)|(?:exactly|only) \d+)\b)/)
     if (verbSplit.length === 2) {
       const subject = verbSplit[0].match(/@\d+/)?.[0]
       const a1 = interpretClause(verbSplit[0], ments, lex)
@@ -978,12 +1009,14 @@ interface OrderInfo {
 
 /** "from May to December", "Monday to Friday" (wrapping round the year / week is allowed) */
 /** "birthdays in January, April, May and September on two different dates, 11th and 16th": months × dates slots in calendar order */
-function birthdayGrid(header: string, n: number): { labels: string[]; months: string[]; dates: number[] } | null {
+function birthdayGrid(header: string, n: number): { labels: string[]; months: string[]; dates: number[]; slots: number } | null {
   const monthRe = new RegExp(`\\b(${MONTHS.join('|')})\\b`, 'gi')
   const months = [...new Set([...header.matchAll(monthRe)].map((m) => MONTHS.find((x) => x.toLowerCase() === m[1].toLowerCase()) as string))].sort((a, b) => MONTHS.indexOf(a) - MONTHS.indexOf(b))
   const dates = [...new Set([...header.matchAll(/\b(\d{1,2})(?:st|nd|rd|th)\b/g)].map((m) => Number(m[1])))].sort((a, b) => a - b)
-  if (months.length < 2 || dates.length < 2 || months.length * dates.length !== n) return null
-  return { labels: months.flatMap((mo) => dates.map((d) => `${mo} ${d}`)), months, dates }
+  const slots = months.length * dates.length
+  // as many people as dates, or fewer when the text is about dates (the spare ones stay vacant)
+  if (slots === n ? months.length < 2 || dates.length < 2 : months.length < 1 || dates.length < 1 || slots < n || slots > 16 || !/\b(?:dates?|days?)\b/i.test(header)) return null
+  return { labels: months.flatMap((mo) => dates.map((d) => `${mo} ${d}`)), months, dates, slots }
 }
 
 function orderFromRange(text: string, n: number): OrderInfo | { error: string } | null {
@@ -1012,7 +1045,7 @@ function orderFromList(values: string[]): OrderInfo | null {
 
 /** statements that only restate the setup ("Each person was born in one month only.") — nothing to solve, so nothing to warn about */
 const isFiller = (s: string): boolean =>
-  /^each corner\b/i.test(s) || /^the distance between\b/i.test(s) || /^the (?:persons?|people),? who (?:sit|sits|are sitting) at the (?:side|corner)s?\b/i.test(s) || /^\w+\s+(?:people|persons)\s+(?:are\s+)?sitting\s+at\s+the\s+corners\b/i.test(s) || /^no seat is\b/i.test(s) || /^(?:the\s+)?(?:people|persons)\s+(?:sitting|seated)\s+(?:at|on)\s+the\s+corners\b/i.test(s) ||
+  /^each corner\b/i.test(s) || /^(?:one|two|three|four|only|exactly|no|any)\b[^.]*\b(?:dates?|days?)\b[^.]*\b(?:vacant|empty|free|unoccupied)\b/i.test(s) || /^(?:each|every)\s+(?:day|date)\b[^.]*\bonly one\b/i.test(s) || /^the distance between\b/i.test(s) || /^the (?:persons?|people),? who (?:sit|sits|are sitting) at the (?:side|corner)s?\b/i.test(s) || /^\w+\s+(?:people|persons)\s+(?:are\s+)?sitting\s+at\s+the\s+corners\b/i.test(s) || /^no seat is\b/i.test(s) || /^(?:the\s+)?(?:people|persons)\s+(?:sitting|seated)\s+(?:at|on)\s+the\s+corners\b/i.test(s) ||
   /^some of them (?:are )?facing\b/i.test(s) || /^each of them (?:likes?|has|have|owns?|plays?|drinks?|eats?|prefers?)\s+(?:one|a|an)\s+[a-z]+\s*\.?$/i.test(s) ||
   /^(?:not more than|at most|only) one (?:person|box|friend|student)\b[^.]*\bsame\b/i.test(s) || /^(?:each|every)\s+(?:person|one|of them|friend|student)\b[^.]*\b(?:only|exactly one)\b/i.test(s) || /^no\s+two\b/i.test(s) || /\bwith respect to\b[^.]*\bfacing\b/i.test(s) || /^\(?\s*left and right\b/i.test(s) || /^\(?\s*(?:the\s+)?(?:bottommost|lowermost|lowest|ground|topmost|position 1)\b[^.]*\b(?:numbered|is the bottom)\b/i.test(s)
 
@@ -1176,7 +1209,8 @@ export function parsePuzzle(raw: string): ParseResult {
     const said = NUM[countWord[1].toLowerCase()] ?? Number(countWord[1])
     if (said !== n) result.warnings.push(`The text says ${said} people but ${n} names are listed — using the ${n} names.`)
   }
-  const floorCount = building ? null : header.match(/\b(one|two|three|four|five|six|seven|eight|nine|ten|\d+)\s+(?:different\s+)?(floors|storeys|seats|positions|months|days|weeks|years)\b/i)
+  const bday = birthdayGrid(header, n)
+  const floorCount = building || bday ? null : header.match(/\b(one|two|three|four|five|six|seven|eight|nine|ten|\d+)\s+(?:different\s+)?(floors|storeys|seats|positions|months|days|weeks|years)\b/i)
   if (floorCount) {
     const said = NUM[floorCount[1].toLowerCase()] ?? Number(floorCount[1])
     if (said !== n) {
@@ -1224,8 +1258,7 @@ export function parsePuzzle(raw: string): ParseResult {
 
   // named order (months, weekdays) from a range in the header: "from May to December"
   let order: OrderInfo | null = null
-  const bday = birthdayGrid(header, n)
-  if (bday) order = { labels: bday.labels, unit: 'date', on: 'on' }
+  if (bday) order = bday.slots === n ? { labels: bday.labels, unit: 'date', on: 'on' } : { unit: 'place', on: 'in' }
   const range = bday ? null : (orderFromRange(header, n) ?? orderFromRange(text, n))
   if (range && 'error' in range) {
     result.errors.push(range.error)
@@ -1315,6 +1348,13 @@ export function parsePuzzle(raw: string): ParseResult {
       result.warnings.push(`I could not tell which ${kw[1].toLowerCase()} (for example "from May to December"), so they are numbered 1 to ${n}; clues that name one will not be understood.`)
     }
   }
+  // more dates than people: every person has one date, in date order, and some dates stay vacant
+  let slotCat: number | undefined
+  if (bday && bday.slots > n && !result.errors.length) {
+    cats.push({ name: 'date', values: bday.labels })
+    slotCat = cats.length - 1
+    result.warnings.push(`There are ${bday.slots} dates for ${n} people, so ${bday.slots - n} date${bday.slots - n === 1 ? ' stays' : 's stay'} vacant. The people are taken in date order: "after", "immediately after" and "between" count people, not empty dates.`)
+  }
   const axis: Axis = building ? 'grid' : circle ? 'circle' : tworow ? 'tworow' : order ? 'order' : axisGuess
   const rowLen = axis === 'tworow' ? n / 2 : undefined
   const topDown = axis === 'floor' && topDownText
@@ -1323,12 +1363,12 @@ export function parsePuzzle(raw: string): ParseResult {
   if (new Set(allValues).size !== allValues.length) result.warnings.push('Some values appear in more than one category, which can confuse clue reading.')
   for (const v of allValues) if (people.some((p) => p.toLowerCase() === v)) result.warnings.push(`"${v}" is both a person and a value.`)
 
-  const lex = buildLexicon(people, cats, axis, topDown, order?.labels, building ? { cols: building.cols, flats: building.flats } : undefined, rowLen)
+  const lex = buildLexicon(people, slotCat !== undefined ? cats.slice(0, -1) : cats, axis, topDown, order?.labels, building ? { cols: building.cols, flats: building.flats } : undefined, rowLen)
   lex.dirCat = dirCat
   lex.square = square
   lex.cornersIn = cornersIn
   if (bday) {
-    lex.birth = { months: bday.months, dates: bday.dates }
+    lex.birth = { months: bday.months, dates: bday.dates, slotMode: slotCat !== undefined }
     lex.labels = undefined
     lex.posRe = null
   }
@@ -1357,12 +1397,12 @@ export function parsePuzzle(raw: string): ParseResult {
     result.errors.push('I could not read any clues from the text.')
     return result
   }
-  const verbWord = header.match(/\b(?:were|are)\s+(born|seated|arranged|placed|ranked|appointed|promoted|admitted|selected|posted|scheduled|joined)\b/i)
+  const verbWord = header.match(/\b(?:were|are)\s+(?:getting\s+)?(born|seated|arranged|placed|ranked|appointed|promoted|admitted|selected|posted|scheduled|joined|divorced|married|engaged|interviewed|vaccinated|examined|tested|released|launched)\b/i)
   const lifeVerb = header.match(/\b(live|stay|work|study|reside)s?\b/i)
   const unorderedVerb = lifeVerb ? (lifeVerb[1].toLowerCase() === 'study' ? 'studies' : `${lifeVerb[1].toLowerCase()}s`) : undefined
-  const extra = order ? { labels: order.labels, unit: order.unit, on: order.on, verb: verbWord ? `was ${verbWord[1].toLowerCase()}` : bday ? 'was born' : unordered ? unorderedVerb : undefined, ...(bday ? { cols: bday.dates.length } : {}), ...(unordered ? { unordered: true } : {}) } : {}
+  const extra = order ? { labels: order.labels, unit: order.unit, on: order.on, verb: slotCat !== undefined ? undefined : verbWord ? `was ${verbWord[1].toLowerCase()}` : bday ? 'was born' : unordered ? unorderedVerb : undefined, ...(bday ? { cols: bday.dates.length } : {}), ...(unordered ? { unordered: true } : {}) } : {}
   const stack = boxes && axis === 'floor' ? { noun: 'box', place: 'place' } : boxes ? { noun: 'box' } : {}
-  result.summary = { people, axis, topDown, cats, labels: order?.labels, unit: order?.unit, facing, cols: building?.cols, flats: building?.flats, rowLen, unordered: unordered || undefined, mixed: dirCat !== undefined || undefined, square: square || undefined, shape: shape?.name, cornersIn: square ? cornersIn : undefined, ...stack }
-  result.puzzle = { n, axis, topDown, people, cats, clues, ...extra, ...(dirCat !== undefined ? { dirCat } : {}), ...(circle ? { facing } : {}), ...(square ? { square: true, shape: shape?.name, cornersIn } : {}), ...(building ? { cols: building.cols, flats: building.flats } : {}), ...(rowLen ? { rowLen } : {}), ...stack }
+  result.summary = { people, axis, topDown, cats, labels: order?.labels, unit: order?.unit, facing, cols: building?.cols, flats: building?.flats, rowLen, unordered: unordered || undefined, dates: slotCat !== undefined && bday ? bday.labels : undefined, mixed: dirCat !== undefined || undefined, square: square || undefined, shape: shape?.name, cornersIn: square ? cornersIn : undefined, ...stack }
+  result.puzzle = { n, axis, topDown, people, cats, clues, ...extra, ...(dirCat !== undefined ? { dirCat } : {}), ...(slotCat !== undefined ? { slotCat } : {}), ...(circle ? { facing } : {}), ...(square ? { square: true, shape: shape?.name, cornersIn } : {}), ...(building ? { cols: building.cols, flats: building.flats } : {}), ...(rowLen ? { rowLen } : {}), ...stack }
   return result
 }

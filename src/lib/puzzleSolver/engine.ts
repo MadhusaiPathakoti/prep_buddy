@@ -145,7 +145,7 @@ export class Engine {
     if (this.contra) return
     const c = this.ctx
     if (this.grid.row(a, i, b) === 0) this.setContra(b === 0 ? `Nobody is left for ${c.lab(a, i)}` : `${c.lab(a, i)} has no ${c.catName(b)} left`, why.clue)
-    else if (this.grid.row(b, j, a) === 0 && !c.isDir(b)) this.setContra(a === 0 ? `Nobody is left for ${c.lab(b, j)}` : `${c.lab(b, j)} has no ${c.catName(a)} left`, why.clue)
+    else if (this.grid.row(b, j, a) === 0 && !c.isLoose(b)) this.setContra(a === 0 ? `Nobody is left for ${c.lab(b, j)}` : `${c.lab(b, j)} has no ${c.catName(a)} left`, why.clue)
   }
 
   /** Records that (a,i) and (b,j) belong together and crosses out every competing candidate in both directions. */
@@ -251,7 +251,7 @@ export class Engine {
   }
 
   private dom(t: VarTerm | DirTerm): number {
-    if (t.k === 'd') return this.grid.row(this.ctx.termCat(t.of), this.ctx.termIdx(t.of), this.ctx.dirK)
+    if (t.k === 'd') return this.grid.row(this.ctx.termCat(t.of), this.ctx.termIdx(t.of), t.slot ? this.ctx.slotK : this.ctx.dirK)
     if (t.k === 'f') return 1 << t.f
     return this.grid.row(this.ctx.termCat(t), this.ctx.termIdx(t), 1)
   }
@@ -292,7 +292,7 @@ export class Engine {
         grouped = true
       }
       for (const f of bits(rem)) {
-        const [ca, ia, cb] = t.k === 'd' ? [c.termCat(t.of), c.termIdx(t.of), c.dirK] : [c.termCat(t), c.termIdx(t), 1]
+        const [ca, ia, cb] = t.k === 'd' ? [c.termCat(t.of), c.termIdx(t.of), t.slot ? c.slotK : c.dirK] : [c.termCat(t), c.termIdx(t), 1]
         this.clear(ca, ia, cb, f, { kind: 'clue', clue, text: this.quiet ? '' : this.reason(atom, ti, f, terms, doms) })
         if (this.contra) return
       }
@@ -303,7 +303,7 @@ export class Engine {
   private reason(atom: Atom, ti: number, f: number, terms: (VarTerm | DirTerm)[], doms: number[]): string {
     const c = this.ctx
     const t0 = terms[ti]
-    if (t0.k === 'd') return `${c.termLabel(t0.of)} facing ${c.lab(c.dirK, f)} would break the clue (${c.describeAtom(atom)})`
+    if (t0.k === 'd') return t0.slot ? `${c.termLabel(t0.of)} on ${c.lab(c.slotK, f)} would break the clue (${c.describeAtom(atom)})` : `${c.termLabel(t0.of)} facing ${c.lab(c.dirK, f)} would break the clue (${c.describeAtom(atom)})`
     if (terms.some((t) => t.k === 'd')) return `${c.termLabel(t0)} ${c.onWord} ${c.posLab(f)} would break the clue (${c.describeAtom(atom)})`
     const n = c.n
     const me = c.termLabel(terms[ti] as VarTerm)
@@ -336,6 +336,7 @@ export class Engine {
       case 'adj':
         return needAt([f - 1, f + 1], 'next to it')
       case 'gap':
+        if (atom.hi !== undefined && atom.hi !== atom.k) return generic()
         return needAt([f - atom.k - 1, f + atom.k + 1], `${atom.k} ${atom.k === 1 ? c.noun : c.nouns} in between`)
       case 'rank': {
         const partnerHigher = (atom.hi && ti === 1) || (!atom.hi && ti === 0)
@@ -376,7 +377,7 @@ export class Engine {
             }
           }
         }
-        if (c.isDir(b)) continue // many people may face the same way: only the people ↔ direction rows above apply
+        if (c.isLoose(b)) continue // many people may face the same way / some dates stay vacant: only the rows above apply
         for (let j = 0; j < n; j++) {
           const col = this.grid.row(b, j, a)
           if (col === 0) {
@@ -431,6 +432,47 @@ export class Engine {
         }
   }
 
+  /**
+   * Dates with vacancies: the people are in date order, so the date of the 1st person is earlier than the 2nd's, and so on.
+   * Every person needs a date that leaves room for the people before and after.
+   */
+  private slotOrder(): void {
+    const c = this.ctx
+    if (c.slotK < 0) return
+    const n = c.n
+    const m = c.sizes[c.slotK]
+    const allowed: number[] = []
+    let prev = -1
+    for (let f = 0; f < n; f++) {
+      const cand = this.grid.row(1, f, c.slotK) & ~((1 << (prev + 1)) - 1)
+      if (!cand) {
+        this.setContra(`${c.posLab(f)} has no date left after the earlier ones`)
+        return
+      }
+      prev = ctz(cand)
+      allowed.push(cand)
+    }
+    let next = m
+    for (let f = n - 1; f >= 0; f--) {
+      allowed[f] &= (1 << next) - 1
+      if (!allowed[f]) {
+        this.setContra(`${c.posLab(f)} has no date left before the later ones`)
+        return
+      }
+      next = 31 - Math.clz32(allowed[f])
+    }
+    for (let f = 0; f < n; f++) {
+      const rem = this.grid.row(1, f, c.slotK) & ~allowed[f]
+      if (!rem) continue
+      this.newGroup()
+      for (const j of bits(rem)) {
+        const text = this.quiet ? '' : j < f ? `${c.posLab(f)} cannot be on ${c.lab(c.slotK, j)}: ${f} ${f === 1 ? 'person comes' : 'people come'} earlier, so they need earlier dates` : j > m - n + f ? `${c.posLab(f)} cannot be on ${c.lab(c.slotK, j)}: ${n - 1 - f} ${n - 1 - f === 1 ? 'person comes' : 'people come'} later and need later dates` : `${c.posLab(f)} cannot be on ${c.lab(c.slotK, j)}: the dates of the people around them leave no room (the dates run in order)`
+        this.clear(1, f, c.slotK, j, { kind: 'trans', text })
+        if (this.contra) return
+      }
+    }
+  }
+
   /** Runs every inference rule until nothing changes. Returns false when the table has become impossible (see `contra`). */
   propagate(): boolean {
     let guard = 0
@@ -447,6 +489,8 @@ export class Engine {
       this.uniqueness()
       if (this.contra) return false
       this.trans()
+      if (this.contra) return false
+      this.slotOrder()
       if (this.contra) return false
     } while (this.changed && ++guard < 1000)
     return !this.contra
@@ -501,7 +545,7 @@ export function failedClues(puzzle: Puzzle, sol: Solution): number[] {
   const n = puzzle.n
   const personAt = (c: number, v: number) => sol.val[c].indexOf(v)
   const personOf = (t: VarTerm): number => (t.k === 'p' ? t.i : t.k === 'v' ? personAt(t.c, t.i) : sol.pos.indexOf(t.f))
-  const posOf = (t: VarTerm | DirTerm): number => (t.k === 'd' ? sol.val[puzzle.dirCat as number][personOf(t.of)] : t.k === 'f' ? t.f : sol.pos[personOf(t)])
+  const posOf = (t: VarTerm | DirTerm): number => (t.k === 'd' ? sol.val[(t.slot ? puzzle.slotCat : puzzle.dirCat) as number][personOf(t.of)] : t.k === 'f' ? t.f : sol.pos[personOf(t)])
   const bad: number[] = []
   for (const clue of puzzle.clues) {
     let ok = true
@@ -521,6 +565,10 @@ export function failedClues(puzzle: Puzzle, sol: Solution): number[] {
     if (!ok) bad.push(clue.id)
   }
   if (sol.pos.length !== n) bad.push(0)
+  if (puzzle.slotCat !== undefined) {
+    const dates = Array.from({ length: n }, (_, f) => sol.val[puzzle.slotCat as number][sol.pos.indexOf(f)])
+    if (dates.some((d, f) => f > 0 && d <= dates[f - 1])) bad.push(0)
+  }
   return bad
 }
 

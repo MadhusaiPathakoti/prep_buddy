@@ -23,7 +23,7 @@ export type Term =
 export type VarTerm = Exclude<Term, { k: 'r' }>
 
 /** the way a person faces (0 = north, 1 = south): an extra unknown of clues that depend on facing */
-export type DirTerm = { k: 'd'; of: VarTerm }
+export type DirTerm = { k: 'd'; of: VarTerm; slot?: boolean }
 
 export type Atom =
   | { t: 'link'; x: VarTerm; y: VarTerm; neg?: boolean } // x and y are the same person ("A is from Kolkata")
@@ -31,12 +31,13 @@ export type Atom =
   | { t: 'diff'; x: Term; y: Term; d: number; ref?: boolean; neg?: boolean } // pos(x) - pos(y) = d   (immediately above: d = 1)
   | { t: 'rank'; x: Term; y: Term; hi: boolean; ref?: boolean; neg?: boolean } // pos(x) > pos(y) when hi, else <   (somewhere above / below)
   | { t: 'adj'; x: Term; y: Term; neg?: boolean } // neighbouring positions
-  | { t: 'gap'; x: Term; y: Term; k: number; neg?: boolean } // exactly k positions strictly between x and y
+  | { t: 'gap'; x: Term; y: Term; k: number; hi?: number; neg?: boolean } // exactly k positions strictly between x and y (k … hi when `hi` is given: "more than one between")
   | { t: 'same'; x: Term; y: Term; z: Term; w: Term; neg?: boolean } // as many people between x and y as between z and w
   // a building with several flats per floor: how x's flat compares with y's, floor-wise and flat-wise (gt = above / further east)
-  | { t: 'grid'; x: Term; y: Term; row?: GridRel; col?: GridRel; rowDiff?: number; neg?: boolean }
+  | { t: 'grid'; x: Term; y: Term; row?: GridRel; col?: GridRel; rowDiff?: number; on?: 'slot'; neg?: boolean }
   | { t: 'btw'; x: Term; y: Term; z: Term; neg?: boolean } // x strictly between y and z (either way round)
-  | { t: 'set'; x: Term; fs: number[]; neg?: boolean } // pos(x) is one of fs (or none of them when neg)
+  // pos(x) is one of fs (or none of them when neg); with on 'slot' it is x's date slot (a value of the 'date' category) that must be one of fs
+  | { t: 'set'; x: Term; fs: number[]; on?: 'slot'; neg?: boolean }
   // compound clues: "if a then b", "either a or b but not both", "either a or b"
   | { t: 'logic'; op: 'imp' | 'xor' | 'or'; a: Atom; b: Atom; neg?: boolean }
   // two parallel rows facing each other: x faces y (the seat across the gap); x and y are in the same row
@@ -87,6 +88,11 @@ export interface Puzzle {
   flats?: string[]
   /** axis 'tworow' only: people per row; positions 0..m-1 are row 1, m..2m-1 row 2, each counted from that row's own left */
   rowLen?: number
+  /**
+   * dates of a few months with some of them vacant (more dates than people): positions are the people's places in date order (1st, 2nd …)
+   * and the category at this index (within `cats`) holds the dates, each person's one date; the dates increase with the position
+   */
+  slotCat?: number
   /** a line of people some of whom face north and some south: index (within `cats`) of the category 'direction' (values north, south) */
   dirCat?: number
   /**

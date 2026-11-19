@@ -28,6 +28,8 @@ function solutionRows(trace: Trace, sol: Solution) {
 
 function SolutionTable({ trace, sol }: { trace: Trace; sol: Solution }) {
   const { puzzle, ctx } = trace
+  // dates nobody has
+  const vacant = puzzle.slotCat === undefined ? [] : puzzle.cats[puzzle.slotCat].values.filter((_, j) => !sol.val[puzzle.slotCat as number].includes(j))
   return (
     <div className="overflow-x-auto">
       <table className="w-full text-left text-sm">
@@ -56,6 +58,7 @@ function SolutionTable({ trace, sol }: { trace: Trace; sol: Solution }) {
           ))}
         </tbody>
       </table>
+      {vacant.length > 0 && <p className="mt-2 text-xs text-slate-500 dark:text-slate-400">Vacant: {vacant.join(', ')} (nobody is scheduled then)</p>}
     </div>
   )
 }

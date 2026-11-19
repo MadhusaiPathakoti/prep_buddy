@@ -32,28 +32,31 @@ export function bits(m: number): number[] {
 export class Grid {
   readonly n: number
   readonly K: number
+  /** rows stored per table: the size of the largest category (n unless a category has more values than there are people) */
+  readonly rows: number
   m: Uint16Array
 
   /** `sizes[c]`: how many values category c has (n unless it is a two-valued direction category) */
   constructor(n: number, K: number, m?: Uint16Array, sizes?: number[]) {
     this.n = n
     this.K = K
+    this.rows = m ? m.length / (K * K) : Math.max(n, ...(sizes ?? []))
     if (m) this.m = m
     else {
-      this.m = new Uint16Array(K * K * n)
-      for (let a = 0; a < K; a++) for (let b = 0; b < K; b++) for (let i = 0; i < n; i++) this.m[(a * K + b) * n + i] = (1 << (sizes?.[b] ?? n)) - 1
+      this.m = new Uint16Array(K * K * this.rows)
+      for (let a = 0; a < K; a++) for (let b = 0; b < K; b++) for (let i = 0; i < this.rows; i++) this.m[(a * K + b) * this.rows + i] = (1 << (sizes?.[b] ?? n)) - 1
     }
   }
 
   row(a: number, i: number, b: number): number {
-    return this.m[(a * this.K + b) * this.n + i]
+    return this.m[(a * this.K + b) * this.rows + i]
   }
   has(a: number, i: number, b: number, j: number): boolean {
     return ((this.row(a, i, b) >> j) & 1) === 1
   }
   clear(a: number, i: number, b: number, j: number): void {
-    this.m[(a * this.K + b) * this.n + i] &= ~(1 << j)
-    this.m[(b * this.K + a) * this.n + j] &= ~(1 << i)
+    this.m[(a * this.K + b) * this.rows + i] &= ~(1 << j)
+    this.m[(b * this.K + a) * this.rows + j] &= ~(1 << i)
   }
   clone(): Grid {
     return new Grid(this.n, this.K, this.m.slice())
@@ -97,9 +100,23 @@ export class Ctx {
   isDir(c: number): boolean {
     return c === this.dirK
   }
-  /** number of values of every category (a direction has two; everything else one per person) */
+  /** category index of the dates when some dates stay vacant (more dates than people), or -1 */
+  get slotK(): number {
+    return this.p.slotCat === undefined ? -1 : 2 + this.p.slotCat
+  }
+  isSlot(c: number): boolean {
+    return c === this.slotK
+  }
+  get slotMode(): boolean {
+    return this.p.slotCat !== undefined
+  }
+  /** a category that is not one-to-one with the people: a direction (shared) or a date (some stay unused) */
+  isLoose(c: number): boolean {
+    return this.isDir(c) || this.isSlot(c)
+  }
+  /** number of values of every category (a direction has two, the dates are as many as there are slots; everything else one per person) */
   get sizes(): number[] {
-    return Array.from({ length: this.K }, (_, c) => (c === this.dirK ? 2 : this.n))
+    return Array.from({ length: this.K }, (_, c) => (c === this.dirK ? 2 : c === this.slotK ? this.p.cats[c - 2].values.length : this.n))
   }
 
   /** what the people are: "person" or, say, "box" */
@@ -162,11 +179,11 @@ export class Ctx {
     return this.p.axis === 'order' && !!this.p.cols && !!this.p.labels
   }
   /** a set of such slots described as whole months or a whole date: "in April or May", "on the 16th" (null when it is neither) */
-  datedSet(fs: number[]): string | null {
+  datedSet(fs: number[], slotLabels?: string[]): string | null {
     const cols = this.cols
-    const labels = this.p.labels as string[]
+    const labels = slotLabels ?? (this.p.labels as string[])
     const has = new Set(fs)
-    const rows = Math.floor(this.n / cols)
+    const rows = Math.floor(labels.length / cols)
     const monthName = (r: number) => labels[r * cols].split(' ')[0]
     const full = Array.from({ length: rows }, (_, r) => r).filter((r) => Array.from({ length: cols }, (_, c) => r * cols + c).every((f) => has.has(f)))
     if (full.length && full.length * cols === has.size) return `in ${full.map(monthName).join(' or ')}`
@@ -481,6 +498,10 @@ export class Ctx {
       case 'adj':
         return `${L(a.x)} and ${L(a.y)} are${not} on neighbouring ${this.unit}s`
       case 'gap':
+        if (a.hi !== undefined && a.hi !== a.k) {
+          const range = a.hi >= this.n - 2 ? `at least ${a.k}` : a.k === 0 ? `at most ${a.hi}` : `between ${a.k} and ${a.hi}`
+          return `${a.neg ? 'not ' : ''}${range} ${this.nouns} between ${L(a.x)} and ${L(a.y)}`
+        }
         return a.neg
           ? `there are not exactly ${a.k} ${this.unit}s between ${L(a.x)} and ${L(a.y)}`
           : `exactly ${a.k} ${a.k === 1 ? this.noun : this.nouns} between ${L(a.x)} and ${L(a.y)}${this.circular ? ' (on one side or the other)' : ''}`
@@ -489,6 +510,10 @@ export class Ctx {
       case 'same':
         return `${a.neg ? 'not ' : ''}the same number of ${this.nouns} between ${L(a.x)} and ${L(a.y)} as between ${L(a.z)} and ${L(a.w)}`
       case 'set':
+        if (a.on === 'slot') {
+          const labels = this.p.cats[this.p.slotCat as number].values
+          return `${L(a.x)} is${not} ${this.datedSet(a.fs, labels) ?? `on ${a.fs.length === 1 ? labels[a.fs[0]] : `${a.fs.slice(0, -1).map((f) => labels[f]).join(', ')} or ${labels[a.fs[a.fs.length - 1]]}`}`}`
+        }
         return `${L(a.x)} is${not} ${this.setPhrase(a.fs)}`
       case 'opp':
         return a.neg ? `${L(a.x)} does not face ${L(a.y)}` : `${L(a.x)} faces ${L(a.y)}`
@@ -499,7 +524,7 @@ export class Ctx {
         return `${a.neg ? 'not ' : ''}as many ${this.nouns} ${side(a.xs)} ${L(a.x)} as ${side(a.ys)} ${L(a.y)}`
       }
       case 'grid': {
-        if (this.dated) {
+        if (this.dated || this.slotMode) {
           const mo = a.row === 'eq' ? 'in the same month' : a.row === 'ne' ? 'in a different month' : ''
           const da = a.col === 'eq' ? 'on the same date' : a.col === 'ne' ? 'on a different date' : ''
           const both = da && mo ? `${da} as ${L(a.y)}, but ${mo}` : da ? `${da} as ${L(a.y)}` : `${mo} from ${L(a.y)}`.replace('same month from', 'same month as')
@@ -577,6 +602,11 @@ export function atomTerms(a: Atom): VarTerm[] {
 /** the unknowns an atom's test reads: positions (atomTerms) plus, for clues about facing, the direction of a person */
 export function atomVars(a: Atom): (VarTerm | DirTerm)[] {
   if (a.t === 'sdir') return [{ k: 'd', of: a.x }, { k: 'd', of: a.y }]
+  // clues about dates: the unknown is the date slot of the person, not their place in the order
+  if ((a.t === 'set' || a.t === 'grid') && a.on === 'slot') {
+    const ts = a.t === 'set' ? [a.x] : [a.x, a.y]
+    return ts.flatMap((t) => termVars(t)).map((u) => ({ k: 'd', of: u, slot: true }) as DirTerm)
+  }
   const out: (VarTerm | DirTerm)[] = [...atomTerms(a)]
   const extra: DirTerm[] = []
   if ((a.t === 'diff' || a.t === 'rank') && a.ref) extra.push({ k: 'd', of: termVars(a.y)[0] })
@@ -586,7 +616,7 @@ export function atomVars(a: Atom): (VarTerm | DirTerm)[] {
 }
 
 export function sameVar(u: VarTerm | DirTerm, t: Term | DirTerm): boolean {
-  if (u.k === 'd' || t.k === 'd') return u.k === 'd' && t.k === 'd' && sameTerm(u.of, t.of)
+  if (u.k === 'd' || t.k === 'd') return u.k === 'd' && t.k === 'd' && !!u.slot === !!t.slot && sameTerm(u.of, t.of)
   return sameTerm(u, t)
 }
 
@@ -634,8 +664,11 @@ export function atomTest(a: Atom, n = 0, circ = false, cols = 1, m = 0, sq = 0):
   }
   /** which way the person a term stands for faces (0 north, 1 south) */
   const dirOf = (t: Term): ((v: number[]) => number) => getter({ k: 'd', of: t as VarTerm })
-  const gx = a.t === 'logic' ? null : a.t === 'sdir' ? dirOf(a.x) : getter(a.x)
-  const gy = a.t === 'logic' || a.t === 'set' ? null : a.t === 'sdir' ? dirOf(a.y) : getter(a.y)
+  /** the date slot of the person a term stands for */
+  const slotOf = (t: Term): ((v: number[]) => number) => getter({ k: 'd', of: t as VarTerm, slot: true })
+  const onSlot = (a.t === 'set' || a.t === 'grid') && a.on === 'slot'
+  const gx = a.t === 'logic' ? null : a.t === 'sdir' ? dirOf(a.x) : onSlot ? slotOf(a.x) : getter(a.x)
+  const gy = a.t === 'logic' || a.t === 'set' ? null : a.t === 'sdir' ? dirOf(a.y) : onSlot ? slotOf(a.y) : getter(a.y)
   const gz = a.t === 'btw' ? getter(a.z) : null
   const gz2 = a.t === 'same' ? getter(a.z) : null
   const gw = a.t === 'same' ? getter(a.w) : null
@@ -673,7 +706,10 @@ export function atomTest(a: Atom, n = 0, circ = false, cols = 1, m = 0, sq = 0):
         const x = (gx as (v: number[]) => number)(v)
         const y = (gy as (v: number[]) => number)(v)
         if (x < 0 || y < 0) return false
-        return circ ? md(x - y) === a.k + 1 || md(x - y) === n - a.k - 1 : grp(x) === grp(y) && Math.abs(idx(x) - idx(y)) === a.k + 1
+        const hi = a.hi ?? a.k
+        if (circ) return [...Array(hi - a.k + 1).keys()].some((q) => md(x - y) === a.k + q + 1 || md(x - y) === n - (a.k + q) - 1)
+        const between = Math.abs(idx(x) - idx(y)) - 1
+        return grp(x) === grp(y) && between >= a.k && between <= hi
       }
       break
     case 'btw':

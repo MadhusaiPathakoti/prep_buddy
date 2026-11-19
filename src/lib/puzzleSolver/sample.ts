@@ -288,4 +288,29 @@ The one, who likes Pulsar, lives in Raipur.
 The one, who likes Hero, lives in neither Pune nor Jaipur.
 F lives in Mumbai and B lives in Bhopal.`,
   },
+  {
+    id: 'divorce-dates',
+    title: 'Dates in months (3 months × 2 dates)',
+    text: `Six people, namely H, I, J, K, L & M are getting divorced on different dates the 16th and 25th of three different months i.e. March, June, and October within the same year. Each day has only one separating scheduled.
+
+K is getting divorced on an even-numbered date.
+J is not getting divorced on an odd-numbered date.
+M is getting divorced after K, but neither in October nor on the 16th of any month.
+There are two people getting divorced between M and H.
+I is getting divorced after L and more than one people are getting divorced between L and I.`,
+  },
+  {
+    id: 'vacant-dates',
+    title: 'Dates with one vacant',
+    text: `Seven people P, Q, R, S, T, U & V are getting interviewed on different dates, the 5th, 12th, 19th and 26th of two different months i.e. March and August of the same year. Each day has only one interview scheduled. One date is vacant.
+
+P is interviewed on an odd-numbered date.
+Q is interviewed after P, but not in August.
+Q is interviewed on the 12th of a month.
+R is interviewed on the 26th of a month.
+There are two people interviewed between R and U.
+T is interviewed in the same month as S.
+V is interviewed on the same date as R but in a different month.
+Only one person is interviewed between Q and S.`,
+  },
 ]

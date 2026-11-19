@@ -297,6 +297,23 @@ const ROW_NEITHER: [string, string][] = [
   ['A does not like Red or Blue.', "A's colour is not Red ; A's colour is not Blue"],
 ]
 
+const VAC_HEADER = `Five people A, B, C, D & E are getting interviewed on different dates, the 5th and 12th of three different months i.e. January, April and July of the same year. Each day has only one interview scheduled. One date is vacant.
+`
+
+const VAC_CASES: [string, string][] = [
+  ['A is interviewed in April.', 'A is in April'],
+  ['A is not interviewed in April.', 'A is not in April'],
+  ['A is interviewed on an even-numbered date.', 'A is on the 12th'],
+  ['A is interviewed on an odd numbered date.', 'A is on the 5th'],
+  ['A is interviewed on the 12th of a month.', 'A is on the 12th'],
+  ['A is interviewed after B, but neither in July nor on the 5th of any month.', 'A is somewhere after B ; A is not on January 5, April 5, July 5 or July 12'],
+  ['A and B are interviewed in the same month.', 'A is in the same month as B'],
+  ['A and B are interviewed on the same date but in different months.', 'A is on the same date as B, but in a different month'],
+  ['More than one person is interviewed between A and B.', 'at least 2 people between A and B'],
+  ['There are two people interviewed between A and B.', 'exactly 2 people between A and B'],
+  ['A is interviewed immediately after B.', 'A is immediately after B'],
+]
+
 const FLOOR_EXTRA: [string, string][] = [
   ['A lives on a prime-numbered floor.', 'A is on floor 2, 3, 5 or 7'],
   ['A does not live on a prime-numbered floor.', 'A is not on floor 2, 3, 5 or 7'],
@@ -401,6 +418,7 @@ runParserTable(BDAY_HEADER, BDAY_CASES)
 runParserTable(SQUARE_HEADER, SQUARE_CASES)
 runParserTable(PENT_HEADER, PENT_CASES)
 runParserTable(RANK_HEADER, RANK_CASES)
+runParserTable(VAC_HEADER, VAC_CASES)
 runParserTable(ROW_HEADER, ROW_NEITHER)
 runParserTable(FLOOR_HEADER, FLOOR_EXTRA)
 runParserTable(ORDER_HEADER, ORDER_EXTRA)
@@ -530,6 +548,32 @@ for (const s of SAMPLES) {
   }
 }
 
+// the divorce puzzle (3 months × 2 dates, answer key checked by hand) and a puzzle with one vacant date
+{
+  const dv = SAMPLES.find((x) => x.id === 'divorce-dates')
+  const r = dv ? parsePuzzle(dv.text) : null
+  const e = r?.puzzle ? enumerate(r.puzzle, 3) : null
+  if (!r?.puzzle || !e || e.sols.length !== 1 || r.unparsed.length) fail('divorce-dates sample: expected exactly one solution and every clue read')
+  else {
+    const P = r.puzzle
+    const got = Array.from({ length: 6 }, (_, f) => `${(P.labels as string[])[f]}:${P.people[e.sols[0].pos.indexOf(f)]}`).join(' ')
+    if (got !== 'March 16:H March 25:L June 16:K June 25:M October 16:J October 25:I') fail(`divorce-dates sample: got ${got}`)
+  }
+  const vc = SAMPLES.find((x) => x.id === 'vacant-dates')
+  const rv = vc ? parsePuzzle(vc.text) : null
+  const ev = rv?.puzzle ? enumerate(rv.puzzle, 3) : null
+  if (!rv?.puzzle || !ev || ev.sols.length !== 1 || rv.unparsed.length) fail('vacant-dates sample: expected exactly one solution and every clue read')
+  else {
+    const P = rv.puzzle
+    const dates = P.cats[P.slotCat as number].values
+    const got = Array.from({ length: 7 }, (_, f) => {
+      const q = ev.sols[0].pos.indexOf(f)
+      return `${P.people[q]}:${dates[ev.sols[0].val[P.slotCat as number][q]]}`
+    }).join(' ')
+    if (got !== 'P:March 5 Q:March 12 R:March 26 S:August 5 T:August 12 U:August 19 V:August 26') fail(`vacant-dates sample: got ${got}`)
+  }
+}
+
 // mistakes in the input are reported, not guessed at
 for (const [label, text, needle] of [
   ['no people', 'Hello there. A lives above B.', 'list of people'],
@@ -579,6 +623,19 @@ function holds(p: Puzzle, sol: Solution, a: Atom): boolean {
   const circ = p.axis === 'circle'
   const wrap = (x: number) => ((x % p.n) + p.n) % p.n
   let r: boolean
+  if ((a.t === 'set' || a.t === 'grid') && a.on === 'slot' && p.slotCat !== undefined) {
+    // the date of a person (vacant dates simply have nobody)
+    const sv = (t: Term) => sol.val[p.slotCat as number][personOf(t)]
+    if (a.t === 'set') r = a.fs.includes(sv(a.x))
+    else {
+      const cols = p.cols ?? 1
+      const sx = sv(a.x)
+      const sy = sv(a.y)
+      const cmp = (rel: string | undefined, u: number, v: number) => (rel === undefined ? true : rel === 'gt' ? u > v : rel === 'lt' ? u < v : rel === 'eq' ? u === v : u !== v)
+      r = cmp(a.row, Math.floor(sx / cols), Math.floor(sy / cols)) && cmp(a.col, sx % cols, sy % cols)
+    }
+    return a.neg ? !r : r
+  }
   if (m && a.t !== 'logic' && a.t !== 'link') {
     // two facing rows: a derived person who does not exist makes the clue false; relations along a row need both people in that row
     const ts: Term[] = a.t === 'btw' ? [a.x, a.y, a.z] : a.t === 'same' ? [a.x, a.y, a.z, a.w] : a.t === 'set' ? [a.x] : [a.x, a.y]
@@ -672,7 +729,7 @@ function holds(p: Puzzle, sol: Solution, a: Atom): boolean {
       }
       const lo = Math.min(at(a.x), at(a.y))
       const hi = Math.max(at(a.x), at(a.y))
-      r = lo !== hi && sol.pos.filter((q) => q > lo && q < hi).length === a.k
+      r = lo !== hi && sol.pos.filter((q) => q > lo && q < hi).length >= a.k && sol.pos.filter((q) => q > lo && q < hi).length <= (a.hi ?? a.k)
       break
     }
     case 'grid': {
@@ -723,6 +780,7 @@ function permutations(n: number): number[][] {
 /** Highest extra-category index (+1) an atom needs, 0 when it only involves people and positions. */
 function needLevel(a: Atom, p?: Puzzle): number {
   if (a.t === 'logic') return Math.max(needLevel(a.a, p), needLevel(a.b, p))
+  if (p && p.slotCat !== undefined && (a.t === 'set' || a.t === 'grid') && a.on === 'slot') return Math.max(p.slotCat + 1, needLevel({ ...a, on: undefined } as Atom))
   if (p && p.dirCat !== undefined && (a.t === 'sdir' || ((a.t === 'diff' || a.t === 'rank') && a.ref))) return Math.max(p.dirCat + 1, needLevel({ ...a, ref: undefined } as Atom))
   const ts: Term[] = a.t === 'btw' ? [a.x, a.y, a.z] : a.t === 'same' ? [a.x, a.y, a.z, a.w] : a.t === 'set' ? [a.x] : [a.x, a.y]
   const base = (t: Term): Term => (t.k === 'r' ? base(t.base) : t)
@@ -733,6 +791,8 @@ function bruteCount(p: Puzzle, cap: number): number {
   const perms = permutations(p.n)
   const byLevel: Atom[][] = Array.from({ length: p.cats.length + 1 }, () => [])
   for (const cl of p.clues) for (const a of cl.atoms) byLevel[needLevel(a, p)].push(a)
+  const combos = (m: number, k: number): number[][] => (k === 0 ? [[]] : Array.from({ length: m }, (_, i) => i).flatMap((i) => combos(m - i - 1, k - 1).map((rest) => [i, ...rest.map((r) => r + i + 1)])))
+  const slotCombos = p.slotCat !== undefined ? combos(p.cats[p.slotCat].values.length, p.n) : []
   // a direction is any pattern of north / south, not a permutation
   const dirPatterns = Array.from({ length: 1 << p.n }, (_, mask) => Array.from({ length: p.n }, (_, i) => (mask >> i) & 1))
   let count = 0
@@ -744,7 +804,9 @@ function bruteCount(p: Puzzle, cap: number): number {
       count++
       return
     }
-    for (const perm of level === p.dirCat ? dirPatterns : perms) rec(level + 1, [...vals, perm], pos)
+    // dates: each place in the order takes a later date than the one before (some dates stay unused)
+    const slotChoices = level === p.slotCat ? slotCombos.map((ch) => Array.from({ length: p.n }, (_, person) => ch[pos[person]])) : []
+    for (const perm of level === p.dirCat ? dirPatterns : level === p.slotCat ? slotChoices : perms) rec(level + 1, [...vals, perm], pos)
   }
   const ap = p.axis === 'circle' ? anchorPerson(p) : -1
   for (const pos of perms) if (ap < 0 || (p.square ? pos[ap] < 2 : pos[ap] === 0)) rec(0, [], pos)
@@ -752,7 +814,7 @@ function bruteCount(p: Puzzle, cap: number): number {
 }
 
 function randomTerm(p: Puzzle, allowFloat: boolean): Term {
-  const plain = p.dirCat === undefined ? p.cats.length : p.dirCat // the direction category is last; it is not a one-to-one attribute
+  const plain = p.dirCat ?? p.slotCat ?? p.cats.length // the direction / date category is last; it is not a one-to-one attribute
   if (allowFloat && plain && rnd() < 0.35) return { k: 'v', c: ri(plain), i: ri(p.n) }
   return { k: 'p', i: ri(p.n) }
 }
@@ -903,7 +965,36 @@ function randomMixedAtom(p: Puzzle, hidden: Solution): Atom {
 }
 const personOfTerm = (t: Term): number => (t.k === 'p' ? t.i : -1)
 
+/** A true clue about people in date order on a few dates of a few months, some dates vacant: order clues, clues about a person's date, same month / date. */
+function randomSlotAtom(p: Puzzle, hidden: Solution): Atom {
+  const m = p.cats[p.slotCat as number].values.length
+  const personOf = (t: Term): number => (t.k === 'p' ? t.i : t.k === 'v' ? hidden.val[t.c].indexOf(t.i) : -1)
+  const rels = ['gt', 'lt', 'eq', 'ne'] as const
+  for (;;) {
+    const x = randomTerm(p, true)
+    let y = randomTerm(p, true)
+    let guard = 0
+    while (personOf(y) === personOf(x) && guard++ < 20) y = randomTerm(p, true)
+    const z = randomTerm(p, true)
+    const kind = ri(10)
+    let atom: Atom
+    if (kind === 0) atom = { t: 'diff', x, y, d: (ri(2) ? 1 : -1) * (1 + ri(2)) }
+    else if (kind === 1) atom = { t: 'rank', x, y, hi: rnd() < 0.5 }
+    else if (kind === 2) atom = { t: 'adj', x, y }
+    else if (kind === 3) atom = { t: 'gap', x, y, k: ri(3) }
+    else if (kind === 4) atom = { t: 'btw', x, y, z }
+    else if (kind === 5 || kind === 6) atom = { t: 'set', x, fs: shuffle(Array.from({ length: m }, (_, i) => i)).slice(0, 1 + ri(m - 1)).sort((a, b) => a - b), on: 'slot' }
+    else if (kind === 7) atom = { t: 'grid', x, y, row: rels[ri(4)], col: ri(2) ? rels[ri(4)] : undefined, on: 'slot' }
+    else if (kind === 8) atom = { t: 'link', x: { k: 'p', i: ri(p.n) }, y: { k: 'v', c: p.slotCat as number, i: ri(m) } }
+    else atom = { t: 'gap', x, y, k: ri(2), hi: 2 + ri(2) }
+    if (!holds(p, hidden, atom)) atom = { ...atom, neg: true } as Atom
+    if (!holds(p, hidden, atom)) continue
+    return atom
+  }
+}
+
 function randomAtom(p: Puzzle, hidden: Solution): Atom {
+  if (p.slotCat !== undefined) return randomSlotAtom(p, hidden)
   if (p.square && rnd() < 0.2) {
     const parity = ri(2)
     let atom: Atom = { t: 'set', x: { k: 'p', i: ri(p.n) }, fs: Array.from({ length: p.n }, (_, f) => f).filter((f) => f % 2 === parity) }
@@ -947,10 +1038,16 @@ function randomAtom(p: Puzzle, hidden: Solution): Atom {
   }
 }
 
-function randomPuzzle(n: number, nCats: number, nClues: number, axis: Puzzle['axis'] = 'floor', mixed = false, square = false): { puzzle: Puzzle; hidden: Solution } {
+function randomPuzzle(n: number, nCats: number, nClues: number, axis: Puzzle['axis'] = 'floor', mixed = false, square = false, slotM = 0): { puzzle: Puzzle; hidden: Solution } {
   const people = 'ABCDEFGHIJ'.slice(0, n).split('')
   const cats = Array.from({ length: nCats }, (_, c) => ({ name: `cat${c}`, values: Array.from({ length: n }, (_, i) => `v${c}${i}`) }))
   const hidden: Solution = { pos: shuffle(Array.from({ length: n }, (_, i) => i)), val: cats.map(() => shuffle(Array.from({ length: n }, (_, i) => i))) }
+  if (slotM) {
+    // dates: each place in the order has a later date than the one before; slotM - n dates stay vacant
+    cats.push({ name: 'date', values: Array.from({ length: slotM }, (_, i) => `S${i}`) })
+    const chosen = shuffle(Array.from({ length: slotM }, (_, i) => i)).slice(0, n).sort((a, b) => a - b)
+    hidden.val.push(hidden.pos.map((f) => chosen[f]))
+  }
   if (mixed) {
     // everyone faces north (0) or south (1), whichever they like
     cats.push({ name: 'direction', values: ['north', 'south'] })
@@ -960,6 +1057,10 @@ function randomPuzzle(n: number, nCats: number, nClues: number, axis: Puzzle['ax
   if (axis === 'circle') puzzle.facing = 'out'
   if (mixed) puzzle.dirCat = cats.length - 1
   if (square) puzzle.square = true
+  if (slotM) {
+    puzzle.slotCat = cats.length - 1
+    puzzle.cols = slotM % 3 === 0 ? 3 : 2
+  }
   if (axis === 'tworow') puzzle.rowLen = n / 2
   if (axis === 'grid') {
     puzzle.cols = n % 2 === 0 ? 2 : 1
@@ -989,8 +1090,9 @@ for (let run = 0; run < RUNS; run++) {
   const nClues = run % 5 === 0 ? 3 + ri(n) : 3 * n + ri(2 * n)
   const mixed = run % 7 === 3
   const square = !mixed && run % 11 === 5
-  const { puzzle, hidden } = randomPuzzle(square ? 8 : n, square ? 0 : nCats, nClues, mixed ? 'row' : square ? 'circle' : axis, mixed, square)
-  const where = `run ${run} (${mixed ? 'row, facing north/south' : square ? 'square table' : axis}, n=${puzzle.n}, cats=${puzzle.cats.length}, clues=${nClues})`
+  const slotM = !mixed && !square && run % 13 === 7 ? (run % 2 ? 6 : 5) : 0 // dates with vacancies
+  const { puzzle, hidden } = randomPuzzle(square ? 8 : slotM ? 4 : n, square ? 0 : slotM ? run % 3 === 0 ? 0 : 1 : nCats, nClues, mixed ? 'row' : square ? 'circle' : slotM ? 'row' : axis, mixed, square, slotM)
+  const where = `run ${run} (${mixed ? 'row, facing north/south' : square ? 'square table' : slotM ? `dates with ${slotM - 4} vacant` : axis}, n=${puzzle.n}, cats=${puzzle.cats.length}, clues=${nClues})`
 
   if (process.env.TRACE_RUNS) console.error('run', run, where)
   const limit = 40
@@ -1142,7 +1244,7 @@ for (const s of SAMPLES) {
   console.log('app generator, end to end: ' + Object.entries(tally).map(([k, v]) => `${k} ${v.checked} checked (${v.skipped} of an unsupported layout skipped)`).join('; '))
 }
 
-console.log(`parser: ${FLOOR_CASES.length + ROW_CASES.length + ORDER_CASES.length + DAY_CASES.length + CIRCLE_CASES.length + GRID_CASES.length + BOX_CASES.length + TWOROW_CASES.length + BDAY_CASES.length + SQUARE_CASES.length + PENT_CASES.length + RANK_CASES.length + ROW_NEITHER.length + FLOOR_VIZ.length + FLOOR_EXTRA.length + ORDER_EXTRA.length} phrasings checked`)
+console.log(`parser: ${FLOOR_CASES.length + ROW_CASES.length + ORDER_CASES.length + DAY_CASES.length + CIRCLE_CASES.length + GRID_CASES.length + BOX_CASES.length + TWOROW_CASES.length + BDAY_CASES.length + SQUARE_CASES.length + PENT_CASES.length + RANK_CASES.length + VAC_CASES.length + ROW_NEITHER.length + FLOOR_VIZ.length + FLOOR_EXTRA.length + ORDER_EXTRA.length} phrasings checked`)
 console.log(`engine vs brute force: ${compared} random puzzles (${uniqueTraced} with a unique answer traced, ${multiple} with several answers)`)
 console.log(`step kinds: ${JSON.stringify(kinds)}; ${trials} case-analysis trials`)
 console.log(`teaching trace: ${eliminations} crossings checked for soundness, ${whatIfs} what-if simulations refuted`)

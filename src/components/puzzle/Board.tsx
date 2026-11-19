@@ -243,7 +243,7 @@ export default function Board({
   function cell(f: number, cat: number) {
     // cat 0 = person, 2.. = extra categories; the table row is (position f) against that category
     const mask = grid.row(1, f, cat);
-    const ghosts = [...Array(n).keys()].filter((j) =>
+    const ghosts = [...Array(ctx.sizes[cat]).keys()].filter((j) =>
       out.has(cat === 0 ? `0.${j}.1.${f}` : `1.${f}.${cat}.${j}`),
     );
     if (mask === 0)
