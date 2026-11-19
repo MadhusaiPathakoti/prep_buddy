@@ -20,7 +20,7 @@ const TOTAL_BUDGET_MS = 50_000
  * first, so it is the weakest at arithmetic, and a wrong checker can only cause a refusal, never a wrong published answer.
  * Gemini's free allowance is small and some of its models are slow, which is why they are not all first.
  */
-export const SOLVE_CHAIN = (process.env.QB_SOLVE_MODELS || 'groq/openai/gpt-oss-120b,gemini/gemini-3-flash-preview,groq/openai/gpt-oss-20b,gemini/gemini-3.5-flash-lite').split(',').map((s) => s.trim()).filter(Boolean)
+export const SOLVE_CHAIN = (process.env.QB_SOLVE_MODELS || 'groq/openai/gpt-oss-120b,groq/openai/gpt-oss-20b,gemini/gemini-3-flash-preview,gemini/gemini-3.5-flash-lite').split(',').map((s) => s.trim()).filter(Boolean)
 export const VERIFY_CHAIN = (process.env.QB_VERIFY_MODELS || 'gemini/gemini-3.5-flash-lite,groq/qwen/qwen3.8-27b,groq/openai/gpt-oss-20b,gemini/gemini-3-flash-preview').split(',').map((s) => s.trim()).filter(Boolean)
 
 const topicList = TOPICS.map(([id, label]) => `${id} (${label})`).join(', ')

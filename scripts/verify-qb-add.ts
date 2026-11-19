@@ -11,7 +11,7 @@ import { questionKey } from '../api/_lib/qbankKey.js'
 import { loadSeed } from '../api/_lib/qbSeed.js'
 import { SimilarIndex, numbersOf, signatureOf } from '../api/_lib/qbSimilar.js'
 import { completeWithOptions, extractQuestion } from '../api/_lib/qbOcr.js'
-import { acceptOptions, optionsPrompt } from '../api/_lib/qbOptions.js'
+import { acceptOptions, busyMessage, optionsPrompt } from '../api/_lib/qbOptions.js'
 import { acceptSolve, acceptVerify, decide } from '../api/_lib/qbSolve.js'
 import { TOPICS } from '../api/_lib/qbTopics.js'
 import { BadInput, cleanQuestionInput } from '../api/_lib/qbValidate.js'
@@ -172,6 +172,8 @@ console.log('judging the solvers')
 // ---------------------------------------------------------------- suggested options and the screenshot reply
 console.log('suggested options and the screenshot reply')
 {
+  check('mostly used-up allowances: the message says to wait a minute', /wait about a minute/i.test(busyMessage([{ cls: 'quota' }, { cls: 'quota' }, { cls: 'timeout' }])))
+  check('other trouble: the message says to try again shortly', /few seconds/i.test(busyMessage([{ cls: 'timeout' }, { cls: 'bad-output' }])) && /few seconds/i.test(busyMessage([])))
   const five = ['2 : 3', '3 : 2', '1 : 1', '14 : 9', '5 : 4']
   const ok = acceptOptions({ working: 'x', status: 'ok', options: five }) as { ok: boolean; options: string[] }
   check('five different options are accepted', ok.ok && ok.options.join('|') === five.join('|'))

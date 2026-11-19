@@ -8,7 +8,9 @@ import { rateLimit } from './guard.js'
 import { firstValid } from './llm.js'
 import { stripOptionLabels } from './qbValidate.js'
 
-export const OPTIONS_CHAIN = (process.env.QB_OPTIONS_MODELS || 'groq/openai/gpt-oss-120b,gemini/gemini-3-flash-preview,groq/openai/gpt-oss-20b,gemini/gemini-3.1-flash-lite').split(',').map((s) => s.trim()).filter(Boolean)
+// Groq's free allowance is counted per model per minute, so the second Groq model is a real fallback (a different allowance)
+// and is tried before the slower, smaller-quota Gemini models.
+export const OPTIONS_CHAIN = (process.env.QB_OPTIONS_MODELS || 'groq/openai/gpt-oss-120b,groq/openai/gpt-oss-20b,gemini/gemini-3-flash-preview,gemini/gemini-3.1-flash-lite').split(',').map((s) => s.trim()).filter(Boolean)
 
 const MAX_OPTION_LENGTH = 80
 const STATUSES = ['ok', 'not-quant', 'needs-figure', 'incomplete']
@@ -64,13 +66,22 @@ const WHY = {
   incomplete: 'Some information seems to be missing from the question, so no options were suggested.',
 }
 
+/** Why nothing came back, in words the person can act on: a used-up free allowance needs a wait; anything else may pass quickly. */
+export function busyMessage(failures = []) {
+  const quota = failures.filter((f) => f.cls === 'quota').length
+  if (failures.length > 0 && quota >= Math.ceil(failures.length / 2)) {
+    return 'The free AI allowance is used up for this minute. Wait about a minute and press Suggest options again, or type the options yourself.'
+  }
+  return 'The option writer is busy right now. Press Suggest options again in a few seconds, or type the options yourself.'
+}
+
 /**
  * Suggests five options for a question stem. `budgetMs` caps how long this may take in total.
  * Returns {ok:true, options} or {ok:false, message}.
  */
-export async function suggestOptions(stem, { budgetMs = 25_000, chain = OPTIONS_CHAIN } = {}) {
-  const out = await firstValid(chain, optionsPrompt(stem), acceptOptions, { deadline: Date.now() + budgetMs, maxTokens: 3000, effort: 'medium', temperature: 0.3 })
-  if (!out.ok) return { ok: false, message: 'The option writer is busy right now. Type the options yourself, or try again in a minute.' }
+export async function suggestOptions(stem, { budgetMs = 40_000, chain = OPTIONS_CHAIN } = {}) {
+  const out = await firstValid(chain, optionsPrompt(stem), acceptOptions, { deadline: Date.now() + budgetMs, perCallMs: 14_000, maxTokens: 2500, effort: 'medium', temperature: 0.3 })
+  if (!out.ok) return { ok: false, message: busyMessage(out.failures) }
   if (out.status !== 'ok') return { ok: false, message: WHY[out.status] ?? 'No options could be suggested for this question.' }
   return { ok: true, options: out.options }
 }
