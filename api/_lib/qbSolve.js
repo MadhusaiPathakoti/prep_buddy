@@ -44,13 +44,24 @@ Reply with ONLY a JSON object. Fill the fields in this order: do the working in 
 {
   "status": "ok" | "not-quant" | "needs-figure" | "incomplete" | "ambiguous",
   "reason": "one short sentence when status is not ok, otherwise an empty string",
-  "steps": ["3 to 8 short lines showing the working with the actual numbers, as in a bank-exam solution key; do not write 'Step 1' labels"],
+  "method": "the quickest way a top scorer would solve this, in one sentence: prefer direct arithmetic on totals, ratios, percentages or fractions over setting up equations and extra unknowns",
+  "steps": ["3 to 8 short lines, each one a plain sentence or one simple calculation; see the style rules below. Do not write 'Step 1' labels"],
   "result": "the final value you computed, with its unit, as a short string (for example 45 litres per minute), or an empty string",
   "answerIndex": the 0-based index of the correct option (0 for A, 1 for B ...), or null when status is not ok,
   "shortcut": "one quick mental-maths trick or formula that speeds up THIS question, at most 200 characters, or an empty string",
   "topic": the single best fit from: ${topicList} (use "other" only if none fits at all; a plain percentage-of-a-number question is "percentage"),
   "difficulty": "easy" (clerk prelims level) | "medium" | "hard" (PO mains level)
 }
+Style of "steps" (this is what students read, so keep it simple):
+- Write like a teacher's model answer in a bank-exam key: plain sentences with the actual numbers, in the order a student would think. Say what each line finds, in words.
+- Go straight to the answer. Use the most direct method (for example the change in an average times the number of items gives the change in the total). Do not set up an unknown or an equation when plain arithmetic does it.
+- Find every quantity you can by plain arithmetic from the given numbers, one per line, BEFORE bringing in an unknown. Never introduce a helper letter (w, k, t ...) for a value that arithmetic can give directly. Only the unknown the question asks for may appear as a letter, and only when no direct route exists.
+- When an equation is needed, introduce it in one short line and solve it in short lines. One idea per line.
+- Start with the key fact, not with "Let ... be" or a restatement of the data.
+- Use words ("so", "therefore", "hence") and "=" signs. Do not use arrows such as ⇒ or →, "Let ... be" paragraphs, or symbols a student would not write by hand.
+- Do not add a "Check" or "Verify" line; do not repeat the question; do not explain why the method works.
+- Example of the style, for the unrelated question "The average of 6 numbers is 30, but one number was read as 45 instead of 27. What is the correct average?":
+  ["The wrong reading made the total larger by 45 − 27 = 18.", "Wrong total = 6 × 30 = 180.", "Correct total = 180 − 18 = 162.", "Correct average = 162 / 6 = 27."]
 Rules:
 - If the right answer is "None of these" (or similar) and no computed value matches another option, choose that option.
 - If no option matches your result and there is no "None of these" style option, set status to "ambiguous".
@@ -84,6 +95,8 @@ const tidyLine = (s) =>
     // eslint-disable-next-line no-control-regex -- control characters are exactly what is being removed
     .replace(/[\u0000-\u001f\u007f\u200b-\u200f\u202a-\u202e]/g, ' ')
     .replace(/[\u2010-\u2012]/g, '-')
+    // students do not write arrows: "a \u21d2 b" reads as "a, so b"
+    .replace(/\s*(?:\u21d2|\u2192|\u27f9|=>|->)\s*/g, ', so ')
     .replace(/\s+/g, ' ')
     .trim()
 
