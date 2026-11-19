@@ -93,6 +93,11 @@ export interface Puzzle {
    * and the category at this index (within `cats`) holds the dates, each person's one date; the dates increase with the position
    */
   slotCat?: number
+  /**
+   * axis 'row': everyone faces south, so a person's left is the east: the positions run west → east (the order of the picture) and
+   * "to the left of" means a higher position. (The parser swaps left and right; this flag swaps them back when the clues are shown.)
+   */
+  mirror?: boolean
   /** a line of people some of whom face north and some south: index (within `cats`) of the category 'direction' (values north, south) */
   dirCat?: number
   /**

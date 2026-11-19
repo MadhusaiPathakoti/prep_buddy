@@ -229,13 +229,13 @@ export class Ctx {
   /** words for "higher / lower" along the axis */
   dirWord(hi: boolean): string {
     if (this.p.axis === 'order') return hi ? 'after' : 'before'
-    return this.p.axis === 'floor' ? (hi ? 'above' : 'below') : hi ? 'to the right of' : 'to the left of'
+    return this.p.axis === 'floor' ? (hi ? 'above' : 'below') : hi !== !!this.p.mirror ? 'to the right of' : 'to the left of'
   }
   get topWord(): string {
-    return this.p.axis === 'floor' ? `topmost ${this.unit}` : this.p.axis === 'row' ? 'rightmost seat' : `last ${this.unit}`
+    return this.p.axis === 'floor' ? `topmost ${this.unit}` : this.p.axis === 'row' ? (this.p.mirror ? 'leftmost seat' : 'rightmost seat') : `last ${this.unit}`
   }
   get bottomWord(): string {
-    return this.p.axis === 'floor' ? `lowest ${this.unit}` : this.p.axis === 'row' ? 'leftmost seat' : `first ${this.unit}`
+    return this.p.axis === 'floor' ? `lowest ${this.unit}` : this.p.axis === 'row' ? (this.p.mirror ? 'rightmost seat' : 'leftmost seat') : `first ${this.unit}`
   }
 
   catName(a: number): string {

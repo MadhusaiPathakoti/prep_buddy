@@ -314,6 +314,20 @@ const VAC_CASES: [string, string][] = [
   ['A is interviewed immediately after B.', 'A is immediately after B'],
 ]
 
+const SOUTH_HEADER = `Six friends A, B, C, D, E & F sit in a row. All of them face towards the south. Each of them likes a different colour - Red, Blue, Green, Yellow, Pink, Black.
+`
+
+// facing south a person's left is the east: the positions run west → east, "left" means a higher position, and the clues read back as written
+const SOUTH_CASES: [string, string][] = [
+  ['A sits to the left of B.', 'A is somewhere to the left of B'],
+  ['A sits third to the left of B.', 'A is exactly 3 seats to the left of B'],
+  ['A sits immediate right of B.', 'A is immediately to the right of B'],
+  ['A sits at the extreme left end.', 'A is at the leftmost seat'],
+  ['A sits at the extreme right end.', 'A is at the rightmost seat'],
+  ['Neither A nor B sits at the extreme end.', 'A is not at either the leftmost or the rightmost seat ; B is not at either the leftmost or the rightmost seat'],
+  ['The number of persons to the right of A is equal to the number of persons to the left of B.', 'as many people to the right of A as to the left of B'],
+]
+
 const FLOOR_EXTRA: [string, string][] = [
   ['A lives on a prime-numbered floor.', 'A is on floor 2, 3, 5 or 7'],
   ['A does not live on a prime-numbered floor.', 'A is not on floor 2, 3, 5 or 7'],
@@ -419,6 +433,7 @@ runParserTable(SQUARE_HEADER, SQUARE_CASES)
 runParserTable(PENT_HEADER, PENT_CASES)
 runParserTable(RANK_HEADER, RANK_CASES)
 runParserTable(VAC_HEADER, VAC_CASES)
+runParserTable(SOUTH_HEADER, SOUTH_CASES)
 runParserTable(ROW_HEADER, ROW_NEITHER)
 runParserTable(FLOOR_HEADER, FLOOR_EXTRA)
 runParserTable(ORDER_HEADER, ORDER_EXTRA)
@@ -571,6 +586,22 @@ for (const s of SAMPLES) {
       return `${P.people[q]}:${dates[ev.sols[0].val[P.slotCat as number][q]]}`
     }).join(' ')
     if (got !== 'P:March 5 Q:March 12 R:March 26 S:August 5 T:August 12 U:August 19 V:August 26') fail(`vacant-dates sample: got ${got}`)
+  }
+}
+
+// the row facing south: the answer key is the picture, drawn west → east
+{
+  const so = SAMPLES.find((x) => x.id === 'south-row')
+  const r = so ? parsePuzzle(so.text) : null
+  const e = r?.puzzle ? enumerate(r.puzzle, 3) : null
+  if (!r?.puzzle || !e || e.sols.length !== 1 || r.unparsed.length || !r.puzzle.mirror) fail('south-row sample: expected one solution, every clue read and the south-facing mirror')
+  else {
+    const P = r.puzzle
+    const got = Array.from({ length: 8 }, (_, f) => {
+      const q = e.sols[0].pos.indexOf(f)
+      return `${P.people[q]}:${P.cats[0].values[e.sols[0].val[0][q]]}`
+    }).join(' ')
+    if (got !== 'F:Yellow C:Black D:Coral H:Pink A:Blue B:White G:Purple E:Azure') fail(`south-row sample: got ${got}`)
   }
 }
 
@@ -1244,7 +1275,7 @@ for (const s of SAMPLES) {
   console.log('app generator, end to end: ' + Object.entries(tally).map(([k, v]) => `${k} ${v.checked} checked (${v.skipped} of an unsupported layout skipped)`).join('; '))
 }
 
-console.log(`parser: ${FLOOR_CASES.length + ROW_CASES.length + ORDER_CASES.length + DAY_CASES.length + CIRCLE_CASES.length + GRID_CASES.length + BOX_CASES.length + TWOROW_CASES.length + BDAY_CASES.length + SQUARE_CASES.length + PENT_CASES.length + RANK_CASES.length + VAC_CASES.length + ROW_NEITHER.length + FLOOR_VIZ.length + FLOOR_EXTRA.length + ORDER_EXTRA.length} phrasings checked`)
+console.log(`parser: ${FLOOR_CASES.length + ROW_CASES.length + ORDER_CASES.length + DAY_CASES.length + CIRCLE_CASES.length + GRID_CASES.length + BOX_CASES.length + TWOROW_CASES.length + BDAY_CASES.length + SQUARE_CASES.length + PENT_CASES.length + RANK_CASES.length + VAC_CASES.length + SOUTH_CASES.length + ROW_NEITHER.length + FLOOR_VIZ.length + FLOOR_EXTRA.length + ORDER_EXTRA.length} phrasings checked`)
 console.log(`engine vs brute force: ${compared} random puzzles (${uniqueTraced} with a unique answer traced, ${multiple} with several answers)`)
 console.log(`step kinds: ${JSON.stringify(kinds)}; ${trials} case-analysis trials`)
 console.log(`teaching trace: ${eliminations} crossings checked for soundness, ${whatIfs} what-if simulations refuted`)

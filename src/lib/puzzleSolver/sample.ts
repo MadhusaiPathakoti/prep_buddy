@@ -313,4 +313,20 @@ T is interviewed in the same month as S.
 V is interviewed on the same date as R but in a different month.
 Only one person is interviewed between Q and S.`,
   },
+  {
+    id: 'south-row',
+    title: 'A row facing south',
+    text: `Eight persons B, E, A, F, C, G, D & H sit in a linear row however not necessarily in the same order. All of them face towards the south. Each of them likes different colors among Purple, Black, Pink, Azure, Blue, Yellow, White and Coral.
+
+A sits third to the left of C.
+H sits adjacent to the one, who likes Coral.
+Neither G nor the one, who likes Black sits at the extreme end.
+The one, who likes Yellow sits fourth to the right of the one, who likes Blue.
+Only three persons sits between H and E, who likes Azure.
+Only four persons sit between G and the one, who likes Black.
+B likes White and sits immediate right of G.
+D sits immediate right of the one, who likes Pink.
+F doesn't like Blue.
+The number of persons sit to the right of B is equal to the number of persons sit to the left of the one, who likes Coral.`,
+  },
 ]

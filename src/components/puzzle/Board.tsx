@@ -363,7 +363,9 @@ export default function Board({
               : p.axis === "row"
                 ? p.dirCat !== undefined
                   ? "The line, west → east"
-                  : "The row, left → right"
+                  : p.mirror
+                    ? "The row as drawn, west → east (everyone faces south)"
+                    : "The row, left → right"
                 : p.axis === "circle"
                   ? "The round table"
                   : p.axis === "tworow"

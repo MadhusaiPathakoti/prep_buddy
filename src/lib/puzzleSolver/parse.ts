@@ -23,6 +23,7 @@ export interface ParseSummary {
   mixed?: boolean
   /** a table with corners and sides (square, pentagon-shaped …) */
   square?: boolean
+  mirror?: boolean
   shape?: string
   cornersIn?: boolean
   /** no seating or order at all: people are only matched with attributes */
@@ -185,6 +186,8 @@ interface Lexicon {
   birth?: { months: string[]; dates: number[]; slotMode?: boolean }
   /** people face north or south: index (within the categories) of the 'direction' category */
   dirCat?: number
+  /** everyone faces south: left and right are swapped relative to the positions (west → east) */
+  mirror?: boolean
   /** a table with corners and sides: even seats are corners, odd seats the middles of the sides */
   square?: boolean
   /** true when the people at the corners face the centre (the people on the sides then face outside) */
@@ -309,8 +312,10 @@ function foldDerived(sIn: string, ments: Term[], axis: Axis): string {
   return s
 }
 
-function norm(t: string, ments?: Term[], axis?: Axis): string {
+function norm(t: string, ments?: Term[], axis?: Axis, mirror?: boolean): string {
   let s = t.toLowerCase()
+  // everyone faces south: a person's left is the east, so every "left" in the text is a higher position and every "right" a lower one
+  if (mirror) s = s.replace(/\b(left|right)(most)?\b/g, (_m, d: string, most?: string) => (d === 'left' ? 'right' : 'left') + (most ?? ''))
   s = s.replace(/\b(north|south)[\s-]*(east|west)\b/g, '$1$2')
   s = s.replace(/\bit is not (?:true|the case) that\b/g, ' not ')
   s = s.replace(/\bper (?:month|year|annum)\b/g, ' ')
@@ -515,7 +520,7 @@ function interpretClauseRaw(s: string, ments: Term[], lex: Lexicon): Atom[] | nu
   // "The number of persons to the left of x is the same as the number of persons to the right of y"
   // ("the number of floors above G is the same as the number of floors below the Fireman")
   const SIDE = '(left of|right of|above|below|before|after)'
-  m = s.match(new RegExp(`(?:number of|as many) (?:[a-z]+\\s+){1,3}?${SIDE}\\s+${ENT}\\s+(?:(?:is|are)\\s+)?(not\\s+)?(?:the\\s+)?same as\\s+(?:(?:the\\s+)?number of (?:[a-z]+\\s+){1,3}?)?${SIDE}\\s+${ENT}`))
+  m = s.match(new RegExp(`(?:number of|as many) (?:[a-z]+\\s+){1,3}?${SIDE}\\s+${ENT}\\s+(?:(?:is|are)\\s+)?(not\\s+)?(?:the\\s+)?(?:same as|equal to)\\s+(?:(?:the\\s+)?number of (?:[a-z]+\\s+){1,3}?)?${SIDE}\\s+${ENT}`))
   if (m) {
     if (lex.axis === 'circle') return null
     const low = (w: string) => w === 'left of' || w === 'below' || w === 'before'
@@ -848,7 +853,7 @@ function positionSet(sIn: string, lex: Lexicon): number[] | 'bad' | null {
   } else {
     if (/\b(?:leftmost|left end|left most)\b/.test(s)) add(0)
     if (/\b(?:rightmost|right end|right most)\b/.test(s)) add(n - 1)
-    if (/\b(?:either end|both ends|one of the ends|extreme ends|any end|one end|an end|the ends)\b/.test(s)) {
+    if (/\b(?:either end|both ends|one of the ends|extreme ends?|any end|one end|an end|the ends)\b/.test(s)) {
       add(0)
       add(n - 1)
     }
@@ -940,7 +945,7 @@ function parseClueText(sentence: string, lex: Lexicon): Atom[] | null {
       return `@${a} `
     },
   )
-  const s = norm(rest, ments, lex.dirCat === undefined ? lex.axis : undefined)
+  const s = norm(rest, ments, lex.dirCat === undefined ? lex.axis : undefined, lex.mirror)
   if (s) {
     // "D was not born immediately before B, who was born in April": a second statement about the person just named
     const who = s.match(/^(.+@(\d+))\s+who\s+(.+)$/)
@@ -1045,7 +1050,7 @@ function orderFromList(values: string[]): OrderInfo | null {
 
 /** statements that only restate the setup ("Each person was born in one month only.") — nothing to solve, so nothing to warn about */
 const isFiller = (s: string): boolean =>
-  /^each corner\b/i.test(s) || /^(?:one|two|three|four|only|exactly|no|any)\b[^.]*\b(?:dates?|days?)\b[^.]*\b(?:vacant|empty|free|unoccupied)\b/i.test(s) || /^(?:each|every)\s+(?:day|date)\b[^.]*\bonly one\b/i.test(s) || /^the distance between\b/i.test(s) || /^the (?:persons?|people),? who (?:sit|sits|are sitting) at the (?:side|corner)s?\b/i.test(s) || /^\w+\s+(?:people|persons)\s+(?:are\s+)?sitting\s+at\s+the\s+corners\b/i.test(s) || /^no seat is\b/i.test(s) || /^(?:the\s+)?(?:people|persons)\s+(?:sitting|seated)\s+(?:at|on)\s+the\s+corners\b/i.test(s) ||
+  /^each corner\b/i.test(s) || /^(?:all of them|everyone|everybody|each of them|they all)\s+(?:are\s+)?fac(?:e|es|ing)\b/i.test(s) || /^(?:one|two|three|four|only|exactly|no|any)\b[^.]*\b(?:dates?|days?)\b[^.]*\b(?:vacant|empty|free|unoccupied)\b/i.test(s) || /^(?:each|every)\s+(?:day|date)\b[^.]*\bonly one\b/i.test(s) || /^the distance between\b/i.test(s) || /^the (?:persons?|people),? who (?:sit|sits|are sitting) at the (?:side|corner)s?\b/i.test(s) || /^\w+\s+(?:people|persons)\s+(?:are\s+)?sitting\s+at\s+the\s+corners\b/i.test(s) || /^no seat is\b/i.test(s) || /^(?:the\s+)?(?:people|persons)\s+(?:sitting|seated)\s+(?:at|on)\s+the\s+corners\b/i.test(s) ||
   /^some of them (?:are )?facing\b/i.test(s) || /^each of them (?:likes?|has|have|owns?|plays?|drinks?|eats?|prefers?)\s+(?:one|a|an)\s+[a-z]+\s*\.?$/i.test(s) ||
   /^(?:not more than|at most|only) one (?:person|box|friend|student)\b[^.]*\bsame\b/i.test(s) || /^(?:each|every)\s+(?:person|one|of them|friend|student)\b[^.]*\b(?:only|exactly one)\b/i.test(s) || /^no\s+two\b/i.test(s) || /\bwith respect to\b[^.]*\bfacing\b/i.test(s) || /^\(?\s*left and right\b/i.test(s) || /^\(?\s*(?:the\s+)?(?:bottommost|lowermost|lowest|ground|topmost|position 1)\b[^.]*\b(?:numbered|is the bottom)\b/i.test(s)
 
@@ -1355,6 +1360,8 @@ export function parsePuzzle(raw: string): ParseResult {
     slotCat = cats.length - 1
     result.warnings.push(`There are ${bday.slots} dates for ${n} people, so ${bday.slots - n} date${bday.slots - n === 1 ? ' stays' : 's stay'} vacant. The people are taken in date order: "after", "immediately after" and "between" count people, not empty dates.`)
   }
+  // a row whose people all face south: their left is the east, so left / right are swapped relative to the picture
+  const mirror = axisGuess === 'row' && !circle && !tworow && !building && !order && dirCat === undefined && slotCat === undefined && !unordered && /\b(?:all|everyone|everybody|each|every)\b[^.]*?\bfac(?:e|es|ing)\s+(?:towards?\s+)?(?:the\s+)?south\b/i.test(text)
   const axis: Axis = building ? 'grid' : circle ? 'circle' : tworow ? 'tworow' : order ? 'order' : axisGuess
   const rowLen = axis === 'tworow' ? n / 2 : undefined
   const topDown = axis === 'floor' && topDownText
@@ -1365,6 +1372,7 @@ export function parsePuzzle(raw: string): ParseResult {
 
   const lex = buildLexicon(people, slotCat !== undefined ? cats.slice(0, -1) : cats, axis, topDown, order?.labels, building ? { cols: building.cols, flats: building.flats } : undefined, rowLen)
   lex.dirCat = dirCat
+  lex.mirror = mirror
   lex.square = square
   lex.cornersIn = cornersIn
   if (bday) {
@@ -1402,7 +1410,7 @@ export function parsePuzzle(raw: string): ParseResult {
   const unorderedVerb = lifeVerb ? (lifeVerb[1].toLowerCase() === 'study' ? 'studies' : `${lifeVerb[1].toLowerCase()}s`) : undefined
   const extra = order ? { labels: order.labels, unit: order.unit, on: order.on, verb: slotCat !== undefined ? undefined : verbWord ? `was ${verbWord[1].toLowerCase()}` : bday ? 'was born' : unordered ? unorderedVerb : undefined, ...(bday ? { cols: bday.dates.length } : {}), ...(unordered ? { unordered: true } : {}) } : {}
   const stack = boxes && axis === 'floor' ? { noun: 'box', place: 'place' } : boxes ? { noun: 'box' } : {}
-  result.summary = { people, axis, topDown, cats, labels: order?.labels, unit: order?.unit, facing, cols: building?.cols, flats: building?.flats, rowLen, unordered: unordered || undefined, dates: slotCat !== undefined && bday ? bday.labels : undefined, mixed: dirCat !== undefined || undefined, square: square || undefined, shape: shape?.name, cornersIn: square ? cornersIn : undefined, ...stack }
-  result.puzzle = { n, axis, topDown, people, cats, clues, ...extra, ...(dirCat !== undefined ? { dirCat } : {}), ...(slotCat !== undefined ? { slotCat } : {}), ...(circle ? { facing } : {}), ...(square ? { square: true, shape: shape?.name, cornersIn } : {}), ...(building ? { cols: building.cols, flats: building.flats } : {}), ...(rowLen ? { rowLen } : {}), ...stack }
+  result.summary = { people, axis, topDown, cats, labels: order?.labels, unit: order?.unit, facing, cols: building?.cols, flats: building?.flats, rowLen, mirror: mirror || undefined, unordered: unordered || undefined, dates: slotCat !== undefined && bday ? bday.labels : undefined, mixed: dirCat !== undefined || undefined, square: square || undefined, shape: shape?.name, cornersIn: square ? cornersIn : undefined, ...stack }
+  result.puzzle = { n, axis, topDown, people, cats, clues, ...extra, ...(dirCat !== undefined ? { dirCat } : {}), ...(mirror ? { mirror: true } : {}), ...(slotCat !== undefined ? { slotCat } : {}), ...(circle ? { facing } : {}), ...(square ? { square: true, shape: shape?.name, cornersIn } : {}), ...(building ? { cols: building.cols, flats: building.flats } : {}), ...(rowLen ? { rowLen } : {}), ...stack }
   return result
 }
