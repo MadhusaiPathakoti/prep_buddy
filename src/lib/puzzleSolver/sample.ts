@@ -329,4 +329,20 @@ D sits immediate right of the one, who likes Pink.
 F doesn't like Blue.
 The number of persons sit to the right of B is equal to the number of persons sit to the left of the one, who likes Coral.`,
   },
+  {
+    id: 'week-bikes',
+    title: 'Bikes bought in a week',
+    text: `Seven friends namely Virat, Mayank, Rohit, Hardik, Yuvraj, Gautam and Shivam buy seven different bikes namely Honda, KTM, Ronin, Ducati, Yamaha, Bajaj and Benelli in a week but not necessarily in the same order. The week is starting from Monday.
+
+Mayank buys either KTM or Yamaha.
+Hardik buys Benelli on penultimate day of the week.
+Yuvraj buys Ronin.
+Virat buys Honda on Friday.
+Bajaj is purchased by one of the person in middle of the week.
+No one buys after Rohit's purchasing.
+Mayank purchased after two days of the one who purchased Ducati.
+Number of days between Yuvraj and Mayank is not same as between Shivam and Virat.
+There are three days between Rohit and the one who purchased KTM.
+Mayank purchase one of the things before Virat.`,
+  },
 ]

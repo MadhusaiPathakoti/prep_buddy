@@ -549,6 +549,10 @@ export class Ctx {
         return `${L(a.x)} is${not} ${how} ${L(a.y)}`
       }
       case 'logic': {
+        // "Mayank buys either KTM or Yamaha": two links of the same person to two values of one category
+        if (a.op === 'or' && a.a.t === 'link' && a.b.t === 'link' && !a.a.neg && !a.b.neg && sameTerm(a.a.x, a.b.x) && a.a.y.k === 'v' && a.b.y.k === 'v' && a.a.y.c === a.b.y.c) {
+          return `${L(a.a.x)}'s ${this.catName(2 + a.a.y.c)} is ${this.lab(2 + a.a.y.c, a.a.y.i)} or ${this.lab(2 + a.b.y.c, a.b.y.i)}`
+        }
         const x = this.describeAtom(a.a)
         const y = this.describeAtom(a.b)
         return a.op === 'imp' ? `if ${x}, then ${y}` : a.op === 'xor' ? `either ${x}, or ${y}, but not both` : `${x}, or ${y}, or both`

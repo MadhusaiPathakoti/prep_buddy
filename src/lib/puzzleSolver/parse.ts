@@ -43,7 +43,7 @@ export interface ParseResult {
 
 const NUM: Record<string, number> = { zero: 0, one: 1, two: 2, three: 3, four: 4, five: 5, six: 6, seven: 7, eight: 8, nine: 9, ten: 10 }
 const ORD: Record<string, number> = { first: 1, second: 2, third: 3, fourth: 4, fifth: 5, sixth: 6, seventh: 7, eighth: 8, ninth: 9, tenth: 10 }
-const COUNT_NOUN = '(?:persons?|people|ones?|floors?|seats?|boxes|box|others?|friends?|students?|members?|boys?|girls?|men|women|individuals?)'
+const COUNT_NOUN = '(?:persons?|people|ones?|floors?|seats?|boxes|box|others?|friends?|students?|members?|boys?|girls?|men|women|individuals?|days?|dates?|weeks?|months?|years?|places?)'
 const ENT = '@(\\d+)'
 const ARTICLE_NOUNS = new Set(['person', 'man', 'woman', 'boy', 'girl', 'friend', 'student', 'floor', 'seat', 'row', 'few', 'couple', 'number', 'different', 'certain', 'particular', 'lot', 'building', 'group', 'member', 'colleague', 'child'])
 
@@ -150,6 +150,7 @@ function parseCategorySentence(s: string): CatSentence | null {
   let rest = m[2].replace(/\([^)]*\)/g, ' ').replace(/[.)]+\s*$/, '')
   rest = rest.replace(/\s+/g, ' ').trim()
   rest = rest.replace(/[,;]?\s*(?:but\s+)?not\s+(?:necessarily\s+)?in\s+the\s+same\s+order\.?\s*$/i, '').trim() // "… but not in the same order"
+  rest = rest.replace(/\s+(?:in|within|during|over)\s+(?:a|an|the|one)\s+(?:week|month|year|day)\b[^,]*$/i, '').trim() // "… Bajaj and Benelli in a week"
   if (!rest.includes(',') && !/\band\b/i.test(rest)) return null
   // "₹55,000, ₹70,000": a comma between digit groups of three is a thousands separator, not a list separator
   const SEP = '\u0001'
@@ -517,6 +518,20 @@ function interpretClauseRaw(s: string, ments: Term[], lex: Lexicon): Atom[] | nu
     return a1 && a2 ? [a1, a2] : null
   }
 
+  // "Mayank buys either KTM or Yamaha": one of the two
+  m = s.match(new RegExp(`^${ENT}\\s+(?:[a-z]+\\s+){0,3}?either\\s+${ENT}\\s+or\\s+${ENT}$`))
+  if (m) {
+    const x = M(m[1])
+    const a = M(m[2])
+    const b = M(m[3])
+    const cat = (t: Term) => (t.k === 'p' ? -1 : t.k === 'v' ? t.c : -2)
+    if (isVar(x) && a.k === 'v' && b.k === 'v' && cat(x) !== cat(a) && cat(x) !== cat(b)) return [{ t: 'logic', op: 'or', a: { t: 'link', x, y: a }, b: { t: 'link', x, y: b } }]
+  }
+
+  // "Mayank purchased after two days of the one who purchased Ducati": exactly that many days after / before
+  m = s.match(new RegExp(`${ENT}\\s+(?:[a-z]+\\s+){0,3}?(after|before)\\s+(\\d+)\\s+(?:days?|floors?|seats?|places?|months?|weeks?|years?|steps?)\\s+(?:of|from)\\s+${ENT}`))
+  if (m) return [{ t: 'diff', x: M(m[1]), y: M(m[4]), d: (m[2] === 'after' ? 1 : -1) * Number(m[3]), neg }]
+
   // "The number of persons to the left of x is the same as the number of persons to the right of y"
   // ("the number of floors above G is the same as the number of floors below the Fireman")
   const SIDE = '(left of|right of|above|below|before|after)'
@@ -685,6 +700,23 @@ function interpretClauseRaw(s: string, ments: Term[], lex: Lexicon): Atom[] | nu
       const either = /\b(?:either|neither)\b/.test(s)
       return others.map((x) => (fs.length === 1 && !either ? { t: 'link', x, y: named[0], neg } : { t: 'set', x, fs, neg: neg || (/\bneither\b/.test(s) ? true : undefined) }) as Atom)
     }
+    // "Virat buys Honda on Friday": the two are the same person, and that person is on that day
+    if (named.length >= 1 && others.length === 2 && !neg && !/\b(?:either|neither)\b/.test(s) && others.every(isVar)) {
+      const cat = (t: Term) => (t.k === 'p' ? -1 : t.k === 'v' ? t.c : -2)
+      if (cat(others[0]) !== cat(others[1])) {
+        const fs = [...new Set(named.map((t) => t.f))].sort((a, b) => a - b)
+        const pos: Atom = fs.length === 1 ? { t: 'link', x: others[0] as VarTerm, y: named[0] } : { t: 'set', x: others[0], fs }
+        return [{ t: 'link', x: others[0] as VarTerm, y: others[1] as VarTerm }, pos]
+      }
+    }
+  }
+
+  // "Hardik buys Benelli on the penultimate day": the two are the same person, and that person is at that position
+  if (count === 2 && !neg && lex.axis !== 'grid') {
+    const ids2 = (s.match(/@(\d+)/g) ?? []).map((t) => M(t.slice(1)))
+    const fs2 = ids2.every((t) => t.k !== 'f') ? positionSet(s, lex) : null
+    const cat2 = (t: Term) => (t.k === 'p' ? -1 : t.k === 'v' ? t.c : -2)
+    if (fs2 && fs2 !== 'bad' && fs2.length && ids2.every(isVar) && cat2(ids2[0]) !== cat2(ids2[1])) return [{ t: 'link', x: ids2[0] as VarTerm, y: ids2[1] as VarTerm }, { t: 'set', x: ids2[0], fs: fs2, ...onSlot(lex) }]
   }
 
   // one person / value and a position: "topmost", "floor 3", "either the topmost or the lowest", "an odd-numbered floor" …
@@ -825,6 +857,17 @@ function positionSet(sIn: string, lex: Lexicon): number[] | 'bad' | null {
     s = s.replace(/\bweek(?:end|day)\b/g, ' ')
   }
   // "second from one of the ends": that seat counted from either end
+  // "on the penultimate day", "in the middle of the week"
+  if (/\b(?:penultimate|second last|second to last)\b/.test(s)) {
+    if (n < 2) return 'bad'
+    add(n - 2)
+    s = s.replace(/\b(?:penultimate|second last|second to last)\b/g, ' ')
+  }
+  if (/\bmiddle\b/.test(s) && !lex.square) {
+    add(Math.floor((n - 1) / 2))
+    add(Math.ceil((n - 1) / 2))
+    s = s.replace(/\bmiddle\b/g, ' ')
+  }
   const fromEnds = s.match(/#?(\d+)\s*(?:seat|place|position)?\s+from\s+(?:one of|both|either of)\s+(?:the\s+)?(?:two\s+)?ends\b/)
   if (fromEnds) {
     const k = Number(fromEnds[1])
@@ -1024,6 +1067,14 @@ function birthdayGrid(header: string, n: number): { labels: string[]; months: st
   return { labels: months.flatMap((mo) => dates.map((d) => `${mo} ${d}`)), months, dates, slots }
 }
 
+/** "buy seven bikes in a week … The week is starting from Monday": seven people on the seven days of a week */
+function orderFromWeek(text: string, n: number): OrderInfo | null {
+  if (n !== 7 || !/\b(?:in|within|during|over|of)\s+(?:a|the|one)\s+week\b/i.test(text)) return null
+  const start = text.match(/\b(?:start(?:s|ed|ing)?|begin(?:s|ning)?)\s+(?:from|on|with)?\s*(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday)\b/i)
+  const a = start ? DAYS.findIndex((d) => d.toLowerCase() === start[1].toLowerCase()) : 0
+  return { labels: Array.from({ length: 7 }, (_, k) => DAYS[(a + k) % 7]), unit: 'day', on: 'on' }
+}
+
 function orderFromRange(text: string, n: number): OrderInfo | { error: string } | null {
   for (const kind of ORDER_KINDS) {
     const alt = kind.names.join('|')
@@ -1050,7 +1101,7 @@ function orderFromList(values: string[]): OrderInfo | null {
 
 /** statements that only restate the setup ("Each person was born in one month only.") — nothing to solve, so nothing to warn about */
 const isFiller = (s: string): boolean =>
-  /^each corner\b/i.test(s) || /^(?:all of them|everyone|everybody|each of them|they all)\s+(?:are\s+)?fac(?:e|es|ing)\b/i.test(s) || /^(?:one|two|three|four|only|exactly|no|any)\b[^.]*\b(?:dates?|days?)\b[^.]*\b(?:vacant|empty|free|unoccupied)\b/i.test(s) || /^(?:each|every)\s+(?:day|date)\b[^.]*\bonly one\b/i.test(s) || /^the distance between\b/i.test(s) || /^the (?:persons?|people),? who (?:sit|sits|are sitting) at the (?:side|corner)s?\b/i.test(s) || /^\w+\s+(?:people|persons)\s+(?:are\s+)?sitting\s+at\s+the\s+corners\b/i.test(s) || /^no seat is\b/i.test(s) || /^(?:the\s+)?(?:people|persons)\s+(?:sitting|seated)\s+(?:at|on)\s+the\s+corners\b/i.test(s) ||
+  /^each corner\b/i.test(s) || /^the week (?:is )?(?:start|begin)/i.test(s) || /^(?:all of them|everyone|everybody|each of them|they all)\s+(?:are\s+)?fac(?:e|es|ing)\b/i.test(s) || /^(?:one|two|three|four|only|exactly|no|any)\b[^.]*\b(?:dates?|days?)\b[^.]*\b(?:vacant|empty|free|unoccupied)\b/i.test(s) || /^(?:each|every)\s+(?:day|date)\b[^.]*\bonly one\b/i.test(s) || /^the distance between\b/i.test(s) || /^the (?:persons?|people),? who (?:sit|sits|are sitting) at the (?:side|corner)s?\b/i.test(s) || /^\w+\s+(?:people|persons)\s+(?:are\s+)?sitting\s+at\s+the\s+corners\b/i.test(s) || /^no seat is\b/i.test(s) || /^(?:the\s+)?(?:people|persons)\s+(?:sitting|seated)\s+(?:at|on)\s+the\s+corners\b/i.test(s) ||
   /^some of them (?:are )?facing\b/i.test(s) || /^each of them (?:likes?|has|have|owns?|plays?|drinks?|eats?|prefers?)\s+(?:one|a|an)\s+[a-z]+\s*\.?$/i.test(s) ||
   /^(?:not more than|at most|only) one (?:person|box|friend|student)\b[^.]*\bsame\b/i.test(s) || /^(?:each|every)\s+(?:person|one|of them|friend|student)\b[^.]*\b(?:only|exactly one)\b/i.test(s) || /^no\s+two\b/i.test(s) || /\bwith respect to\b[^.]*\bfacing\b/i.test(s) || /^\(?\s*left and right\b/i.test(s) || /^\(?\s*(?:the\s+)?(?:bottommost|lowermost|lowest|ground|topmost|position 1)\b[^.]*\b(?:numbered|is the bottom)\b/i.test(s)
 
@@ -1264,7 +1315,7 @@ export function parsePuzzle(raw: string): ParseResult {
   // named order (months, weekdays) from a range in the header: "from May to December"
   let order: OrderInfo | null = null
   if (bday) order = bday.slots === n ? { labels: bday.labels, unit: 'date', on: 'on' } : { unit: 'place', on: 'in' }
-  const range = bday ? null : (orderFromRange(header, n) ?? orderFromRange(text, n))
+  const range = bday ? null : (orderFromRange(header, n) ?? orderFromRange(text, n) ?? orderFromWeek(text, n))
   if (range && 'error' in range) {
     result.errors.push(range.error)
     return result

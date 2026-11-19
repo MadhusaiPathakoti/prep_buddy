@@ -328,6 +328,22 @@ const SOUTH_CASES: [string, string][] = [
   ['The number of persons to the right of A is equal to the number of persons to the left of B.', 'as many people to the right of A as to the left of B'],
 ]
 
+const WEEK_HEADER = `Seven friends A, B, C, D, E, F and G buy seven different bikes namely Honda, KTM, Ronin, Ducati, Yamaha, Bajaj and Benelli in a week but not necessarily in the same order. The week is starting from Monday.
+`
+
+const WEEK_CASES: [string, string][] = [
+  ['A buys either KTM or Yamaha.', "A's bike is KTM or Yamaha"],
+  ['B buys Benelli on penultimate day of the week.', "B's bike is Benelli ; B is on Saturday"],
+  ['C buys Honda on Friday.', "C's bike is Honda ; C is on Friday"],
+  ['Bajaj is purchased by one of the person in middle of the week.', 'the Bajaj person is on Thursday'],
+  ['A purchased after two days of the one who purchased Ducati.', 'A is exactly 2 days after the Ducati person'],
+  ['A purchased before three days of the one who purchased Ducati.', 'A is exactly 3 days before the Ducati person'],
+  ['There are three days between A and the one who purchased KTM.', 'exactly 3 people between A and the KTM person'],
+  ["No one buys after A's purchasing.", 'A is on the last day (Sunday)'],
+  ['Number of days between A and B is not same as between C and D.', 'not the same number of people between A and B as between C and D'],
+  ['A purchase one of the things before B.', 'A is somewhere before B'],
+]
+
 const FLOOR_EXTRA: [string, string][] = [
   ['A lives on a prime-numbered floor.', 'A is on floor 2, 3, 5 or 7'],
   ['A does not live on a prime-numbered floor.', 'A is not on floor 2, 3, 5 or 7'],
@@ -434,6 +450,7 @@ runParserTable(PENT_HEADER, PENT_CASES)
 runParserTable(RANK_HEADER, RANK_CASES)
 runParserTable(VAC_HEADER, VAC_CASES)
 runParserTable(SOUTH_HEADER, SOUTH_CASES)
+runParserTable(WEEK_HEADER, WEEK_CASES)
 runParserTable(ROW_HEADER, ROW_NEITHER)
 runParserTable(FLOOR_HEADER, FLOOR_EXTRA)
 runParserTable(ORDER_HEADER, ORDER_EXTRA)
@@ -603,6 +620,22 @@ for (const s of SAMPLES) {
     }).join(' ')
     if (got !== 'F:Yellow C:Black D:Coral H:Pink A:Blue B:White G:Purple E:Azure') fail(`south-row sample: got ${got}`)
   }
+}
+
+// a week of seven people: the days start from the named day, and the answer key is the table of the original puzzle
+{
+  const wk = SAMPLES.find((x) => x.id === 'week-bikes')
+  const r = wk ? parsePuzzle(wk.text) : null
+  const e = r?.puzzle ? enumerate(r.puzzle, 3) : null
+  if (!r?.puzzle || !e || e.sols.length !== 1 || r.unparsed.length) fail('week-bikes sample: expected exactly one solution and every clue read')
+  else {
+    const P = r.puzzle
+    const got = Array.from({ length: 7 }, (_, f) => `${(P.labels as string[])[f]}:${P.people[e.sols[0].pos.indexOf(f)]}/${P.cats[0].values[e.sols[0].val[0][e.sols[0].pos.indexOf(f)]]}`).join(' ')
+    if (got !== 'Monday:Shivam/Ducati Tuesday:Yuvraj/Ronin Wednesday:Mayank/KTM Thursday:Gautam/Bajaj Friday:Virat/Honda Saturday:Hardik/Benelli Sunday:Rohit/Yamaha') fail(`week-bikes sample: got ${got}`)
+  }
+  const thu = parsePuzzle(`Seven friends A, B, C, D, E, F and G buy seven different bikes namely Honda, KTM, Ronin, Ducati, Yamaha, Bajaj and Benelli in a week. The week is starting from Thursday.\nA buys Honda on Monday.`)
+  const lab = thu.puzzle?.labels
+  if (!lab || lab[0] !== 'Thursday' || lab[6] !== 'Wednesday') fail(`week starting from Thursday: got ${lab?.join(',')}`)
 }
 
 // mistakes in the input are reported, not guessed at
@@ -1275,7 +1308,7 @@ for (const s of SAMPLES) {
   console.log('app generator, end to end: ' + Object.entries(tally).map(([k, v]) => `${k} ${v.checked} checked (${v.skipped} of an unsupported layout skipped)`).join('; '))
 }
 
-console.log(`parser: ${FLOOR_CASES.length + ROW_CASES.length + ORDER_CASES.length + DAY_CASES.length + CIRCLE_CASES.length + GRID_CASES.length + BOX_CASES.length + TWOROW_CASES.length + BDAY_CASES.length + SQUARE_CASES.length + PENT_CASES.length + RANK_CASES.length + VAC_CASES.length + SOUTH_CASES.length + ROW_NEITHER.length + FLOOR_VIZ.length + FLOOR_EXTRA.length + ORDER_EXTRA.length} phrasings checked`)
+console.log(`parser: ${FLOOR_CASES.length + ROW_CASES.length + ORDER_CASES.length + DAY_CASES.length + CIRCLE_CASES.length + GRID_CASES.length + BOX_CASES.length + TWOROW_CASES.length + BDAY_CASES.length + SQUARE_CASES.length + PENT_CASES.length + RANK_CASES.length + VAC_CASES.length + SOUTH_CASES.length + WEEK_CASES.length + ROW_NEITHER.length + FLOOR_VIZ.length + FLOOR_EXTRA.length + ORDER_EXTRA.length} phrasings checked`)
 console.log(`engine vs brute force: ${compared} random puzzles (${uniqueTraced} with a unique answer traced, ${multiple} with several answers)`)
 console.log(`step kinds: ${JSON.stringify(kinds)}; ${trials} case-analysis trials`)
 console.log(`teaching trace: ${eliminations} crossings checked for soundness, ${whatIfs} what-if simulations refuted`)
