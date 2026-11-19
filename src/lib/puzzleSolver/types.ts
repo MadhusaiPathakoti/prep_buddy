@@ -28,11 +28,11 @@ export type DirTerm = { k: 'd'; of: VarTerm; slot?: boolean }
 export type Atom =
   | { t: 'link'; x: VarTerm; y: VarTerm; neg?: boolean } // x and y are the same person ("A is from Kolkata")
   // `ref`: people face north or south, and left / right are as seen by y (a south-facing y has its left to the east)
-  | { t: 'diff'; x: Term; y: Term; d: number; ref?: boolean; neg?: boolean } // pos(x) - pos(y) = d   (immediately above: d = 1)
+  | { t: 'diff'; x: Term; y: Term; d: number; ref?: boolean; on?: 'slot'; neg?: boolean } // pos(x) - pos(y) = d   (immediately above: d = 1)
   | { t: 'rank'; x: Term; y: Term; hi: boolean; ref?: boolean; neg?: boolean } // pos(x) > pos(y) when hi, else <   (somewhere above / below)
-  | { t: 'adj'; x: Term; y: Term; neg?: boolean } // neighbouring positions
-  | { t: 'gap'; x: Term; y: Term; k: number; hi?: number; neg?: boolean } // exactly k positions strictly between x and y (k … hi when `hi` is given: "more than one between")
-  | { t: 'same'; x: Term; y: Term; z: Term; w: Term; neg?: boolean } // as many people between x and y as between z and w
+  | { t: 'adj'; x: Term; y: Term; on?: 'slot'; neg?: boolean } // neighbouring positions
+  | { t: 'gap'; x: Term; y: Term; k: number; hi?: number; on?: 'slot'; neg?: boolean } // exactly k positions strictly between x and y (k … hi when `hi` is given: "more than one between")
+  | { t: 'same'; x: Term; y: Term; z: Term; w: Term; on?: 'slot'; neg?: boolean } // as many people between x and y as between z and w
   // a building with several flats per floor: how x's flat compares with y's, floor-wise and flat-wise (gt = above / further east)
   | { t: 'grid'; x: Term; y: Term; row?: GridRel; col?: GridRel; rowDiff?: number; on?: 'slot'; neg?: boolean }
   | { t: 'btw'; x: Term; y: Term; z: Term; neg?: boolean } // x strictly between y and z (either way round)
@@ -93,6 +93,8 @@ export interface Puzzle {
    * and the category at this index (within `cats`) holds the dates, each person's one date; the dates increase with the position
    */
   slotCat?: number
+  /** what one date slot is called when clues count them ("day": "two days after", "three days between" count days, vacant ones too) */
+  slotUnit?: string
   /**
    * axis 'row': everyone faces south, so a person's left is the east: the positions run west → east (the order of the picture) and
    * "to the left of" means a higher position. (The parser swaps left and right; this flag swaps them back when the clues are shown.)

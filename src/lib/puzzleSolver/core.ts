@@ -488,6 +488,10 @@ export class Ctx {
           if (d * 2 > this.n) d -= this.n
         }
         const k = Math.abs(d)
+        if (a.on === 'slot') {
+          const u = this.p.slotUnit ?? 'date'
+          return `${L(a.x)} is${not} ${k === 1 ? `the ${u} ` : `exactly ${k} ${u}s `}${d > 0 ? 'after' : 'before'} ${L(a.y)}`
+        }
         const how = k === 1 ? 'immediately ' : `exactly ${k} ${this.unit}s `
         return `${L(a.x)} is${not} ${how}${dir(d > 0)} ${L(a.y)}${a.ref || this.p.square ? `, as seen by ${L(a.y)}` : ''}`
       }
@@ -496,8 +500,13 @@ export class Ctx {
       case 'sdir':
         return `${L(a.x)} and ${L(a.y)} ${a.neg ? 'face different directions' : 'face the same direction'}`
       case 'adj':
+        if (a.on === 'slot') return `${L(a.x)} and ${L(a.y)} are${not} on consecutive ${this.p.slotUnit ?? 'date'}s`
         return `${L(a.x)} and ${L(a.y)} are${not} on neighbouring ${this.unit}s`
       case 'gap':
+        if (a.on === 'slot') {
+          const u = this.p.slotUnit ?? 'date'
+          return `${a.neg ? 'not ' : ''}exactly ${a.k} ${u}${a.k === 1 ? '' : 's'} between ${L(a.x)} and ${L(a.y)}`
+        }
         if (a.hi !== undefined && a.hi !== a.k) {
           const range = a.hi >= this.n - 2 ? `at least ${a.k}` : a.k === 0 ? `at most ${a.hi}` : `between ${a.k} and ${a.hi}`
           return `${a.neg ? 'not ' : ''}${range} ${this.nouns} between ${L(a.x)} and ${L(a.y)}`
@@ -508,11 +517,12 @@ export class Ctx {
       case 'btw':
         return `${L(a.x)} is${not} between ${L(a.y)} and ${L(a.z)}`
       case 'same':
+        if (a.on === 'slot') return `${a.neg ? 'not ' : ''}the same number of ${this.p.slotUnit ?? 'date'}s between ${L(a.x)} and ${L(a.y)} as between ${L(a.z)} and ${L(a.w)}`
         return `${a.neg ? 'not ' : ''}the same number of ${this.nouns} between ${L(a.x)} and ${L(a.y)} as between ${L(a.z)} and ${L(a.w)}`
       case 'set':
         if (a.on === 'slot') {
           const labels = this.p.cats[this.p.slotCat as number].values
-          return `${L(a.x)} is${not} ${this.datedSet(a.fs, labels) ?? `on ${a.fs.length === 1 ? labels[a.fs[0]] : `${a.fs.slice(0, -1).map((f) => labels[f]).join(', ')} or ${labels[a.fs[a.fs.length - 1]]}`}`}`
+          return `${L(a.x)} is${not} ${(this.p.slotUnit ? null : this.datedSet(a.fs, labels)) ?? `on ${a.fs.length === 1 ? labels[a.fs[0]] : `${a.fs.slice(0, -1).map((f) => labels[f]).join(', ')} or ${labels[a.fs[a.fs.length - 1]]}`}`}`
         }
         return `${L(a.x)} is${not} ${this.setPhrase(a.fs)}`
       case 'opp':
@@ -607,9 +617,14 @@ export function atomTerms(a: Atom): VarTerm[] {
 export function atomVars(a: Atom): (VarTerm | DirTerm)[] {
   if (a.t === 'sdir') return [{ k: 'd', of: a.x }, { k: 'd', of: a.y }]
   // clues about dates: the unknown is the date slot of the person, not their place in the order
-  if ((a.t === 'set' || a.t === 'grid') && a.on === 'slot') {
-    const ts = a.t === 'set' ? [a.x] : [a.x, a.y]
-    return ts.flatMap((t) => termVars(t)).map((u) => ({ k: 'd', of: u, slot: true }) as DirTerm)
+  if ((a.t === 'set' || a.t === 'grid' || a.t === 'diff' || a.t === 'gap' || a.t === 'adj' || a.t === 'same') && a.on === 'slot') {
+    const ts = a.t === 'set' ? [a.x] : a.t === 'same' ? [a.x, a.y, a.z, a.w] : [a.x, a.y]
+    const out: DirTerm[] = []
+    for (const u of ts.flatMap((t) => termVars(t))) {
+      const d: DirTerm = { k: 'd', of: u, slot: true }
+      if (!out.some((o) => sameVar(o, d))) out.push(d)
+    }
+    return out
   }
   const out: (VarTerm | DirTerm)[] = [...atomTerms(a)]
   const extra: DirTerm[] = []
@@ -670,12 +685,12 @@ export function atomTest(a: Atom, n = 0, circ = false, cols = 1, m = 0, sq = 0):
   const dirOf = (t: Term): ((v: number[]) => number) => getter({ k: 'd', of: t as VarTerm })
   /** the date slot of the person a term stands for */
   const slotOf = (t: Term): ((v: number[]) => number) => getter({ k: 'd', of: t as VarTerm, slot: true })
-  const onSlot = (a.t === 'set' || a.t === 'grid') && a.on === 'slot'
+  const onSlot = (a.t === 'set' || a.t === 'grid' || a.t === 'diff' || a.t === 'gap' || a.t === 'adj' || a.t === 'same') && a.on === 'slot'
   const gx = a.t === 'logic' ? null : a.t === 'sdir' ? dirOf(a.x) : onSlot ? slotOf(a.x) : getter(a.x)
   const gy = a.t === 'logic' || a.t === 'set' ? null : a.t === 'sdir' ? dirOf(a.y) : onSlot ? slotOf(a.y) : getter(a.y)
   const gz = a.t === 'btw' ? getter(a.z) : null
-  const gz2 = a.t === 'same' ? getter(a.z) : null
-  const gw = a.t === 'same' ? getter(a.w) : null
+  const gz2 = a.t === 'same' ? (onSlot ? slotOf(a.z) : getter(a.z)) : null
+  const gw = a.t === 'same' ? (onSlot ? slotOf(a.w) : getter(a.w)) : null
   let f: (v: number[]) => boolean
   switch (a.t) {
     case 'diff':

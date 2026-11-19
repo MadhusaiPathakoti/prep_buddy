@@ -344,6 +344,25 @@ const WEEK_CASES: [string, string][] = [
   ['A purchase one of the things before B.', 'A is somewhere before B'],
 ]
 
+const WEEK6_HEADER = `Six friends A, B, C, D, E and F buy six different bikes namely Honda, KTM, Ronin, Ducati, Yamaha and Benelli in a week starting from Monday, though not necessarily in the same order. Only one person buys a bike on a given day, and there is one day in the week on which no one purchases any bike.
+`
+
+// six people on seven days: "days" count days (the vacant one too), "persons" count people
+const WEEK6_CASES: [string, string][] = [
+  ['No bike is purchased on Friday.', 'A is not on Friday ; B is not on Friday ; C is not on Friday ; D is not on Friday ; E is not on Friday ; F is not on Friday'],
+  ['A buys Honda on Friday.', "A's bike is Honda ; A is on Friday"],
+  ['A buys his bike two days after the one who purchased KTM.', 'A is exactly 2 days after the KTM person'],
+  ['There are two days between A and B.', 'exactly 2 days between A and B'],
+  ['There are two persons between A and B.', 'exactly 2 people between A and B'],
+  ['A buys on a weekend.', 'A is on Saturday or Sunday'],
+  ['A buys on the first day of the week.', 'A is on Monday'],
+  ['A buys his bike on the last day of the week.', 'A is on Sunday'],
+  ['The number of days between A and B is the same as the number of days between C and D.', 'the same number of days between A and B as between C and D'],
+  ['A buys the bike immediately after B.', 'A is immediately after B'],
+  ['A buys either KTM or Ducati.', "A's bike is KTM or Ducati"],
+  ['[A](https://example.com/x?q=1) buys Honda.', "A's bike is Honda"],
+]
+
 const FLOOR_EXTRA: [string, string][] = [
   ['A lives on a prime-numbered floor.', 'A is on floor 2, 3, 5 or 7'],
   ['A does not live on a prime-numbered floor.', 'A is not on floor 2, 3, 5 or 7'],
@@ -451,6 +470,7 @@ runParserTable(RANK_HEADER, RANK_CASES)
 runParserTable(VAC_HEADER, VAC_CASES)
 runParserTable(SOUTH_HEADER, SOUTH_CASES)
 runParserTable(WEEK_HEADER, WEEK_CASES)
+runParserTable(WEEK6_HEADER, WEEK6_CASES)
 runParserTable(ROW_HEADER, ROW_NEITHER)
 runParserTable(FLOOR_HEADER, FLOOR_EXTRA)
 runParserTable(ORDER_HEADER, ORDER_EXTRA)
@@ -651,6 +671,23 @@ for (const s of SAMPLES) {
   }
 }
 
+// six people on the seven days of a week: the vacant day follows from the clues (Thursday), and the answer is the original puzzle's table
+{
+  const wv = SAMPLES.find((x) => x.id === 'week-vacant')
+  const r = wv ? parsePuzzle(wv.text) : null
+  const e = r?.puzzle ? enumerate(r.puzzle, 3) : null
+  if (!r?.puzzle || !e || e.sols.length !== 1 || r.unparsed.length) fail('week-vacant sample: expected exactly one solution and every clue read')
+  else {
+    const P = r.puzzle
+    const days = P.cats[P.slotCat as number].values
+    const got = Array.from({ length: P.n }, (_, f) => {
+      const q = e.sols[0].pos.indexOf(f)
+      return `${days[e.sols[0].val[P.slotCat as number][q]]}:${P.people[q]}/${P.cats[0].values[e.sols[0].val[0][q]]}`
+    }).join(' ')
+    if (got !== 'Monday:Shivam/Ducati Tuesday:Yuvraj/Ronin Wednesday:Mayank/KTM Friday:Virat/Honda Saturday:Hardik/Benelli Sunday:Rohit/Yamaha') fail(`week-vacant sample: got ${got}`)
+  }
+}
+
 // mistakes in the input are reported, not guessed at
 for (const [label, text, needle] of [
   ['no people', 'Hello there. A lives above B.', 'list of people'],
@@ -700,10 +737,14 @@ function holds(p: Puzzle, sol: Solution, a: Atom): boolean {
   const circ = p.axis === 'circle'
   const wrap = (x: number) => ((x % p.n) + p.n) % p.n
   let r: boolean
-  if ((a.t === 'set' || a.t === 'grid') && a.on === 'slot' && p.slotCat !== undefined) {
+  if ((a.t === 'set' || a.t === 'grid' || a.t === 'diff' || a.t === 'gap' || a.t === 'adj' || a.t === 'same') && a.on === 'slot' && p.slotCat !== undefined) {
     // the date of a person (vacant dates simply have nobody)
     const sv = (t: Term) => sol.val[p.slotCat as number][personOf(t)]
     if (a.t === 'set') r = a.fs.includes(sv(a.x))
+    else if (a.t === 'diff') r = sv(a.x) - sv(a.y) === a.d
+    else if (a.t === 'adj') r = Math.abs(sv(a.x) - sv(a.y)) === 1
+    else if (a.t === 'gap') r = Math.abs(sv(a.x) - sv(a.y)) - 1 >= a.k && Math.abs(sv(a.x) - sv(a.y)) - 1 <= (a.hi ?? a.k) && sv(a.x) !== sv(a.y)
+    else if (a.t === 'same') r = sv(a.x) !== sv(a.y) && sv(a.z) !== sv(a.w) && Math.abs(sv(a.x) - sv(a.y)) === Math.abs(sv(a.z) - sv(a.w))
     else {
       const cols = p.cols ?? 1
       const sx = sv(a.x)
@@ -857,7 +898,7 @@ function permutations(n: number): number[][] {
 /** Highest extra-category index (+1) an atom needs, 0 when it only involves people and positions. */
 function needLevel(a: Atom, p?: Puzzle): number {
   if (a.t === 'logic') return Math.max(needLevel(a.a, p), needLevel(a.b, p))
-  if (p && p.slotCat !== undefined && (a.t === 'set' || a.t === 'grid') && a.on === 'slot') return Math.max(p.slotCat + 1, needLevel({ ...a, on: undefined } as Atom))
+  if (p && p.slotCat !== undefined && (a.t === 'set' || a.t === 'grid' || a.t === 'diff' || a.t === 'gap' || a.t === 'adj' || a.t === 'same') && a.on === 'slot') return Math.max(p.slotCat + 1, needLevel({ ...a, on: undefined } as Atom))
   if (p && p.dirCat !== undefined && (a.t === 'sdir' || ((a.t === 'diff' || a.t === 'rank') && a.ref))) return Math.max(p.dirCat + 1, needLevel({ ...a, ref: undefined } as Atom))
   const ts: Term[] = a.t === 'btw' ? [a.x, a.y, a.z] : a.t === 'same' ? [a.x, a.y, a.z, a.w] : a.t === 'set' ? [a.x] : [a.x, a.y]
   const base = (t: Term): Term => (t.k === 'r' ? base(t.base) : t)
@@ -1064,6 +1105,9 @@ function randomSlotAtom(p: Puzzle, hidden: Solution): Atom {
     else if (kind === 7) atom = { t: 'grid', x, y, row: rels[ri(4)], col: ri(2) ? rels[ri(4)] : undefined, on: 'slot' }
     else if (kind === 8) atom = { t: 'link', x: { k: 'p', i: ri(p.n) }, y: { k: 'v', c: p.slotCat as number, i: ri(m) } }
     else atom = { t: 'gap', x, y, k: ri(2), hi: 2 + ri(2) }
+    // some clues count the dates themselves ("two days after", "three days between"), vacant dates included
+    if (rnd() < 0.3 && atom.t !== 'link' && atom.t !== 'set' && atom.t !== 'grid' && atom.t !== 'rank' && atom.t !== 'btw' && atom.t !== 'logic') atom = { ...atom, on: 'slot' } as Atom
+    if (rnd() < 0.15) atom = { t: 'same', x, y, z, w: randomTerm(p, true), on: 'slot' }
     if (!holds(p, hidden, atom)) atom = { ...atom, neg: true } as Atom
     if (!holds(p, hidden, atom)) continue
     return atom
@@ -1321,7 +1365,7 @@ for (const s of SAMPLES) {
   console.log('app generator, end to end: ' + Object.entries(tally).map(([k, v]) => `${k} ${v.checked} checked (${v.skipped} of an unsupported layout skipped)`).join('; '))
 }
 
-console.log(`parser: ${FLOOR_CASES.length + ROW_CASES.length + ORDER_CASES.length + DAY_CASES.length + CIRCLE_CASES.length + GRID_CASES.length + BOX_CASES.length + TWOROW_CASES.length + BDAY_CASES.length + SQUARE_CASES.length + PENT_CASES.length + RANK_CASES.length + VAC_CASES.length + SOUTH_CASES.length + WEEK_CASES.length + ROW_NEITHER.length + FLOOR_VIZ.length + FLOOR_EXTRA.length + ORDER_EXTRA.length} phrasings checked`)
+console.log(`parser: ${FLOOR_CASES.length + ROW_CASES.length + ORDER_CASES.length + DAY_CASES.length + CIRCLE_CASES.length + GRID_CASES.length + BOX_CASES.length + TWOROW_CASES.length + BDAY_CASES.length + SQUARE_CASES.length + PENT_CASES.length + RANK_CASES.length + VAC_CASES.length + SOUTH_CASES.length + WEEK_CASES.length + WEEK6_CASES.length + ROW_NEITHER.length + FLOOR_VIZ.length + FLOOR_EXTRA.length + ORDER_EXTRA.length} phrasings checked`)
 console.log(`engine vs brute force: ${compared} random puzzles (${uniqueTraced} with a unique answer traced, ${multiple} with several answers)`)
 console.log(`step kinds: ${JSON.stringify(kinds)}; ${trials} case-analysis trials`)
 console.log(`teaching trace: ${eliminations} crossings checked for soundness, ${whatIfs} what-if simulations refuted`)

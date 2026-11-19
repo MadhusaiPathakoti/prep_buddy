@@ -361,4 +361,20 @@ Two persons were born between Ea and Cd.
 Ab and Cd were not born in the same month.
 Cc was not born in the month of May.`,
   },
+  {
+    id: 'week-vacant',
+    title: 'Bikes in a week (one day vacant)',
+    text: `Six friends—namely Virat, Mayank, Rohit, Hardik, Yuvraj, and Shivam—buy six different bikes—namely Honda, KTM, Ronin, Ducati, Yamaha, and Benelli—in a week starting from Monday, though not necessarily in the same order. Only one person buys a bike on a given day, and there is one day in the week on which no one purchases any bike.
+
+Mayank buys either KTM or Yamaha.
+Hardik buys Benelli on the penultimate day of the week.
+Yuvraj buys Ronin.
+Virat buys Honda on Friday.
+No bike is purchased on the day that falls right in the middle of the week.
+No one buys after Rohit's purchase.
+Mayank purchased his bike two days after the one who purchased Ducati.
+The number of days between Yuvraj and Mayank is not the same as the number of days between Shivam and Virat.
+There are three days between Rohit and the one who purchased KTM.
+Mayank purchases his bike before Virat.`,
+  },
 ]
