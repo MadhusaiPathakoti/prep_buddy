@@ -160,6 +160,13 @@ console.log('judging the solvers')
   check('checker unavailable, typed key differs: busy', (decide(ok(1, 's'), null, 2) as { code: string }).code === 'busy')
   check('solver unavailable: busy', (decide(null, verified(1, 'v'), 1) as { code: string }).code === 'busy')
   check('both unavailable: busy', (decide(null, null, null) as { code: string }).code === 'busy')
+  // no option is the answer: say what the solvers got, so the person can fix the options
+  const noMatch = { ok: true, id: 's', status: 'ambiguous', result: '45 litres per minute' }
+  check('no option matches: code ambiguous, with the computed value', (() => { const d = decide(noMatch, { ok: true, id: 'v', status: 'ambiguous', result: '45' }, null) as { code: string; computed: string }; return d.code === 'ambiguous' && d.computed === '45 litres per minute' })())
+  check('no option matches: the checker\'s value is used when the solver gave none', (decide({ ok: true, id: 's', status: 'ambiguous', result: '' }, { ok: true, id: 'v', status: 'ambiguous', result: '45' }, null) as { computed: string }).computed === '45')
+  check('no option matches and no value given: no computed field', !('computed' in (decide({ ok: true, id: 's', status: 'ambiguous', result: '' }, null, null) as object)))
+  check('other refusals carry no computed value', !('computed' in (decide({ ok: true, id: 's', status: 'not-quant', result: '5' }, verified(1, 'v'), null) as object)))
+  check('result strings are cleaned and a long one is dropped', (() => { const a = acceptSolve({ status: 'ambiguous', result: '  45\n litres ' }, 5) as { result: string }; const b = acceptVerify({ status: 'ambiguous', result: 'x'.repeat(200) }, 5) as { result: string }; return a.result === '45 litres' && b.result === '' })())
 }
 
 // ---------------------------------------------------------------- suggested options and the screenshot reply

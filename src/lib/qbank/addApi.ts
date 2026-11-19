@@ -27,6 +27,8 @@ export type AddResult =
   | { kind: 'key-mismatch'; aiAnswer: number; yourAnswer: number }
   /** The question cannot be added (not maths, needs a figure, answer could not be confirmed...). */
   | { kind: 'rejected'; message: string }
+  /** The solvers worked the question out, but none of the options is their answer. `computed` is what they got (may be empty). */
+  | { kind: 'no-matching-option'; message: string; computed: string }
   /** Sign-in or email verification is needed. */
   | { kind: 'auth'; code: 'sign-in' | 'verify-email'; message: string }
   /** Temporary trouble: busy solvers, rate limit, network. Worth trying again later. */
@@ -97,6 +99,7 @@ export async function submitQuestion(input: AddInput): Promise<AddResult> {
     case 403:
       return { kind: 'auth', code: 'verify-email', message: text(data.message, 'Verify your email address before adding questions.') }
     case 422:
+      if (data.code === 'ambiguous') return { kind: 'no-matching-option', message: text(data.message, 'None of the options matches the result.'), computed: text(data.computed, '') }
       return { kind: 'rejected', message: text(data.message, 'This question cannot be added.') }
     case 429:
       return { kind: 'try-later', message: 'You have added several questions in a short time. Please wait a while and try again.' }

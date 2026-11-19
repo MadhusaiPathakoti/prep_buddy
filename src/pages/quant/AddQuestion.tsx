@@ -111,6 +111,14 @@ export default function AddQuestion() {
     setOptionsNote({ ok: true, text: 'Five options were suggested. None is marked as correct: check them. The two solvers still work out the answer on their own.' })
   }
 
+  /** The solvers' answer was not among the options: put it in place of the last option so the person can add the question. */
+  function putComputedInOptions(value: string) {
+    setOptions((list) => list.map((o, k) => (k === list.length - 1 ? value : o)))
+    setAnswer((a) => (a === options.length - 1 ? null : a))
+    setOptionsNote({ ok: true, text: `Option ${letter(options.length - 1)} was replaced with the solvers' answer. Check the other options, then press Add question again.` })
+    setResult(null)
+  }
+
   // Ctrl+V with an image on the clipboard reads it, like choosing a file.
   useEffect(() => {
     if (!canUseForm) return
@@ -338,7 +346,7 @@ export default function AddQuestion() {
             {busy === 'adding' && <span className="text-sm text-slate-500 dark:text-slate-400">Checking for duplicates, solving and cross-checking. This can take up to a minute.</span>}
           </div>
 
-          {result && <ResultPanel result={result} existing={existing} onPlay={(id) => navigate(`/quant/bank/q/${id}`)} onAddAnother={reset} onAddAnyway={() => void submit({ allowSimilar: true })} onUseAnswer={(index) => void submit({ answerOverride: index })} onDismiss={() => setResult(null)} onSignIn={() => setShowAuth(true)} busy={busy !== null} />}
+          {result && <ResultPanel result={result} existing={existing} onPlay={(id) => navigate(`/quant/bank/q/${id}`)} onAddAnother={reset} onAddAnyway={() => void submit({ allowSimilar: true })} onUseAnswer={(index) => void submit({ answerOverride: index })} lastLetter={letter(options.length - 1)} onUseComputed={putComputedInOptions} onSuggest={() => void suggest()} onDismiss={() => setResult(null)} onSignIn={() => setShowAuth(true)} busy={busy !== null} />}
         </div>
       )}
 
@@ -359,11 +367,14 @@ interface ResultPanelProps {
   onAddAnother: () => void
   onAddAnyway: () => void
   onUseAnswer: (index: number) => void
+  lastLetter: string
+  onUseComputed: (value: string) => void
+  onSuggest: () => void
   onDismiss: () => void
   onSignIn: () => void
 }
 
-function ResultPanel({ result, existing, busy, onPlay, onAddAnother, onAddAnyway, onUseAnswer, onDismiss, onSignIn }: ResultPanelProps) {
+function ResultPanel({ result, existing, busy, onPlay, onAddAnother, onAddAnyway, onUseAnswer, lastLetter, onUseComputed, onSuggest, onDismiss, onSignIn }: ResultPanelProps) {
   const existingCard = existing && (
     <div className="mt-3 rounded-xl bg-white/70 p-3 text-sm text-slate-800 dark:bg-slate-900/40 dark:text-slate-100">
       <p className="line-clamp-3 font-medium">{existing.preview}</p>
@@ -456,6 +467,35 @@ function ResultPanel({ result, existing, busy, onPlay, onAddAnother, onAddAnyway
         <Card tone="bad">
           <h2 className="text-lg font-bold">This question could not be added</h2>
           <p className="mt-1 text-sm">{result.message}</p>
+        </Card>
+      )
+    case 'no-matching-option':
+      return (
+        <Card tone="warn">
+          <h2 className="text-lg font-bold">None of your options is the answer</h2>
+          <p className="mt-1 text-sm">
+            {result.computed ? (
+              <>
+                The AI solvers worked the question out and got <strong>{result.computed}</strong>, which is not one of your options.
+              </>
+            ) : (
+              'The AI solvers worked the question out, but their answer is not one of your options.'
+            )}{' '}
+            Fix the options (a typing mistake is the usual cause), or let the AI write a correct set.
+          </p>
+          <div className="mt-4 flex flex-wrap gap-2">
+            {result.computed && (
+              <button type="button" disabled={busy} onClick={() => onUseComputed(result.computed)} className={primaryButton}>
+                Replace option {lastLetter} with “{result.computed}”
+              </button>
+            )}
+            <button type="button" disabled={busy} onClick={onSuggest} className={secondaryButton}>
+              ✨ Write new options
+            </button>
+            <button type="button" onClick={onDismiss} className={secondaryButton}>
+              I will fix them
+            </button>
+          </div>
         </Card>
       )
     case 'try-later':

@@ -33,7 +33,7 @@ export async function addQuestion(input, user, deps) {
   }
 
   const decision = await deps.solve({ stem: input.stem, options: input.options, answer: input.answer })
-  if (!decision.ok) return { status: decision.code === 'busy' ? 503 : 422, body: { code: decision.code, message: decision.message } }
+  if (!decision.ok) return { status: decision.code === 'busy' ? 503 : 422, body: { code: decision.code, message: decision.message, ...(decision.computed ? { computed: decision.computed } : {}) } }
   if (input.answer !== null && input.answer !== decision.answerIndex) {
     return { status: 409, body: { code: 'key-mismatch', aiAnswer: decision.answerIndex, yourAnswer: input.answer } }
   }

@@ -45,6 +45,7 @@ Reply with ONLY a JSON object. Fill the fields in this order: do the working in 
   "status": "ok" | "not-quant" | "needs-figure" | "incomplete" | "ambiguous",
   "reason": "one short sentence when status is not ok, otherwise an empty string",
   "steps": ["3 to 8 short lines showing the working with the actual numbers, as in a bank-exam solution key; do not write 'Step 1' labels"],
+  "result": "the final value you computed, with its unit, as a short string (for example 45 litres per minute), or an empty string",
   "answerIndex": the 0-based index of the correct option (0 for A, 1 for B ...), or null when status is not ok,
   "shortcut": "one quick mental-maths trick or formula that speeds up THIS question, at most 200 characters, or an empty string",
   "topic": the single best fit from: ${topicList} (use "other" only if none fits at all; a plain percentage-of-a-number question is "percentage"),
@@ -68,7 +69,7 @@ Reply with ONLY a JSON object. Write the "working" first, calculating step by st
   "working": "your calculation, step by step, in a few short sentences",
   "status": "ok" | "not-quant" | "needs-figure" | "incomplete" | "ambiguous",
   "answerIndex": the 0-based index of the correct option (0 for A, 1 for B ...), or null when status is not ok,
-  "result": "the final value you computed, as a short string"
+  "result": "the final value you computed, with its unit, as a short string"
 }
 Use "needs-figure" when a chart, table or figure is missing, "incomplete" when information is missing, "ambiguous" when no option matches your result (and none says "None of these"), and "not-quant" when it is not a quantitative-aptitude question.`
 }
@@ -90,7 +91,7 @@ const tidyLine = (s) =>
 export function acceptSolve(raw, optionCount) {
   if (!raw || typeof raw !== 'object') return { ok: false, error: 'No answer object.' }
   if (!STATUSES.includes(raw.status)) return { ok: false, error: 'Unknown status.' }
-  if (raw.status !== 'ok') return { ok: true, status: raw.status, reason: tidyLine(raw.reason).slice(0, 200) }
+  if (raw.status !== 'ok') return { ok: true, status: raw.status, reason: tidyLine(raw.reason).slice(0, 200), result: tidyResult(raw.result) }
   if (!Number.isInteger(raw.answerIndex) || raw.answerIndex < 0 || raw.answerIndex >= optionCount) return { ok: false, error: 'The answer index is not an option.' }
   if (!Array.isArray(raw.steps)) return { ok: false, error: 'No steps.' }
   const steps = raw.steps
@@ -113,9 +114,15 @@ export function acceptSolve(raw, optionCount) {
 export function acceptVerify(raw, optionCount) {
   if (!raw || typeof raw !== 'object') return { ok: false, error: 'No answer object.' }
   if (!STATUSES.includes(raw.status)) return { ok: false, error: 'Unknown status.' }
-  if (raw.status !== 'ok') return { ok: true, status: raw.status }
+  if (raw.status !== 'ok') return { ok: true, status: raw.status, result: tidyResult(raw.result) }
   if (!Number.isInteger(raw.answerIndex) || raw.answerIndex < 0 || raw.answerIndex >= optionCount) return { ok: false, error: 'The answer index is not an option.' }
   return { ok: true, status: 'ok', answerIndex: raw.answerIndex }
+}
+
+/** The value a solver computed, as a short plain string, or '' when it gave none (or something too long to be a value). */
+function tidyResult(value) {
+  const s = typeof value === 'string' || typeof value === 'number' ? tidyLine(value) : ''
+  return s.length <= 60 ? s : ''
 }
 
 const REASONS = {
@@ -132,7 +139,11 @@ const REASONS = {
  */
 export function decide(solver, verifier, userAnswer) {
   const unusable = [solver, verifier].find((r) => r?.ok && r.status !== 'ok')
-  if (unusable) return { ok: false, code: 'rejected', message: REASONS[unusable.status] || unusable.reason || 'This question cannot be added.' }
+  if (unusable) {
+    // 'ambiguous' means the working is done but no option matches: say what was computed so the person can fix the options
+    const computed = unusable.status === 'ambiguous' ? [solver, verifier].map((r) => r?.result).find(Boolean) : ''
+    return { ok: false, code: unusable.status === 'ambiguous' ? 'ambiguous' : 'rejected', message: REASONS[unusable.status] || unusable.reason || 'This question cannot be added.', ...(computed ? { computed } : {}) }
+  }
 
   if (solver?.ok && verifier?.ok) {
     if (solver.answerIndex === verifier.answerIndex) return { ok: true, ...solver, verifiedBy: verifier.id }
