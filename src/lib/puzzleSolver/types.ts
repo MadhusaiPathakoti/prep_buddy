@@ -80,6 +80,11 @@ export interface Puzzle {
   unordered?: boolean
   /** axis 'order' only: how the text says it, singular ("was born") */
   verb?: string
+  /**
+   * axis 'floor' whose positions are numbered levels such as classes, with seniority wording: `unit` ("class"), and the words for a higher /
+   * lower level ("senior to" / "junior to"); level 1 is the lowest (most junior), level n the highest
+   */
+  hierarchy?: { unit: string; up: string; down: string }
   /** what the people are ("box"; default "person") and, for a vertical stack, what a position is called ("place"; default "floor") */
   noun?: string
   place?: string

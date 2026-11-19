@@ -127,8 +127,13 @@ export class Ctx {
     const n = this.noun
     return n === 'person' ? 'people' : /(?:s|x|ch|sh)$/.test(n) ? `${n}es` : `${n}s`
   }
+  /** the plural of `unit`: "floors", "classes" */
+  get units(): string {
+    const u = this.unit
+    return /(?:s|x|ch|sh|z)$/.test(u) ? `${u}es` : `${u}s`
+  }
   get unit(): string {
-    return this.p.axis === 'floor' ? (this.p.place ?? 'floor') : this.p.axis === 'order' ? (this.p.unit ?? 'position') : this.p.axis === 'grid' ? 'flat' : 'seat'
+    return this.p.axis === 'floor' ? (this.p.hierarchy?.unit ?? this.p.place ?? 'floor') : this.p.axis === 'order' ? (this.p.unit ?? 'position') : this.p.axis === 'grid' ? 'flat' : 'seat'
   }
   /** two parallel rows facing each other: positions 0..m-1 are row 1, m..2m-1 are row 2 (each counted from that row's own left) */
   get tworow(): boolean {
@@ -172,7 +177,7 @@ export class Ctx {
     return this.p.axis === 'circle'
   }
   get onWord(): string {
-    return this.p.axis === 'floor' ? (this.p.place ? 'in' : 'on') : this.p.axis === 'order' ? (this.p.on ?? 'in') : this.p.axis === 'grid' || this.p.axis === 'tworow' ? 'in' : 'at'
+    return this.p.axis === 'floor' ? (this.p.place || this.p.hierarchy ? 'in' : 'on') : this.p.axis === 'order' ? (this.p.on ?? 'in') : this.p.axis === 'grid' || this.p.axis === 'tworow' ? 'in' : 'at'
   }
   /** ordered slots that are (month, date) pairs: "April 11", "April 16", …; `cols` dates per month */
   get dated(): boolean {
@@ -229,12 +234,15 @@ export class Ctx {
   /** words for "higher / lower" along the axis */
   dirWord(hi: boolean): string {
     if (this.p.axis === 'order') return hi ? 'after' : 'before'
+    if (this.p.axis === 'floor' && this.p.hierarchy) return hi ? this.p.hierarchy.up : this.p.hierarchy.down
     return this.p.axis === 'floor' ? (hi ? 'above' : 'below') : hi !== !!this.p.mirror ? 'to the right of' : 'to the left of'
   }
   get topWord(): string {
+    if (this.p.axis === 'floor' && this.p.hierarchy) return `highest ${this.unit} (most senior)`
     return this.p.axis === 'floor' ? `topmost ${this.unit}` : this.p.axis === 'row' ? (this.p.mirror ? 'leftmost seat' : 'rightmost seat') : `last ${this.unit}`
   }
   get bottomWord(): string {
+    if (this.p.axis === 'floor' && this.p.hierarchy) return `lowest ${this.unit} (most junior)`
     return this.p.axis === 'floor' ? `lowest ${this.unit}` : this.p.axis === 'row' ? (this.p.mirror ? 'rightmost seat' : 'leftmost seat') : `first ${this.unit}`
   }
 
@@ -306,7 +314,7 @@ export class Ctx {
       const b = this.termLabel(t.base)
       if (t.op === 'opp') return `the one opposite ${b}`
       const k = Math.abs(t.d)
-      return `the one ${k === 1 ? 'immediately ' : `${k} ${this.unit}s `}${this.dirWord(t.d > 0)} ${b}`
+      return `the one ${k === 1 ? 'immediately ' : `${k} ${this.units} `}${this.dirWord(t.d > 0)} ${b}`
     }
     if (t.k === 'p') return this.p.people[t.i]
     if (t.k === 'f') return this.posLab(t.f)
@@ -339,7 +347,7 @@ export class Ctx {
     }
     const body = parts.length === 1 ? parts[0] : `${parts.slice(0, -1).join(', ')} and ${parts[parts.length - 1]}`
     if (this.named) return body
-    return sorted.length === 1 ? `${this.unit} ${body}` : `${this.unit}s ${body}`
+    return sorted.length === 1 ? `${this.unit} ${body}` : `${this.units} ${body}`
   }
   /**
    * A set of cells of a building described the way a person would: whole floors ("floors 2 and 4", "an even-numbered floor"),
@@ -449,7 +457,7 @@ export class Ctx {
     if (s.length === 1 && s[0] === 0) return tag(`the ${this.bottomWord}`)
     if (s.length === 2 && s[0] === 0 && s[1] === n - 1) {
       if (this.p.axis === 'order') return tag(`either the first or the last ${this.unit}`)
-      return this.p.axis === 'floor' ? `either the topmost or the lowest ${this.unit}` : 'either the leftmost or the rightmost seat'
+      return this.p.axis === 'floor' ? (this.p.hierarchy ? `either the highest or the lowest ${this.unit}` : `either the topmost or the lowest ${this.unit}`) : 'either the leftmost or the rightmost seat'
     }
     if (this.p.axis !== 'order') {
       const all = (par: number) => {
@@ -492,7 +500,7 @@ export class Ctx {
           const u = this.p.slotUnit ?? 'date'
           return `${L(a.x)} is${not} ${k === 1 ? `the ${u} ` : `exactly ${k} ${u}s `}${d > 0 ? 'after' : 'before'} ${L(a.y)}`
         }
-        const how = k === 1 ? 'immediately ' : `exactly ${k} ${this.unit}s `
+        const how = k === 1 ? 'immediately ' : `exactly ${k} ${this.units} `
         return `${L(a.x)} is${not} ${how}${dir(d > 0)} ${L(a.y)}${a.ref || this.p.square ? `, as seen by ${L(a.y)}` : ''}`
       }
       case 'rank':
@@ -501,7 +509,7 @@ export class Ctx {
         return `${L(a.x)} and ${L(a.y)} ${a.neg ? 'face different directions' : 'face the same direction'}`
       case 'adj':
         if (a.on === 'slot') return `${L(a.x)} and ${L(a.y)} are${not} on consecutive ${this.p.slotUnit ?? 'date'}s`
-        return `${L(a.x)} and ${L(a.y)} are${not} on neighbouring ${this.unit}s`
+        return `${L(a.x)} and ${L(a.y)} are${not} on neighbouring ${this.units}`
       case 'gap':
         if (a.on === 'slot') {
           const u = this.p.slotUnit ?? 'date'
@@ -512,7 +520,7 @@ export class Ctx {
           return `${a.neg ? 'not ' : ''}${range} ${this.nouns} between ${L(a.x)} and ${L(a.y)}`
         }
         return a.neg
-          ? `there are not exactly ${a.k} ${this.unit}s between ${L(a.x)} and ${L(a.y)}`
+          ? `there are not exactly ${a.k} ${this.units} between ${L(a.x)} and ${L(a.y)}`
           : `exactly ${a.k} ${a.k === 1 ? this.noun : this.nouns} between ${L(a.x)} and ${L(a.y)}${this.circular ? ' (on one side or the other)' : ''}`
       case 'btw':
         return `${L(a.x)} is${not} between ${L(a.y)} and ${L(a.z)}`

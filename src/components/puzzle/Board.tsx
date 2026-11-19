@@ -356,7 +356,9 @@ export default function Board({
     >
       <div className="mb-2 flex items-center justify-between px-1 text-xs font-semibold uppercase tracking-wide text-slate-400 dark:text-slate-500">
         <span>
-          {p.axis === "floor" && p.place
+          {p.axis === "floor" && p.hierarchy
+            ? `The ${ctx.units}, most senior first`
+            : p.axis === "floor" && p.place
             ? `The stack of ${ctx.nouns}, top first`
             : p.axis === "floor" || p.axis === "grid"
               ? "The building"
@@ -372,7 +374,7 @@ export default function Board({
                     ? "The two rows"
                     : p.unordered
                       ? `Who could be in which ${ctx.unit}`
-                      : `The ${ctx.unit}s, first → last`}
+                      : `The ${ctx.units}, first → last`}
         </span>
         {suppose ? (
           <span className="rounded-full bg-amber-400 px-2 py-0.5 text-[10px] font-bold text-slate-900">
@@ -555,12 +557,12 @@ export function PeopleStrip({
               <span className="truncate text-[11px] text-slate-500 dark:text-slate-400">
                 {placed
                   ? ctx.posLab(bits(fm)[0])
-                  : `${pop(fm)} ${ctx.unit}s open`}
+                  : `${pop(fm)} ${ctx.units} open`}
               </span>
             </div>
             <div
               className="mt-1 space-y-[3px]"
-              aria-label={`${name}: possible ${ctx.unit}s`}
+              aria-label={`${name}: possible ${ctx.units}`}
             >
               {lines.map((line, li) => (
                 <div key={li} className="flex gap-[3px]">

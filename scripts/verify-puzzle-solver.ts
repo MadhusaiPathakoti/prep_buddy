@@ -363,6 +363,22 @@ const WEEK6_CASES: [string, string][] = [
   ['[A](https://example.com/x?q=1) buys Honda.', "A's bike is Honda"],
 ]
 
+const CLASS_HEADER = `Six people A, B, C, D, E & F like different colors i.e. Red, Blue, Green, Yellow, Pink and Black but not necessarily in the same order. They are from six different classes i.e. class 1, class 2, class 3, class 4, class 5 and class 6 but not necessarily in the same order.
+`
+
+// classes numbered 1 … n: a higher class is more senior
+const CLASS_CASES: [string, string][] = [
+  ['A is in class 3.', 'A is in class 3'],
+  ['A is immediate senior to B.', 'A is immediately senior to B'],
+  ['A is immediate junior to B.', 'A is immediately junior to B'],
+  ['A is senior to B.', 'A is somewhere senior to B'],
+  ['A is junior to the person who likes Red.', 'A is somewhere junior to the Red person'],
+  ['A is in even numbered class.', 'A is in an even-numbered class'],
+  ['A is neither in class 1 nor in class 6.', 'A is not in either the highest or the lowest class'],
+  ['Two persons are between the classes in which A and B studies.', 'exactly 2 people between A and B'],
+  ['A is three classes senior to B.', 'A is exactly 3 classes senior to B'],
+]
+
 const FLOOR_EXTRA: [string, string][] = [
   ['A lives on a prime-numbered floor.', 'A is on floor 2, 3, 5 or 7'],
   ['A does not live on a prime-numbered floor.', 'A is not on floor 2, 3, 5 or 7'],
@@ -471,6 +487,7 @@ runParserTable(VAC_HEADER, VAC_CASES)
 runParserTable(SOUTH_HEADER, SOUTH_CASES)
 runParserTable(WEEK_HEADER, WEEK_CASES)
 runParserTable(WEEK6_HEADER, WEEK6_CASES)
+runParserTable(CLASS_HEADER, CLASS_CASES)
 runParserTable(ROW_HEADER, ROW_NEITHER)
 runParserTable(FLOOR_HEADER, FLOOR_EXTRA)
 runParserTable(ORDER_HEADER, ORDER_EXTRA)
@@ -685,6 +702,22 @@ for (const s of SAMPLES) {
       return `${days[e.sols[0].val[P.slotCat as number][q]]}:${P.people[q]}/${P.cats[0].values[e.sols[0].val[0][q]]}`
     }).join(' ')
     if (got !== 'Monday:Shivam/Ducati Tuesday:Yuvraj/Ronin Wednesday:Mayank/KTM Friday:Virat/Honda Saturday:Hardik/Benelli Sunday:Rohit/Yamaha') fail(`week-vacant sample: got ${got}`)
+  }
+}
+
+// classes 1 … 8 with senior / junior wording: the answer key is the table of the original puzzle (class 8 first)
+{
+  const cl = SAMPLES.find((x) => x.id === 'classes-colors')
+  const r = cl ? parsePuzzle(cl.text) : null
+  const e = r?.puzzle ? enumerate(r.puzzle, 3) : null
+  if (!r?.puzzle || !e || e.sols.length !== 1 || r.unparsed.length || !r.puzzle.hierarchy) fail('classes-colors sample: expected exactly one solution, every clue read and the class hierarchy')
+  else {
+    const P = r.puzzle
+    const got = Array.from({ length: 8 }, (_, f) => {
+      const q = e.sols[0].pos.indexOf(7 - f)
+      return `${8 - f}:${P.people[q]}/${P.cats[0].values[e.sols[0].val[0][q]]}`
+    }).join(' ')
+    if (got !== '8:A/Black 7:F/Blue 6:G/Hex 5:E/Pink 4:B/Yellow 3:H/Red 2:D/Orange 1:C/Crimson') fail(`classes-colors sample: got ${got}`)
   }
 }
 
@@ -1365,7 +1398,7 @@ for (const s of SAMPLES) {
   console.log('app generator, end to end: ' + Object.entries(tally).map(([k, v]) => `${k} ${v.checked} checked (${v.skipped} of an unsupported layout skipped)`).join('; '))
 }
 
-console.log(`parser: ${FLOOR_CASES.length + ROW_CASES.length + ORDER_CASES.length + DAY_CASES.length + CIRCLE_CASES.length + GRID_CASES.length + BOX_CASES.length + TWOROW_CASES.length + BDAY_CASES.length + SQUARE_CASES.length + PENT_CASES.length + RANK_CASES.length + VAC_CASES.length + SOUTH_CASES.length + WEEK_CASES.length + WEEK6_CASES.length + ROW_NEITHER.length + FLOOR_VIZ.length + FLOOR_EXTRA.length + ORDER_EXTRA.length} phrasings checked`)
+console.log(`parser: ${FLOOR_CASES.length + ROW_CASES.length + ORDER_CASES.length + DAY_CASES.length + CIRCLE_CASES.length + GRID_CASES.length + BOX_CASES.length + TWOROW_CASES.length + BDAY_CASES.length + SQUARE_CASES.length + PENT_CASES.length + RANK_CASES.length + VAC_CASES.length + SOUTH_CASES.length + WEEK_CASES.length + WEEK6_CASES.length + CLASS_CASES.length + ROW_NEITHER.length + FLOOR_VIZ.length + FLOOR_EXTRA.length + ORDER_EXTRA.length} phrasings checked`)
 console.log(`engine vs brute force: ${compared} random puzzles (${uniqueTraced} with a unique answer traced, ${multiple} with several answers)`)
 console.log(`step kinds: ${JSON.stringify(kinds)}; ${trials} case-analysis trials`)
 console.log(`teaching trace: ${eliminations} crossings checked for soundness, ${whatIfs} what-if simulations refuted`)

@@ -23,6 +23,7 @@ export interface ParseSummary {
   mixed?: boolean
   /** a table with corners and sides (square, pentagon-shaped …) */
   square?: boolean
+  hierarchy?: { unit: string; up: string; down: string }
   mirror?: boolean
   shape?: string
   cornersIn?: boolean
@@ -107,6 +108,7 @@ function parseNames(list: string): string[] {
 const singular = (w: string): string => {
   const s = w.trim().toLowerCase()
   if (s.endsWith('ies')) return `${s.slice(0, -3)}y`
+  if (/(?:ss|x|ch|sh|z)es$/.test(s)) return s.slice(0, -2)
   if (s.endsWith('s') && !s.endsWith('ss')) return s.slice(0, -1)
   return s
 }
@@ -114,6 +116,18 @@ const singular = (w: string): string => {
 interface CatSentence {
   name: string
   values: string[]
+}
+
+/** "class 1, class 2, … class 8" / "1, 2, … 8": a list that is just the numbers 1 … n (with a common noun) */
+function numberedFromList(values: string[], n: number, catName: string): { noun: string } | null {
+  const parsed = values.map((v) => v.trim().match(/^([A-Za-z]+)?\s*(\d+)$/))
+  if (parsed.some((m) => !m)) return null
+  const nouns = new Set(parsed.map((m) => (m as RegExpMatchArray)[1]?.toLowerCase() ?? ''))
+  if (nouns.size !== 1) return null
+  const nums = parsed.map((m) => Number((m as RegExpMatchArray)[2])).sort((a, b) => a - b)
+  if (!nums.every((v, i) => v === i + 1) || nums.length !== n) return null
+  const noun = [...nouns][0] || catName
+  return /^(?:class|floor|level|grade|standard|rank|step|stage|tier|year)$/.test(noun) ? { noun } : null
 }
 
 const ROMAN = ['', 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X', 'XI', 'XII']
@@ -322,6 +336,7 @@ function norm(t: string, ments?: Term[], axis?: Axis, mirror?: boolean): string 
   if (mirror) s = s.replace(/\b(left|right)(most)?\b/g, (_m, d: string, most?: string) => (d === 'left' ? 'right' : 'left') + (most ?? ''))
   s = s.replace(/\b(north|south)[\s-]*(east|west)\b/g, '$1$2')
   s = s.replace(/\bit is not (?:true|the case) that\b/g, ' not ')
+  s = s.replace(/\bsenior (?:to|than)\b/g, 'above').replace(/\bjunior (?:to|than)\b/g, 'below') // a higher class is more senior
   s = s.replace(/\bper (?:month|year|annum)\b/g, ' ')
   s = s.replace(/\b(?:immediate(?:ly)?|directly|just) (?:before or after|after or before)\b/g, 'adjacent to') // "born immediately before or after X" = right next to X
   s = s.replace(/\b(?:does not|doesn't|do not|don't|is not|isn't|are not|aren't|cannot|can't|never|was not|wasn't)\b/g, ' not ')
@@ -332,10 +347,11 @@ function norm(t: string, ments?: Term[], axis?: Axis, mirror?: boolean): string 
   s = s.replace(/\b(?:on|to|at) the (left|right) of\b/g, '$1 of')
   s = s.replace(/\b(?:exactly )?opposite(?: to)?\b/g, 'opposite')
   s = s.replace(/[^a-z0-9@#' ]+/g, ' ')
-  s = s.replace(/\b(one|two|three|four|five|six|seven|eight|nine|ten)\b(?=\s+(?:floors?|places?|seats?|positions?|boxes|box|months?|days?|weeks?|years?|persons?|people|steps?|others?|friends?|students?|members?|boys?|girls?))/g, (w) => String(NUM[w]))
+  s = s.replace(/\b(one|two|three|four|five|six|seven|eight|nine|ten)\b(?=\s+(?:floors?|places?|seats?|positions?|classes|class|levels?|boxes|box|months?|days?|weeks?|years?|persons?|people|steps?|others?|friends?|students?|members?|boys?|girls?))/g, (w) => String(NUM[w]))
   s = s.replace(/\b(first|second|third|fourth|fifth|sixth|seventh|eighth|ninth|tenth)\b/g, (w) => `#${ORD[w]}`)
   s = s.replace(/\b(\d+)(?:st|nd|rd|th)\b/g, '#$1')
   s = s.replace(/'s\b/g, '')
+  s = s.replace(/\bbetween\s+(?:the\s+)?(?:[a-z]+\s+){1,2}(?:in\s+which|of)\s+(@\d+)\s+and\s+(@\d+)\b/g, 'between $1 and $2') // "between the classes in which @F and @H studies"
   if (ments && axis && axis !== 'grid') s = foldDerived(s, ments, axis)
   // "the person from @3" / "the one who likes @3" → "@3";  "@3 person" → "@3"
   s = s.replace(/\b(?:the\s+)?(?:person|one|man|woman|friend|student|employee|boy|girl|individual|member|box)\s+(?:(?:who|that|which)\s+(?:[a-z]+\s+){0,2}?|to be sent to\s+)?(?:from|in|at|of|with)?\s*(?=@\d)/g, '')
@@ -675,7 +691,7 @@ function interpretClauseRaw(s: string, ments: Term[], lex: Lexicon): Atom[] | nu
   }
 
   // x (immediately | N floors) above / below y
-  m = s.match(new RegExp(`${ENT}\\s+(?:[a-z]+\\s+){0,8}?(?:(immediately)\\s+)?(?:#?(\\d+)\\s+(?:(?:floors?|places?|seats?|positions?|boxes|box|steps?|months?|days?|weeks?|years?)\\s+)?)?(above|below|over|under|higher than|lower than|left of|right of|taller than|shorter than|after|before|later than|earlier than)\\s+(?:(?:the\\s+)?(?:floor|seat|month|day) of\\s+)?${ENT}`))
+  m = s.match(new RegExp(`${ENT}\\s+(?:[a-z]+\\s+){0,8}?(?:(immediately)\\s+)?(?:#?(\\d+)\\s+(?:(?:floors?|places?|seats?|positions?|classes|class|levels?|boxes|box|steps?|months?|days?|weeks?|years?)\\s+)?)?(above|below|over|under|higher than|lower than|left of|right of|taller than|shorter than|after|before|later than|earlier than)\\s+(?:(?:the\\s+)?(?:floor|seat|month|day) of\\s+)?${ENT}`))
   if (m) {
     const hi = HI_WORDS.includes(m[4])
     const x = M(m[1])
@@ -1396,6 +1412,7 @@ export function parsePuzzle(raw: string): ParseResult {
   const topDownText = /(?:topmost|top)\s+floor[^.]*?\bnumbered\s*(?:as\s*)?1\b/i.test(text) ||/numbered\s+(?:from|starting from|beginning from)\s+(?:the\s+)?top/i.test(text)
 
   // extra categories
+  let numbered = null as { noun: string } | null // set while reading the category sentences
   const cats: Category[] = []
   const used = new Set<number>([headerIdx])
   // "Seven persons A, B … live in different cities among Agra, Bhopal, …": the people and the first category share one sentence
@@ -1420,6 +1437,12 @@ export function parsePuzzle(raw: string): ParseResult {
     }
     if (new Set(cs.values.map((v) => v.toLowerCase())).size !== n) {
       result.errors.push(`The ${cs.name} values must all be different.`)
+      return
+    }
+    const nm = !order && !numbered ? numberedFromList(cs.values, n, cs.name) : null
+    if (nm) {
+      numbered = nm // "eight different classes i.e. class 1 … class 8": the positions, numbered from the lowest
+      axisGuess = 'floor'
       return
     }
     const asOrder = !order ? orderFromList(cs.values) : null
@@ -1527,7 +1550,7 @@ export function parsePuzzle(raw: string): ParseResult {
   const unorderedVerb = lifeVerb ? (lifeVerb[1].toLowerCase() === 'study' ? 'studies' : `${lifeVerb[1].toLowerCase()}s`) : undefined
   const extra = order ? { labels: order.labels, unit: order.unit, on: order.on, verb: slotCat !== undefined ? undefined : verbWord ? `was ${verbWord[1].toLowerCase()}` : bday ? 'was born' : unordered ? unorderedVerb : undefined, ...(bday ? { cols: bday.dates.length } : {}), ...(unordered ? { unordered: true } : {}), ...(weekSlots ? { slotUnit: 'day' } : {}) } : {}
   const stack = boxes && axis === 'floor' ? { noun: 'box', place: 'place' } : boxes ? { noun: 'box' } : {}
-  result.summary = { people, axis, topDown, cats, labels: order?.labels, unit: order?.unit, facing, cols: building?.cols, flats: building?.flats, rowLen, mirror: mirror || undefined, unordered: unordered || undefined, dates: slotCat !== undefined ? (bday ? bday.labels : weekSlots ?? undefined) : undefined, mixed: dirCat !== undefined || undefined, square: square || undefined, shape: shape?.name, cornersIn: square ? cornersIn : undefined, ...stack }
-  result.puzzle = { n, axis, topDown, people, cats, clues, ...extra, ...(dirCat !== undefined ? { dirCat } : {}), ...(mirror ? { mirror: true } : {}), ...(slotCat !== undefined ? { slotCat } : {}), ...(circle ? { facing } : {}), ...(square ? { square: true, shape: shape?.name, cornersIn } : {}), ...(building ? { cols: building.cols, flats: building.flats } : {}), ...(rowLen ? { rowLen } : {}), ...stack }
+  result.summary = { people, axis, topDown, cats, labels: order?.labels, unit: order?.unit, facing, cols: building?.cols, flats: building?.flats, rowLen, hierarchy: numbered ? { unit: numbered.noun, up: /\bsenior\b/i.test(text) ? 'senior to' : `in a higher ${numbered.noun} than`, down: /\bjunior\b/i.test(text) ? 'junior to' : `in a lower ${numbered.noun} than` } : undefined, mirror: mirror || undefined, unordered: unordered || undefined, dates: slotCat !== undefined ? (bday ? bday.labels : weekSlots ?? undefined) : undefined, mixed: dirCat !== undefined || undefined, square: square || undefined, shape: shape?.name, cornersIn: square ? cornersIn : undefined, ...stack }
+  result.puzzle = { n, axis, topDown, people, cats, clues, ...extra, ...(dirCat !== undefined ? { dirCat } : {}), ...(mirror ? { mirror: true } : {}), ...(numbered ? { hierarchy: { unit: numbered.noun, up: /\bsenior\b/i.test(text) ? 'senior to' : `in a higher ${numbered.noun} than`, down: /\bjunior\b/i.test(text) ? 'junior to' : `in a lower ${numbered.noun} than` } } : {}), ...(slotCat !== undefined ? { slotCat } : {}), ...(circle ? { facing } : {}), ...(square ? { square: true, shape: shape?.name, cornersIn } : {}), ...(building ? { cols: building.cols, flats: building.flats } : {}), ...(rowLen ? { rowLen } : {}), ...stack }
   return result
 }

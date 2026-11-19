@@ -430,7 +430,7 @@ export function buildTrace(puzzle: Puzzle): Trace {
     const ts = atomTerms(atom)
     if (kind === 'pin' && atom.t === 'set') {
       const k = atom.neg ? ctx.n - atom.fs.length : atom.fs.length
-      return `pins ${ctx.termLabel(atom.x)} to ${k} of ${ctx.n} ${ctx.unit}s`
+      return `pins ${ctx.termLabel(atom.x)} to ${k} of ${ctx.n} ${ctx.units}`
     }
     if (kind === 'floating') {
       const v = ts.find((t) => t.k === 'v')

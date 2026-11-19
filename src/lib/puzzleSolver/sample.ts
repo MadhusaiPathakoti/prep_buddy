@@ -377,4 +377,23 @@ The number of days between Yuvraj and Mayank is not the same as the number of da
 There are three days between Rohit and the one who purchased KTM.
 Mayank purchases his bike before Virat.`,
   },
+  {
+    id: 'classes-colors',
+    title: 'Classes & colours (senior / junior)',
+    text: `Eight people i.e. A, B, C, D, E, F, G & H like different colors i.e. Crimson, Black, Red, Yellow, Pink, Hex, Blue and Orange but not necessarily in the same order. They all are from eight different classes i.e. class 1, class 2, class 3, class 4, class 5, class 6, class 7 and class 8 but not necessarily in the same order.
+
+A neither likes Orange nor likes Yellow.
+One who likes Hex is in even numbered class.
+One who likes Orange is immediate junior to H.
+G neither likes Yellow nor likes Orange.
+One who likes Yellow is immediate senior to H.
+F is immediate senior to the person who likes Hex.
+C is immediate junior to D.
+One who likes Crimson is junior to one who likes Red.
+E who likes Pink is neither in class 1 nor in class 8.
+A is senior to F.
+One who likes Red is junior to one who likes Blue.
+One who likes Black is in even numbered class.
+Three persons are between the classes in which F and H studies.`,
+  },
 ]

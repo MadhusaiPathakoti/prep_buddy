@@ -331,7 +331,7 @@ export class Engine {
         const p = wrap(ti === 0 ? f - atom.d : f + atom.d)
         const k = c.circular ? Math.min(Math.abs(atom.d) % n, n - (Math.abs(atom.d) % n)) : Math.abs(atom.d)
         if (p < 0 || p >= n) return `${me} ${on} ${here} would put ${who} ${on} ${c.posLab(p)} — there is no such ${c.unit}`
-        return `${me} ${on} ${here} would need ${who} ${on} ${c.posLab(p)} (${k === 1 ? 'right next to it' : c.circular && k * 2 === n ? 'exactly opposite' : `${k} ${c.unit}s away`}), but ${who} can only be ${on} ${dom(other)}`
+        return `${me} ${on} ${here} would need ${who} ${on} ${c.posLab(p)} (${k === 1 ? 'right next to it' : c.circular && k * 2 === n ? 'exactly opposite' : `${k} ${c.units} away`}), but ${who} can only be ${on} ${dom(other)}`
       }
       case 'adj':
         return needAt([f - 1, f + 1], 'next to it')
