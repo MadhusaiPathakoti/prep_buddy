@@ -345,4 +345,20 @@ Number of days between Yuvraj and Mayank is not same as between Shivam and Virat
 There are three days between Rohit and the one who purchased KTM.
 Mayank purchase one of the things before Virat.`,
   },
+  {
+    id: 'candidates-months',
+    title: 'Candidates born in months (two-letter names)',
+    text: `Eight candidates were born in four different months viz. May, June, July, and August but not necessarily in the same order. They were born on the 17th and 28th date of each month and each candidate was born on different dates.
+
+Cd was born in the month having 30 days.
+Ec was born immediate before Ce.
+Ce and Ec were born in different months.
+Ce and Ab were not born in the same month.
+Eb was born immediately after Ea.
+Cc was born on 17th of a month.
+Aa was born before Ab.
+Two persons were born between Ea and Cd.
+Ab and Cd were not born in the same month.
+Cc was not born in the month of May.`,
+  },
 ]

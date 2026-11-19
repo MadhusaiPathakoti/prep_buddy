@@ -638,6 +638,19 @@ for (const s of SAMPLES) {
   if (!lab || lab[0] !== 'Thursday' || lab[6] !== 'Wednesday') fail(`week starting from Thursday: got ${lab?.join(',')}`)
 }
 
+// candidates with two-letter names given only in the clues, months and dates in two sentences; the answer key is the table of the original puzzle
+{
+  const cd = SAMPLES.find((x) => x.id === 'candidates-months')
+  const r = cd ? parsePuzzle(cd.text) : null
+  const e = r?.puzzle ? enumerate(r.puzzle, 3) : null
+  if (!r?.puzzle || !e || e.sols.length !== 1 || r.unparsed.length) fail('candidates-months sample: expected exactly one solution and every clue read')
+  else {
+    const P = r.puzzle
+    const got = Array.from({ length: 8 }, (_, f) => `${(P.labels as string[])[f]}:${P.people[e.sols[0].pos.indexOf(f)]}`).join(' ')
+    if (got !== 'May 17:Aa May 28:Ec June 17:Ce June 28:Cd July 17:Cc July 28:Ab August 17:Ea August 28:Eb') fail(`candidates-months sample: got ${got}`)
+  }
+}
+
 // mistakes in the input are reported, not guessed at
 for (const [label, text, needle] of [
   ['no people', 'Hello there. A lives above B.', 'list of people'],

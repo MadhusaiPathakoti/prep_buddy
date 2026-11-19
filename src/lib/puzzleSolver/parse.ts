@@ -1101,7 +1101,7 @@ function orderFromList(values: string[]): OrderInfo | null {
 
 /** statements that only restate the setup ("Each person was born in one month only.") — nothing to solve, so nothing to warn about */
 const isFiller = (s: string): boolean =>
-  /^each corner\b/i.test(s) || /^the week (?:is )?(?:start|begin)/i.test(s) || /^(?:all of them|everyone|everybody|each of them|they all)\s+(?:are\s+)?fac(?:e|es|ing)\b/i.test(s) || /^(?:one|two|three|four|only|exactly|no|any)\b[^.]*\b(?:dates?|days?)\b[^.]*\b(?:vacant|empty|free|unoccupied)\b/i.test(s) || /^(?:each|every)\s+(?:day|date)\b[^.]*\bonly one\b/i.test(s) || /^the distance between\b/i.test(s) || /^the (?:persons?|people),? who (?:sit|sits|are sitting) at the (?:side|corner)s?\b/i.test(s) || /^\w+\s+(?:people|persons)\s+(?:are\s+)?sitting\s+at\s+the\s+corners\b/i.test(s) || /^no seat is\b/i.test(s) || /^(?:the\s+)?(?:people|persons)\s+(?:sitting|seated)\s+(?:at|on)\s+the\s+corners\b/i.test(s) ||
+  /^each corner\b/i.test(s) || /^(?:they|all of them|each of them)\b[^.]*\b\d+(?:st|nd|rd|th)\b[^.]*\b(?:each|every) month\b/i.test(s) || /^the week (?:is )?(?:start|begin)/i.test(s) || /^(?:all of them|everyone|everybody|each of them|they all)\s+(?:are\s+)?fac(?:e|es|ing)\b/i.test(s) || /^(?:one|two|three|four|only|exactly|no|any)\b[^.]*\b(?:dates?|days?)\b[^.]*\b(?:vacant|empty|free|unoccupied)\b/i.test(s) || /^(?:each|every)\s+(?:day|date)\b[^.]*\bonly one\b/i.test(s) || /^the distance between\b/i.test(s) || /^the (?:persons?|people),? who (?:sit|sits|are sitting) at the (?:side|corner)s?\b/i.test(s) || /^\w+\s+(?:people|persons)\s+(?:are\s+)?sitting\s+at\s+the\s+corners\b/i.test(s) || /^no seat is\b/i.test(s) || /^(?:the\s+)?(?:people|persons)\s+(?:sitting|seated)\s+(?:at|on)\s+the\s+corners\b/i.test(s) ||
   /^some of them (?:are )?facing\b/i.test(s) || /^each of them (?:likes?|has|have|owns?|plays?|drinks?|eats?|prefers?)\s+(?:one|a|an)\s+[a-z]+\s*\.?$/i.test(s) ||
   /^(?:not more than|at most|only) one (?:person|box|friend|student)\b[^.]*\bsame\b/i.test(s) || /^(?:each|every)\s+(?:person|one|of them|friend|student)\b[^.]*\b(?:only|exactly one)\b/i.test(s) || /^no\s+two\b/i.test(s) || /\bwith respect to\b[^.]*\bfacing\b/i.test(s) || /^\(?\s*left and right\b/i.test(s) || /^\(?\s*(?:the\s+)?(?:bottommost|lowermost|lowest|ground|topmost|position 1)\b[^.]*\b(?:numbered|is the bottom)\b/i.test(s)
 
@@ -1145,16 +1145,24 @@ function buildingFromText(text: string, n: number): { rows: number; cols: number
  * capital letters the clues use — provided there are exactly as many as the text says.
  */
 function inferPeople(sentences: string[]): { people: string[]; k: number } | null {
-  const k = sentences.findIndex((x) => /\b(?:one|two|three|four|five|six|seven|eight|nine|ten|\d+)\s+(?:different\s+)?(?:persons?|people|friends|students|members|boys|girls|colleagues|employees)\b/i.test(x))
+  const k = sentences.findIndex((x) => /\b(?:one|two|three|four|five|six|seven|eight|nine|ten|\d+)\s+(?:different\s+)?(?:persons?|people|friends|students|members|boys|girls|colleagues|employees|candidates|players|participants|children|kids|workers|teachers|managers|officers|employees)\b/i.test(x))
   if (k < 0) return null
-  const m = sentences[k].match(/\b(one|two|three|four|five|six|seven|eight|nine|ten|\d+)\s+(?:different\s+)?(?:persons?|people|friends|students|members|boys|girls|colleagues|employees)\b/i) as RegExpMatchArray
+  const m = sentences[k].match(/\b(one|two|three|four|five|six|seven|eight|nine|ten|\d+)\s+(?:different\s+)?(?:persons?|people|friends|students|members|boys|girls|colleagues|employees|candidates|players|participants|children|kids|workers|teachers|managers|officers|employees)\b/i) as RegExpMatchArray
   const said = NUM[m[1].toLowerCase()] ?? Number(m[1])
   const letters = new Set<string>()
   sentences.forEach((x, i) => {
     if (i === k || isBoilerplate(x)) return
     for (const l of x.matchAll(/(?<![A-Za-z0-9'])([A-Z])(?![A-Za-z0-9'])/g)) letters.add(l[1])
   })
-  return letters.size === said ? { people: [...letters].sort(), k } : null
+  if (letters.size === said) return { people: [...letters].sort(), k }
+  // names of two letters such as Aa, Ab, Cc (never the common two-letter words)
+  const COMMON = new Set(['An', 'As', 'At', 'Be', 'By', 'Do', 'He', 'If', 'In', 'Is', 'It', 'My', 'No', 'Of', 'On', 'Or', 'So', 'To', 'Up', 'Us', 'We', 'Am', 'Go', 'Me', 'Oh', 'Ok', 'Hi'])
+  const pairs = new Set<string>()
+  sentences.forEach((x, i) => {
+    if (i === k || isBoilerplate(x)) return
+    for (const l of x.matchAll(/(?<![A-Za-z0-9'])([A-Z][a-z])(?![A-Za-z0-9'])/g)) if (!COMMON.has(l[1])) pairs.add(l[1])
+  })
+  return pairs.size === said ? { people: [...pairs].sort(), k } : null
 }
 
 /** the values of a category the text names only through the clues ("… the one who likes Kiwi …") */
@@ -1214,7 +1222,8 @@ export function parsePuzzle(raw: string): ParseResult {
     const m = sentences[k].match(NAME_LIST)
     if (m) {
       const names = parseNames(m[1])
-      if (names.length >= 3 && new Set(names).size === names.length) {
+      // a list of months or weekdays is the setting, not the people
+      if (names.length >= 3 && new Set(names).size === names.length && !names.every((nm) => MONTHS.includes(nm) || DAYS.includes(nm))) {
         people = names
         headerIdx = k
         break
@@ -1260,12 +1269,12 @@ export function parsePuzzle(raw: string): ParseResult {
 
 
   // count words in the header must agree with the list
-  const countWord = header.match(/\b(one|two|three|four|five|six|seven|eight|nine|ten|\d+)\s+(?:different\s+)?(?:persons?|people|friends|students|members|boys|girls|colleagues|employees|boxes)\b/i)
+  const countWord = header.match(/\b(one|two|three|four|five|six|seven|eight|nine|ten|\d+)\s+(?:different\s+)?(?:persons?|people|friends|students|members|boys|girls|colleagues|employees|candidates|players|participants|children|kids|workers|teachers|managers|officers|employees|boxes)\b/i)
   if (countWord) {
     const said = NUM[countWord[1].toLowerCase()] ?? Number(countWord[1])
     if (said !== n) result.warnings.push(`The text says ${said} people but ${n} names are listed — using the ${n} names.`)
   }
-  const bday = birthdayGrid(header, n)
+  const bday = birthdayGrid(sentences.slice(headerIdx, headerIdx + 3).join(' '), n)
   const floorCount = building || bday ? null : header.match(/\b(one|two|three|four|five|six|seven|eight|nine|ten|\d+)\s+(?:different\s+)?(floors|storeys|seats|positions|months|days|weeks|years)\b/i)
   if (floorCount) {
     const said = NUM[floorCount[1].toLowerCase()] ?? Number(floorCount[1])
