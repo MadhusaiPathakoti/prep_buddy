@@ -17,6 +17,13 @@ export const ENGLISH_GAMES = [
     icon: '📚',
   },
   {
+    id: 'mnemonic-vocab',
+    title: 'Mnemonic Vocabulary',
+    description: 'Learn 1000+ words a few a day with cartoons and memory tricks, star them, then revise your freshest favourites with a picture game.',
+    to: '/english/mnemonic-vocab',
+    icon: '🧠',
+  },
+  {
     id: 'idioms',
     title: 'Idioms',
     description: 'Learn common idioms and phrases, then test yourself at easy, medium, or hard.',

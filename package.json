@@ -14,6 +14,7 @@
     "probe:qbank-solver": "tsx --env-file=.env.local scripts/probe-qb-solver.ts",
     "verify:qbank-sync": "tsx --env-file=.env.local scripts/verify-qb-sync.ts && tsx scripts/verify-qb-client-sync.ts",
     "verify:daily": "tsx scripts/verify-daily.ts",
+    "verify:mnemonic": "tsx scripts/verify-mnemonic.ts",
     "verify:vedic": "tsx scripts/verify-vedic.ts",
     "verify:surds": "tsx scripts/verify-surds.ts",
     "verify:quadratic": "tsx scripts/verify-quadratic.ts",
