@@ -44,7 +44,7 @@ const testCache = new WeakMap<Atom, (v: number[]) => boolean>()
 const testOf = (a: Atom, ctx: Ctx) => {
   let t = testCache.get(a)
   if (!t) {
-    t = atomTest(a, ctx.n, ctx.circular, ctx.cols, ctx.tworow ? ctx.rowLen : 0, ctx.cornerRight)
+    t = atomTest(a, ctx.n, ctx.circular, ctx.cols, ctx.tworow ? ctx.rowLen : 0, ctx.cornerRight, ctx.p.values)
     testCache.set(a, t)
   }
   return t
@@ -560,7 +560,7 @@ export function failedClues(puzzle: Puzzle, sol: Solution): number[] {
               ? sol.val[puzzle.dirCat as number][personOf(atom.y)] === dirVal(atom.x)
               : personOf(atom.x) === personOf(atom.y) && personOf(atom.x) >= 0
         if (atom.neg ? same : !same) ok = false
-      } else if (!atomTest(atom, n, puzzle.axis === 'circle', puzzle.cols ?? 1, puzzle.axis === 'tworow' ? (puzzle.rowLen ?? 0) : 0, puzzle.square ? (puzzle.cornersIn ? 1 : -1) : 0)(atomVars(atom).map(posOf))) ok = false
+      } else if (!atomTest(atom, n, puzzle.axis === 'circle', puzzle.cols ?? 1, puzzle.axis === 'tworow' ? (puzzle.rowLen ?? 0) : 0, puzzle.square ? (puzzle.cornersIn ? 1 : -1) : 0, puzzle.values)(atomVars(atom).map(posOf))) ok = false
     }
     if (!ok) bad.push(clue.id)
   }

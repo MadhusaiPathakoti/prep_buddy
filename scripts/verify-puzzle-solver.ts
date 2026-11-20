@@ -379,6 +379,28 @@ const CLASS_CASES: [string, string][] = [
   ['A is three classes senior to B.', 'A is exactly 3 classes senior to B'],
 ]
 
+const YEAR_HEADER = `Six people A, B, C, D, E & F are born in 6 different years i.e., 1990, 1985, 2000, 1975, 1995 and 1980 but not necessarily in the same order. The base year for the calculation of their ages is 2020.
+`
+
+// the ages are 2020 - year: 1975 → 45, 1980 → 40, 1985 → 35, 1990 → 30, 1995 → 25, 2000 → 20
+const YEAR_CASES: [string, string][] = [
+  ['The age of A is a perfect square number.', 'A is in 1995'],
+  ['The age of A is a multiple of 10.', 'A is in 1980, 1990 or 2000'],
+  ['The age of A is an odd number.', 'A is in 1975, 1985 or 1995'],
+  ['The age of A is more than 30.', 'A is in 1975, 1980 or 1985'],
+  ['The age of A is less than 30.', 'A is in 1995 or 2000'],
+  ['The age of A is not a prime number.', 'A can be anywhere (nothing is ruled out)'],
+  ['The age of A is a perfect cube.', 'A must be in a year that does not exist (impossible)'],
+  ['The difference between the ages of A and B is the same as the difference between the ages of C and D.', 'the same difference between the years of A and B as between those of C and D'],
+  ['The difference between the ages of A and B is not the same as the difference between the ages of C and D.', 'not the same difference between the years of A and B as between those of C and D'],
+  ['The number of persons born after A is the same as the number of persons born before B.', 'as many people after A as before B'],
+  ['The number of persons born before A is the same as the number born after B.', 'as many people before A as after B'],
+  ['A was born in 1985.', 'A was born in 1985'],
+  ['A was born before B.', 'A is somewhere before B'],
+  ['The year of birth of A is a leap year.', 'A is in 1980 or 2000'],
+  ['A is born in an even numbered year.', 'A is in 1980, 1990 or 2000'],
+]
+
 const FLOOR_EXTRA: [string, string][] = [
   ['A lives on a prime-numbered floor.', 'A is on floor 2, 3, 5 or 7'],
   ['A does not live on a prime-numbered floor.', 'A is not on floor 2, 3, 5 or 7'],
@@ -488,6 +510,7 @@ runParserTable(SOUTH_HEADER, SOUTH_CASES)
 runParserTable(WEEK_HEADER, WEEK_CASES)
 runParserTable(WEEK6_HEADER, WEEK6_CASES)
 runParserTable(CLASS_HEADER, CLASS_CASES)
+runParserTable(YEAR_HEADER, YEAR_CASES)
 runParserTable(ROW_HEADER, ROW_NEITHER)
 runParserTable(FLOOR_HEADER, FLOOR_EXTRA)
 runParserTable(ORDER_HEADER, ORDER_EXTRA)
@@ -721,6 +744,19 @@ for (const s of SAMPLES) {
   }
 }
 
+// birth years with clues about ages (base year 2023): one arrangement, checked by hand against every clue
+{
+  const ya = SAMPLES.find((x) => x.id === 'years-ages')
+  const r = ya ? parsePuzzle(ya.text) : null
+  const e = r?.puzzle ? enumerate(r.puzzle, 3) : null
+  if (!r?.puzzle || !e || e.sols.length !== 1 || r.unparsed.length || !r.puzzle.values) fail('years-ages sample: expected exactly one solution, every clue read and the numeric years')
+  else {
+    const P = r.puzzle
+    const got = Array.from({ length: 8 }, (_, f) => `${(P.labels as string[])[f]}:${P.people[e.sols[0].pos.indexOf(f)]}`).join(' ')
+    if (got !== '1959:E 1976:B 1979:G 1986:A 1990:D 1993:H 1998:F 2005:C') fail(`years-ages sample: got ${got}`)
+  }
+}
+
 // mistakes in the input are reported, not guessed at
 for (const [label, text, needle] of [
   ['no people', 'Hello there. A lives above B.', 'list of people'],
@@ -900,6 +936,11 @@ function holds(p: Puzzle, sol: Solution, a: Atom): boolean {
         return lo === hi ? -1 : sol.pos.filter((q) => q > lo && q < hi).length
       }
       r = between(a.x, a.y) >= 0 && between(a.x, a.y) === between(a.z, a.w)
+      break
+    }
+    case 'vsame': {
+      const vals = p.values as number[]
+      r = at(a.x) !== at(a.y) && at(a.z) !== at(a.w) && Math.abs(vals[at(a.x)] - vals[at(a.y)]) === Math.abs(vals[at(a.z)] - vals[at(a.w)])
       break
     }
     case 'logic': {
@@ -1398,7 +1439,7 @@ for (const s of SAMPLES) {
   console.log('app generator, end to end: ' + Object.entries(tally).map(([k, v]) => `${k} ${v.checked} checked (${v.skipped} of an unsupported layout skipped)`).join('; '))
 }
 
-console.log(`parser: ${FLOOR_CASES.length + ROW_CASES.length + ORDER_CASES.length + DAY_CASES.length + CIRCLE_CASES.length + GRID_CASES.length + BOX_CASES.length + TWOROW_CASES.length + BDAY_CASES.length + SQUARE_CASES.length + PENT_CASES.length + RANK_CASES.length + VAC_CASES.length + SOUTH_CASES.length + WEEK_CASES.length + WEEK6_CASES.length + CLASS_CASES.length + ROW_NEITHER.length + FLOOR_VIZ.length + FLOOR_EXTRA.length + ORDER_EXTRA.length} phrasings checked`)
+console.log(`parser: ${FLOOR_CASES.length + ROW_CASES.length + ORDER_CASES.length + DAY_CASES.length + CIRCLE_CASES.length + GRID_CASES.length + BOX_CASES.length + TWOROW_CASES.length + BDAY_CASES.length + SQUARE_CASES.length + PENT_CASES.length + RANK_CASES.length + VAC_CASES.length + SOUTH_CASES.length + WEEK_CASES.length + WEEK6_CASES.length + CLASS_CASES.length + YEAR_CASES.length + ROW_NEITHER.length + FLOOR_VIZ.length + FLOOR_EXTRA.length + ORDER_EXTRA.length} phrasings checked`)
 console.log(`engine vs brute force: ${compared} random puzzles (${uniqueTraced} with a unique answer traced, ${multiple} with several answers)`)
 console.log(`step kinds: ${JSON.stringify(kinds)}; ${trials} case-analysis trials`)
 console.log(`teaching trace: ${eliminations} crossings checked for soundness, ${whatIfs} what-if simulations refuted`)

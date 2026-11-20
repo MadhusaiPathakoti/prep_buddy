@@ -45,6 +45,8 @@ export type Atom =
   | { t: 'samerow'; x: Term; y: Term; neg?: boolean }
   // "the number of persons to the left of x is the same as the number to the right of y" (side 'l' = left of, 'r' = right of)
   | { t: 'cnt'; x: Term; xs: 'l' | 'r'; y: Term; ys: 'l' | 'r'; neg?: boolean }
+  // |value(x) - value(y)| = |value(z) - value(w)|: "the difference between the ages of G and A is the same as between F and C" (values: see Puzzle.values)
+  | { t: 'vsame'; x: Term; y: Term; z: Term; w: Term; neg?: boolean }
   // x and y face the same direction (north / south)
   | { t: 'sdir'; x: VarTerm; y: VarTerm; neg?: boolean }
 
@@ -85,6 +87,9 @@ export interface Puzzle {
    * lower level ("senior to" / "junior to"); level 1 is the lowest (most junior), level n the highest
    */
   hierarchy?: { unit: string; up: string; down: string }
+  /** axis 'order' made of numbers (birth years): the number of every position, ascending; clues about ages use `baseYear - value` */
+  values?: number[]
+  baseYear?: number
   /** what the people are ("box"; default "person") and, for a vertical stack, what a position is called ("place"; default "floor") */
   noun?: string
   place?: string

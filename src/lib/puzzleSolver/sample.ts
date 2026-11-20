@@ -396,4 +396,18 @@ One who likes Red is junior to one who likes Blue.
 One who likes Black is in even numbered class.
 Three persons are between the classes in which F and H studies.`,
   },
+  {
+    id: 'years-ages',
+    title: 'Birth years & ages',
+    text: `Eight people A, B, C, D, E, F, G & H are born in 8 different years i.e., 1998, 2005, 1993, 1959, 1986, 1976, 1990 and 1979 but not necessarily in the same order. The base year for the calculation of their ages is 2023.
+
+The number of persons born after F is the same as the number of persons born before B.
+The age of F is a perfect square number.
+D born before C.
+The number of persons born before G is the same as the number of persons born after H.
+The difference between the ages of G and A is the same as the difference between the ages of F and C.
+The difference between the ages of E and B is the same as the difference between the ages of B and H.
+The age of G is a multiple of 11.
+There are three persons born between G and F.`,
+  },
 ]

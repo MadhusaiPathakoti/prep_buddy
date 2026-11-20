@@ -524,10 +524,13 @@ export class Ctx {
           : `exactly ${a.k} ${a.k === 1 ? this.noun : this.nouns} between ${L(a.x)} and ${L(a.y)}${this.circular ? ' (on one side or the other)' : ''}`
       case 'btw':
         return `${L(a.x)} is${not} between ${L(a.y)} and ${L(a.z)}`
+      case 'vsame':
+        return `${a.neg ? 'not ' : ''}the same difference between the ${this.p.unit ?? 'value'}s of ${L(a.x)} and ${L(a.y)} as between those of ${L(a.z)} and ${L(a.w)}`
       case 'same':
         if (a.on === 'slot') return `${a.neg ? 'not ' : ''}the same number of ${this.p.slotUnit ?? 'date'}s between ${L(a.x)} and ${L(a.y)} as between ${L(a.z)} and ${L(a.w)}`
         return `${a.neg ? 'not ' : ''}the same number of ${this.nouns} between ${L(a.x)} and ${L(a.y)} as between ${L(a.z)} and ${L(a.w)}`
       case 'set':
+        if (a.fs.length === 0) return a.neg ? `${L(a.x)} can be anywhere (nothing is ruled out)` : `${L(a.x)} must be in a ${this.unit} that does not exist (impossible)`
         if (a.on === 'slot') {
           const labels = this.p.cats[this.p.slotCat as number].values
           return `${L(a.x)} is${not} ${(this.p.slotUnit ? null : this.datedSet(a.fs, labels)) ?? `on ${a.fs.length === 1 ? labels[a.fs[0]] : `${a.fs.slice(0, -1).map((f) => labels[f]).join(', ')} or ${labels[a.fs[a.fs.length - 1]]}`}`}`
@@ -604,6 +607,7 @@ function writtenTerms(a: Atom): Term[] {
     case 'btw':
       return [a.x, a.y, a.z]
     case 'same':
+    case 'vsame':
       return [a.x, a.y, a.z, a.w]
     case 'set':
       return [a.x]
@@ -660,7 +664,7 @@ export function hasDerived(a: Atom): boolean {
  * `sq`: a table with corners and sides — +1 when the people at the corners face the centre (their right is the next seat, anticlockwise),
  * -1 when they face outside; the people on the sides face the other way. 0 = no such table.
  */
-export function atomTest(a: Atom, n = 0, circ = false, cols = 1, m = 0, sq = 0): (v: number[]) => boolean {
+export function atomTest(a: Atom, n = 0, circ = false, cols = 1, m = 0, sq = 0, vals?: number[]): (v: number[]) => boolean {
   const md = (x: number) => (circ ? ((x % n) + n) % n : x)
   // square table: a corner (even seat) faces outside, so its right is the previous seat; a side (odd seat) faces the centre
   const right = (seat: number) => (sq === 0 ? 1 : seat % 2 === 0 ? sq : -sq)
@@ -697,8 +701,8 @@ export function atomTest(a: Atom, n = 0, circ = false, cols = 1, m = 0, sq = 0):
   const gx = a.t === 'logic' ? null : a.t === 'sdir' ? dirOf(a.x) : onSlot ? slotOf(a.x) : getter(a.x)
   const gy = a.t === 'logic' || a.t === 'set' ? null : a.t === 'sdir' ? dirOf(a.y) : onSlot ? slotOf(a.y) : getter(a.y)
   const gz = a.t === 'btw' ? getter(a.z) : null
-  const gz2 = a.t === 'same' ? (onSlot ? slotOf(a.z) : getter(a.z)) : null
-  const gw = a.t === 'same' ? (onSlot ? slotOf(a.w) : getter(a.w)) : null
+  const gz2 = a.t === 'same' || a.t === 'vsame' ? (onSlot ? slotOf(a.z) : getter(a.z)) : null
+  const gw = a.t === 'same' || a.t === 'vsame' ? (onSlot ? slotOf(a.w) : getter(a.w)) : null
   let f: (v: number[]) => boolean
   switch (a.t) {
     case 'diff':
@@ -758,6 +762,16 @@ export function atomTest(a: Atom, n = 0, circ = false, cols = 1, m = 0, sq = 0):
         return Math.abs(idx(x) - idx(y)) === Math.abs(idx(z) - idx(w))
       }
       break
+    case 'vsame':
+      f = (v) => {
+        const x = (gx as (v: number[]) => number)(v)
+        const y = (gy as (v: number[]) => number)(v)
+        const z = (gz2 as (v: number[]) => number)(v)
+        const w = (gw as (v: number[]) => number)(v)
+        if (!vals || x < 0 || y < 0 || z < 0 || w < 0 || x === y || z === w) return false
+        return Math.abs(vals[x] - vals[y]) === Math.abs(vals[z] - vals[w])
+      }
+      break
     case 'set':
       f = (v) => a.fs.includes((gx as (v: number[]) => number)(v))
       break
@@ -802,8 +816,8 @@ export function atomTest(a: Atom, n = 0, circ = false, cols = 1, m = 0, sq = 0):
       const all = vars
       const at = atomVars(a.a).map((t) => all.findIndex((u) => sameVar(u, t)))
       const bt = atomVars(a.b).map((t) => all.findIndex((u) => sameVar(u, t)))
-      const ta = atomTest(a.a, n, circ, cols, m, sq)
-      const tb = atomTest(a.b, n, circ, cols, m, sq)
+      const ta = atomTest(a.a, n, circ, cols, m, sq, vals)
+      const tb = atomTest(a.b, n, circ, cols, m, sq, vals)
       f = (v) => {
         const x = ta(at.map((i) => v[i]))
         const y = tb(bt.map((i) => v[i]))

@@ -159,6 +159,33 @@ function parseRankRange(s: string, n: number): (Category & { aliases: string[][]
   return { name, values, aliases }
 }
 
+/** "born in 8 different years i.e. 1998, 2005, …": the positions are those years, earliest first (and the numbers are kept for age clues) */
+function yearOrder(cs: { name: string; values: string[] }): { labels: string[]; values: number[] } | null {
+  if (cs.name !== 'year' || !cs.values.every((v) => /^\d{4}$/.test(v.trim()))) return null
+  const values = cs.values.map((v) => Number(v.trim())).sort((a, b) => a - b)
+  return { labels: values.map(String), values }
+}
+
+/** a test on a number from words such as "a perfect square number", "a multiple of 11", "odd", "more than 30" */
+function numberPredicate(txt: string): ((v: number) => boolean) | null {
+  const t = txt.replace(/\b(?:number|age|year)\b/g, ' ').replace(/\s+/g, ' ').trim()
+  const isPrime = (k: number) => k > 1 && Array.from({ length: Math.max(0, Math.floor(Math.sqrt(k)) - 1) }, (_, i) => i + 2).every((d) => k % d !== 0)
+  let m: RegExpMatchArray | null
+  if (/^(?:a |an )?perfect square$/.test(t)) return (v) => v >= 0 && Number.isInteger(Math.sqrt(v))
+  if (/^(?:a |an )?perfect cube$/.test(t)) return (v) => v >= 0 && Number.isInteger(Math.round(Math.cbrt(v))) && Math.round(Math.cbrt(v)) ** 3 === v
+  if (/^(?:a |an )?prime$/.test(t)) return isPrime
+  if (/^(?:a |an )?(?:composite)$/.test(t)) return (v) => v > 3 && !isPrime(v)
+  if (/^(?:an )?odd$/.test(t)) return (v) => v % 2 === 1
+  if (/^(?:an )?even$/.test(t)) return (v) => v % 2 === 0
+  if ((m = t.match(/^(?:a )?multiple of (\d+)$/) ?? t.match(/^divisible by (\d+)$/))) return (v) => v % Number(m![1]) === 0
+  if ((m = t.match(/^(?:more|greater|higher|older) than (\d+)$/))) return (v) => v > Number(m![1])
+  if ((m = t.match(/^(?:less|lower|smaller|fewer|younger) than (\d+)$/))) return (v) => v < Number(m![1])
+  if ((m = t.match(/^(?:at least|not less than) (\d+)$/))) return (v) => v >= Number(m![1])
+  if ((m = t.match(/^(?:at most|not more than) (\d+)$/))) return (v) => v <= Number(m![1])
+  if ((m = t.match(/^between (\d+) and (\d+)$/))) return (v) => v > Number(m![1]) && v < Number(m![2])
+  return null
+}
+
 function parseCategorySentence(s: string): CatSentence | null {
   const m = s.match(/\bdifferent\s+([a-z][a-z' ]*?)\s*(?:-|:|\(|\bamong\b|\bnamely\b)\s*(.+)$/i)
   if (!m) return null
@@ -202,6 +229,9 @@ interface Lexicon {
   birth?: { months: string[]; dates: number[]; slotMode?: boolean }
   /** people face north or south: index (within the categories) of the 'direction' category */
   dirCat?: number
+  /** axis 'order' made of numbers (birth years): the number of every position, and the base year that turns a year into an age */
+  values?: number[]
+  baseYear?: number
   /** fewer people than the seven days of a week: the days (from the named first day), each person on one, one or more days vacant */
   daySlots?: { labels: string[] }
   /** everyone faces south: left and right are swapped relative to the positions (west → east) */
@@ -554,6 +584,31 @@ function interpretClauseRaw(s: string, ments: Term[], lex: Lexicon): Atom[] | nu
     return null
   }
 
+  // positions that are numbers (birth years): "The age of G is a multiple of 11", "the year of birth of F is a leap year"
+  if (lex.values) {
+    m = s.match(new RegExp(`^(?:the\\s+)?(age|year)(?:\\s+of\\s+birth)?(?:\\s+of)?\\s+${ENT}\\s+(?:(?:is|was)\\s+)?(not\\s+)?(.+)$`))
+    if (m) {
+      const leap = (y: number) => (y % 4 === 0 && y % 100 !== 0) || y % 400 === 0
+      const pred = /^(?:a |an )?leap(?: year)?$/.test(m[4].replace(/\\s+/g, ' ').trim()) ? (m[1] === 'year' ? leap : null) : numberPredicate(m[4])
+      const base = lex.baseYear
+      if (pred && (m[1] === 'year' || base !== undefined)) {
+        const val = (y: number) => (m![1] === 'age' ? (base as number) - y : y)
+        const fs = lex.values.map((y, f) => (pred(val(y)) ? f : -1)).filter((f) => f >= 0)
+        return [{ t: 'set', x: M(m[2]), fs, neg: m[3] || neg ? true : undefined }]
+      }
+    }
+    // "A was born in an odd numbered year", "born in a leap year"
+    m = s.match(new RegExp(`^${ENT}\\s+(?:[a-z]+\\s+){0,3}?(?:in\\s+)?(?:a\\s+|an\\s+)?(odd|even|leap)(?:[\\s-]*numbered)?\\s+year$`))
+    if (m) {
+      const leap = (y: number) => (y % 4 === 0 && y % 100 !== 0) || y % 400 === 0
+      const fs = lex.values.map((y, f) => ((m![2] === 'leap' ? leap(y) : y % 2 === (m![2] === 'odd' ? 1 : 0)) ? f : -1)).filter((f) => f >= 0)
+      return [{ t: 'set', x: M(m[1]), fs, neg }]
+    }
+    // "The difference between the ages of G and A is the same as the difference between the ages of F and C"
+    m = s.match(new RegExp(`difference between\\s+(?:the\\s+)?(?:[a-z]+\\s+){0,2}?${ENT}\\s+and\\s+${ENT}\\s+(?:(?:is|are)\\s+)?(not\\s+)?(?:the\\s+)?(?:same as|equal to)\\s+(?:the\\s+)?difference between\\s+(?:the\\s+)?(?:[a-z]+\\s+){0,2}?${ENT}\\s+and\\s+${ENT}`))
+    if (m) return [{ t: 'vsame', x: M(m[1]), y: M(m[2]), z: M(m[4]), w: M(m[5]), neg: m[3] ? true : undefined }]
+  }
+
   // "I sits immediate right and immediate left of A and C respectively": one person, two relations, one to each named person
   const REL = '(?:(immediately)\\s+|#(\\d+)\\s+)?(left|right)'
   m = s.match(new RegExp(`^${ENT}\\s+(?:[a-z]+\\s+){0,2}?${REL}\\s+and\\s+${REL}\\s+of\\s+${ENT}\\s+and\\s+${ENT}\\s+respectively$`))
@@ -582,7 +637,7 @@ function interpretClauseRaw(s: string, ments: Term[], lex: Lexicon): Atom[] | nu
   // "The number of persons to the left of x is the same as the number of persons to the right of y"
   // ("the number of floors above G is the same as the number of floors below the Fireman")
   const SIDE = '(left of|right of|above|below|before|after)'
-  m = s.match(new RegExp(`(?:number of|as many) (?:[a-z]+\\s+){1,3}?${SIDE}\\s+${ENT}\\s+(?:(?:is|are)\\s+)?(not\\s+)?(?:the\\s+)?(?:same as|equal to)\\s+(?:(?:the\\s+)?number of (?:[a-z]+\\s+){1,3}?)?${SIDE}\\s+${ENT}`))
+  m = s.match(new RegExp(`(?:number(?:\\s+of)?|as many) (?:[a-z]+\\s+){1,3}?${SIDE}\\s+${ENT}\\s+(?:(?:is|are)\\s+)?(not\\s+)?(?:the\\s+)?(?:same as|equal to)\\s+(?:(?:the\\s+)?number(?:\\s+of)?\\s+(?:[a-z]+\\s+){0,3}?)?${SIDE}\\s+${ENT}`))
   if (m) {
     if (lex.axis === 'circle') return null
     const low = (w: string) => w === 'left of' || w === 'below' || w === 'before'
@@ -1165,7 +1220,7 @@ function orderFromList(values: string[]): OrderInfo | null {
 
 /** statements that only restate the setup ("Each person was born in one month only.") — nothing to solve, so nothing to warn about */
 const isFiller = (s: string): boolean =>
-  /^each corner\b/i.test(s) || /\bon which no (?:one|person|candidate|friend)\b/i.test(s) || /^only one (?:person|friend|candidate|student)\b[^.]*\b(?:given|each|one) day\b/i.test(s) || /^(?:they|all of them|each of them)\b[^.]*\b\d+(?:st|nd|rd|th)\b[^.]*\b(?:each|every) month\b/i.test(s) || /^the week (?:is )?(?:start|begin)/i.test(s) || /^(?:all of them|everyone|everybody|each of them|they all)\s+(?:are\s+)?fac(?:e|es|ing)\b/i.test(s) || /^(?:one|two|three|four|only|exactly|no|any)\b[^.]*\b(?:dates?|days?)\b[^.]*\b(?:vacant|empty|free|unoccupied)\b/i.test(s) || /^(?:each|every)\s+(?:day|date)\b[^.]*\bonly one\b/i.test(s) || /^the distance between\b/i.test(s) || /^the (?:persons?|people),? who (?:sit|sits|are sitting) at the (?:side|corner)s?\b/i.test(s) || /^\w+\s+(?:people|persons)\s+(?:are\s+)?sitting\s+at\s+the\s+corners\b/i.test(s) || /^no seat is\b/i.test(s) || /^(?:the\s+)?(?:people|persons)\s+(?:sitting|seated)\s+(?:at|on)\s+the\s+corners\b/i.test(s) ||
+  /^each corner\b/i.test(s) || /^the base year\b/i.test(s) || /\bon which no (?:one|person|candidate|friend)\b/i.test(s) || /^only one (?:person|friend|candidate|student)\b[^.]*\b(?:given|each|one) day\b/i.test(s) || /^(?:they|all of them|each of them)\b[^.]*\b\d+(?:st|nd|rd|th)\b[^.]*\b(?:each|every) month\b/i.test(s) || /^the week (?:is )?(?:start|begin)/i.test(s) || /^(?:all of them|everyone|everybody|each of them|they all)\s+(?:are\s+)?fac(?:e|es|ing)\b/i.test(s) || /^(?:one|two|three|four|only|exactly|no|any)\b[^.]*\b(?:dates?|days?)\b[^.]*\b(?:vacant|empty|free|unoccupied)\b/i.test(s) || /^(?:each|every)\s+(?:day|date)\b[^.]*\bonly one\b/i.test(s) || /^the distance between\b/i.test(s) || /^the (?:persons?|people),? who (?:sit|sits|are sitting) at the (?:side|corner)s?\b/i.test(s) || /^\w+\s+(?:people|persons)\s+(?:are\s+)?sitting\s+at\s+the\s+corners\b/i.test(s) || /^no seat is\b/i.test(s) || /^(?:the\s+)?(?:people|persons)\s+(?:sitting|seated)\s+(?:at|on)\s+the\s+corners\b/i.test(s) ||
   /^some of them (?:are )?facing\b/i.test(s) || /^each of them (?:likes?|has|have|owns?|plays?|drinks?|eats?|prefers?)\s+(?:one|a|an)\s+[a-z]+\s*\.?$/i.test(s) ||
   /^(?:not more than|at most|only) one (?:person|box|friend|student)\b[^.]*\bsame\b/i.test(s) || /^(?:each|every)\s+(?:person|one|of them|friend|student)\b[^.]*\b(?:only|exactly one)\b/i.test(s) || /^no\s+two\b/i.test(s) || /\bwith respect to\b[^.]*\bfacing\b/i.test(s) || /^\(?\s*left and right\b/i.test(s) || /^\(?\s*(?:the\s+)?(?:bottommost|lowermost|lowest|ground|topmost|position 1)\b[^.]*\b(?:numbered|is the bottom)\b/i.test(s)
 
@@ -1413,11 +1468,16 @@ export function parsePuzzle(raw: string): ParseResult {
 
   // extra categories
   let numbered = null as { noun: string } | null // set while reading the category sentences
+  let yearValues = null as number[] | null // birth years when the positions are years
   const cats: Category[] = []
   const used = new Set<number>([headerIdx])
   // "Seven persons A, B … live in different cities among Agra, Bhopal, …": the people and the first category share one sentence
   const headCat = tworow ? null : parseCategorySentence(sentences[headerIdx])
-  if (headCat && headCat.values.length === n && new Set(headCat.values.map((v) => v.toLowerCase())).size === n && !orderFromList(headCat.values)) cats.push({ name: headCat.name, values: headCat.values })
+  const headYears = headCat && headCat.values.length === n ? yearOrder(headCat) : null
+  if (headYears) {
+    order = { labels: headYears.labels, unit: 'year', on: 'in' }
+    yearValues = headYears.values
+  } else if (headCat && headCat.values.length === n && new Set(headCat.values.map((v) => v.toLowerCase())).size === n && !orderFromList(headCat.values)) cats.push({ name: headCat.name, values: headCat.values })
   sentences.forEach((s, k) => {
     if (k === headerIdx || isBoilerplate(s) || isQuestion(s)) return
     const cs = parseCategorySentence(s)
@@ -1443,6 +1503,12 @@ export function parsePuzzle(raw: string): ParseResult {
     if (nm) {
       numbered = nm // "eight different classes i.e. class 1 … class 8": the positions, numbered from the lowest
       axisGuess = 'floor'
+      return
+    }
+    const yrs = !order ? yearOrder(cs) : null
+    if (yrs) {
+      order = { labels: yrs.labels, unit: 'year', on: 'in' }
+      yearValues = yrs.values
       return
     }
     const asOrder = !order ? orderFromList(cs.values) : null
@@ -1511,6 +1577,9 @@ export function parsePuzzle(raw: string): ParseResult {
 
   const lex = buildLexicon(people, slotCat !== undefined ? cats.slice(0, -1) : cats, axis, topDown, order?.labels, building ? { cols: building.cols, flats: building.flats } : undefined, rowLen)
   lex.dirCat = dirCat
+  const baseYear = text.match(/\bbase year\b[^.]*?\b(\d{4})\b/i)
+  lex.values = yearValues ?? undefined
+  lex.baseYear = baseYear ? Number(baseYear[1]) : undefined
   lex.daySlots = weekSlots ? { labels: weekSlots } : undefined
   lex.mirror = mirror
   lex.square = square
@@ -1551,6 +1620,6 @@ export function parsePuzzle(raw: string): ParseResult {
   const extra = order ? { labels: order.labels, unit: order.unit, on: order.on, verb: slotCat !== undefined ? undefined : verbWord ? `was ${verbWord[1].toLowerCase()}` : bday ? 'was born' : unordered ? unorderedVerb : undefined, ...(bday ? { cols: bday.dates.length } : {}), ...(unordered ? { unordered: true } : {}), ...(weekSlots ? { slotUnit: 'day' } : {}) } : {}
   const stack = boxes && axis === 'floor' ? { noun: 'box', place: 'place' } : boxes ? { noun: 'box' } : {}
   result.summary = { people, axis, topDown, cats, labels: order?.labels, unit: order?.unit, facing, cols: building?.cols, flats: building?.flats, rowLen, hierarchy: numbered ? { unit: numbered.noun, up: /\bsenior\b/i.test(text) ? 'senior to' : `in a higher ${numbered.noun} than`, down: /\bjunior\b/i.test(text) ? 'junior to' : `in a lower ${numbered.noun} than` } : undefined, mirror: mirror || undefined, unordered: unordered || undefined, dates: slotCat !== undefined ? (bday ? bday.labels : weekSlots ?? undefined) : undefined, mixed: dirCat !== undefined || undefined, square: square || undefined, shape: shape?.name, cornersIn: square ? cornersIn : undefined, ...stack }
-  result.puzzle = { n, axis, topDown, people, cats, clues, ...extra, ...(dirCat !== undefined ? { dirCat } : {}), ...(mirror ? { mirror: true } : {}), ...(numbered ? { hierarchy: { unit: numbered.noun, up: /\bsenior\b/i.test(text) ? 'senior to' : `in a higher ${numbered.noun} than`, down: /\bjunior\b/i.test(text) ? 'junior to' : `in a lower ${numbered.noun} than` } } : {}), ...(slotCat !== undefined ? { slotCat } : {}), ...(circle ? { facing } : {}), ...(square ? { square: true, shape: shape?.name, cornersIn } : {}), ...(building ? { cols: building.cols, flats: building.flats } : {}), ...(rowLen ? { rowLen } : {}), ...stack }
+  result.puzzle = { n, axis, topDown, people, cats, clues, ...extra, ...(dirCat !== undefined ? { dirCat } : {}), ...(mirror ? { mirror: true } : {}), ...(yearValues ? { values: yearValues, ...(baseYear ? { baseYear: Number(baseYear[1]) } : {}) } : {}), ...(numbered ? { hierarchy: { unit: numbered.noun, up: /\bsenior\b/i.test(text) ? 'senior to' : `in a higher ${numbered.noun} than`, down: /\bjunior\b/i.test(text) ? 'junior to' : `in a lower ${numbered.noun} than` } } : {}), ...(slotCat !== undefined ? { slotCat } : {}), ...(circle ? { facing } : {}), ...(square ? { square: true, shape: shape?.name, cornersIn } : {}), ...(building ? { cols: building.cols, flats: building.flats } : {}), ...(rowLen ? { rowLen } : {}), ...stack }
   return result
 }
