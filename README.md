@@ -45,8 +45,8 @@ There are no accounts in this app, so with no login system these rules intention
 
 `/english/mnemonic-vocab` is a separate, fully static bank of 1,018 words from a mnemonic-vocabulary book: each word has a cartoon, respelling (with a speaker button), part of speech, Hindi + English meaning, a memory trick, synonyms, antonyms and two example sentences. The words live in `src/data/mnemonicVocab.json` (its own lazily-loaded chunk) and the pictures in `public/mnemonic/img/`; see `scripts/mnemonic-vocab/README.md` for how they were extracted.
 
-- **Learn today** — a daily set of 5/10/15/20 new words in book order (the set stays the same all day; opening a card marks it learned, so tomorrow continues where today ended). Star a word to add it to favourites.
-- **Word library** — browse/search all words; filter by ★ favourites (with the usual "last N days" recency chips), not-learned-yet, learned.
+- **Learn today** — each day you get 5/10/15/20 *random* words picked from the words you have not learned yet, from the whole A–Z range rather than the next ones in order. A word only counts as learned when you tap **I have learned this word** (just viewing it does nothing); words you skip stay in the pool and can come back another day. The set stays the same all day (and resumes at your first unlearned word), "Get N more" draws a fresh one, and an A–Z strip shows how much of each letter you have learned. Star a word to add it to favourites. Shared with the Hindu bank: `src/lib/dailyLearn.ts` + `src/components/LearnToday.tsx`.
+- **Word library** — browse/search all words; filter by ★ favourites (with the usual "last N days" recency chips), not learned yet, learned; each card has a mark-as-learned button.
 - **Revise favourites** — the game. Pick a *freshness window* (favourited within the last 1/2/3/7/14/30 days, or any time), a mode (Picture → Word, Word → Meaning, Mixed) and what to ask first when there are more favourites than questions (freshest, weakest — missed last time / never asked / asked longest ago — or random). Wrong options are the same part of speech and never a synonym of the right answer. After each answer the full card is shown so the mnemonic sinks in; un-starring a mastered word drops it from revision.
 
 Favourites (key `mnemonic-vocab`, same store and timestamps as the other banks), learned words and per-word revision stats are kept in this browser's localStorage. `npm run verify:mnemonic` checks the data and the game logic.
@@ -55,10 +55,11 @@ Favourites (key `mnemonic-vocab`, same store and timestamps as the other banks),
 
 `/english/hindu-vocab` is a second static bank: 1,787 "power words" from The Hindu editorials, each with a Hindi and an English meaning, five synonyms, five antonyms and two example sentences (the book has one; the second was written for every word). Data lives in `src/data/hinduVocab.json` (its own lazily-loaded chunk); see `scripts/hindu-vocab/README.md` for how it was extracted.
 
-- **Study the words** — search (word, meaning, Hindi, synonyms, antonyms), jump to a starting letter, star favourites (same store and "last N days" chips as the other banks, key `hindu-vocab`).
+- **Learn today** — the same random-unlearned-words-each-day flow as Mnemonic Vocabulary (mark each word learned yourself; A–Z coverage strip; "Get N more"), using the shared `LearnToday` component.
+- **Study the words** — search (word, meaning, Hindi, synonyms, antonyms), jump to a starting letter, filter by ★ favourites / not learned yet / learned, mark words learned, star favourites (same store and "last N days" chips as the other banks, key `hindu-vocab`).
 - **Practice game** — reuses the standard MCQ runner (hints, skip, timer, review with explanations, "Best %" on the English hub). Pick a type — *Meaning*, *Hindi → Word*, *Synonym*, *Antonym*, *Fill the blank* (an example sentence with the word blanked out) or *Mixed* — plus a starting letter, favourites-only (with recency) and 10–50 questions. Wrong options are the same part of speech and never a synonym of the right answer; synonym questions always include one of the word's antonyms as a trap (and vice versa); fill-the-blank only uses sentences where the word appears once in its base form (1,754 of the 1,787 words).
 
-`npm run verify:hindu` checks the data and every question type.
+`npm run verify:hindu` checks the data and every question type; `npm run verify:learn` checks the shared Learn today logic.
 
 ### Security headers and abuse limits
 

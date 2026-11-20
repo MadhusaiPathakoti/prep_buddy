@@ -3,12 +3,19 @@ import { Link } from 'react-router-dom'
 import FavoriteRecencyChips from '../../components/FavoriteRecencyChips'
 import HinduWordCard from '../../components/HinduWordCard'
 import { getFavorites, isFavoritedWithin, toggleFavorite, type FavoriteMap } from '../../lib/favorites'
-import { HINDU_BANK_KEY, type HinduWord } from '../../lib/hinduVocab'
+import { HINDU_BANK_KEY, hinduLearn, type HinduWord } from '../../lib/hinduVocab'
 import { useHinduBank } from '../../lib/useHinduBank'
 
-type FilterId = 'all' | 'favorites'
+type FilterId = 'all' | 'favorites' | 'new' | 'learned'
 type SortField = 'alphabetical' | 'favorited'
 type SortDirection = 'asc' | 'desc'
+
+const FILTERS: { id: FilterId; label: string }[] = [
+  { id: 'all', label: 'All' },
+  { id: 'favorites', label: '★ Favourites' },
+  { id: 'new', label: 'Not learned yet' },
+  { id: 'learned', label: 'Learned' },
+]
 
 const PAGE_SIZE = 40
 const chip = (on: boolean) =>
@@ -53,6 +60,8 @@ function Library({ bank, back }: { bank: HinduWord[]; back: ReactNode }) {
   const [sortDirection, setSortDirection] = useState<SortDirection>('asc')
   const [favorites, setFavorites] = useState<FavoriteMap>(() => getFavorites(HINDU_BANK_KEY))
   const [favoriteRecency, setFavoriteRecency] = useState<number | null>(null)
+  const [progress, setProgress] = useState(() => hinduLearn.getProgress())
+  const learned = progress.learned
 
   const letters = useMemo(() => [...new Set(bank.map((w) => w.word.charAt(0).toUpperCase()))].sort(), [bank])
 
@@ -71,7 +80,12 @@ function Library({ bank, back }: { bank: HinduWord[]; back: ReactNode }) {
   const entries = useMemo(() => {
     const q = query.trim().toLowerCase()
     return bank
-      .filter((w) => filter !== 'favorites' || isFavoritedWithin(favorites, w.id, favoriteRecency))
+      .filter((w) => {
+        if (filter === 'favorites') return isFavoritedWithin(favorites, w.id, favoriteRecency)
+        if (filter === 'new') return !learned[w.n]
+        if (filter === 'learned') return !!learned[w.n]
+        return true
+      })
       .filter((w) => letter === null || w.word.charAt(0).toUpperCase() === letter)
       .filter(
         (w) =>
@@ -87,7 +101,7 @@ function Library({ bank, back }: { bank: HinduWord[]; back: ReactNode }) {
         const cmp = sortField === 'favorited' ? timeOf(favorites.get(a.id)) - timeOf(favorites.get(b.id)) : a.n - b.n
         return sortDirection === 'asc' ? cmp : -cmp
       })
-  }, [bank, filter, letter, query, favorites, favoriteRecency, sortField, sortDirection])
+  }, [bank, filter, letter, query, favorites, favoriteRecency, sortField, sortDirection, learned])
 
   const listKey = `${filter}|${letter}|${query}|${sortField}|${sortDirection}|${favoriteRecency}`
   const [pageState, setPageState] = useState({ key: listKey, count: PAGE_SIZE })
@@ -101,12 +115,11 @@ function Library({ bank, back }: { bank: HinduWord[]; back: ReactNode }) {
 
       <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div className="flex flex-wrap gap-2">
-          <button onClick={() => selectFilter('all')} className={chip(filter === 'all')}>
-            All
-          </button>
-          <button onClick={() => selectFilter('favorites')} className={chip(filter === 'favorites')}>
-            ★ Favourites
-          </button>
+          {FILTERS.map((f) => (
+            <button key={f.id} onClick={() => selectFilter(f.id)} className={chip(filter === f.id)}>
+              {f.label}
+            </button>
+          ))}
         </div>
         <input
           value={query}
@@ -164,6 +177,7 @@ function Library({ bank, back }: { bank: HinduWord[]; back: ReactNode }) {
             isFavorite={favorites.has(w.id)}
             favoritedAt={favorites.get(w.id)}
             onToggleFavorite={() => setFavorites((prev) => toggleFavorite(HINDU_BANK_KEY, w.id, prev))}
+            learned={{ isLearned: !!learned[w.n], onToggle: () => setProgress(learned[w.n] ? hinduLearn.unmarkLearned(w.n) : hinduLearn.markLearned(w.n)) }}
           />
         ))}
         {entries.length > shown && (

@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import FavoriteRecencyChips from '../../components/FavoriteRecencyChips'
 import MnemonicCard from '../../components/MnemonicCard'
 import { getFavorites, isFavoritedWithin, toggleFavorite, type FavoriteMap } from '../../lib/favorites'
-import { getProgress, MNEMONIC_BANK_KEY, type MnemonicWord } from '../../lib/mnemonicVocab'
+import { MNEMONIC_BANK_KEY, mnemonicLearn, type MnemonicWord } from '../../lib/mnemonicVocab'
 import { useMnemonicBank } from '../../lib/useMnemonicBank'
 
 type FilterId = 'all' | 'favorites' | 'new' | 'learned'
@@ -59,7 +59,8 @@ function Library({ bank, back }: { bank: MnemonicWord[]; back: ReactNode }) {
   const [sortDirection, setSortDirection] = useState<SortDirection>('asc')
   const [favorites, setFavorites] = useState<FavoriteMap>(() => getFavorites(MNEMONIC_BANK_KEY))
   const [favoriteRecency, setFavoriteRecency] = useState<number | null>(null)
-  const [seen] = useState(() => getProgress().seen)
+  const [progress, setProgress] = useState(() => mnemonicLearn.getProgress())
+  const learned = progress.learned
 
   /** Favourites open newest-first (that's what you'd revise); leaving them drops the favourites-only sort. */
   function selectFilter(next: FilterId) {
@@ -78,8 +79,8 @@ function Library({ bank, back }: { bank: MnemonicWord[]; back: ReactNode }) {
     return bank
       .filter((w) => {
         if (filter === 'favorites') return isFavoritedWithin(favorites, w.id, favoriteRecency)
-        if (filter === 'new') return !seen[w.n]
-        if (filter === 'learned') return !!seen[w.n]
+        if (filter === 'new') return !learned[w.n]
+        if (filter === 'learned') return !!learned[w.n]
         return true
       })
       .filter(
@@ -96,7 +97,7 @@ function Library({ bank, back }: { bank: MnemonicWord[]; back: ReactNode }) {
         const cmp = sortField === 'favorited' ? timeOf(favorites.get(a.id)) - timeOf(favorites.get(b.id)) : a.n - b.n
         return sortDirection === 'asc' ? cmp : -cmp
       })
-  }, [bank, filter, query, favorites, favoriteRecency, sortField, sortDirection, seen])
+  }, [bank, filter, query, favorites, favoriteRecency, sortField, sortDirection, learned])
 
   // Cards carry a picture each, so show them a page at a time.
   const listKey = `${filter}|${query}|${sortField}|${sortDirection}|${favoriteRecency}`
@@ -164,6 +165,7 @@ function Library({ bank, back }: { bank: MnemonicWord[]; back: ReactNode }) {
             isFavorite={favorites.has(w.id)}
             favoritedAt={favorites.get(w.id)}
             onToggleFavorite={() => setFavorites((prev) => toggleFavorite(MNEMONIC_BANK_KEY, w.id, prev))}
+            learned={{ isLearned: !!learned[w.n], onToggle: () => setProgress(learned[w.n] ? mnemonicLearn.unmarkLearned(w.n) : mnemonicLearn.markLearned(w.n)) }}
           />
         ))}
         {entries.length > shown && (

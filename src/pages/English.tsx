@@ -26,7 +26,7 @@ export const ENGLISH_GAMES = [
   {
     id: 'hindu-vocab',
     title: 'The Hindu Vocabulary',
-    description: '1700+ power words from The Hindu editorials with Hindi meanings, synonyms, antonyms and two examples each — then a practice game over them.',
+    description: '1700+ power words from The Hindu editorials with Hindi meanings, synonyms, antonyms and two examples each — learn a few random ones daily, then play a practice game.',
     to: '/english/hindu-vocab',
     icon: '📰',
   },

@@ -1,10 +1,14 @@
 // The Hindu Vocabulary: data loading and the practice game's question builder (pure functions, no storage).
+import { createLearnStore } from './dailyLearn'
 import type { MCQQuestion } from './generators'
 
 /** Favourites for this bank live under this key (see lib/favorites.ts); entry ids are `hv-<number>`. */
 export const HINDU_BANK_KEY = 'hindu-vocab'
 /** Game id used for the English hub's "Best %" and the session history. */
 export const HINDU_GAME_ID = 'hindu-vocab'
+
+/** "Learn today" progress for this bank: random unlearned words each day, marked learned by the player. */
+export const hinduLearn = createLearnStore('hindu')
 
 export interface HinduWord {
   /** `hv-<n>` — the key used for favourites. */

@@ -1,4 +1,5 @@
 import { highlight } from './highlightWord'
+import LearnedButton from './LearnedButton'
 import { SpeakerButton } from './Pronounce'
 import { formatFavoritedDate } from '../lib/favorites'
 import { mnemonicImageUrl, type MnemonicWord } from '../lib/mnemonicVocab'
@@ -21,10 +22,12 @@ interface MnemonicCardProps {
   onToggleFavorite?: () => void
   /** Hide the cartoon (e.g. when the surrounding screen already shows it). */
   hideImage?: boolean
+  /** When given, a "mark as learned" button is shown at the bottom. */
+  learned?: { isLearned: boolean; onToggle: () => void }
 }
 
 /** Everything about one word: picture, pronunciation, meaning, memory trick, synonyms/antonyms and two example sentences. */
-export default function MnemonicCard({ word, isFavorite = false, favoritedAt, onToggleFavorite, hideImage = false }: MnemonicCardProps) {
+export default function MnemonicCard({ word, isFavorite = false, favoritedAt, onToggleFavorite, hideImage = false, learned }: MnemonicCardProps) {
   return (
     <div className="rounded-3xl bg-white dark:bg-slate-800 p-5 shadow-sm ring-1 ring-slate-200 dark:ring-slate-700">
       {!hideImage && <MnemonicImage n={word.n} alt={`Cartoon showing the meaning of ${word.word}`} className="mb-4 h-52 sm:h-60" />}
@@ -76,6 +79,8 @@ export default function MnemonicCard({ word, isFavorite = false, favoritedAt, on
           </p>
         ))}
       </div>
+
+      {learned && <LearnedButton learned={learned.isLearned} onToggle={learned.onToggle} word={word.word} />}
     </div>
   )
 }

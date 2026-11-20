@@ -1,11 +1,15 @@
 // Mnemonic Vocabulary: data loading, the "learn a few words a day" progress, per-word revision stats, and the pure
 // logic behind the revision game (which favourites to ask, and how to build the questions).
+import { createLearnStore } from './dailyLearn'
 import { isFavoritedWithin, type FavoriteMap } from './favorites'
 
 /** Favourites for this bank live under this key (see lib/favorites.ts); entry ids are `mn-<number>`. */
 export const MNEMONIC_BANK_KEY = 'mnemonic-vocab'
 /** Game id used for the English hub's "Best %" and the session history. */
 export const MNEMONIC_GAME_ID = 'mnemonic-vocab'
+
+/** "Learn today" progress for this bank: random unlearned words each day, marked learned by the player. */
+export const mnemonicLearn = createLearnStore('mnemonic')
 
 export interface MnemonicWord {
   /** `mn-<n>` — the key used for favourites. */
@@ -52,8 +56,6 @@ function primaryPos(w: MnemonicWord): string {
 /* Local storage                                                       */
 /* ------------------------------------------------------------------ */
 
-const PROGRESS_KEY = 'prepbuddy:mnemonic:progress'
-const TODAY_KEY = 'prepbuddy:mnemonic:today'
 const STATS_KEY = 'prepbuddy:mnemonic:stats'
 
 function readJson<T>(key: string, fallback: T): T {
@@ -71,86 +73,6 @@ function writeJson(key: string, value: unknown) {
   } catch {
     // localStorage unavailable (private mode, quota, etc.) — silently skip persistence
   }
-}
-
-/** The local calendar date, e.g. "2026-11-20" — a new "day" starts at the user's midnight. */
-export function localDateKey(d = new Date()): string {
-  const mm = String(d.getMonth() + 1).padStart(2, '0')
-  const dd = String(d.getDate()).padStart(2, '0')
-  return `${d.getFullYear()}-${mm}-${dd}`
-}
-
-export const DAILY_SIZES = [5, 10, 15, 20]
-const DEFAULT_DAILY_SIZE = 10
-
-export interface MnemonicProgress {
-  /** How many new words make up a day's set. */
-  size: number
-  /** Word number -> ISO time it was first opened in "Learn today". */
-  seen: Record<string, string>
-}
-
-export function getProgress(): MnemonicProgress {
-  const raw = readJson<Partial<MnemonicProgress>>(PROGRESS_KEY, {})
-  const size = DAILY_SIZES.includes(Number(raw.size)) ? Number(raw.size) : DEFAULT_DAILY_SIZE
-  const seen = raw.seen && typeof raw.seen === 'object' ? raw.seen : {}
-  return { size, seen }
-}
-
-function saveProgress(p: MnemonicProgress) {
-  writeJson(PROGRESS_KEY, p)
-}
-
-export function setDailySize(size: number): MnemonicProgress {
-  const next = { ...getProgress(), size }
-  saveProgress(next)
-  return next
-}
-
-/** Records that a word was opened for learning (only the first time counts). */
-export function markSeen(n: number): MnemonicProgress {
-  const p = getProgress()
-  if (p.seen[n]) return p
-  const next = { ...p, seen: { ...p.seen, [n]: new Date().toISOString() } }
-  saveProgress(next)
-  return next
-}
-
-/** How many words were first opened on the given local date. */
-export function learnedOn(progress: MnemonicProgress, dateKey = localDateKey()): number {
-  return Object.values(progress.seen).filter((iso) => localDateKey(new Date(iso)) === dateKey).length
-}
-
-/** The next `size` words not yet opened, in book order. */
-export function nextUnseen(bank: MnemonicWord[], progress: MnemonicProgress, size: number): number[] {
-  const out: number[] = []
-  for (const w of bank) {
-    if (out.length >= size) break
-    if (!progress.seen[w.n]) out.push(w.n)
-  }
-  return out
-}
-
-interface TodaySet {
-  date: string
-  ids: number[]
-}
-
-/**
- * Today's words: the same set all day (so a reload doesn't change it), a fresh set on a new day. A stored set that
- * has been fully learned is kept — "Learn more" is what builds the next one.
- */
-export function getTodaySet(bank: MnemonicWord[], progress: MnemonicProgress = getProgress()): number[] {
-  const stored = readJson<TodaySet | null>(TODAY_KEY, null)
-  if (stored && stored.date === localDateKey() && Array.isArray(stored.ids) && stored.ids.length > 0) return stored.ids
-  return buildTodaySet(bank, progress, progress.size)
-}
-
-/** Replaces today's set with the next `size` unseen words and remembers it. */
-export function buildTodaySet(bank: MnemonicWord[], progress: MnemonicProgress, size: number): number[] {
-  const ids = nextUnseen(bank, progress, size)
-  writeJson(TODAY_KEY, { date: localDateKey(), ids } satisfies TodaySet)
-  return ids
 }
 
 export interface WordStat {

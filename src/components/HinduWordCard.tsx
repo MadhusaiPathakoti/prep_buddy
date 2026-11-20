@@ -1,4 +1,5 @@
 import { highlight } from './highlightWord'
+import LearnedButton from './LearnedButton'
 import { WordChips } from './MnemonicCard'
 import { SpeakerButton } from './Pronounce'
 import { formatFavoritedDate } from '../lib/favorites'
@@ -10,10 +11,12 @@ interface HinduWordCardProps {
   /** ISO time the word was favourited (shown under the star). */
   favoritedAt?: string | null
   onToggleFavorite: () => void
+  /** When given, a "mark as learned" button is shown at the bottom. */
+  learned?: { isLearned: boolean; onToggle: () => void }
 }
 
 /** One word of The Hindu Vocabulary: meaning in Hindi and English, five synonyms, five antonyms and two example sentences. */
-export default function HinduWordCard({ word, isFavorite, favoritedAt, onToggleFavorite }: HinduWordCardProps) {
+export default function HinduWordCard({ word, isFavorite, favoritedAt, onToggleFavorite, learned }: HinduWordCardProps) {
   return (
     <div className="rounded-2xl bg-white dark:bg-slate-800 p-5 shadow-sm ring-1 ring-slate-200 dark:ring-slate-700">
       <div className="flex items-start justify-between gap-3">
@@ -51,6 +54,8 @@ export default function HinduWordCard({ word, isFavorite, favoritedAt, onToggleF
           </p>
         ))}
       </div>
+
+      {learned && <LearnedButton learned={learned.isLearned} onToggle={learned.onToggle} word={word.word} />}
     </div>
   )
 }

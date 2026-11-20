@@ -1,14 +1,14 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { getFavorites } from '../../lib/favorites'
-import { getProgress, learnedOn, loadMnemonicBank, MNEMONIC_BANK_KEY } from '../../lib/mnemonicVocab'
+import { loadMnemonicBank, MNEMONIC_BANK_KEY, mnemonicLearn } from '../../lib/mnemonicVocab'
 
 const CARDS = [
   {
     to: '/english/mnemonic-vocab/learn',
     icon: '🌱',
     title: 'Learn today',
-    description: 'A few new words a day, one picture-and-trick card at a time. Star the ones you want to keep revising.',
+    description: 'A few random new words a day from across the whole alphabet. Mark each one learned, and star the ones to keep revising.',
     cta: 'Start →',
   },
   {
@@ -29,7 +29,7 @@ const CARDS = [
 
 export default function MnemonicHub() {
   const [total, setTotal] = useState<number | null>(null)
-  const [progress] = useState(getProgress)
+  const [progress] = useState(() => mnemonicLearn.getProgress())
   const [favouriteCount] = useState(() => getFavorites(MNEMONIC_BANK_KEY).size)
 
   useEffect(() => {
@@ -46,7 +46,7 @@ export default function MnemonicHub() {
     }
   }, [])
 
-  const learned = Object.keys(progress.seen).length
+  const learned = Object.keys(progress.learned).length
 
   return (
     <div className="mx-auto max-w-3xl px-4 py-10">
@@ -61,7 +61,7 @@ export default function MnemonicHub() {
       </div>
 
       <div className="mb-8 grid grid-cols-3 gap-3 text-center">
-        <Tally label="Learned today" value={String(learnedOn(progress))} />
+        <Tally label="Learned today" value={String(mnemonicLearn.learnedOn(progress))} />
         <Tally label="Words learned" value={total ? `${learned} / ${total}` : String(learned)} />
         <Tally label="★ Favourites" value={String(favouriteCount)} />
       </div>
