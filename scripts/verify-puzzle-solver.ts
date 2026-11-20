@@ -447,6 +447,17 @@ const EVENT_CASES: [string, string][] = [
   ['S is held immediately before U, but in the same month.', 'S is immediately before U ; S is in the same month as U'],
 ]
 
+const SEVEN_HEADER = `Seven persons H, I, J, K, L, M & N are sitting in a row.
+`
+
+// "either … or" with a shared predicate, "does not … K or M", ordinals copied with a gap
+const SEVEN_CASES: [string, string][] = [
+  ['Either M or K sits at one of the extreme ends.', 'either M is at either the leftmost or the rightmost seat, or K is at either the leftmost or the rightmost seat, but not both'],
+  ['M or K sits at an extreme end.', 'M is at either the leftmost or the rightmost seat, or K is at either the leftmost or the rightmost seat, or both'],
+  ['M does not sit adjacent to K or J.', 'M and K are not on neighbouring seats ; M and J are not on neighbouring seats'],
+  ['K sits 4 th to the right of M.', 'K is exactly 4 seats to the right of M'],
+]
+
 const GAPMONTH_HEADER = `Four persons A, B, C, D were born in four different months viz. August, January, May and March of the same year.
 `
 
@@ -571,6 +582,7 @@ runParserTable(CLASS_HEADER, CLASS_CASES)
 runParserTable(YEAR_HEADER, YEAR_CASES)
 runParserTable(STOREY_HEADER, STOREY_CASES)
 runParserTable(GAPMONTH_HEADER, GAPMONTH_CASES)
+runParserTable(SEVEN_HEADER, SEVEN_CASES)
 runParserTable(EVENT_HEADER, EVENT_CASES)
 runParserTable(BOXCOLOR_HEADER, BOXCOLOR_CASES)
 runParserTable(ROW_HEADER, ROW_NEITHER)
@@ -897,6 +909,15 @@ for (const s of SAMPLES) {
     const t = buildTrace(r.puzzle)
     if (t.status !== 'multiple' || !t.steps.length) fail(`events and states: walkthrough ended as ${t.status}`)
   }
+}
+
+// two rows described in one sentence ("… in Row 1 facing north whereas P … in Row 2 facing south"): exactly one arrangement
+{
+  const text = `Seven persons H, I, J, K, L, M & N are sitting in Row 1 facing north whereas P, Q, R, S, T, U and V are sitting in Row 2 facing south such that both rows are equidistant and parallel to each other. The persons sitting in Row 1 face the persons siting in Row 2 and vice versa. T does not face K or M. R sits 4 th to the right of P, who does not sit adjacent to V. Either M or K sits at one of the extreme ends. Two persons sits between H and I. L faces S. K sits 4 th to the right of M, who sits 2 nd to the left of L. Two persons sit between P and S. H faces U. R does not face J. U does not sit at any extreme ends of the row`
+  const r = parsePuzzle(text)
+  const e = r.puzzle ? enumerate(r.puzzle, 50) : null
+  if (!r.puzzle || r.unparsed.length || r.warnings.length || !e) fail(`two rows in one sentence: ${r.errors.join('; ') || r.unparsed.join(' | ') || r.warnings.join('; ') || 'not understood'}`)
+  else if (r.puzzle.axis !== 'tworow' || r.puzzle.n !== 14 || e.sols.length !== 1) fail(`two rows in one sentence: expected one arrangement of 14 people, got ${e.sols.length} (axis ${r.puzzle.axis}, n ${r.puzzle.n})`)
 }
 
 // mistakes in the input are reported, not guessed at
@@ -1595,7 +1616,7 @@ for (const s of SAMPLES) {
   console.log('app generator, end to end: ' + Object.entries(tally).map(([k, v]) => `${k} ${v.checked} checked (${v.skipped} of an unsupported layout skipped)`).join('; '))
 }
 
-console.log(`parser: ${FLOOR_CASES.length + ROW_CASES.length + ORDER_CASES.length + DAY_CASES.length + CIRCLE_CASES.length + GRID_CASES.length + BOX_CASES.length + TWOROW_CASES.length + BDAY_CASES.length + SQUARE_CASES.length + PENT_CASES.length + RANK_CASES.length + VAC_CASES.length + SOUTH_CASES.length + WEEK_CASES.length + WEEK6_CASES.length + CLASS_CASES.length + YEAR_CASES.length + STOREY_CASES.length + GAPMONTH_CASES.length + EVENT_CASES.length + BOXCOLOR_CASES.length + ROW_NEITHER.length + FLOOR_VIZ.length + FLOOR_EXTRA.length + ORDER_EXTRA.length} phrasings checked`)
+console.log(`parser: ${FLOOR_CASES.length + ROW_CASES.length + ORDER_CASES.length + DAY_CASES.length + CIRCLE_CASES.length + GRID_CASES.length + BOX_CASES.length + TWOROW_CASES.length + BDAY_CASES.length + SQUARE_CASES.length + PENT_CASES.length + RANK_CASES.length + VAC_CASES.length + SOUTH_CASES.length + WEEK_CASES.length + WEEK6_CASES.length + CLASS_CASES.length + YEAR_CASES.length + STOREY_CASES.length + GAPMONTH_CASES.length + SEVEN_CASES.length + EVENT_CASES.length + BOXCOLOR_CASES.length + ROW_NEITHER.length + FLOOR_VIZ.length + FLOOR_EXTRA.length + ORDER_EXTRA.length} phrasings checked`)
 console.log(`engine vs brute force: ${compared} random puzzles (${uniqueTraced} with a unique answer traced, ${multiple} with several answers)`)
 console.log(`step kinds: ${JSON.stringify(kinds)}; ${trials} case-analysis trials`)
 console.log(`teaching trace: ${eliminations} crossings checked for soundness, ${whatIfs} what-if simulations refuted`)

@@ -61,6 +61,7 @@ function normalizeText(raw: string): string {
     .replace(/[“”]/g, '"')
     .replace(/\bviz\.?\s*,?\s*/gi, ' - ') // "Seven persons viz. A, B, C" / "different profession viz. Dentist, Farmer"
     .replace(/\bi\.\s*e\.\s*,?/gi, ' - ') // "different fruits i.e., Banana, Cherry …" introduces the list like a dash would
+    .replace(/(\d)\s+(st|nd|rd|th)\b/gi, '$1$2') // "sits 4 th to the right" copied with a gap
     .replace(/ /g, ' ')
 }
 
@@ -1130,6 +1131,19 @@ function compoundClause(s: string, ments: Term[], lex: Lexicon): Atom[] | null {
     const b = single(m[2], ments, lex)
     return a && b ? [{ t: 'logic', op: 'imp', a, b }] : null
   }
+  // "Either M or K sits at one of the extreme ends": the same statement about one or the other person
+  m = s.match(/^(either )?(@\d+) or (@\d+) (.+)$/)
+  if (m && !/\b(?:or|nor|and|but|between)\b/.test(m[4])) {
+    const a = single(`${m[2]} ${m[4]}`, ments, lex)
+    const b = single(`${m[3]} ${m[4]}`, ments, lex)
+    if (a && b) return [{ t: 'logic', op: m[1] ? 'xor' : 'or', a, b }]
+  }
+  // "T does not face K or M": the denial holds for both
+  m = s.match(/^(@\d+) ((?:[a-z]+ ){0,4}?not (?:[a-z]+ ){0,3}?(?:faces?|opposite|adjacent to|next to|beside|above|below|before|after|left of|right of)) (@\d+) or (@\d+)$/)
+  if (m) {
+    const parts = [m[3], m[4]].map((w) => single(`${m![1]} ${m![2]} ${w}`, ments, lex))
+    return parts.every(Boolean) ? (parts as Atom[]) : null
+  }
   m = s.match(/^either (.+?)(?: but not both)?$/)
   if (m) {
     const exclusive = / but not both$/.test(s)
@@ -1387,7 +1401,7 @@ const isGridFiller = (s: string): boolean =>
   /^each floor\b/i.test(s) || /^(?:all\s+(?:the\s+)?)?flats?\b[^.]*\b(?:same size|west|east)\b/i.test(s) || /^flat\s+[A-Z]\b[^.]*\bfloor\b/i.test(s) || /similarly in case of/i.test(s)
 
 /** sentences that only describe the two-row layout ("… sitting in two parallel rows …", "The persons of row 1 face south …") */
-const ROW_INTRO = /\b(?:two|2)\s+(?:parallel\s+)?rows\b|\bparallel\s+rows\b|\b(?:face|faces|facing)\s+each\s+other\b|\b(?:persons|people)\s+of\s+row\b/i
+const ROW_INTRO = /\b(?:two|2)\s+(?:parallel\s+)?rows\b|\bparallel\s+rows\b|\b(?:face|faces|facing)\s+each\s+other\b|\b(?:persons|people)\s+of\s+row\b|\bvice\s+versa\b|\b(?:persons|people)\s+(?:sitting|siting|seated)\s+in\s+row\b/i
 
 const NUMW: Record<string, number> = { one: 1, two: 2, three: 3, four: 4, five: 5, six: 6, seven: 7, eight: 8, nine: 9, ten: 10 }
 
@@ -1461,10 +1475,14 @@ function parsePuzzleFixed(raw: string): ParseResult {
     result.errors.push('Paste the puzzle text (or add a screenshot) to begin.')
     return result
   }
-  const sentences = splitSentences(text)
+  // "Seven persons H … are sitting in Row 1 facing north whereas P … are sitting in Row 2 facing south": one sentence per row
+  const sentences = splitSentences(text).flatMap((x) => {
+    const two = x.match(/^(.*\brow\s*-?\s*(?:1|2|one|two)\b.*?)\s*,?\s+(?:whereas|while)\s+(.*\brow\s*-?\s*(?:1|2|one|two)\b.*)$/i)
+    return two ? [two[1], two[2]] : [x]
+  })
 
   // two facing rows: each row's members may be listed ("In Row 1 - A, B, C …"); otherwise one list is given and the clues say who sits where
-  const tworow = /\b(?:two|2)\s+(?:parallel\s+)?rows\b|\bparallel\s+rows\b/i.test(text)
+  const tworow = /\b(?:two|2|both)\s+(?:parallel\s+)?rows\b|\bparallel\s+rows\b|\brow\s*-?\s*1\b[\s\S]*\brow\s*-?\s*2\b/i.test(text)
   const rowSentence = new Map<number, number>() // sentence index → the row (0 or 1) whose members it lists
   const rowPeople: string[][] = [[], []]
   let people: string[] = []
@@ -1549,7 +1567,7 @@ function parsePuzzleFixed(raw: string): ParseResult {
   const countWord = header.match(/\b(one|two|three|four|five|six|seven|eight|nine|ten|\d+)\s+(?:different\s+)?(?:persons?|people|friends|students|members|boys|girls|colleagues|employees|candidates|players|participants|children|kids|workers|teachers|managers|officers|employees|boxes)\b/i)
   if (countWord) {
     const said = NUM[countWord[1].toLowerCase()] ?? Number(countWord[1])
-    if (said !== n) result.warnings.push(`The text says ${said} people but ${n} names are listed — using the ${n} names.`)
+    if (said !== n && !(tworow && said * 2 === n)) result.warnings.push(`The text says ${said} people but ${n} names are listed — using the ${n} names.`)
   }
   const bday = birthdayGrid(sentences.slice(headerIdx, headerIdx + 3).join(' '), n)
   // fewer people than the seven days of a week: some day stays vacant
