@@ -324,6 +324,7 @@ export class Engine {
       return `${me} ${on} ${here} would need ${who} ${on} ${c.fmtOr(valid)} (${what}), but ${who} can only be ${on} ${dom(other)}`
     }
     if (atom.neg && atom.t !== 'set') return generic()
+    if (atom.t === 'diff' && atom.ds) return generic()
     // the arithmetic below assumes one line of seats and plain people; two rows and "the one on the left of X" need the generic wording
     if (c.tworow || c.p.square || hasDerived(atom)) return atom.t === 'set' ? (atom.neg ? `${me} cannot be ${c.setPhrase(atom.fs)}` : `${me} must be ${c.setPhrase(atom.fs)}`) : generic()
     switch (atom.t) {
@@ -432,6 +433,44 @@ export class Engine {
         }
   }
 
+  /** Unnamed people are interchangeable, so they are taken in seat order: the 1st unnamed person has a lower seat than the 2nd, and so on. */
+  private anonOrder(): void {
+    const c = this.ctx
+    const first = c.p.anon
+    if (first === undefined || first >= c.n - 1) return
+    const n = c.n
+    const lo: number[] = []
+    let prev = -1
+    for (let i = first; i < n; i++) {
+      const cand = this.grid.row(0, i, 1) & ~((1 << (prev + 1)) - 1)
+      if (!cand) {
+        this.setContra('the unnamed people have no seats left in order')
+        return
+      }
+      prev = ctz(cand)
+      lo.push(cand)
+    }
+    let next = n
+    for (let i = n - 1; i >= first; i--) {
+      lo[i - first] &= (1 << next) - 1
+      if (!lo[i - first]) {
+        this.setContra('the unnamed people have no seats left in order')
+        return
+      }
+      next = 31 - Math.clz32(lo[i - first])
+    }
+    for (let i = first; i < n; i++) {
+      const rem = this.grid.row(0, i, 1) & ~lo[i - first]
+      if (!rem) continue
+      this.newGroup()
+      for (const j of bits(rem)) {
+        const text = this.quiet ? '' : `${c.lab(0, i)} cannot sit on ${c.posLab(j)}: the unnamed people are interchangeable, so they are taken in seat order`
+        this.clear(0, i, 1, j, { kind: 'trans', text })
+        if (this.contra) return
+      }
+    }
+  }
+
   /**
    * Dates with vacancies: the people are in date order, so the date of the 1st person is earlier than the 2nd's, and so on.
    * Every person needs a date that leaves room for the people before and after.
@@ -491,6 +530,8 @@ export class Engine {
       this.trans()
       if (this.contra) return false
       this.slotOrder()
+      if (this.contra) return false
+      this.anonOrder()
       if (this.contra) return false
     } while (this.changed && ++guard < 1000)
     return !this.contra

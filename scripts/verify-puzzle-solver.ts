@@ -849,6 +849,21 @@ for (const s of SAMPLES) {
   else if (r.puzzle.people.map((_, i) => e.sols[0].pos[i] + 1).join('') !== '241536' || e.sols[0].val[0].join('') !== '013452') fail('boxes and colours: wrong arrangement')
 }
 
+// a round table of unknown size ("at least fifteen persons"): the size the clues allow is found, the unnamed people are interchangeable
+{
+  const text = `A certain number of persons are seating a circular table facing towards the centre. Two persons are sitting between S and W. X and W are immediate neighbors. Y is neither neighbor of W nor X. Z is neighbor of neither X nor W. Not more than six persons sit between U and V when counted from the right of U. At least fifteen persons are sitting around a circular table. T sits third to the right of W. V is to the immediate left of S. U sits third to the right of X. Only five persons sit between Z and Y (either from right or left from Z).`
+  const r = parsePuzzle(text)
+  const e = r.puzzle ? enumerate(r.puzzle, 50) : null
+  if (!r.puzzle || r.unparsed.length || !e) fail(`open round table: ${r.errors.join('; ') || 'not understood'}`)
+  else {
+    if (r.puzzle.n !== 15) fail(`open round table: expected 15 persons, got ${r.puzzle.n}`)
+    // the named people occupy the same seats in every arrangement apart from Y and Z swapping (a mirror image)
+    if (e.sols.length !== 2) fail(`open round table: expected 2 arrangements, got ${e.sols.length}`)
+    const t = buildTrace(r.puzzle)
+    if (t.status !== 'multiple' || !t.steps.length) fail(`open round table: walkthrough ended as ${t.status}`)
+  }
+}
+
 // mistakes in the input are reported, not guessed at
 for (const [label, text, needle] of [
   ['no people', 'Hello there. A lives above B.', 'list of people'],

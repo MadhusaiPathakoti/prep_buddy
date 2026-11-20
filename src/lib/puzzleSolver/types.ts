@@ -28,7 +28,7 @@ export type DirTerm = { k: 'd'; of: VarTerm; slot?: boolean }
 export type Atom =
   | { t: 'link'; x: VarTerm; y: VarTerm; neg?: boolean } // x and y are the same person ("A is from Kolkata")
   // `ref`: people face north or south, and left / right are as seen by y (a south-facing y has its left to the east)
-  | { t: 'diff'; x: Term; y: Term; d: number; ref?: boolean; on?: 'slot'; by?: 'value'; neg?: boolean } // pos(x) - pos(y) = d   (immediately above: d = 1)
+  | { t: 'diff'; x: Term; y: Term; d: number; ds?: number[]; ref?: boolean; on?: 'slot'; by?: 'value'; neg?: boolean } // pos(x) - pos(y) = d   (immediately above: d = 1)
   | { t: 'rank'; x: Term; y: Term; hi: boolean; ref?: boolean; neg?: boolean } // pos(x) > pos(y) when hi, else <   (somewhere above / below)
   | { t: 'adj'; x: Term; y: Term; on?: 'slot'; neg?: boolean } // neighbouring positions
   | { t: 'gap'; x: Term; y: Term; k: number; hi?: number; on?: 'slot'; by?: 'value'; neg?: boolean } // exactly k positions strictly between x and y (k … hi when `hi` is given: "more than one between")
@@ -66,6 +66,8 @@ export interface Category {
 }
 
 export interface Puzzle {
+  /** people from this index on are unnamed (the table is bigger than the people the text names): interchangeable, so the engine takes them in seat order */
+  anon?: number
   n: number
   axis: Axis
   /** floors are numbered from the top (1 = topmost) instead of from the bottom */
@@ -130,4 +132,4 @@ export interface Solution {
   val: number[][]
 }
 
-export const MAX_N = 12
+export const MAX_N = 16

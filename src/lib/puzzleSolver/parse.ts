@@ -4,6 +4,7 @@
 //   clues    "T lives two floors below the person from Bhopal." and friends     → atoms (see types.ts)
 // Anything it cannot read is returned in `unparsed` rather than guessed at, so the solver never works from a wrong clue silently.
 import { sameTerm } from './core'
+import { enumerate } from './engine'
 import { MAX_N, type Atom, type Axis, type Category, type Clue, type Puzzle, type Term, type VarTerm } from './types'
 
 export interface ParseSummary {
@@ -645,13 +646,24 @@ function interpretClauseRaw(s: string, ments: Term[], lex: Lexicon): Atom[] | nu
   if (m) return [{ t: 'same', x: M(m[1]), y: M(m[2]), z: M(m[4]), w: M(m[5]), neg: m[3] ? true : undefined }]
 
   // "Two people sit between x and y when counted from the left / right of x": a direction and a distance
-  m = s.match(new RegExp(`(?:(?:exactly|only)\\s+)?(\\d+|no)\\s+${COUNT_NOUN}\\s+(?:[a-z]+\\s+){0,3}?between\\s+${ENT}\\s+and\\s+${ENT}\\s+(?:when\\s+)?counted\\s+from\\s+(?:the\\s+)?(left|right)\\s+of\\s+${ENT}`))
+  m = s.match(new RegExp(`((?:not\\s+)?(?:more|less|fewer)\\s+than\\s+|at\\s+(?:most|least)\\s+)?(?:(?:exactly|only)\\s+)?(\\d+|no)\\s+${COUNT_NOUN}\\s+(?:[a-z]+\\s+){0,3}?between\\s+${ENT}\\s+and\\s+${ENT}\\s+(?:when\\s+)?counted\\s+from\\s+(?:the\\s+)?(left|right)\\s+of\\s+${ENT}`))
   if (m) {
-    const k = m[1] === 'no' ? 0 : Number(m[1])
-    const a = M(m[2])
-    const b = M(m[3])
-    const from = M(m[5])
-    const dir = m[4] === 'left' ? -1 : 1
+    const k = m[2] === 'no' ? 0 : Number(m[2])
+    const a = M(m[3])
+    const b = M(m[4])
+    const from = M(m[6])
+    const dir = m[5] === 'left' ? -1 : 1
+    if (m[1]) {
+      // a range of counts: "not more than six persons between U and V, counted from the right of U"
+      const phrase = m[1].replace(/\s+/g, ' ').trim()
+      const ok = (c: number) => (/^not more than$|^at most$/.test(phrase) ? c <= k : /^not (?:less|fewer) than$|^at least$/.test(phrase) ? c >= k : /^more than$/.test(phrase) ? c > k : c < k)
+      const ds = Array.from({ length: lex.n - 1 }, (_, c) => c).filter(ok).map((c) => dir * (c + 1))
+      if (!ds.length) return null
+      const rest = /^not (?:more|less|fewer) than$/.test(phrase) ? undefined : neg
+      if (sameTerm(from, a)) return [{ t: 'diff', x: b, y: a, d: ds[0], ds, neg: rest }]
+      if (sameTerm(from, b)) return [{ t: 'diff', x: a, y: b, d: ds[0], ds, neg: rest }]
+      return null
+    }
     if (sameTerm(from, a)) return [{ t: 'diff', x: b, y: a, d: dir * (k + 1), neg }]
     if (sameTerm(from, b)) return [{ t: 'diff', x: a, y: b, d: dir * (k + 1), neg }]
     return null
@@ -1138,6 +1150,12 @@ function compoundClause(s: string, ments: Term[], lex: Lexicon): Atom[] | null {
     }
     return null
   }
+  // "Y is neither neighbour of W nor X" / "Z is neighbour of neither X nor W": not next to either
+  m = s.match(/^(@\d+) (?:is|are) neither (?:an? )?(?:immediately )?neighbou?r of (@\d+) nor (@\d+)$/) ?? s.match(/^(@\d+) (?:is|are) (?:an? )?(?:immediately )?neighbou?r of neither (@\d+) nor (@\d+)$/)
+  if (m) {
+    const parts = [m[2], m[3]].map((w) => single(`${m![1]} not next to ${w}`, ments, lex))
+    return parts.every(Boolean) ? (parts as Atom[]) : null
+  }
   // "I is neither Hex nor placed above K": the subject denied of a value and of a relation
   m = s.match(/^(@\d+) (?:is|are) neither (@\d+) nor ((?:(?:placed|situated|located|kept|sitting|seated|living|staying)\s+)?(?:immediately |somewhere )?(?:above|below|before|after|left of|right of|adjacent to|next to) @\d+)$/)
   if (m) {
@@ -1417,7 +1435,7 @@ function inferValues(sentences: string[], people: string[]): string[] {
 
 // ─── entry point ─────────────────────────────────────────────────────────────
 
-export function parsePuzzle(raw: string): ParseResult {
+function parsePuzzleFixed(raw: string): ParseResult {
   const result: ParseResult = { puzzle: null, summary: null, errors: [], warnings: [], unparsed: [], questions: [] }
   const text = normalizeText(raw).trim()
   if (!text) {
@@ -1759,4 +1777,68 @@ export function parsePuzzle(raw: string): ParseResult {
   result.summary = { people, axis, topDown, cats, labels: order?.labels, unit: order?.unit, facing, cols: building?.cols, flats: building?.flats, rowLen, hierarchy: numbered ? { unit: numbered.noun, up: /\bsenior\b/i.test(text) ? 'senior to' : `in a higher ${numbered.noun} than`, down: /\bjunior\b/i.test(text) ? 'junior to' : `in a lower ${numbered.noun} than` } : undefined, mirror: mirror || undefined, unordered: unordered || undefined, dates: slotCat !== undefined ? (bday ? bday.labels : weekSlots ?? floorSlots ?? undefined) : undefined, slotUnit: weekSlots ? 'day' : floorSlots ? 'floor' : bday ? 'date' : undefined, mixed: dirCat !== undefined || undefined, square: square || undefined, shape: shape?.name, cornersIn: square ? cornersIn : undefined, ...stack }
   result.puzzle = { n, axis, topDown, people, cats, clues, ...extra, ...(dirCat !== undefined ? { dirCat } : {}), ...(mirror ? { mirror: true } : {}), ...(calValues ? { values: calValues, ...(yearValues && baseYear ? { baseYear: Number(baseYear[1]) } : {}) } : {}), ...(numbered ? { hierarchy: { unit: numbered.noun, up: /\bsenior\b/i.test(text) ? 'senior to' : `in a higher ${numbered.noun} than`, down: /\bjunior\b/i.test(text) ? 'junior to' : `in a lower ${numbered.noun} than` } } : {}), ...(slotCat !== undefined ? { slotCat } : {}), ...(circle ? { facing } : {}), ...(square ? { square: true, shape: shape?.name, cornersIn } : {}), ...(building ? { cols: building.cols, flats: building.flats } : {}), ...(rowLen ? { rowLen } : {}), ...stack }
   return result
+}
+
+const BIG_NUM: Record<string, number> = { ...NUM, eleven: 11, twelve: 12, thirteen: 13, fourteen: 14, fifteen: 15, sixteen: 16, seventeen: 17, eighteen: 18, nineteen: 19, twenty: 20 }
+
+/**
+ * "A certain number of persons are sitting around a circular table facing the centre … At least fifteen persons are sitting around the table":
+ * only some of the people are named and the size of the table is not given. Each size from the stated minimum up is tried (the people the
+ * text does not name are interchangeable "unnamed" seats) and the sizes the clues allow are reported.
+ */
+function parseOpenCircle(raw: string): ParseResult | null {
+  const text = normalizeText(raw).trim()
+  const sentences = splitSentences(text)
+  const minRe = /\b(?:at least|not less than|minimum of|no fewer than)\s+(\d+|[a-z]+)\s+(?:persons?|people)\b/i
+  const kMin = sentences.findIndex((x) => minRe.test(x) && /\b(?:circular|round)\b/i.test(x))
+  if (kMin < 0) return null
+  const mm = sentences[kMin].match(minRe) as RegExpMatchArray
+  const min = BIG_NUM[mm[1].toLowerCase()] ?? Number(mm[1])
+  if (!Number.isFinite(min) || min < 3) return null
+  const isSetup = (x: string, i: number) => i === kMin || /^an? (?:certain|unknown|some) number of (?:persons?|people)\b/i.test(x)
+  const setup = sentences.filter(isSetup).join(' ')
+  const clues = sentences.filter((x, i) => !isSetup(x, i))
+  const named = new Set<string>()
+  for (const x of clues) for (const l of x.matchAll(/(?<![A-Za-z0-9'])([A-Z])(?![A-Za-z0-9'])/g)) named.add(l[1])
+  if (named.size < 3) return null
+  const names = [...named].sort()
+  const facing = /\b(?:outside|outward|away)\b/i.test(setup) ? 'facing outside' : 'facing the centre'
+  const tryN = (n: number): { r: ParseResult; ok: boolean } => {
+    const fill = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('').filter((l) => !named.has(l)).slice(0, n - names.length)
+    const header = `${n} persons - ${[...names, ...fill].join(', ')} - are sitting around a circular table ${facing}.`
+    const r = parsePuzzleFixed(`${header}
+${clues.join(' ')}`)
+    if (!r.puzzle) return { r, ok: false }
+    r.puzzle.anon = names.length
+    r.puzzle.people = r.puzzle.people.map((p, i) => (i < names.length ? p : `?${i - names.length + 1}`))
+    if (r.summary) r.summary.people = r.puzzle.people
+    const e = enumerate(r.puzzle, 1)
+    return { r, ok: e.sols.length > 0 }
+  }
+  const lo = Math.max(min, names.length)
+  const feasible: number[] = []
+  let first: { r: ParseResult; ok: boolean } | null = null
+  for (let n = lo; n <= MAX_N; n++) {
+    const t = tryN(n)
+    if (!first) first = t
+    if (!t.r.puzzle) return t.r // the clues themselves could not be read
+    if (t.ok) feasible.push(n)
+  }
+  if (!first) return null
+  if (feasible.length === 0) {
+    first.r.warnings.push(`The text says at least ${min} persons, so the table was tried with ${lo} to ${MAX_N} persons; none of those sizes fits every clue.`)
+    return first.r
+  }
+  const chosen = tryN(feasible[0])
+  const unnamed = feasible[0] - names.length
+  chosen.r.warnings.push(
+    feasible.length === 1 && feasible[0] < MAX_N
+      ? `The text does not say how many persons sit at the table (at least ${min}). Only ${feasible[0]} persons fit every clue, so the table has ${feasible[0]}: the ${names.length} named people and ${unnamed} unnamed ones (shown as ?1, ?2 …).`
+      : `The text does not say how many persons sit at the table (at least ${min}); sizes ${feasible.join(', ')} fit the clues. Showing ${feasible[0]} persons: the ${names.length} named people and ${unnamed} unnamed ones (shown as ?1, ?2 …).`,
+  )
+  return chosen.r
+}
+
+export function parsePuzzle(raw: string): ParseResult {
+  return parseOpenCircle(raw) ?? parsePuzzleFixed(raw)
 }

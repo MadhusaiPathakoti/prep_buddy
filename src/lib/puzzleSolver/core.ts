@@ -498,6 +498,11 @@ export class Ctx {
         return a.neg ? this.notPair(ca, ia, cb, ib) : this.pair(ca, ia, cb, ib)
       }
       case 'diff': {
+        if (a.ds && a.ds.length) {
+          const lo = Math.min(...a.ds.map(Math.abs))
+          const hi = Math.max(...a.ds.map(Math.abs))
+          return `${L(a.x)} is${not} ${lo === hi ? `exactly ${lo}` : `${lo} to ${hi}`} ${lo === hi && lo === 1 ? this.unit : this.units} ${dir(a.ds[0] > 0)} ${L(a.y)}`
+        }
         let d = a.d
         if (this.circular) {
           d = ((d % this.n) + this.n) % this.n
@@ -736,7 +741,9 @@ export function atomTest(a: Atom, n = 0, circ = false, cols = 1, m = 0, sq = 0, 
         if (a.by === 'value') return !!vals && vals[x] - vals[y] === a.d
         // facing south, a person's left is to the east: the same words mean the opposite way round
         const flip = a.ref && (dirOf(a.y) as (v: number[]) => number)(v) === 1 ? -1 : 1
-        return circ ? md(x - y) === md(a.d * right(y)) : grp(x) === grp(y) && idx(x) - idx(y) === a.d * flip
+        // `ds`: any of several distances ("not more than six persons between U and V, counted from the right of U")
+        const dd = a.ds ?? [a.d]
+        return circ ? dd.some((d) => md(x - y) === md(d * right(y))) : grp(x) === grp(y) && dd.some((d) => idx(x) - idx(y) === d * flip)
       }
       break
     case 'rank':
