@@ -401,6 +401,25 @@ const YEAR_CASES: [string, string][] = [
   ['A is born in an even numbered year.', 'A is in 1980, 1990 or 2000'],
 ]
 
+const STOREY_HEADER = `Six people A, B, C, D, E & F live in a eight-storied building, not necessarily in the same order. The ground floor is numbered one while the top floor in numbered eight.
+`
+
+// 8 floors for 6 people: "floors" count floors (the empty ones too), "persons" count people
+const STOREY_CASES: [string, string][] = [
+  ['A lives on the perfect cube numbered floor.', 'A is on floors 1 or 8'],
+  ['A lives on the perfect square numbered floor.', 'A is on floors 1 or 4'],
+  ['A lives on a prime numbered floor.', 'A is on floors 2, 3, 5 or 7'],
+  ['A lives on an even numbered floor.', 'A is on floors 2, 4, 6 or 8'],
+  ['A lives on the top floor.', 'A is on floor 8'],
+  ['A lives immediately above B.', 'A is immediately above B'],
+  ['A lives two floors below B.', 'A is exactly 2 floors below B'],
+  ['A lives above B but not immediately above.', 'A is somewhere above B ; A is not immediately above B'],
+  ['Only two persons live between A and B.', 'exactly 2 people between A and B'],
+  ['There are two floors between A and B.', 'exactly 2 floors between A and B'],
+  ['The number of floors above A is same as the number of floors below B.', 'as many floors above A as below B'],
+  ['The number of persons above A is same as the number of persons below B.', 'as many people above A as below B'],
+]
+
 const FLOOR_EXTRA: [string, string][] = [
   ['A lives on a prime-numbered floor.', 'A is on floor 2, 3, 5 or 7'],
   ['A does not live on a prime-numbered floor.', 'A is not on floor 2, 3, 5 or 7'],
@@ -511,6 +530,7 @@ runParserTable(WEEK_HEADER, WEEK_CASES)
 runParserTable(WEEK6_HEADER, WEEK6_CASES)
 runParserTable(CLASS_HEADER, CLASS_CASES)
 runParserTable(YEAR_HEADER, YEAR_CASES)
+runParserTable(STOREY_HEADER, STOREY_CASES)
 runParserTable(ROW_HEADER, ROW_NEITHER)
 runParserTable(FLOOR_HEADER, FLOOR_EXTRA)
 runParserTable(ORDER_HEADER, ORDER_EXTRA)
@@ -757,6 +777,23 @@ for (const s of SAMPLES) {
   }
 }
 
+// eight people in a nine-storied building (one floor empty): the answer was found by an independent brute force over every empty floor
+{
+  const sv = SAMPLES.find((x) => x.id === 'storeys-vacant')
+  const r = sv ? parsePuzzle(sv.text) : null
+  const e = r?.puzzle ? enumerate(r.puzzle, 3) : null
+  if (!r?.puzzle || !e || e.sols.length !== 1 || r.unparsed.length) fail('storeys-vacant sample: expected exactly one solution and every clue read')
+  else {
+    const P = r.puzzle
+    const floors = P.cats[P.slotCat as number].values
+    const got = Array.from({ length: P.n }, (_, f) => {
+      const q = e.sols[0].pos.indexOf(f)
+      return `${floors[e.sols[0].val[P.slotCat as number][q]].replace('floor ', '')}:${P.people[q]}`
+    }).join(' ')
+    if (got !== '1:R 2:P 4:N 5:Q 6:S 7:O 8:M 9:T') fail(`storeys-vacant sample: got ${got}`)
+  }
+}
+
 // mistakes in the input are reported, not guessed at
 for (const [label, text, needle] of [
   ['no people', 'Hello there. A lives above B.', 'list of people'],
@@ -806,11 +843,15 @@ function holds(p: Puzzle, sol: Solution, a: Atom): boolean {
   const circ = p.axis === 'circle'
   const wrap = (x: number) => ((x % p.n) + p.n) % p.n
   let r: boolean
-  if ((a.t === 'set' || a.t === 'grid' || a.t === 'diff' || a.t === 'gap' || a.t === 'adj' || a.t === 'same') && a.on === 'slot' && p.slotCat !== undefined) {
+  if ((a.t === 'set' || a.t === 'grid' || a.t === 'diff' || a.t === 'gap' || a.t === 'adj' || a.t === 'same' || a.t === 'cnt') && a.on === 'slot' && p.slotCat !== undefined) {
     // the date of a person (vacant dates simply have nobody)
     const sv = (t: Term) => sol.val[p.slotCat as number][personOf(t)]
     if (a.t === 'set') r = a.fs.includes(sv(a.x))
-    else if (a.t === 'diff') r = sv(a.x) - sv(a.y) === a.d
+    else if (a.t === 'cnt') {
+      const total = p.cats[p.slotCat as number].values.length
+      const side = (q: number, s: 'l' | 'r') => (s === 'l' ? q : total - 1 - q)
+      r = side(sv(a.x), a.xs) === side(sv(a.y), a.ys)
+    } else if (a.t === 'diff') r = sv(a.x) - sv(a.y) === a.d
     else if (a.t === 'adj') r = Math.abs(sv(a.x) - sv(a.y)) === 1
     else if (a.t === 'gap') r = Math.abs(sv(a.x) - sv(a.y)) - 1 >= a.k && Math.abs(sv(a.x) - sv(a.y)) - 1 <= (a.hi ?? a.k) && sv(a.x) !== sv(a.y)
     else if (a.t === 'same') r = sv(a.x) !== sv(a.y) && sv(a.z) !== sv(a.w) && Math.abs(sv(a.x) - sv(a.y)) === Math.abs(sv(a.z) - sv(a.w))
@@ -972,7 +1013,7 @@ function permutations(n: number): number[][] {
 /** Highest extra-category index (+1) an atom needs, 0 when it only involves people and positions. */
 function needLevel(a: Atom, p?: Puzzle): number {
   if (a.t === 'logic') return Math.max(needLevel(a.a, p), needLevel(a.b, p))
-  if (p && p.slotCat !== undefined && (a.t === 'set' || a.t === 'grid' || a.t === 'diff' || a.t === 'gap' || a.t === 'adj' || a.t === 'same') && a.on === 'slot') return Math.max(p.slotCat + 1, needLevel({ ...a, on: undefined } as Atom))
+  if (p && p.slotCat !== undefined && (a.t === 'set' || a.t === 'grid' || a.t === 'diff' || a.t === 'gap' || a.t === 'adj' || a.t === 'same' || a.t === 'cnt') && a.on === 'slot') return Math.max(p.slotCat + 1, needLevel({ ...a, on: undefined } as Atom))
   if (p && p.dirCat !== undefined && (a.t === 'sdir' || ((a.t === 'diff' || a.t === 'rank') && a.ref))) return Math.max(p.dirCat + 1, needLevel({ ...a, ref: undefined } as Atom))
   const ts: Term[] = a.t === 'btw' ? [a.x, a.y, a.z] : a.t === 'same' ? [a.x, a.y, a.z, a.w] : a.t === 'set' ? [a.x] : [a.x, a.y]
   const base = (t: Term): Term => (t.k === 'r' ? base(t.base) : t)
@@ -1182,6 +1223,7 @@ function randomSlotAtom(p: Puzzle, hidden: Solution): Atom {
     // some clues count the dates themselves ("two days after", "three days between"), vacant dates included
     if (rnd() < 0.3 && atom.t !== 'link' && atom.t !== 'set' && atom.t !== 'grid' && atom.t !== 'rank' && atom.t !== 'btw' && atom.t !== 'logic') atom = { ...atom, on: 'slot' } as Atom
     if (rnd() < 0.15) atom = { t: 'same', x, y, z, w: randomTerm(p, true), on: 'slot' }
+    if (rnd() < 0.12) atom = { t: 'cnt', x, xs: ri(2) ? 'l' : 'r', y, ys: ri(2) ? 'l' : 'r', on: 'slot' }
     if (!holds(p, hidden, atom)) atom = { ...atom, neg: true } as Atom
     if (!holds(p, hidden, atom)) continue
     return atom
@@ -1439,7 +1481,7 @@ for (const s of SAMPLES) {
   console.log('app generator, end to end: ' + Object.entries(tally).map(([k, v]) => `${k} ${v.checked} checked (${v.skipped} of an unsupported layout skipped)`).join('; '))
 }
 
-console.log(`parser: ${FLOOR_CASES.length + ROW_CASES.length + ORDER_CASES.length + DAY_CASES.length + CIRCLE_CASES.length + GRID_CASES.length + BOX_CASES.length + TWOROW_CASES.length + BDAY_CASES.length + SQUARE_CASES.length + PENT_CASES.length + RANK_CASES.length + VAC_CASES.length + SOUTH_CASES.length + WEEK_CASES.length + WEEK6_CASES.length + CLASS_CASES.length + YEAR_CASES.length + ROW_NEITHER.length + FLOOR_VIZ.length + FLOOR_EXTRA.length + ORDER_EXTRA.length} phrasings checked`)
+console.log(`parser: ${FLOOR_CASES.length + ROW_CASES.length + ORDER_CASES.length + DAY_CASES.length + CIRCLE_CASES.length + GRID_CASES.length + BOX_CASES.length + TWOROW_CASES.length + BDAY_CASES.length + SQUARE_CASES.length + PENT_CASES.length + RANK_CASES.length + VAC_CASES.length + SOUTH_CASES.length + WEEK_CASES.length + WEEK6_CASES.length + CLASS_CASES.length + YEAR_CASES.length + STOREY_CASES.length + ROW_NEITHER.length + FLOOR_VIZ.length + FLOOR_EXTRA.length + ORDER_EXTRA.length} phrasings checked`)
 console.log(`engine vs brute force: ${compared} random puzzles (${uniqueTraced} with a unique answer traced, ${multiple} with several answers)`)
 console.log(`step kinds: ${JSON.stringify(kinds)}; ${trials} case-analysis trials`)
 console.log(`teaching trace: ${eliminations} crossings checked for soundness, ${whatIfs} what-if simulations refuted`)

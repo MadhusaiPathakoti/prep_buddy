@@ -233,7 +233,7 @@ export class Ctx {
   }
   /** words for "higher / lower" along the axis */
   dirWord(hi: boolean): string {
-    if (this.p.axis === 'order') return hi ? 'after' : 'before'
+    if (this.p.axis === 'order') return this.p.slotUnit === 'floor' ? (hi ? 'above' : 'below') : hi ? 'after' : 'before'
     if (this.p.axis === 'floor' && this.p.hierarchy) return hi ? this.p.hierarchy.up : this.p.hierarchy.down
     return this.p.axis === 'floor' ? (hi ? 'above' : 'below') : hi !== !!this.p.mirror ? 'to the right of' : 'to the left of'
   }
@@ -498,7 +498,8 @@ export class Ctx {
         const k = Math.abs(d)
         if (a.on === 'slot') {
           const u = this.p.slotUnit ?? 'date'
-          return `${L(a.x)} is${not} ${k === 1 ? `the ${u} ` : `exactly ${k} ${u}s `}${d > 0 ? 'after' : 'before'} ${L(a.y)}`
+          const up = u === 'floor' ? (d > 0 ? 'above' : 'below') : d > 0 ? 'after' : 'before'
+          return `${L(a.x)} is${not} ${k === 1 ? (u === 'floor' ? 'immediately ' : `the ${u} `) : `exactly ${k} ${u}s `}${up} ${L(a.y)}`
         }
         const how = k === 1 ? 'immediately ' : `exactly ${k} ${this.units} `
         return `${L(a.x)} is${not} ${how}${dir(d > 0)} ${L(a.y)}${a.ref || this.p.square ? `, as seen by ${L(a.y)}` : ''}`
@@ -533,6 +534,10 @@ export class Ctx {
         if (a.fs.length === 0) return a.neg ? `${L(a.x)} can be anywhere (nothing is ruled out)` : `${L(a.x)} must be in a ${this.unit} that does not exist (impossible)`
         if (a.on === 'slot') {
           const labels = this.p.cats[this.p.slotCat as number].values
+          if (this.p.slotUnit === 'floor') {
+            const nums = a.fs.map((f) => labels[f].replace(/^floor\s+/i, ''))
+            return `${L(a.x)} is${not} on floor${nums.length > 1 ? 's' : ''} ${nums.length === 1 ? nums[0] : `${nums.slice(0, -1).join(', ')} or ${nums[nums.length - 1]}`}`
+          }
           return `${L(a.x)} is${not} ${(this.p.slotUnit ? null : this.datedSet(a.fs, labels)) ?? `on ${a.fs.length === 1 ? labels[a.fs[0]] : `${a.fs.slice(0, -1).map((f) => labels[f]).join(', ')} or ${labels[a.fs[a.fs.length - 1]]}`}`}`
         }
         return `${L(a.x)} is${not} ${this.setPhrase(a.fs)}`
@@ -541,6 +546,11 @@ export class Ctx {
       case 'samerow':
         return `${L(a.x)} and ${L(a.y)} are${not} in the same row`
       case 'cnt': {
+        if (a.on === 'slot') {
+          const u = `${this.p.slotUnit ?? 'date'}s`
+          const w = (s: 'l' | 'r') => (this.p.slotUnit === 'floor' ? (s === 'r' ? 'above' : 'below') : s === 'r' ? 'after' : 'before')
+          return `${a.neg ? 'not ' : ''}as many ${u} ${w(a.xs)} ${L(a.x)} as ${w(a.ys)} ${L(a.y)}`
+        }
         const side = (s: 'l' | 'r') => this.dirWord(s === 'r')
         return `${a.neg ? 'not ' : ''}as many ${this.nouns} ${side(a.xs)} ${L(a.x)} as ${side(a.ys)} ${L(a.y)}`
       }
@@ -629,7 +639,7 @@ export function atomTerms(a: Atom): VarTerm[] {
 export function atomVars(a: Atom): (VarTerm | DirTerm)[] {
   if (a.t === 'sdir') return [{ k: 'd', of: a.x }, { k: 'd', of: a.y }]
   // clues about dates: the unknown is the date slot of the person, not their place in the order
-  if ((a.t === 'set' || a.t === 'grid' || a.t === 'diff' || a.t === 'gap' || a.t === 'adj' || a.t === 'same') && a.on === 'slot') {
+  if ((a.t === 'set' || a.t === 'grid' || a.t === 'diff' || a.t === 'gap' || a.t === 'adj' || a.t === 'same' || a.t === 'cnt') && a.on === 'slot') {
     const ts = a.t === 'set' ? [a.x] : a.t === 'same' ? [a.x, a.y, a.z, a.w] : [a.x, a.y]
     const out: DirTerm[] = []
     for (const u of ts.flatMap((t) => termVars(t))) {
@@ -664,7 +674,7 @@ export function hasDerived(a: Atom): boolean {
  * `sq`: a table with corners and sides — +1 when the people at the corners face the centre (their right is the next seat, anticlockwise),
  * -1 when they face outside; the people on the sides face the other way. 0 = no such table.
  */
-export function atomTest(a: Atom, n = 0, circ = false, cols = 1, m = 0, sq = 0, vals?: number[]): (v: number[]) => boolean {
+export function atomTest(a: Atom, n = 0, circ = false, cols = 1, m = 0, sq = 0, vals?: number[], slots?: number): (v: number[]) => boolean {
   const md = (x: number) => (circ ? ((x % n) + n) % n : x)
   // square table: a corner (even seat) faces outside, so its right is the previous seat; a side (odd seat) faces the centre
   const right = (seat: number) => (sq === 0 ? 1 : seat % 2 === 0 ? sq : -sq)
@@ -697,7 +707,7 @@ export function atomTest(a: Atom, n = 0, circ = false, cols = 1, m = 0, sq = 0, 
   const dirOf = (t: Term): ((v: number[]) => number) => getter({ k: 'd', of: t as VarTerm })
   /** the date slot of the person a term stands for */
   const slotOf = (t: Term): ((v: number[]) => number) => getter({ k: 'd', of: t as VarTerm, slot: true })
-  const onSlot = (a.t === 'set' || a.t === 'grid' || a.t === 'diff' || a.t === 'gap' || a.t === 'adj' || a.t === 'same') && a.on === 'slot'
+  const onSlot = (a.t === 'set' || a.t === 'grid' || a.t === 'diff' || a.t === 'gap' || a.t === 'adj' || a.t === 'same' || a.t === 'cnt') && a.on === 'slot'
   const gx = a.t === 'logic' ? null : a.t === 'sdir' ? dirOf(a.x) : onSlot ? slotOf(a.x) : getter(a.x)
   const gy = a.t === 'logic' || a.t === 'set' ? null : a.t === 'sdir' ? dirOf(a.y) : onSlot ? slotOf(a.y) : getter(a.y)
   const gz = a.t === 'btw' ? getter(a.z) : null
@@ -808,7 +818,9 @@ export function atomTest(a: Atom, n = 0, circ = false, cols = 1, m = 0, sq = 0, 
         const x = (gx as (v: number[]) => number)(v)
         const y = (gy as (v: number[]) => number)(v)
         if (x < 0 || y < 0) return false
-        const side = (p: number, s: 'l' | 'r') => (s === 'l' ? idx(p) : rowLen - 1 - idx(p))
+        // on the date / floor slots themselves: how many slots lie below / above (vacant ones too)
+        const total = slots ?? n
+        const side = (p: number, s: 'l' | 'r') => (onSlot ? (s === 'l' ? p : total - 1 - p) : s === 'l' ? idx(p) : rowLen - 1 - idx(p))
         return side(x, a.xs) === side(y, a.ys)
       }
       break
@@ -816,8 +828,8 @@ export function atomTest(a: Atom, n = 0, circ = false, cols = 1, m = 0, sq = 0, 
       const all = vars
       const at = atomVars(a.a).map((t) => all.findIndex((u) => sameVar(u, t)))
       const bt = atomVars(a.b).map((t) => all.findIndex((u) => sameVar(u, t)))
-      const ta = atomTest(a.a, n, circ, cols, m, sq, vals)
-      const tb = atomTest(a.b, n, circ, cols, m, sq, vals)
+      const ta = atomTest(a.a, n, circ, cols, m, sq, vals, slots)
+      const tb = atomTest(a.b, n, circ, cols, m, sq, vals, slots)
       f = (v) => {
         const x = ta(at.map((i) => v[i]))
         const y = tb(bt.map((i) => v[i]))

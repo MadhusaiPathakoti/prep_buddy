@@ -44,7 +44,7 @@ export type Atom =
   | { t: 'opp'; x: Term; y: Term; neg?: boolean }
   | { t: 'samerow'; x: Term; y: Term; neg?: boolean }
   // "the number of persons to the left of x is the same as the number to the right of y" (side 'l' = left of, 'r' = right of)
-  | { t: 'cnt'; x: Term; xs: 'l' | 'r'; y: Term; ys: 'l' | 'r'; neg?: boolean }
+  | { t: 'cnt'; x: Term; xs: 'l' | 'r'; y: Term; ys: 'l' | 'r'; on?: 'slot'; neg?: boolean }
   // |value(x) - value(y)| = |value(z) - value(w)|: "the difference between the ages of G and A is the same as between F and C" (values: see Puzzle.values)
   | { t: 'vsame'; x: Term; y: Term; z: Term; w: Term; neg?: boolean }
   // x and y face the same direction (north / south)

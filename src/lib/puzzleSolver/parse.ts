@@ -31,6 +31,7 @@ export interface ParseSummary {
   unordered?: boolean
   /** more dates than people: every date of every month, in order (the unused ones stay vacant) */
   dates?: string[]
+  slotUnit?: string
 }
 
 export interface ParseResult {
@@ -232,6 +233,8 @@ interface Lexicon {
   /** axis 'order' made of numbers (birth years): the number of every position, and the base year that turns a year into an age */
   values?: number[]
   baseYear?: number
+  /** fewer people than the floors of a building ("a nine-storied building", 8 people): the floors, each person on one, some stay vacant */
+  floorSlots?: { labels: string[] }
   /** fewer people than the seven days of a week: the days (from the named first day), each person on one, one or more days vacant */
   daySlots?: { labels: string[] }
   /** everyone faces south: left and right are swapped relative to the positions (west → east) */
@@ -447,7 +450,62 @@ function birthCells(sIn: string, lex: Lexicon): number[] | 'bad' | null {
 
 /** Birthdays on a few dates of a few months: "same month", "same date but different months", "born before B on the 16th" */
 /** with vacant dates a clue about a month or a date is about the person's date slot, not about their place in the order */
-const onSlot = (lex: Lexicon): { on?: 'slot' } => (lex.birth?.slotMode || lex.daySlots ? { on: 'slot' } : {})
+const onSlot = (lex: Lexicon): { on?: 'slot' } => (lex.birth?.slotMode || lex.daySlots || lex.floorSlots ? { on: 'slot' } : {})
+
+const isSquareNum = (k: number) => k >= 0 && Number.isInteger(Math.sqrt(k))
+const isCubeNum = (k: number) => k >= 0 && Math.round(Math.cbrt(k)) ** 3 === k
+
+/** the floors a clue allows in a building with a vacant floor: "on floor 4", "on the perfect cube numbered floor", "a prime numbered floor", "the top floor" */
+function floorSlotCells(sIn: string, lex: Lexicon): number[] | 'bad' | null {
+  const F = (lex.floorSlots as { labels: string[] }).labels.length
+  let t = sIn.replace(/@\d+/g, ' ')
+  const out = new Set<number>()
+  const isPrime = (k: number) => k > 1 && Array.from({ length: k - 2 }, (_, i) => i + 2).every((d) => k % d !== 0)
+  const every = (pred: (k: number) => boolean) => {
+    for (let k = 1; k <= F; k++) if (pred(k)) out.add(k - 1)
+  }
+  if (/\bperfect square\b/.test(t)) {
+    every(isSquareNum)
+    t = t.replace(/\bperfect square\b/g, ' ')
+  }
+  if (/\bperfect cube\b/.test(t)) {
+    every(isCubeNum)
+    t = t.replace(/\bperfect cube\b/g, ' ')
+  }
+  if (/\bprime\b/.test(t)) {
+    every(isPrime)
+    t = t.replace(/\bprime\b/g, ' ')
+  }
+  const mult = t.match(/\bmultiple of (\d+)\b/)
+  if (mult) {
+    every((k) => k % Number(mult[1]) === 0)
+    t = t.replace(mult[0], ' ')
+  }
+  const par = t.match(/\b(odd|even)\b/)
+  if (par) {
+    every((k) => k % 2 === (par[1] === 'odd' ? 1 : 0))
+    t = t.replace(/\b(?:odd|even)\b/g, ' ')
+  }
+  const fromEnd = t.match(/#?(\d+)\s*(?:floor)?\s+from\s+the\s+(top|bottom)\b/)
+  if (fromEnd) {
+    const k = Number(fromEnd[1])
+    if (k < 1 || k > F) return 'bad'
+    out.add(fromEnd[2] === 'top' ? F - k : k - 1)
+    t = t.replace(fromEnd[0], ' ')
+  }
+  if (/\b(?:ground|lowest|lowermost|bottom|bottommost)\b/.test(t)) out.add(0)
+  if (/\b(?:topmost|top|highest|uppermost)\b/.test(t)) out.add(F - 1)
+  if (/\bmiddle\b/.test(t)) {
+    out.add(Math.floor((F - 1) / 2))
+    out.add(Math.ceil((F - 1) / 2))
+  }
+  for (const m of t.matchAll(/#?(\d+)/g)) {
+    const k = Number(m[1])
+    if (k < 1 || k > F) return 'bad'
+    out.add(k - 1)
+  }
+  return out.size ? [...out].sort((a, b) => a - b) : null
+}
 
 /** the days a clue about the week allows: "on Friday", "on the penultimate day", "right in the middle of the week", "the last day", "on a weekend" */
 function daySlotCells(sIn: string, lex: Lexicon): number[] | 'bad' | null {
@@ -542,12 +600,19 @@ function markFacing(a: Atom): Atom | null {
   return a
 }
 
-const markDays = (a: Atom): Atom => (a.t === 'diff' || a.t === 'gap' || a.t === 'adj' || a.t === 'same' ? { ...a, on: 'slot' } : a.t === 'logic' ? { ...a, a: markDays(a.a), b: markDays(a.b) } : a)
+/**
+ * Atoms that count the date / floor slots themselves rather than the people. `strong`: next-slot and N-slots-apart clues always do
+ * ("immediately above" in a building with an empty floor means the next floor); `weak`: counts ("N floors between", "number of floors above")
+ * do only when the sentence says floors / days.
+ */
+const markSlots = (a: Atom, strong: boolean, weak: boolean): Atom =>
+  a.t === 'diff' || a.t === 'adj' ? (strong || weak ? { ...a, on: 'slot' } : a) : a.t === 'gap' || a.t === 'same' || a.t === 'cnt' ? (weak ? { ...a, on: 'slot' } : a) : a.t === 'logic' ? { ...a, a: markSlots(a.a, strong, weak), b: markSlots(a.b, strong, weak) } : a
 
 function interpretClause(s: string, ments: Term[], lex: Lexicon): Atom[] | null {
   let raw = interpretClauseRaw(s, ments, lex)
   // in a week with a vacant day, "N days after / between" counts days (the vacant one too), not people
-  if (raw && lex.daySlots && /\b(?:days?|dates?)\b/.test(s)) raw = raw.map(markDays)
+  if (raw && lex.daySlots && /\b(?:days?|dates?)\b/.test(s)) raw = raw.map((a) => markSlots(a, false, true))
+  if (raw && lex.floorSlots) raw = raw.map((a) => markSlots(a, true, /\bfloors?\b/.test(s)))
   if (!raw || lex.dirCat === undefined) return raw
   const marked = raw.map(markFacing)
   return marked.every(Boolean) ? (marked as Atom[]) : null
@@ -916,6 +981,7 @@ function positionSet(sIn: string, lex: Lexicon): number[] | 'bad' | null {
   if (lex.axis === 'tworow') return twoRowCells(sIn, lex)
   if (lex.birth) return birthCells(sIn, lex)
   if (lex.daySlots) return daySlotCells(sIn, lex)
+  if (lex.floorSlots) return floorSlotCells(sIn, lex)
   const n = lex.n
   let s = sIn.replace(/@\d+/g, ' ') // the @k mention placeholders are not floor numbers
   const set = new Set<number>()
@@ -945,6 +1011,12 @@ function positionSet(sIn: string, lex: Lexicon): number[] | 'bad' | null {
   if (/\bprime\b/.test(s)) {
     for (let f = 0; f < n; f++) if (isPrime(label(f))) add(f)
     s = s.replace(/\bprime\b/g, ' ')
+  }
+  for (const [word, test] of [['square', isSquareNum], ['cube', isCubeNum]] as const) {
+    if (new RegExp(`\\bperfect ${word}\\b`).test(s)) {
+      for (let f = 0; f < n; f++) if (test(label(f))) add(f)
+      s = s.replace(new RegExp(`\\bperfect ${word}\\b`, 'g'), ' ')
+    }
   }
   const mult = s.match(/\bmultiple of (\d+)\b/)
   if (mult) {
@@ -1076,7 +1148,7 @@ function parseClueText(sentence: string, lex: Lexicon): Atom[] | null {
   const { text, ments } = extract(sentence.replace(/[.]+$/, ''), lex)
   if (ments.length === 0) {
     // "No bike is purchased on the day in the middle of the week": nobody has that day
-    if (lex.daySlots || lex.birth?.slotMode) {
+    if (lex.daySlots || lex.floorSlots || lex.birth?.slotMode) {
       const s0 = norm(text, [], lex.axis, lex.mirror)
       const cells = /\bno\b/.test(s0) && !/\bnot\b/.test(s0) ? positionSet(s0, lex) : null
       if (cells && cells !== 'bad' && cells.length) return lex.people.map((_, i) => ({ t: 'set', x: { k: 'p', i }, fs: cells, neg: true, ...onSlot(lex) }) as Atom)
@@ -1106,6 +1178,13 @@ function parseClueText(sentence: string, lex: Lexicon): Atom[] | null {
     if (who) {
       const a1 = interpretClause(who[1], ments, lex)
       const a2 = interpretClause(`@${who[2]} ${who[3]}`, ments, lex)
+      if (a1 && a2) return [...atoms, ...a1, ...a2]
+    }
+    // "T lives above S but not immediately above": the relation, then its immediate case denied
+    const notImm = s.match(/^(.+?)\s+(above|below|left of|right of|after|before)\s+(@\d+)\s+but\s+not\s+immediately\s+(?:above|below|left of|right of|after|before)$/)
+    if (notImm) {
+      const a1 = interpretClause(`${notImm[1]} ${notImm[2]} ${notImm[3]}`, ments, lex)
+      const a2 = interpretClause(`${notImm[1]} not immediately ${notImm[2]} ${notImm[3]}`, ments, lex)
       if (a1 && a2) return [...atoms, ...a1, ...a2]
     }
     // "Kiwi sits at one end immediate left of M": a position and a relation, both about the same person
@@ -1176,6 +1255,14 @@ function birthdayGrid(header: string, n: number): { labels: string[]; months: st
   // as many people as dates, or fewer when the text is about dates (the spare ones stay vacant)
   if (slots === n ? months.length < 2 || dates.length < 2 : months.length < 1 || dates.length < 1 || slots < n || slots > 16 || !/\b(?:dates?|days?)\b/i.test(header)) return null
   return { labels: months.flatMap((mo) => dates.map((d) => `${mo} ${d}`)), months, dates, slots }
+}
+
+/** "a nine-storied building", "a 10 storey building": how many floors it has */
+function storeyCount(text: string): number | null {
+  const W: Record<string, number> = { one: 1, two: 2, three: 3, four: 4, five: 5, six: 6, seven: 7, eight: 8, nine: 9, ten: 10, eleven: 11, twelve: 12, thirteen: 13, fourteen: 14, fifteen: 15, sixteen: 16 }
+  const m = text.match(/\b(\d+|one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|thirteen|fourteen|fifteen|sixteen)[\s-]*(?:storeyed|storied|storey|story|stories|storeys)\b/i)
+  if (!m) return null
+  return /^\d+$/.test(m[1]) ? Number(m[1]) : (W[m[1].toLowerCase()] ?? null)
 }
 
 /** the seven days of a week, from the day the text starts it with (Monday by default) — when the text is about a week */
@@ -1396,6 +1483,9 @@ export function parsePuzzle(raw: string): ParseResult {
   const bday = birthdayGrid(sentences.slice(headerIdx, headerIdx + 3).join(' '), n)
   // fewer people than the seven days of a week: some day stays vacant
   const weekSlots = !bday && n >= 2 && n < 7 ? weekLabels(text) : null
+  // fewer people than the floors of the building: some floor stays vacant
+  const storeys = !bday && !weekSlots ? storeyCount(text) : null
+  const floorSlots = storeys && storeys > n && storeys <= 16 && !buildingFromText(text, n) ? Array.from({ length: storeys }, (_, k) => `floor ${k + 1}`) : null
   const floorCount = building || bday ? null : header.match(/\b(one|two|three|four|five|six|seven|eight|nine|ten|\d+)\s+(?:different\s+)?(floors|storeys|seats|positions|months|days|weeks|years)\b/i)
   if (floorCount) {
     const said = NUM[floorCount[1].toLowerCase()] ?? Number(floorCount[1])
@@ -1445,13 +1535,13 @@ export function parsePuzzle(raw: string): ParseResult {
   // named order (months, weekdays) from a range in the header: "from May to December"
   let order: OrderInfo | null = null
   if (bday) order = bday.slots === n ? { labels: bday.labels, unit: 'date', on: 'on' } : { unit: 'place', on: 'in' }
-  else if (weekSlots) order = { unit: 'place', on: 'in' }
-  const range = bday || weekSlots ? null : (orderFromRange(header, n) ?? orderFromRange(text, n) ?? orderFromWeek(text, n))
+  else if (weekSlots || floorSlots) order = { unit: 'place', on: 'in' }
+  const range = bday || weekSlots || floorSlots ? null : (orderFromRange(header, n) ?? orderFromRange(text, n) ?? orderFromWeek(text, n))
   if (range && 'error' in range) {
     result.errors.push(range.error)
     return result
   }
-  if (!bday && !weekSlots) order = range
+  if (!bday && !weekSlots && !floorSlots) order = range
 
   // axis and numbering direction
   const lower = text.toLowerCase()
@@ -1560,6 +1650,11 @@ export function parsePuzzle(raw: string): ParseResult {
     slotCat = cats.length - 1
     result.warnings.push(`There are 7 days for ${n} people, so ${7 - n} day${7 - n === 1 ? '' : 's'} in the week stay${7 - n === 1 ? 's' : ''} vacant. The people are taken in the order of their days: "after", "before" and "between" persons count people, while "days after" and "days between" count days (the vacant one too).`)
   }
+  if (floorSlots && !result.errors.length) {
+    cats.push({ name: 'floor', values: floorSlots })
+    slotCat = cats.length - 1
+    result.warnings.push(`The building has ${floorSlots.length} floors for ${n} people, so ${floorSlots.length - n} floor${floorSlots.length - n === 1 ? ' stays' : 's stay'} vacant. The people are taken in the order of their floors: "persons between" counts people, while "floors above / below / between" and "immediately above / below" count floors (the empty one too).`)
+  }
   if (bday && bday.slots > n && !result.errors.length) {
     cats.push({ name: 'date', values: bday.labels })
     slotCat = cats.length - 1
@@ -1581,6 +1676,7 @@ export function parsePuzzle(raw: string): ParseResult {
   lex.values = yearValues ?? undefined
   lex.baseYear = baseYear ? Number(baseYear[1]) : undefined
   lex.daySlots = weekSlots ? { labels: weekSlots } : undefined
+  lex.floorSlots = floorSlots ? { labels: floorSlots } : undefined
   lex.mirror = mirror
   lex.square = square
   lex.cornersIn = cornersIn
@@ -1617,9 +1713,9 @@ export function parsePuzzle(raw: string): ParseResult {
   const verbWord = header.match(/\b(?:were|are)\s+(?:getting\s+)?(born|seated|arranged|placed|ranked|appointed|promoted|admitted|selected|posted|scheduled|joined|divorced|married|engaged|interviewed|vaccinated|examined|tested|released|launched)\b/i)
   const lifeVerb = header.match(/\b(live|stay|work|study|reside)s?\b/i)
   const unorderedVerb = lifeVerb ? (lifeVerb[1].toLowerCase() === 'study' ? 'studies' : `${lifeVerb[1].toLowerCase()}s`) : undefined
-  const extra = order ? { labels: order.labels, unit: order.unit, on: order.on, verb: slotCat !== undefined ? undefined : verbWord ? `was ${verbWord[1].toLowerCase()}` : bday ? 'was born' : unordered ? unorderedVerb : undefined, ...(bday ? { cols: bday.dates.length } : {}), ...(unordered ? { unordered: true } : {}), ...(weekSlots ? { slotUnit: 'day' } : {}) } : {}
+  const extra = order ? { labels: order.labels, unit: order.unit, on: order.on, verb: slotCat !== undefined ? undefined : verbWord ? `was ${verbWord[1].toLowerCase()}` : bday ? 'was born' : unordered ? unorderedVerb : undefined, ...(bday ? { cols: bday.dates.length } : {}), ...(unordered ? { unordered: true } : {}), ...(weekSlots ? { slotUnit: 'day' } : floorSlots ? { slotUnit: 'floor' } : {}) } : {}
   const stack = boxes && axis === 'floor' ? { noun: 'box', place: 'place' } : boxes ? { noun: 'box' } : {}
-  result.summary = { people, axis, topDown, cats, labels: order?.labels, unit: order?.unit, facing, cols: building?.cols, flats: building?.flats, rowLen, hierarchy: numbered ? { unit: numbered.noun, up: /\bsenior\b/i.test(text) ? 'senior to' : `in a higher ${numbered.noun} than`, down: /\bjunior\b/i.test(text) ? 'junior to' : `in a lower ${numbered.noun} than` } : undefined, mirror: mirror || undefined, unordered: unordered || undefined, dates: slotCat !== undefined ? (bday ? bday.labels : weekSlots ?? undefined) : undefined, mixed: dirCat !== undefined || undefined, square: square || undefined, shape: shape?.name, cornersIn: square ? cornersIn : undefined, ...stack }
+  result.summary = { people, axis, topDown, cats, labels: order?.labels, unit: order?.unit, facing, cols: building?.cols, flats: building?.flats, rowLen, hierarchy: numbered ? { unit: numbered.noun, up: /\bsenior\b/i.test(text) ? 'senior to' : `in a higher ${numbered.noun} than`, down: /\bjunior\b/i.test(text) ? 'junior to' : `in a lower ${numbered.noun} than` } : undefined, mirror: mirror || undefined, unordered: unordered || undefined, dates: slotCat !== undefined ? (bday ? bday.labels : weekSlots ?? floorSlots ?? undefined) : undefined, slotUnit: weekSlots ? 'day' : floorSlots ? 'floor' : bday ? 'date' : undefined, mixed: dirCat !== undefined || undefined, square: square || undefined, shape: shape?.name, cornersIn: square ? cornersIn : undefined, ...stack }
   result.puzzle = { n, axis, topDown, people, cats, clues, ...extra, ...(dirCat !== undefined ? { dirCat } : {}), ...(mirror ? { mirror: true } : {}), ...(yearValues ? { values: yearValues, ...(baseYear ? { baseYear: Number(baseYear[1]) } : {}) } : {}), ...(numbered ? { hierarchy: { unit: numbered.noun, up: /\bsenior\b/i.test(text) ? 'senior to' : `in a higher ${numbered.noun} than`, down: /\bjunior\b/i.test(text) ? 'junior to' : `in a lower ${numbered.noun} than` } } : {}), ...(slotCat !== undefined ? { slotCat } : {}), ...(circle ? { facing } : {}), ...(square ? { square: true, shape: shape?.name, cornersIn } : {}), ...(building ? { cols: building.cols, flats: building.flats } : {}), ...(rowLen ? { rowLen } : {}), ...stack }
   return result
 }

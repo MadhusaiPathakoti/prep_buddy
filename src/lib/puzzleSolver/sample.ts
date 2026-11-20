@@ -410,4 +410,18 @@ The difference between the ages of E and B is the same as the difference between
 The age of G is a multiple of 11.
 There are three persons born between G and F.`,
   },
+  {
+    id: 'storeys-vacant',
+    title: 'Nine floors, eight people',
+    text: `Eight people M, N, O, P, Q, R, S & T live in a nine-storied building, not necessarily in the same order. The ground floor is numbered one while the top floor in numbered nine.
+
+The number of floors above M is same as the number of floors below P.
+M lives on the perfect cube numbered floor.
+T lives above S but not immediately above.
+N lives on the perfect square numbered floor.
+Only two persons live between Q and R.
+The number of floors below N is same as the number of floors above S.
+R lives immediate below P.
+O lives on a prime numbered floor.`,
+  },
 ]

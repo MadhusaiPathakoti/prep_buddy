@@ -58,7 +58,7 @@ function SolutionTable({ trace, sol }: { trace: Trace; sol: Solution }) {
           ))}
         </tbody>
       </table>
-      {vacant.length > 0 && <p className="mt-2 text-xs text-slate-500 dark:text-slate-400">Vacant: {vacant.join(', ')} (nobody is scheduled then)</p>}
+      {vacant.length > 0 && <p className="mt-2 text-xs text-slate-500 dark:text-slate-400">Vacant: {vacant.join(', ')} ({puzzle.slotUnit === 'floor' ? 'nobody lives there' : 'nobody is scheduled then'})</p>}
     </div>
   )
 }
