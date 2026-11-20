@@ -62,6 +62,18 @@ Style of "steps" (this is what students read, so keep it simple):
 - Do not add a "Check" or "Verify" line; do not repeat the question; do not explain why the method works.
 - Example of the style, for the unrelated question "The average of 6 numbers is 30, but one number was read as 45 instead of 27. What is the correct average?":
   ["The wrong reading made the total larger by 45 − 27 = 18.", "Wrong total = 6 × 30 = 180.", "Correct total = 180 − 18 = 162.", "Correct average = 162 / 6 = 27."]
+Time and work (workers, machines, pipes and tanks, taps, leaks, wages shared by work done, efficiency): always use the LCM method in "steps". Every rate is a whole number of units, never a fraction like 1/24 per minute or 1/20 work per day, and the word "units" appears in the steps:
+- First line: take the total work (or the tank's capacity) as the LCM of all the given times, in units, e.g. "Take the tank's capacity as the LCM of 24 and 15 = 120 units."
+- Next, one line per worker or pipe: rate = LCM / its time, in units per day (or minute, hour). A pipe that empties or a leak works against the filling, so subtract its rate. Say which is which.
+- Then combine the rates in units (add the helpers, subtract the drains) and get the answer with plain unit arithmetic: time = units / combined rate, work done = rate × time, units left = total − done. Do not set up an equation when this does it.
+- Never bring in p, x or any unknown letter for a quantity the units can give. When the question asks for the starting or remaining part or percentage (for example "the tank was initially p% full"), work out the units by plain arithmetic (units = net rate × time) and only then convert: percentage = units / LCM × 100.
+- Convert back only at the very end: a part or percentage is units / LCM (× 100), and a share of wages is in the ratio of units done.
+- If the question gives efficiencies, ratios or "x% more efficient" instead of times, still work in units, with NO letter such as r or x: pick a whole-number rate for the first worker that makes the others whole numbers, derive the others from it, then total work = rate × time. For the unrelated question "A can do a work in 15 days and B is 50% more efficient than A. In how many days will they finish it together?":
+  ["Take A's rate as 2 units per day.", "B is 50% more efficient, so B's rate = 2 × 1.5 = 3 units per day.", "Total work = 2 × 15 = 30 units.", "Together they do 2 + 3 = 5 units per day.", "Time taken = 30 / 5 = 6 days."]
+  Wages are shared in the ratio of the units each one did.
+- If the question already gives one total, use it as the units. If the LCM is awkward (fractions, decimals), pick any convenient whole number of units that every time divides.
+- Example of the style, for the unrelated question "A can do a piece of work in 12 days and B in 20 days. In how many days will they finish it together?":
+  ["Take the total work as the LCM of 12 and 20 = 60 units.", "A's rate = 60 / 12 = 5 units per day.", "B's rate = 60 / 20 = 3 units per day.", "Together they do 5 + 3 = 8 units per day.", "Time taken = 60 / 8 = 7.5 days."]
 Rules:
 - If the right answer is "None of these" (or similar) and no computed value matches another option, choose that option.
 - If no option matches your result and there is no "None of these" style option, set status to "ambiguous".
