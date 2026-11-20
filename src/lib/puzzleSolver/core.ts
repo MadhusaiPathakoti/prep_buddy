@@ -224,10 +224,14 @@ export class Ctx {
     return this.named ? this.posName(f) : `${this.unit} ${this.posNum(f)}`
   }
   /** short tag for a position on the board */
+  /** the age of the person born in position f's year (base year minus year), when the positions are birth years with a base year */
+  ageAt(f: number): number | null {
+    return this.p.values && this.p.baseYear !== undefined && this.p.values[f] !== undefined ? this.p.baseYear - this.p.values[f] : null
+  }
   posShort(f: number): string {
     if (this.grid) return `${this.rowOf(f) + 1}${this.flatLetter(f)}`
     if (this.tworow) return `${this.rowIdx(f) + 1}.${this.seatIdx(f) + 1}`
-    if (this.p.unordered) return (this.p.labels as string[])[f]
+    if (this.p.unordered || this.p.values) return (this.p.labels as string[])[f] // whole names / full years, never cut to three letters
     if (this.dated) return (this.p.labels as string[])[f].replace(/^(\w{3})\w*/, '$1')
     return this.named ? (this.p.labels as string[])[f].slice(0, 3) : String(this.posNum(f))
   }
@@ -540,7 +544,7 @@ export class Ctx {
           }
           return `${L(a.x)} is${not} ${(this.p.slotUnit ? null : this.datedSet(a.fs, labels)) ?? `on ${a.fs.length === 1 ? labels[a.fs[0]] : `${a.fs.slice(0, -1).map((f) => labels[f]).join(', ')} or ${labels[a.fs[a.fs.length - 1]]}`}`}`
         }
-        return `${L(a.x)} is${not} ${this.setPhrase(a.fs)}`
+        return `${L(a.x)} is${not} ${this.setPhrase(a.fs)}${a.note ? ` (${a.note})` : ''}`
       case 'opp':
         return a.neg ? `${L(a.x)} does not face ${L(a.y)}` : `${L(a.x)} faces ${L(a.y)}`
       case 'samerow':

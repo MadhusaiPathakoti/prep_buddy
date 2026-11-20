@@ -37,7 +37,7 @@ export type Atom =
   | { t: 'grid'; x: Term; y: Term; row?: GridRel; col?: GridRel; rowDiff?: number; on?: 'slot'; neg?: boolean }
   | { t: 'btw'; x: Term; y: Term; z: Term; neg?: boolean } // x strictly between y and z (either way round)
   // pos(x) is one of fs (or none of them when neg); with on 'slot' it is x's date slot (a value of the 'date' category) that must be one of fs
-  | { t: 'set'; x: Term; fs: number[]; on?: 'slot'; neg?: boolean }
+  | { t: 'set'; x: Term; fs: number[]; on?: 'slot'; note?: string; neg?: boolean } // `note`: why, in words (shown after the clue: "age 64 or 25: a perfect square number")
   // compound clues: "if a then b", "either a or b but not both", "either a or b"
   | { t: 'logic'; op: 'imp' | 'xor' | 'or'; a: Atom; b: Atom; neg?: boolean }
   // two parallel rows facing each other: x faces y (the seat across the gap); x and y are in the same row

@@ -659,7 +659,9 @@ function interpretClauseRaw(s: string, ments: Term[], lex: Lexicon): Atom[] | nu
       if (pred && (m[1] === 'year' || base !== undefined)) {
         const val = (y: number) => (m![1] === 'age' ? (base as number) - y : y)
         const fs = lex.values.map((y, f) => (pred(val(y)) ? f : -1)).filter((f) => f >= 0)
-        return [{ t: 'set', x: M(m[2]), fs, neg: m[3] || neg ? true : undefined }]
+        const ages = m[1] === 'age' && fs.length ? fs.map((f) => (base as number) - (lex.values as number[])[f]) : null
+        const note = ages ? `age ${ages.join(' or ')}: ${m[4].replace(/\s+/g, ' ').trim()}` : undefined
+        return [{ t: 'set', x: M(m[2]), fs, neg: m[3] || neg ? true : undefined, note }]
       }
     }
     // "A was born in an odd numbered year", "born in a leap year"

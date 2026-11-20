@@ -23,7 +23,7 @@ function solutionRows(trace: Trace, sol: Solution) {
   const { puzzle, ctx } = trace
   const rows = puzzle.people.map((name, p) => ({ f: sol.pos[p], name, vals: sol.val.map((v, c) => puzzle.cats[c].values[v[p]]) }))
   if (!puzzle.unordered) rows.sort((a, b) => (puzzle.axis === 'floor' ? b.f - a.f : puzzle.axis === 'grid' ? ctx.rowOf(b.f) - ctx.rowOf(a.f) || a.f - b.f : a.f - b.f))
-  return rows.map((r) => ({ ...r, label: ctx.posName(r.f) }))
+  return rows.map((r) => ({ ...r, label: ctx.posName(r.f), age: ctx.ageAt(r.f) }))
 }
 
 function SolutionTable({ trace, sol }: { trace: Trace; sol: Solution }) {
@@ -36,6 +36,7 @@ function SolutionTable({ trace, sol }: { trace: Trace; sol: Solution }) {
         <thead>
           <tr className="text-xs uppercase tracking-wide text-slate-400 dark:text-slate-500">
             <th className="py-1 pr-3 font-semibold">{ctx.unit}</th>
+            {puzzle.baseYear !== undefined && <th className="py-1 pr-3 font-semibold">Age</th>}
             <th className="py-1 pr-3 font-semibold">{ctx.noun.replace(/^./, (m) => m.toUpperCase())}</th>
             {puzzle.cats.map((c) => (
               <th key={c.name} className="py-1 pr-3 font-semibold">
@@ -48,6 +49,7 @@ function SolutionTable({ trace, sol }: { trace: Trace; sol: Solution }) {
           {solutionRows(trace, sol).map((r) => (
             <tr key={r.name} className="border-t border-slate-100 dark:border-slate-700">
               <td className="py-1.5 pr-3 font-bold text-slate-400 dark:text-slate-500">{r.label}</td>
+              {puzzle.baseYear !== undefined && <td className="py-1.5 pr-3 font-bold text-slate-500 dark:text-slate-300">{r.age}</td>}
               <td className="py-1.5 pr-3 font-bold text-emerald-600 dark:text-emerald-400">{r.name}</td>
               {r.vals.map((v, i) => (
                 <td key={i} className="py-1.5 pr-3 text-slate-700 dark:text-slate-200">

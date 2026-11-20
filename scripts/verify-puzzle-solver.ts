@@ -384,11 +384,11 @@ const YEAR_HEADER = `Six people A, B, C, D, E & F are born in 6 different years 
 
 // the ages are 2020 - year: 1975 → 45, 1980 → 40, 1985 → 35, 1990 → 30, 1995 → 25, 2000 → 20
 const YEAR_CASES: [string, string][] = [
-  ['The age of A is a perfect square number.', 'A is in 1995'],
-  ['The age of A is a multiple of 10.', 'A is in 1980, 1990 or 2000'],
-  ['The age of A is an odd number.', 'A is in 1975, 1985 or 1995'],
-  ['The age of A is more than 30.', 'A is in 1975, 1980 or 1985'],
-  ['The age of A is less than 30.', 'A is in 1995 or 2000'],
+  ['The age of A is a perfect square number.', 'A is in 1995 (age 25: a perfect square number)'],
+  ['The age of A is a multiple of 10.', 'A is in 1980, 1990 or 2000 (age 40 or 30 or 20: a multiple of 10)'],
+  ['The age of A is an odd number.', 'A is in 1975, 1985 or 1995 (age 45 or 35 or 25: an odd number)'],
+  ['The age of A is more than 30.', 'A is in 1975, 1980 or 1985 (age 45 or 40 or 35: more than 30)'],
+  ['The age of A is less than 30.', 'A is in 1995 or 2000 (age 25 or 20: less than 30)'],
   ['The age of A is not a prime number.', 'A can be anywhere (nothing is ruled out)'],
   ['The age of A is a perfect cube.', 'A must be in a year that does not exist (impossible)'],
   ['The difference between the ages of A and B is the same as the difference between the ages of C and D.', 'the same difference between the years of A and B as between those of C and D'],
@@ -774,6 +774,10 @@ for (const s of SAMPLES) {
     const P = r.puzzle
     const got = Array.from({ length: 8 }, (_, f) => `${(P.labels as string[])[f]}:${P.people[e.sols[0].pos.indexOf(f)]}`).join(' ')
     if (got !== '1959:E 1976:B 1979:G 1986:A 1990:D 1993:H 1998:F 2005:C') fail(`years-ages sample: got ${got}`)
+    // the ages shown beside the years (the table of the original puzzle: 64, 47, 44, 37, 33, 30, 25, 18)
+    const ctxYears = new Ctx(P)
+    const ages = Array.from({ length: 8 }, (_, f) => ctxYears.ageAt(f)).join(' ')
+    if (ages !== '64 47 44 37 33 30 25 18') fail(`years-ages sample: ages ${ages}`)
   }
 }
 

@@ -340,7 +340,7 @@ export default function Board({
   ];
   const flatCols = ctx.cols;
   const floorRows = n / flatCols;
-  const labelCol = p.unordered ? "5.5rem" : ctx.dated ? "4.25rem" : ctx.named ? "3rem" : "2.25rem";
+  const labelCol = p.values ? (p.baseYear !== undefined ? "4.5rem" : "3.5rem") : p.unordered ? "5.5rem" : ctx.dated ? "4.25rem" : ctx.named ? "3rem" : "2.25rem";
   const unitHead = ctx.unit.replace(/^./, (m) => m.toUpperCase());
 
   return (
@@ -475,6 +475,7 @@ export default function Board({
                 ].join(" ")}
               >
                 {ctx.posShort(f)}
+                {ctx.ageAt(f) !== null && <span className="block text-[10px] font-semibold text-slate-400 dark:text-slate-500">age {ctx.ageAt(f)}</span>}
               </span>
               {[0, ...p.cats.map((_, c) => c + 2)].map((cat) => (
                 <div key={cat} role="cell">
@@ -556,7 +557,7 @@ export function PeopleStrip({
               </span>
               <span className="truncate text-[11px] text-slate-500 dark:text-slate-400">
                 {placed
-                  ? ctx.posLab(bits(fm)[0])
+                  ? `${ctx.posLab(bits(fm)[0])}${ctx.ageAt(bits(fm)[0]) !== null ? ` · age ${ctx.ageAt(bits(fm)[0])}` : ''}`
                   : `${pop(fm)} ${ctx.units} open`}
               </span>
             </div>
