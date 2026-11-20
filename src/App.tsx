@@ -4,6 +4,7 @@ import ErrorBoundary from './components/ErrorBoundary'
 import Layout from './components/Layout'
 import AuthProvider from './components/AuthProvider'
 import QbankSync from './components/QbankSync'
+import UserDataSync, { SyncRefresh } from './components/UserDataSync'
 const Home = lazy(() => import('./pages/Home'))
 const NotFound = lazy(() => import('./pages/NotFound'))
 const Maths = lazy(() => import('./pages/Maths'))
@@ -110,9 +111,11 @@ export default function App() {
     <HashRouter>
       <AuthProvider>
       <QbankSync />
+      <UserDataSync />
       {/* the exam window sits outside Layout, so it needs its own boundary and loading state */}
       <ErrorBoundary>
         <Suspense fallback={null}>
+      <SyncRefresh>
       <Routes>
         <Route element={<Layout />}>
           <Route path="/" element={<Home />} />
@@ -221,6 +224,7 @@ export default function App() {
         {/* The exam window is deliberately outside Layout: like the real test software, it fills the screen with no site header. */}
         <Route path="/mocks/test/:attemptId" element={<MockTest />} />
       </Routes>
+      </SyncRefresh>
         </Suspense>
       </ErrorBoundary>
       </AuthProvider>

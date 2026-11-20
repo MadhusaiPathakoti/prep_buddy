@@ -17,6 +17,7 @@
     "verify:mnemonic": "tsx scripts/verify-mnemonic.ts",
     "verify:hindu": "tsx scripts/verify-hindu-vocab.ts",
     "verify:learn": "tsx scripts/verify-daily-learn.ts",
+    "verify:usersync": "tsx scripts/verify-user-sync.ts",
     "verify:vedic": "tsx scripts/verify-vedic.ts",
     "verify:surds": "tsx scripts/verify-surds.ts",
     "verify:quadratic": "tsx scripts/verify-quadratic.ts",
