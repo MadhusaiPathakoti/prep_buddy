@@ -20,12 +20,12 @@ import { collectionForKey, keyForCollection, parseCollection, serializeCollectio
  */
 
 const STATE_KEY = 'prepbuddy:usersync:state'
-const PULLED_KEY = 'prepbuddy:usersync:pulled'
 const FLUSH_DELAY_MS = 5000
 const RETRY_MIN_MS = 60_000
 const RETRY_MAX_MS = 15 * 60_000
 const KEEPALIVE_MAX_BYTES = 60_000
-const REPULL_AFTER_MS = 5 * 60_000
+/** Coming back to a tab after this long pulls again (a refresh always pulls). */
+const REPULL_AFTER_MS = 60_000
 const BATCH = 400
 const ENDPOINT = '/api/qb?action=usersync'
 
@@ -52,7 +52,7 @@ export interface SyncStorage {
 }
 
 export interface Applied {
-  /** True for the first full sync of this tab session (the screens already on display were built from the old local copy). */
+  /** True for the first full sync since this page loaded (the screens already on display were built from the old local copy). */
   initial: boolean
   /** How many entries were written to or removed from localStorage. */
   changed: number
@@ -60,11 +60,12 @@ export interface Applied {
 
 export interface SyncDeps {
   storage: SyncStorage
-  session?: Pick<SyncStorage, 'getItem' | 'setItem'>
   fetch: typeof fetch
   getToken: (forceRefresh?: boolean) => Promise<string | null>
   now?: () => number
   onApplied?: (applied: Applied) => void
+  /** Told why a sync attempt failed (offline, server not set up, ...); the browser logs it to the console. */
+  onError?: (error: Error) => void
   /** Timers are skipped in tests, which call syncNow() themselves. */
   timers?: boolean
 }
@@ -98,7 +99,7 @@ function splitValue(value: string): { version: number; json: string } | null {
 }
 
 export function createUserDataSync(deps: SyncDeps): UserDataSync {
-  const { storage, session, getToken } = deps
+  const { storage, getToken } = deps
   const now = deps.now ?? (() => Date.now())
   const useTimers = deps.timers !== false
 
@@ -109,6 +110,8 @@ export function createUserDataSync(deps: SyncDeps): UserDataSync {
   let running = false
   let rerun: { full: boolean } | null = null
   let applying = false
+  /** Whether this page load has already pulled from the server (a refresh starts over, so it always pulls). */
+  let pulledThisLoad = false
 
   /* ---------------------------------------------------------------- state */
 
@@ -339,13 +342,8 @@ export function createUserDataSync(deps: SyncDeps): UserDataSync {
       const after = readState()
       after.lastPull = now()
       writeState(after)
-      let initial = false
-      try {
-        initial = session ? session.getItem(PULLED_KEY) !== uid : false
-        session?.setItem(PULLED_KEY, uid)
-      } catch {
-        /* ignore */
-      }
+      const initial = !pulledThisLoad
+      pulledThisLoad = true
       deps.onApplied?.({ initial, changed })
     }
   }
@@ -366,9 +364,10 @@ export function createUserDataSync(deps: SyncDeps): UserDataSync {
     try {
       await attempt(full, keepalive)
       retryDelay = RETRY_MIN_MS
-    } catch {
+    } catch (err) {
       // Offline, server unavailable or sync not set up: nothing is lost, it stays unsent and is retried.
       ok = false
+      deps.onError?.(err instanceof Error ? err : new Error(String(err)))
       if (useTimers && currentUid && !retryTimer) {
         retryTimer = setTimeout(() => {
           retryTimer = null
@@ -438,14 +437,7 @@ export function createUserDataSync(deps: SyncDeps): UserDataSync {
         deps.onApplied?.({ initial: true, changed: 1 })
       }
       scan()
-      if (!full) {
-        try {
-          const pulledThisSession = session ? session.getItem(PULLED_KEY) === uid : false
-          full = !pulledThisSession || now() - readState().lastPull > REPULL_AFTER_MS
-        } catch {
-          full = true
-        }
-      }
+      if (!full) full = !pulledThisLoad || now() - readState().lastPull > REPULL_AFTER_MS
       await run(full)
     },
   }
@@ -483,6 +475,12 @@ export function installStorageWatcher(onKey: (key: string | null) => void) {
 
 let singleton: UserDataSync | null = null
 let appliedListeners: ((applied: Applied) => void)[] = []
+const loggedErrors = new Set<string>()
+
+/** Tells every subscriber (see onUserDataApplied) that the server's data was written into localStorage. */
+export function notifyUserDataApplied(applied: Applied) {
+  appliedListeners.forEach((l) => l(applied))
+}
 
 /** Subscribe to "the server's data was written into localStorage" (so screens can re-read it). Returns an unsubscribe. */
 export function onUserDataApplied(listener: (applied: Applied) => void): () => void {
@@ -496,10 +494,15 @@ function browserSync(): UserDataSync {
   if (!singleton) {
     singleton = createUserDataSync({
       storage: window.localStorage,
-      session: window.sessionStorage,
       fetch: (input, init) => window.fetch(input, init),
       getToken: getIdToken,
-      onApplied: (applied) => appliedListeners.forEach((l) => l(applied)),
+      onApplied: notifyUserDataApplied,
+      onError: (err) => {
+        // once per kind of failure per page load, so a server that is not set up does not flood the console
+        if (loggedErrors.has(err.message)) return
+        loggedErrors.add(err.message)
+        console.warn(`[PrepBuddy sync] could not sync (${err.message}). Your data is safe on this device and will be sent when it works.`)
+      },
     })
     const sync = singleton
     installStorageWatcher((key) => sync.notifyKeyChanged(key))

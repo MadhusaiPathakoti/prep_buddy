@@ -233,6 +233,7 @@ async function fakeFetch(_url: any, init: any): Promise<Response> {
 interface Device {
   name: string
   storage: MemStorage
+  session: MemStorage
   sync: UserDataSync
   applied: Applied[]
 }
@@ -240,13 +241,12 @@ function device(name: string, storage = new MemStorage(), session = new MemStora
   const applied: Applied[] = []
   const sync = createUserDataSync({
     storage,
-    session,
     fetch: fakeFetch as any,
     getToken: async () => (currentUid.get(name) ? `token-${currentUid.get(name)}` : null),
     timers: false,
     onApplied: (a) => applied.push(a),
   })
-  return { name, storage, sync, applied }
+  return { name, storage, session, sync, applied }
 }
 const currentUid = new Map<string, string | null>()
 async function signIn(d: Device, uid: string) {
@@ -371,6 +371,36 @@ section('engine: queued changes survive a restart and are sent when back online'
   check('and is delivered', restarted.sync.pendingCount() === 0 && serverStore.hashes.get('usd:alice')!.has('fav:vocabulary|saved-offline'))
   await laptop.sync.syncNow(true)
   check('the other device receives it', 'saved-offline' in json(laptop, FAV_V))
+}
+
+section('engine: refreshing the page on another device shows the newest data')
+{
+  // The laptop tab has been open (and already synced); the phone then learns a word and stars another. Refreshing the laptop
+  // tab keeps its sessionStorage and was last synced a moment ago — it must still pull, and tell the screen to re-read.
+  const lap = device('henry-laptop')
+  const ph = device('henry-phone')
+  await signIn(lap, 'henry')
+  await signIn(ph, 'henry')
+  write(ph, LEARN_M, JSON.stringify({ size: 10, learned: { '42': new Date().toISOString() } }))
+  write(ph, FAV_M, JSON.stringify({ 'mn-42': new Date().toISOString() }))
+  ph.sync.scan()
+  await ph.sync.syncNow(false)
+
+  requests.length = 0
+  const refreshed = device('henry-laptop', lap.storage, lap.session) // a refresh: same browser storage, but a brand-new page (engine)
+  await signIn(refreshed, 'henry')
+  check('the refreshed laptop asks the server (a full sync) even though it synced a moment ago', requests.some((r) => r.uid === 'henry' && r.full))
+  check('and now has the word learned on the phone', json(refreshed, LEARN_M)?.learned?.['42'] !== undefined)
+  check('and the word starred on the phone', json(refreshed, FAV_M)?.['mn-42'] !== undefined)
+  check('the screen on display is told to re-read (first sync of this page load)', refreshed.applied.some((a) => a.initial && a.changed > 0), JSON.stringify(refreshed.applied))
+
+  // a later pull in the same page load updates storage but is not "initial" (it must not rebuild a screen mid-quiz)
+  write(ph, FAV_M, JSON.stringify({ 'mn-42': new Date().toISOString(), 'mn-43': new Date().toISOString() }))
+  ph.sync.scan()
+  await ph.sync.syncNow(false)
+  refreshed.applied.length = 0
+  await refreshed.sync.syncNow(true)
+  check('a later pull brings the data but is not flagged initial', 'mn-43' in json(refreshed, FAV_M) && refreshed.applied.length === 1 && !refreshed.applied[0].initial)
 }
 
 section('engine: history merges, best scores only go up')
