@@ -63,6 +63,8 @@ export interface Category {
   values: string[]
   /** other ways the text names each value ("IIIrd rank", "top rank" for rank I); when given, the plain value is not matched on its own */
   aliases?: string[][]
+  /** values from this index on stand for "nobody" (only some people have a value, e.g. a state for the events whose name starts with a consonant): interchangeable, so the engine hands them to the people in order */
+  padFrom?: number
 }
 
 export interface Puzzle {

@@ -46,7 +46,7 @@ export interface ParseResult {
 
 const NUM: Record<string, number> = { zero: 0, one: 1, two: 2, three: 3, four: 4, five: 5, six: 6, seven: 7, eight: 8, nine: 9, ten: 10 }
 const ORD: Record<string, number> = { first: 1, second: 2, third: 3, fourth: 4, fifth: 5, sixth: 6, seventh: 7, eighth: 8, ninth: 9, tenth: 10 }
-const COUNT_NOUN = '(?:persons?|people|ones?|floors?|seats?|boxes|box|others?|friends?|students?|members?|boys?|girls?|men|women|individuals?|days?|dates?|weeks?|months?|years?|places?)'
+const COUNT_NOUN = '(?:persons?|people|events?|ones?|floors?|seats?|boxes|box|others?|friends?|students?|members?|boys?|girls?|men|women|individuals?|days?|dates?|weeks?|months?|years?|places?)'
 const ENT = '@(\\d+)'
 const ARTICLE_NOUNS = new Set(['person', 'man', 'woman', 'boy', 'girl', 'friend', 'student', 'floor', 'seat', 'row', 'few', 'couple', 'number', 'different', 'certain', 'particular', 'lot', 'building', 'group', 'member', 'colleague', 'child'])
 
@@ -383,7 +383,7 @@ function norm(t: string, ments?: Term[], axis?: Axis, mirror?: boolean): string 
   s = s.replace(/\b(?:on|to|at) the (left|right) of\b/g, '$1 of')
   s = s.replace(/\b(?:exactly )?opposite(?: to)?\b/g, 'opposite')
   s = s.replace(/[^a-z0-9@#' ]+/g, ' ')
-  s = s.replace(/\b(one|two|three|four|five|six|seven|eight|nine|ten)\b(?=\s+(?:floors?|places?|seats?|positions?|classes|class|levels?|persons?|people|boxes|box|months?|days?|weeks?|years?|persons?|people|steps?|others?|friends?|students?|members?|boys?|girls?))/g, (w) => String(NUM[w]))
+  s = s.replace(/\b(one|two|three|four|five|six|seven|eight|nine|ten)\b(?=\s+(?:floors?|places?|seats?|positions?|classes|class|levels?|persons?|people|boxes|box|events?|months?|days?|weeks?|years?|persons?|people|steps?|others?|friends?|students?|members?|boys?|girls?))/g, (w) => String(NUM[w]))
   s = s.replace(/\b(first|second|third|fourth|fifth|sixth|seventh|eighth|ninth|tenth)\b/g, (w) => `#${ORD[w]}`)
   s = s.replace(/\b(\d+)(?:st|nd|rd|th)\b/g, '#$1')
   s = s.replace(/'s\b/g, '')
@@ -393,8 +393,8 @@ function norm(t: string, ments?: Term[], axis?: Axis, mirror?: boolean): string 
   s = s.replace(/(@\d+)\s+colou?r\b(?:\s+(?:box|one))?/g, '$1')
   s = s.replace(/\b(?:boxes|persons|people|friends|students|members|individuals)\s+(?=@\d)/g, '')
   // "the person from @3" / "the one who likes @3" → "@3";  "@3 person" → "@3"
-  s = s.replace(/\b(?:the\s+)?(?:person|one|man|woman|friend|student|employee|boy|girl|individual|member|box)\s+(?:(?:who|that|which)\s+(?:[a-z]+\s+){0,2}?|to be sent to\s+)?(?:from|in|at|of|with)?\s*(?=@\d)/g, '')
-  s = s.replace(/(@\d+)\s+(?:person|one|man|woman|friend|student|employee|boy|girl|box)\b/g, '$1')
+  s = s.replace(/\b(?:the\s+)?(?:person|one|man|woman|friend|student|employee|boy|girl|individual|member|box|event)\s+(?:(?:who|that|which)\s+(?:[a-z]+\s+){0,2}?|to be sent to\s+)?(?:from|in|at|of|with)?\s*(?=@\d)/g, '')
+  s = s.replace(/(@\d+)\s+(?:person|one|man|woman|friend|student|employee|boy|girl|box|event)\b/g, '$1')
   s = s.replace(/(@\d+)\s+(?:years?\s+)?old\b/g, '$1') // "the person who is 29 years old"
   s = s.replace(/\bthe\s+(?=@)/g, '')
   return s.replace(/\s+/g, ' ').trim()
@@ -1150,6 +1150,17 @@ function compoundClause(s: string, ments: Term[], lex: Lexicon): Atom[] | null {
     }
     return null
   }
+  // "O and E are held after R": the same statement about each of two people; "A sits before C and D": one person against two others
+  m = s.match(/^(@\d+) and (@\d+) ((?:[a-z]+ ){0,4}?(?:immediately )?(?:above|below|before|after|left of|right of|higher than|lower than|taller than|shorter than)) (@\d+)$/)
+  if (m && !/\b(?:between|either|neither|both)\b/.test(s)) {
+    const parts = [m[1], m[2]].map((w) => single(`${w} ${m![3]} ${m![4]}`, ments, lex))
+    return parts.every(Boolean) ? (parts.flat() as Atom[]) : null
+  }
+  m = s.match(/^(@\d+) ((?:[a-z]+ ){0,4}?(?:immediately )?(?:above|below|before|after|left of|right of|higher than|lower than|taller than|shorter than)) (@\d+) and (@\d+)$/)
+  if (m && !/\b(?:between|either|neither|both|not)\b/.test(s)) {
+    const parts = [m[3], m[4]].map((w) => single(`${m![1]} ${m![2]} ${w}`, ments, lex))
+    return parts.every(Boolean) ? (parts.flat() as Atom[]) : null
+  }
   // "Y is neither neighbour of W nor X" / "Z is neighbour of neither X nor W": not next to either
   m = s.match(/^(@\d+) (?:is|are) neither (?:an? )?(?:immediately )?neighbou?r of (@\d+) nor (@\d+)$/) ?? s.match(/^(@\d+) (?:is|are) (?:an? )?(?:immediately )?neighbou?r of neither (@\d+) nor (@\d+)$/)
   if (m) {
@@ -1208,9 +1219,9 @@ function parseClueText(sentence: string, lex: Lexicon): Atom[] | null {
   const s = norm(rest, ments, lex.dirCat === undefined ? lex.axis : undefined, lex.mirror)
   if (s) {
     // "D was not born immediately before B, who was born in April": a second statement about the person just named
-    const who = s.match(/^(.+@(\d+))\s+who\s+(.+)$/)
+    const who = s.match(/^(.+@(\d+))\s+(?:who|which)\s+(.+)$/)
     if (who) {
-      const a1 = interpretClause(who[1], ments, lex)
+      const a1 = compoundClause(who[1], ments, lex) ?? interpretClause(who[1], ments, lex)
       const a2 = interpretClause(`@${who[2]} ${who[3]}`, ments, lex)
       if (a1 && a2) return [...atoms, ...a1, ...a2]
     }
@@ -1219,6 +1230,14 @@ function parseClueText(sentence: string, lex: Lexicon): Atom[] | null {
     if (notImm) {
       const a1 = interpretClause(`${notImm[1]} ${notImm[2]} ${notImm[3]}`, ments, lex)
       const a2 = interpretClause(`${notImm[1]} not immediately ${notImm[2]} ${notImm[3]}`, ments, lex)
+      if (a1 && a2) return [...atoms, ...a1, ...a2]
+    }
+    // "S is held immediately before U, but in different months": the relation, then the same / different month of the two people it names
+    const monthTail = s.match(/^(.+?)\s+but\s+(?:in|on)\s+(different|the same)\s+months?$/)
+    if (monthTail && (monthTail[1].match(/@\d+/g) ?? []).length === 2 && !/\b(?:same|different)\b/.test(monthTail[1])) {
+      const [e0, e1] = monthTail[1].match(/@\d+/g) as string[]
+      const a1 = interpretClause(monthTail[1], ments, lex)
+      const a2 = interpretClause(monthTail[2] === 'different' ? `${e0} is not in the same month as ${e1}` : `${e0} is in the same month as ${e1}`, ments, lex)
       if (a1 && a2) return [...atoms, ...a1, ...a2]
     }
     // "Kiwi sits at one end immediate left of M": a position and a relation, both about the same person
@@ -1613,6 +1632,7 @@ function parsePuzzleFixed(raw: string): ParseResult {
   let yearValues = null as number[] | null // birth years when the positions are years
   const cats: Category[] = []
   const used = new Set<number>([headerIdx])
+  const padClue = new Map<number, Atom[]>() // sentence index → the atoms of a sentence that only says who has no value of a category
   // "Seven persons A, B … live in different cities among Agra, Bhopal, …": the people and the first category share one sentence
   const headCat = tworow ? null : parseCategorySentence(sentences[headerIdx])
   const headYears = headCat && headCat.values.length === n ? yearOrder(headCat) : null
@@ -1638,6 +1658,24 @@ function parsePuzzleFixed(raw: string): ParseResult {
       return
     }
     used.add(k)
+    // "Events, whose name starts with consonant, are held in different states among …": only those people have a value; the others get a "nobody" value
+    const only = s.match(/\bwhose\s+names?\s+(?:starts?|begins?)\s+with\s+(?:an?\s+)?(consonant|vowel)\b/i)
+    let padFrom: number | undefined
+    if (only && cs.values.length < n) {
+      const isVowel = (nm: string) => /^[aeiou]/i.test(nm)
+      const has = people.map((nm, i) => (only[1].toLowerCase() === 'vowel' ? isVowel(nm) : !isVowel(nm) && /^[a-z]/i.test(nm)) ? i : -1).filter((i) => i >= 0)
+      if (has.length === cs.values.length) {
+        padFrom = cs.values.length
+        const real = cs.values
+        const lack = people.map((_, i) => i).filter((i) => !has.includes(i))
+        // the "nobody" values read the same, so they are told apart by invisible spaces
+        cs.values = [...real, ...Array.from({ length: n - real.length }, (_, d) => '(none)' + '\u200b'.repeat(d))]
+        const ci = cats.length
+        padClue.set(k, lack.flatMap((i) => real.map((_, v) => ({ t: 'link', x: { k: 'p', i }, y: { k: 'v', c: ci, i: v }, neg: true }) as Atom)))
+        used.delete(k)
+        result.warnings.push(`Only ${has.length} of the ${n} ${only[1].toLowerCase() === 'vowel' ? 'events whose name starts with a vowel' : 'events whose name starts with a consonant'} have a ${cs.name}; the other ${lack.length} (${lack.map((i) => people[i]).join(', ')}) have none.`)
+      }
+    }
     if (cs.values.length !== n) {
       result.errors.push(`"${cs.name}" lists ${cs.values.length} values but there are ${n} people — they must match.`)
       return
@@ -1663,7 +1701,7 @@ function parsePuzzleFixed(raw: string): ParseResult {
       order = asOrder // "different month - January, February, ..." names the positions, it is not an attribute
       return
     }
-    cats.push({ name: cs.name, values: cs.values })
+    cats.push({ name: cs.name, values: cs.values, ...(padFrom !== undefined ? { padFrom } : {}) })
   })
   // "Each of them like one fruit." with the fruits never listed: they are the values the clues mention
   const own = sentences.findIndex((x, k) => !used.has(k) && /^each of them (?:likes?|has|have|owns?|plays?|drinks?|eats?|prefers?)\s+(?:one|a|an)\s+[a-z]+\s*\.?$/i.test(x))
@@ -1754,6 +1792,11 @@ function parsePuzzleFixed(raw: string): ParseResult {
       return
     }
     if (axis === 'tworow' && ROW_INTRO.test(s)) return
+    const pad = padClue.get(k)
+    if (pad) {
+      clues.push({ id: clues.length + 1, text: s, atoms: pad })
+      return
+    }
     if (used.has(k) || isBoilerplate(s)) return
     if (isQuestion(s)) {
       result.questions.push(s)

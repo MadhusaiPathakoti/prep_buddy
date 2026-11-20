@@ -433,6 +433,47 @@ export class Engine {
         }
   }
 
+  /** "Nobody" values (Category.padFrom) are interchangeable, so the 1st goes to an earlier person (in the list) than the 2nd, and so on. */
+  private padOrder(): void {
+    const c = this.ctx
+    for (let k = 0; k < c.p.cats.length; k++) {
+      const first = c.p.cats[k].padFrom
+      if (first === undefined) continue
+      const cat = k + 2
+      const n = c.n
+      const lo: number[] = []
+      let prev = -1
+      for (let j = first; j < n; j++) {
+        const cand = this.grid.row(cat, j, 0) & ~((1 << (prev + 1)) - 1)
+        if (!cand) {
+          this.setContra(`the people without a ${c.catName(cat)} have no order left`)
+          return
+        }
+        prev = ctz(cand)
+        lo.push(cand)
+      }
+      let next = n
+      for (let j = n - 1; j >= first; j--) {
+        lo[j - first] &= (1 << next) - 1
+        if (!lo[j - first]) {
+          this.setContra(`the people without a ${c.catName(cat)} have no order left`)
+          return
+        }
+        next = 31 - Math.clz32(lo[j - first])
+      }
+      for (let j = first; j < n; j++) {
+        const rem = this.grid.row(cat, j, 0) & ~lo[j - first]
+        if (!rem) continue
+        this.newGroup()
+        for (const i of bits(rem)) {
+          const text = this.quiet ? '' : `${c.lab(0, i)} cannot be the ${j - first + 1}${j - first === 0 ? 'st' : j - first === 1 ? 'nd' : j - first === 2 ? 'rd' : 'th'} person without a ${c.catName(cat)}: the people without one are interchangeable, so they are taken in the order of the list`
+          this.clear(0, i, cat, j, { kind: 'trans', text })
+          if (this.contra) return
+        }
+      }
+    }
+  }
+
   /** Unnamed people are interchangeable, so they are taken in seat order: the 1st unnamed person has a lower seat than the 2nd, and so on. */
   private anonOrder(): void {
     const c = this.ctx
@@ -532,6 +573,8 @@ export class Engine {
       this.slotOrder()
       if (this.contra) return false
       this.anonOrder()
+      if (this.contra) return false
+      this.padOrder()
       if (this.contra) return false
     } while (this.changed && ++guard < 1000)
     return !this.contra

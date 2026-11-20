@@ -433,6 +433,20 @@ const BOXCOLOR_CASES: [string, string][] = [
   ['Two boxes are placed between boxes L and M.', 'exactly 2 boxes between L and M'],
 ]
 
+const EVENT_HEADER = `Nine events U, S, R, Q, O, E, M, N & P are held on 7th, 19th and 28th of different months (June, July and August) in the same year.
+`
+
+// two subjects or two objects in one relation, a "which" clause that is a statement of its own, "but in different months"
+const EVENT_CASES: [string, string][] = [
+  ['O and E are held after R, which is not held on 7th June.', 'O is somewhere after R ; E is somewhere after R ; R is not on the first date (June 7)'],
+  ['S is held after N.', 'S is somewhere after N'],
+  ['S is held before N and M.', 'S is somewhere before N ; S is somewhere before M'],
+  ['Three events are held between N and M, which is held in August.', 'exactly 3 people between N and M ; M is in August'],
+  ['N is held immediately after S, which is held in August.', 'N is immediately after S ; S is in August'],
+  ['S is held immediately before U, but in different months.', 'S is immediately before U ; S is not in the same month as U'],
+  ['S is held immediately before U, but in the same month.', 'S is immediately before U ; S is in the same month as U'],
+]
+
 const GAPMONTH_HEADER = `Four persons A, B, C, D were born in four different months viz. August, January, May and March of the same year.
 `
 
@@ -557,6 +571,7 @@ runParserTable(CLASS_HEADER, CLASS_CASES)
 runParserTable(YEAR_HEADER, YEAR_CASES)
 runParserTable(STOREY_HEADER, STOREY_CASES)
 runParserTable(GAPMONTH_HEADER, GAPMONTH_CASES)
+runParserTable(EVENT_HEADER, EVENT_CASES)
 runParserTable(BOXCOLOR_HEADER, BOXCOLOR_CASES)
 runParserTable(ROW_HEADER, ROW_NEITHER)
 runParserTable(FLOOR_HEADER, FLOOR_EXTRA)
@@ -861,6 +876,26 @@ for (const s of SAMPLES) {
     if (e.sols.length !== 2) fail(`open round table: expected 2 arrangements, got ${e.sols.length}`)
     const t = buildTrace(r.puzzle)
     if (t.status !== 'multiple' || !t.steps.length) fail(`open round table: walkthrough ended as ${t.status}`)
+  }
+}
+
+// nine events on dates of three months; only the events starting with a consonant have a state (the vowel ones have none)
+{
+  const text = `Nine events U, S, R, Q, O, E, M, N & P are held on 7th, 19th and 28th of different months (June, July and August) in the same year. Events, whose name starts with consonant, are held in different states among Mizoram, Lakashadweep, Ladakh, Chandigarh, Odisha and Manipur. Three events are held between N and M, which is held in Ladakh. N is not held in Mizoram. O and E are held after R, which is not held on 7th June. Event in Manipur is held immediately after N, which is held in August. Q is held in Chandigarh. Event in Odisha is held immediately before U, but in different months. P is held after S.`
+  const r = parsePuzzle(text)
+  const e = r.puzzle ? enumerate(r.puzzle, 50) : null
+  if (!r.puzzle || r.unparsed.length || !e) fail(`events and states: ${r.errors.join('; ') || 'not understood'}`)
+  else {
+    // O and E may swap (the answer table shows "O/E" and "E/O"); everything else is fixed
+    if (e.sols.length !== 2) fail(`events and states: expected 2 arrangements, got ${e.sols.length}`)
+    const pl = r.puzzle.people
+    const at = (sol: Solution, nm: string) => sol.pos[pl.indexOf(nm)]
+    const want: Record<string, number> = { Q: 0, R: 1, M: 3, S: 5, U: 6, N: 7, P: 8 }
+    for (const sol of e.sols) for (const [nm, w] of Object.entries(want)) if (at(sol, nm) !== w) fail(`events and states: ${nm} should be on date ${w + 1}, got ${at(sol, nm) + 1}`)
+    const st = e.sols[0].val[0].map((v, i) => `${pl[i]}${r.puzzle!.cats[0].values[v]}`).filter((x) => !/none/.test(x)).sort().join(' ')
+    if (st !== 'MLadakh NLakashadweep PManipur QChandigarh RMizoram SOdisha') fail(`events and states: wrong states ${st}`)
+    const t = buildTrace(r.puzzle)
+    if (t.status !== 'multiple' || !t.steps.length) fail(`events and states: walkthrough ended as ${t.status}`)
   }
 }
 
@@ -1560,7 +1595,7 @@ for (const s of SAMPLES) {
   console.log('app generator, end to end: ' + Object.entries(tally).map(([k, v]) => `${k} ${v.checked} checked (${v.skipped} of an unsupported layout skipped)`).join('; '))
 }
 
-console.log(`parser: ${FLOOR_CASES.length + ROW_CASES.length + ORDER_CASES.length + DAY_CASES.length + CIRCLE_CASES.length + GRID_CASES.length + BOX_CASES.length + TWOROW_CASES.length + BDAY_CASES.length + SQUARE_CASES.length + PENT_CASES.length + RANK_CASES.length + VAC_CASES.length + SOUTH_CASES.length + WEEK_CASES.length + WEEK6_CASES.length + CLASS_CASES.length + YEAR_CASES.length + STOREY_CASES.length + GAPMONTH_CASES.length + BOXCOLOR_CASES.length + ROW_NEITHER.length + FLOOR_VIZ.length + FLOOR_EXTRA.length + ORDER_EXTRA.length} phrasings checked`)
+console.log(`parser: ${FLOOR_CASES.length + ROW_CASES.length + ORDER_CASES.length + DAY_CASES.length + CIRCLE_CASES.length + GRID_CASES.length + BOX_CASES.length + TWOROW_CASES.length + BDAY_CASES.length + SQUARE_CASES.length + PENT_CASES.length + RANK_CASES.length + VAC_CASES.length + SOUTH_CASES.length + WEEK_CASES.length + WEEK6_CASES.length + CLASS_CASES.length + YEAR_CASES.length + STOREY_CASES.length + GAPMONTH_CASES.length + EVENT_CASES.length + BOXCOLOR_CASES.length + ROW_NEITHER.length + FLOOR_VIZ.length + FLOOR_EXTRA.length + ORDER_EXTRA.length} phrasings checked`)
 console.log(`engine vs brute force: ${compared} random puzzles (${uniqueTraced} with a unique answer traced, ${multiple} with several answers)`)
 console.log(`step kinds: ${JSON.stringify(kinds)}; ${trials} case-analysis trials`)
 console.log(`teaching trace: ${eliminations} crossings checked for soundness, ${whatIfs} what-if simulations refuted`)
