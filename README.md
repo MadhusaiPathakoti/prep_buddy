@@ -8,6 +8,8 @@ A practice web app for competitive exam aspirants. Each module contains small ga
 - **Squares & Cubes** — squares and cubes of 1 to 30, in squares-only, cubes-only, or mixed mode.
 - **Ratios to Percentage** — convert fractions to percentages to two decimal places (e.g. `1/9 = 11.11`), with a basic (1/n) and advanced (n/d) difficulty.
 
+- **Factor Pairs** (Maths hub, `/maths/factor-pairs`) — you get a number such as `72 = _ × _` and type every pair that multiplies to it (`8 × 9`, `4 × 18`, `6 × 12` …). Order does not matter: `8 × 9` and `9 × 8` are the same pair and count once. A pair can be typed as `8x9`, `8 9` or `8*9`. A wrong product is a mistake; a repeat or a pair the filters do not count (see below) is only a note. When all pairs are found, or you tap *show all pairs*, the full list is shown with the found ones ticked. Filters on the setup screen: **number range** (e.g. 50–120) *or* **tables × multipliers** (e.g. tables 11–19 × 11–20, which gives every distinct product 121…380); include `1 × N` or not; only count pairs whose factors lie in a range; the minimum number of pairs a number must have (Any, 2+ … 6+, which also drops primes); show the pair count as a hint or hide it; 5–20 numbers per session. The last settings are remembered in the browser. Logic is in `src/lib/factorPairs.ts`; `npx tsx scripts/verify-factor-pairs.ts` checks it against brute force.
+
 Every game auto-advances on a correct answer, clears the box for another try on a wrong one, and tracks accuracy, time, and mistakes per session. Session history is stored locally in the browser (no account or server needed); signing in syncs it across devices (see below).
 
 ## Tech

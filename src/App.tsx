@@ -24,6 +24,7 @@ const Approximation = lazy(() => import('./pages/games/Approximation'))
 const CompareFractions = lazy(() => import('./pages/games/CompareFractions'))
 const SuccessivePercent = lazy(() => import('./pages/games/SuccessivePercent'))
 const MissingDigit = lazy(() => import('./pages/games/MissingDigit'))
+const FactorPairs = lazy(() => import('./pages/games/FactorPairs'))
 const AdditionsPractice = lazy(() => import('./pages/games/AdditionsPractice'))
 const SubtractionPractice = lazy(() => import('./pages/games/SubtractionPractice'))
 const DivisionPractice = lazy(() => import('./pages/games/DivisionPractice'))
@@ -129,6 +130,7 @@ export default function App() {
           <Route path="/maths/compare-fractions" element={<CompareFractions />} />
           <Route path="/maths/successive-percent" element={<SuccessivePercent />} />
           <Route path="/maths/missing-digit" element={<MissingDigit />} />
+          <Route path="/maths/factor-pairs" element={<FactorPairs />} />
           <Route path="/maths/square-cube-roots" element={<SquareCubeRoots />} />
           <Route path="/maths/quadratic-equations" element={<QuadraticEquations />} />
           <Route path="/maths/quantity-comparison" element={<QuantityComparison />} />

@@ -163,6 +163,13 @@ export const SHORTCUT_GAMES: MathGame[] = [
     icon: '□',
   },
   {
+    id: 'factor-pairs',
+    title: 'Factor Pairs',
+    description: 'Given 72 = _ × _, list every pair that fits: 8 × 9, 4 × 18, 6 × 12 … Filter by number range or table × multiplier range.',
+    to: '/maths/factor-pairs',
+    icon: '_×_',
+  },
+  {
     id: 'square-cube-roots',
     title: 'Square & Cube Roots',
     description: 'Roots of perfect squares and cubes from the last digit and bracketing, e.g. ∛17576 = 26.',
