@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
+import Instructions from './Instructions'
 import { Ctx } from '../../lib/puzzleSolver/core'
 import { ACCEPTED_TYPES, readPuzzleImage } from '../../lib/puzzleSolver/ocrApi'
 import { parsePuzzle } from '../../lib/puzzleSolver/parse'
@@ -69,7 +70,10 @@ export default function PuzzleInput({ text, onText, onSolve, busy, error }: Puzz
       <Link to="/reasoning" className="text-sm text-slate-400 hover:text-slate-600 dark:text-slate-500">
         ← Reasoning
       </Link>
-      <h1 className="mt-2 text-3xl font-extrabold text-slate-900 dark:text-slate-100">Puzzle Solver</h1>
+      <div className="mt-2 flex flex-wrap items-center justify-between gap-3">
+        <h1 className="text-3xl font-extrabold text-slate-900 dark:text-slate-100">Puzzle Solver</h1>
+        <Instructions />
+      </div>
       <p className="mt-2 text-slate-500 dark:text-slate-400">
         Paste a seating / floor puzzle or drop a screenshot of it. You get the solution <em>and the reasoning</em>: which clue to start with and why, why a person can't be anywhere else, and — click any crossed-out option — an animation of exactly what goes
         wrong if you had put them there.

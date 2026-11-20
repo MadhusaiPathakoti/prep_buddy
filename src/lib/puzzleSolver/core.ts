@@ -110,6 +110,11 @@ export class Ctx {
   get slotMode(): boolean {
     return this.p.slotCat !== undefined
   }
+  /** the listed months / weekdays are not consecutive, so "three months before" differs from three places before */
+  get calendarGaps(): boolean {
+    const v = this.p.values
+    return !!v && !!this.p.labels && !/^\d+$/.test(this.p.labels[0]) && v.some((x, i) => i > 0 && x - v[i - 1] !== 1)
+  }
   /** a category that is not one-to-one with the people: a direction (shared) or a date (some stay unused) */
   isLoose(c: number): boolean {
     return this.isDir(c) || this.isSlot(c)
@@ -231,7 +236,7 @@ export class Ctx {
   posShort(f: number): string {
     if (this.grid) return `${this.rowOf(f) + 1}${this.flatLetter(f)}`
     if (this.tworow) return `${this.rowIdx(f) + 1}.${this.seatIdx(f) + 1}`
-    if (this.p.unordered || this.p.values) return (this.p.labels as string[])[f] // whole names / full years, never cut to three letters
+    if (this.p.unordered || (this.p.values && /^\d+$/.test((this.p.labels as string[])[f]))) return (this.p.labels as string[])[f] // whole names / full years, never cut to three letters
     if (this.dated) return (this.p.labels as string[])[f].replace(/^(\w{3})\w*/, '$1')
     return this.named ? (this.p.labels as string[])[f].slice(0, 3) : String(this.posNum(f))
   }
@@ -500,12 +505,14 @@ export class Ctx {
           if (d * 2 > this.n) d -= this.n
         }
         const k = Math.abs(d)
+        if (a.by === 'value' && this.calendarGaps) return `${L(a.x)} is${not} exactly ${k} ${k === 1 ? this.unit : this.units} ${d > 0 ? 'after' : 'before'} ${L(a.y)} on the calendar`
         if (a.on === 'slot') {
           const u = this.p.slotUnit ?? 'date'
           const up = u === 'floor' ? (d > 0 ? 'above' : 'below') : d > 0 ? 'after' : 'before'
           return `${L(a.x)} is${not} ${k === 1 ? (u === 'floor' ? 'immediately ' : `the ${u} `) : `exactly ${k} ${u}s `}${up} ${L(a.y)}`
         }
-        const how = k === 1 ? 'immediately ' : `exactly ${k} ${this.units} `
+        // in a calendar puzzle "places" are people in the order (the calendar gap is the `by: value` wording above)
+        const how = k === 1 ? 'immediately ' : `exactly ${k} ${this.calendarGaps ? 'places' : this.units} `
         return `${L(a.x)} is${not} ${how}${dir(d > 0)} ${L(a.y)}${a.ref || this.p.square ? `, as seen by ${L(a.y)}` : ''}`
       }
       case 'rank':
@@ -516,6 +523,7 @@ export class Ctx {
         if (a.on === 'slot') return `${L(a.x)} and ${L(a.y)} are${not} on consecutive ${this.p.slotUnit ?? 'date'}s`
         return `${L(a.x)} and ${L(a.y)} are${not} on neighbouring ${this.units}`
       case 'gap':
+        if (a.by === 'value' && this.calendarGaps) return `${a.neg ? 'not ' : ''}exactly ${a.k} calendar ${a.k === 1 ? this.unit : this.units} between ${L(a.x)} and ${L(a.y)}`
         if (a.on === 'slot') {
           const u = this.p.slotUnit ?? 'date'
           return `${a.neg ? 'not ' : ''}exactly ${a.k} ${u}${a.k === 1 ? '' : 's'} between ${L(a.x)} and ${L(a.y)}`
@@ -724,6 +732,8 @@ export function atomTest(a: Atom, n = 0, circ = false, cols = 1, m = 0, sq = 0, 
         const x = (gx as (v: number[]) => number)(v)
         const y = (gy as (v: number[]) => number)(v)
         if (x < 0 || y < 0) return false
+        // "three months before": the real calendar gap (months listed with gaps count as they are on the calendar), not the gap between listed ones
+        if (a.by === 'value') return !!vals && vals[x] - vals[y] === a.d
         // facing south, a person's left is to the east: the same words mean the opposite way round
         const flip = a.ref && (dirOf(a.y) as (v: number[]) => number)(v) === 1 ? -1 : 1
         return circ ? md(x - y) === md(a.d * right(y)) : grp(x) === grp(y) && idx(x) - idx(y) === a.d * flip
@@ -752,6 +762,10 @@ export function atomTest(a: Atom, n = 0, circ = false, cols = 1, m = 0, sq = 0, 
         const y = (gy as (v: number[]) => number)(v)
         if (x < 0 || y < 0) return false
         const hi = a.hi ?? a.k
+        if (a.by === 'value') {
+          const between = vals ? Math.abs(vals[x] - vals[y]) - 1 : -1
+          return x !== y && between >= a.k && between <= hi
+        }
         if (circ) return [...Array(hi - a.k + 1).keys()].some((q) => md(x - y) === a.k + q + 1 || md(x - y) === n - (a.k + q) - 1)
         const between = Math.abs(idx(x) - idx(y)) - 1
         return grp(x) === grp(y) && between >= a.k && between <= hi

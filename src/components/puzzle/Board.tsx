@@ -340,7 +340,7 @@ export default function Board({
   ];
   const flatCols = ctx.cols;
   const floorRows = n / flatCols;
-  const labelCol = p.values ? (p.baseYear !== undefined ? "4.5rem" : "3.5rem") : p.unordered ? "5.5rem" : ctx.dated ? "4.25rem" : ctx.named ? "3rem" : "2.25rem";
+  const labelCol = p.baseYear !== undefined ? "4.5rem" : p.values && /^\d+$/.test(p.labels?.[0] ?? "") ? "3.5rem" : p.unordered ? "5.5rem" : ctx.dated ? "4.25rem" : ctx.named ? "3rem" : "2.25rem";
   const unitHead = ctx.unit.replace(/^./, (m) => m.toUpperCase());
 
   return (

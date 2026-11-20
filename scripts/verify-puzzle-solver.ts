@@ -420,6 +420,31 @@ const STOREY_CASES: [string, string][] = [
   ['The number of persons above A is same as the number of persons below B.', 'as many people above A as below B'],
 ]
 
+const BOXCOLOR_HEADER = `Six boxes viz. H, I, J, K, L & M are placed one above the other in six different shelves such that the lowermost shelf is numbered as 1 and the topmost shelf is numbered as 6. Each box is of different color viz. Hex, Gray, Azure, Crimson, Orange, and Coral.
+`
+
+// compound clues with a lost subject, plural "boxes L and M", "color box" and "neither … nor placed …"
+const BOXCOLOR_CASES: [string, string][] = [
+  ['The number of boxes below the Azure color box is the same as above box J.', 'as many boxes below the Azure box as above J'],
+  ['The Orange box is placed on an odd-numbered shelf and two boxes above box L.', 'the Orange box is in an odd-numbered place ; the Orange box is exactly 2 places above L'],
+  ['Box I is neither Hex nor placed above box K.', "I's color is not Hex ; I is not somewhere above K"],
+  ['Hex color box is placed adjacent to box J and three boxes below box K.', 'the Hex box and J are on neighbouring places ; the Hex box is exactly 3 places below K'],
+  ['Only two boxes are placed between boxes L and M, which is Azure in color.', "M's color is Azure ; exactly 2 boxes between L and M"],
+  ['Two boxes are placed between boxes L and M.', 'exactly 2 boxes between L and M'],
+]
+
+const GAPMONTH_HEADER = `Four persons A, B, C, D were born in four different months viz. August, January, May and March of the same year.
+`
+
+// months listed with gaps: "N months before" is the real calendar gap, "N persons before" is N places in the order
+const GAPMONTH_CASES: [string, string][] = [
+  ['A was born three months before B.', 'A is exactly 3 months before B on the calendar'],
+  ['A was born two months after B.', 'A is exactly 2 months after B on the calendar'],
+  ['There are two months between A and B.', 'exactly 2 calendar months between A and B'],
+  ['A was born immediately before B.', 'A is immediately before B'],
+  ['A was born three persons before B.', 'A is exactly 3 places before B'],
+]
+
 const FLOOR_EXTRA: [string, string][] = [
   ['A lives on a prime-numbered floor.', 'A is on floor 2, 3, 5 or 7'],
   ['A does not live on a prime-numbered floor.', 'A is not on floor 2, 3, 5 or 7'],
@@ -531,6 +556,8 @@ runParserTable(WEEK6_HEADER, WEEK6_CASES)
 runParserTable(CLASS_HEADER, CLASS_CASES)
 runParserTable(YEAR_HEADER, YEAR_CASES)
 runParserTable(STOREY_HEADER, STOREY_CASES)
+runParserTable(GAPMONTH_HEADER, GAPMONTH_CASES)
+runParserTable(BOXCOLOR_HEADER, BOXCOLOR_CASES)
 runParserTable(ROW_HEADER, ROW_NEITHER)
 runParserTable(FLOOR_HEADER, FLOOR_EXTRA)
 runParserTable(ORDER_HEADER, ORDER_EXTRA)
@@ -798,6 +825,30 @@ for (const s of SAMPLES) {
   }
 }
 
+// January, March, May, August: "three months before" is the calendar gap (May → August); "three persons before" is three places (January → August)
+{
+  const pairsOf = (clue: string) => {
+    const r = parsePuzzle(`${GAPMONTH_HEADER}${clue}`)
+    const e = r.puzzle ? enumerate(r.puzzle, 50) : null
+    return r.puzzle && e ? [...new Set(e.sols.map((s) => `${(r.puzzle as Puzzle).labels?.[s.pos[0]]}>${(r.puzzle as Puzzle).labels?.[s.pos[1]]}`))].sort().join(' ') : 'no puzzle'
+  }
+  const a = pairsOf('A was born three months before B.')
+  if (a !== 'May>August') fail(`calendar gap: "three months before" gave ${a}, expected May>August`)
+  const b = pairsOf('A was born three persons before B.')
+  if (b !== 'January>August') fail(`calendar gap: "three persons before" gave ${b}, expected January>August`)
+  const c = pairsOf('There are two months between A and B.')
+  if (c !== 'August>May May>August') fail(`calendar gap: "two months between" gave ${c}`)
+}
+
+// six boxes on shelves with colours (exam puzzle): exactly one arrangement, M on shelf 6 is Azure and L on shelf 3
+{
+  const text = `${BOXCOLOR_HEADER}Gray color box is placed on an even-numbered shelf and immediately above the Coral color box. The number of boxes below the Azure color box is the same as above box J. The Orange box is placed on an odd-numbered shelf and two boxes above box L. Box I is neither Hex nor placed above box K. Hex color box is placed adjacent to box J and three boxes below box K. Only two boxes are placed between boxes L and M, which is Azure in color.`
+  const r = parsePuzzle(text)
+  const e = r.puzzle ? enumerate(r.puzzle, 5) : null
+  if (!r.puzzle || r.unparsed.length || !e || e.sols.length !== 1) fail(`boxes and colours: expected one solution, got ${e ? e.sols.length : 'no puzzle'}`)
+  else if (r.puzzle.people.map((_, i) => e.sols[0].pos[i] + 1).join('') !== '241536' || e.sols[0].val[0].join('') !== '013452') fail('boxes and colours: wrong arrangement')
+}
+
 // mistakes in the input are reported, not guessed at
 for (const [label, text, needle] of [
   ['no people', 'Hello there. A lives above B.', 'list of people'],
@@ -866,6 +917,13 @@ function holds(p: Puzzle, sol: Solution, a: Atom): boolean {
       const cmp = (rel: string | undefined, u: number, v: number) => (rel === undefined ? true : rel === 'gt' ? u > v : rel === 'lt' ? u < v : rel === 'eq' ? u === v : u !== v)
       r = cmp(a.row, Math.floor(sx / cols), Math.floor(sy / cols)) && cmp(a.col, sx % cols, sy % cols)
     }
+    return a.neg ? !r : r
+  }
+  if ((a.t === 'diff' || a.t === 'gap') && a.by === 'value' && p.values) {
+    // months / years / days counted on the calendar, whatever the listed ones are
+    const vx = p.values[at(a.x)]
+    const vy = p.values[at(a.y)]
+    r = a.t === 'diff' ? vx - vy === a.d : at(a.x) !== at(a.y) && Math.abs(vx - vy) - 1 >= a.k && Math.abs(vx - vy) - 1 <= (a.hi ?? a.k)
     return a.neg ? !r : r
   }
   if (m && a.t !== 'logic' && a.t !== 'link') {
@@ -1270,6 +1328,8 @@ function randomAtom(p: Puzzle, hidden: Solution): Atom {
       const c = ri(p.cats.length)
       atom = { t: 'link', x: { k: 'p', i: ri(p.n) }, y: { k: 'v', c, i: ri(p.n) } }
     } else atom = { t: 'diff', x, y, d: ri(2) ? 1 : -1 }
+    // months listed with gaps: some clues count real calendar months ("three months before")
+    if (p.values && p.axis === 'order' && (atom.t === 'diff' || atom.t === 'gap') && rnd() < 0.5) atom = atom.t === 'diff' ? { ...atom, d: (ri(2) ? 1 : -1) * (1 + ri(9)), by: 'value' } : { ...atom, k: ri(5), by: 'value' }
     const truth = holds(p, hidden, atom)
     // make it true: negate a false clue (only sensible for some kinds, so keep it for rarely-negated kinds too)
     if (!truth) atom = { ...atom, neg: true } as Atom
@@ -1294,7 +1354,7 @@ function randomPuzzle(n: number, nCats: number, nClues: number, axis: Puzzle['ax
     cats.push({ name: 'direction', values: ['north', 'south'] })
     hidden.val.push(Array.from({ length: n }, () => ri(2)))
   }
-  const puzzle: Puzzle = { n, axis, topDown: false, people, cats, clues: [], ...(axis === 'order' ? { labels: ['May', 'June', 'July', 'August', 'September', 'October'].slice(0, n), unit: 'month', on: 'in', verb: 'was born' } : {}) }
+  const puzzle: Puzzle = { n, axis, topDown: false, people, cats, clues: [], ...(axis === 'order' ? { labels: ['January', 'March', 'April', 'July', 'August', 'November'].slice(0, n), values: [1, 3, 4, 7, 8, 11].slice(0, n), unit: 'month', on: 'in', verb: 'was born' } : {}) }
   if (axis === 'circle') puzzle.facing = 'out'
   if (mixed) puzzle.dirCat = cats.length - 1
   if (square) puzzle.square = true
@@ -1485,7 +1545,7 @@ for (const s of SAMPLES) {
   console.log('app generator, end to end: ' + Object.entries(tally).map(([k, v]) => `${k} ${v.checked} checked (${v.skipped} of an unsupported layout skipped)`).join('; '))
 }
 
-console.log(`parser: ${FLOOR_CASES.length + ROW_CASES.length + ORDER_CASES.length + DAY_CASES.length + CIRCLE_CASES.length + GRID_CASES.length + BOX_CASES.length + TWOROW_CASES.length + BDAY_CASES.length + SQUARE_CASES.length + PENT_CASES.length + RANK_CASES.length + VAC_CASES.length + SOUTH_CASES.length + WEEK_CASES.length + WEEK6_CASES.length + CLASS_CASES.length + YEAR_CASES.length + STOREY_CASES.length + ROW_NEITHER.length + FLOOR_VIZ.length + FLOOR_EXTRA.length + ORDER_EXTRA.length} phrasings checked`)
+console.log(`parser: ${FLOOR_CASES.length + ROW_CASES.length + ORDER_CASES.length + DAY_CASES.length + CIRCLE_CASES.length + GRID_CASES.length + BOX_CASES.length + TWOROW_CASES.length + BDAY_CASES.length + SQUARE_CASES.length + PENT_CASES.length + RANK_CASES.length + VAC_CASES.length + SOUTH_CASES.length + WEEK_CASES.length + WEEK6_CASES.length + CLASS_CASES.length + YEAR_CASES.length + STOREY_CASES.length + GAPMONTH_CASES.length + BOXCOLOR_CASES.length + ROW_NEITHER.length + FLOOR_VIZ.length + FLOOR_EXTRA.length + ORDER_EXTRA.length} phrasings checked`)
 console.log(`engine vs brute force: ${compared} random puzzles (${uniqueTraced} with a unique answer traced, ${multiple} with several answers)`)
 console.log(`step kinds: ${JSON.stringify(kinds)}; ${trials} case-analysis trials`)
 console.log(`teaching trace: ${eliminations} crossings checked for soundness, ${whatIfs} what-if simulations refuted`)
