@@ -13,6 +13,7 @@ const VedicLesson =lazy(() => import('./pages/vedic/VedicLesson'))
 const VedicPractice = lazy(() => import('./pages/vedic/VedicPractice'))
 const SquareCubeRoots =lazy(() => import('./pages/games/SquareCubeRoots'))
 const QuadraticEquations = lazy(() => import('./pages/games/QuadraticEquations'))
+const QuadraticBank = lazy(() => import('./pages/quant/QuadraticBank'))
 const QuantityComparison = lazy(() => import('./pages/games/QuantityComparison'))
 const SeriesWarmup = lazy(() => import('./pages/games/SeriesWarmup'))
 const FlashChain = lazy(() => import('./pages/games/FlashChain'))
@@ -133,6 +134,7 @@ export default function App() {
           <Route path="/maths/factor-pairs" element={<FactorPairs />} />
           <Route path="/maths/square-cube-roots" element={<SquareCubeRoots />} />
           <Route path="/maths/quadratic-equations" element={<QuadraticEquations />} />
+          <Route path="/maths/quadratic-bank" element={<QuadraticBank />} />
           <Route path="/maths/quantity-comparison" element={<QuantityComparison />} />
           <Route path="/maths/series-warmup" element={<SeriesWarmup />} />
           <Route path="/maths/flash-chain" element={<FlashChain />} />

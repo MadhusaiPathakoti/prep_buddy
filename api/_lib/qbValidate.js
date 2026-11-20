@@ -76,6 +76,11 @@ export function cleanQuestionInput(body, now = Date.now()) {
     answer = body.answer
   }
 
+  return { stem, options, answer, ...cleanTags(body, now), allowSimilar: body.allowSimilar === true }
+}
+
+/** The optional exam name, exam type and year that go with any added question. */
+function cleanTags(body, now) {
   const examName = canonicalExamName(body.examName)
   const examType = EXAM_TYPES.includes(body.examType) ? body.examType : DEFAULT_EXAM_TYPE
 
@@ -86,6 +91,17 @@ export function cleanQuestionInput(body, now = Date.now()) {
     if (!Number.isInteger(y) || y < MIN_YEAR || y > max) throw new BadInput(`The year must be between ${MIN_YEAR} and ${max}.`)
     year = y
   }
+  return { examName, examType, year }
+}
 
-  return { stem, options, answer, examName, examType, year, allowSimilar: body.allowSimilar === true }
+export const QUADRATIC_TEXT_MAX = 400
+
+/** What a person submits to the quadratic bank: the two pasted equations, plus the same optional tags. */
+export function cleanQuadraticInput(body, now = Date.now()) {
+  if (!body || typeof body !== 'object' || Array.isArray(body)) throw new BadInput('Invalid request.')
+  const text = tidy(body.text, { multiline: true })
+  if (text.length < 5) throw new BadInput('Paste the two equations (I. and II.).')
+  if (text.length > QUADRATIC_TEXT_MAX) throw new BadInput(`That is too long for two equations (${QUADRATIC_TEXT_MAX} characters at most).`)
+  if (LINK.test(text)) throw new BadInput('Links are not allowed in a question.')
+  return { text, ...cleanTags(body, now) }
 }

@@ -7,6 +7,7 @@
 //          public/qbank/manifest.json       counts, so the app can show totals without loading every file
 //          public/qbank/index.json          one short row per question (tags + a preview line), so the table can filter without loading any question text
 //          api/_lib/seedSigs.json           each question's id and similarity fingerprint, so the server can tell a new question is a copy of one of these
+//          api/_lib/seedQuadKeys.json       the same for quadratic questions by their equations, so a retyped copy of one is caught (scripts/quad-keys.ts)
 // Run:     npm run build:qbank [perSet]     perSet = questions per (generator, difficulty); default 90, fewer for topics whose templates run out
 
 import { mkdirSync, rmSync, writeFileSync } from 'node:fs'
@@ -14,6 +15,7 @@ import { join } from 'node:path'
 import { previewOf } from '../api/_lib/qbIndex.js'
 import { questionKey } from '../api/_lib/qbankKey.js'
 import { signatureOf } from '../api/_lib/qbSimilar.js'
+import { writeQuadKeys } from './quad-keys'
 import { QUANT_GENERATORS } from '../src/lib/mocks/quant'
 import { QUANT_MAINS_GENERATORS } from '../src/lib/mocks/quant/mains'
 import { createRng } from '../src/lib/mocks/rng'
@@ -161,6 +163,7 @@ writeFileSync(join(process.cwd(), 'api', '_lib', 'seedSigs.json'), JSON.stringif
 writeFileSync(join(OUT_DIR, 'manifest.json'), JSON.stringify(manifest, null, 1) + '\n')
 
 console.log(`questions: ${manifest.total} across ${Object.keys(manifest.topics).length} topics (${PER_SET} per generator and difficulty)`)
+console.log(`quadratic questions the equation reader can match against pasted ones: ${quadKeys}`)
 console.log(`duplicates dropped: ${duplicates}; sets skipped (need a table or chart): ${skippedSets}`)
 for (const [topic, info] of Object.entries(manifest.topics)) {
   console.log(`  ${topic.padEnd(22)} ${String(info!.count).padStart(4)}  (medium ${info!.byDifficulty.medium}, hard ${info!.byDifficulty.hard})`)

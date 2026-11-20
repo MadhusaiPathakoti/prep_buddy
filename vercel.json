@@ -1,6 +1,6 @@
 {
   "functions": {
-    "api/qb.js": { "maxDuration": 60, "includeFiles": "api/_lib/seedSigs.json" }
+    "api/qb.js": { "maxDuration": 60, "includeFiles": "api/_lib/seed*.json" }
   },
   "headers": [
     {

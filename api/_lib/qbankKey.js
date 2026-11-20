@@ -37,3 +37,12 @@ export function questionKey(stem, options) {
   const digest = createHash('sha256').update(JSON.stringify([normalizeText(stem), opts])).digest('hex')
   return `q-${digest.slice(0, 20)}`
 }
+
+/**
+ * The id of a quadratic-equations question: a fingerprint of the two equations' canonical form (see qbQuadratic.js), not of the
+ * typed text, so `6x² − 5√6x + 4 = 0`, `6x^2-5√6x+4=0` and `6x² + 4 = 5√6x` are one question. Same `q-` + 20 hex digits shape as
+ * questionKey, so everything that handles a question id handles this one too.
+ */
+export function quadraticKey(canonical) {
+  return `q-${createHash('sha256').update(String(canonical)).digest('hex').slice(0, 20)}`
+}

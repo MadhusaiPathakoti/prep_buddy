@@ -10,6 +10,8 @@ export interface MathGame {
   cta?: string
   /** Small label shown next to the icon. */
   tag?: string
+  /** False for a card that is not a scored game (a question bank): the hub shows no best-score line for it. */
+  stats?: boolean
 }
 
 export interface MathSection {
@@ -177,13 +179,6 @@ export const SHORTCUT_GAMES: MathGame[] = [
     icon: '√',
   },
   {
-    id: 'quadratic-equations',
-    title: 'Quadratic Equations',
-    description: 'Factorise two equations (including the surd-root type) and compare x and y, exactly like the Prelims.',
-    to: '/maths/quadratic-equations',
-    icon: 'x²',
-  },
-  {
     id: 'quantity-comparison',
     title: 'Quantity Comparison',
     description: 'Quantity I: x, where 5x + 13 = 43 against Quantity II: y, where 4y + 13 = 49. Pick > , ≥ , < , ≤ or no relation.',
@@ -196,6 +191,27 @@ export const SHORTCUT_GAMES: MathGame[] = [
     description: 'Type the next term: squares, cubes, n² ± n, primes, running totals, interleaved series.',
     to: '/maths/series-warmup',
     icon: '1·4·9',
+  },
+]
+
+/** Quadratic Equations: a game to practise on, and a bank of questions that people can add to. */
+export const QUADRATIC_GAMES: MathGame[] = [
+  {
+    id: 'quadratic-equations',
+    title: 'Quadratic Equations Game',
+    description: 'Factorise two equations (including the surd-root type) and compare x and y, exactly like the Prelims.',
+    to: '/maths/quadratic-equations',
+    icon: 'x²',
+  },
+  {
+    id: 'quadratic-bank',
+    title: 'Quadratic Question Bank',
+    description: 'Paste the two equations of any question: the answer and a full step-by-step solution are worked out exactly and saved, with duplicates caught.',
+    to: '/maths/quadratic-bank',
+    icon: '📚',
+    cta: 'Open',
+    tag: 'Bank',
+    stats: false,
   },
 ]
 
@@ -241,6 +257,12 @@ export const MATH_SECTIONS: MathSection[] = [
     title: 'Vedic Maths',
     blurb: 'Classic Vedic shortcuts for lightning-fast mental calculation. Each trick is taught step by step first, then drilled in a practice game.',
     games: VEDIC_GAMES,
+  },
+  {
+    id: 'quadratic',
+    title: 'Quadratic Equations',
+    blurb: 'Solve two equations and compare x and y: practise in the game, and build a bank of questions with exact worked solutions.',
+    games: QUADRATIC_GAMES,
   },
   {
     id: 'shortcuts',

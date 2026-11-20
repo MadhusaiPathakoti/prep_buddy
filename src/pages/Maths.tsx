@@ -53,7 +53,9 @@ export default function Maths() {
                   <h3 className="mt-4 text-xl font-bold text-slate-900 dark:text-slate-100">{g.title}</h3>
                   <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">{g.description}</p>
                   <div className="mt-4 flex items-center justify-between text-sm">
-                    {summary.bestAccuracy !== null ? (
+                    {g.stats === false ? (
+                      <span />
+                    ) : summary.bestAccuracy !== null ? (
                       <span className="font-medium text-emerald-600 dark:text-emerald-400">Best {Math.round(summary.bestAccuracy)}%</span>
                     ) : (
                       <span className="font-medium text-slate-400 dark:text-slate-500">{g.cta ? 'Not practised yet' : 'Not played yet'}</span>
