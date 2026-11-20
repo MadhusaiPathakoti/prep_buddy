@@ -224,7 +224,7 @@ export default function MCQQuizRunner({ gameId, questions, onExit, onRestart, sh
           {current.instruction && (
             <div className="mb-2 text-xs font-semibold uppercase tracking-wide text-indigo-500 dark:text-indigo-400">{current.instruction}</div>
           )}
-          {pronounce?.term ? (
+          {pronounce?.term && !current.noPronounce ? (
             <>
               <div className="flex items-center justify-center gap-3">
                 <div className="whitespace-pre-line text-2xl font-bold leading-snug tracking-tight text-slate-900 dark:text-slate-100 sm:text-3xl">{current.term}</div>
@@ -233,7 +233,15 @@ export default function MCQQuizRunner({ gameId, questions, onExit, onRestart, sh
               <Phonetic key={current.id} word={current.term} className="mt-1" />
             </>
           ) : (
-            <div className="whitespace-pre-line text-2xl font-bold leading-snug tracking-tight text-slate-900 dark:text-slate-100 sm:text-3xl">{current.term}</div>
+            <div
+              className={
+                current.termSmall
+                  ? 'whitespace-pre-line text-lg font-semibold leading-relaxed text-slate-900 dark:text-slate-100 sm:text-xl'
+                  : 'whitespace-pre-line text-2xl font-bold leading-snug tracking-tight text-slate-900 dark:text-slate-100 sm:text-3xl'
+              }
+            >
+              {current.term}
+            </div>
           )}
 
           {!hintShown && !revealAnswer && (

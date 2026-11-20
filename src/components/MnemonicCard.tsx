@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react'
+import { highlight } from './highlightWord'
 import { SpeakerButton } from './Pronounce'
 import { formatFavoritedDate } from '../lib/favorites'
 import { mnemonicImageUrl, type MnemonicWord } from '../lib/mnemonicVocab'
@@ -9,24 +9,6 @@ export function MnemonicImage({ n, alt = 'Picture clue', className = '' }: { n: 
     <div className={`flex items-center justify-center overflow-hidden rounded-xl bg-slate-50 dark:bg-slate-900/40 ${className}`}>
       <img src={mnemonicImageUrl(n)} alt={alt} loading="lazy" decoding="async" className="max-h-full max-w-full object-contain" />
     </div>
-  )
-}
-
-/** Bolds the word (and forms like "abashed" / "abating") wherever it appears in an example sentence. */
-function highlight(sentence: string, word: string): ReactNode {
-  const clean = word.replace(/[^\p{L}\s'-]/gu, '').trim()
-  if (!clean) return sentence
-  const stem = clean.length > 4 ? clean.slice(0, -1) : clean
-  const escaped = stem.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
-  const parts = sentence.split(new RegExp(`(${escaped}[\\p{L}'-]*)`, 'iu'))
-  return parts.map((p, i) =>
-    i % 2 === 1 ? (
-      <strong key={i} className="font-semibold not-italic text-indigo-600 dark:text-indigo-400">
-        {p}
-      </strong>
-    ) : (
-      p
-    ),
   )
 }
 
@@ -98,7 +80,7 @@ export default function MnemonicCard({ word, isFavorite = false, favoritedAt, on
   )
 }
 
-function WordChips({ label, words, tone }: { label: string; words: string[]; tone: 'emerald' | 'rose' }) {
+export function WordChips({ label, words, tone }: { label: string; words: string[]; tone: 'emerald' | 'rose' }) {
   const chip =
     tone === 'emerald'
       ? 'bg-emerald-50 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-300'

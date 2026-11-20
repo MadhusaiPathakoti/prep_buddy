@@ -74,6 +74,9 @@ const MnemonicHub = lazy(() => import('./pages/mnemonic/MnemonicHub'))
 const MnemonicLearn = lazy(() => import('./pages/mnemonic/MnemonicLearn'))
 const MnemonicLibrary = lazy(() => import('./pages/mnemonic/MnemonicLibrary'))
 const MnemonicRevise = lazy(() => import('./pages/mnemonic/MnemonicRevise'))
+const HinduHub = lazy(() => import('./pages/hindu/HinduHub'))
+const HinduLibrary = lazy(() => import('./pages/hindu/HinduLibrary'))
+const HinduPractice = lazy(() => import('./pages/hindu/HinduPractice'))
 const WordBankLibrary = lazy(() => import('./pages/wordbank/WordBankLibrary'))
 const AddWordBankEntry = lazy(() => import('./pages/wordbank/AddWordBankEntry'))
 const PhraseRearrangement = lazy(() => import('./pages/games/PhraseRearrangement'))
@@ -184,6 +187,9 @@ export default function App() {
           <Route path="/english/mnemonic-vocab/learn" element={<MnemonicLearn />} />
           <Route path="/english/mnemonic-vocab/library" element={<MnemonicLibrary />} />
           <Route path="/english/mnemonic-vocab/revise" element={<MnemonicRevise />} />
+          <Route path="/english/hindu-vocab" element={<HinduHub />} />
+          <Route path="/english/hindu-vocab/library" element={<HinduLibrary />} />
+          <Route path="/english/hindu-vocab/practice" element={<HinduPractice />} />
           <Route path="/english/word-bank/library" element={<WordBankLibrary />} />
           <Route path="/english/word-bank/add" element={<AddWordBankEntry />} />
           <Route path="/english/phrase-rearrangement" element={<PhraseRearrangement />} />

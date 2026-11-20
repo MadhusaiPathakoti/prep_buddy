@@ -264,6 +264,10 @@ export interface MCQQuestion {
   explanation?: string
   /** Background the question depends on (e.g. a set of coded statements), shown in a box above the term. Optional. */
   context?: string
+  /** Show the term in a smaller, sentence-friendly size (e.g. a fill-in-the-blank sentence). Optional. */
+  termSmall?: boolean
+  /** Never show a speaker/phonetics for this term, even when the runner has `pronounce.term` on (e.g. it is a sentence or Hindi). Optional. */
+  noPronounce?: boolean
 }
 
 /** MCQ questions: pick an entry from a bank (vocabulary, idioms, ...) at the chosen difficulty (or 'mixed' for all difficulties), with 3 wrong meanings as distractors. */
