@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import AlphaNumQuizRunner from '../../components/AlphaNumQuizRunner'
+import AlphabetLearnDialog from '../../components/AlphabetLearnDialog'
 import { generateAlphaNumericQuestions, type AlphaNumQuestion, type AlphaNumSystem, type AlphaNumDirection } from '../../lib/generators'
 
 const QUESTION_COUNTS = [10, 15, 20, 26]
@@ -23,6 +24,7 @@ export default function AlphaNumericTest() {
   const [count, setCount] = useState(15)
   const [questions, setQuestions] = useState<AlphaNumQuestion[] | null>(null)
   const [sessionKey, setSessionKey] = useState(0)
+  const [showLearn, setShowLearn] = useState(false)
 
   function generate() {
     return generateAlphaNumericQuestions(system, direction, count)
@@ -53,7 +55,16 @@ export default function AlphaNumericTest() {
       <Link to="/reasoning" className="text-sm text-slate-400 dark:text-slate-500 hover:text-slate-600">
         ← Reasoning
       </Link>
-      <h1 className="mt-2 text-3xl font-extrabold text-slate-900 dark:text-slate-100">Alpha Numeric Test</h1>
+      <div className="mt-2 flex items-start justify-between gap-3">
+        <h1 className="text-3xl font-extrabold text-slate-900 dark:text-slate-100">Alpha Numeric Test</h1>
+        <button
+          onClick={() => setShowLearn(true)}
+          className="shrink-0 rounded-lg bg-indigo-50 dark:bg-indigo-500/10 px-3 py-1.5 text-sm font-semibold text-indigo-600 dark:text-indigo-400 transition hover:bg-indigo-100"
+        >
+          📖 Learn
+        </button>
+      </div>
+      {showLearn && <AlphabetLearnDialog onClose={() => setShowLearn(false)} />}
       <p className="mt-2 text-slate-500 dark:text-slate-400">
         Convert between letters and their position numbers. Forward: A=1 … Z=26. Reverse: Z=-1 … A=-26.
       </p>
