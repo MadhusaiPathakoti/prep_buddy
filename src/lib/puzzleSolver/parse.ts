@@ -1272,7 +1272,7 @@ function parseClueText(sentence: string, lex: Lexicon): Atom[] | null {
       if (a1 && a2) return [...atoms, ...a1, ...a2]
     }
     // "A lives immediately below B and is from Delhi": the second half starts with a verb, so it is a second statement about A
-    const verbSplit = s.split(/\s+and\s+(?=(?:is|are|lives?|stays?|sits?|stands?|likes?|has|have|works?|comes?|belongs?|placed|kept|situated|located|immediately|below|above|somewhere|next|adjacent|between|not|in|on|at|to|(?:more|less|fewer) than|at (?:least|most)|(?:exactly|only) \d+|\d+\s+[a-z]+\s+(?:above|below|before|after))\b)/)
+    const verbSplit = s.split(/\s+and\s+(?=(?:is|are|lives?|stays?|sits?|stands?|likes?|has|have|works?|comes?|belongs?|placed|kept|situated|located|immediately|below|above|somewhere|next|adjacent|between|not|in|on|at|to|(?:more|less|fewer) than|at (?:least|most)|(?:exactly|only) \d+|\d+\s+[a-z]+\s+(?:above|below|before|after)|#\d+\s+(?:left|right) of)\b)/)
     if (verbSplit.length === 2) {
       const subject = verbSplit[0].match(/@\d+/)?.[0]
       const a1 = interpretClause(verbSplit[0], ments, lex)
@@ -1843,34 +1843,61 @@ function parsePuzzleFixed(raw: string): ParseResult {
 const BIG_NUM: Record<string, number> = { ...NUM, eleven: 11, twelve: 12, thirteen: 13, fourteen: 14, fifteen: 15, sixteen: 16, seventeen: 17, eighteen: 18, nineteen: 19, twenty: 20 }
 
 /**
- * "A certain number of persons are sitting around a circular table facing the centre … At least fifteen persons are sitting around the table":
- * only some of the people are named and the size of the table is not given. Each size from the stated minimum up is tried (the people the
- * text does not name are interchangeable "unnamed" seats) and the sizes the clues allow are reported.
+ * Tables / rows of unknown size where only some people are named:
+ *   "A certain number of persons are seating a circular table facing the centre … At least fifteen persons are sitting around the table"
+ *   "Certain number of persons are sitting in the straight row facing north … not more than two known persons sit on the adjacent seats"
+ * Each size from the stated minimum (or the number of named people) up is tried; the people the text does not name are interchangeable
+ * "unnamed" seats, and the sizes the clues allow are reported.
  */
-function parseOpenCircle(raw: string): ParseResult | null {
+function parseOpenSize(raw: string): ParseResult | null {
   const text = normalizeText(raw).trim()
   const sentences = splitSentences(text)
   const minRe = /\b(?:at least|not less than|minimum of|no fewer than)\s+(\d+|[a-z]+)\s+(?:persons?|people)\b/i
-  const kMin = sentences.findIndex((x) => minRe.test(x) && /\b(?:circular|round)\b/i.test(x))
-  if (kMin < 0) return null
-  const mm = sentences[kMin].match(minRe) as RegExpMatchArray
-  const min = BIG_NUM[mm[1].toLowerCase()] ?? Number(mm[1])
-  if (!Number.isFinite(min) || min < 3) return null
-  const isSetup = (x: string, i: number) => i === kMin || /^an? (?:certain|unknown|some) number of (?:persons?|people)\b/i.test(x)
+  const certainRe = /^(?:an? )?(?:certain|unknown|some) number of (?:persons?|people)\b/i
+  const kMin = sentences.findIndex((x) => minRe.test(x) && /\b(?:circular|round|row|line)\b/i.test(x))
+  const kCertain = sentences.findIndex((x) => certainRe.test(x))
+  if (kMin < 0 && kCertain < 0) return null
+  const circle = /\b(?:circular|round)\b/i.test(kMin >= 0 ? sentences[kMin] : sentences[kCertain])
+  const lineLike = /\b(?:row|line|queue)\b/i.test(sentences[kCertain >= 0 ? kCertain : kMin])
+  if (!circle && !lineLike) return null
+  let min = 0
+  if (kMin >= 0) {
+    const mm = sentences[kMin].match(minRe) as RegExpMatchArray
+    min = BIG_NUM[mm[1].toLowerCase()] ?? Number(mm[1])
+    if (!Number.isFinite(min) || min < 3) return null
+  }
+  // "not more than two known persons sit on the adjacent seats"
+  const runRe = /\bnot more than (\w+) (?:known|named)?\s*(?:persons?|people) (?:sit|sits|are sitting|are seated) (?:on|in) (?:the )?(?:adjacent|neighbou?ring) (?:seats|places)\b/i
+  let maxRun: number | undefined
+  const kRun = sentences.findIndex((x) => runRe.test(x))
+  if (kRun >= 0) {
+    const w = (sentences[kRun].match(runRe) as RegExpMatchArray)[1].toLowerCase()
+    maxRun = BIG_NUM[w] ?? Number(w)
+    if (!Number.isFinite(maxRun)) maxRun = undefined
+  }
+  const isSetup = (x: string, i: number) => i === kMin || i === kCertain
   const setup = sentences.filter(isSetup).join(' ')
-  const clues = sentences.filter((x, i) => !isSetup(x, i))
+  const clues = sentences.filter((x, i) => !isSetup(x, i) && i !== kRun)
   const named = new Set<string>()
-  for (const x of clues) for (const l of x.matchAll(/(?<![A-Za-z0-9'])([A-Z])(?![A-Za-z0-9'])/g)) named.add(l[1])
+  for (const x of clues) {
+    if (runRe.test(x) || /^the distance between\b/i.test(x)) continue
+    for (const l of x.matchAll(/(?<![A-Za-z0-9'])([A-Z])(?![A-Za-z0-9'])/g)) named.add(l[1])
+  }
   if (named.size < 3) return null
   const names = [...named].sort()
-  const facing = /\b(?:outside|outward|away)\b/i.test(setup) ? 'facing outside' : 'facing the centre'
+  const south = /\b(?:south|southward)\b/i.test(setup)
+  const facing = circle ? (/\b(?:outside|outward|away)\b/i.test(setup) ? 'facing outside' : 'facing the centre') : ''
+  const where = circle ? `around a circular table ${facing}` : 'in a row'
   const tryN = (n: number): { r: ParseResult; ok: boolean } => {
     const fill = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('').filter((l) => !named.has(l)).slice(0, n - names.length)
-    const header = `${n} persons - ${[...names, ...fill].join(', ')} - are sitting around a circular table ${facing}.`
-    const r = parsePuzzleFixed(`${header}
-${clues.join(' ')}`)
+    const header = `${n} persons - ${[...names, ...fill].join(', ')} - are sitting ${where}.${!circle && south ? ' All of them are facing south.' : ''}`
+    const r = parsePuzzleFixed(`${header}\n${clues.join(' ')}`)
     if (!r.puzzle) return { r, ok: false }
     r.puzzle.anon = names.length
+    if (maxRun !== undefined) {
+      r.puzzle.maxNamedRun = maxRun
+      r.puzzle.clues.push({ id: r.puzzle.clues.length + 1, text: sentences[kRun], atoms: [] }) // applied by the engine itself (no atom): at most this many named people side by side
+    }
     r.puzzle.people = r.puzzle.people.map((p, i) => (i < names.length ? p : `?${i - names.length + 1}`))
     if (r.summary) r.summary.people = r.puzzle.people
     const e = enumerate(r.puzzle, 1)
@@ -1886,20 +1913,22 @@ ${clues.join(' ')}`)
     if (t.ok) feasible.push(n)
   }
   if (!first) return null
+  const sizeText = min ? `at least ${min}` : `at least the ${names.length} named`
   if (feasible.length === 0) {
-    first.r.warnings.push(`The text says at least ${min} persons, so the table was tried with ${lo} to ${MAX_N} persons; none of those sizes fits every clue.`)
+    first.r.warnings.push(`The text does not say how many persons there are (${sizeText}), so sizes ${lo} to ${MAX_N} were tried; none of them fits every clue.`)
     return first.r
   }
   const chosen = tryN(feasible[0])
   const unnamed = feasible[0] - names.length
+  const what = circle ? 'sit at the table' : 'sit in the row'
   chosen.r.warnings.push(
     feasible.length === 1 && feasible[0] < MAX_N
-      ? `The text does not say how many persons sit at the table (at least ${min}). Only ${feasible[0]} persons fit every clue, so the table has ${feasible[0]}: the ${names.length} named people and ${unnamed} unnamed ones (shown as ?1, ?2 …).`
-      : `The text does not say how many persons sit at the table (at least ${min}); sizes ${feasible.join(', ')} fit the clues. Showing ${feasible[0]} persons: the ${names.length} named people and ${unnamed} unnamed ones (shown as ?1, ?2 …).`,
+      ? `The text does not say how many persons ${what} (${sizeText}). Only ${feasible[0]} persons fit every clue, so there are ${feasible[0]}: the ${names.length} named people and ${unnamed} unnamed ones (shown as ?1, ?2 …).`
+      : `The text does not say how many persons ${what} (${sizeText}); sizes ${feasible.join(', ')} fit the clues. Showing ${feasible[0]} persons: the ${names.length} named people and ${unnamed} unnamed ones (shown as ?1, ?2 …).`,
   )
   return chosen.r
 }
 
 export function parsePuzzle(raw: string): ParseResult {
-  return parseOpenCircle(raw) ?? parsePuzzleFixed(raw)
+  return parseOpenSize(raw) ?? parsePuzzleFixed(raw)
 }

@@ -424,4 +424,31 @@ The number of floors below N is same as the number of floors above S.
 R lives immediate below P.
 O lives on a prime numbered floor.`,
   },
+  {
+    id: 'open-row',
+    title: 'A row of unknown length',
+    text: `Certain number of persons are sitting in the straight row facing towards the north direction. The distance between the adjacent persons is equal, and not more than two known persons sit on the adjacent seats.
+
+Five persons sit between P and U, who sits second from one of the ends of the row.
+Six persons sit between R and J, who is an immediate neighbour of L.
+N sits third to the right of R and second to the left of P.
+Only three persons sit to the right of S.
+Four persons sit between S and L.`,
+  },
+  {
+    id: 'open-circle',
+    title: 'A round table of unknown size',
+    multi: true,
+    text: `A certain number of persons are seating a circular table facing towards the centre.
+
+Two persons are sitting between S and W. X and W are immediate neighbors. Y is neither neighbor of W nor X. Z is neighbor of neither X nor W. Not more than six persons sit between U and V when counted from the right of U. At least fifteen persons are sitting around a circular table. T sits third to the right of W. V is to the immediate left of S. U sits third to the right of X. Only five persons sit between Z and Y (either from right or left from Z).`,
+  },
+  {
+    id: 'events-states',
+    title: 'Events, dates & states (some without)',
+    multi: true,
+    text: `Nine events U, S, R, Q, O, E, M, N & P are held on 7th, 19th and 28th of different months (June, July and August) in the same year. Events, whose name starts with consonant, are held in different states among Mizoram, Lakshadweep, Ladakh, Chandigarh, Odisha and Manipur.
+
+Three events are held between N and M, which is held in Ladakh. N is not held in Mizoram. O and E are held after R, which is not held on 7th June. Event in Manipur is held immediately after N, which is held in August. Q is held in Chandigarh. Event in Odisha is held immediately before U, but in different months. P is held after S.`,
+  },
 ]

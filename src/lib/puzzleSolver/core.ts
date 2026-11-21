@@ -34,16 +34,16 @@ export class Grid {
   readonly K: number
   /** rows stored per table: the size of the largest category (n unless a category has more values than there are people) */
   readonly rows: number
-  m: Uint16Array
+  m: Uint32Array
 
   /** `sizes[c]`: how many values category c has (n unless it is a two-valued direction category) */
-  constructor(n: number, K: number, m?: Uint16Array, sizes?: number[]) {
+  constructor(n: number, K: number, m?: Uint32Array, sizes?: number[]) {
     this.n = n
     this.K = K
     this.rows = m ? m.length / (K * K) : Math.max(n, ...(sizes ?? []))
     if (m) this.m = m
     else {
-      this.m = new Uint16Array(K * K * this.rows)
+      this.m = new Uint32Array(K * K * this.rows)
       for (let a = 0; a < K; a++) for (let b = 0; b < K; b++) for (let i = 0; i < this.rows; i++) this.m[(a * K + b) * this.rows + i] = (1 << (sizes?.[b] ?? n)) - 1
     }
   }
@@ -61,10 +61,10 @@ export class Grid {
   clone(): Grid {
     return new Grid(this.n, this.K, this.m.slice())
   }
-  snapshot(): Uint16Array {
+  snapshot(): Uint32Array {
     return this.m.slice()
   }
-  static from(snapshot: Uint16Array, n: number, K: number): Grid {
+  static from(snapshot: Uint32Array, n: number, K: number): Grid {
     return new Grid(n, K, snapshot.slice())
   }
 }

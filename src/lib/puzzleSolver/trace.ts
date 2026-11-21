@@ -69,8 +69,8 @@ export interface Step {
   beats: Beat[]
   fixes: CellRef[]
   rows: RowChange[]
-  pre: Uint16Array
-  post: Uint16Array
+  pre: Uint32Array
+  post: Uint32Array
   activeBefore: number[]
   linkedBefore: number[]
   trials: Trial[]
@@ -153,7 +153,7 @@ export function makeBeats(evs: Ev[], ctx: Ctx, earlier: Set<number> = new Set())
     const xs = g.filter((e) => e.op === 'x')
     const reasoned = xs.filter((e) => e.why.kind !== 'taken')
     const taken = xs.length - reasoned.length
-    if (!fix && xs.length > 0 && xs.every((e) => e.why.kind === 'anchor')) {
+    if (!fix && xs.length > 0 && xs.every((e) => e.why.kind === 'anchor' || e.why.kind === 'sym')) {
       beats.push({ gid: xs[0].gid, tone: 'given', headline: `${xs[0].why.text}.`, details: [], evs: g, minor: xs.length })
       continue
     }
@@ -232,7 +232,7 @@ export function makeBeats(evs: Ev[], ctx: Ctx, earlier: Set<number> = new Set())
 }
 
 /** Replays events on a candidate table snapshot (only crossings change the table). */
-export function applyEvents(base: Uint16Array, ctx: Ctx, evs: Ev[]): Grid {
+export function applyEvents(base: Uint32Array, ctx: Ctx, evs: Ev[]): Grid {
   const g = Grid.from(base, ctx.n, ctx.K)
   for (const e of evs) if (e.op === 'x') g.clear(e.a, e.i, e.b, e.j)
   return g
@@ -303,7 +303,7 @@ export function buildTrace(puzzle: Puzzle): Trace {
   const status: Trace['status'] = search.sols.length === 0 ? 'none' : search.sols.length === 1 ? 'unique' : 'multiple'
   const eng = new Engine(puzzle)
   const steps: Step[] = []
-  const remaining = new Set(puzzle.clues.map((c) => c.id))
+  const remaining = new Set(puzzle.clues.filter((c) => c.atoms.length > 0).map((c) => c.id))
   const elim = new Map<string, ElimInfo>()
   const fixes = new Map<string, ElimInfo>()
 
@@ -318,7 +318,7 @@ export function buildTrace(puzzle: Puzzle): Trace {
 
   const finishStep = (
     partial: Pick<Step, 'kind' | 'clues' | 'title' | 'selection' | 'trials'>,
-    pre: Uint16Array,
+    pre: Uint32Array,
     activeBefore: number[],
     evStart: number,
     linkedBefore: number[],
@@ -654,7 +654,7 @@ export function buildTrace(puzzle: Puzzle): Trace {
   const suspects: number[] = []
   const flips: number[] = []
   if (status === 'none') {
-    for (const c of puzzle.clues) {
+    for (const c of puzzle.clues.filter((x) => x.atoms.length > 0)) {
       const without: Puzzle = { ...puzzle, clues: puzzle.clues.filter((x) => x.id !== c.id) }
       if (enumerate(without, 1, 20000).sols.length > 0) suspects.push(c.id)
       const flipped = flipClue(puzzle, c.id)
@@ -734,7 +734,7 @@ export function whyNotRows(trace: Trace, step: Step): WhyNotRow[] {
 export interface SimResult {
   cell: CellRef
   stepIdx: number
-  base: Uint16Array
+  base: Uint32Array
   beats: Beat[]
   clash: string
   proven: boolean // a contradiction was reached
@@ -747,9 +747,11 @@ export function simulate(trace: Trace, cell: CellRef): SimResult | null {
   if (!info) return null
   const { puzzle, ctx } = trace
   const step = trace.steps[info.step]
-  if (info.why.kind === 'anchor') {
+  if (info.why.kind === 'anchor' || info.why.kind === 'sym') {
     const pairText = ctx.pair(cell.a, cell.i, cell.b, cell.j)
-    const note = puzzle.square
+    const note = info.why.kind === 'sym'
+      ? 'That is not a contradiction: swapping interchangeable people (the unnamed ones, or the people without a value) gives the same arrangement, so taking them in a fixed order was a free choice, not something the clues proved.'
+      : puzzle.square
       ? 'That is not a contradiction: it is the same arrangement turned by two seats, so the seat numbers are only labels. Starting one person in seat 1 or 2 was a free choice, not something the clues proved.'
       : 'That is not a contradiction: it is the same arrangement turned round the table, so the seat numbers are only labels. Fixing the first person in seat 1 was a free choice, not something the clues proved.'
     return {

@@ -9,7 +9,7 @@
 import { atomTerms, atomVars, atomTest, bits, hasDerived, cellKey, Ctx, ctz, Grid, pop } from './core'
 import type { Atom, DirTerm, Puzzle, Solution, VarTerm } from './types'
 
-export type WhyKind = 'given' | 'clue' | 'taken' | 'single' | 'trans' | 'case' | 'assume' | 'anchor'
+export type WhyKind = 'given' | 'clue' | 'taken' | 'single' | 'trans' | 'case' | 'assume' | 'anchor' | 'sym'
 
 export interface Why {
   kind: WhyKind
@@ -113,7 +113,7 @@ export class Engine {
   }
 
   /** Rebuilds an engine from a saved candidate table; every pairing that is already certain counts as already announced. */
-  static fromSnapshot(puzzle: Puzzle, snapshot: Uint16Array, active: Iterable<number>, linked: Iterable<number> = []): Engine {
+  static fromSnapshot(puzzle: Puzzle, snapshot: Uint32Array, active: Iterable<number>, linked: Iterable<number> = []): Engine {
     const ctx = new Ctx(puzzle)
     const grid = Grid.from(snapshot, ctx.n, ctx.K)
     const fixed = new Set<string>()
@@ -467,7 +467,41 @@ export class Engine {
         this.newGroup()
         for (const i of bits(rem)) {
           const text = this.quiet ? '' : `${c.lab(0, i)} cannot be the ${j - first + 1}${j - first === 0 ? 'st' : j - first === 1 ? 'nd' : j - first === 2 ? 'rd' : 'th'} person without a ${c.catName(cat)}: the people without one are interchangeable, so they are taken in the order of the list`
-          this.clear(0, i, cat, j, { kind: 'trans', text })
+          this.clear(0, i, cat, j, { kind: 'sym', text })
+          if (this.contra) return
+        }
+      }
+    }
+  }
+
+  /** "Not more than two known persons sit on adjacent seats": among any run of (max + 1) neighbouring seats at least one is unnamed. */
+  private runRule(): void {
+    const c = this.ctx
+    const k = c.p.maxNamedRun
+    const first = c.p.anon
+    if (k === undefined || first === undefined) return
+    const n = c.n
+    const unnamed = ((1 << n) - 1) & ~((1 << first) - 1)
+    for (let p = 0; p + k < n; p++) {
+      let open = -1
+      let cnt = 0
+      for (let q = p; q <= p + k; q++) {
+        if (this.grid.row(1, q, 0) & unnamed) {
+          cnt++
+          open = q
+        }
+      }
+      if (cnt === 0) {
+        this.setContra(`${k + 1} named people would sit on neighbouring seats (${c.posLab(p)} to ${c.posLab(p + k)}), but at most ${k} may`)
+        return
+      }
+      if (cnt === 1) {
+        const rem = this.grid.row(1, open, 0) & ~unnamed
+        if (!rem) continue
+        this.newGroup()
+        for (const i of bits(rem)) {
+          const text = this.quiet ? '' : `${c.lab(0, i)} cannot be on ${c.posLab(open)}: the other seats from ${c.posLab(p)} to ${c.posLab(p + k)} are named people, and at most ${k} named people may sit on neighbouring seats`
+          this.clear(0, i, 1, open, { kind: 'trans', text })
           if (this.contra) return
         }
       }
@@ -506,7 +540,7 @@ export class Engine {
       this.newGroup()
       for (const j of bits(rem)) {
         const text = this.quiet ? '' : `${c.lab(0, i)} cannot sit on ${c.posLab(j)}: the unnamed people are interchangeable, so they are taken in seat order`
-        this.clear(0, i, 1, j, { kind: 'trans', text })
+        this.clear(0, i, 1, j, { kind: 'sym', text })
         if (this.contra) return
       }
     }
@@ -575,6 +609,8 @@ export class Engine {
       this.anonOrder()
       if (this.contra) return false
       this.padOrder()
+      if (this.contra) return false
+      this.runRule()
       if (this.contra) return false
     } while (this.changed && ++guard < 1000)
     return !this.contra

@@ -70,6 +70,8 @@ export interface Category {
 export interface Puzzle {
   /** people from this index on are unnamed (the table is bigger than the people the text names): interchangeable, so the engine takes them in seat order */
   anon?: number
+  /** with unnamed people: at most this many named people sit on neighbouring seats ("not more than two known persons sit on the adjacent seats") */
+  maxNamedRun?: number
   n: number
   axis: Axis
   /** floors are numbered from the top (1 = topmost) instead of from the bottom */
@@ -134,4 +136,4 @@ export interface Solution {
   val: number[][]
 }
 
-export const MAX_N = 16
+export const MAX_N = 24

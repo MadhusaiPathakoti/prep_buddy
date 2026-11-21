@@ -26,7 +26,7 @@ export default function ClueList({ trace, used, now, highlight }: ClueListProps)
       <ol className="mt-2 space-y-1.5">
         {trace.puzzle.clues.map((c) => {
           const isNow = now.includes(c.id)
-          const isUsed = used.has(c.id)
+          const isUsed = used.has(c.id) || c.atoms.length === 0 // a clue the engine applies throughout (no atom) counts as used
           const lit = highlight.includes(c.id)
           return (
             <li
@@ -47,7 +47,7 @@ export default function ClueList({ trace, used, now, highlight }: ClueListProps)
               </span>
               <div className="min-w-0">
                 <div className={isUsed || isNow ? 'text-slate-700 dark:text-slate-200' : 'text-slate-500 dark:text-slate-400'}>{c.text}</div>
-                {reading && <div className="mt-0.5 text-xs text-indigo-600 dark:text-indigo-300">→ {c.atoms.map((a) => trace.ctx.describeAtom(a)).join(' · ')}</div>}
+                {reading && <div className="mt-0.5 text-xs text-indigo-600 dark:text-indigo-300">→ {c.atoms.length ? c.atoms.map((a) => trace.ctx.describeAtom(a)).join(' · ') : trace.puzzle.maxNamedRun !== undefined ? `at most ${trace.puzzle.maxNamedRun} named people on neighbouring seats (applied in every step)` : 'applied in every step'}</div>}
               </div>
             </li>
           )

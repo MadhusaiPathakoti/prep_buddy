@@ -40,7 +40,13 @@ export default function CellInspector({ trace, cell, stepIdx, onWhatIf, onGoStep
         </button>
       </div>
 
-      {out && out.why.kind === 'anchor' ? (
+      {out && out.why.kind === 'sym' ? (
+        <div className="mt-2 space-y-2 text-sm">
+          <p className="font-semibold text-violet-700 dark:text-violet-300">That option was ruled out only by a fixed order — not by a clue.</p>
+          <div className="rounded-xl bg-white p-3 text-slate-800 dark:bg-slate-800 dark:text-slate-100">{out.why.text}.</div>
+          <p className="text-xs text-slate-500 dark:text-slate-400">Swapping interchangeable people (the unnamed ones, or those without a value) gives the same arrangement, so they are simply taken in a fixed order.</p>
+        </div>
+      ) : out && out.why.kind === 'anchor' ? (
         <div className="mt-2 space-y-2 text-sm">
           <p className="font-semibold text-violet-700 dark:text-violet-300">That seat was ruled out only by the starting choice — not by a clue.</p>
           <div className="rounded-xl bg-white p-3 text-slate-800 dark:bg-slate-800 dark:text-slate-100">{out.why.text}.</div>

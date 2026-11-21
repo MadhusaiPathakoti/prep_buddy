@@ -920,6 +920,21 @@ for (const s of SAMPLES) {
   else if (r.puzzle.axis !== 'tworow' || r.puzzle.n !== 14 || e.sols.length !== 1) fail(`two rows in one sentence: expected one arrangement of 14 people, got ${e.sols.length} (axis ${r.puzzle.axis}, n ${r.puzzle.n})`)
 }
 
+// a row of unknown length: "not more than two known persons on adjacent seats" is what separates 19 persons from 17
+{
+  const sample = SAMPLES.find((x) => x.id === 'open-row')
+  const r = sample ? parsePuzzle(sample.text) : null
+  const e = r?.puzzle ? enumerate(r.puzzle, 50) : null
+  if (!r?.puzzle || r.unparsed.length || !e) fail('open row: not understood')
+  else if (r.puzzle.n !== 19 || e.sols.length !== 1 || r.puzzle.maxNamedRun !== 2) fail(`open row: expected 19 persons and one arrangement, got ${r.puzzle.n} persons / ${e.sols.length} arrangements`)
+  else {
+    const pl = r.puzzle.people
+    const at = (nm: string) => e.sols[0].pos[pl.indexOf(nm)] + 1
+    // R = 3 seats left of N, N = 2 seats left of P; checked against the clues directly
+    if (at('N') !== at('R') + 3 || at('N') !== at('P') - 2 || Math.abs(at('P') - at('U')) !== 6 || at('S') !== 16 || Math.abs(at('S') - at('L')) !== 5) fail('open row: arrangement does not satisfy the clues')
+  }
+}
+
 // mistakes in the input are reported, not guessed at
 for (const [label, text, needle] of [
   ['no people', 'Hello there. A lives above B.', 'list of people'],
@@ -1538,7 +1553,7 @@ for (let run = 0; run < RUNS; run++) {
       tested++
       whatIfs++
       if (!sim) fail(`${where}: no simulation for ${key}`)
-      else if (trace.elim.get(key)?.why.kind === 'anchor') {
+      else if (trace.elim.get(key)?.why.kind === 'anchor' || trace.elim.get(key)?.why.kind === 'sym') {
         if (!sim.rotation) fail(`${where}: what-if for an anchor crossing should say it is only a rotation`)
       } else if (!sim.proven) fail(`${where}: what-if "${ctx.pair(a, i, b, j)}" at step ${sim.stepIdx + 1} did not end in a contradiction: ${sim.clash}`)
       else if (!sim.beats.length || sim.beats[sim.beats.length - 1].tone !== 'clash') fail(`${where}: what-if "${ctx.pair(a, i, b, j)}" has no closing contradiction beat`)
@@ -1560,7 +1575,7 @@ for (const s of SAMPLES) {
     const [a, i, b, j] = key.split('.').map(Number)
     const sim = simulate(trace, { a, i, b, j })
     whatIfs++
-    if (trace.elim.get(key)?.why.kind === 'anchor') {
+    if (trace.elim.get(key)?.why.kind === 'anchor' || trace.elim.get(key)?.why.kind === 'sym') {
       if (!sim?.rotation) fail(`sample "${s.title}": anchor what-if ${key} should be a rotation`)
     } else if (!sim?.proven) fail(`sample "${s.title}": what-if ${key} not refuted (${sim?.clash})`)
   }
