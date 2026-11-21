@@ -1,0 +1,509 @@
+[
+  {
+    "id": "unix-os-01",
+    "q": "UNIX was developed at which organisation, starting in 1969?",
+    "options": [
+      "IBM Research",
+      "Microsoft Corporation",
+      "University of California, Berkeley",
+      "AT&T Bell Laboratories"
+    ],
+    "answer": 3,
+    "explain": "UNIX development began in 1969 at AT&T Bell Laboratories. Berkeley later produced BSD.",
+    "section": "unix-history"
+  },
+  {
+    "id": "unix-os-02",
+    "q": "Who were the principal developers of UNIX?",
+    "options": [
+      "Linus Torvalds and Richard Stallman",
+      "Ken Thompson and Dennis Ritchie",
+      "Bill Joy and Steve Jobs",
+      "Bob Bemer and Mark Davis"
+    ],
+    "answer": 1,
+    "explain": "Ken Thompson and Dennis Ritchie developed UNIX at Bell Labs.",
+    "section": "unix-history"
+  },
+  {
+    "id": "unix-os-03",
+    "q": "The first implementation of UNIX ran on which machine?",
+    "options": [
+      "IBM System/360 mainframe",
+      "Apple Macintosh",
+      "DEC PDP-7 minicomputer",
+      "Cray supercomputer"
+    ],
+    "answer": 2,
+    "explain": "UNIX first ran on a DEC PDP-7 minicomputer.",
+    "section": "unix-history"
+  },
+  {
+    "id": "unix-os-04",
+    "q": "In which language was much of UNIX rewritten in 1973 to make it easier to port?",
+    "options": [
+      "C",
+      "Assembly language",
+      "COBOL",
+      "Java"
+    ],
+    "answer": 0,
+    "explain": "Early UNIX used assembly language; rewriting it largely in C made it portable across hardware.",
+    "section": "unix-history"
+  },
+  {
+    "id": "unix-os-05",
+    "q": "The early name UNICS is commonly expanded as:",
+    "options": [
+      "Uniplexed Information and Computing Service",
+      "Universal Network Interface and Control System",
+      "Unified Information and Command Shell",
+      "Uniform Computing Service"
+    ],
+    "answer": 0,
+    "explain": "UNICS, commonly expanded as Uniplexed Information and Computing Service, later became UNIX.",
+    "section": "unix-history"
+  },
+  {
+    "id": "unix-os-06",
+    "q": "Which UNIX feature means CPU time is shared among several tasks and users?",
+    "options": [
+      "Portability",
+      "Hierarchical file system",
+      "Time-sharing",
+      "Virtual memory"
+    ],
+    "answer": 2,
+    "explain": "Time-sharing divides CPU time among tasks and users, supporting multitasking and multi-user use.",
+    "section": "unix-features"
+  },
+  {
+    "id": "unix-os-07",
+    "q": "CUI in the context of UNIX stands for:",
+    "options": [
+      "Command User Interface",
+      "Character User Interface",
+      "Computer User Instruction",
+      "Console Utility Interface"
+    ],
+    "answer": 1,
+    "explain": "CLI is Command-Line Interface and CUI is Character User Interface - both are text-based.",
+    "section": "unix-features"
+  },
+  {
+    "id": "unix-os-08",
+    "q": "In the UNIX hierarchical file system, the directory tree starts at:",
+    "options": [
+      "The home directory",
+      "The bin directory",
+      "The usr directory",
+      "The root directory /"
+    ],
+    "answer": 3,
+    "explain": "All directories form a tree rooted at /, the root directory.",
+    "section": "unix-features"
+  },
+  {
+    "id": "unix-os-09",
+    "q": "Which UNIX component interprets user commands and starts programs?",
+    "options": [
+      "Kernel",
+      "Device driver",
+      "Compiler",
+      "Shell"
+    ],
+    "answer": 3,
+    "explain": "The shell is the command interpreter. The kernel is the core that manages resources.",
+    "section": "unix-architecture"
+  },
+  {
+    "id": "unix-os-10",
+    "q": "In the four-layer view of UNIX, which layer sits directly above the hardware?",
+    "options": [
+      "Shell",
+      "Kernel",
+      "Utilities and applications",
+      "File manager"
+    ],
+    "answer": 1,
+    "explain": "The layers from bottom to top are hardware, kernel, shell, then utilities and applications.",
+    "section": "unix-architecture"
+  },
+  {
+    "id": "unix-os-11",
+    "q": "How do programs request services from the UNIX kernel?",
+    "options": [
+      "Through the ping command",
+      "Through the pipe symbol",
+      "Through system calls",
+      "By editing the root directory"
+    ],
+    "answer": 2,
+    "explain": "Programs make system calls to ask the kernel for services; the kernel uses device drivers to talk to hardware.",
+    "section": "unix-architecture"
+  },
+  {
+    "id": "unix-os-12",
+    "q": "Which of the following is NOT a responsibility of the UNIX kernel?",
+    "options": [
+      "Designing the layout of application windows",
+      "Process scheduling",
+      "Memory management",
+      "File-system services"
+    ],
+    "answer": 0,
+    "explain": "The kernel controls process scheduling, memory, devices and file-system services; it does not design application interfaces.",
+    "section": "unix-architecture"
+  },
+  {
+    "id": "unix-os-13",
+    "q": "Which command is used to change file permissions in UNIX?",
+    "options": [
+      "chmod",
+      "chown",
+      "passwd",
+      "grep"
+    ],
+    "answer": 0,
+    "explain": "chmod changes permissions, whereas chown changes ownership.",
+    "section": "unix-files-permissions"
+  },
+  {
+    "id": "unix-os-14",
+    "q": "Permissions in UNIX are assigned to which three classes?",
+    "options": [
+      "Admin, guest and visitor",
+      "Read, write and execute",
+      "Owner, group and others",
+      "Kernel, shell and user"
+    ],
+    "answer": 2,
+    "explain": "Read, write and execute are the permission types; they are applied to the owner, the group and others.",
+    "section": "unix-files-permissions"
+  },
+  {
+    "id": "unix-os-15",
+    "q": "What does execute (x) permission on a directory allow?",
+    "options": [
+      "Deleting the whole disk",
+      "Traversing (entering) the directory",
+      "Editing the kernel",
+      "Renaming the root directory"
+    ],
+    "answer": 1,
+    "explain": "On a file, x allows running it; on a directory it allows traversing the directory.",
+    "section": "unix-files-permissions"
+  },
+  {
+    "id": "unix-os-16",
+    "q": "The principle \"everything is a file\" in UNIX means that:",
+    "options": [
+      "Every system object is literally stored as a text file",
+      "Only text files can be stored on UNIX",
+      "Directories cannot exist separately from files",
+      "Many resources, including devices, use file-like interfaces"
+    ],
+    "answer": 3,
+    "explain": "It is a design principle - many resources have file-like interfaces - not a literal rule for every object.",
+    "section": "unix-files-permissions"
+  },
+  {
+    "id": "unix-os-17",
+    "q": "BSD stands for:",
+    "options": [
+      "Basic System Design",
+      "Bell Software Division",
+      "Binary Shell Distribution",
+      "Berkeley Software Distribution"
+    ],
+    "answer": 3,
+    "explain": "BSD originated at the University of California, Berkeley, and is informally called Berkeley UNIX.",
+    "section": "unix-bsd-families"
+  },
+  {
+    "id": "unix-os-18",
+    "q": "Which text editor is associated with Berkeley's UNIX work?",
+    "options": [
+      "Notepad",
+      "vi",
+      "Emacs Lite",
+      "WordStar"
+    ],
+    "answer": 1,
+    "explain": "The vi editor and the C shell (csh) are associated with Berkeley UNIX.",
+    "section": "unix-bsd-families"
+  },
+  {
+    "id": "unix-os-19",
+    "q": "Which of the following is NOT a BSD descendant?",
+    "options": [
+      "FreeBSD",
+      "NetBSD",
+      "Solaris",
+      "OpenBSD"
+    ],
+    "answer": 2,
+    "explain": "Solaris came from Sun Microsystems; FreeBSD, NetBSD and OpenBSD are open-source BSD descendants.",
+    "section": "unix-bsd-families"
+  },
+  {
+    "id": "unix-os-20",
+    "q": "Which BSD descendant focuses on security and code correctness?",
+    "options": [
+      "OpenBSD",
+      "FreeBSD",
+      "NetBSD",
+      "Xenix"
+    ],
+    "answer": 0,
+    "explain": "OpenBSD is known for security and code correctness; NetBSD is known for portability.",
+    "section": "unix-bsd-families"
+  },
+  {
+    "id": "unix-os-21",
+    "q": "AIX is a UNIX variant developed by which company?",
+    "options": [
+      "IBM",
+      "Sun Microsystems",
+      "Hewlett-Packard",
+      "Microsoft"
+    ],
+    "answer": 0,
+    "explain": "AIX (Advanced Interactive eXecutive) is IBM's UNIX.",
+    "section": "unix-modern-commercial"
+  },
+  {
+    "id": "unix-os-22",
+    "q": "Which UNIX variant was originally developed by Sun Microsystems?",
+    "options": [
+      "IRIX",
+      "HP-UX",
+      "Solaris",
+      "Xenix"
+    ],
+    "answer": 2,
+    "explain": "Solaris came from Sun Microsystems; Oracle acquired Sun in 2010.",
+    "section": "unix-modern-commercial"
+  },
+  {
+    "id": "unix-os-23",
+    "q": "Xenix was a historical UNIX variant from:",
+    "options": [
+      "Apple",
+      "Microsoft",
+      "Silicon Graphics",
+      "AT&T"
+    ],
+    "answer": 1,
+    "explain": "Xenix was based on licensed UNIX and came from Microsoft. IRIX was from Silicon Graphics.",
+    "section": "unix-modern-commercial"
+  },
+  {
+    "id": "unix-os-24",
+    "q": "Which statement about Linux is correct?",
+    "options": [
+      "It is a direct descendant of AT&T UNIX source code",
+      "It is a BSD descendant",
+      "It was developed by Sun Microsystems",
+      "It is a UNIX-like kernel developed independently, not from original UNIX source"
+    ],
+    "answer": 3,
+    "explain": "Linux is independently developed and UNIX-like; BSD systems are the ones with real UNIX ancestry.",
+    "section": "unix-modern-commercial"
+  },
+  {
+    "id": "unix-os-25",
+    "q": "GNU stands for:",
+    "options": [
+      "General Network Utility",
+      "Global New Unix",
+      "GNU Network Usage",
+      "GNU's Not Unix"
+    ],
+    "answer": 3,
+    "explain": "GNU is a recursive acronym: GNU's Not Unix. GNU/Linux is the Linux kernel plus GNU components.",
+    "section": "unix-modern-commercial"
+  },
+  {
+    "id": "unix-os-26",
+    "q": "Which of the following is NOT a UNIX system?",
+    "options": [
+      "macOS",
+      "Windows 11",
+      "HP-UX",
+      "AIX"
+    ],
+    "answer": 1,
+    "explain": "Windows 11 belongs to the Windows NT family. macOS has BSD heritage and certified releases.",
+    "section": "unix-modern-commercial"
+  },
+  {
+    "id": "unix-os-27",
+    "q": "Which command opens the reference manual pages?",
+    "options": [
+      "clear",
+      "echo",
+      "man",
+      "date"
+    ],
+    "answer": 2,
+    "explain": "man displays manual pages, for example man ls.",
+    "section": "unix-general-user-cmds"
+  },
+  {
+    "id": "unix-os-28",
+    "q": "Which command pauses execution for a specified duration, such as \"sleep 5\"?",
+    "options": [
+      "sleep",
+      "uptime",
+      "history",
+      "clear"
+    ],
+    "answer": 0,
+    "explain": "sleep waits for the given time; uptime shows how long the system has been running.",
+    "section": "unix-general-user-cmds"
+  },
+  {
+    "id": "unix-os-29",
+    "q": "Which command shows the username of the effective user ID?",
+    "options": [
+      "whoami",
+      "who",
+      "last",
+      "groups"
+    ],
+    "answer": 0,
+    "explain": "whoami shows the effective username; who lists current logins and last shows login history.",
+    "section": "unix-general-user-cmds"
+  },
+  {
+    "id": "unix-os-30",
+    "q": "Which command lists the users who are currently logged in?",
+    "options": [
+      "whoami",
+      "last",
+      "who",
+      "passwd"
+    ],
+    "answer": 2,
+    "explain": "who lists current login sessions; last shows recorded login sessions.",
+    "section": "unix-general-user-cmds"
+  },
+  {
+    "id": "unix-os-31",
+    "q": "Which command is used to change an account password?",
+    "options": [
+      "id",
+      "passwd",
+      "groups",
+      "echo"
+    ],
+    "answer": 1,
+    "explain": "passwd changes an account password, subject to permissions and policy.",
+    "section": "unix-general-user-cmds"
+  },
+  {
+    "id": "unix-os-32",
+    "q": "Which command prints the path of the current working directory?",
+    "options": [
+      "cd",
+      "ls",
+      "mkdir",
+      "pwd"
+    ],
+    "answer": 3,
+    "explain": "pwd means print working directory.",
+    "section": "unix-directory-cmds"
+  },
+  {
+    "id": "unix-os-33",
+    "q": "The rmdir command can remove:",
+    "options": [
+      "Any directory with its files",
+      "A file only",
+      "The root directory",
+      "Only an empty directory"
+    ],
+    "answer": 3,
+    "explain": "rmdir removes an empty directory; removing files needs rm.",
+    "section": "unix-directory-cmds"
+  },
+  {
+    "id": "unix-os-34",
+    "q": "Which command is used to move or rename files?",
+    "options": [
+      "cp",
+      "mv",
+      "rm",
+      "cat"
+    ],
+    "answer": 1,
+    "explain": "mv moves or renames; cp copies and rm removes.",
+    "section": "unix-file-text-pipes"
+  },
+  {
+    "id": "unix-os-35",
+    "q": "Which command selects lines that match a given pattern?",
+    "options": [
+      "cat",
+      "echo",
+      "grep",
+      "chown"
+    ],
+    "answer": 2,
+    "explain": "grep prints matching lines; cat only displays or joins file contents.",
+    "section": "unix-file-text-pipes"
+  },
+  {
+    "id": "unix-os-36",
+    "q": "What does the pipe symbol | do in the UNIX shell?",
+    "options": [
+      "Sends the output of the left command to the input of the right command",
+      "Copies a file into a directory",
+      "Adds execute permission for the owner",
+      "Closes the current terminal session"
+    ],
+    "answer": 0,
+    "explain": "A pipe connects standard output of the first command to standard input of the second.",
+    "section": "unix-file-text-pipes"
+  },
+  {
+    "id": "unix-os-37",
+    "q": "Which command sends ICMP echo requests to test reachability of a host?",
+    "options": [
+      "ping",
+      "netstat",
+      "ifconfig",
+      "kill"
+    ],
+    "answer": 0,
+    "explain": "ping tests reachability using ICMP echo requests.",
+    "section": "unix-network-process"
+  },
+  {
+    "id": "unix-os-38",
+    "q": "Which statement about the kill command is correct?",
+    "options": [
+      "It always forces an immediate stop of any process",
+      "It deletes the file of the program permanently",
+      "It sends a signal to a process, and the result depends on the signal",
+      "It shuts down the whole system"
+    ],
+    "answer": 2,
+    "explain": "kill commonly requests termination but does not always force a stop.",
+    "section": "unix-network-process"
+  },
+  {
+    "id": "unix-os-39",
+    "q": "Which command shows network connections, routing or interface statistics?",
+    "options": [
+      "ping",
+      "netstat",
+      "ps",
+      "uptime"
+    ],
+    "answer": 1,
+    "explain": "netstat reports connections and statistics; ifconfig displays or configures interfaces.",
+    "section": "unix-network-process"
+  }
+]

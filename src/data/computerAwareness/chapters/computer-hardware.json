@@ -1,0 +1,542 @@
+{
+  "id": "computer-hardware",
+  "sections": [
+    {
+      "id": "cpu-basics",
+      "title": "CPU basics and machine language",
+      "icon": "🧠",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "The **CPU (Central Processing Unit)** is the main processor of a computer and is often called its **brain**. It executes program instructions, processes data and coordinates what the rest of the computer does. The CPU is a piece of **hardware**; the big box (cabinet) that houses the computer is not the CPU."
+        },
+        {
+          "type": "text",
+          "text": "A CPU directly understands only **machine language**: instructions written as binary digits, **0 and 1**. Programs written in high-level languages must first be translated (or run inside a suitable environment) before the CPU can carry them out."
+        },
+        {
+          "type": "keyvalue",
+          "title": "Three main functional groups of the CPU",
+          "rows": [
+            ["Control Unit (CU)", "Interprets instructions, generates control signals and coordinates the flow of data among the processor, memory and I/O interfaces."],
+            ["Arithmetic Logic Unit (ALU)", "Performs arithmetic, Boolean logic, comparisons and bit operations."],
+            ["Registers", "Very small, very fast storage locations inside the processor that hold the information being worked on right now."]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "Not CPU parts",
+          "text": "A **program unit** is not a standard CPU component. **Storage unit** is an ambiguous phrase, because internal registers are different from external storage. The standard trio is always **CU, ALU and registers**."
+        },
+        {
+          "type": "callout",
+          "kind": "tip",
+          "text": "Quick memory trick: **CU directs, ALU calculates, Registers remember** (for the moment)."
+        }
+      ]
+    },
+    {
+      "id": "alu-and-control-unit",
+      "title": "ALU and Control Unit in action",
+      "icon": "➕",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "The ALU has two functional sections: **arithmetic** and **logic**. Arithmetic covers addition and subtraction (multiplication and division use suitable execution circuitry). Logic covers the operations **AND, OR, NOT, XOR** and comparisons such as equal to, greater than or smaller than."
+        },
+        {
+          "type": "text",
+          "text": "Comparison results help a program make decisions, with the Control Unit using them to steer execution. Tasks such as selecting, matching and merging data are built from sequences of basic operations; there is no single ALU operation for merging."
+        },
+        {
+          "type": "table",
+          "title": "Who does what",
+          "headers": ["Unit", "Main job"],
+          "rows": [
+            ["Control Unit", "Decodes instructions and coordinates operations"],
+            ["ALU (arithmetic part)", "Addition, subtraction and other calculations"],
+            ["ALU (logic part)", "AND, OR, NOT, XOR, comparing, matching"],
+            ["Registers", "Hold operands, addresses and intermediate results"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "The ALU does not do everything",
+          "text": "Not every instruction is executed by the ALU alone. Functions such as **square roots and exponentials** may use an **FPU** (floating-point unit), other specialised circuitry or software. ALU capabilities vary from processor to processor."
+        },
+        {
+          "type": "bullets",
+          "title": "Main responsibilities of the CPU",
+          "items": [
+            "Execute program instructions",
+            "Process data",
+            "Coordinate operations of the computer",
+            "Temporarily hold working information in registers (other devices such as a GPU can also do specialised processing)"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "instruction-cycle",
+      "title": "Fetch, decode, execute",
+      "icon": "🔄",
+      "blocks": [
+        {
+          "type": "figure",
+          "kind": "cycle",
+          "title": "The instruction cycle",
+          "items": [
+            ["Fetch", "Get the next instruction from memory"],
+            ["Decode", "Work out which operation is requested"],
+            ["Execute", "Carry out the action with the right circuitry"],
+            ["Write back", "Save the result when one is produced"]
+          ]
+        },
+        {
+          "type": "text",
+          "text": "The cycle repeats again and again for each instruction. Some simple descriptions fold write-back into the execute stage, which is why many books quote just three stages: **fetch, decode, execute**."
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "text": "**Installing a device** is not a stage of the instruction cycle. Software installation does use CPU instructions, but it is not one of the cycle stages."
+        }
+      ]
+    },
+    {
+      "id": "registers",
+      "title": "Registers, accumulator and buffers",
+      "icon": "📌",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "**Registers** are tiny, high-speed storage locations inside the CPU. They temporarily hold operands, instructions, addresses and intermediate results. They are generally the **fastest** storage level in the basic memory hierarchy, but they are not permanent file storage."
+        },
+        {
+          "type": "text",
+          "text": "A register is a **sequential digital circuit**, commonly built from flip-flops, because it retains a state. A purely combinational circuit has no stored state. If an MCQ offers both, remember that 'digital circuit' is broad while 'sequential circuit' is the more specific classification."
+        },
+        {
+          "type": "table",
+          "title": "Important CPU registers",
+          "headers": ["Register", "Full form", "What it holds"],
+          "rows": [
+            ["PC", "Program Counter", "Address of the next instruction"],
+            ["IR", "Instruction Register", "The instruction currently being processed"],
+            ["MAR", "Memory Address Register", "Main-memory address involved in a read or write"],
+            ["MDR", "Memory Data Register", "Data moving to or from memory"],
+            ["MBR", "Memory Buffer Register", "Another common name for MDR"],
+            ["GPR", "General-purpose registers", "Working data, addresses and intermediate results"],
+            ["ACC", "Accumulator", "Operands and calculation results (accumulator-based CPUs)"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "tip",
+          "text": "**MAR = where**, **MDR = what**, **PC = where is the next instruction**, **IR = the instruction itself**."
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "Accumulator and memory unit",
+          "text": "The **accumulator is itself a register**, not a separate memory category; other designs use general-purpose registers for results. Some elementary diagrams use **MU** (memory unit) for internal storage, but main memory (RAM) is distinct from CPU registers. MAR identifies a main-memory location; it does not fetch a file directly from an SSD or hard disk."
+        }
+      ]
+    },
+    {
+      "id": "buffering-and-dma",
+      "title": "Buffering and DMA",
+      "icon": "🚰",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "A **buffer** temporarily holds data during a transfer so that devices running at different speeds can still work together. For example, a print buffer stores waiting data while a slower printer processes it. A buffer register holds a small amount of data in hardware; larger buffers can live in RAM. Buffering does not make a slow device permanently faster."
+        },
+        {
+          "type": "text",
+          "text": "**DMA (Direct Memory Access)** lets suitable hardware move data between an **I/O device and main memory** without the CPU handling every single item. Its key benefit is **reduced CPU workload**, leaving the CPU free for other tasks."
+        },
+        {
+          "type": "steps",
+          "title": "How a DMA transfer goes",
+          "items": [
+            "The CPU and the device driver set up (configure) the transfer.",
+            "The DMA hardware moves the data between the I/O device and main memory.",
+            "Completion or errors are reported, often with an interrupt."
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Buffer vs DMA",
+          "headers": ["Buffer", "DMA"],
+          "rows": [
+            ["Holds data temporarily to absorb speed differences", "Moves data with less CPU intervention"],
+            ["Deals with transfer-rate mismatch", "Deals with who does the copying"],
+            ["Can be used together with DMA", "Can be used together with a buffer"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "text": "CPU involvement in DMA is **limited, not zero** (setup and completion handling). DMA does not raise clock speed, enlarge RAM or provide permanent storage."
+        }
+      ]
+    },
+    {
+      "id": "memory-hierarchy-cache",
+      "title": "Memory hierarchy and cache",
+      "icon": "🪜",
+      "blocks": [
+        {
+          "type": "figure",
+          "kind": "pyramid",
+          "title": "Fastest to slowest",
+          "items": [
+            ["Registers", "Inside CPU; fastest; tiny capacity"],
+            ["Cache (L1, L2, L3)", "Copies of data likely to be needed soon"],
+            ["RAM", "Main working memory; largest of the three"],
+            ["SSD / hard disk", "Secondary storage; long-term files"]
+          ]
+        },
+        {
+          "type": "text",
+          "text": "**Cache** reduces the **average memory-access time**, so the CPU spends less time waiting for slower main memory. It supplements RAM; it does not replace RAM and is not permanent file storage. RAM is the main working memory for active programs and data, generally larger but slower than cache. Files needed from secondary storage are normally brought into RAM first."
+        },
+        {
+          "type": "keyvalue",
+          "title": "Cache hit and miss",
+          "rows": [
+            ["Cache hit", "The requested information is available in the cache level being checked."],
+            ["Cache miss", "The information is not in that cache level, so the request moves to the next level."],
+            ["Typical sequence", "L1, then L2, then L3, then RAM. If every cache level misses, data comes from main memory (usually RAM)."]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "remember",
+          "title": "Exam corrections",
+          "text": "If registers and cache are both options for the fastest storage, choose **registers**. For the largest capacity among registers, cache and RAM, choose **RAM**. A cache miss does not mean the computer restarts or stops."
+        },
+        {
+          "type": "text",
+          "text": "'Registers, cache, RAM' is a **speed hierarchy**, not a rule that every instruction searches all registers first. Instructions explicitly choose their register operands, while ordinary memory loads go through the cache hierarchy."
+        }
+      ]
+    },
+    {
+      "id": "clock-speed",
+      "title": "Clock speed and performance",
+      "icon": "⏱️",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "**Clock speed**, clock rate and clock frequency all describe the number of **clock cycles per second**. The basic unit is the **hertz (Hz)**. A 3 GHz clock produces 3 billion cycles every second. A **clock period** is the duration of one cycle, and **frequency = 1 / period**, so a shorter period means a higher frequency."
+        },
+        {
+          "type": "table",
+          "title": "Frequency units",
+          "headers": ["Unit", "Cycles per second", "Relation"],
+          "rows": [
+            ["1 Hz", "1", "Basic unit"],
+            ["1 kHz", "1,000", "1,000 Hz"],
+            ["1 MHz", "1,000,000", "1,000 kHz"],
+            ["1 GHz", "1,000,000,000", "1,000 MHz"],
+            ["1 THz", "1,000,000,000,000", "1,000 GHz"]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "Instruction-throughput terms",
+          "rows": [
+            ["IPC", "Instructions Per Cycle: average instructions completed in one clock cycle."],
+            ["IPS", "Instructions Per Second."],
+            ["KIPS", "Kilo Instructions Per Second: thousands of instructions per second."],
+            ["MIPS", "Million Instructions Per Second: a traditional throughput measure."]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "Cycles are not instructions",
+          "text": "One instruction can take several clock cycles, while some processors finish several instructions per cycle. So never define clock speed as 'instructions per second'. **Hz** measures frequency; **IPS, KIPS and MIPS** measure instruction throughput. Bits or bytes per second describe data transfer, not CPU clock frequency."
+        },
+        {
+          "type": "bullets",
+          "title": "What affects performance?",
+          "items": [
+            "Clock rate, IPC and processor architecture",
+            "Number of cores and cache",
+            "Memory behaviour and the workload itself",
+            "Higher GHz alone does not prove that one processor is faster than another; MIPS is not a complete comparison across architectures",
+            "There is no universal PC speed of 100 KIPS",
+            "THz is a frequency unit, not the normal clock range of ordinary high-end CPUs"
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "remember",
+          "text": "Among monitor size, keyboard type, printer speed, mouse DPI and clock speed, only **clock speed** is directly related to CPU operation."
+        }
+      ]
+    },
+    {
+      "id": "cores-and-architectures",
+      "title": "Cores, multitasking, RISC and CISC",
+      "icon": "🧩",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "A **core** is a processing unit inside a processor. One physical CPU package may contain several cores. Single-core processors came before dual-core and quad-core designs."
+        },
+        {
+          "type": "table",
+          "title": "Common core labels",
+          "headers": ["Name", "Cores"],
+          "rows": [
+            ["Single-core", "1"],
+            ["Dual-core", "2"],
+            ["Quad-core", "4"],
+            ["Hexa-core", "6"],
+            ["Octa-core", "8"],
+            ["Deca-core", "10"]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "Multitasking and parallel work",
+          "rows": [
+            ["Multitasking", "Manages several tasks, often by switching rapidly between them (time-sharing)."],
+            ["Parallel processing", "Performs suitable parts of a job at the same time."],
+            ["Multicore processing", "Several cores run separate instruction streams simultaneously; the benefit depends on software that can divide the work."],
+            ["Uniprocessor", "A system with one processing unit in the traditional model."],
+            ["Multiprocessor", "A system with multiple processing units."]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "text": "A **single-core** system can still multitask through time-sharing, and a uniprocessor system can still have one CPU package with several cores."
+        },
+        {
+          "type": "table",
+          "title": "RISC vs CISC",
+          "headers": ["Feature", "RISC", "CISC"],
+          "rows": [
+            ["Full form", "Reduced Instruction Set Computer", "Complex Instruction Set Computer"],
+            ["Idea", "Relatively simple instructions, efficient execution", "Richer instructions and addressing capabilities"],
+            ["Examples", "Arm, RISC-V", "x86"],
+            ["Textbook note", "Simpler decoding", "Traditionally linked with more complex decoding"]
+          ]
+        },
+        {
+          "type": "text",
+          "text": "Real cost and performance depend on the implementation, so CISC is not always more expensive or slower."
+        }
+      ]
+    },
+    {
+      "id": "microprocessor-history",
+      "title": "Microprocessors: 4004 and 8086",
+      "icon": "📜",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "A **microprocessor** implements the CPU functions on a single integrated-circuit chip. Microprocessor-based computers belong to the **fourth generation** in the conventional classification."
+        },
+        {
+          "type": "timeline",
+          "title": "Two milestone chips",
+          "items": [
+            ["1971", "Intel 4004: widely recognised as the first commercially available single-chip microprocessor; a 4-bit processor."],
+            ["Later (Intel)", "Intel 8086: a 16-bit processor with a 16-bit word and data bus and a 20-bit physical address bus."]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "Intel 8086 numbers",
+          "rows": [
+            ["Word / data bus", "16 bits"],
+            ["Physical address bus", "20 bits"],
+            ["Addressable memory", "2^20 bytes = 1,048,576 bytes = 1 MiB (basic exam notes often call this 1 MB)"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "tip",
+          "text": "**4004 = 1971 = 4-bit.** **8086 = 16-bit data, 20-bit address.** Say it together: 4-4-1971."
+        }
+      ]
+    },
+    {
+      "id": "processor-families-gpu",
+      "title": "Processor makers and the GPU",
+      "icon": "🏭",
+      "blocks": [
+        {
+          "type": "table",
+          "title": "Companies and their chip families",
+          "headers": ["Company", "Product family", "Notes"],
+          "rows": [
+            ["Intel", "Core i3, i5, i7, i9", "Name from Integrated Electronics; desktops and laptops"],
+            ["AMD", "Ryzen 3, 5, 7, 9", "Advanced Micro Devices; major Intel competitor"],
+            ["Apple", "M1, M2, M3", "Systems on a chip (SoC) for Mac, including MacBook and iMac"],
+            ["Qualcomm", "Snapdragon", "Smartphones and other computing devices"],
+            ["Samsung Electronics", "Exynos", "Mobile devices"],
+            ["MediaTek", "Dimensity and Helio", "Mainstream and flagship phones, not only budget ones"],
+            ["IBM", "POWER", "Enterprise computing; PowerPC came from the Apple-IBM-Motorola (AIM) alliance"],
+            ["NVIDIA", "GPUs; Grace CPU", "Arm-based Grace data-centre CPU announced in April 2021"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "tip",
+          "text": "**Ryzen = AMD, Core i7 = Intel, M1 = Apple, Snapdragon = Qualcomm, Exynos = Samsung, Dimensity/Helio = MediaTek, Grace = NVIDIA.** These are product-design associations; designing a chip and physically fabricating it are separate activities."
+        },
+        {
+          "type": "text",
+          "text": "**Arm** was originally **Acorn RISC Machine** and later **Advanced RISC Machines**. It began at Acorn for computer applications; mobile devices became its major use later, so it was not designed only for phones. Arm is a RISC design."
+        },
+        {
+          "type": "keyvalue",
+          "title": "GPU: Graphics Processing Unit",
+          "rows": [
+            ["Purpose", "Accelerates graphics, image rendering and suitable parallel computations: gaming, video processing, AI and scientific computing."],
+            ["Where found", "PCs, phones and game consoles."],
+            ["Integrated GPU", "Built into a processor or SoC."],
+            ["Discrete GPU", "A separate graphics processor, often on a dedicated card."],
+            ["GPU vs graphics card", "The GPU is the chip; a graphics card contains a GPU plus supporting components."],
+            ["History note", "NVIDIA marketed GeForce 256 as a GPU in 1999; a simple claim that one company coined the term needs context."]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "buses-and-system-unit",
+      "title": "Buses, cabinet and power supply",
+      "icon": "🔌",
+      "blocks": [
+        {
+          "type": "keyvalue",
+          "title": "The three basic system buses",
+          "rows": [
+            ["Address bus", "Identifies a memory location or device (where)."],
+            ["Data bus", "Carries data and instructions (what)."],
+            ["Control bus", "Carries read, write and timing signals (how and when)."]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "text": "**Cache bus** is not one of the three standard bus categories, although a particular design may have a cache interconnect."
+        },
+        {
+          "type": "keyvalue",
+          "title": "Cabinet and system unit",
+          "rows": [
+            ["Case / cabinet / chassis", "The outer enclosure of a desktop computer."],
+            ["System unit", "The enclosure together with the internal components."],
+            ["Typical contents", "Motherboard, CPU, RAM, storage, power supply and cooling."]
+          ]
+        },
+        {
+          "type": "text",
+          "text": "'CPU cabinet' is an informal phrase; the cabinet is only the box and not the processor."
+        },
+        {
+          "type": "keyvalue",
+          "title": "Power and availability",
+          "rows": [
+            ["SMPS", "Switched-Mode Power Supply (also called Switch Mode Power Supply). Converts mains AC into regulated DC for the components; regulators on the motherboard adapt voltages further."],
+            ["Where it sits", "A system component, not circuitry inside the CPU chip."],
+            ["Offline device", "Unavailable for communication with the relevant computer, network or service. It may be disconnected or not ready, and does not necessarily mean damaged."]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "tip",
+          "text": "Bus memory aid: **Address = Where, Data = What, Control = How/When.** SMPS: **AC in, DC out.**"
+        }
+      ]
+    },
+    {
+      "id": "exam-traps",
+      "title": "Common exam traps",
+      "icon": "⚠️",
+      "blocks": [
+        {
+          "type": "bullets",
+          "title": "Trap checklist",
+          "items": [
+            "The CPU is hardware; the language it executes directly is machine code.",
+            "CU decodes and coordinates; ALU computes and compares; registers hold working data.",
+            "MAR holds a main-memory address, never a secondary-storage file.",
+            "Fastest to slowest: Registers, Cache, RAM. Among these, RAM is the largest and registers the smallest.",
+            "MHz and GHz measure cycles per second, not bytes or instructions.",
+            "MIPS = million instructions per second; KIPS = thousands per second; no fixed 100 KIPS applies to all PCs.",
+            "Multicore helps suitable parallel tasks, yet a single core can still multitask.",
+            "A GPU is a chip; a graphics card contains a GPU and support components.",
+            "DMA reduces continuous CPU involvement in I/O-to-memory transfers."
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "remember",
+          "text": "Read the exact options. 'Fastest storage' includes registers, while 'largest memory' depends on which levels are being compared; secondary storage usually has even greater capacity than RAM."
+        }
+      ]
+    }
+  ],
+  "revision": [
+    "CPU = Central Processing Unit; it is hardware, and it directly executes machine code (binary).",
+    "Three functional groups of the CPU: Control Unit, ALU and registers.",
+    "CU decodes and coordinates; ALU does arithmetic and logic (comparisons); registers hold working data.",
+    "Instruction cycle: Fetch, Decode, Execute (and write back a result when needed).",
+    "PC = next instruction address; IR = current instruction; MAR = memory address; MDR/MBR = data transferred.",
+    "A register is a sequential digital circuit; the accumulator is itself a register.",
+    "Memory speed order: Registers > Cache > RAM > secondary storage; RAM is the largest of the first three.",
+    "Cache lowers average access time; if all cache levels miss, data comes from main memory (RAM).",
+    "Clock speed is measured in Hz (MHz, GHz); MIPS, KIPS and IPS measure instruction throughput; IPC = instructions per cycle.",
+    "Shorter clock period means higher frequency (frequency = 1 / period).",
+    "Core counts: dual 2, quad 4, hexa 6, octa 8, deca 10; single-core CPUs came first.",
+    "RISC (Arm, RISC-V) uses simple instructions; CISC (x86) uses richer, more complex ones.",
+    "Intel 4004: 1971, 4-bit, first commercial single-chip microprocessor; Intel 8086: 16-bit data, 20-bit address, 1 MiB.",
+    "Ryzen: AMD | Core i7: Intel | M1: Apple | Snapdragon: Qualcomm | Exynos: Samsung | Dimensity/Helio: MediaTek | Grace: NVIDIA.",
+    "DMA = Direct Memory Access: moves data between I/O and main memory with less CPU work. Buses: Address, Data, Control.",
+    "SMPS (Switched-Mode Power Supply) converts mains AC to regulated DC; PowerPC came from Apple, IBM and Motorola (AIM)."
+  ],
+  "mindmap": {
+    "center": "Computer Hardware",
+    "branches": [
+      {
+        "label": "CPU parts",
+        "children": ["Control Unit", "ALU: arithmetic + logic", "Registers", "Machine code (0/1)", "FPU for roots"]
+      },
+      {
+        "label": "Instruction cycle",
+        "children": ["Fetch", "Decode", "Execute", "Write back"]
+      },
+      {
+        "label": "Registers",
+        "children": ["PC: next instruction", "IR: current instruction", "MAR: address", "MDR/MBR: data", "Accumulator (ACC)"]
+      },
+      {
+        "label": "Memory hierarchy",
+        "children": ["Registers: fastest", "Cache: L1, L2, L3", "RAM: largest of three", "Cache hit and miss", "Buffer and DMA"]
+      },
+      {
+        "label": "Clock and speed",
+        "children": ["Hz, MHz, GHz, THz", "Period = 1 / frequency", "IPC, IPS, KIPS, MIPS", "Cores and multitasking", "RISC vs CISC"]
+      },
+      {
+        "label": "Chips and makers",
+        "children": ["Intel 4004 (1971)", "8086: 16-bit, 1 MiB", "Intel, AMD, Apple", "Qualcomm, Samsung, MediaTek", "NVIDIA: GPU, Grace"]
+      },
+      {
+        "label": "System unit",
+        "children": ["Address bus", "Data bus", "Control bus", "Cabinet / chassis", "SMPS: AC to DC"]
+      }
+    ]
+  }
+}

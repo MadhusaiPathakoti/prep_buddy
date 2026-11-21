@@ -1,0 +1,465 @@
+{
+  "id": "printer",
+  "sections": [
+    {
+      "id": "printer-basics",
+      "title": "Printer Basics: Impact vs Non-Impact",
+      "icon": "🖨️",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "A **printer** is an **output device**. It turns digital text, pictures and graphics into a **hard copy**, usually on paper. Electronic information is called a **soft copy**; physical printed output is a **hard copy**."
+        },
+        {
+          "type": "table",
+          "title": "Two broad groups",
+          "headers": ["Group", "How it prints", "Examples"],
+          "rows": [
+            ["Impact", "Strikes an inked ribbon against the paper", "Dot matrix, daisy wheel, drum, chain, band"],
+            ["Non-impact", "No mechanical striking", "Inkjet, laser, thermal"]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "Resolution is not speed",
+          "rows": [
+            ["DPI", "**Dots Per Inch**: dots along one linear inch. Higher DPI generally allows finer detail, though paper, ink or toner also affect quality."],
+            ["Speed units", "**CPS**, **LPM** and **PPM** measure speed, never DPI."]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "remember",
+          "text": "Printer converts **soft copy to hard copy**. Mechanical striking through an inked ribbon = **impact** printer. Resolution unit = **DPI**."
+        }
+      ]
+    },
+    {
+      "id": "connections-and-milestones",
+      "title": "Connections & Historical Milestones",
+      "icon": "🔌",
+      "blocks": [
+        {
+          "type": "bullets",
+          "title": "Printer connections",
+          "items": [
+            "**Parallel port**: a legacy connection widely used by older printers.",
+            "**USB**: the common direct connection today.",
+            "Some models also use **Ethernet** or **Wi-Fi**.",
+            "A parallel port is one printer interface, not the only one."
+          ]
+        },
+        {
+          "type": "timeline",
+          "title": "Milestones",
+          "items": [
+            ["1556", "India's first printing press set up at St. Paul's College, Goa"],
+            ["1938", "Chester Carlson made the first successful xerographic image (electrophotography, later called xerography)"],
+            ["1953", "Remington Rand's UNIVAC high-speed printer, a landmark in computer printing"],
+            ["1969", "Gary Starkweather invented laser printing at Xerox"],
+            ["c. 1970", "Andrew Gabor and the Diablo team developed the successful daisy wheel mechanism"],
+            ["1972", "Diablo HyType (daisy wheel) shipments began"],
+            ["1983", "Chuck Hull's first successful SLA 3D-printed part"],
+            ["1984", "HP ThinkJet: first mass-marketed personal inkjet printer"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "Do not mix these up",
+          "text": "A **printing press**, a **photocopier** and a **computer printer** are different things. Carlson's invention was electrophotography (xerography), not every kind of printer."
+        }
+      ]
+    },
+    {
+      "id": "dot-matrix",
+      "title": "Dot Matrix Printer",
+      "icon": "🔹",
+      "blocks": [
+        {
+          "type": "bullets",
+          "items": [
+            "A **serial impact printer**, usually classified as a **character printer** in basic exams.",
+            "**Pins or wires** strike an inked ribbon to make patterns of dots.",
+            "Common printheads have **9 pins** or **24 pins**.",
+            "Prints text and basic graphics; the mechanical action is **noisy**.",
+            "Speed is commonly stated in **CPS** (Characters Per Second).",
+            "Major strength: it can print **multipart forms, carbon copies and carbonless copies** in one pass.",
+            "Used for invoices, continuous stationery, records and **bank passbooks**."
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "Cost and history claims",
+          "text": "Dot matrix is traditionally called economical, but the price depends on the model; a specialised dot matrix printer need not cost less than an entry-level laser. 'Dot matrix was the first impact printer' is **not** a reliable historical claim. Dot matrix printers are noisy, not silent."
+        }
+      ]
+    },
+    {
+      "id": "daisy-wheel",
+      "title": "Daisy Wheel Printer",
+      "icon": "🌼",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "A **daisy wheel** printer is an impact **character printer** whose print element is a wheel with petal-like spokes. Each spoke carries a **preformed** letter, number, punctuation mark or symbol. It is also nicknamed the **petal printer**."
+        },
+        {
+          "type": "figure",
+          "kind": "flow",
+          "title": "How a daisy wheel prints",
+          "items": [
+            ["Wheel rotates"],
+            ["Spoke aligns", "Selected character lines up"],
+            ["Hammer strikes", "Presses spoke on the ribbon"],
+            ["Character appears", "On the paper"]
+          ]
+        },
+        {
+          "type": "bullets",
+          "items": [
+            "Produces clear, **typewriter-style** (letter-quality) text; popular in the 1970s and early 1980s.",
+            "Limited to the characters on its wheel; changing the wheel changes the typeface.",
+            "Relatively **slow and noisy**; unsuitable for general graphics.",
+            "Andrew Gabor and the Diablo team developed the successful mechanism around 1970; HyType shipments began in 1972."
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "Golf ball is different",
+          "text": "A **golf-ball** print element belongs to the **IBM Selectric** typewriter. It is not another name for a daisy wheel. Also, silent operation is **not** a daisy wheel feature."
+        }
+      ]
+    },
+    {
+      "id": "line-printers",
+      "title": "Character vs Line Printers: Drum, Chain & Band",
+      "icon": "📜",
+      "blocks": [
+        {
+          "type": "table",
+          "headers": ["Type", "Meaning", "Examples"],
+          "rows": [
+            ["Character printer", "Forms characters individually", "Serial dot matrix, daisy wheel"],
+            ["Line printer", "Produces a complete line during one printing cycle", "Drum, chain, band"]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "Traditional line printers (all impact)",
+          "rows": [
+            ["Drum printer", "A rotating drum carries raised character sets arranged for the print columns; hammers strike when the required characters reach their positions. Standard classification: **line printer**."],
+            ["Chain printer", "A moving chain carries repeated sets of raised characters; timed hammers press paper and ribbon against the required type. Usually **monochrome** (single-colour ribbon); suited to high-volume text and business records. IBM 1403 is a well-known chain-based line printer."],
+            ["Band printer", "A flexible moving band carries raised characters. An impact **line printer**, like drum and chain."]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "Drum is not 'both'",
+          "text": "Saying a drum printer is 'both a character and a line printer' is misleading in a basic classification question. The answer is **line printer**. Also remember: the chain carries **characters**."
+        },
+        {
+          "type": "callout",
+          "kind": "tip",
+          "text": "Drum + Chain + Band = **impact line printers**; their speed is measured in **LPM**."
+        }
+      ]
+    },
+    {
+      "id": "print-speed",
+      "title": "Measuring Print Speed",
+      "icon": "⏱️",
+      "blocks": [
+        {
+          "type": "table",
+          "headers": ["Printer type", "Speed unit"],
+          "rows": [
+            ["Dot matrix / daisy wheel", "**CPS** = Characters Per Second (sometimes CPM = Characters Per Minute)"],
+            ["Drum / chain / band", "**LPM** = Lines Per Minute (sometimes LPS = Lines Per Second)"],
+            ["Inkjet / laser", "**PPM** = Pages Per Minute"],
+            ["Thermal receipt printers", "Commonly **mm/s** = Millimetres Per Second"],
+            ["Thermal label printers", "mm/s, inches per second or labels per minute; page-based models may use PPM"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "text": "**DPI** is resolution, never printing speed. The unit of speed depends on what the printer outputs: characters, lines, pages or length of paper."
+        }
+      ]
+    },
+    {
+      "id": "laser-printing",
+      "title": "Laser Printer",
+      "icon": "⚡",
+      "blocks": [
+        {
+          "type": "bullets",
+          "title": "Core features",
+          "items": [
+            "A **non-impact** printer that uses a **laser beam**, electrostatic charges and powdered **toner** (not liquid ink).",
+            "Printing is based on **electrophotography**, also called **xerography**.",
+            "**Gary Starkweather** invented laser printing at Xerox in **1969**; Chester Carlson's 1938 xerographic work gave the underlying principle."
+          ]
+        },
+        {
+          "type": "figure",
+          "kind": "flow",
+          "title": "How a laser printer works",
+          "items": [
+            ["Drum is charged", "Photosensitive drum gets an electric charge"],
+            ["Laser writes image", "Selected areas change, invisible image forms"],
+            ["Toner sticks", "Toner adheres to the image areas"],
+            ["Transfer to paper", "Toner image moves onto the paper"],
+            ["Fuser fixes it", "Heat and pressure bond toner to paper"]
+          ]
+        },
+        {
+          "type": "text",
+          "text": "The laser writes the image on the drum; it does not directly burn the document onto ordinary paper. Laser printers give sharp text and clear graphics and often suit frequent printing and large document volumes. Speed is commonly stated in **PPM** and resolution in **DPI**. Service life depends on the model, maintenance and workload."
+        },
+        {
+          "type": "keyvalue",
+          "title": "Parts to remember",
+          "rows": [
+            ["Toner", "Powdered image-forming material"],
+            ["Photosensitive drum", "Carries the electrostatic image"],
+            ["Fuser", "Fixes toner using heat and pressure"],
+            ["Duplexer", "Enables automatic printing on both sides of a sheet"]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "Colour laser: CMYK",
+          "rows": [
+            ["C", "Cyan"],
+            ["M", "Magenta"],
+            ["Y", "Yellow"],
+            ["K", "Key, representing Black"]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "inkjet-printing",
+      "title": "Inkjet Printer",
+      "icon": "💧",
+      "blocks": [
+        {
+          "type": "bullets",
+          "items": [
+            "A **non-impact** printer that ejects tiny **liquid ink droplets** through printhead **nozzles**.",
+            "Controlled droplets build text, photographs and colour graphics.",
+            "It does **not** strike an inked ribbon.",
+            "Speed is commonly in **PPM**; resolution in **DPI**.",
+            "**HP ThinkJet** (1984) was the first mass-marketed **personal** inkjet printer."
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "Careful with history",
+          "text": "HP ThinkJet being the first mass-marketed personal inkjet printer does **not** mean HP invented every form of inkjet technology."
+        }
+      ]
+    },
+    {
+      "id": "thermal-printing",
+      "title": "Thermal Printing, BPA & Fax",
+      "icon": "🧾",
+      "blocks": [
+        {
+          "type": "table",
+          "headers": ["Type", "How it works", "Consumables"],
+          "rows": [
+            ["Direct thermal", "A heated printhead activates a heat-sensitive coating on special paper", "No ink, toner or ribbon: this is what 'inkless' most accurately means"],
+            ["Thermal transfer", "Heat transfers colouring material from a ribbon onto the medium", "Needs a **ribbon**"]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "Thermal paper and BPA",
+          "rows": [
+            ["Coating", "Contains a dye, a developer and other components; heating causes a chemical reaction that makes visible marks, commonly black"],
+            ["BPA", "**Bisphenol A**, formula C15H16O2, has been used as one developer; it is also used to make certain plastics and resins"],
+            ["Caution", "Other formulations exist, so not all thermal paper contains BPA"]
+          ]
+        },
+        {
+          "type": "bullets",
+          "title": "Where thermal printing is used",
+          "items": [
+            "Banking: ATM receipts and transaction slips.",
+            "Airlines and transport: boarding passes, tickets, baggage labels.",
+            "Grocery and retail: bills and customer receipts.",
+            "Entertainment: admission tickets.",
+            "Logistics: barcodes and shipping labels.",
+            "**POS** (Point of Sale) receipt printers commonly use thermal technology.",
+            "Traditional thermal-paper **fax** (facsimile) machines use thermal printing; plain-paper fax machines may use inkjet or laser."
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "Do not generalise",
+          "text": "Calling every thermal paper 'bisphenol-coated' is an oversimplification. Direct thermal needs **heat-sensitive coated paper**, while thermal transfer needs a ribbon. Receipt speed is commonly in mm/s, not universally PPM."
+        }
+      ]
+    },
+    {
+      "id": "plotter",
+      "title": "Plotter: Precision Output",
+      "icon": "📐",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "A **plotter** is a specialised device for large, accurate drawings. It is used by engineers, architects, designers and mapping professionals for maps, blueprints, charts, building plans and **CAD** (Computer-Aided Design) drawings. It is the 'advanced printer' answer in exam options, because precision is central."
+        },
+        {
+          "type": "bullets",
+          "items": [
+            "Traditional **pen plotters** trace continuous lines from vector paths and can be slow for complex drawings.",
+            "Many modern plotters are large-format **inkjet** printers that handle large sheets or rolls.",
+            "Professional models often cost more than basic desktop printers.",
+            "Computer plotters emerged in the late 1950s, worked with large systems including mainframes, and spread with CAD in the 1970s and 80s."
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Plotter types",
+          "headers": ["Type", "How it works"],
+          "rows": [
+            ["Drum", "A rotating drum moves the paper while the pen moves along the other axis"],
+            ["Flatbed", "Paper stays still while the pen moves"],
+            ["Pen", "Uses one or more pens, sometimes of different colours"],
+            ["Inkjet", "Uses ink droplets for large-format output"],
+            ["Electrostatic", "Electrical charges form an image that attracts toner"],
+            ["Cutting", "A blade cuts programmed designs in vinyl or paper"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "remember",
+          "text": "Categories overlap: a **pen plotter** can be either a drum or a flatbed plotter."
+        }
+      ]
+    },
+    {
+      "id": "3d-printing-duplex",
+      "title": "3D Printing & Duplex Printing",
+      "icon": "🧊",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "**3D printing** creates a physical object by adding material layer by layer; this is called **additive manufacturing**. **Chuck Hull** is widely called the **father of 3D printing**. He developed **stereolithography (SLA)**, and his first successful SLA part dates to **1983**. SLA uses light to harden liquid photopolymer in successive layers."
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "Flat view vs object",
+          "text": "A plotter or printer prints a **flat view** of a 3D design. A **3D printer** builds the actual object."
+        },
+        {
+          "type": "keyvalue",
+          "title": "Duplex printing",
+          "rows": [
+            ["Simplex", "Printing on **one side** of a sheet"],
+            ["Duplex", "Printing on **both sides** of a sheet"],
+            ["Automatic duplexer", "The device that handles paper for second-side printing automatically"],
+            ["Manual duplex", "The user has to turn and reload the paper"]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "printer-exam-recall",
+      "title": "Exam Recall: Clue to Answer",
+      "icon": "🎯",
+      "blocks": [
+        {
+          "type": "table",
+          "headers": ["Clue", "Answer"],
+          "rows": [
+            ["Mechanical striking through an inked ribbon", "Impact printer"],
+            ["Two broad printer groups", "Impact and non-impact"],
+            ["India's first printing press", "Goa, 1556"],
+            ["Printer resolution unit", "DPI (Dots Per Inch)"],
+            ["Legacy printer interface", "Parallel port (USB and networking also exist)"],
+            ["Laser plus electrophotography", "Laser printer"],
+            ["Automatic two-sided printing component", "Duplexer"],
+            ["Father of 3D printing", "Chuck Hull"],
+            ["Pins or wires making dots; multipart and carbon copies", "Dot matrix"],
+            ["Preformed letters on a wheel; slow, noisy, no general graphics", "Daisy wheel"],
+            ["Chain carries characters; speed in LPM", "Chain (line) printer"],
+            ["Heat-based, heat-sensitive paper, receipts and tickets", "Thermal printer"],
+            ["Small ink droplets from nozzles", "Inkjet"],
+            ["Large, accurate drawings, CAD and blueprints", "Plotter"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "tip",
+          "title": "One-line memory aids",
+          "text": "Daisy wheel = golf ball? **No**: golf ball is IBM Selectric. Drum = line printer. Thermal = heat. Inkjet = liquid droplets. Dot matrix = pins and dots."
+        }
+      ]
+    }
+  ],
+  "revision": [
+    "A printer is an output device that converts soft copy into hard copy.",
+    "Impact printers strike an inked ribbon (dot matrix, daisy wheel, drum, chain, band); non-impact: inkjet, laser, thermal.",
+    "DPI (Dots Per Inch) measures resolution; CPS, LPM and PPM measure speed.",
+    "Dot matrix: serial impact character printer with 9-pin or 24-pin heads; best for multipart and carbon copies; speed in CPS.",
+    "Daisy wheel: preformed characters on petal-like spokes; slow, noisy, no general graphics; golf ball belongs to IBM Selectric.",
+    "Drum, chain and band printers are impact line printers measured in LPM; a chain carries characters.",
+    "Laser: non-impact, laser beam plus toner on a photosensitive drum, fuser uses heat and pressure; Starkweather, Xerox, 1969.",
+    "Chester Carlson made the first xerographic image in 1938; Remington Rand UNIVAC printer in 1953.",
+    "Colour laser uses CMYK: Cyan, Magenta, Yellow and Key (black).",
+    "Inkjet ejects liquid ink droplets from nozzles; HP ThinkJet (1984) was the first mass-marketed personal inkjet.",
+    "Direct thermal uses heat-sensitive paper (no ink or ribbon); thermal transfer needs a ribbon; BPA is only one possible developer.",
+    "Thermal printing suits ATM receipts, tickets, POS bills and thermal-paper fax; receipt speed is usually in mm/s.",
+    "Plotters draw large, accurate CAD drawings, maps and blueprints; a pen plotter can be drum or flatbed.",
+    "3D printing is additive manufacturing; Chuck Hull (SLA, 1983) is the father of 3D printing.",
+    "Duplexer prints on both sides automatically; simplex is one side; India's first printing press: Goa, 1556."
+  ],
+  "mindmap": {
+    "center": "Printers & Plotters",
+    "branches": [
+      {
+        "label": "Basics",
+        "children": ["Output device", "Soft copy to hard copy", "Impact vs non-impact", "DPI = resolution", "Parallel, USB, Wi-Fi"]
+      },
+      {
+        "label": "Milestones",
+        "children": ["1556 Goa printing press", "1938 Carlson xerography", "1953 UNIVAC printer", "1969 Starkweather laser", "1984 HP ThinkJet"]
+      },
+      {
+        "label": "Character Impact",
+        "children": ["Dot matrix: pins, CPS", "9-pin and 24-pin heads", "Multipart and carbon copies", "Daisy wheel: petal spokes"]
+      },
+      {
+        "label": "Line Printers",
+        "children": ["Drum printer", "Chain printer: characters", "Band printer", "Speed in LPM", "IBM 1403"]
+      },
+      {
+        "label": "Laser",
+        "children": ["Non-impact, toner", "Photosensitive drum", "Fuser: heat and pressure", "CMYK colour", "Duplexer"]
+      },
+      {
+        "label": "Inkjet & Thermal",
+        "children": ["Inkjet: liquid droplets", "Nozzles, PPM", "Direct thermal: heat paper", "Thermal transfer: ribbon", "BPA, POS, fax"]
+      },
+      {
+        "label": "Plotter & 3D",
+        "children": ["Plotter for CAD, maps", "Drum, flatbed, pen types", "Large-format inkjet", "3D = additive layers", "Chuck Hull, SLA 1983"]
+      },
+      {
+        "label": "Speed Units",
+        "children": ["CPS characters per second", "LPM lines per minute", "PPM pages per minute", "mm/s for receipts"]
+      }
+    ]
+  }
+}

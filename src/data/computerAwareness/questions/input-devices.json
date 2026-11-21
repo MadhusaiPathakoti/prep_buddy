@@ -1,0 +1,509 @@
+[
+  {
+    "id": "input-devices-01",
+    "q": "Which of the following is an input device?",
+    "options": [
+      "Plotter",
+      "Scanner",
+      "Speaker",
+      "Printer"
+    ],
+    "answer": 1,
+    "explain": "A scanner sends a digital image of a paper original into the computer. Plotter, speaker and printer all deliver output.",
+    "section": "input-basics"
+  },
+  {
+    "id": "input-devices-02",
+    "q": "Which device provides touch input and visual output in the same unit?",
+    "options": [
+      "Trackball",
+      "Barcode reader",
+      "Graphics tablet without display",
+      "Touchscreen"
+    ],
+    "answer": 3,
+    "explain": "Touch sensing on a touchscreen is input while its display is output, so it combines both.",
+    "section": "input-basics"
+  },
+  {
+    "id": "input-devices-03",
+    "q": "The QWERTY keyboard layout gets its name from:",
+    "options": [
+      "The first six letters of the upper alphabetic row",
+      "The initials of its inventors",
+      "The first six letters of the alphabet",
+      "The six most-used English letters"
+    ],
+    "answer": 0,
+    "explain": "QWERTY simply reads the first six letters of the top letter row, left to right.",
+    "section": "keyboard"
+  },
+  {
+    "id": "input-devices-04",
+    "q": "Which layout, used in France and some French-speaking regions, swaps A/Q and Z/W compared with QWERTY?",
+    "options": [
+      "DVORAK",
+      "QWERTY",
+      "AZERTY",
+      "Braille layout"
+    ],
+    "answer": 2,
+    "explain": "AZERTY exchanges the positions of A with Q and Z with W; some other keys also differ.",
+    "section": "keyboard"
+  },
+  {
+    "id": "input-devices-05",
+    "q": "Which statement about the Backspace and Delete keys is correct?",
+    "options": [
+      "Backspace removes the character after the cursor; Delete removes the one before it",
+      "Both keys always remove the entire line",
+      "Backspace usually removes the character before the cursor; Delete removes the one after it",
+      "Backspace deletes files permanently; Delete only edits text"
+    ],
+    "answer": 2,
+    "explain": "Backspace works backwards from the cursor, Delete works forwards (or removes the selected content or item).",
+    "section": "keyboard"
+  },
+  {
+    "id": "input-devices-06",
+    "q": "Which group contains only modifier keys?",
+    "options": [
+      "Ctrl, Alt, Shift",
+      "Enter, Esc, Delete",
+      "F1, F5, F12",
+      "Backspace, Tab, Enter"
+    ],
+    "answer": 0,
+    "explain": "Ctrl, Alt and Shift change the action of another key pressed with them.",
+    "section": "keyboard"
+  },
+  {
+    "id": "input-devices-07",
+    "q": "A traditional full-size PC keyboard commonly has how many keys?",
+    "options": [
+      "61 or 64",
+      "88 or 92",
+      "121 or 124",
+      "101 or 104"
+    ],
+    "answer": 3,
+    "explain": "Traditional full-size PC keyboards commonly have 101 or 104 keys, although counts vary by model and regional layout.",
+    "section": "keyboard"
+  },
+  {
+    "id": "input-devices-08",
+    "q": "Which statement about keyboard technology is correct?",
+    "options": [
+      "A keyboard optically scans each page typed on it",
+      "A keyboard does not optically scan documents; many scan an internal key matrix to detect keypresses",
+      "Every keyboard uses a laser to detect keypresses",
+      "A keyboard must be connected by a USB cable to work"
+    ],
+    "answer": 1,
+    "explain": "Keyboards do not scan paper. The scanning that happens is of an internal grid (matrix) of key switches. Wireless keyboards also exist.",
+    "section": "keyboard"
+  },
+  {
+    "id": "input-devices-09",
+    "q": "Who invented the computer mouse in the early 1960s at Stanford Research Institute?",
+    "options": [
+      "George Gerpheide",
+      "Douglas Engelbart",
+      "Ralph Benjamin",
+      "Russell Kirsch"
+    ],
+    "answer": 1,
+    "explain": "Douglas Engelbart invented the mouse at SRI. Gerpheide is linked to touchpad technology, Benjamin to roller-ball pointing and Kirsch to scanning.",
+    "section": "mouse-touchpad"
+  },
+  {
+    "id": "input-devices-10",
+    "q": "A mouse sensitivity setting is usually expressed in:",
+    "options": [
+      "KIPS (Kilo Instructions Per Second)",
+      "MP (Megapixels)",
+      "RPM (Revolutions Per Minute)",
+      "DPI (Dots Per Inch)"
+    ],
+    "answer": 3,
+    "explain": "DPI is the popular unit for mouse sensitivity; CPI (Counts Per Inch) is technically more precise for sensor reporting.",
+    "section": "mouse-touchpad"
+  },
+  {
+    "id": "input-devices-11",
+    "q": "The capacitive technology behind the Cirque GlidePoint touchpad was developed in the late 1980s by:",
+    "options": [
+      "George E. Gerpheide",
+      "Douglas Engelbart",
+      "Christopher Latham Sholes",
+      "Masahiro Hara"
+    ],
+    "answer": 0,
+    "explain": "Gerpheide developed the capacitive technology; the touchpad should not be credited simply to Apple.",
+    "section": "mouse-touchpad"
+  },
+  {
+    "id": "input-devices-12",
+    "q": "Which pointing device stays stationary while the user rolls an exposed ball with the thumb or fingers?",
+    "options": [
+      "Optical mouse",
+      "Light pen",
+      "Trackball",
+      "Joystick"
+    ],
+    "answer": 2,
+    "explain": "A trackball has a fixed base; only the ball rotates, so no sliding movement across a desk is needed.",
+    "section": "trackball-scanner"
+  },
+  {
+    "id": "input-devices-13",
+    "q": "Which scanner type pulls loose sheets through the device and suits batches of documents?",
+    "options": [
+      "Flatbed scanner",
+      "Handheld scanner",
+      "Sheet-fed scanner",
+      "Drum scanner"
+    ],
+    "answer": 2,
+    "explain": "Sheet-fed scanners move the paper past the sensor. A flatbed keeps the original still on glass.",
+    "section": "trackball-scanner"
+  },
+  {
+    "id": "input-devices-14",
+    "q": "In 1957, a rotating-drum scanner to feed images into a computer was built by a team led by:",
+    "options": [
+      "Russell Kirsch at the US National Bureau of Standards",
+      "Douglas Engelbart at Stanford Research Institute",
+      "Masahiro Hara at DENSO",
+      "Ralph Benjamin in the 1940s"
+    ],
+    "answer": 0,
+    "explain": "Kirsch and colleagues at the National Bureau of Standards built this early scanner, so scanner invention should not be credited simply to Xerox.",
+    "section": "trackball-scanner"
+  },
+  {
+    "id": "input-devices-15",
+    "q": "After scanning a printed page of text, the result is first stored as:",
+    "options": [
+      "Editable text in a word processor",
+      "A set of barcodes",
+      "A magnetic-ink record",
+      "An image that OCR can later convert into text"
+    ],
+    "answer": 3,
+    "explain": "A scanner only produces an image. OCR software must then recognise the characters.",
+    "section": "trackball-scanner"
+  },
+  {
+    "id": "input-devices-16",
+    "q": "A standard retail barcode usually identifies:",
+    "options": [
+      "The price only, with no database needed",
+      "The product, with the price fetched from a database by the POS system",
+      "The customer who buys it",
+      "The shop that sold it"
+    ],
+    "answer": 1,
+    "explain": "The POS system looks up price and description in a database using the identifier. Only some specialised formats can encode price directly.",
+    "section": "barcode-qr"
+  },
+  {
+    "id": "input-devices-17",
+    "q": "QR code was introduced in 1994 by a team led by Masahiro Hara at:",
+    "options": [
+      "Toyota Motors as a subsidiary brand",
+      "DENSO WAVE (the DENSO division)",
+      "Sony Corporation",
+      "Xerox PARC"
+    ],
+    "answer": 1,
+    "explain": "The developer was a DENSO division that became DENSO WAVE; calling it simply a Toyota subsidiary is imprecise.",
+    "section": "barcode-qr"
+  },
+  {
+    "id": "input-devices-18",
+    "q": "Which statement about scanning a payment QR code in a UPI app is correct?",
+    "options": [
+      "Scanning alone always completes the payment",
+      "QR codes cannot carry payment information",
+      "Only a barcode reader can read a UPI QR code",
+      "Scanning shows details for review; the payment still needs the user to authorise it"
+    ],
+    "answer": 3,
+    "explain": "The app displays the payment details and the user must review and authorise them; scanning alone does not authorise payment.",
+    "section": "barcode-qr"
+  },
+  {
+    "id": "input-devices-19",
+    "q": "Which technology is used to check shaded bubbles on examination answer sheets?",
+    "options": [
+      "OMR",
+      "OCR",
+      "MICR",
+      "POS"
+    ],
+    "answer": 0,
+    "explain": "Optical Mark Recognition detects which response positions are marked on a properly designed form.",
+    "section": "ocr-omr"
+  },
+  {
+    "id": "input-devices-20",
+    "q": "Which statement about OCR is correct?",
+    "options": [
+      "It works only when the paper is placed on a flatbed glass",
+      "It reads only magnetic ink",
+      "It can process an existing image without a new physical scan",
+      "It decides which bubble is shaded"
+    ],
+    "answer": 2,
+    "explain": "OCR works on scans, photos of text or image-based PDF pages that already exist.",
+    "section": "ocr-omr"
+  },
+  {
+    "id": "input-devices-21",
+    "q": "The Indian nine-digit MICR sort code is arranged as:",
+    "options": [
+      "3 digits bank + 3 digits city + 3 digits branch",
+      "3 digits branch + 3 digits bank + 3 digits city",
+      "3 digits city + 3 digits bank + 3 digits branch",
+      "6 digits account number + 3 digits city"
+    ],
+    "answer": 2,
+    "explain": "The format CCC BBB RRR gives city first, then bank, then branch.",
+    "section": "micr-cheque"
+  },
+  {
+    "id": "input-devices-22",
+    "q": "Which item is NOT contained within the nine-digit MICR sort code?",
+    "options": [
+      "The cheque serial number",
+      "The city component",
+      "The bank component",
+      "The branch component"
+    ],
+    "answer": 0,
+    "explain": "The cheque serial number is a separate field of the MICR line, not part of the nine-digit city-bank-branch code.",
+    "section": "micr-cheque"
+  },
+  {
+    "id": "input-devices-23",
+    "q": "MICR characters on a cheque are printed with:",
+    "options": [
+      "Fluorescent ink across the top of the cheque",
+      "Invisible ink read only by lasers",
+      "Ordinary ink read by a mark sensor",
+      "Magnetic ink, in a band near the bottom of the cheque"
+    ],
+    "answer": 3,
+    "explain": "MICR uses magnetic ink and a magnetic reader, and the data sits in a designated band near the bottom.",
+    "section": "micr-cheque"
+  },
+  {
+    "id": "input-devices-24",
+    "q": "A microphone is best described as which type of device?",
+    "options": [
+      "An output transducer that converts electricity into sound",
+      "An input transducer that converts sound pressure into an electrical signal",
+      "A storage device for audio files",
+      "A purely digital converter with no analogue stage"
+    ],
+    "answer": 1,
+    "explain": "Microphones turn sound into electrical signals; speakers and headphones do the reverse.",
+    "section": "microphone"
+  },
+  {
+    "id": "input-devices-25",
+    "q": "Which set lists the main parts of a moving-coil (dynamic) microphone?",
+    "options": [
+      "Diaphragm, backplate and capacitor",
+      "Diaphragm, voice coil and permanent magnet",
+      "Lens, sensor and mirror",
+      "Flip-flop, buffer and register"
+    ],
+    "answer": 1,
+    "explain": "Sound vibrates the diaphragm and coil in a magnetic field, producing a signal by electromagnetic induction. Diaphragm plus backplate describes a condenser microphone.",
+    "section": "microphone"
+  },
+  {
+    "id": "input-devices-26",
+    "q": "On a traditional PC sound card, which colour is the microphone input?",
+    "options": [
+      "Lime green",
+      "Light blue",
+      "Black",
+      "Pink"
+    ],
+    "answer": 3,
+    "explain": "Pink is the microphone input, lime green is the main stereo output, light blue is line-in and black is rear-speaker output on some systems.",
+    "section": "audio-types-ports"
+  },
+  {
+    "id": "input-devices-27",
+    "q": "A hydrophone is used to detect:",
+    "options": [
+      "Underwater sound",
+      "Heart sounds only",
+      "Sound in film studios only",
+      "Infrared radiation"
+    ],
+    "answer": 0,
+    "explain": "A hydrophone converts underwater sound to electrical signals, for example in ocean research.",
+    "section": "audio-types-ports"
+  },
+  {
+    "id": "input-devices-28",
+    "q": "Which statement about mic input and line input is correct?",
+    "options": [
+      "Mic input accepts a stronger signal than line input",
+      "Both accept exactly the same signal strength",
+      "Line input accepts a stronger signal than mic input, so a microphone may need a preamplifier first",
+      "Line input is used only for hydrophones"
+    ],
+    "answer": 2,
+    "explain": "Mic input expects a weak signal; line input expects stronger line-level signals from a player, mixer or preamplifier.",
+    "section": "audio-types-ports"
+  },
+  {
+    "id": "input-devices-29",
+    "q": "Which pixel size corresponds to 4K UHD video?",
+    "options": [
+      "1280 x 720",
+      "1920 x 1080",
+      "3840 x 2160",
+      "2560 x 1440"
+    ],
+    "answer": 2,
+    "explain": "HD (720p) is 1280 x 720, Full HD (1080p) is 1920 x 1080 and 4K UHD is 3840 x 2160.",
+    "section": "webcam-camera"
+  },
+  {
+    "id": "input-devices-30",
+    "q": "Which statement about megapixels (MP) is correct?",
+    "options": [
+      "One megapixel is about one million pixels, but more MP alone does not guarantee a better photo",
+      "One megapixel is exactly one thousand pixels",
+      "More megapixels always give a better photo",
+      "Megapixels measure the storage space of a memory card"
+    ],
+    "answer": 0,
+    "explain": "Lens, sensor, light and processing also decide image quality.",
+    "section": "webcam-camera"
+  },
+  {
+    "id": "input-devices-31",
+    "q": "A resistive touchscreen detects input through:",
+    "options": [
+      "A change in capacitance",
+      "Detection of CRT screen timing",
+      "Infrared body heat",
+      "Pressure bringing conductive layers into contact"
+    ],
+    "answer": 3,
+    "explain": "Resistive screens respond to pressure. Capacitive screens detect a change in capacitance.",
+    "section": "touchscreen-light-pen"
+  },
+  {
+    "id": "input-devices-32",
+    "q": "A traditional light pen works only with which type of display?",
+    "options": [
+      "Ordinary modern LCD",
+      "CRT (Cathode-Ray Tube)",
+      "E-paper",
+      "LED-backlit tablet"
+    ],
+    "answer": 1,
+    "explain": "Traditional light pens use screen light and display timing, which a CRT provides. They do not work on ordinary modern LCD screens.",
+    "section": "touchscreen-light-pen"
+  },
+  {
+    "id": "input-devices-33",
+    "q": "Which stylus technology imitates finger touch and usually has no battery?",
+    "options": [
+      "Battery-powered active pen",
+      "Passive capacitive stylus",
+      "Light pen",
+      "Barcode wand"
+    ],
+    "answer": 1,
+    "explain": "A passive capacitive stylus simply mimics a finger. Active pens carry electronics and a battery.",
+    "section": "stylus-tablet"
+  },
+  {
+    "id": "input-devices-34",
+    "q": "Which statement about a graphics tablet is correct?",
+    "options": [
+      "It always includes a built-in screen",
+      "It captures the complete paper image like a scanner",
+      "It works only with CRT displays",
+      "A pen tablet may have no display, so the user watches a separate monitor"
+    ],
+    "answer": 3,
+    "explain": "A pen display combines the screen with the drawing surface; a plain pen tablet does not.",
+    "section": "stylus-tablet"
+  },
+  {
+    "id": "input-devices-35",
+    "q": "Which statement is correct about a joystick?",
+    "options": [
+      "It is a stick pivoting on a base for directional control, and a gamepad is not a standalone joystick",
+      "It is a handheld controller with no moving stick",
+      "It is a pen-shaped input tool for touchscreens",
+      "It is used only to scan fingerprints"
+    ],
+    "answer": 0,
+    "explain": "A joystick uses a pivoting stick. A gamepad has buttons and thumbsticks but is a different controller.",
+    "section": "gaming-biometric"
+  },
+  {
+    "id": "input-devices-36",
+    "q": "An iris scanner captures the pattern of:",
+    "options": [
+      "The pupil opening itself",
+      "The ridges on the fingertip",
+      "The coloured ring around the pupil",
+      "The shape of the ear"
+    ],
+    "answer": 2,
+    "explain": "The iris is the coloured ring; the pupil is the central opening. Near-infrared light is commonly used.",
+    "section": "gaming-biometric"
+  },
+  {
+    "id": "input-devices-37",
+    "q": "PIR in a motion sensor stands for:",
+    "options": [
+      "Personal Infrared Reader",
+      "Pulse Input Recognition",
+      "Passive Infrared",
+      "Programmable Image Reader"
+    ],
+    "answer": 2,
+    "explain": "A PIR sensor detects changes in incoming infrared radiation; it does not directly measure body temperature.",
+    "section": "recognition-sensors"
+  },
+  {
+    "id": "input-devices-38",
+    "q": "Which statement correctly separates speech recognition from speaker recognition?",
+    "options": [
+      "Speech recognition finds what is said; speaker recognition finds who is speaking",
+      "Speech recognition finds who is speaking; speaker recognition finds what is said",
+      "Both only convert text into sound",
+      "Both work only on written text"
+    ],
+    "answer": 0,
+    "explain": "STT turns spoken words into text, while speaker recognition identifies a voice owner.",
+    "section": "recognition-sensors"
+  },
+  {
+    "id": "input-devices-39",
+    "q": "A contactless smart card communicates with its reader using:",
+    "options": [
+      "Magnetic ink signals",
+      "Laser light only",
+      "A mechanical key matrix",
+      "Short-range radio frequency (RF) communication"
+    ],
+    "answer": 3,
+    "explain": "Contact cards touch the reader contacts by insertion; contactless cards use short-range RF.",
+    "section": "recognition-sensors"
+  }
+]

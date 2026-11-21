@@ -1,0 +1,574 @@
+{
+  "id": "memory",
+  "sections": [
+    {
+      "id": "memory-big-picture",
+      "title": "Memory: the big picture",
+      "icon": "🗂️",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "**Memory** holds data, instructions and processing results. **Semiconductor memory** is built from electronic chips. Memory is split into **primary memory**, which the CPU accesses through the memory system and which is generally faster, and **secondary storage**, which keeps files for the long term."
+        },
+        {
+          "type": "keyvalue",
+          "title": "Primary vs secondary",
+          "rows": [
+            ["Primary memory", "Basic exam classification: RAM and ROM. In a wider hierarchy, cache and registers are also discussed."],
+            ["RAM", "Temporary working space for active programs and data; supports reading and writing; conventional RAM is volatile."],
+            ["ROM", "Non-volatile storage for firmware and essential instructions; whether it can be updated depends on its type."],
+            ["Secondary storage", "HDD, SSD, USB flash drive, SD card, CD, DVD and Blu-ray. They keep files without continuous power; the data a program needs is loaded into RAM for processing."]
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Classification at a glance",
+          "headers": ["Group", "Members"],
+          "rows": [
+            ["RAM", "SRAM and DRAM (SDRAM is a type of DRAM)"],
+            ["ROM family", "Mask ROM, PROM, EPROM, EEPROM (flash is a related rewritable technology)"],
+            ["Magnetic storage", "HDD"],
+            ["Solid-state storage", "SSD, pen drive, SD card"],
+            ["Optical storage", "CD, DVD, Blu-ray"]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "Volatile or non-volatile?",
+          "rows": [
+            ["Volatile", "Conventional registers, cache and RAM lose their contents when power is removed."],
+            ["Non-volatile", "The ROM family, flash and all secondary storage keep their contents."]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "text": "Primary memory is **not always volatile**, because ROM keeps its contents. In technical usage, 'main memory' usually means the working RAM."
+        },
+        {
+          "type": "callout",
+          "kind": "tip",
+          "text": "**RAM = working area, ROM = firmware, secondary storage = saved files.**"
+        }
+      ]
+    },
+    {
+      "id": "ram-types",
+      "title": "RAM: SRAM, DRAM, SDRAM and DDR",
+      "icon": "⚡",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "**RAM (Random Access Memory)** temporarily stores active instructions and data so the CPU can fetch working data quickly. It supports both reading and writing. Conventional RAM loses its contents when power is removed, so files must be saved to persistent storage."
+        },
+        {
+          "type": "table",
+          "title": "SRAM vs DRAM",
+          "headers": ["Point", "SRAM (Static)", "DRAM (Dynamic)"],
+          "rows": [
+            ["Storage cell", "Transistor-based circuit that holds bits while powered", "One transistor plus one capacitor"],
+            ["Refresh", "Not needed", "Needed periodically because charge leaks"],
+            ["Speed", "Generally faster", "Generally slower"],
+            ["Density and cost", "Less dense, costlier per bit", "Denser, cheaper per bit"],
+            ["Common use", "Processor cache", "Main system memory"],
+            ["Volatile?", "Yes", "Yes"]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "Other RAM terms",
+          "rows": [
+            ["SDRAM", "Synchronous Dynamic Random Access Memory: a DRAM subtype coordinated with clock signals. Commands and transfers follow clock timing, which gives efficient, higher-throughput operation than older asynchronous DRAM. It still needs refresh and power."],
+            ["DDR SDRAM", "Double Data Rate SDRAM: transfers data on both the rising and the falling clock edges. DDR is still a type of SDRAM."]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "text": "**Static does not mean permanent**: SRAM is volatile. Both SRAM and DRAM use transistors; capacitor storage and refresh belong to DRAM and its SDRAM forms. If DRAM and SDRAM appear as separate options, more than one choice can be technically valid."
+        },
+        {
+          "type": "callout",
+          "kind": "tip",
+          "text": "**SRAM = fast cache, no refresh. DRAM = capacitors plus refresh. SDRAM = clocked DRAM.**"
+        }
+      ]
+    },
+    {
+      "id": "rom-types",
+      "title": "ROM, firmware and ROM types",
+      "icon": "🔒",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "**ROM (Read-Only Memory)** is non-volatile semiconductor memory that keeps its information after shutdown. It commonly stores **firmware** and essential device-control instructions, and embedded systems use ROM-family memories widely. Its contents are mostly read in normal operation; whether they can be modified depends on the technology."
+        },
+        {
+          "type": "text",
+          "text": "**Firmware** is software that controls basic hardware functions. Startup (boot) instructions were traditionally stored in ROM, which is the usual exam answer. Modern BIOS/UEFI firmware commonly uses rewritable flash memory."
+        },
+        {
+          "type": "table",
+          "title": "The ROM family",
+          "headers": ["Type", "Full form", "How it is written or erased"],
+          "rows": [
+            ["Mask ROM", "Mask Read-Only Memory", "Programmed during chip manufacture; contents cannot normally be changed afterwards"],
+            ["PROM", "Programmable Read-Only Memory", "A blank chip is programmed once; cannot normally be erased and rewritten"],
+            ["EPROM", "Erasable Programmable ROM", "UV-erasable versions are cleared with ultraviolet light through a package window, then reprogrammed"],
+            ["EEPROM", "Electrically Erasable Programmable ROM", "Erased and rewritten electrically, commonly without removing the chip; conventional EEPROM supports small, often byte-level updates"],
+            ["Flash", "Flash memory", "Related non-volatile technology; electrically erased and rewritten in blocks; used in firmware, SSDs, USB drives and memory cards"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "remember",
+          "title": "Do not confuse",
+          "text": "**PROM = one-time programming. EPROM = UV erasure. EEPROM = electrical erasure. Flash = electrical block erasure.**"
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "text": "'Faster EEPROM' is an incomplete description of flash; block erasure and density are the key differences. 'Most advanced ROM' is not a universal technical category, but among basic exam options EEPROM is the electrically rewritable choice. Also, 'permanent' memory does not mean every ROM type is unchangeable."
+        }
+      ]
+    },
+    {
+      "id": "cpu-registers",
+      "title": "CPU registers",
+      "icon": "📌",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "**Registers** are very small, high-speed storage locations inside the processor. They temporarily hold data, addresses, instructions and intermediate results during execution. Registers generally give faster access than cache and main RAM, but their total capacity is very small, and conventional CPU registers are volatile."
+        },
+        {
+          "type": "table",
+          "title": "Register functions in a basic CPU model",
+          "headers": ["Register", "Full form", "Function"],
+          "rows": [
+            ["AC / ACC", "Accumulator", "Holds operands and intermediate or final arithmetic and logical results"],
+            ["MAR", "Memory Address Register", "Holds the address of the memory location involved in a read or write"],
+            ["MDR", "Memory Data Register", "Temporarily holds data moving to or from memory"],
+            ["PC", "Program Counter", "Holds the address of the next instruction to be fetched"],
+            ["IR", "Instruction Register", "Holds the current instruction for decoding and execution"],
+            ["GPR", "General-purpose register", "Stores working data, addresses and intermediate results"]
+          ]
+        },
+        {
+          "type": "figure",
+          "kind": "pyramid",
+          "title": "Fastest first",
+          "items": [
+            ["Registers", "Inside the CPU; fastest, tiny"],
+            ["Cache", "Small, fast, usually on the CPU chip"],
+            ["Main RAM", "Working memory for programs"],
+            ["Secondary storage", "Slowest; keeps files"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "tip",
+          "text": "**MAR = where the access happens. MDR = what data moves. PC = where the next instruction is. IR = the instruction itself.**"
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "text": "Register names and layouts depend on the processor design, and program-counter details can vary in pipelined designs. 'Only registers are inside the CPU' is too broad, because modern processors also contain caches and internal buffers."
+        }
+      ]
+    },
+    {
+      "id": "cache-locality",
+      "title": "Cache and locality of reference",
+      "icon": "🚀",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "**Cache** is a small, fast memory that keeps copies of frequently or recently used instructions and data. It cuts the number of accesses to slower RAM and so improves performance. Modern processor caches are generally on the CPU chip close to the cores; a conventional CPU cache is volatile, commonly built with **SRAM**, and much smaller than main RAM."
+        },
+        {
+          "type": "keyvalue",
+          "title": "Locality of reference",
+          "rows": [
+            ["Temporal locality", "Information used recently is likely to be used again soon. Example: instructions inside a loop."],
+            ["Spatial locality", "Nearby memory locations are likely to be accessed soon. Example: consecutive array elements."]
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Cache levels",
+          "headers": ["Level", "Size and speed", "Notes"],
+          "rows": [
+            ["L1 (Level 1)", "Usually smallest and fastest of L1/L2/L3", "Located within a core; often split into instruction and data caches; also called primary or internal cache"],
+            ["L2 (Level 2)", "Generally larger but slower than L1", "May be private to a core or shared by a core group; also called secondary cache; 'external cache' is an older label"],
+            ["L3 (Level 3)", "Generally larger but slower than L2", "Often shared by several cores; frequently the last-level cache (LLC), depending on the architecture"]
+          ]
+        },
+        {
+          "type": "figure",
+          "kind": "flow",
+          "title": "Access order, fastest first",
+          "items": [
+            ["L1 cache", "Smallest, fastest"],
+            ["L2 cache"],
+            ["L3 cache", "Often shared"],
+            ["RAM"],
+            ["Storage", "Slowest"]
+          ]
+        },
+        {
+          "type": "text",
+          "text": "A **hit** means the requested information is in the cache; a **miss** means it must be fetched from a lower memory level. Capacity usually grows toward storage, and latency generally grows too. Registers are faster than all of these conventional memory levels."
+        },
+        {
+          "type": "callout",
+          "kind": "tip",
+          "text": "**Cache = SRAM + locality. L1 = fastest typical cache. L3 = often shared.**"
+        }
+      ]
+    },
+    {
+      "id": "virtual-memory",
+      "title": "Virtual memory and paging",
+      "icon": "🧮",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "**Virtual memory** gives each program a virtual address space that is mapped to physical memory. The **operating system** manages it with hardware support. When necessary, some memory contents are backed by an HDD or SSD, which helps run workloads larger than the installed RAM. The backing area is called **swap space, a swap file or a page file**, depending on the operating system; virtual memory itself is broader than just that disk area."
+        },
+        {
+          "type": "keyvalue",
+          "title": "Key terms",
+          "rows": [
+            ["Paging", "Virtual memory is divided into fixed-size pages; physical RAM is organised into matching frames; address mapping links virtual pages to physical frames."],
+            ["Demand paging", "A page is brought into RAM only when it is needed, instead of loading every page in advance."],
+            ["Page fault", "Happens when a page is not available in the required state, so the operating system must handle it; a non-resident page may need loading."],
+            ["Thrashing", "Excessive paging that leaves little time for useful computation and severely slows the system."],
+            ["Physical RAM", "The installed working memory."],
+            ["Virtual address space", "The program's mapped view of memory."]
+          ]
+        },
+        {
+          "type": "steps",
+          "title": "What happens on a page fault",
+          "items": [
+            "A program touches a virtual page that is not currently in RAM.",
+            "A page fault occurs and the operating system takes over.",
+            "The needed page is loaded from the disk backing area into a free RAM frame.",
+            "The mapping is updated and the program continues."
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "text": "Virtual memory does **not physically increase RAM**. It reduces memory shortages and supports large programs and multitasking, but storage-backed access is much slower than RAM, and resource limits can still cause allocation failure."
+        },
+        {
+          "type": "callout",
+          "kind": "tip",
+          "text": "**OS manages, pages move as needed, swap/page file = disk backing, too much paging = thrashing.**"
+        }
+      ]
+    },
+    {
+      "id": "memory-units",
+      "title": "Memory units and conversions",
+      "icon": "📏",
+      "blocks": [
+        {
+          "type": "keyvalue",
+          "title": "Basic units",
+          "rows": [
+            ["Bit", "A binary digit: either 0 or 1."],
+            ["Nibble", "4 bits."],
+            ["Byte", "8 bits."],
+            ["b vs B", "Lowercase b usually means bits; uppercase B means bytes."]
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Decimal units (each is 1,000 times the previous)",
+          "headers": ["Unit", "Symbol", "Bytes"],
+          "rows": [
+            ["Kilobyte", "kB", "10^3"],
+            ["Megabyte", "MB", "10^6"],
+            ["Gigabyte", "GB", "10^9"],
+            ["Terabyte", "TB", "10^12"],
+            ["Petabyte", "PB", "10^15"],
+            ["Exabyte", "EB", "10^18"],
+            ["Zettabyte", "ZB", "10^21"],
+            ["Yottabyte", "YB", "10^24"],
+            ["Ronnabyte", "RB", "10^27"],
+            ["Quettabyte", "QB", "10^30"]
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Binary units (each is 1,024 times the previous)",
+          "headers": ["Unit", "Symbol", "Equals"],
+          "rows": [
+            ["Kibibyte", "KiB", "1,024 bytes"],
+            ["Mebibyte", "MiB", "1,024 KiB"],
+            ["Gibibyte", "GiB", "1,024 MiB"],
+            ["Tebibyte", "TiB", "1,024 GiB"],
+            ["Pebibyte", "PiB", "1,024 TiB"],
+            ["Exbibyte", "EiB", "1,024 PiB"],
+            ["Zebibyte", "ZiB", "1,024 EiB"],
+            ["Yobibyte", "YiB", "1,024 ZiB"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "Exam accuracy",
+          "text": "Older books write 1 KB = 1,024 bytes. Precisely, **1 KiB = 1,024 bytes** while **1 kB = 1,000 bytes**; follow the convention stated in the question. 'Brontobyte' and 'Geopbyte' are informal names, not standard SI/IEC units, and GB means gigabyte, not Geopbyte."
+        },
+        {
+          "type": "keyvalue",
+          "title": "Capacity or speed?",
+          "rows": [
+            ["GB, TB", "Describe storage capacity."],
+            ["MB/s, GB/s", "Describe data-transfer rate."],
+            ["RPM", "Describes platter rotation, not transfer rate."]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "tip",
+          "text": "**4 bits = nibble, 8 bits = byte. Decimal steps are 1,000; binary steps are 1,024.**"
+        }
+      ]
+    },
+    {
+      "id": "hdd-ssd",
+      "title": "Hard disk and solid-state drive",
+      "icon": "💽",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "A **Hard Disk Drive (HDD)** is non-volatile secondary storage that records data **magnetically on rotating platters**. Its main parts are the platters, spindle motor, read/write heads and actuator. HDDs give large capacity (stated in GB or TB) and hold operating systems, applications and files. Needed instructions and data are loaded into RAM for processing; mechanical access is slower than RAM and generally slower than SSD access."
+        },
+        {
+          "type": "keyvalue",
+          "title": "HDD performance",
+          "rows": [
+            ["RPM", "Revolutions per minute: how fast the platters spin. Typical values: 5,400; 7,200; 10,000 RPM."],
+            ["Transfer rate", "Often stated in MB/s. Seek time, interface and workload also matter, so RPM alone is not total speed."],
+            ["First commercial HDD", "IBM 350 Disk Storage Unit, introduced by IBM in 1956 as part of the IBM 305 RAMAC system."]
+          ]
+        },
+        {
+          "type": "text",
+          "text": "A **Solid-State Drive (SSD)** typically stores data in non-volatile **NAND flash** cells, with no spinning platters or moving heads. Compared with a similar HDD it generally offers quicker access, quieter operation, lower power use and better resistance to mechanical shock. A controller manages data operations and error correction, and SSD speed is stated in MB/s or GB/s."
+        },
+        {
+          "type": "table",
+          "title": "HDD vs SSD",
+          "headers": ["Point", "HDD", "SSD"],
+          "rows": [
+            ["Technology", "Magnetic, mechanical", "Electronic NAND flash, no moving parts"],
+            ["Typical role", "High-capacity storage", "Fast system drive"],
+            ["Power failure", "Keeps files", "Keeps files"],
+            ["Speed measure", "RPM plus MB/s", "MB/s or GB/s"]
+          ]
+        },
+        {
+          "type": "timeline",
+          "title": "Storage history",
+          "items": [
+            ["1956", "IBM introduces the IBM 350 disk unit with the RAMAC 305."],
+            ["1991", "SanDisk records a flash-based SSD milestone."],
+            ["2000s", "Samsung and other companies advance commercial adoption of SSDs."]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "text": "Flash SSDs existed before 2000, and SSD adoption has not eliminated HDDs."
+        }
+      ]
+    },
+    {
+      "id": "usb-sd-cd",
+      "title": "Pen drives, SD cards and the CD",
+      "icon": "🔌",
+      "blocks": [
+        {
+          "type": "keyvalue",
+          "title": "Flash-based removable storage",
+          "rows": [
+            ["Pen drive / USB flash drive", "A small removable device that connects through USB. Its flash memory keeps data without power, making it handy for carrying, copying and transferring files. Operating systems usually recognise standard USB storage with built-in drivers, and having no moving parts gives better shock resistance than an HDD."],
+            ["Speed and capacity", "Read/write speed is usually in MB/s and depends on the drive, USB connection, host and workload. Capacities vary widely (2 TB USB flash drives have been made), so a fixed universal range is misleading."],
+            ["SD card (Secure Digital)", "A compact removable flash-storage card that is non-volatile, used in compatible cameras, phones and other devices. microSD is a smaller format of the same family. A compatible slot or reader is needed."]
+          ]
+        },
+        {
+          "type": "text",
+          "text": "The **Compact Disc (CD)** is an optical storage medium for digital audio, software and files. It was developed jointly by **Sony and Philips**. Commercial audio CDs launched in **Japan in 1982** and **Europe in 1983**; computer-data formats followed later."
+        },
+        {
+          "type": "keyvalue",
+          "title": "CD facts",
+          "rows": [
+            ["Diameter", "12 cm (standard full size)."],
+            ["Material", "Mostly polycarbonate plastic."],
+            ["Capacity", "Common data-disc labels: 650 MB or 700 MB."],
+            ["Reading laser", "A CD-ROM or other compatible optical drive uses a near-infrared laser of about 780 nm, not a visible red laser."],
+            ["How data is stored", "A spiral of microscopic pits and lands on pressed CDs; recordable and rewritable discs use different recording materials."],
+            ["Strengths and weaknesses", "Much larger capacity than floppy disks and immune to magnetic fields, but scratches, heat and poor handling can damage them."]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "tip",
+          "text": "**USB and SD = flash. CD = optical. CD laser = 780 nm near-infrared.**"
+        }
+      ]
+    },
+    {
+      "id": "optical-discs",
+      "title": "CD types, DVD and Blu-ray",
+      "icon": "📀",
+      "blocks": [
+        {
+          "type": "table",
+          "title": "CD recording types",
+          "headers": ["Type", "Full form", "Behaviour"],
+          "rows": [
+            ["CD-ROM", "Compact Disc Read-Only Memory", "Factory-recorded; users cannot rewrite it"],
+            ["CD-R", "Compact Disc Recordable", "Recorded areas cannot be erased or overwritten; more sessions can be added before finalisation if space remains"],
+            ["CD-RW", "Compact Disc Rewritable", "Can be erased and recorded again with compatible equipment"]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "DVD: Digital Versatile Disc",
+          "rows": [
+            ["Use", "Higher capacity than a CD; movies, software and files; read by a DVD-ROM or other compatible optical drive."],
+            ["Size and laser", "Standard diameter 12 cm; red laser of about 650 nm."],
+            ["Capacity", "Single-sided single-layer: 4.7 GB. Single-sided dual-layer: about 8.5 GB."],
+            ["Format agreement", "Finalised in 1995 by several companies, including Toshiba, Matsushita (now Panasonic), Sony and Philips."]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "BD: Blu-ray Disc",
+          "rows": [
+            ["Origin", "High-capacity optical format developed and licensed through the Blu-ray Disc Association; development began before 2006, and 2006 was a major commercial movie/player launch year."],
+            ["Size and laser", "Standard diameter 12 cm; blue-violet laser of about 405 nm."],
+            ["Capacity", "Common sizes: 25 GB single-layer and 50 GB dual-layer; other formats can store more."],
+            ["Video", "Standard Blu-ray commonly carries Full HD; Ultra HD Blu-ray supports 4K and needs compatible playback equipment."]
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Comparison",
+          "headers": ["Disc", "Capacity", "Laser"],
+          "rows": [
+            ["CD", "650-700 MB", "780 nm near-infrared"],
+            ["DVD", "4.7 GB / 8.5 GB", "About 650 nm red"],
+            ["Blu-ray (BD)", "25 GB / 50 GB", "405 nm blue-violet"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "remember",
+          "text": "All three share the same standard diameter of **12 cm**. A **shorter laser wavelength** gives higher recording density, so capacity rises CD, then DVD, then BD. The standard abbreviation is **BD**, not BRD."
+        },
+        {
+          "type": "callout",
+          "kind": "tip",
+          "text": "Wavelength shrinks as capacity grows: **780, 650, 405 nm for MB, GB, then tens of GB.**"
+        }
+      ]
+    },
+    {
+      "id": "memory-key-facts",
+      "title": "Inventors and key exam facts",
+      "icon": "🏆",
+      "blocks": [
+        {
+          "type": "keyvalue",
+          "title": "Who invented what",
+          "rows": [
+            ["Robert H. Dennard", "Invented one-transistor DRAM (patent 1968); he did not invent both RAM and ROM."],
+            ["Eli Harari", "Practical floating-gate EEPROM, 1976 to 1978."],
+            ["George Perlegos", "Intel's first EEPROM, 1978."],
+            ["Fujio Masuoka", "Inventor of flash memory; not the general inventor of EEPROM."]
+          ]
+        },
+        {
+          "type": "bullets",
+          "title": "Fast facts to remember",
+          "items": [
+            "Fastest memory: CPU registers (compared with cache and RAM).",
+            "Registers are inside the CPU, and modern CPUs also contain cache and buffers.",
+            "Conventional processor cache uses SRAM; SRAM is generally faster than DRAM.",
+            "Desktop RAM modules usually fit motherboard slots; other systems may use soldered or integrated RAM.",
+            "SRAM, DRAM and SDRAM all use transistors; DRAM and SDRAM cells use a capacitor too.",
+            "DRAM and SDRAM need periodic refresh; SRAM does not while powered.",
+            "Device-control instructions in ROM or flash are firmware, a form of software.",
+            "Traditional exam answer for boot firmware: ROM; modern BIOS/UEFI commonly uses flash.",
+            "PROM cannot normally be erased and rewritten after programming; EEPROM is erased electrically; UV light erases UV-erasable EPROM.",
+            "Basic exam classification of primary memory: RAM + ROM."
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "tip",
+          "text": "**Dennard = DRAM. Masuoka = flash. Harari and Perlegos = EEPROM contributions.**"
+        }
+      ]
+    }
+  ],
+  "revision": [
+    "Primary memory (basic classification): RAM + ROM. RAM is the volatile working area; ROM is non-volatile and holds firmware.",
+    "Volatile: registers, cache, RAM. Non-volatile: ROM family, flash and secondary storage (HDD, SSD, USB, SD, CD, DVD, BD).",
+    "SRAM: faster, costlier, no refresh, used for cache. DRAM: one transistor + one capacitor, needs refresh, used as main memory.",
+    "SDRAM = Synchronous Dynamic RAM (clocked DRAM); DDR transfers data on both rising and falling clock edges.",
+    "ROM family: Mask ROM (factory), PROM (one-time), EPROM (UV erase), EEPROM (electrical erase), Flash (electrical block erase).",
+    "Registers: AC = results, MAR = address, MDR = data, PC = next instruction address, IR = current instruction.",
+    "Cache levels: L1 smallest and fastest (inside a core), L2 larger, L3 often shared; temporal and spatial locality drive caching.",
+    "Virtual memory is managed by the OS using pages and a swap/page file; excessive paging is thrashing; it does not add physical RAM.",
+    "4 bits = nibble, 8 bits = byte; decimal steps are 1,000 (kB, MB, GB, TB), binary steps are 1,024 (KiB, MiB, GiB, TiB).",
+    "GB/TB show capacity; MB/s and GB/s show transfer rate; RPM shows HDD platter rotation.",
+    "HDD = magnetic rotating platters; first commercial HDD was IBM 350 (1956, with IBM 305 RAMAC). SSD = NAND flash, no moving parts.",
+    "Pen drive and SD card use flash memory; CD was developed by Sony and Philips (audio CDs: Japan 1982, Europe 1983).",
+    "CD: 650-700 MB, 780 nm; DVD: 4.7 / 8.5 GB, 650 nm; Blu-ray: 25 / 50 GB, 405 nm. All are 12 cm discs.",
+    "CD-ROM is read-only, CD-R is recordable once, CD-RW is rewritable.",
+    "Dennard invented one-transistor DRAM (1968); Masuoka invented flash; Harari and Perlegos contributed to EEPROM."
+  ],
+  "mindmap": {
+    "center": "Primary & Secondary Memory",
+    "branches": [
+      {
+        "label": "Primary memory",
+        "children": ["RAM: volatile working area", "ROM: firmware, non-volatile", "Cache and registers", "Main memory = RAM"]
+      },
+      {
+        "label": "RAM family",
+        "children": ["SRAM: fast, no refresh", "DRAM: capacitor + refresh", "SDRAM: clocked DRAM", "DDR: both clock edges"]
+      },
+      {
+        "label": "ROM family",
+        "children": ["Mask ROM: at factory", "PROM: one-time", "EPROM: UV erase", "EEPROM: electrical erase", "Flash: block erase"]
+      },
+      {
+        "label": "Registers and cache",
+        "children": ["AC, MAR, MDR, PC, IR", "L1, L2, L3 levels", "Temporal locality", "Spatial locality", "Hit and miss"]
+      },
+      {
+        "label": "Virtual memory",
+        "children": ["OS-managed", "Pages and frames", "Demand paging, page fault", "Swap or page file", "Thrashing"]
+      },
+      {
+        "label": "Units",
+        "children": ["Bit, nibble (4), byte (8)", "Decimal: 1,000 steps", "Binary: 1,024 steps", "KiB, MiB, GiB, TiB", "Capacity vs MB/s vs RPM"]
+      },
+      {
+        "label": "Secondary storage",
+        "children": ["HDD: magnetic, RPM", "SSD: NAND flash", "Pen drive, SD card: flash", "CD: 780 nm, 700 MB", "DVD: 650 nm, 4.7 GB", "BD: 405 nm, 25 GB"]
+      }
+    ]
+  }
+}

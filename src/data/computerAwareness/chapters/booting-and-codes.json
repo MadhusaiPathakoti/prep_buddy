@@ -1,0 +1,473 @@
+{
+  "id": "booting-and-codes",
+  "sections": [
+    {
+      "id": "boot-basics",
+      "title": "What is booting?",
+      "icon": "🔌",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "**Booting** is the startup procedure that prepares a computer for use. It wakes up the essential hardware and loads the operating-system **kernel** and the components it needs into **RAM**. The goal is simple: get the operating system ready so that it can manage the computer."
+        },
+        {
+          "type": "keyvalue",
+          "title": "Key terms",
+          "rows": [
+            ["Booting", "Startup procedure that initialises hardware and loads the OS kernel into RAM"],
+            ["Origin of the word", "'Boot' comes from **bootstrap**"],
+            ["Purpose", "Make the operating system ready to manage the computer"],
+            ["Kernel", "The core part of the operating system"]
+          ]
+        },
+        {
+          "type": "figure",
+          "kind": "flow",
+          "title": "A typical boot sequence",
+          "items": [
+            ["Power on / Restart", "Power button or restart request"],
+            ["BIOS / UEFI firmware", "Starts running, initialises hardware"],
+            ["POST", "Checks essential hardware"],
+            ["Select boot device", "Firmware picks a boot device or entry"],
+            ["Boot loader", "Loads the OS kernel into RAM"],
+            ["OS starts up", "Drivers, services and components load"],
+            ["Login screen / Desktop", "Computer is ready to use"]
+          ]
+        },
+        {
+          "type": "steps",
+          "title": "The sequence in words",
+          "items": [
+            "Startup is triggered by the power button or a restart request.",
+            "BIOS or UEFI firmware begins to execute and initialises the hardware.",
+            "POST checks the essential hardware.",
+            "The firmware selects a boot device or startup entry.",
+            "The boot loader loads the OS kernel into RAM and hands control to it.",
+            "The OS initialises drivers, services and other system components.",
+            "The login screen or the desktop appears."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "who-starts-first",
+      "title": "Who starts first? Memory during boot",
+      "icon": "🥇",
+      "blocks": [
+        {
+          "type": "figure",
+          "kind": "layers",
+          "title": "Order of loading (last loaded on top)",
+          "items": [
+            ["Applications", "Word, Paint, browser - loaded after the OS"],
+            ["Operating system", "Kernel and system components in RAM"],
+            ["Boot loader", "Loads the kernel and passes control"],
+            ["Firmware (BIOS / UEFI)", "Runs first, before everything else"]
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Where things live during boot",
+          "headers": ["Component", "Role / location"],
+          "rows": [
+            ["BIOS / UEFI", "Stored in non-volatile motherboard memory, usually flash"],
+            ["SSD / HDD", "Normally stores the installed operating system"],
+            ["RAM", "Holds the kernel and the active OS components"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "remember",
+          "title": "Textbook shorthand",
+          "text": "Exam books say: **BIOS is in ROM** and the **operating system is loaded into RAM**. Firmware executes before the boot loader and the OS, and the OS is loaded before ordinary applications such as Word, Paint or a browser."
+        },
+        {
+          "type": "callout",
+          "kind": "tip",
+          "title": "Memory trick",
+          "text": "Order of startup: **F**irmware, **B**oot loader, **O**perating system, **A**pps - think 'Fast Boot Opens Apps'."
+        }
+      ]
+    },
+    {
+      "id": "boot-types",
+      "title": "Cold boot vs warm boot",
+      "icon": "🌡️",
+      "blocks": [
+        {
+          "type": "table",
+          "headers": ["Point", "Cold boot", "Warm boot"],
+          "rows": [
+            ["Meaning", "Starting a computer from a powered-off state", "Restarting a computer that is already running, without manually switching off its power"],
+            ["Example", "Pressing the power button after shutdown", "Selecting Restart"],
+            ["Other names", "Cold start, hard boot", "Warm restart, soft reboot"],
+            ["Speed", "Normal startup", "Basic exam texts call it faster; real speed depends on hardware and startup features"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "Do not mix up",
+          "text": "A cold boot does **not** mean only the first-ever startup of a new machine. Every start from the OFF state is a cold boot. Remember: **OFF to ON = cold boot, Restart = warm boot**."
+        },
+        {
+          "type": "callout",
+          "kind": "tip",
+          "title": "Memory trick",
+          "text": "Cold = the machine is cold (switched off). Warm = the machine is still warm (already running)."
+        }
+      ]
+    },
+    {
+      "id": "firmware-bios-uefi",
+      "title": "Firmware: BIOS, UEFI, POST and CMOS",
+      "icon": "🧠",
+      "blocks": [
+        {
+          "type": "keyvalue",
+          "title": "Full forms and meanings",
+          "rows": [
+            ["BIOS", "**Basic Input/Output System** - firmware that initialises hardware and begins startup"],
+            ["UEFI", "**Unified Extensible Firmware Interface** - the modern firmware interface that replaces legacy BIOS"],
+            ["POST", "**Power-On Self-Test** - firmware routines that check essential hardware such as memory and other devices; the exact checks vary"],
+            ["ESP", "**EFI System Partition** - stores the UEFI startup files"],
+            ["CMOS", "Battery-backed memory in which traditional PCs kept BIOS settings"],
+            ["NVRAM", "Non-volatile memory where modern firmware may keep its settings"]
+          ]
+        },
+        {
+          "type": "bullets",
+          "title": "More details",
+          "items": [
+            "BIOS is traditionally described as stored in **ROM**; modern firmware commonly uses rewritable **flash memory**.",
+            "The EFI System Partition normally uses the **FAT32** file system on fixed disks; other partitions need not be FAT32.",
+            "Firmware **code** and firmware **settings** are different things - the code is in flash, the settings were kept in CMOS (older PCs) or NVRAM (modern ones)."
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "POST is not a device",
+          "text": "POST belongs to the **firmware**. It is not a separate hardware device. It runs the initial hardware checks right after the firmware starts."
+        }
+      ]
+    },
+    {
+      "id": "boot-loader-tools",
+      "title": "Boot loader, GRUB, dual boot and MBR",
+      "icon": "🧰",
+      "blocks": [
+        {
+          "type": "keyvalue",
+          "title": "Startup tools",
+          "rows": [
+            ["Boot loader", "Startup program that loads the operating-system kernel and transfers control to it"],
+            ["Bootstrap loader", "The small program that starts the OS-loading process"],
+            ["GRUB", "**GRand Unified Bootloader** - widely used with Linux; can show a menu to select an operating system"],
+            ["Dual boot", "Two operating systems installed on one computer; the user chooses which one to start"],
+            ["MBR", "**Master Boot Record** - a disk structure that traditionally holds initial boot code and partition information"],
+            ["Fast boot", "Firmware feature that shortens startup by skipping or reducing some initialisation work"]
+          ]
+        },
+        {
+          "type": "figure",
+          "kind": "flow",
+          "title": "Dual boot with GRUB",
+          "items": [
+            ["Firmware (BIOS / UEFI)", "Starts and finds the boot loader"],
+            ["GRUB menu", "User picks an operating system"],
+            ["Linux or Windows", "Chosen OS kernel is loaded"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "remember",
+          "text": "**GRUB = Linux boot loader.** A boot loader loads the kernel; it is not the operating system itself."
+        }
+      ]
+    },
+    {
+      "id": "safe-mode-keys",
+      "title": "Safe Mode and Ctrl+Alt+Delete",
+      "icon": "🛟",
+      "blocks": [
+        {
+          "type": "table",
+          "title": "Advanced boot options",
+          "headers": ["Mode", "What it does"],
+          "rows": [
+            ["Safe Mode", "Starts Windows with a limited set of essential files, drivers and services; useful to diagnose startup and software problems"],
+            ["Safe Mode with Networking", "Safe Mode plus the network components"],
+            ["Safe Mode with Command Prompt", "Safe Mode that opens a command prompt instead of the normal desktop"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "Ctrl + Alt + Delete",
+          "text": "On older PCs this key combination was historically associated with a **warm reboot**. In modern Windows it normally opens the **security screen** and does not directly restart the PC."
+        },
+        {
+          "type": "bullets",
+          "items": [
+            "Safe Mode loads **limited drivers** - helpful when a faulty driver or software stops normal startup.",
+            "The advanced boot menu lets you choose how Windows starts."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "startup-faults",
+      "title": "Startup faults and random booting",
+      "icon": "⚠️",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "'**Random booting**' is an informal phrase for sudden or repeated unexpected restarts. It is a **fault symptom**, not a standard boot type like cold or warm boot."
+        },
+        {
+          "type": "bullets",
+          "title": "Possible causes of unexpected restarts",
+          "items": [
+            "Faulty RAM",
+            "Overheating",
+            "Unstable power supply",
+            "Malware",
+            "Damaged operating-system files",
+            "Faulty or incompatible drivers"
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "remember",
+          "title": "Boot failure",
+          "text": "A **boot failure** means the startup cannot finish. Corrupted startup files can also prevent the computer from completing startup."
+        }
+      ]
+    },
+    {
+      "id": "unicode-basics",
+      "title": "Unicode: a universal text standard",
+      "icon": "🌐",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "**Unicode** assigns a **code point** to characters from many writing systems. It represents letters, numbers, punctuation, symbols and other text elements consistently, and is used by operating systems, browsers, search engines and applications."
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "What Unicode is not",
+          "text": "Unicode is a **character-encoding standard**, not a font and not a keyboard layout. 'Universal character-encoding standard' describes its purpose - Unicode is **not an acronym**."
+        },
+        {
+          "type": "timeline",
+          "title": "Unicode history",
+          "items": [
+            ["Late 1987", "Work on Unicode began"],
+            ["Early contributors", "Joe Becker, Lee Collins and Mark Davis, associated with Xerox and Apple"],
+            ["3 January 1991", "The Unicode Consortium was incorporated"],
+            ["October 1991", "First version, Unicode 1.0.0, released"]
+          ]
+        },
+        {
+          "type": "text",
+          "text": "The **Unicode Consortium** maintains the standard."
+        }
+      ]
+    },
+    {
+      "id": "utf-encodings",
+      "title": "UTF forms, encodings, ASCII and EBCDIC",
+      "icon": "🔤",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "**UTF** stands for **Unicode Transformation Format**. An **encoding** represents text as numeric values stored as binary data. Unicode has three main encoding forms, and all of them represent the same Unicode repertoire."
+        },
+        {
+          "type": "table",
+          "title": "Unicode encoding forms",
+          "headers": ["Form", "Code unit size", "Bytes per scalar value"],
+          "rows": [
+            ["UTF-8", "8-bit", "1 to 4 bytes"],
+            ["UTF-16", "16-bit", "2 or 4 bytes"],
+            ["UTF-32", "32-bit", "4 bytes"]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "Other character codes",
+          "rows": [
+            ["ASCII", "**American Standard Code for Information Interchange**"],
+            ["EBCDIC", "**Extended Binary Coded Decimal Interchange Code**"]
+          ]
+        },
+        {
+          "type": "figure",
+          "kind": "flow",
+          "title": "From code point to what you see",
+          "items": [
+            ["Code point U+0041", "Unicode number that identifies the character"],
+            ["Character", "The abstract letter or symbol (Latin capital A)"],
+            ["Glyph shape", "Drawn by the font you use"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "remember",
+          "title": "Important distinctions",
+          "text": "Unicode has **no single fixed bit length** - 8, 16 and 32 are code-unit sizes of its forms. One visible symbol can contain several code points. A **font supplies glyph shapes**; **Unicode identifies characters**."
+        }
+      ]
+    },
+    {
+      "id": "ascii-basics",
+      "title": "ASCII: meaning, history and types",
+      "icon": "🔡",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "**ASCII** (American Standard Code for Information Interchange) is a common numeric code for exchanging text between computers and communication equipment. It represents English letters, digits, punctuation, spaces and control functions."
+        },
+        {
+          "type": "timeline",
+          "title": "ASCII milestones",
+          "items": [
+            ["1961", "IBM engineer **Bob Bemer** contributed a proposal for a common character code"],
+            ["1963", "First ASCII standard published under the American Standards Association (ASA)"]
+          ]
+        },
+        {
+          "type": "text",
+          "text": "ASA was a predecessor of today's **ANSI** - American National Standards Institute."
+        },
+        {
+          "type": "table",
+          "title": "Standard ASCII vs Extended ASCII",
+          "headers": ["Point", "Standard ASCII", "Extended ASCII"],
+          "rows": [
+            ["Other names", "ASCII-7", "EASCII, ASCII-8"],
+            ["Bits", "7 bits (fixed length)", "8 bits"],
+            ["Code values", "2^7 = 128", "2^8 = 256"],
+            ["Decimal range", "0-127", "0-255 (upper half is 128-255)"],
+            ["Layout", "Control positions 0-31 and 127; printable positions 32-126 (including space)", "Upper-half values depend on the code page"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "Extended ASCII is not one table",
+          "text": "'Extended ASCII' means **several ASCII-based 8-bit code pages**, not one universal table. Also remember that 128-255 is only the upper half - the complete 8-bit range is 0-255."
+        },
+        {
+          "type": "table",
+          "title": "ASCII vs Unicode",
+          "headers": ["ASCII", "Unicode"],
+          "rows": [
+            ["Covers a small character set", "Supports many writing systems"],
+            ["7-bit fixed-length code", "UTF-8, UTF-16 and UTF-32 forms"],
+            ["Original code for English text", "UTF-8 preserves the same byte values for ASCII characters"]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ascii-values",
+      "title": "ASCII decimal values to remember",
+      "icon": "🔢",
+      "blocks": [
+        {
+          "type": "table",
+          "title": "ASCII ranges",
+          "headers": ["Characters", "Decimal range"],
+          "rows": [
+            ["Digits 0-9", "48-57"],
+            ["Uppercase A-Z", "65-90"],
+            ["Lowercase a-z", "97-122"]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "Handy single values",
+          "rows": [
+            ["Space", "32"],
+            ["! (exclamation mark)", "33"],
+            ["0 (zero)", "48"],
+            ["A", "65"],
+            ["B and C", "66 and 67"],
+            ["Z", "90"],
+            ["a", "97"],
+            ["b and c", "98 and 99"],
+            ["z", "122"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "tip",
+          "title": "The 32 rule",
+          "text": "Each lowercase ASCII letter is **32 greater** than its uppercase partner (97 - 65 = 32 and 122 - 90 = 32). Uppercase to lowercase: **add 32**. Lowercase to uppercase: **subtract 32**."
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "text": "The +32 / -32 rule works only for corresponding **ASCII letters**, not for all Unicode scripts."
+        }
+      ]
+    }
+  ],
+  "revision": [
+    "Booting = startup procedure; 'boot' comes from bootstrap; it loads the OS kernel into RAM.",
+    "Boot order: power on, BIOS/UEFI, POST, boot device selection, boot loader, OS, login screen.",
+    "Firmware runs first, then the boot loader, then the OS, and only then ordinary applications.",
+    "BIOS = Basic Input/Output System (textbook: in ROM); UEFI = Unified Extensible Firmware Interface (modern replacement).",
+    "POST = Power-On Self-Test, run by the firmware to check essential hardware.",
+    "Cold boot = starting from OFF; warm boot = restart while running (soft reboot).",
+    "GRUB = GRand Unified Bootloader, widely used with Linux; dual boot = two OS on one computer.",
+    "MBR = Master Boot Record; ESP (EFI System Partition) holds UEFI files, normally FAT32.",
+    "Safe Mode starts Windows with limited drivers and services for diagnosing problems.",
+    "Ctrl+Alt+Delete opens the security screen in modern Windows; it does not directly restart the PC.",
+    "'Random booting' is a fault symptom (bad RAM, overheating, power, malware, drivers), not a boot type.",
+    "Unicode: work began 1987, Consortium incorporated 3 Jan 1991, Unicode 1.0.0 in October 1991.",
+    "UTF-8 uses 1-4 bytes, UTF-16 uses 2 or 4 bytes, UTF-32 uses 4 bytes; Unicode is not an acronym.",
+    "ASCII = 7 bits, 128 values, range 0-127; extended ASCII = 8 bits, 256 values, range 0-255.",
+    "ASCII values: 0-9 = 48-57, A-Z = 65-90, a-z = 97-122; lowercase = uppercase + 32; space = 32."
+  ],
+  "mindmap": {
+    "center": "Booting & Codes",
+    "branches": [
+      {
+        "label": "Boot sequence",
+        "children": ["Power on / restart", "BIOS or UEFI", "POST", "Boot loader", "Kernel into RAM", "Login screen"]
+      },
+      {
+        "label": "Boot types",
+        "children": ["Cold boot (from OFF)", "Warm boot (restart)", "Soft reboot", "Hard boot"]
+      },
+      {
+        "label": "Firmware",
+        "children": ["BIOS", "UEFI", "POST", "CMOS settings", "EFI System Partition (FAT32)"]
+      },
+      {
+        "label": "Boot tools and modes",
+        "children": ["GRUB (Linux)", "Dual boot", "MBR", "Safe Mode", "Fast boot"]
+      },
+      {
+        "label": "Startup faults",
+        "children": ["Random booting", "Faulty RAM", "Overheating", "Corrupted OS files", "Bad drivers"]
+      },
+      {
+        "label": "Unicode",
+        "children": ["Started 1987", "Consortium 1991", "UTF-8 (1-4 bytes)", "UTF-16 (2 or 4)", "UTF-32 (4 bytes)"]
+      },
+      {
+        "label": "ASCII",
+        "children": ["7 bits = 128 values", "Range 0-127", "Extended: 256 values", "Bob Bemer 1961", "Standard 1963"]
+      },
+      {
+        "label": "ASCII values",
+        "children": ["0-9 = 48-57", "A-Z = 65-90", "a-z = 97-122", "Space = 32", "Case gap = 32"]
+      }
+    ]
+  }
+}

@@ -1,0 +1,483 @@
+[
+  {
+    "id": "linux-01",
+    "q": "Who created the Linux kernel?",
+    "options": [
+      "Richard Stallman",
+      "Ken Thompson",
+      "Linus Torvalds",
+      "Dennis Ritchie"
+    ],
+    "answer": 2,
+    "explain": "Linus Torvalds created the Linux kernel; version 0.01 was released on 17 September 1991.",
+    "section": "linux-origin"
+  },
+  {
+    "id": "linux-02",
+    "q": "In which year was the first Linux kernel released?",
+    "options": [
+      "1991",
+      "1969",
+      "1973",
+      "1987"
+    ],
+    "answer": 0,
+    "explain": "The first kernel release, version 0.01, came on 17 September 1991. UNIX began in 1969.",
+    "section": "linux-origin"
+  },
+  {
+    "id": "linux-03",
+    "q": "What is the mascot of Linux?",
+    "options": [
+      "Beastie, the daemon",
+      "Clippy, the paperclip",
+      "Duke, the mascot",
+      "Tux, the penguin"
+    ],
+    "answer": 3,
+    "explain": "The Linux mascot is Tux, a penguin.",
+    "section": "linux-origin"
+  },
+  {
+    "id": "linux-04",
+    "q": "Under which licence is the Linux kernel released?",
+    "options": [
+      "Proprietary commercial licence",
+      "GNU GPL version 2",
+      "Apache licence 1.0",
+      "MIT licence"
+    ],
+    "answer": 1,
+    "explain": "The Linux kernel uses the GNU General Public Licence, version 2.",
+    "section": "linux-origin"
+  },
+  {
+    "id": "linux-05",
+    "q": "Which statement about a Linux distribution is correct?",
+    "options": [
+      "It is the original name of Linux",
+      "It packages the kernel with utilities, applications and installation tools",
+      "It contains only the kernel",
+      "It is a text editor of Linux"
+    ],
+    "answer": 1,
+    "explain": "A distribution is a category of complete systems built around the kernel; it contains much more than the kernel alone.",
+    "section": "linux-origin"
+  },
+  {
+    "id": "linux-06",
+    "q": "Which of the following is a feature of Linux?",
+    "options": [
+      "Single-user and single-tasking only",
+      "Closed source code that cannot be modified",
+      "Works only through a graphical interface",
+      "Multi-user and multitasking"
+    ],
+    "answer": 3,
+    "explain": "Linux supports separate user accounts and several programs running concurrently.",
+    "section": "linux-features"
+  },
+  {
+    "id": "linux-07",
+    "q": "Which statement about Linux security is correct?",
+    "options": [
+      "Linux can be affected by malware",
+      "Linux is completely virus-proof",
+      "All Linux activity uses end-to-end encryption",
+      "Linux needs no access controls"
+    ],
+    "answer": 0,
+    "explain": "Linux has strong security controls but is not immune to malware; end-to-end encryption belongs to specific apps and protocols.",
+    "section": "linux-features"
+  },
+  {
+    "id": "linux-08",
+    "q": "Ubuntu is developed by which company, with community contributions?",
+    "options": [
+      "Red Hat",
+      "Novell",
+      "Canonical",
+      "Oracle"
+    ],
+    "answer": 2,
+    "explain": "Ubuntu is Debian-based and developed by Canonical.",
+    "section": "linux-distributions"
+  },
+  {
+    "id": "linux-09",
+    "q": "Which Linux distribution is recognised especially for stability and reliability?",
+    "options": [
+      "Arch Linux",
+      "Kali Linux",
+      "Debian",
+      "Gentoo"
+    ],
+    "answer": 2,
+    "explain": "Debian, particularly Debian Stable, is known for stability. Arch is known for rolling releases.",
+    "section": "linux-distributions"
+  },
+  {
+    "id": "linux-10",
+    "q": "RHEL, a Linux distribution, is designed mainly for:",
+    "options": [
+      "Business and enterprise workloads",
+      "Penetration testing",
+      "Beginner desktop use",
+      "Rolling-release experiments"
+    ],
+    "answer": 0,
+    "explain": "RHEL (Red Hat Enterprise Linux) targets business and enterprise workloads and servers.",
+    "section": "linux-distributions"
+  },
+  {
+    "id": "linux-11",
+    "q": "Fedora is a community Linux project sponsored by:",
+    "options": [
+      "Canonical",
+      "Debian Foundation",
+      "Google",
+      "Red Hat"
+    ],
+    "answer": 3,
+    "explain": "Fedora is sponsored by Red Hat, while Ubuntu is from Canonical.",
+    "section": "linux-distributions"
+  },
+  {
+    "id": "linux-12",
+    "q": "SUSE originated in which country?",
+    "options": [
+      "United States",
+      "Germany",
+      "Japan",
+      "France"
+    ],
+    "answer": 1,
+    "explain": "SUSE originated in Germany.",
+    "section": "linux-distributions"
+  },
+  {
+    "id": "linux-13",
+    "q": "Kali Linux is designed mainly for:",
+    "options": [
+      "Running enterprise web servers",
+      "Authorised penetration testing, security auditing and forensics",
+      "Beginner-friendly office work",
+      "Playing multimedia content"
+    ],
+    "answer": 1,
+    "explain": "Kali Linux is used by security professionals for authorised penetration testing, auditing and digital forensics.",
+    "section": "kali-desktops-gnu"
+  },
+  {
+    "id": "linux-14",
+    "q": "Who are the key original developers of Kali Linux?",
+    "options": [
+      "Linus Torvalds and Alan Cox",
+      "Mark Shuttleworth and Ian Murdock",
+      "Ken Thompson and Bill Joy",
+      "Mati Aharoni and Devon Kearns"
+    ],
+    "answer": 3,
+    "explain": "Mati Aharoni and Devon Kearns were key original developers of Kali Linux.",
+    "section": "kali-desktops-gnu"
+  },
+  {
+    "id": "linux-15",
+    "q": "GNU stands for:",
+    "options": [
+      "GNU's Not Unix",
+      "General Network Utility",
+      "Global New Unix",
+      "Graphical Network User"
+    ],
+    "answer": 0,
+    "explain": "GNU is a recursive acronym: GNU's Not Unix.",
+    "section": "kali-desktops-gnu"
+  },
+  {
+    "id": "linux-16",
+    "q": "Which statement about GNOME is correct?",
+    "options": [
+      "It is the only GUI available for Linux",
+      "It is a Linux kernel",
+      "It is one Linux desktop environment among several, such as KDE Plasma",
+      "It is a type of bootloader"
+    ],
+    "answer": 2,
+    "explain": "GNOME is one desktop option; KDE Plasma is an alternative.",
+    "section": "kali-desktops-gnu"
+  },
+  {
+    "id": "linux-17",
+    "q": "Which component of Linux manages CPU time, memory, processes and devices?",
+    "options": [
+      "Shell",
+      "Terminal",
+      "Kernel",
+      "Prompt"
+    ],
+    "answer": 2,
+    "explain": "The kernel is the central component managing system resources; the shell only interprets commands.",
+    "section": "linux-kernel-shell"
+  },
+  {
+    "id": "linux-18",
+    "q": "Which Linux component interprets commands and runs programs or scripts?",
+    "options": [
+      "Shell",
+      "Kernel",
+      "Device driver",
+      "Bootloader"
+    ],
+    "answer": 0,
+    "explain": "The shell interprets typed commands; the kernel manages resources.",
+    "section": "linux-kernel-shell"
+  },
+  {
+    "id": "linux-19",
+    "q": "Which kernel architecture does Linux use?",
+    "options": [
+      "Pure microkernel",
+      "Nanokernel",
+      "Exokernel",
+      "Monolithic kernel with loadable modules"
+    ],
+    "answer": 3,
+    "explain": "Linux has a monolithic kernel with loadable modules; the other names are general design concepts.",
+    "section": "linux-kernel-architecture"
+  },
+  {
+    "id": "linux-20",
+    "q": "Which directory normally stores system-wide configuration files in Linux?",
+    "options": [
+      "/dev",
+      "/etc",
+      "/root",
+      "/home"
+    ],
+    "answer": 1,
+    "explain": "/etc holds system-wide configuration; /dev holds device files.",
+    "section": "linux-directory-access"
+  },
+  {
+    "id": "linux-21",
+    "q": "What is the usual home directory of the root account?",
+    "options": [
+      "/",
+      "/root",
+      "/home/root",
+      "/etc"
+    ],
+    "answer": 1,
+    "explain": "The root user's home is normally /root, which is different from the root directory /.",
+    "section": "linux-directory-access"
+  },
+  {
+    "id": "linux-22",
+    "q": "Which statement is correct?",
+    "options": [
+      "The root user is the same as the root directory",
+      "The root directory is the superuser account",
+      "The root account is the symbol /",
+      "The root user and the root directory are different concepts"
+    ],
+    "answer": 3,
+    "explain": "Root is the administrative superuser account; / is the top of the directory hierarchy.",
+    "section": "linux-directory-access"
+  },
+  {
+    "id": "linux-23",
+    "q": "A file whose name begins with a dot, such as .profile, is normally:",
+    "options": [
+      "Hidden",
+      "Executable",
+      "Read-only",
+      "Deleted"
+    ],
+    "answer": 0,
+    "explain": "Dot-prefixed names are hidden in normal listings; use ls -a to show them.",
+    "section": "linux-directory-access"
+  },
+  {
+    "id": "linux-24",
+    "q": "Which command displays the current working directory path?",
+    "options": [
+      "cd",
+      "ls",
+      "pwd",
+      "man"
+    ],
+    "answer": 2,
+    "explain": "pwd prints the path of the current working directory.",
+    "section": "linux-file-commands"
+  },
+  {
+    "id": "linux-25",
+    "q": "Besides creating an empty file, what else can the touch command do?",
+    "options": [
+      "Delete the file permanently",
+      "Change the file owner",
+      "Update the timestamps of an existing file",
+      "Search for text in the file"
+    ],
+    "answer": 2,
+    "explain": "touch creates a file if it does not exist and also updates timestamps of an existing file.",
+    "section": "linux-file-commands"
+  },
+  {
+    "id": "linux-26",
+    "q": "Which command opens the manual page of a command such as cp?",
+    "options": [
+      "man",
+      "cat",
+      "grep",
+      "chmod"
+    ],
+    "answer": 0,
+    "explain": "man cp opens the manual page for cp.",
+    "section": "linux-file-commands"
+  },
+  {
+    "id": "linux-27",
+    "q": "What does \"chmod u+x script.sh\" do?",
+    "options": [
+      "Removes the file script.sh",
+      "Changes the owner to root",
+      "Copies script.sh to the user home",
+      "Adds execute permission for the owner"
+    ],
+    "answer": 3,
+    "explain": "chmod changes permissions; u+x adds execute for the user (owner).",
+    "section": "linux-file-commands"
+  },
+  {
+    "id": "linux-28",
+    "q": "What is the effect of \"date >> log.txt\"?",
+    "options": [
+      "Replaces the contents of log.txt with the output",
+      "Appends the output to log.txt",
+      "Deletes log.txt",
+      "Displays log.txt on screen"
+    ],
+    "answer": 1,
+    "explain": ">> appends output to the file while > replaces existing contents.",
+    "section": "linux-redirection-memory-aids"
+  },
+  {
+    "id": "linux-29",
+    "q": "Which command gives a continuously updating view of processes and resource usage?",
+    "options": [
+      "ps",
+      "top",
+      "df",
+      "kill"
+    ],
+    "answer": 1,
+    "explain": "top updates its display continuously, whereas ps gives a snapshot.",
+    "section": "linux-processes-memory"
+  },
+  {
+    "id": "linux-30",
+    "q": "Which command reports memory and swap usage?",
+    "options": [
+      "df",
+      "ps",
+      "man",
+      "free"
+    ],
+    "answer": 3,
+    "explain": "free reports memory and swap; free -h shows human-readable figures.",
+    "section": "linux-processes-memory"
+  },
+  {
+    "id": "linux-31",
+    "q": "Which statement about swap is correct?",
+    "options": [
+      "Disk-backed swap is slower than physical RAM",
+      "Swap is as fast as RAM",
+      "Swap is only a type of file system",
+      "Swap stores the kernel source code"
+    ],
+    "answer": 0,
+    "explain": "Swap holds memory pages moved out of RAM; disk-backed swap is slower than RAM.",
+    "section": "linux-processes-memory"
+  },
+  {
+    "id": "linux-32",
+    "q": "The kill command, by default:",
+    "options": [
+      "Always forcibly terminates the process at once",
+      "Shuts down the system",
+      "Sends a signal that requests termination of a process",
+      "Deletes a file"
+    ],
+    "answer": 2,
+    "explain": "kill sends signals; the default requests termination but does not always force it.",
+    "section": "linux-processes-memory"
+  },
+  {
+    "id": "linux-33",
+    "q": "GRUB is widely used in Linux as a:",
+    "options": [
+      "File system",
+      "Desktop environment",
+      "Bootloader",
+      "Package of utilities"
+    ],
+    "answer": 2,
+    "explain": "GRUB (GRand Unified Bootloader) loads the kernel at startup.",
+    "section": "linux-boot-filesystems"
+  },
+  {
+    "id": "linux-34",
+    "q": "Which file system is widely used on Linux?",
+    "options": [
+      "ext4",
+      "FAT12",
+      "ISO 9660 only",
+      "HFS only"
+    ],
+    "answer": 0,
+    "explain": "ext4 (Fourth Extended File System) is widely used, though defaults vary by distribution.",
+    "section": "linux-boot-filesystems"
+  },
+  {
+    "id": "linux-35",
+    "q": "Which statement about Linux file systems is correct?",
+    "options": [
+      "ext4 is the default on every Linux installation",
+      "XFS is the only journaling file system",
+      "Btrfs cannot take snapshots",
+      "There is no universal default file system for all distributions"
+    ],
+    "answer": 3,
+    "explain": "Defaults vary by distribution; Btrfs supports snapshots and checksums.",
+    "section": "linux-boot-filesystems"
+  },
+  {
+    "id": "linux-36",
+    "q": "Which is the general Linux command to arrange an orderly shutdown?",
+    "options": [
+      "stop",
+      "shutdown",
+      "end",
+      "terminate"
+    ],
+    "answer": 1,
+    "explain": "shutdown schedules or initiates an orderly shutdown. \"stop\" is not a standard shutdown command.",
+    "section": "linux-shutdown"
+  },
+  {
+    "id": "linux-37",
+    "q": "Linux is classified as which category of software?",
+    "options": [
+      "Proprietary application software",
+      "Open-source system software",
+      "Freeware utility software",
+      "Commercial database software"
+    ],
+    "answer": 1,
+    "explain": "Linux is open-source system software built around the Linux kernel.",
+    "section": "linux-final-facts"
+  }
+]

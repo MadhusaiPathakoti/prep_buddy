@@ -1,0 +1,747 @@
+{
+  "id": "networking",
+  "sections": [
+    {
+      "id": "network-basics",
+      "title": "Network basics and Internet history",
+      "icon": "🌐",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "A **computer network** links digital devices so they can exchange data and share resources such as files, applications, storage, Internet access and printers. One office printer, for example, can serve many connected computers."
+        },
+        {
+          "type": "keyvalue",
+          "title": "Key terms",
+          "rows": [
+            ["Node", "Any device or connection point taking part in a network: computer, server, printer, router or switch."],
+            ["Client / server", "These are **roles** a node plays, not types of network participants. Every participant is a node."],
+            ["Protocol", "A set of communication rules covering message format, transmission and handling."],
+            ["Layered model", "A way of splitting communication into tasks so networks are easier to design and troubleshoot."]
+          ]
+        },
+        {
+          "type": "timeline",
+          "title": "Early networking milestones",
+          "items": [
+            ["1969", "**ARPANET** (Advanced Research Projects Agency Network) becomes operational, funded through ARPA of the US Department of Defense."],
+            ["1970s", "**TCP/IP** is developed; Vint Cerf and Bob Kahn are its leading designers."],
+            ["1 Jan 1983", "ARPANET switches from **NCP** (Network Control Protocol) to **TCP/IP**."],
+            ["1984", "ISO publishes the first Basic Reference Model standard for **OSI**."]
+          ]
+        },
+        {
+          "type": "text",
+          "text": "ARPANET pioneered **packet switching** and helped lead to the Internet, but it was not the first network of every kind. The Internet had many contributors, so Cerf and Kahn are called leading developers rather than sole inventors."
+        },
+        {
+          "type": "callout",
+          "kind": "remember",
+          "title": "Quick recall",
+          "text": "ARPANET 1969 | TCP/IP transition 1983 | OSI standard 1984."
+        }
+      ]
+    },
+    {
+      "id": "osi-model",
+      "title": "OSI model: layers and PDUs",
+      "icon": "🧱",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "**OSI** (Open Systems Interconnection) is a seven-layer reference model. It is a conceptual framework, not one program, but real networks can be described using its layers. Read it from layer 7 down to layer 1."
+        },
+        {
+          "type": "figure",
+          "kind": "layers",
+          "title": "The seven OSI layers (top to bottom)",
+          "items": [
+            ["7 Application", "Network services used by applications"],
+            ["6 Presentation", "Data format, compression, encryption-related"],
+            ["5 Session", "Starts, manages and closes sessions"],
+            ["4 Transport", "End-to-end delivery, ports, TCP/UDP"],
+            ["3 Network", "Logical (IP) addressing and routing"],
+            ["2 Data Link", "Local delivery, framing, MAC addresses"],
+            ["1 Physical", "Raw bits as electrical, optical or radio signals"]
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Layer details",
+          "headers": ["Layer", "Job", "PDU", "Devices / examples"],
+          "rows": [
+            ["7 Application", "Network services used by applications", "Data", "HTTP, DNS, SMTP"],
+            ["6 Presentation", "Data representation, format conversion, compression and encryption-related functions", "Data", "Encoding, compression"],
+            ["5 Session", "Establishes, manages and closes sessions", "Data", "Session control"],
+            ["4 Transport", "Process-to-process (end-to-end) transfer; segmentation and reassembly; port numbers", "Segment (TCP) / datagram (UDP)", "TCP, UDP"],
+            ["3 Network", "Logical addressing and routing", "Packet (IP datagram)", "Routers, Layer 3 switches, IP address"],
+            ["2 Data Link", "Local-link delivery, framing, MAC addressing, frame error detection (FCS)", "Frame", "Bridges, ordinary Ethernet switches, MAC address"],
+            ["1 Physical", "Transmits bits as electrical, optical or radio signals", "Bits", "Hubs, repeaters, cables, basic modem signal conversion"]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "Abbreviations",
+          "rows": [
+            ["PDU", "Protocol Data Unit: the name of the data chunk at a layer."],
+            ["FCS", "Frame Check Sequence: used at the Data Link layer to detect frame errors."]
+          ]
+        },
+        {
+          "type": "figure",
+          "kind": "flow",
+          "title": "Encapsulation going down the stack",
+          "items": [
+            ["Data", "From the upper layers"],
+            ["TCP segment", "Transport adds ports (UDP makes a datagram)"],
+            ["IP packet", "Network adds IP addresses"],
+            ["Frame", "Data Link adds MAC addresses and FCS"],
+            ["Bits", "Physical sends signals"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "tip",
+          "title": "Memory tricks",
+          "text": "Top to bottom: Application, Presentation, Session, Transport, Network, Data Link, Physical. Addresses: Layer 4 = ports, Layer 3 = IP, Layer 2 = MAC. Going upward: bits, frames, packets, segments, data."
+        },
+        {
+          "type": "bullets",
+          "title": "Things to be careful about",
+          "items": [
+            "Layers 5-7 are commonly called the **upper layers**; Layer 4 connects application communication with network delivery.",
+            "Hardware and software boundaries are not rigid; one device can combine functions across layers.",
+            "Error detection and encryption are not exclusive to one layer; their placement depends on the protocol.",
+            "A gateway's layers depend on its function. The claim that every gateway works at all seven layers is inaccurate."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "tcp-ip-architecture",
+      "title": "TCP/IP architecture",
+      "icon": "🧭",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "**TCP/IP** (Transmission Control Protocol / Internet Protocol) is a working protocol suite that grew out of US defence-funded research in the 1970s, with Vint Cerf and Bob Kahn as leading designers. ARPANET adopted it in 1983. It is a large family of Internet protocols, not exactly 100 protocols."
+        },
+        {
+          "type": "figure",
+          "kind": "layers",
+          "title": "TCP/IP four-layer model (top to bottom)",
+          "items": [
+            ["Application", "HTTP, DNS, SMTP and other services"],
+            ["Transport / Host-to-Host", "TCP and UDP; process-to-process"],
+            ["Internet", "IP and ICMP; logical addressing, routing"],
+            ["Network Access / Link", "Ethernet, Wi-Fi; local communication"]
+          ]
+        },
+        {
+          "type": "text",
+          "text": "Many books teach a **five-layer model** instead: Application, Transport, Network, Data Link, Physical. It simply splits the Link layer into two; it is not a different protocol suite."
+        },
+        {
+          "type": "table",
+          "title": "OSI to TCP/IP mapping",
+          "headers": ["OSI layers", "TCP/IP layer"],
+          "rows": [
+            ["Application + Presentation + Session", "Application"],
+            ["Transport", "Transport"],
+            ["Network", "Internet"],
+            ["Data Link + Physical", "Network Access (Link)"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "No missing layers",
+          "text": "TCP/IP has no separate Session or Presentation layer, but those functions are not missing. They are handled inside the TCP/IP Application layer."
+        }
+      ]
+    },
+    {
+      "id": "tcp-udp-ip",
+      "title": "TCP, UDP and IP",
+      "icon": "📦",
+      "blocks": [
+        {
+          "type": "table",
+          "title": "Core protocols compared",
+          "headers": ["Protocol", "Full form", "Nature", "Key points"],
+          "rows": [
+            ["TCP", "Transmission Control Protocol", "Connection-oriented", "Reliable, ordered byte stream; uses acknowledgements, retransmissions, flow and congestion control. PDU: segment."],
+            ["UDP", "User Datagram Protocol", "Connectionless", "Datagrams with no built-in delivery, ordering or retransmission guarantee; low overhead; no connection-setup handshake."],
+            ["IP", "Internet Protocol", "Connectionless, best-effort", "Packet delivery with no end-to-end reliability guarantee."]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "UDP wording",
+          "text": "UDP has low **overhead** (not 'overload') and needs no handshake. It may reduce delay, but it is not always faster, and it is not inherently reliable."
+        },
+        {
+          "type": "bullets",
+          "title": "Transport layer recap",
+          "items": [
+            "Transport = Layer 4 = the **end-to-end layer**: process-to-process communication, segmentation and reassembly, and port numbers.",
+            "TCP adds reliability and ordering; end-to-end delivery reliability depends on the chosen transport or application design.",
+            "Transport PDU: TCP segment or UDP datagram."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ieee-802",
+      "title": "IEEE 802 standards",
+      "icon": "📐",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "**IEEE** (Institute of Electrical and Electronics Engineers) develops technical standards and supports engineering advances for public benefit. The **IEEE 802** family covers local, metropolitan and related area networks."
+        },
+        {
+          "type": "table",
+          "title": "Standard and what it covers",
+          "headers": ["Standard", "Covers"],
+          "rows": [
+            ["802.1", "LAN architecture, bridging, VLANs and higher-layer LAN protocols"],
+            ["802.2", "Logical Link Control (LLC)"],
+            ["802.3", "**Ethernet**"],
+            ["802.4", "Token Bus"],
+            ["802.5", "Token Ring"],
+            ["802.6", "Metropolitan Area Networks; historically DQDB"],
+            ["802.7", "Broadband Technical Advisory Group"],
+            ["802.8", "Fibre Optic Technical Advisory Group"],
+            ["802.9", "Integrated Services LANs, including voice and data"],
+            ["802.10", "LAN/MAN security"],
+            ["802.11", "Wireless LAN; the standards underlying **Wi-Fi**"],
+            ["802.14", "Cable modem project"],
+            ["802.15", "Historically Wireless Personal Area Networks (WPAN)"],
+            ["802.15.1", "Historical Bluetooth-based standard"],
+            ["802.15.4", "Low-rate wireless Physical and MAC layers used by Zigbee, Thread and others"],
+            ["802.16", "Broadband wireless access associated with **WiMAX**"]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "Abbreviations",
+          "rows": [
+            ["WiMAX", "Worldwide Interoperability for Microwave Access"],
+            ["LAN", "Local Area Network"],
+            ["MAN", "Metropolitan Area Network"],
+            ["PAN", "Personal Area Network"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "remember",
+          "title": "Quick recall",
+          "text": "Ethernet 802.3 | Wi-Fi 802.11 | Bluetooth history 802.15.1 | Zigbee foundation 802.15.4 | WiMAX 802.16. Several entries are historical, withdrawn or tied to disbanded groups, and 802.15.4 is only a foundation for Zigbee, not the whole Zigbee specification."
+        }
+      ]
+    },
+    {
+      "id": "ip-addresses",
+      "title": "IP addresses: IPv4, IPv6 and classes",
+      "icon": "🔢",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "An **IP address** (Internet Protocol address) is a logical address given to a network interface. It identifies source and destination and supports routing at OSI Layer 3. Addresses can be static or dynamically assigned, so an IP is not always temporary. Both IPv4 and IPv6 are in use today."
+        },
+        {
+          "type": "table",
+          "title": "IPv4 vs IPv6",
+          "headers": ["Feature", "IPv4", "IPv6"],
+          "rows": [
+            ["Size", "32 bits = 4 bytes", "128 bits = 16 bytes"],
+            ["Notation", "Four decimal octets separated by dots", "Eight groups of four hexadecimal digits separated by colons"],
+            ["Example", "192.168.2.33", "2001:db8::1"],
+            ["Octet / group", "Each 8-bit octet is 0 to 255", "Leading zeros and one run of zeros can be abbreviated"]
+          ]
+        },
+        {
+          "type": "bullets",
+          "items": [
+            "The 0-255 range belongs to each IPv4 octet, not to the whole address.",
+            "A common IPv6 plan is 48-bit routing prefix + 16-bit subnet ID + 64-bit interface ID, but this is an example and not compulsory.",
+            "Plain 'IP address' is ambiguous: say whether IPv4 or IPv6 when the size matters."
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Historical classful IPv4",
+          "headers": ["Class", "First octet", "Default mask", "Note"],
+          "rows": [
+            ["A", "0-127", "255.0.0.0 (/8)", "Ordinary unicast range commonly taught as 1-126"],
+            ["B", "128-191", "255.255.0.0 (/16)", "Medium networks"],
+            ["C", "192-223", "255.255.255.0 (/24)", "Small networks"],
+            ["D", "224-239", "None", "Multicast; no default unicast mask"],
+            ["E", "240-255", "None", "Reserved, with special exceptions"]
+          ]
+        },
+        {
+          "type": "text",
+          "text": "Modern networks generally use **CIDR** prefixes instead of classful allocation, so the class system is mostly an exam topic today."
+        },
+        {
+          "type": "keyvalue",
+          "title": "Special addresses",
+          "rows": [
+            ["127.0.0.1", "The common loopback address, pointing to the local host."],
+            ["127.0.0.0/8", "The whole IPv4 loopback block; it is not ordinary host space."],
+            ["255.255.255.255", "Limited local broadcast; routers do not forward it."]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "tip",
+          "text": "IPv4 = decimal, 32 bits. IPv6 = hexadecimal, 128 bits."
+        }
+      ]
+    },
+    {
+      "id": "mac-and-address-services",
+      "title": "MAC addresses and address services",
+      "icon": "🪪",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "A **MAC address** (Media Access Control) identifies a network interface for local-link frame delivery at OSI Layer 2, the Data Link layer. A conventional Ethernet MAC has 48 bits = 6 bytes = 12 hexadecimal digits, for example 00:1A:3F:F1:4C:C6. Interfaces (the **NIC**, Network Interface Card) usually carry a manufacturer-assigned address."
+        },
+        {
+          "type": "keyvalue",
+          "title": "Structure of a universally assigned MAC",
+          "rows": [
+            ["First 24 bits", "The **OUI** (Organizationally Unique Identifier), identifying the manufacturer allocation."],
+            ["Last 24 bits", "Identify the interface within that allocation."]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "Physical address is not the Physical layer",
+          "text": "A MAC is often called a physical or hardware address, but it belongs to Layer 2 (Data Link), not Layer 1 (Physical). Also, a MAC can be overridden or randomized, so 'it never changes' is false."
+        },
+        {
+          "type": "table",
+          "title": "IP vs MAC",
+          "headers": ["Point", "IP address", "MAC address"],
+          "rows": [
+            ["Kind", "Logical", "Link-layer"],
+            ["OSI layer", "Layer 3", "Layer 2"],
+            ["Size", "IPv4 32 bits / IPv6 128 bits", "Common Ethernet: 48 bits"],
+            ["Used for", "Routing across networks", "Local-link delivery"],
+            ["Notation", "IPv4 decimal, IPv6 hexadecimal", "Hexadecimal"]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "Address services",
+          "rows": [
+            ["ARP", "Address Resolution Protocol: finds the link-layer (MAC) address for a known IPv4 address on the local link."],
+            ["RARP", "Reverse Address Resolution Protocol: legacy, server-assisted discovery of a device's own IP from its hardware address."],
+            ["DNS", "Domain Name System: resolves names to records, including IPv4 and IPv6 address records."],
+            ["DHCP", "Dynamic Host Configuration Protocol: supplies an IP address and settings such as subnet mask, gateway and DNS servers."]
+          ]
+        },
+        {
+          "type": "bullets",
+          "items": [
+            "RARP is legacy; DHCP is the common way to configure hosts.",
+            "IP and MAC addresses are addressing concepts, not communication protocols.",
+            "Both effective IP and MAC addresses can change.",
+            "Recall: ARP = IPv4 to MAC, RARP = reverse, DNS = names, DHCP = configuration."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "network-devices",
+      "title": "Hubs, repeaters, bridges, switches and routers",
+      "icon": "🔀",
+      "blocks": [
+        {
+          "type": "table",
+          "title": "Connecting devices",
+          "headers": ["Device", "Layer", "What it does"],
+          "rows": [
+            ["Repeater", "1 (Physical)", "Regenerates and retransmits a signal to extend a link. Does not route using IP."],
+            ["Hub", "1 (Physical)", "A multiport repeater: repeats incoming signals to every other port, with no destination-based forwarding or MAC learning. Called a 'dumb device'."],
+            ["Bridge", "2 (Data Link)", "Connects compatible LAN segments; learns MAC addresses and forwards or filters frames. Does not perform general protocol translation."],
+            ["Switch", "2 (Data Link)", "An ordinary Ethernet switch is a multiport bridge that uses a MAC table to pick the outgoing port. Multilayer switches can also route at Layer 3."],
+            ["Router", "3 (Network)", "Connects different IP networks and LAN subnets; forwards packets by destination IP and its routing table, choosing a route and next hop."]
+          ]
+        },
+        {
+          "type": "bullets",
+          "title": "Router notes",
+          "items": [
+            "Used in LAN and WAN environments; example vendors include Cisco, D-Link and HPE.",
+            "Depending on the product, a router may include firewall rules, **VPN** (Virtual Private Network), traffic monitoring and Wi-Fi access.",
+            "2.4 GHz and 5 GHz are common Wi-Fi bands, not routing frequencies, and a wired router needs no radio.",
+            "A single appliance can combine a modem, router, switch, wireless access point and firewall."
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "Hub is not a broadcaster",
+          "text": "A hub repeats all traffic to every other port, but that is not the same as generating an IP broadcast. It is a Layer 1 device that knows nothing about MAC or IP addresses."
+        },
+        {
+          "type": "callout",
+          "kind": "tip",
+          "title": "Device memory",
+          "text": "Hub or repeater = Layer 1 = bits. Bridge or ordinary switch = Layer 2 = MAC and frames. Router = Layer 3 = IP and packets."
+        }
+      ]
+    },
+    {
+      "id": "gateway-modem-firewall",
+      "title": "Gateways, modems, firewalls and spoofing",
+      "icon": "🚪",
+      "blocks": [
+        {
+          "type": "keyvalue",
+          "title": "Devices and concepts",
+          "rows": [
+            ["Gateway", "An entry and exit point between systems or networks. A **default gateway** is typically the router used to reach other IP networks."],
+            ["Protocol gateway", "Translates between differing systems or formats; its layers depend on its purpose."],
+            ["Modem", "**Mod**ulator-**Dem**odulator. Modulation encodes digital information onto a carrier; demodulation recovers it from the received signal."],
+            ["Firewall", "Permits or blocks traffic according to security rules. It can be software, an appliance or part of a router, and may inspect addresses, ports, state and application information."]
+          ]
+        },
+        {
+          "type": "bullets",
+          "title": "Modem speed",
+          "items": [
+            "Data rate is measured in bits per second (bps), kbps or Mbps.",
+            "Baud measures symbols per second and is not always equal to bps.",
+            "A 100 Mbps device or link can bottleneck a 500 Mbps service."
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Dial-up vs DSL",
+          "headers": ["Feature", "Dial-up", "DSL (Digital Subscriber Line)"],
+          "rows": [
+            ["Medium", "Telephone call plus modem", "Copper telephone wiring"],
+            ["Speed", "Very slow by modern standards", "Faster than dial-up, but fibre can be much faster"],
+            ["Phone line", "Generally occupies the line", "Generally always on; voice and data possible with filtering"],
+            ["Equipment", "Dial-up modem (digital-analogue conversion)", "DSL modem function, sometimes combined with a router"]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "Spoofing",
+          "rows": [
+            ["Spoofing", "Impersonation or falsified source information."],
+            ["IP spoofing", "Packets carry a forged source IP address."],
+            ["DNS spoofing", "False DNS information is accepted, potentially redirecting users."]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "text": "Changing an IP or DNS setting legitimately is not spoofing. Also, 'every gateway works at all seven layers' is inaccurate, and network size alone does not decide security; configuration and controls do."
+        }
+      ]
+    },
+    {
+      "id": "application-protocols",
+      "title": "Email, web, file transfer and remote access",
+      "icon": "📨",
+      "blocks": [
+        {
+          "type": "keyvalue",
+          "title": "Email protocols",
+          "rows": [
+            ["SMTP", "Simple Mail Transfer Protocol (not 'Transport'): outgoing mail submission and transfer between mail servers."],
+            ["POP3", "Post Office Protocol version 3: downloads messages, commonly for local storage. Server-copy retention depends on settings, and it is not restricted to one device."],
+            ["IMAP", "Internet Message Access Protocol: accesses mail stored on the server and synchronizes folders and status across devices."],
+            ["MIME", "Multipurpose Internet Mail Extensions: content formats for attachments, multimedia, non-ASCII text and multipart bodies. It does not send mail by itself."]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "File transfer, web and remote access",
+          "rows": [
+            ["FTP", "File Transfer Protocol: uploads and downloads between client and server."],
+            ["SFTP", "SSH File Transfer Protocol (often called Secure File Transfer Protocol): file transfer and management over encrypted SSH. Different from FTP."],
+            ["HTTP", "Hypertext Transfer Protocol: requests and responses for web resources. The Web is a service running over the Internet."],
+            ["HTTPS", "HTTP over TLS: encrypts and protects communication and authenticates the server. It does not guarantee that site content is trustworthy."],
+            ["Telnet", "Remote text-terminal access; ordinary Telnet is unencrypted."],
+            ["SSH", "Secure Shell: secure remote login, commands and related services."],
+            ["Gopher", "Legacy protocol for hierarchical menus to distribute and retrieve Internet resources, with search services."],
+            ["ICMP", "Internet Control Message Protocol: network control, error reports and diagnostics."]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "remember",
+          "title": "Quick recall",
+          "text": "SMTP sends | POP3 downloads | IMAP synchronizes | MIME formats content | FTP transfers | SFTP runs over SSH | HTTPS runs over TLS."
+        }
+      ]
+    },
+    {
+      "id": "security-protocols-ports",
+      "title": "Security protocols and port numbers",
+      "icon": "🔐",
+      "blocks": [
+        {
+          "type": "keyvalue",
+          "title": "Security protocols",
+          "rows": [
+            ["SSL", "Secure **Sockets** Layer (plural): an obsolete protocol family, not a modern strong-security choice."],
+            ["TLS", "Transport Layer Security: SSL's successor, providing encryption, integrity and authentication."],
+            ["PPTP", "Point-to-Point Tunneling Protocol: legacy VPN tunnelling."]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "Is SMTP a security protocol?",
+          "text": "Basic SMTP has no inherent encryption, but TLS can protect it, including through STARTTLS. Old questions that list SSL as secure are outdated, because SSL is obsolete."
+        },
+        {
+          "type": "keyvalue",
+          "title": "Types of port",
+          "rows": [
+            ["Physical port", "A connector on equipment, such as an Ethernet socket."],
+            ["Logical port", "A transport endpoint identifying an application or service. TCP and UDP have separate port spaces numbered 0-65535."]
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Port ranges",
+          "headers": ["Range", "Name"],
+          "rows": [
+            ["0-1023", "System / well-known ports"],
+            ["1024-49151", "User / registered ports"],
+            ["49152-65535", "Dynamic / private ports"]
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Common service ports",
+          "headers": ["Service", "Port", "Transport"],
+          "rows": [
+            ["FTP control", "21", "TCP"],
+            ["FTP data (active mode)", "20", "TCP (passive FTP negotiates another server data port)"],
+            ["SSH / SFTP", "22", "TCP"],
+            ["Telnet", "23", "TCP"],
+            ["SMTP", "25 (especially server-to-server)", "TCP"],
+            ["DNS", "53", "UDP and TCP"],
+            ["DHCPv4", "Server 67, client 68", "UDP"],
+            ["HTTP", "80", "TCP"],
+            ["POP3", "110", "TCP"],
+            ["IMAP", "143", "TCP"],
+            ["IRC (Internet Relay Chat)", "194 registered; 6667 also widely used", "TCP"],
+            ["HTTPS", "443", "TCP for HTTP/1.1 and HTTP/2; UDP for HTTP/3"]
+          ]
+        },
+        {
+          "type": "bullets",
+          "items": [
+            "DHCP usually goes client to server 68 to 67, and the reply goes 67 to 68.",
+            "These port numbers are conventions; deployments may use other ports.",
+            "ICMP, ARP and RARP have no TCP/UDP port numbers, and MIME has no independent transport port."
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "tip",
+          "title": "Port recall",
+          "text": "20/21 FTP | 22 SSH | 23 Telnet | 25 SMTP | 53 DNS | 67/68 DHCP | 80 HTTP | 110 POP3 | 143 IMAP | 443 HTTPS."
+        }
+      ]
+    },
+    {
+      "id": "topologies",
+      "title": "Network topologies",
+      "icon": "🕸️",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "A **topology** describes the arrangement of nodes and links. **Physical topology** is the actual connection layout, while **logical topology** is the way communication flows, which may differ from the physical layout."
+        },
+        {
+          "type": "table",
+          "title": "Topology comparison",
+          "headers": ["Topology", "Layout", "Notes"],
+          "rows": [
+            ["Bus", "One shared backbone (multipoint)", "Traditional coaxial Ethernet uses terminators at both ends to prevent reflections. Low cable cost, but a backbone failure can disrupt the segment."],
+            ["Star", "Separate link from each endpoint to a central switch (or older hub)", "Common Ethernet LAN design. One cable failure usually affects one endpoint; central-device failure affects all attached nodes."],
+            ["Ring", "Closed loop, two neighbours per node", "Traffic passes around the loop. Token Ring uses a token, but not every ring does. Simple rings need protection against a break."],
+            ["Tree", "Branching hierarchy of connected groups", "Often switches linking star-like sections; good for departments or buildings. An upstream failure can cut off lower branches."],
+            ["Mesh", "Multiple paths between nodes", "Full mesh links every pair; partial mesh links selected pairs. Redundancy improves resilience, but wired full mesh needs many cables and interfaces."],
+            ["Hybrid", "Two or more topology types combined", "Examples: star-bus, star-ring."]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "rows": [
+            ["Full mesh links", "n(n-1)/2 for one bidirectional link per pair. Six nodes need 6 x 5 / 2 = 15 links."],
+            ["Point-to-point", "A direct link between two endpoints."]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "Exam corrections",
+          "text": "'Mesh is the most reliable' is a simplification; real reliability depends on design. Token passing also occurs in Token Bus, so it is not exclusive to rings. Duplex direction is a property of the link, not of the topology's name."
+        }
+      ]
+    },
+    {
+      "id": "network-types-modes",
+      "title": "Network types, access and transmission modes",
+      "icon": "🗺️",
+      "blocks": [
+        {
+          "type": "table",
+          "title": "Network types by size",
+          "headers": ["Type", "Meaning", "Notes"],
+          "rows": [
+            ["PAN", "Personal Area Network", "Nearby personal devices such as Bluetooth headphones, keyboard or mouse; infrared links are short range. About 10 m is an example, not a fixed limit."],
+            ["LAN", "Local Area Network", "A limited location such as a home or office; usually privately managed, wired or wireless; shares files and printers. Typical speeds 10 Mbps to 1 Gbps and above."],
+            ["CAN", "Campus Area Network", "Interconnected LANs in nearby buildings of an organization (library, hostel, departments, offices). Some texts call it a corporate area network."],
+            ["MAN", "Metropolitan Area Network", "City-scale links between sites or LANs, often over fibre. Municipal and cable-TV networks are examples."],
+            ["WAN", "Wide Area Network", "Connects distant regions or countries using routers, fibre, leased circuits, cellular, microwave or satellite. The Internet is a global example; satellite is not compulsory."],
+            ["SAN", "Storage Area Network", "Specialized network linking servers to shared storage, commonly with block access; used in data centres, arrays and backup. Fibre Channel and iSCSI are examples."]
+          ]
+        },
+        {
+          "type": "bullets",
+          "title": "PAN / WLAN distinctions",
+          "items": [
+            "Wireless USB is historically associated with PAN, but a USB Wi-Fi adapter connects to a WLAN.",
+            "Wi-Fi hotspots and printers are not automatically PANs.",
+            "Two LANs joined together do not automatically make a MAN."
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "Access types",
+          "rows": [
+            ["Internet", "Global public interconnection; some resources may still be restricted."],
+            ["Intranet", "A network for authorized internal users."],
+            ["Extranet", "Selected access for approved partners, customers or suppliers; not only for two companies."]
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Transmission modes",
+          "headers": ["Mode", "Direction", "Example"],
+          "rows": [
+            ["Simplex", "One direction only", "Broadcast; idealized keyboard input (real keyboards also communicate both ways)"],
+            ["Half-duplex", "Both ways, one at a time", "Walkie-talkie"],
+            ["Full-duplex", "Both ways at the same time", "Telephone, video conversation, switched Ethernet"]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cables-and-media",
+      "title": "Cables, connectors and wireless media",
+      "icon": "🔌",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "**Guided media** are physical cables; **unguided media** carry electromagnetic waves through free space. Remember: copper carries electrical signals, fibre carries light, wireless uses electromagnetic waves."
+        },
+        {
+          "type": "table",
+          "title": "Guided media",
+          "headers": ["Cable", "Construction", "Use"],
+          "rows": [
+            ["Twisted pair", "Insulated copper wires twisted to reduce interference and crosstalk", "UTP (Unshielded) is widely used in Ethernet LANs; STP (Shielded) has metal shielding, helpful in noisy industrial or factory settings but not limited to them"],
+            ["Coaxial", "Central conductor, insulation, metal shield and outer jacket", "Cable TV and broadband, RF/video, older Ethernet"],
+            ["Fibre optic", "Light through glass or plastic fibres", "High capacity, long distance, immune to electromagnetic interference; broadband, backbones and undersea cables. Actual speed depends on equipment."]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "Connectors",
+          "rows": [
+            ["RJ-45", "Registered Jack 45: the common name for twisted-pair Ethernet connectors. The actual Ethernet modular form is 8P8C (eight positions, eight contacts)."],
+            ["BNC", "Bayonet Neill-Concelman: coaxial connector with bayonet coupling. TV also commonly uses F-type connectors."],
+            ["SC", "Subscriber Connector: fibre, push-pull."],
+            ["ST", "Straight Tip: fibre, bayonet coupling."],
+            ["LC", "Lucent Connector: compact fibre connector."],
+            ["FC", "Ferrule Connector: fibre, threaded coupling. It is NOT Fibre Channel."]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "fact",
+          "text": "SC, ST and FC commonly use 2.5 mm ferrules, while LC uses 1.25 mm. A ferrule holds and aligns the fibre."
+        },
+        {
+          "type": "keyvalue",
+          "title": "Unguided media",
+          "rows": [
+            ["Radio", "Wi-Fi, Bluetooth, mobile and broadcast; coverage depends on frequency, power and environment."],
+            ["Microwave", "Directional terrestrial or satellite links, often line of sight; technically part of the radio spectrum."],
+            ["Infrared", "Short-range optical paths, direct or reflected; used by remote controls and device links."]
+          ]
+        }
+      ]
+    }
+  ],
+  "revision": [
+    "ARPANET went live in 1969; it moved from NCP to TCP/IP on 1 January 1983; the OSI reference standard was published in 1984.",
+    "OSI layers top to bottom: Application, Presentation, Session, Transport, Network, Data Link, Physical.",
+    "PDUs: Data (layers 5-7), segment or datagram (4), packet (3), frame (2), bits (1).",
+    "Address memory: Layer 4 = ports, Layer 3 = IP, Layer 2 = MAC.",
+    "TCP/IP has no separate Session or Presentation layer; their functions sit in its Application layer.",
+    "TCP is connection-oriented and reliable; UDP is connectionless with low overhead and no guarantee; IP is best-effort.",
+    "IPv4 = 32 bits (4 decimal octets, each 0-255); IPv6 = 128 bits (hexadecimal groups).",
+    "Class A 0-127 (/8), B 128-191 (/16), C 192-223 (/24), D 224-239 multicast, E 240-255 reserved.",
+    "A MAC address is Layer 2: 48 bits = 6 bytes = 12 hex digits; first 24 bits are the OUI.",
+    "ARP maps IPv4 to MAC; DHCP supplies IP settings; DNS resolves names; RARP is legacy.",
+    "Hub and repeater work at Layer 1, bridge and switch at Layer 2, router at Layer 3.",
+    "SMTP sends mail, POP3 downloads it, IMAP synchronizes it; MIME defines content formats.",
+    "SSL is obsolete; TLS is its successor; HTTPS is HTTP over TLS; SFTP runs over SSH.",
+    "Ports: 20/21 FTP, 22 SSH, 23 Telnet, 25 SMTP, 53 DNS, 67/68 DHCP, 80 HTTP, 110 POP3, 143 IMAP, 443 HTTPS.",
+    "Full mesh needs n(n-1)/2 links (6 nodes = 15); bus uses terminators; star uses a central switch.",
+    "Duplex modes: simplex one way, half-duplex one at a time, full-duplex both together."
+  ],
+  "mindmap": {
+    "center": "Networking",
+    "branches": [
+      {
+        "label": "Models",
+        "children": ["OSI 7 layers", "TCP/IP 4 layers", "PDU: segment, packet, frame", "ARPANET 1969, TCP/IP 1983"]
+      },
+      {
+        "label": "Addressing",
+        "children": ["IPv4 32-bit", "IPv6 128-bit", "MAC 48-bit", "ARP, RARP", "DNS, DHCP"]
+      },
+      {
+        "label": "Devices",
+        "children": ["Hub / repeater: L1", "Bridge / switch: L2", "Router: L3", "Gateway", "Modem, firewall"]
+      },
+      {
+        "label": "Protocols and ports",
+        "children": ["TCP, UDP, IP", "SMTP, POP3, IMAP", "FTP, SFTP, SSH, Telnet", "HTTP 80, HTTPS 443", "SSL, TLS"]
+      },
+      {
+        "label": "Topologies",
+        "children": ["Bus", "Star", "Ring", "Tree", "Mesh, hybrid"]
+      },
+      {
+        "label": "Network types",
+        "children": ["PAN, LAN, CAN", "MAN, WAN, SAN", "Intranet, extranet", "Simplex, half, full duplex"]
+      },
+      {
+        "label": "Media and standards",
+        "children": ["UTP, STP, coaxial, fibre", "RJ-45, BNC, SC, ST, LC", "Radio, microwave, infrared", "802.3 Ethernet, 802.11 Wi-Fi"]
+      }
+    ]
+  }
+}

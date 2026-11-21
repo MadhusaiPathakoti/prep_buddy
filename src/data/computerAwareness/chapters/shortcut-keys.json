@@ -1,0 +1,510 @@
+{
+  "id": "shortcut-keys",
+  "sections": [
+    {
+      "id": "keyboard-basics",
+      "title": "Keyboard Basics: Modifier & Toggle Keys",
+      "icon": "⌨️",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "A **keyboard shortcut** runs a command quickly using one key or a combination of keys. In a combination the **+** sign means the keys are pressed together. **Ctrl** is short for **Control**. What a shortcut does depends on the program that is active, so always ask: which application am I in?"
+        },
+        {
+          "type": "keyvalue",
+          "title": "Types of keys",
+          "rows": [
+            ["Modifier keys", "Change the action of another key when held down with it: **Ctrl**, **Alt** and **Shift**."],
+            ["Toggle keys", "Switch a mode on or off each time they are pressed: **Caps Lock**, **Num Lock** and **Scroll Lock**."],
+            ["Caps Lock", "Types letters in uppercase."],
+            ["Num Lock", "Switches the behaviour of the numeric keypad (numbers or navigation)."],
+            ["Scroll Lock", "Changes how scrolling works in programs that support it."],
+            ["Function keys", "**F1 to F12** along the top row; what each does depends on the program."]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "remember",
+          "title": "Modifier vs toggle",
+          "text": "A **modifier** combines with another key (Ctrl, Alt, Shift). A **toggle** changes a mode and stays in that mode until pressed again (Caps Lock, Num Lock, Scroll Lock)."
+        }
+      ]
+    },
+    {
+      "id": "ctrl-a-to-m",
+      "title": "Ctrl Commands A to M (MS Word)",
+      "icon": "🔤",
+      "blocks": [
+        {
+          "type": "table",
+          "title": "Ctrl + letter in Microsoft Word",
+          "headers": ["Shortcut", "Action"],
+          "rows": [
+            ["Ctrl + A", "Select all content of the document"],
+            ["Ctrl + B", "Turn bold on or off"],
+            ["Ctrl + C", "Copy the selected content"],
+            ["Ctrl + D", "Open the Font dialog box"],
+            ["Ctrl + E", "Centre the paragraph"],
+            ["Ctrl + F", "Find text in the document"],
+            ["Ctrl + G", "Open Go To (page or other location)"],
+            ["Ctrl + H", "Open Find and Replace"],
+            ["Ctrl + I", "Turn italics on or off"],
+            ["Ctrl + J", "Justify the paragraph"],
+            ["Ctrl + K", "Insert a hyperlink"],
+            ["Ctrl + L", "Align the paragraph left"],
+            ["Ctrl + M", "Increase the paragraph indent"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "tip",
+          "title": "Easy picks",
+          "text": "Many letters are first letters: **B**old, **I**talics, **F**ind, **L**eft, **J**ustify, **P**rint. Ctrl + E centres the paragraph (cEntre), and Ctrl + H opens Find and Replace. Ctrl + D is the odd one: in Word it opens the **Font** dialog, but in a browser it bookmarks the page."
+        }
+      ]
+    },
+    {
+      "id": "ctrl-n-to-z",
+      "title": "Ctrl Commands N to Z (MS Word)",
+      "icon": "🔡",
+      "blocks": [
+        {
+          "type": "table",
+          "title": "Ctrl + letter in Microsoft Word",
+          "headers": ["Shortcut", "Action"],
+          "rows": [
+            ["Ctrl + N", "Create a new document"],
+            ["Ctrl + O", "Open an existing file"],
+            ["Ctrl + P", "Open print options"],
+            ["Ctrl + Q", "Remove direct paragraph formatting"],
+            ["Ctrl + R", "Align the paragraph right"],
+            ["Ctrl + S", "Save the document"],
+            ["Ctrl + T", "Create a hanging indent"],
+            ["Ctrl + U", "Turn underlining on or off"],
+            ["Ctrl + V", "Paste clipboard content"],
+            ["Ctrl + W", "Close the current document"],
+            ["Ctrl + X", "Cut the selected content"],
+            ["Ctrl + Y", "Redo an undone action, or repeat a supported command"],
+            ["Ctrl + Z", "Undo the previous action"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "remember",
+          "title": "Edit-menu favourites",
+          "text": "**X** = Cut, **C** = Copy, **V** = Paste, **Z** = Undo, **Y** = Redo, **S** = Save."
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "Exam clarifications",
+          "text": "Ctrl + N creates a new **document**, not a new page. Ctrl + Q resets **paragraph** formatting, not all character formatting. Ctrl + T means a **hanging indent** in Word but opens a **new tab** in a browser."
+        },
+        {
+          "type": "callout",
+          "kind": "tip",
+          "title": "Memory trick",
+          "text": "The X looks like a pair of scissors (Cut). Z and Y are the last two letters, and they sit side by side: Z undoes, Y redoes."
+        }
+      ]
+    },
+    {
+      "id": "windows-security-keys",
+      "title": "Windows Security Shortcuts",
+      "icon": "🛡️",
+      "blocks": [
+        {
+          "type": "table",
+          "headers": ["Shortcut", "Action"],
+          "rows": [
+            ["Ctrl + Alt + Delete", "Opens the Windows security screen (options include Lock, Switch user, Sign out and Task Manager)"],
+            ["Ctrl + Shift + Esc", "Opens **Task Manager** directly"]
+          ]
+        },
+        {
+          "type": "text",
+          "text": "Ctrl + Alt + Delete is sometimes nicknamed the **three-finger salute**. Reboot and restart both simply mean starting the computer again. On modern Windows, Ctrl + Alt + Delete does not restart the computer directly; it opens a menu from which you can choose what to do."
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "Not a direct restart",
+          "text": "Old books call Ctrl + Alt + Delete the restart shortcut. On modern Windows it opens the **security screen**; Task Manager can be reached either from it or directly with **Ctrl + Shift + Esc**."
+        }
+      ]
+    },
+    {
+      "id": "function-keys",
+      "title": "Function Keys F1 to F12",
+      "icon": "🔢",
+      "blocks": [
+        {
+          "type": "table",
+          "headers": ["Key", "Action"],
+          "rows": [
+            ["F1", "Open Help in many programs"],
+            ["F2", "Rename a selected file or folder in File Explorer"],
+            ["F3", "Search in File Explorer; find the next match in many browsers"],
+            ["F4", "Repeat the last supported action in Word"],
+            ["F5", "Refresh a webpage or File Explorer window; in Word, open Go To"],
+            ["F6", "Cycle through interface areas (can include a browser's address bar)"],
+            ["F7", "Open spelling and grammar checking in Word"],
+            ["F8", "Extend the selection in Word"],
+            ["F9", "Update selected fields in Word (such as field-based dates or references); in classic Outlook, run Send/Receive and check for new messages"],
+            ["F10", "Activate the menu bar or Ribbon key tips in supported programs"],
+            ["F11", "Enter or leave browser full-screen mode"],
+            ["F12", "Open Save As in Word; open Developer Tools in supported browsers"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "remember",
+          "title": "Quick revision keys",
+          "text": "**F2** = Rename, **F7** = Proofing (spelling and grammar), **F11** = Browser full screen. **F9** updates fields in Word, not the whole document."
+        },
+        {
+          "type": "table",
+          "title": "Useful combinations",
+          "headers": ["Shortcut", "Action"],
+          "rows": [
+            ["Shift + F7", "Open Word's Thesaurus for synonyms"],
+            ["Shift + F10", "Open the selected item's context menu, like a right-click"],
+            ["Alt + F4", "Close the active window; with the desktop active, it opens the shutdown dialog"]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "safe-mode",
+      "title": "Safe Mode: Version Matters",
+      "icon": "🧰",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "On older Windows systems, pressing **F8** during startup opened the advanced boot options, from where Safe Mode could be chosen. Modern Windows does not rely on F8 in the same way."
+        },
+        {
+          "type": "figure",
+          "kind": "flow",
+          "title": "Safe Mode on modern Windows",
+          "items": [
+            ["Recovery", "Open the recovery options"],
+            ["Troubleshoot"],
+            ["Advanced options"],
+            ["Startup Settings"],
+            ["Restart"],
+            ["Press 4 or F4", "Chooses Safe Mode"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "Old versus new",
+          "text": "'F8 for Safe Mode' was true for older Windows versions. On modern Windows go through Recovery > Troubleshoot > Advanced options > Startup Settings > Restart, then press **4 or F4** for Safe Mode."
+        }
+      ]
+    },
+    {
+      "id": "alt-commands-reload",
+      "title": "Alt Commands & Page Reload",
+      "icon": "🪟",
+      "blocks": [
+        {
+          "type": "table",
+          "title": "Window and file shortcuts",
+          "headers": ["Shortcut", "Action"],
+          "rows": [
+            ["Alt + Tab", "Switch between open application windows"],
+            ["Alt + Esc", "Cycle through windows in the order they were opened"],
+            ["Alt + F4", "Close the active window"],
+            ["Alt + Enter", "Open the selected item's Properties in File Explorer"],
+            ["Alt + D", "Select the address bar in a browser or File Explorer"],
+            ["Alt + Print Screen", "Copy a screenshot of the active window to the clipboard"]
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Menu shortcuts (vary by program and language)",
+          "headers": ["Shortcut", "Action"],
+          "rows": [
+            ["Alt + F", "Open File in many desktop programs; opens Chrome's main menu"],
+            ["Alt + E", "Open Edit where supported; also opens Chrome's main menu"],
+            ["Alt + V", "Open View in programs that support it"],
+            ["Alt + H", "Select the Home tab in Word and supported Office programs"]
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Normal reload vs hard reload",
+          "headers": ["Type", "Shortcut", "What happens"],
+          "rows": [
+            ["Normal reload", "F5 or Ctrl + R", "Reloads the page; the browser may reuse or revalidate cached resources"],
+            ["Hard reload", "Ctrl + F5 or Ctrl + Shift + R", "Reloads while bypassing cached content; useful when a page shows an older version"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "remember",
+          "title": "Cache and hard reload",
+          "text": "**Cache** is locally stored data that helps pages load faster. A hard reload skips the cache but does **not** erase all cookies, browsing history or other stored browser data."
+        }
+      ]
+    },
+    {
+      "id": "browser-tabs-navigation",
+      "title": "Browser Tabs & Navigation",
+      "icon": "🗂️",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "These entries describe Chrome on Windows unless stated otherwise."
+        },
+        {
+          "type": "table",
+          "title": "Tabs and windows",
+          "headers": ["Shortcut", "Action"],
+          "rows": [
+            ["Ctrl + T", "Open a new tab"],
+            ["Ctrl + W or Ctrl + F4", "Close the active tab"],
+            ["Ctrl + Shift + T", "Reopen a recently closed tab"],
+            ["Ctrl + Tab", "Move to the next tab"],
+            ["Ctrl + Shift + Tab", "Move to the previous tab"],
+            ["Ctrl + N", "Open a new browser window"],
+            ["Ctrl + Shift + N", "Open Incognito in Chrome or InPrivate in Edge"],
+            ["Ctrl + 1 to Ctrl + 8", "Select the tab at that position"],
+            ["Ctrl + 9", "Select the last tab, even if it is not the ninth"],
+            ["Ctrl + Shift + Page Up", "Move the current tab left in Chrome"],
+            ["Ctrl + Shift + Page Down", "Move the current tab right in Chrome"]
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Page navigation",
+          "headers": ["Shortcut", "Action"],
+          "rows": [
+            ["F5 or Ctrl + R", "Reload the page"],
+            ["Esc", "Stop the page from loading"],
+            ["Home", "Go to the top of the page (when page content has focus)"],
+            ["End", "Go to the bottom of the page (when page content has focus)"]
+          ]
+        },
+        {
+          "type": "text",
+          "text": "Inside a text field, Home and End usually move to the start or end of the current line instead of the page."
+        },
+        {
+          "type": "table",
+          "title": "Address bar and search",
+          "headers": ["Shortcut", "Action"],
+          "rows": [
+            ["Ctrl + L or Alt + D", "Select the address bar"],
+            ["Ctrl + K", "Start a search through the address/search bar"],
+            ["Ctrl + Enter", "In Chrome's address bar, add www. and .com around the site name and open it"],
+            ["Ctrl + G", "Move to the next Find match in Chrome"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "remember",
+          "title": "Quick revision",
+          "text": "Ctrl + T = new **tab**; Ctrl + N = new **window**; Ctrl + 9 = **last** tab; Esc = **stop** loading."
+        }
+      ]
+    },
+    {
+      "id": "browser-tools",
+      "title": "Browser Tools: Zoom, Bookmarks & Page Tools",
+      "icon": "🔧",
+      "blocks": [
+        {
+          "type": "table",
+          "title": "Zoom and display",
+          "headers": ["Shortcut", "Action"],
+          "rows": [
+            ["Ctrl + Plus (+)", "Increase webpage zoom"],
+            ["Ctrl + Minus (-)", "Decrease webpage zoom"],
+            ["Ctrl + 0", "Restore the default zoom"],
+            ["F11", "Toggle browser full-screen mode"]
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Bookmarks and records",
+          "headers": ["Shortcut", "Action"],
+          "rows": [
+            ["Ctrl + D", "Bookmark the current webpage"],
+            ["Ctrl + Shift + B", "Show or hide the bookmarks bar"],
+            ["Ctrl + H", "Open browsing history"],
+            ["Ctrl + J", "Open the downloads list"],
+            ["Ctrl + Shift + Delete", "Open Clear Browsing Data; choose items and confirm the deletion"]
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Page tools",
+          "headers": ["Shortcut", "Action"],
+          "rows": [
+            ["Ctrl + U", "View the page's HTML source"],
+            ["Ctrl + Shift + I or F12", "Open Developer Tools"],
+            ["Ctrl + F", "Find text on the current page"],
+            ["Ctrl + P", "Open webpage print options"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "fact",
+          "title": "Source vs Developer Tools",
+          "text": "**Page source** shows the underlying HTML. **Developer Tools** help you inspect and debug a webpage."
+        }
+      ]
+    },
+    {
+      "id": "same-keys-different-program",
+      "title": "Same Keys, Different Program",
+      "icon": "🔀",
+      "blocks": [
+        {
+          "type": "table",
+          "title": "Word vs browser",
+          "headers": ["Shortcut", "In Word", "In browser"],
+          "rows": [
+            ["Ctrl + D", "Font dialog", "Bookmark"],
+            ["Ctrl + E", "Centre paragraph", "Search in Chrome"],
+            ["Ctrl + H", "Replace", "History"],
+            ["Ctrl + J", "Justify", "Downloads"],
+            ["Ctrl + K", "Hyperlink", "Search"],
+            ["Ctrl + L", "Align left", "Address bar"],
+            ["Ctrl + R", "Align right", "Reload"],
+            ["Ctrl + T", "Hanging indent", "New tab"],
+            ["Ctrl + U", "Underline", "Page source"],
+            ["F5", "Go To", "Reload"],
+            ["F12", "Save As", "Developer Tools"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "Read the application first",
+          "text": "The same combination can mean different things in different programs. Before choosing an answer, identify the **application** the question is about."
+        },
+        {
+          "type": "callout",
+          "kind": "tip",
+          "title": "Paste vs clipboard history",
+          "text": "**Ctrl + V** pastes the current clipboard content. **Win + V** opens clipboard history so you can pick an earlier copied item."
+        }
+      ]
+    },
+    {
+      "id": "windows-key-shortcuts",
+      "title": "Windows Logo Key Shortcuts",
+      "icon": "🪟",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "**Win** means the key carrying the Windows logo. Hold Win while pressing the other key or keys."
+        },
+        {
+          "type": "table",
+          "title": "Everyday Windows commands",
+          "headers": ["Shortcut", "Action"],
+          "rows": [
+            ["Win + D", "Show the desktop; press again to restore the previous view"],
+            ["Win + E", "Launch File Explorer"],
+            ["Win + L", "Lock the computer"],
+            ["Win + I", "Open Windows Settings"],
+            ["Win + S", "Open Windows Search"],
+            ["Win + A", "Open Quick Settings in Windows 11 (Action Center in Windows 10)"]
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Display and accessibility",
+          "headers": ["Shortcut", "Action"],
+          "rows": [
+            ["Win + P", "Open display projection choices"],
+            ["Win + K", "Open Cast for a compatible wireless display in Windows 11 (Connect in Windows 10)"],
+            ["Win + U", "Open Accessibility settings (called Ease of Access in Windows 10)"]
+          ]
+        },
+        {
+          "type": "figure",
+          "kind": "flow",
+          "title": "Win + P projection choices",
+          "items": [
+            ["PC screen only"],
+            ["Duplicate", "Same picture on both screens"],
+            ["Extend", "One desktop across both screens"],
+            ["Second screen only"]
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Window management and clipboard",
+          "headers": ["Shortcut", "Action"],
+          "rows": [
+            ["Win + Tab", "Open Task View to manage windows and virtual desktops"],
+            ["Win + M", "Minimise all windows"],
+            ["Win + Shift + M", "Restore windows minimised with Win + M"],
+            ["Win + V", "Open clipboard history and select a previously copied item (enable it if prompted)"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "remember",
+          "title": "Quick revision",
+          "text": "Win + **D** = Desktop, Win + **E** = Explorer, Win + **L** = Lock. Win + D toggles the desktop view; Win + M only minimises windows."
+        }
+      ]
+    }
+  ],
+  "revision": [
+    "Modifier keys (Ctrl, Alt, Shift) combine with another key; toggle keys (Caps Lock, Num Lock, Scroll Lock) switch a mode.",
+    "Ctrl + X = Cut, C = Copy, V = Paste, Z = Undo, Y = Redo, S = Save.",
+    "Ctrl + N creates a new document (not a new page); Ctrl + Q resets paragraph formatting only.",
+    "Ctrl + T is a hanging indent in Word but a new tab in a browser.",
+    "Ctrl + Alt + Delete opens the Windows security screen; Ctrl + Shift + Esc opens Task Manager directly.",
+    "F2 = Rename, F5 = Refresh, F7 = Spelling and grammar, F11 = Browser full screen, F12 = Save As in Word.",
+    "F9 updates fields in Word; F8 opened boot options on older Windows (modern Safe Mode: Startup Settings, then 4 or F4).",
+    "Alt + Tab switches windows; Alt + F4 closes the active window; Alt + Print Screen captures the active window.",
+    "F5 or Ctrl + R is a normal reload; Ctrl + F5 or Ctrl + Shift + R is a hard reload that bypasses cache.",
+    "Browser: Ctrl + T new tab, Ctrl + W close tab, Ctrl + Shift + T reopen tab, Ctrl + N new window, Ctrl + Shift + N Incognito.",
+    "Ctrl + 9 selects the last tab; Esc stops page loading; Ctrl + 0 restores default zoom.",
+    "Ctrl + D bookmark, Ctrl + H history, Ctrl + J downloads, Ctrl + U page source, Ctrl + Shift + I or F12 Developer Tools.",
+    "Win + D desktop, Win + E File Explorer, Win + L lock, Win + I Settings, Win + S Search, Win + P projection.",
+    "Win + V opens clipboard history; Ctrl + V simply pastes. Win + M minimises all, Win + Shift + M restores them."
+  ],
+  "mindmap": {
+    "center": "Computer Shortcut Keys",
+    "branches": [
+      {
+        "label": "Key Types",
+        "children": ["Modifier: Ctrl, Alt, Shift", "Toggle: Caps/Num/Scroll Lock", "Function keys F1-F12", "+ means press together"]
+      },
+      {
+        "label": "Ctrl Commands",
+        "children": ["X cut, C copy, V paste", "Z undo, Y redo", "S save, P print, O open", "B, I, U formatting", "N new, W close"]
+      },
+      {
+        "label": "Function Keys",
+        "children": ["F1 Help, F2 Rename", "F5 Refresh, F7 Proofing", "F9 update fields", "F11 full screen, F12 Save As"]
+      },
+      {
+        "label": "Alt Commands",
+        "children": ["Alt + Tab switch windows", "Alt + F4 close window", "Alt + Enter Properties", "Alt + Print Screen"]
+      },
+      {
+        "label": "Browser",
+        "children": ["Ctrl + T tab, Ctrl + N window", "Ctrl + Shift + T reopen", "F5 reload, Ctrl + F5 hard", "Ctrl + D, H, J, U", "Ctrl + Shift + I Dev Tools"]
+      },
+      {
+        "label": "Windows Key",
+        "children": ["Win + D desktop", "Win + E Explorer, L lock", "Win + I Settings, S Search", "Win + P projection", "Win + V clipboard history"]
+      },
+      {
+        "label": "Security",
+        "children": ["Ctrl + Alt + Delete", "Ctrl + Shift + Esc Task Manager", "Win + L lock", "Safe Mode: Startup Settings"]
+      }
+    ]
+  }
+}

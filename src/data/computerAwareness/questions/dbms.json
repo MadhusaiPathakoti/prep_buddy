@@ -1,0 +1,522 @@
+[
+ {
+  "id": "dbms-01",
+  "q": "Which of the following is the software used to create a database and to store, retrieve, modify and delete its data?",
+  "options": [
+   "DBMS",
+   "Spreadsheet",
+   "Compiler",
+   "Web browser"
+  ],
+  "answer": 0,
+  "explain": "A Database Management System (DBMS) is the software that manages databases; the database itself is just the organised data.",
+  "section": "database-basics"
+ },
+ {
+  "id": "dbms-02",
+  "q": "Who developed the Integrated Data Store (IDS), the first random-access DBMS, at General Electric?",
+  "options": [
+   "Edgar F. Codd",
+   "Charles W. Bachman",
+   "Donald D. Chamberlin",
+   "Raymond F. Boyce"
+  ],
+  "answer": 1,
+  "explain": "Charles W. Bachman developed IDS. Codd is known for the relational model, and Chamberlin and Boyce designed SQL.",
+  "section": "database-basics"
+ },
+ {
+  "id": "dbms-03",
+  "q": "Who is known as the father of relational databases for introducing the relational model in 1970?",
+  "options": [
+   "Charles Bachman",
+   "Moshe Zloof",
+   "Edgar F. Codd",
+   "Charles Flint"
+  ],
+  "answer": 2,
+  "explain": "Edgar F. Codd introduced the relational model in 1970.",
+  "section": "database-basics"
+ },
+ {
+  "id": "dbms-04",
+  "q": "Which statement about redundancy in a DBMS is correct?",
+  "options": [
+   "A DBMS automatically removes every repeated value",
+   "A DBMS helps control unnecessary duplication",
+   "Redundancy means encrypting stored data",
+   "Redundancy means deleting old backups"
+  ],
+  "answer": 1,
+  "explain": "Redundancy is unnecessary duplication. A DBMS helps control it but does not automatically remove every repeated value.",
+  "section": "database-basics"
+ },
+ {
+  "id": "dbms-05",
+  "q": "In a database, \"data that describes other data\", such as column names, data types and sizes, is called:",
+  "options": [
+   "A transaction",
+   "A trigger",
+   "An instance",
+   "Metadata"
+  ],
+  "answer": 3,
+  "explain": "Metadata is information describing other data: table names, column names, types, sizes, keys and constraints.",
+  "section": "database-environment"
+ },
+ {
+  "id": "dbms-06",
+  "q": "Arrange correctly the data hierarchy from the smallest unit to the largest.",
+  "options": [
+   "Bit, byte, record, field, table, database",
+   "Byte, bit, field, record, table, database",
+   "Bit, byte, field, record, table, database",
+   "Bit, field, byte, record, database, table"
+  ],
+  "answer": 2,
+  "explain": "The ascending order is bit, byte/character, field, record, file/table, database.",
+  "section": "data-hierarchy"
+ },
+ {
+  "id": "dbms-07",
+  "q": "Which statement about data units is correct?",
+  "options": [
+   "A character always occupies exactly one byte",
+   "A bit has eight possible values",
+   "A byte is made of eight bits",
+   "A field is the same as a database"
+  ],
+  "answer": 2,
+  "explain": "A byte is eight bits. A character's storage size depends on its encoding, so it does not always take one byte.",
+  "section": "data-hierarchy"
+ },
+ {
+  "id": "dbms-08",
+  "q": "In which architecture does a client application communicate directly with a database server?",
+  "options": [
+   "One-tier",
+   "Two-tier",
+   "Three-tier",
+   "Three-schema"
+  ],
+  "answer": 1,
+  "explain": "Two-tier means client to database server directly. In three-tier an application server sits in between.",
+  "section": "architectures"
+ },
+ {
+  "id": "dbms-09",
+  "q": "Which of the following correctly lists the three tiers of a three-tier architecture?",
+  "options": [
+   "External, conceptual, internal",
+   "Hardware, software, data",
+   "Client, router, switch",
+   "Presentation, application, data"
+  ],
+  "answer": 3,
+  "explain": "The three tiers are presentation (user interface), application (business rules) and data (database storage).",
+  "section": "architectures"
+ },
+ {
+  "id": "dbms-10",
+  "q": "In the three-schema architecture, which level describes physical storage organisation and access methods?",
+  "options": [
+   "Internal level",
+   "External level",
+   "Conceptual level",
+   "Presentation level"
+  ],
+  "answer": 0,
+  "explain": "The internal level covers physical storage and access methods; external holds user views and conceptual holds the overall logical structure.",
+  "section": "architectures"
+ },
+ {
+  "id": "dbms-11",
+  "q": "Storage changes that do not require any change in the logical design of the database illustrate:",
+  "options": [
+   "Logical independence",
+   "Referential integrity",
+   "Physical independence",
+   "Atomicity"
+  ],
+  "answer": 2,
+  "explain": "Physical data independence means the storage can change without altering the logical design.",
+  "section": "architectures"
+ },
+ {
+  "id": "dbms-12",
+  "q": "Which database type organises records as a parent-child tree, where a child has only one parent in the classic model?",
+  "options": [
+   "Network database",
+   "Hierarchical database",
+   "Relational database",
+   "Distributed database"
+  ],
+  "answer": 1,
+  "explain": "The hierarchical model is tree-shaped. The network model uses links and allows more flexible associations.",
+  "section": "database-types"
+ },
+ {
+  "id": "dbms-13",
+  "q": "In the relational model, a row of a table is called a:",
+  "options": [
+   "Attribute",
+   "Relation",
+   "Domain",
+   "Tuple"
+  ],
+  "answer": 3,
+  "explain": "Relation = table, tuple = row, attribute = column.",
+  "section": "database-types"
+ },
+ {
+  "id": "dbms-14",
+  "q": "Which of the following is a document database?",
+  "options": [
+   "Apache Cassandra",
+   "Elasticsearch",
+   "MongoDB",
+   "SQLite"
+  ],
+  "answer": 2,
+  "explain": "MongoDB is a document database. Cassandra is a distributed wide-column database and Elasticsearch is a search and analytics engine.",
+  "section": "software-licences"
+ },
+ {
+  "id": "dbms-15",
+  "q": "Which of the following is a proprietary database product?",
+  "options": [
+   "PostgreSQL",
+   "MariaDB",
+   "Apache Cassandra",
+   "IBM Db2"
+  ],
+  "answer": 3,
+  "explain": "IBM Db2 is proprietary, as are Oracle Database, SQL Server, Access, SAP HANA and SAP ASE.",
+  "section": "software-licences"
+ },
+ {
+  "id": "dbms-16",
+  "q": "SAP HANA is best described as:",
+  "options": [
+   "A spreadsheet application",
+   "An in-memory database platform",
+   "A document-based word processor",
+   "A programming language"
+  ],
+  "answer": 1,
+  "explain": "HANA stands for High-performance Analytic Appliance and SAP HANA is an in-memory database platform.",
+  "section": "software-licences"
+ },
+ {
+  "id": "dbms-17",
+  "q": "Which statement is correct?",
+  "options": [
+   "Free of charge always means open source",
+   "Microsoft Excel is a conventional DBMS",
+   "SQLite's core is public-domain software",
+   "MongoDB Community Server uses an OSI-approved licence"
+  ],
+  "answer": 2,
+  "explain": "SQLite's core is public domain. Free does not automatically mean open source, MongoDB uses the SSPL (not OSI-approved), and Excel is a spreadsheet.",
+  "section": "software-licences"
+ },
+ {
+  "id": "dbms-18",
+  "q": "SQL was designed at IBM by:",
+  "options": [
+   "Edgar Codd and Charles Bachman",
+   "Donald Chamberlin and Raymond Boyce",
+   "Moshe Zloof and Charles Flint",
+   "Bill Gates and Paul Allen"
+  ],
+  "answer": 1,
+  "explain": "Donald D. Chamberlin and Raymond F. Boyce designed SQL, originally called SEQUEL.",
+  "section": "sql-history"
+ },
+ {
+  "id": "dbms-19",
+  "q": "In which year was the SEQUEL paper by Chamberlin and Boyce published?",
+  "options": [
+   "1970",
+   "1986",
+   "1987",
+   "1974"
+  ],
+  "answer": 3,
+  "explain": "SEQUEL was published in 1974. 1970 is the year of Codd's relational-model paper.",
+  "section": "sql-history"
+ },
+ {
+  "id": "dbms-20",
+  "q": "Which pair of bodies set the SQL standards, with the first standards in 1986 and 1987 respectively?",
+  "options": [
+   "ANSI and ISO",
+   "IEEE and ITU",
+   "W3C and IETF",
+   "ISRO and DRDO"
+  ],
+  "answer": 0,
+  "explain": "ANSI issued the first American SQL standard in 1986 and ISO the first international one in 1987.",
+  "section": "sql-history"
+ },
+ {
+  "id": "dbms-21",
+  "q": "Query by Example (QBE), an early visual querying approach, was developed at IBM by:",
+  "options": [
+   "Donald Chamberlin",
+   "Raymond Boyce",
+   "Edgar Codd",
+   "Moshe Zloof"
+  ],
+  "answer": 3,
+  "explain": "QBE was developed by Moshe Zloof at IBM.",
+  "section": "sql-history"
+ },
+ {
+  "id": "dbms-22",
+  "q": "SQL is commonly classified in exam material as which type of language, and what is its core query style?",
+  "options": [
+   "Third-generation, procedural",
+   "Machine language, binary",
+   "Fourth-generation, declarative",
+   "Assembly language, imperative"
+  ],
+  "answer": 2,
+  "explain": "SQL is treated as a 4GL; it is declarative, meaning you state the result wanted and the DBMS decides how to get it.",
+  "section": "sql-history"
+ },
+ {
+  "id": "dbms-23",
+  "q": "Which of the following SQL commands belongs to DDL?",
+  "options": [
+   "INSERT",
+   "SELECT",
+   "UPDATE",
+   "ALTER"
+  ],
+  "answer": 3,
+  "explain": "ALTER changes structure and is DDL. INSERT and UPDATE are DML, and SELECT is DQL.",
+  "section": "sql-commands"
+ },
+ {
+  "id": "dbms-24",
+  "q": "Which pair of commands belongs to Transaction Control Language (TCL)?",
+  "options": [
+   "COMMIT and ROLLBACK",
+   "GRANT and REVOKE",
+   "CREATE and DROP",
+   "INSERT and DELETE"
+  ],
+  "answer": 0,
+  "explain": "TCL has COMMIT, ROLLBACK and SAVEPOINT. GRANT and REVOKE belong to DCL.",
+  "section": "sql-commands"
+ },
+ {
+  "id": "dbms-25",
+  "q": "Which SQL command removes all rows from a table but keeps the table structure?",
+  "options": [
+   "DROP",
+   "TRUNCATE",
+   "REVOKE",
+   "RENAME"
+  ],
+  "answer": 1,
+  "explain": "TRUNCATE empties the rows and leaves the table structure in place, whereas DROP removes the whole object.",
+  "section": "sql-commands"
+ },
+ {
+  "id": "dbms-26",
+  "q": "In CRUD, which SQL command corresponds to \"Create\" (adding a record)?",
+  "options": [
+   "CREATE TABLE",
+   "ALTER",
+   "INSERT",
+   "SELECT"
+  ],
+  "answer": 2,
+  "explain": "Create in CRUD means adding a record, which is INSERT. CREATE TABLE defines a structure and belongs to DDL.",
+  "section": "sql-commands"
+ },
+ {
+  "id": "dbms-27",
+  "q": "In the ACID properties, which one means \"all operations succeed together or their effects are undone\"?",
+  "options": [
+   "Consistency",
+   "Isolation",
+   "Durability",
+   "Atomicity"
+  ],
+  "answer": 3,
+  "explain": "Atomicity is the all-or-nothing property of a transaction.",
+  "section": "transactions-acid"
+ },
+ {
+  "id": "dbms-28",
+  "q": "Which ACID property ensures that committed changes persist even after later failures covered by the system's guarantees?",
+  "options": [
+   "Durability",
+   "Atomicity",
+   "Isolation",
+   "Consistency"
+  ],
+  "answer": 0,
+  "explain": "Durability means committed changes are retained despite subsequent failures.",
+  "section": "transactions-acid"
+ },
+ {
+  "id": "dbms-29",
+  "q": "A named marker inside a transaction that allows later work to be rolled back without undoing all earlier work is called a:",
+  "options": [
+   "COMMIT",
+   "SAVEPOINT",
+   "GRANT",
+   "TRIGGER"
+  ],
+  "answer": 1,
+  "explain": "A SAVEPOINT marks a position for partial rollback (ROLLBACK TO savepoint).",
+  "section": "transactions-acid"
+ },
+ {
+  "id": "dbms-30",
+  "q": "Which statement about ACID and ROLLBACK is correct?",
+  "options": [
+   "A ROLLBACK normally undoes a committed transaction",
+   "ACID replaces access controls in a database",
+   "ACID properties guarantee every form of security",
+   "Guarantees depend on the DBMS, engine and configuration"
+  ],
+  "answer": 3,
+  "explain": "ACID concerns transaction reliability; it does not replace access controls, and a rollback does not normally undo committed work.",
+  "section": "transactions-acid"
+ },
+ {
+  "id": "dbms-31",
+  "q": "A minimal super key, where removing any attribute destroys uniqueness, is called a:",
+  "options": [
+   "Foreign key",
+   "Alternate key",
+   "Candidate key",
+   "Composite key"
+  ],
+  "answer": 2,
+  "explain": "A candidate key is a minimal super key. The primary key is the candidate selected as the main identifier.",
+  "section": "keys"
+ },
+ {
+  "id": "dbms-32",
+  "q": "In a table with unique, non-null Employee_ID and Official_Email, Employee_ID is chosen as the primary key. What is Official_Email?",
+  "options": [
+   "Super key only",
+   "Foreign key",
+   "Composite key",
+   "Alternate key"
+  ],
+  "answer": 3,
+  "explain": "A candidate key that was not chosen as the primary key is an alternate key.",
+  "section": "keys"
+ },
+ {
+  "id": "dbms-33",
+  "q": "Which statement about a primary key is correct?",
+  "options": [
+   "Its columns can contain NULL",
+   "A table can have two primary-key constraints",
+   "Its values must be unique and cannot be NULL",
+   "It must always be a single column"
+  ],
+  "answer": 2,
+  "explain": "A primary key must be unique and non-NULL. A table has at most one primary-key constraint, though that key may use several columns.",
+  "section": "keys"
+ },
+ {
+  "id": "dbms-34",
+  "q": "Which key maintains referential integrity by preventing invalid references between tables?",
+  "options": [
+   "Foreign key",
+   "Super key",
+   "Alternate key",
+   "Primary key"
+  ],
+  "answer": 0,
+  "explain": "A foreign key refers to a primary (or other eligible unique) key in another or the same table, keeping references valid.",
+  "section": "composite-foreign"
+ },
+ {
+  "id": "dbms-35",
+  "q": "How is a many-to-many (M:N) relationship, such as employees working on projects, normally handled?",
+  "options": [
+   "By a linking table such as Employee_Project",
+   "By deleting one of the tables",
+   "By using a single primary key in both tables",
+   "By using a view instead of tables"
+  ],
+  "answer": 0,
+  "explain": "A linking table records the assignments between the two entities.",
+  "section": "composite-foreign"
+ },
+ {
+  "id": "dbms-36",
+  "q": "A table has 5 rows (excluding the heading) and 4 columns. What are its degree and cardinality?",
+  "options": [
+   "Degree 5, cardinality 4",
+   "Degree 4, cardinality 5",
+   "Degree 4, cardinality 4",
+   "Degree 5, cardinality 5"
+  ],
+  "answer": 1,
+  "explain": "Degree is the number of columns (4) and cardinality is the number of rows (5).",
+  "section": "relational-design"
+ },
+ {
+  "id": "dbms-37",
+  "q": "Which technique organises relational tables to reduce unnecessary duplication and prevent insertion, update and deletion anomalies?",
+  "options": [
+   "Indexing",
+   "Normalisation",
+   "Truncation",
+   "Rollback"
+  ],
+  "answer": 1,
+  "explain": "Normalisation reduces avoidable redundancy and anomalies; it does not mean removing every repeated value.",
+  "section": "normalisation-tools"
+ },
+ {
+  "id": "dbms-38",
+  "q": "An ordinary database view is best described as:",
+  "options": [
+   "A named query that presents results like a virtual table",
+   "A physical copy of table data stored separately",
+   "An automatic response to an INSERT event",
+   "An index on a primary key"
+  ],
+  "answer": 0,
+  "explain": "An ordinary view is a stored query and normally holds no separate copy of results; a materialised view does store them.",
+  "section": "normalisation-tools"
+ },
+ {
+  "id": "dbms-39",
+  "q": "Database logic that runs automatically when an event such as INSERT, UPDATE or DELETE occurs is called a:",
+  "options": [
+   "View",
+   "Index",
+   "Trigger",
+   "Schema"
+  ],
+  "answer": 2,
+  "explain": "A trigger fires automatically on a defined event, for example to create an audit record when a salary changes.",
+  "section": "normalisation-tools"
+ },
+ {
+  "id": "dbms-40",
+  "q": "Codd's criteria for a fully relational DBMS are conventionally called \"Codd's 12 Rules\". Including the extra foundation rule, how many rules exist in total?",
+  "options": [
+   "12, numbered 1 to 12",
+   "13, numbered 0 to 12",
+   "11, numbered 0 to 10",
+   "14, numbered 1 to 14"
+  ],
+  "answer": 1,
+  "explain": "There are 12 numbered rules plus Rule 0, giving 13 in total; if a question just says Codd's 12 Rules, the conventional answer is 12.",
+  "section": "codd-rules"
+ }
+]

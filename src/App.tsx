@@ -108,6 +108,12 @@ const MockLaunch = lazy(() => import('./pages/mocks/MockLaunch'))
 const MockTest = lazy(() => import('./pages/mocks/MockTest'))
 const MockResult = lazy(() => import('./pages/mocks/MockResult'))
 const MockHistory = lazy(() => import('./pages/mocks/MockHistory'))
+const GeneralAwareness = lazy(() => import('./pages/GeneralAwareness'))
+const ComputerHub = lazy(() => import('./pages/awareness/ComputerHub'))
+const BookIndex = lazy(() => import('./pages/awareness/BookIndex'))
+const ChapterPage = lazy(() => import('./pages/awareness/ChapterPage'))
+const QuestionBankPage = lazy(() => import('./pages/awareness/QuestionBankPage'))
+const CaQuiz = lazy(() => import('./pages/awareness/CaQuiz'))
 const DailyHome = lazy(() => import('./pages/daily/DailyHome'))
 const DailyQuiz = lazy(() => import('./pages/daily/DailyQuiz'))
 
@@ -222,6 +228,12 @@ export default function App() {
           <Route path="/english/grammar-rules/sort" element={<RuleSort />} />
           <Route path="/english/grammar-rules/fresh" element={<FreshSentences />} />
           <Route path="/english/grammar-rules/map" element={<MasteryMap />} />
+          <Route path="/general-awareness" element={<GeneralAwareness />} />
+          <Route path="/general-awareness/computer" element={<ComputerHub />} />
+          <Route path="/general-awareness/computer/book" element={<BookIndex />} />
+          <Route path="/general-awareness/computer/book/:chapterId" element={<ChapterPage />} />
+          <Route path="/general-awareness/computer/questions" element={<QuestionBankPage />} />
+          <Route path="/general-awareness/computer/quiz" element={<CaQuiz />} />
           <Route path="/daily" element={<DailyHome />} />
           <Route path="/daily/:section" element={<DailyQuiz />} />
           <Route path="/mocks" element={<MocksHome />} />

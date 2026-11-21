@@ -1,0 +1,322 @@
+[
+  {
+    "id": "printer-01",
+    "q": "A printer converts which of the following into hard copy?",
+    "options": ["Hard copy into soft copy", "Soft copy into hard copy", "Analog signals into digital data", "Text into audio"],
+    "answer": 1,
+    "explain": "A printer is an output device that turns electronic (soft copy) information into a physical (hard copy) printout.",
+    "section": "printer-basics"
+  },
+  {
+    "id": "printer-02",
+    "q": "Which of the following is a non-impact printer?",
+    "options": ["Dot matrix", "Daisy wheel", "Chain printer", "Inkjet printer"],
+    "answer": 3,
+    "explain": "Inkjet, laser and thermal printers are non-impact because they do not strike an inked ribbon. The other three are impact printers.",
+    "section": "printer-basics"
+  },
+  {
+    "id": "printer-03",
+    "q": "A printer that works by mechanical striking through an inked ribbon is classified as:",
+    "options": ["Impact printer", "Non-impact printer", "Thermal printer", "Laser printer"],
+    "answer": 0,
+    "explain": "Striking an inked ribbon against paper is the defining feature of an impact printer.",
+    "section": "printer-basics"
+  },
+  {
+    "id": "printer-04",
+    "q": "DPI, used for printers, stands for Dots Per Inch and measures:",
+    "options": ["Printing speed", "Print resolution", "Paper size", "Ink consumption"],
+    "answer": 1,
+    "explain": "DPI is a resolution measure. Speed is measured in CPS, LPM or PPM.",
+    "section": "printer-basics"
+  },
+  {
+    "id": "printer-05",
+    "q": "Which interface is considered the legacy connection widely used by older printers?",
+    "options": ["USB", "Wi-Fi", "Parallel port", "Ethernet"],
+    "answer": 2,
+    "explain": "The parallel port is the legacy printer interface. USB, Ethernet and Wi-Fi are other, more modern options.",
+    "section": "connections-and-milestones"
+  },
+  {
+    "id": "printer-06",
+    "q": "Who made the first successful xerographic image in 1938?",
+    "options": ["Gary Starkweather", "Chuck Hull", "Chester Carlson", "Andrew Gabor"],
+    "answer": 2,
+    "explain": "Chester Carlson's 1938 electrophotography (xerography) work gave the underlying principle for laser printing.",
+    "section": "connections-and-milestones"
+  },
+  {
+    "id": "printer-07",
+    "q": "Laser printing was invented at Xerox by which person in 1969?",
+    "options": ["Gary Starkweather", "Chester Carlson", "Chuck Hull", "Andrew Gabor"],
+    "answer": 0,
+    "explain": "Gary Starkweather invented laser printing at Xerox in 1969. Carlson's earlier xerography provided the principle.",
+    "section": "connections-and-milestones"
+  },
+  {
+    "id": "printer-08",
+    "q": "India's first printing press was established in which place and year?",
+    "options": ["Mumbai, 1556", "Goa, 1556", "Goa, 1938", "Kolkata, 1953"],
+    "answer": 1,
+    "explain": "India's first printing press was set up at St. Paul's College, Goa, in 1556. A printing press is different from a computer printer.",
+    "section": "connections-and-milestones"
+  },
+  {
+    "id": "printer-09",
+    "q": "Which landmark in computer printing is associated with Remington Rand and UNIVAC?",
+    "options": ["The 1953 high-speed printer", "The 1984 personal inkjet", "The 1983 SLA part", "The 1938 xerographic image"],
+    "answer": 0,
+    "explain": "Remington Rand's UNIVAC high-speed printer of 1953 is a landmark in computer printing.",
+    "section": "connections-and-milestones"
+  },
+  {
+    "id": "printer-10",
+    "q": "Which feature is the major strength of a dot matrix printer?",
+    "options": ["Silent operation", "Printing multipart forms and carbon copies in one pass", "Highest resolution photo printing", "Printing on both sides automatically"],
+    "answer": 1,
+    "explain": "Because it strikes the paper, a dot matrix printer can print through carbon or carbonless multipart forms. It is noisy, not silent.",
+    "section": "dot-matrix"
+  },
+  {
+    "id": "printer-11",
+    "q": "Dot matrix printer printheads are commonly available with how many pins?",
+    "options": ["9 and 24", "6 and 12", "8 and 32", "10 and 20"],
+    "answer": 0,
+    "explain": "Common dot matrix printheads have 9 pins or 24 pins.",
+    "section": "dot-matrix"
+  },
+  {
+    "id": "printer-12",
+    "q": "In basic exams, a serial dot matrix printer is classified as a:",
+    "options": ["Line printer", "Page printer", "Character printer", "Plotter"],
+    "answer": 2,
+    "explain": "Serial dot matrix printers form one character at a time, so they are character printers. Drum, chain and band are line printers.",
+    "section": "dot-matrix"
+  },
+  {
+    "id": "printer-13",
+    "q": "Dot matrix printers are commonly used for which of the following?",
+    "options": ["Printing photographs", "Bank passbooks and invoices", "Large CAD blueprints", "ATM receipts"],
+    "answer": 1,
+    "explain": "Dot matrix printers suit invoices, continuous stationery, records and bank passbooks. ATM receipts normally use thermal printing.",
+    "section": "dot-matrix"
+  },
+  {
+    "id": "printer-14",
+    "q": "Which printer uses a wheel with petal-like spokes carrying preformed characters?",
+    "options": ["Daisy wheel printer", "Drum printer", "Band printer", "Inkjet printer"],
+    "answer": 0,
+    "explain": "The daisy wheel (petal) printer has preformed letters, numbers and symbols on its spokes.",
+    "section": "daisy-wheel"
+  },
+  {
+    "id": "printer-15",
+    "q": "Which of the following is NOT a feature of a daisy wheel printer?",
+    "options": ["Letter-quality typewriter-style text", "Limited to the characters on the wheel", "Silent operation", "It is an impact printer"],
+    "answer": 2,
+    "explain": "A daisy wheel printer is noisy and relatively slow. Silent operation is not one of its features.",
+    "section": "daisy-wheel"
+  },
+  {
+    "id": "printer-16",
+    "q": "Which print element is used by the IBM Selectric typewriter and should not be confused with a daisy wheel?",
+    "options": ["Print band", "Drum", "Golf ball", "Chain"],
+    "answer": 2,
+    "explain": "The golf-ball element belongs to the IBM Selectric. It is not a synonym for a daisy wheel.",
+    "section": "daisy-wheel"
+  },
+  {
+    "id": "printer-17",
+    "q": "Which of the following is a line printer?",
+    "options": ["Daisy wheel printer", "Serial dot matrix printer", "Laser printer", "Drum printer"],
+    "answer": 3,
+    "explain": "Drum, chain and band printers are impact line printers. Serial dot matrix and daisy wheel are character printers.",
+    "section": "line-printers"
+  },
+  {
+    "id": "printer-18",
+    "q": "A chain printer uses a moving chain that carries repeated sets of raised:",
+    "options": ["Characters", "Lines", "Pins", "Ink nozzles"],
+    "answer": 0,
+    "explain": "The chain carries characters; timed hammers press the paper and ribbon against the required type.",
+    "section": "line-printers"
+  },
+  {
+    "id": "printer-19",
+    "q": "Which statement about traditional chain printers is correct?",
+    "options": ["They are non-impact and full colour", "They are impact printers, usually monochrome", "They use powdered toner", "They use liquid ink droplets"],
+    "answer": 1,
+    "explain": "Chain printers are impact line printers that normally use a single-colour ribbon.",
+    "section": "line-printers"
+  },
+  {
+    "id": "printer-20",
+    "q": "A drum printer is standardly classified as a:",
+    "options": ["Character printer", "Both character and line printer", "Line printer", "Non-impact printer"],
+    "answer": 2,
+    "explain": "A drum printer is a line printer. 'Both character and line' is misleading in a basic classification question.",
+    "section": "line-printers"
+  },
+  {
+    "id": "printer-21",
+    "q": "Which well-known chain-based line printer is mentioned in the book?",
+    "options": ["HP ThinkJet", "Diablo HyType", "IBM 1403", "UNIVAC 1953"],
+    "answer": 2,
+    "explain": "The IBM 1403 is a well-known chain-based line printer. HP ThinkJet is an inkjet and HyType is a daisy wheel.",
+    "section": "line-printers"
+  },
+  {
+    "id": "printer-22",
+    "q": "Print speed of a dot matrix printer is commonly measured in:",
+    "options": ["PPM", "LPM", "CPS", "DPI"],
+    "answer": 2,
+    "explain": "Dot matrix and daisy wheel printers use CPS (Characters Per Second). LPM is for line printers and PPM for page printers.",
+    "section": "print-speed"
+  },
+  {
+    "id": "printer-23",
+    "q": "Which unit is used for the speed of drum, chain and band printers?",
+    "options": ["CPS", "LPM", "PPM", "mm/s"],
+    "answer": 1,
+    "explain": "Line printers are rated in LPM (Lines Per Minute), sometimes LPS (Lines Per Second).",
+    "section": "print-speed"
+  },
+  {
+    "id": "printer-24",
+    "q": "Which unit is commonly used for the speed of thermal receipt printers?",
+    "options": ["Millimetres per second", "Characters per second", "Dots per inch", "Lines per minute"],
+    "answer": 0,
+    "explain": "Receipt printers commonly specify mm/s. PPM is used by inkjet and laser printers, and DPI is resolution.",
+    "section": "print-speed"
+  },
+  {
+    "id": "printer-25",
+    "q": "Which of the following is a non-impact printer that uses a laser beam and powdered toner?",
+    "options": ["Inkjet printer", "Laser printer", "Thermal printer", "Band printer"],
+    "answer": 1,
+    "explain": "Laser printers use a laser beam, electrostatic charge and powdered toner, based on electrophotography.",
+    "section": "laser-printing"
+  },
+  {
+    "id": "printer-26",
+    "q": "In a laser printer, which part bonds the toner to the paper using heat and pressure?",
+    "options": ["Photosensitive drum", "Duplexer", "Fuser", "Nozzle"],
+    "answer": 2,
+    "explain": "The fuser fixes toner to paper with heat and pressure. The drum carries the electrostatic image.",
+    "section": "laser-printing"
+  },
+  {
+    "id": "printer-27",
+    "q": "In CMYK colour printing, what does the letter K stand for?",
+    "options": ["Kilo", "Key (black)", "Khaki", "Kinetic"],
+    "answer": 1,
+    "explain": "CMYK stands for Cyan, Magenta, Yellow and Key, where Key represents black.",
+    "section": "laser-printing"
+  },
+  {
+    "id": "printer-28",
+    "q": "In a laser printer, what carries the electrostatic image before it is transferred to paper?",
+    "options": ["Photosensitive drum", "Toner cartridge nozzle", "Heated printhead", "Daisy wheel"],
+    "answer": 0,
+    "explain": "The photosensitive drum is charged, the laser forms an invisible image on it, toner sticks to that image, then it moves to paper.",
+    "section": "laser-printing"
+  },
+  {
+    "id": "printer-29",
+    "q": "Which component enables automatic printing on both sides of a sheet?",
+    "options": ["Fuser", "Duplexer", "Plotter pen", "Toner drum"],
+    "answer": 1,
+    "explain": "An automatic duplexer handles paper for second-side printing. Simplex means printing on one side only.",
+    "section": "3d-printing-duplex"
+  },
+  {
+    "id": "printer-30",
+    "q": "Which printer ejects tiny liquid ink droplets through nozzles to form text and graphics?",
+    "options": ["Laser printer", "Drum printer", "Inkjet printer", "Dot matrix printer"],
+    "answer": 2,
+    "explain": "Inkjet printers spray controlled droplets of liquid ink from printhead nozzles.",
+    "section": "inkjet-printing"
+  },
+  {
+    "id": "printer-31",
+    "q": "HP ThinkJet (1984) is known as the first:",
+    "options": ["Laser printer", "Mass-marketed personal inkjet printer", "3D printer", "Plotter"],
+    "answer": 1,
+    "explain": "HP ThinkJet was the first mass-marketed personal inkjet printer. This does not mean HP invented every form of inkjet technology.",
+    "section": "inkjet-printing"
+  },
+  {
+    "id": "printer-32",
+    "q": "Which printing method is most accurately called 'inkless' because it needs no ink, toner or ribbon?",
+    "options": ["Thermal transfer", "Direct thermal", "Inkjet", "Impact dot matrix"],
+    "answer": 1,
+    "explain": "Direct thermal printing heats special coated paper. Thermal transfer still needs a ribbon.",
+    "section": "thermal-printing"
+  },
+  {
+    "id": "printer-33",
+    "q": "Which of the following requires heat-sensitive coated paper?",
+    "options": ["Laser printer", "Inkjet printer", "Direct thermal printer", "Daisy wheel printer"],
+    "answer": 2,
+    "explain": "Direct thermal printers darken a heat-sensitive coating on the paper, so no ink or toner is needed.",
+    "section": "thermal-printing"
+  },
+  {
+    "id": "printer-34",
+    "q": "Which of the following commonly uses thermal printing?",
+    "options": ["ATM receipts and boarding passes", "Engineering blueprints", "Multipart carbon forms", "Wide-format maps with pens"],
+    "answer": 0,
+    "explain": "ATM receipts, boarding passes, bills and tickets commonly use thermal printing. Multipart forms need an impact printer.",
+    "section": "thermal-printing"
+  },
+  {
+    "id": "printer-35",
+    "q": "Which statement about BPA (Bisphenol A) in thermal paper is correct?",
+    "options": ["All thermal paper contains BPA", "BPA has been used as one possible developer, but not all thermal paper contains it", "BPA is the ink used by inkjet printers", "BPA is the toner used in laser printers"],
+    "answer": 1,
+    "explain": "BPA is one possible developer in the coating, but other formulations exist, so not all thermal paper contains it.",
+    "section": "thermal-printing"
+  },
+  {
+    "id": "printer-36",
+    "q": "Which device is used for large, accurate drawings such as maps, blueprints and CAD plans?",
+    "options": ["Dot matrix printer", "Thermal printer", "Daisy wheel printer", "Plotter"],
+    "answer": 3,
+    "explain": "A plotter is a specialised precision output device used by engineers, architects and designers.",
+    "section": "plotter"
+  },
+  {
+    "id": "printer-37",
+    "q": "In a flatbed plotter, how does the drawing happen?",
+    "options": ["The paper stays still while the pen moves", "A rotating drum moves the paper", "A blade cuts vinyl", "Heat darkens special paper"],
+    "answer": 0,
+    "explain": "In a flatbed plotter the paper is stationary and the pen moves. In a drum plotter the drum moves the paper.",
+    "section": "plotter"
+  },
+  {
+    "id": "printer-38",
+    "q": "CAD, the field in which plotters are widely used, stands for:",
+    "options": ["Computer-Aided Design", "Computer-Assisted Drawing Device", "Central Automatic Drafting", "Computer Analog Display"],
+    "answer": 0,
+    "explain": "CAD stands for Computer-Aided Design. Plotters produce the large, accurate drawings that CAD creates.",
+    "section": "plotter"
+  },
+  {
+    "id": "printer-39",
+    "q": "Who is widely called the father of 3D printing?",
+    "options": ["Chester Carlson", "Gary Starkweather", "Andrew Gabor", "Chuck Hull"],
+    "answer": 3,
+    "explain": "Chuck Hull developed stereolithography (SLA), with his first successful part in 1983.",
+    "section": "3d-printing-duplex"
+  },
+  {
+    "id": "printer-40",
+    "q": "3D printing builds a physical object using which process?",
+    "options": ["Cutting a block of material away", "Adding material layer by layer (additive manufacturing)", "Pressing hot metal into moulds", "Printing a flat view of the design on paper"],
+    "answer": 1,
+    "explain": "3D printing is additive manufacturing: material is added in successive layers. A printed flat view is still just a flat picture.",
+    "section": "3d-printing-duplex"
+  }
+]

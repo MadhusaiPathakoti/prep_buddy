@@ -1,0 +1,585 @@
+{
+  "id": "email",
+  "sections": [
+    {
+      "id": "email-foundations",
+      "title": "E-mail Basics & History",
+      "icon": "📧",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "**E-mail** stands for **electronic mail**. It exchanges digital messages over a computer network and can carry text, documents, pictures, spreadsheets, audio and video. A **mailbox** is the storage space linked to an email account. Paper mail is a physical medium, so it is not electronic email."
+        },
+        {
+          "type": "timeline",
+          "title": "Milestones",
+          "items": [
+            ["1971", "**Ray Tomlinson** developed an early ARPANET network email system and used **@** to separate the user from the destination host"],
+            ["4 July 1996", "**Hotmail** launched, founded by **Sabeer Bhatia** and **Jack Smith**; an early free webmail service"],
+            ["December 1997", "**Microsoft acquired Hotmail**, which later moved to **Outlook.com**"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "Who invented what?",
+          "text": "Tomlinson's 1971 work is the usual answer for network email. His first test message was not preserved; QWERTYUIOP is often quoted but its exact wording is uncertain. Shiva Ayyadurai later wrote a program named EMAIL, but electronic messaging existed before his work. Hotmail was an early free **webmail** service, not the first email system."
+        },
+        {
+          "type": "text",
+          "text": "On the Internet, email data travels in **network packets** that are put back together at the destination. Email can work over the Internet or over an organisation's internal network. An **intranet** is internal, while an **extranet** permits controlled access to outsiders."
+        },
+        {
+          "type": "callout",
+          "kind": "remember",
+          "text": "Ray Tomlinson: network email, 1971 | @ separates user and host | Mailbox: message storage | Packet: unit of network data."
+        }
+      ]
+    },
+    {
+      "id": "email-address",
+      "title": "Email Address & Rules",
+      "icon": "🏷️",
+      "blocks": [
+        {
+          "type": "keyvalue",
+          "title": "Anatomy of student@example.com",
+          "rows": [
+            ["Format", "local-part@domain"],
+            ["Local part", "The text before @ (here student), commonly called the username."],
+            ["@", "Pronounced at; it separates the two main parts."],
+            ["Domain", "The text after @ (here example.com). Domain names are case-insensitive."]
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Valid and invalid forms",
+          "headers": ["Address", "Verdict"],
+          "rows": [
+            ["userName@website.com", "Valid structure"],
+            ["userName@website@com", "Incorrect (second @ instead of a dot)"],
+            ["userName.website.com", "Incorrect (no @ at all)"]
+          ]
+        },
+        {
+          "type": "bullets",
+          "title": "Character rules",
+          "items": [
+            "Ordinary unquoted addresses contain **no blank spaces**.",
+            "Letters, digits and some punctuation may be allowed; rules vary by provider.",
+            "Standard **Gmail** usernames use a-z, 0-9 and periods, normally 6-30 characters long.",
+            "Underscores and hyphens are **not** permitted in standard Gmail usernames.",
+            "Uppercase handling depends on the system.",
+            "A correctly formatted address does not prove that the mailbox exists."
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Length limits (SMTP)",
+          "headers": ["Part", "Limit"],
+          "rows": [
+            ["Local part", "64 octets"],
+            ["Domain", "255 octets"],
+            ["Whole mailbox address", "Normally within 254 octets (the SMTP path limit also counts punctuation)"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "The 320 myth",
+          "text": "Adding 64 + 1 + 255 gives 320, but that is not the real address limit; the complete address normally fits within 254 octets. For plain ASCII text, one character takes one octet."
+        },
+        {
+          "type": "callout",
+          "kind": "remember",
+          "text": "Username first, domain second. An ordinary address has no spaces, and a provider's own limits may be shorter."
+        }
+      ]
+    },
+    {
+      "id": "clients-webmail",
+      "title": "Providers, Clients & Webmail",
+      "icon": "💻",
+      "blocks": [
+        {
+          "type": "keyvalue",
+          "title": "Three different terms",
+          "rows": [
+            ["Provider", "Supplies an email account and service."],
+            ["Email client", "An application for composing, sending, receiving and organising mail."],
+            ["Webmail", "A browser interface for accessing an email service; no separate desktop client is usually needed."]
+          ]
+        },
+        {
+          "type": "bullets",
+          "title": "Email client examples",
+          "items": [
+            "Microsoft **Outlook**",
+            "Mozilla **Thunderbird**",
+            "**Apple Mail**",
+            "**Windows Live Mail** (older and discontinued)",
+            "Clients can store downloaded messages and may give offline access, depending on configuration."
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Webmail examples",
+          "headers": ["Service", "Address"],
+          "rows": [
+            ["Gmail", "gmail.com"],
+            ["Yahoo Mail", "mail.yahoo.com"],
+            ["Outlook.com", "outlook.com"],
+            ["AOL Mail", "mail.aol.com"],
+            ["Mail.com", "mail.com"],
+            ["iCloud Mail", "icloud.com/mail"],
+            ["Rediffmail", "mail.rediff.com"],
+            ["Yandex Mail", "mail.yandex.com"],
+            ["Zoho Mail", "zoho.com/mail"]
+          ]
+        },
+        {
+          "type": "text",
+          "text": "Lycos Mail is another historical webmail example. A service is not limited to one access method: Gmail and Proton Mail offer both web interfaces and applications. **Microsoft Outlook** (the application) is an email program and also a **Personal Information Manager (PIM)**, meaning it handles calendars, contacts and tasks alongside email. **Outlook.com** is Microsoft's webmail service and the Outlook application is a separate product."
+        },
+        {
+          "type": "callout",
+          "kind": "fact",
+          "title": "Free services",
+          "text": "Gmail offers free personal accounts. Tuta (formerly Tutanota) also has a free option. Mailchimp is an email **marketing platform** with a limited free plan, not a conventional personal mailbox."
+        }
+      ]
+    },
+    {
+      "id": "providers-milestones",
+      "title": "Provider Milestones",
+      "icon": "📅",
+      "blocks": [
+        {
+          "type": "table",
+          "title": "Who, what, when",
+          "headers": ["Service", "Key facts"],
+          "rows": [
+            ["Gmail", "Provider **Google**; key developer **Paul Buchheit**; launched **1 April 2004**"],
+            ["Yahoo Mail", "Yahoo began in **1994** (Jerry Yang and David Filo); Yahoo Mail launched in **1997**"],
+            ["Hotmail / Outlook.com", "Founders **Sabeer Bhatia** and **Jack Smith**; launched **4 July 1996**; Microsoft bought it in **December 1997**"],
+            ["iCloud Mail", "Provider **Apple**; iCloud launched **12 October 2011**; works with Apple devices and on the web"],
+            ["Zoho Mail", "Provider **Zoho Corporation**; personal and business email"],
+            ["Yandex Mail", "Russian-origin service from Yandex; launched **26 June 2000**"]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "AOL Mail",
+          "rows": [
+            ["Full form", "AOL = America Online."],
+            ["Founding", "Generally dated to 1985, linked to Quantum Computer Services and people including Jim Kimsey, Steve Case and Marc Seriff."],
+            ["Earlier history", "William von Meister was associated with the earlier Control Video business; that predecessor's 1983 history is not AOL's simple founding date."],
+            ["Ownership", "Verizon ownership is outdated; Bending Spoons completed its AOL acquisition on 2 January 2026."]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "Company vs mail service",
+          "text": "Yahoo the company began in 1994, but Yahoo Mail came in 1997. The desktop Outlook application is not simply a renamed Hotmail; Hotmail later moved to Outlook.com."
+        },
+        {
+          "type": "callout",
+          "kind": "tip",
+          "title": "Year trick",
+          "text": "Order the launch years like a staircase: Hotmail **1996**, Yahoo Mail **1997**, Yandex **2000**, Gmail **2004**, iCloud **2011**."
+        }
+      ]
+    },
+    {
+      "id": "gmail-interface",
+      "title": "Gmail Interface & Folders",
+      "icon": "📥",
+      "blocks": [
+        {
+          "type": "keyvalue",
+          "title": "Five inbox categories",
+          "rows": [
+            ["Primary", "Personal mail and messages not assigned elsewhere."],
+            ["Social", "Social-network notifications."],
+            ["Promotions", "Offers and marketing messages."],
+            ["Updates", "Receipts, confirmations and automated notices."],
+            ["Forums", "Discussion-group and mailing-list messages."]
+          ]
+        },
+        {
+          "type": "text",
+          "text": "Primary, Social and Promotions are the common visible tabs, but Gmail supports **five** categories. Which ones you see depends on your settings."
+        },
+        {
+          "type": "keyvalue",
+          "title": "Sidebar options",
+          "rows": [
+            ["Inbox", "Incoming messages."],
+            ["Starred", "Messages marked with a star for easy reference."],
+            ["Important", "Messages marked or identified as important."],
+            ["Snoozed", "Messages hidden from the inbox until a time you choose."],
+            ["Sent", "Copies of messages that have been sent."],
+            ["Drafts", "Unfinished or unsent messages."],
+            ["Spam / Junk", "Unwanted or suspicious messages."],
+            ["Trash / Bin", "Deleted messages awaiting permanent removal."],
+            ["All Mail", "Includes archived mail; excludes Spam and Trash."],
+            ["Outbox", "Messages waiting to be sent, where the application supports it."]
+          ]
+        },
+        {
+          "type": "bullets",
+          "title": "Important distinctions",
+          "items": [
+            "A **star** is separate from the **importance** marker.",
+            "**Sent** does not prove the recipient read the message or that final delivery succeeded.",
+            "A poor Internet connection may leave a message waiting in an app's **Outbox**.",
+            "**Drafts** are saved for further editing; **Outbox** messages are queued for sending."
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "remember",
+          "title": "Trash retention",
+          "text": "Gmail normally deletes trashed messages permanently after **30 days**, though you can delete them earlier. Google Chat handles conversations and Google Meet handles video meetings (their visibility in Gmail depends on settings); Hangouts is an older product name."
+        },
+        {
+          "type": "callout",
+          "kind": "tip",
+          "text": "Drafts: unfinished | Outbox: waiting | Sent: sent copy | Spam: junk."
+        }
+      ]
+    },
+    {
+      "id": "compose-copy-reply",
+      "title": "Compose, Copy & Reply",
+      "icon": "✍️",
+      "blocks": [
+        {
+          "type": "keyvalue",
+          "title": "Message fields",
+          "rows": [
+            ["From", "The stated sender."],
+            ["To", "The main recipient or recipients."],
+            ["Cc", "People who should receive a visible copy."],
+            ["Bcc", "Recipients whose addresses are hidden from the other recipients."],
+            ["Subject", "A brief description of the topic."],
+            ["Body", "The main message text."]
+          ]
+        },
+        {
+          "type": "text",
+          "text": "The system normally supplies the sender details and the sending timestamp. **Cc** means **Carbon Copy**: To and Cc addresses are normally visible to everybody, so use Cc to keep extra people informed. **Bcc** means **Blind Carbon Copy**: Bcc recipients can see the visible To and Cc addresses, but To and Cc recipients cannot see the Bcc list. The sender can see the Bcc recipients in the sent copy, and Cc and Bcc can be used in the same message."
+        },
+        {
+          "type": "keyvalue",
+          "title": "Common commands",
+          "rows": [
+            ["Compose", "Start a new email."],
+            ["Send", "Submit the message for delivery."],
+            ["Save as Draft", "Keep an unfinished message."],
+            ["Reply", "Respond to the sender."],
+            ["Reply all", "Respond to the sender and the relevant visible recipients."],
+            ["Forward", "Pass a received message on to someone else."],
+            ["Attach", "Add a file; usually a paperclip icon."],
+            ["Star / More", "Mark for reference / additional actions."]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "Signature is not a digital signature",
+          "text": "An **email signature** is a reusable closing block with your name, role, organisation or contact details, which can be added automatically. It is different from a cryptographic **digital signature**."
+        },
+        {
+          "type": "callout",
+          "kind": "fact",
+          "title": "What is needed to send?",
+          "text": "Ordinary email needs a configured sender identity and at least one destination. A subject, an attachment and a non-empty body are not universally mandatory."
+        }
+      ]
+    },
+    {
+      "id": "protocols-ports",
+      "title": "Email Protocols & Ports",
+      "icon": "🔌",
+      "blocks": [
+        {
+          "type": "keyvalue",
+          "title": "The three mail protocols",
+          "rows": [
+            ["SMTP", "Simple Mail Transfer Protocol: transfers outgoing email and relays messages between mail systems."],
+            ["POP3", "Post Office Protocol, Version 3: retrieves messages from a mail server, commonly downloading them for local use; server copies may be kept or deleted depending on settings."],
+            ["IMAP", "Internet Message Access Protocol: works with a server-based mailbox and synchronises messages, folders and read status across devices."]
+          ]
+        },
+        {
+          "type": "table",
+          "title": "POP3 versus IMAP",
+          "headers": ["Point", "POP3", "IMAP"],
+          "rows": [
+            ["Style", "Download-oriented", "Server-oriented"],
+            ["Synchronisation", "Limited mailbox sync", "Syncs messages, folders and read status"],
+            ["Best for", "Mail kept on a device", "Using several devices"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "Exam shortcut, not a rule",
+          "text": "POP3 for one device, IMAP for many is only a handy exam shortcut; POP3 is not technically restricted to one device. Both POP3 and IMAP give access to **received** email."
+        },
+        {
+          "type": "table",
+          "title": "Port numbers",
+          "headers": ["Use", "Port"],
+          "rows": [
+            ["SMTP server-to-server transfer", "25"],
+            ["Message submission, commonly with STARTTLS", "587"],
+            ["Submission over implicit TLS", "465"],
+            ["POP3", "110"],
+            ["POP3 over implicit TLS", "995"],
+            ["IMAP", "143"],
+            ["IMAP over implicit TLS", "993"]
+          ]
+        },
+        {
+          "type": "text",
+          "text": "Ports 110 and 143 can support a STARTTLS upgrade, so security depends on configuration. Related terms: **FTP** (File Transfer Protocol) moves files and is not normal email delivery; **HTTP** (Hypertext Transfer Protocol) is for web communication; **MIME** formats email content but does not send or retrieve mail by itself; **ESMTP** refers to SMTP's extension framework."
+        },
+        {
+          "type": "callout",
+          "kind": "tip",
+          "title": "Basic recall",
+          "text": "Send = SMTP | Retrieve = POP3 | Synchronise = IMAP. Basic ports: SMTP 25, POP3 110, IMAP 143."
+        }
+      ]
+    },
+    {
+      "id": "mime-delivery",
+      "title": "MIME & Message Delivery",
+      "icon": "📦",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "**MIME** stands for **Multipurpose Internet Mail Extensions**. It extends email message formats so they can represent different content types and non-ASCII text: documents, pictures, spreadsheets, audio, video and multipart messages."
+        },
+        {
+          "type": "figure",
+          "kind": "layers",
+          "title": "Who does what in email",
+          "items": [
+            ["MIME", "Describes and encodes the content"],
+            ["SMTP", "Transfers (sends) messages"],
+            ["POP3", "Retrieves messages"],
+            ["IMAP", "Accesses and syncs mailboxes"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "Format versus transport",
+          "text": "Calling MIME an extension of SMTP itself is imprecise. MIME extends message **formats**, while **ESMTP** extends SMTP's capabilities."
+        },
+        {
+          "type": "bullets",
+          "title": "Multimedia encoding",
+          "items": [
+            "Traditional SMTP was designed for **7-bit text**.",
+            "Binary attachments are commonly represented using **Base64**, which uses ASCII characters that are safe for old mail transport.",
+            "In simple exam answers the encoding is just called ASCII; Base64 is the more precise example.",
+            "Modern SMTP extensions can support more transport capabilities."
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "Roles in sending and receiving",
+          "rows": [
+            ["SMTP client", "The system that starts the transfer."],
+            ["SMTP server", "The system that accepts the connection."],
+            ["User Agent", "The application used to compose, send, read and manage email."]
+          ]
+        },
+        {
+          "type": "text",
+          "text": "A mail system can act as a server when receiving and later as a client when sending onward. If the sender and receiver use the same system, a separate server-to-server transfer may be unnecessary. A simplified diagram shows two user agents for the two users, but storage and local delivery functions are still needed."
+        },
+        {
+          "type": "figure",
+          "kind": "flow",
+          "title": "Journey of an email",
+          "items": [
+            ["Sender's User Agent", "Composes the message"],
+            ["SMTP client", "Starts the transfer"],
+            ["SMTP server", "Accepts and relays it"],
+            ["Recipient's mailbox", "Stores the message"],
+            ["POP3 / IMAP", "Retrieves or syncs it"],
+            ["Recipient's User Agent", "Reads the message"]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "gmail-limits",
+      "title": "Gmail Limits & Storage",
+      "icon": "📏",
+      "blocks": [
+        {
+          "type": "table",
+          "title": "Sending limits",
+          "headers": ["Account", "Limit"],
+          "rows": [
+            ["Personal Gmail: messages per day", "Generally **500**"],
+            ["Personal Gmail: recipients in one message (To + Cc + Bcc)", "Generally **500**"],
+            ["Google Workspace (paid): messages per user in a rolling 24 hours", "Generally **2,000**"],
+            ["Google Workspace trial accounts: messages per day", "Generally **500**"],
+            ["Workspace: recipients per message", "Up to **2,000** total, with no more than **500** external"],
+            ["Mail merge (formerly multi-send): recipients per day on eligible plans", "Generally **1,500**"]
+          ]
+        },
+        {
+          "type": "text",
+          "text": "Limits differ by account and sending method and can change. If a limit is reached you may see errors about the sending quota or recipient maximum, and sending may be restricted for up to **24 hours**. Daily message count, recipients per message and the mail-merge quota are three different measures."
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "Multiplying limits",
+          "text": "500 x 20 = 10,000 is arithmetic only. Creating 20 accounts does not change any single account's limit and does not guarantee delivery."
+        },
+        {
+          "type": "keyvalue",
+          "title": "Attachments and storage",
+          "rows": [
+            ["Personal Gmail attachments", "25 MB total per message."],
+            ["Larger files", "Share them through a Google Drive link."],
+            ["Standard personal Google Account", "15 GB shared across Gmail, Drive and Photos."],
+            ["Workspace attachments", "Limits can vary by edition and administrator settings."]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "Google Meet",
+          "rows": [
+            ["Personal accounts", "Up to 100 participants."],
+            ["Three or more participants", "Normally up to 60 minutes."],
+            ["One-to-one meetings", "Can last longer; subscription limits differ."]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "remember",
+          "text": "Personal: 500 | Workspace: 2,000 | Mail merge: 1,500 | Attachment: 25 MB | Shared storage: 15 GB."
+        }
+      ]
+    },
+    {
+      "id": "email-security",
+      "title": "Email Security & Exam Recall",
+      "icon": "🔒",
+      "blocks": [
+        {
+          "type": "keyvalue",
+          "title": "Protection tools",
+          "rows": [
+            ["PGP", "Pretty Good Privacy: supports encryption (confidentiality) and digital signatures (verify authenticity and detect changes)."],
+            ["SSL", "Secure Sockets Layer: obsolete."],
+            ["TLS", "Transport Layer Security: used by modern secure connections."]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "text": "Transport encryption (TLS) protects the connection and does not automatically mean end-to-end message encryption."
+        },
+        {
+          "type": "keyvalue",
+          "title": "Common threats",
+          "rows": [
+            ["Spam", "Unsolicited or unwanted email, often sent in bulk."],
+            ["Spoofing", "Falsifying sender information to impersonate someone else."],
+            ["Phishing", "Deceptive messages that seek sensitive information or harmful actions."],
+            ["Sniffing", "Capturing and examining network traffic."],
+            ["Smishing", "Phishing through SMS or text messages."],
+            ["Skimming", "Illegally collecting payment-card information."]
+          ]
+        },
+        {
+          "type": "text",
+          "text": "In a typical phishing mail the message pretends to come from a bank or another trusted organisation, asks for confidential information, or sends you to a fake website. Spoofing can support phishing, but the two terms describe different actions. A malicious attachment may install malware, but that is not the definition of spoofing. **Bulk email** means sending messages to many recipients, such as newsletters or announcements: bulk describes **scale**, while spam describes **unwanted** messaging."
+        },
+        {
+          "type": "table",
+          "title": "Final quick recall",
+          "headers": ["Clue", "Answer"],
+          "rows": [
+            ["Mail protection", "PGP"],
+            ["Fake sender", "Spoofing"],
+            ["Deceptive information request", "Phishing"],
+            ["SMS phishing", "Smishing"],
+            ["Hidden recipient list", "Bcc"],
+            ["Visible copy", "Cc"],
+            ["Unfinished mail", "Drafts"],
+            ["Waiting to send", "Outbox"],
+            ["Received mail sent onward", "Forward"],
+            ["Closing contact block", "Signature"],
+            ["Files sent with email", "Attachments"]
+          ]
+        }
+      ]
+    }
+  ],
+  "revision": [
+    "E-mail = electronic mail; Ray Tomlinson developed network email in 1971 and chose @ to separate user and host.",
+    "Address format is local-part@domain: username first, domain second, no spaces; the real full-address limit is about 254 octets, not 320.",
+    "Hotmail: 4 July 1996 (Sabeer Bhatia, Jack Smith); Microsoft bought it in December 1997; later Outlook.com.",
+    "Gmail launched 1 April 2004 by Google (Paul Buchheit); Yahoo Mail 1997; iCloud 12 October 2011; Yandex Mail 26 June 2000.",
+    "Email client = app (Outlook, Thunderbird, Apple Mail); webmail = browser access (Gmail, Yahoo Mail); Outlook is also a PIM.",
+    "Gmail has five inbox categories: Primary, Social, Promotions, Updates, Forums.",
+    "Drafts = unfinished; Outbox = waiting to send; Sent = sent copy; All Mail excludes Spam and Trash; Trash empties after 30 days.",
+    "Cc = Carbon Copy (visible); Bcc = Blind Carbon Copy (hidden from other recipients).",
+    "SMTP sends (port 25), POP3 retrieves (110), IMAP synchronises (143); secure ports 465/587 submission, 995 POP3, 993 IMAP.",
+    "MIME = Multipurpose Internet Mail Extensions: it formats content; binary attachments use Base64; SMTP is built for 7-bit text.",
+    "Gmail limits: 500 messages per day (personal), 2,000 (Workspace), mail merge 1,500, 25 MB attachment, 15 GB shared storage.",
+    "Google Meet: personal accounts up to 100 participants; 3 or more people normally 60 minutes.",
+    "PGP = Pretty Good Privacy (encryption plus digital signatures); SSL is obsolete, TLS is current.",
+    "Spoofing = fake sender; phishing = deceptive request for information; smishing = phishing via SMS; skimming = stealing card data."
+  ],
+  "mindmap": {
+    "center": "E-mail",
+    "branches": [
+      {
+        "label": "Basics & history",
+        "children": ["Electronic mail", "Ray Tomlinson, 1971", "@ separates user and host", "Packets, mailbox"]
+      },
+      {
+        "label": "Address",
+        "children": ["local-part@domain", "No spaces", "Gmail 6-30 characters", "64 + 255, within 254 octets"]
+      },
+      {
+        "label": "Clients & webmail",
+        "children": ["Outlook, Thunderbird", "Apple Mail", "Gmail, Yahoo, Zoho", "Outlook = PIM"]
+      },
+      {
+        "label": "Provider dates",
+        "children": ["Hotmail 1996", "Yahoo Mail 1997", "Yandex 2000", "Gmail 2004", "iCloud 2011"]
+      },
+      {
+        "label": "Gmail folders",
+        "children": ["Five inbox categories", "Drafts vs Outbox", "Sent, Spam, Trash", "All Mail, Snoozed", "Trash: 30 days"]
+      },
+      {
+        "label": "Compose",
+        "children": ["To, Cc, Bcc", "Reply, Reply all, Forward", "Attach, Signature"]
+      },
+      {
+        "label": "Protocols & MIME",
+        "children": ["SMTP 25", "POP3 110", "IMAP 143", "MIME, Base64", "User Agent"]
+      },
+      {
+        "label": "Limits & security",
+        "children": ["500 / 2,000 / 1,500", "25 MB, 15 GB", "PGP, TLS", "Spoofing, phishing, smishing"]
+      }
+    ]
+  }
+}

@@ -1,0 +1,694 @@
+{
+  "id": "input-devices",
+  "sections": [
+    {
+      "id": "input-basics",
+      "title": "Input Devices at a Glance",
+      "icon": "🖱️",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "An **input device** sends data, instructions or signals to the computer so that it can process them. Input devices capture text, movement, images, sound, touch and even identity-related information such as a fingerprint. Data enters the computer through **input**; results leave it through **output**."
+        },
+        {
+          "type": "table",
+          "title": "Families of input devices",
+          "headers": ["Group", "Devices", "What they capture"],
+          "rows": [
+            ["Text and pointer control", "Keyboard, mouse, touchpad, trackball", "Typing, pointer movement, selection, scrolling"],
+            ["Audio, video and direct input", "Microphone, webcam, digital camera, touchscreen, light pen, stylus, graphics tablet", "Sound, live video, photos, touch, pen strokes"],
+            ["Documents and codes", "Scanner, barcode reader, QR code reader, OCR, OMR, MICR", "Paper originals, printed codes, text, marks, magnetic-ink characters"],
+            ["Control, biometrics and other input", "Joystick, gamepad, VR controller, fingerprint / iris / face recognition, motion sensor, speech recognition, smart card reader", "Game control, personal traits, movement, voice, chip data"]
+          ]
+        },
+        {
+          "type": "figure",
+          "kind": "flow",
+          "title": "Where input fits in",
+          "items": [
+            ["Input device", "Keyboard, mouse, scanner, mic"],
+            ["Processing", "The CPU works on the data"],
+            ["Output device", "Monitor, printer, speaker, plotter"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "Exam distinctions",
+          "text": "Printer, ordinary monitor, speaker and plotter are **output** devices, not input. A **touchscreen** is special: touch sensing is input, while the display is output. OCR and other recognition systems combine software with capture hardware."
+        }
+      ]
+    },
+    {
+      "id": "keyboard",
+      "title": "Keyboard",
+      "icon": "⌨️",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "A **keyboard** enters letters, numbers, symbols and commands. Traditional full-size PC keyboards commonly have **101 or 104 keys**, though counts vary by model and regional layout. Wireless keyboards use **Bluetooth** or a proprietary **radio-frequency (RF)** link, often through a USB receiver."
+        },
+        {
+          "type": "keyvalue",
+          "title": "Keyboard layouts",
+          "rows": [
+            ["QWERTY", "The common English layout, named after the first six letters of the upper alphabetic row."],
+            ["AZERTY", "Used in France and some French-speaking regions. A/Q and Z/W swap places compared with QWERTY, and some other keys differ too."],
+            ["DVORAK", "Designed to reduce finger travel and improve typing efficiency. It does not guarantee faster typing for every user."]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "Important keys",
+          "rows": [
+            ["Enter", "Confirms an action, submits a command or starts a new paragraph."],
+            ["Backspace", "Usually removes the character **before** the text cursor."],
+            ["Delete", "Usually removes the character **after** the cursor, or the selected content or item."],
+            ["Esc", "Commonly cancels an action, dismisses a menu or exits a mode."],
+            ["F1-F12", "Function keys; what they do depends on the software and settings."],
+            ["Ctrl, Alt, Shift", "Modifier keys that change the action of another key."]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "tip",
+          "title": "Memory trick",
+          "text": "**Back**space goes back (before the cursor); **Del**ete deletes ahead (after the cursor). Ctrl, Alt and Shift never work alone: they modify another key."
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "Scanning clarification",
+          "text": "A keyboard does **not** optically scan documents. Many keyboards only scan an internal **key matrix** (rows and columns of switches) to detect which keys are pressed."
+        },
+        {
+          "type": "callout",
+          "kind": "fact",
+          "title": "Historical note",
+          "text": "**Christopher Latham Sholes** is associated with the development of the QWERTY typewriter keyboard. He was not the sole inventor of the modern computer keyboard."
+        }
+      ]
+    },
+    {
+      "id": "mouse-touchpad",
+      "title": "Mouse and Touchpad",
+      "icon": "🖲️",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "A **mouse** translates physical hand movement into pointer movement on screen. A conventional mouse has **two main buttons and a scroll wheel**; extra programmable buttons may also be present. **Douglas Engelbart** invented the computer mouse in the early 1960s at **Stanford Research Institute (SRI)**."
+        },
+        {
+          "type": "keyvalue",
+          "title": "Common mouse actions",
+          "rows": [
+            ["Left-click", "Selects an item or activates a control."],
+            ["Right-click", "Opens a context (shortcut) menu."],
+            ["Double-click", "Commonly opens a file, folder or application."],
+            ["Scroll wheel", "Moves through a page, usually vertically."]
+          ]
+        },
+        {
+          "type": "bullets",
+          "title": "Tracking and connection",
+          "items": [
+            "**LED optical mouse:** lights up the surface and uses an image sensor to track movement.",
+            "**Laser mouse:** uses laser illumination; accuracy depends on the sensor and the surface, not on the illumination alone.",
+            "**Wireless mouse:** uses Bluetooth or a proprietary radio link, often with a receiver.",
+            "**Ergonomic designs** aim to support comfortable hand and wrist positions.",
+            "Glass, glossy or transparent surfaces can impair some sensors; there is no universal claim about which surface always works."
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "Sensitivity",
+          "rows": [
+            ["DPI", "Dots Per Inch, the popular term for mouse sensitivity."],
+            ["CPI", "Counts Per Inch, technically more precise for what the sensor reports."],
+            ["Effect", "With other settings unchanged, higher sensitivity moves the pointer farther for the same hand movement. OS speed and acceleration settings also matter."]
+          ]
+        },
+        {
+          "type": "text",
+          "text": "A **touchpad** (trackpad) is commonly built into laptops. It senses finger position and movement, and where supported it handles tapping, clicking, scrolling and gestures without an external mouse. Many use **capacitive sensing**. Firmware handles device-level tasks, while drivers and software interpret the input."
+        },
+        {
+          "type": "callout",
+          "kind": "fact",
+          "title": "Touchpad history",
+          "text": "**George E. Gerpheide** developed the capacitive technology behind Cirque's **GlidePoint** in the late 1980s. Do not credit the touchpad simply to Apple."
+        },
+        {
+          "type": "callout",
+          "kind": "remember",
+          "text": "A mouse moves across a surface; a touchpad senses finger movement on a fixed pad."
+        }
+      ]
+    },
+    {
+      "id": "trackball-scanner",
+      "title": "Trackball and Scanner",
+      "icon": "🔴",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "A **trackball** is a stationary pointing device with an exposed rotating ball. The user turns the ball with a thumb or fingers while the base stays still, so no whole-device sliding is needed, unlike a conventional mouse. Optical sensors or mechanical parts detect the rotation. Trackballs are used in **CAD** (Computer-Aided Design), specialised control systems and some gaming setups. **Ralph Benjamin** developed an early roller-ball pointing concept in the 1940s."
+        },
+        {
+          "type": "text",
+          "text": "A **scanner** captures a physical document, photograph or illustration as a digital image. A light source illuminates the original and sensors record its visual detail; the image can then be stored and processed on a computer. A scan of text is first only an **image**; **OCR** software can then recognise its characters."
+        },
+        {
+          "type": "table",
+          "title": "Scanner types",
+          "headers": ["Type", "How it works"],
+          "rows": [
+            ["Flatbed", "The original rests on glass; good for photos, documents and book pages."],
+            ["Sheet-fed", "Pulls loose sheets through; useful for batches of documents."],
+            ["Handheld", "A portable device moved across the original."],
+            ["Drum", "A specialised scanner capable of very high image quality."]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "Useful terms",
+          "rows": [
+            ["ADF", "Automatic Document Feeder; feeds a stack one sheet after another. Duplex (two-sided) scanning needs suitable equipment."],
+            ["DPI (resolution)", "Dots Per Inch. Higher genuine optical resolution can capture finer detail and normally gives a bigger file. Extra DPI cannot recover detail missing from the original."]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "fact",
+          "title": "Historical correction",
+          "text": "In **1957**, **Russell Kirsch** and colleagues at the US **National Bureau of Standards** built a rotating-drum scanner to feed images into a computer. Do not credit the scanner simply to Xerox."
+        },
+        {
+          "type": "callout",
+          "kind": "remember",
+          "text": "Scanner captures an image; OCR recognises the text inside it."
+        }
+      ]
+    },
+    {
+      "id": "barcode-qr",
+      "title": "Barcode and QR Code Readers",
+      "icon": "🔳",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "A **barcode reader** captures and decodes barcode patterns into digital data. A conventional one-dimensional barcode is a set of parallel bars and spaces of different widths. Laser or LED sensors, or camera-based imaging, read the pattern. Readers may be fixed or handheld, wired or wireless (Bluetooth, Wi-Fi or another radio system)."
+        },
+        {
+          "type": "bullets",
+          "title": "Barcodes in retail",
+          "items": [
+            "Uses: fast billing, product identification and inventory control.",
+            "Works with **POS (Point of Sale)** systems; instant stock updates need suitable connected software.",
+            "A standard retail barcode usually identifies the **product**; the POS system then fetches the price and description from a database.",
+            "Some specialised formats can encode price or value directly.",
+            "A basic 1D scanner may not read QR codes; a compatible 2D imager reads QR and other 2D codes."
+          ]
+        },
+        {
+          "type": "text",
+          "text": "A **QR code** (QR = **Quick Response**) is a two-dimensional pattern of dark and light square modules. A camera or image sensor captures it and software decodes it. Information is encoded both horizontally and vertically, and it can hold text, web links, contact details and payment-related information. Typical uses are payments, tickets, identification and authentication."
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "UPI QR caution",
+          "text": "A suitable UPI app can scan payment details for you to review and authorise. **Scanning alone does not authorise a payment.**"
+        },
+        {
+          "type": "keyvalue",
+          "title": "QR history and availability",
+          "rows": [
+            ["Introduced", "1994, by a team led by **Masahiro Hara** at the DENSO division that became **DENSO WAVE**."],
+            ["Not just Toyota", "Calling the developer simply a Toyota subsidiary is imprecise."],
+            ["Licensing", "DENSO WAVE permits free use of standards-compliant QR codes, though commercial QR services may still charge."]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "remember",
+          "text": "Barcode = encoded identifier of bars and spaces; QR = two-dimensional Quick Response code."
+        }
+      ]
+    },
+    {
+      "id": "ocr-omr",
+      "title": "OCR and OMR",
+      "icon": "🔤",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "**OCR (Optical Character Recognition)** recognises characters in an image and produces machine-readable text. 'Optical Character Reader' names the reader or device, while 'Recognition' names the technology. Its inputs are scans, photographs of text and image-based PDF pages. It commonly handles printed text, and suitable systems also recognise handwriting."
+        },
+        {
+          "type": "bullets",
+          "title": "OCR facts",
+          "items": [
+            "The output can be searched, copied, edited and processed.",
+            "Used to turn paper records into usable digital documents.",
+            "Closely related to pattern recognition; modern systems may use AI and machine learning.",
+            "Accuracy depends on clarity, language, fonts, handwriting and the software.",
+            "OCR can process an existing image; it does not need a new physical scan."
+          ]
+        },
+        {
+          "type": "text",
+          "text": "**OMR (Optical Mark Recognition)** detects shaded bubbles, marked boxes or other responses at predefined positions. 'Optical Mark Reader' names the device. It processes large batches of properly designed forms quickly, for example exam answer sheets, surveys, questionnaires, data collection and some paper-ballot systems. OMR only decides **which response location is marked**; it does not interpret ordinary handwriting or text."
+        },
+        {
+          "type": "table",
+          "title": "Exam application",
+          "headers": ["Task", "Technology"],
+          "rows": [
+            ["Capture a whole page or photo as an image", "Scanner"],
+            ["Extract printed text from an image", "OCR"],
+            ["Check shaded answer sheets", "OMR"],
+            ["Read magnetic-ink characters on cheques", "MICR"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "tip",
+          "title": "Memory trick",
+          "text": "OCR = **C**haracters; OMR = **M**arks; MICR = **M**agnetic **I**nk. The word after 'Optical' or 'Magnetic' tells you what it reads."
+        }
+      ]
+    },
+    {
+      "id": "micr-cheque",
+      "title": "MICR and Cheque Processing",
+      "icon": "🏦",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "**MICR (Magnetic Ink Character Recognition)** reads specially shaped characters printed with **magnetic ink**. 'Magnetic Ink Character Reader' names the device. A magnetic reader detects signals from the magnetised characters and produces digital information. MICR is closely linked with automated **cheque processing** in banking, where it supports fast, reliable handling and cuts manual data entry. Its information sits in a designated band near the **bottom of a cheque**."
+        },
+        {
+          "type": "keyvalue",
+          "title": "Indian nine-digit MICR sort code (CCC BBB RRR)",
+          "rows": [
+            ["First 3 digits", "**City** (aligned with the postal PIN-code system)."],
+            ["Middle 3 digits", "**Bank**."],
+            ["Last 3 digits", "**Branch**."]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "Illustrative breakdown: 110002345",
+          "rows": [
+            ["110", "City component (a Delhi example)."],
+            ["002", "Bank component."],
+            ["345", "Branch component."]
+          ]
+        },
+        {
+          "type": "figure",
+          "kind": "flow",
+          "title": "Reading the MICR line",
+          "items": [
+            ["Cheque serial number", "Its own separate field"],
+            ["Nine-digit sort code", "3 city + 3 bank + 3 branch"],
+            ["Other fields", "Remaining numbers on the line"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "Cheque number is separate",
+          "text": "The full MICR line has several fields, including the **cheque serial number** and the nine-digit city-bank-branch code. Never say that the nine-digit sort code contains the cheque number. The example above only explains the format; it does not confirm a real branch."
+        },
+        {
+          "type": "callout",
+          "kind": "remember",
+          "text": "MICR sort code = 3 city + 3 bank + 3 branch."
+        }
+      ]
+    },
+    {
+      "id": "microphone",
+      "title": "Microphone Principles",
+      "icon": "🎤",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "A **microphone** is an input **transducer**: it converts changing sound pressure into a matching electrical signal. It captures speech, music and environmental sounds for recording, communication and processing. An analogue microphone needs an **analogue-to-digital converter (ADC)** before the computer can process the sound, while a digital microphone system already includes the conversion circuitry."
+        },
+        {
+          "type": "keyvalue",
+          "title": "Energy conversion",
+          "rows": [
+            ["Microphone", "Sound to electrical signal."],
+            ["Speaker / headphone", "Electrical signal to sound (the reverse job)."]
+          ]
+        },
+        {
+          "type": "figure",
+          "kind": "flow",
+          "title": "Moving-coil (dynamic) microphone",
+          "items": [
+            ["Sound waves", "Pressure hits the diaphragm"],
+            ["Diaphragm + voice coil", "They vibrate together"],
+            ["Coil in magnetic field", "A permanent magnet surrounds it"],
+            ["Electrical signal", "Made by electromagnetic induction"]
+          ]
+        },
+        {
+          "type": "text",
+          "text": "A **moving-coil (dynamic) microphone** has three main parts: a **diaphragm**, a **voice coil** and a **permanent magnet**. A **condenser (capacitor) microphone** uses a diaphragm and a backplate that together form a capacitor; sound changes their spacing and therefore the capacitance, and circuitry turns this into the audio signal. Suitable capacitor microphones can capture heart sounds in electronic stethoscopes, but that is just one application."
+        },
+        {
+          "type": "keyvalue",
+          "title": "Related terms",
+          "rows": [
+            ["Hi-Fi", "High Fidelity; 'Fi' stands for fidelity. It means faithful capture or reproduction with low distortion and noise. A microphone is not automatically hi-fi just because it records sound."],
+            ["Speech recognition", "The microphone captures speech; recognition software interprets the words."]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "fact",
+          "title": "Historical accuracy",
+          "text": "**Emile Berliner** developed an important early microphone in **1877**. Microphone development involved several inventors and transmitter designs, so avoid single-inventor claims. **Alexander Graham Bell** is primarily associated with the **telephone**."
+        }
+      ]
+    },
+    {
+      "id": "audio-types-ports",
+      "title": "Microphone Types, Ports and Colours",
+      "icon": "🎧",
+      "blocks": [
+        {
+          "type": "keyvalue",
+          "title": "Special microphone types",
+          "rows": [
+            ["Hydrophone", "Detects underwater sound and converts it to electrical signals for listening, recording or analysis; used in ocean research and underwater acoustic monitoring. 'Low-cost' is not part of its definition."],
+            ["Lavalier / lapel", "A small microphone worn on clothing for hands-free speech in lectures, presentations, interviews and broadcasting. It may be wired or use a wireless transmitter."],
+            ["Shotgun", "A directional microphone that favours sound from the direction it points, often used for film and TV dialogue."],
+            ["Boom", "The pole that supports a microphone, operated by a crew member. Shotgun describes the design; boom describes the support, and other types can be boom-mounted too."]
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Traditional PC audio port colours",
+          "headers": ["Colour", "Use"],
+          "rows": [
+            ["Pink", "Microphone input"],
+            ["Lime green", "Main stereo output for speakers or headphones"],
+            ["Light blue", "Line-level audio input"],
+            ["Black", "Rear-speaker output on some surround systems"]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "Mic input vs line input",
+          "rows": [
+            ["Mic input", "Accepts a relatively weak microphone signal."],
+            ["Line input", "Accepts stronger line-level signals from a player, mixer or preamplifier. An ordinary microphone may need a **preamplifier** before a line input."]
+          ]
+        },
+        {
+          "type": "bullets",
+          "title": "Connections",
+          "items": [
+            "**3.5 mm audio jacks:** common analogue PC connections.",
+            "**XLR:** common in professional microphone systems.",
+            "**USB:** digital audio connection through a suitable interface.",
+            "**Wireless:** Bluetooth or another supported radio system."
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "tip",
+          "title": "Memory trick",
+          "text": "**P**ink = **P**lug the mic; **G**reen = **G**o to speakers (output); **B**lue = line-in. Colours are common conventions only; ports may differ or be reassigned."
+        }
+      ]
+    },
+    {
+      "id": "webcam-camera",
+      "title": "Webcam and Digital Camera",
+      "icon": "📷",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "A **webcam** captures images and live video for the computer. It may be built into a laptop or connected externally, commonly by USB. Its sensor turns incoming light into signals processed as digital images. It is used for video calls, online meetings and conferencing apps."
+        },
+        {
+          "type": "text",
+          "text": "A **digital camera** uses an electronic image sensor instead of photographic film and stores pictures as digital files, often on memory cards such as **SD cards**. Many models also record video (HD, Full HD and 4K support varies) and can transfer files over USB, Wi-Fi or storage cards. A **digital camcorder** records video and supplies recorded or live input through compatible storage or connections."
+        },
+        {
+          "type": "keyvalue",
+          "title": "DSLR and megapixels",
+          "rows": [
+            ["DSLR", "Digital Single-Lens Reflex. A mirror sends lens light to an optical viewfinder; during exposure the mirror moves so the light reaches the image sensor."],
+            ["MP", "Megapixels; one megapixel is about one million pixels. More megapixels alone do not guarantee a better photo, because lens, sensor, light and processing matter too."]
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Video formats",
+          "headers": ["Format", "Resolution"],
+          "rows": [
+            ["HD / 720p", "1280 x 720 pixels"],
+            ["Full HD / 1080p", "1920 x 1080 pixels"],
+            ["4K UHD", "3840 x 2160 pixels"]
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Input comparison",
+          "headers": ["Device", "Captures"],
+          "rows": [
+            ["Microphone", "Sound"],
+            ["Webcam", "Live visual input"],
+            ["Scanner", "A physical original"],
+            ["Digital camera / camcorder", "A captured scene"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "remember",
+          "text": "Supported video formats vary by model. Lighting, lens, sensor, frame rate and compression affect video quality as much as resolution does."
+        }
+      ]
+    },
+    {
+      "id": "touchscreen-light-pen",
+      "title": "Touchscreen and Light Pen",
+      "icon": "👆",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "A **touchscreen** detects touch on a display. Touch sensing is **input**; the display is **output**. It is used in phones, tablets, ATMs, kiosks, touch laptops, smart boards and some IoT devices. **Multi-touch** models detect several touch points for gestures such as pinch-to-zoom, and **haptic feedback** gives a physical response, such as vibration, to an action."
+        },
+        {
+          "type": "table",
+          "title": "Resistive vs capacitive touch",
+          "headers": ["Feature", "Resistive", "Capacitive"],
+          "rows": [
+            ["Principle", "Pressure brings conductive layers into contact", "Detects a change in capacitance from a finger or compatible stylus"],
+            ["Works with", "Fingers, gloves and appropriate styluses (not any object)", "Finger or compatible stylus; thick insulating gloves may not register"],
+            ["Touch points", "Basic designs are commonly single-touch", "Many support responsive multi-touch"],
+            ["Typical use", "Older touch phones, ATMs, industrial panels, shop POS terminals", "Widely used in smartphones and tablets"],
+            ["Clarity", "Typically less clear", "Often better transparency"]
+          ]
+        },
+        {
+          "type": "bullets",
+          "title": "Comparison cautions",
+          "items": [
+            "Cost, clarity, response and durability depend on the design.",
+            "Dust and water protection depends on construction and sealing; resistive is not universally more durable.",
+            "Both resistive and industrial capacitive systems can suit industrial work.",
+            "Specially designed capacitive systems can support gloves."
+          ]
+        },
+        {
+          "type": "text",
+          "text": "A **light pen** is a traditional light-sensitive pointing device for compatible **CRT** (Cathode-Ray Tube) displays. It detects screen light, and display timing identifies the selected position. Historically it was used for selection, drawing, graphic editing and some CAD work. Traditional CRT light pens do **not** work on ordinary modern LCD screens. A modern tablet pen shown as a 'light pen' is generally a **stylus**."
+        },
+        {
+          "type": "callout",
+          "kind": "remember",
+          "text": "Resistive = pressure; capacitive = capacitance; light pen = CRT light detection."
+        }
+      ]
+    },
+    {
+      "id": "stylus-tablet",
+      "title": "Stylus and Graphics Tablet",
+      "icon": "✏️",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "A **stylus** is a pen-shaped tool for a compatible touchscreen or digitising surface. Its tip gives better control than a fingertip for handwriting, drawing, annotation and precise selection. It is used in digital art, graphic design, tablets and compatible smartphones. Pen compatibility depends on the receiving device and protocol."
+        },
+        {
+          "type": "keyvalue",
+          "title": "Stylus technologies",
+          "rows": [
+            ["Passive capacitive", "Imitates finger touch and usually has no battery."],
+            ["Battery-powered active pen", "Its electronics communicate with a compatible device."],
+            ["Battery-free electromagnetic pen", "Receives energy from the digitiser field of a compatible device."]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "text": "Not all advanced pens need batteries. Pressure sensitivity and tilt can control line thickness or opacity, but only where the pen, device and application support them."
+        },
+        {
+          "type": "text",
+          "text": "A **graphics (digitiser) tablet** converts pen position and movement into digital signals. Artists, designers and animators use it for illustration, editing and handwriting, and some models capture pressure and tilt. A **pen tablet** may have no display, so the user watches a separate monitor, whereas a **pen display** combines the drawing surface and the screen."
+        },
+        {
+          "type": "table",
+          "title": "Stylus vs light pen",
+          "headers": ["Point", "Stylus", "Traditional light pen"],
+          "rows": [
+            ["Technology", "Capacitive, electromagnetic or other pen technology", "Detects light from a compatible CRT"],
+            ["Surface needed", "A compatible touch or digitiser surface", "A compatible CRT display"],
+            ["Pressure features", "Often supported", "Generally lacking"]
+          ]
+        },
+        {
+          "type": "bullets",
+          "title": "Signature and map capture",
+          "items": [
+            "Digitisers capture signature paths and timing; supported systems also record pressure and tilt.",
+            "Verifying a signature needs software; capture alone does not prove authenticity.",
+            "A **digitiser** traces map coordinates and outlines, whereas a **scanner** captures the complete paper image.",
+            "An LCD or LED-backlit screen alone does not provide stylus support."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "gaming-biometric",
+      "title": "Gaming and Biometric Input",
+      "icon": "🎮",
+      "blocks": [
+        {
+          "type": "keyvalue",
+          "title": "Game and VR controllers",
+          "rows": [
+            ["Joystick", "A stick pivoting on a base for directional control; used in video games, flight simulators, robotics and industrial control. It may report direction and amount of movement."],
+            ["Gamepad", "A handheld controller with buttons, a directional pad, thumbsticks and triggers. Works with computers and consoles such as PlayStation and Xbox. Wired is commonly USB; wireless uses Bluetooth or a proprietary radio, sometimes with a USB receiver."],
+            ["VR controller", "VR = Virtual Reality. A handheld device giving button commands plus tracked orientation or position, for pointing, selecting, grabbing and activating virtual controls in gaming, training and healthcare-related simulations."]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "text": "A gamepad shown under 'joystick' is not a standalone joystick, although it can contain thumbsticks. Gamepads can also control robots or IoT projects through suitable interfaces and software."
+        },
+        {
+          "type": "keyvalue",
+          "title": "Biometric scanners",
+          "rows": [
+            ["Fingerprint scanner", "Captures fingertip ridge-and-valley patterns as a digital image; software extracts features and compares them with enrolled references. Used in phones, laptops, access control and attendance. May replace password or PIN entry, though another factor may still be required."],
+            ["Iris scanner", "Captures the distinctive pattern of the coloured ring around the pupil, commonly using controlled near-infrared illumination. Iris patterns are generally stable over long periods, not absolutely unchanged."]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "tip",
+          "title": "Iris vs pupil",
+          "text": "The **iris** is the patterned coloured ring; the **pupil** is the central opening. Iris accuracy depends on image quality, algorithms and conditions, and it is not always superior to every fingerprint system."
+        },
+        {
+          "type": "callout",
+          "kind": "remember",
+          "text": "Joystick = directional stick; gamepad = handheld controls; biometrics = personal traits."
+        }
+      ]
+    },
+    {
+      "id": "recognition-sensors",
+      "title": "Recognition, Sensors and Smart Cards",
+      "icon": "📡",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "**Face recognition:** a camera captures a face, and software extracts features and compares an identity representation with stored data. It analyses regions around the eyes, nose and mouth plus broader facial patterns, and many modern systems use machine learning or deep learning. It is used for device unlocking, attendance and access control. **Detection locates a face; recognition compares identity.**"
+        },
+        {
+          "type": "keyvalue",
+          "title": "Biometric traits",
+          "rows": [
+            ["Physical", "Fingerprint, iris, facial features."],
+            ["Behavioural", "Signature dynamics and typing rhythm."],
+            ["Process", "Sensors capture the data; software makes the comparison."]
+          ]
+        },
+        {
+          "type": "bullets",
+          "title": "Motion sensors",
+          "items": [
+            "Detect movement through changes in measurable conditions; used in security alarms, automatic lighting and building automation.",
+            "**PIR (Passive Infrared)** detects changes in incoming infrared radiation, often as a warm person crosses sensing zones. It does not directly measure body temperature.",
+            "**Ultrasonic** sensors use high-frequency sound and changes in reflected signals.",
+            "**Microwave** sensors use electromagnetic waves and changes in reflections.",
+            "**Dual-technology** sensors combine methods, such as PIR and ultrasonic, for better reliability and fewer false triggers."
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "Speech and voice systems",
+          "rows": [
+            ["STT", "Speech-to-Text: recognises the spoken words."],
+            ["NLP", "Natural Language Processing: helps interpret the meaning or intended action."],
+            ["Speech recognition", "Works out **what** is said."],
+            ["Speaker recognition", "Works out **who** is speaking."]
+          ]
+        },
+        {
+          "type": "text",
+          "text": "A **smart card reader** communicates with an embedded chip, reading data and, where supported, updating it. It is used in banking, identification and access control. A **contact** card touches the reader's contacts by insertion, while a **contactless** card uses short-range **RF (Radio Frequency)** communication. A smart card reader differs from a magnetic-stripe reader."
+        },
+        {
+          "type": "callout",
+          "kind": "remember",
+          "text": "PIR = changing infrared; STT = speech to text; smart card = chip communication."
+        }
+      ]
+    }
+  ],
+  "revision": [
+    "Input devices send data, instructions or signals to the computer; printer, monitor, speaker and plotter are output devices.",
+    "A touchscreen combines input (touch sensing) with output (the display).",
+    "QWERTY is named after the first six letters of the top letter row; AZERTY swaps A/Q and Z/W; DVORAK aims to cut finger travel.",
+    "Backspace deletes before the cursor; Delete removes after it; Ctrl, Alt and Shift are modifier keys.",
+    "Douglas Engelbart invented the mouse in the early 1960s at SRI; George Gerpheide's capacitive technology led to Cirque's GlidePoint touchpad.",
+    "Mouse sensitivity is measured in DPI (technically CPI); higher sensitivity moves the pointer farther.",
+    "A trackball stays still while you rotate an exposed ball; a scanner captures an image and OCR turns it into text.",
+    "Scanner types: flatbed, sheet-fed, handheld and drum; ADF feeds a stack of sheets automatically.",
+    "QR (Quick Response) was introduced in 1994 by a team led by Masahiro Hara at DENSO WAVE; scanning a payment QR alone does not authorise payment.",
+    "OCR = characters in images to editable text; OMR = marked positions such as answer sheets; MICR = magnetic-ink characters on cheques.",
+    "Indian MICR sort code has 9 digits: 3 city + 3 bank + 3 branch; it does not contain the cheque serial number.",
+    "A microphone is an input transducer; a dynamic microphone has a diaphragm, voice coil and permanent magnet.",
+    "PC audio colours: pink = mic, lime green = output, light blue = line-in; a hydrophone detects underwater sound.",
+    "Video sizes: 720p = 1280 x 720, 1080p = 1920 x 1080, 4K UHD = 3840 x 2160; DSLR = Digital Single-Lens Reflex.",
+    "Resistive touch works by pressure; capacitive by a change in capacitance; a traditional light pen needs a CRT.",
+    "PIR = Passive Infrared; STT = Speech-to-Text; a contactless smart card uses short-range RF."
+  ],
+  "mindmap": {
+    "center": "Input Devices",
+    "branches": [
+      { "label": "Text and pointer", "children": ["Keyboard: QWERTY, AZERTY", "Mouse: Engelbart, DPI", "Touchpad: capacitive", "Trackball: stationary ball"] },
+      { "label": "Documents and codes", "children": ["Scanner: flatbed, drum", "Barcode: bars and spaces", "QR: Denso Wave, 1994", "OCR / OMR / MICR"] },
+      { "label": "MICR and cheques", "children": ["Magnetic ink", "Sort code: 3 + 3 + 3", "City, bank, branch", "Cheque no. is separate"] },
+      { "label": "Audio input", "children": ["Dynamic and condenser", "Hydrophone, lavalier", "Pink, green, blue ports", "Mic vs line input"] },
+      { "label": "Camera and video", "children": ["Webcam", "Digital camera, DSLR", "720p, 1080p, 4K", "Megapixels"] },
+      { "label": "Touch and pen", "children": ["Resistive: pressure", "Capacitive: capacitance", "Light pen: CRT only", "Stylus, graphics tablet"] },
+      { "label": "Gaming and biometrics", "children": ["Joystick, gamepad", "VR controller", "Fingerprint scanner", "Iris scanner"] },
+      { "label": "Recognition and sensors", "children": ["Face recognition", "PIR motion sensor", "STT and NLP", "Smart card reader"] }
+    ]
+  }
+}

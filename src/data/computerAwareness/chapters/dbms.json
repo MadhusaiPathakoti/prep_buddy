@@ -1,0 +1,848 @@
+{
+  "id": "dbms",
+  "sections": [
+    {
+      "id": "database-basics",
+      "title": "Database and DBMS",
+      "icon": "🗄️",
+      "blocks": [
+        {
+          "type": "keyvalue",
+          "title": "Core terms",
+          "rows": [
+            ["Database", "An organised collection of related data that can be accessed, updated and managed efficiently."],
+            ["DBMS", "**Database Management System**: software used to create databases and to store, retrieve, modify and delete their data. It sits between users/applications and the stored information."],
+            ["RDBMS", "**Relational Database Management System**: a DBMS that organises data in tables."]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "remember",
+          "title": "Database vs DBMS",
+          "text": "The **database** is the organised data. The **DBMS** is the software that manages it."
+        },
+        {
+          "type": "bullets",
+          "title": "What can a database store?",
+          "items": [
+            "Text, numbers and dates",
+            "Images and documents",
+            "Audio and video, where the system supports them",
+            "Banking example: customer profiles, accounts, loans and transaction records"
+          ]
+        },
+        {
+          "type": "timeline",
+          "title": "Early development",
+          "items": [
+            ["1960s", "**Charles W. Bachman** developed the **Integrated Data Store (IDS)** at General Electric. IDS was a pioneering DBMS and the first random-access DBMS."],
+            ["1970", "**Edgar F. Codd** introduced the **relational model** and is known as the father of relational databases."]
+          ]
+        },
+        {
+          "type": "bullets",
+          "title": "Core features of a DBMS",
+          "items": [
+            "Controlled redundancy",
+            "Access security",
+            "Shared multi-user access",
+            "Integrity constraints",
+            "Efficient retrieval",
+            "Backup and recovery",
+            "Transaction management"
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "Redundancy is controlled, not erased",
+          "text": "Redundancy means unnecessary duplication. A DBMS helps **control** it; it does not automatically remove every repeated value."
+        },
+        {
+          "type": "table",
+          "title": "An RDBMS table (banking example)",
+          "headers": ["ID", "Name", "Account", "Balance"],
+          "rows": [
+            ["1", "Ali", "1001", "2500"],
+            ["2", "Sara", "1002", "4200"]
+          ]
+        },
+        {
+          "type": "text",
+          "text": "An RDBMS stores data in tables, but other database models can use documents, objects, graphs or other structures instead."
+        }
+      ]
+    },
+    {
+      "id": "database-environment",
+      "title": "Database Environment and Metadata",
+      "icon": "🧩",
+      "blocks": [
+        {
+          "type": "keyvalue",
+          "title": "Parts of a database environment",
+          "rows": [
+            ["Hardware", "Computers, servers, storage drives and network equipment."],
+            ["Software", "The DBMS, the operating system, applications and utilities."],
+            ["Data", "The stored records plus their descriptive metadata."],
+            ["Database languages", "Commands that define structures, access records and control operations."],
+            ["Data manager", "Internal modules that coordinate storage, retrieval and changes."],
+            ["People", "Administrators, designers, developers and end users."],
+            ["Procedures", "Rules for operation, security, backup and maintenance."]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "text": "Lists of database components vary from book to book. There is no universal rule that every description must contain exactly five components."
+        },
+        {
+          "type": "keyvalue",
+          "title": "Metadata",
+          "rows": [
+            ["Metadata", "Information that **describes other data**: table names, column names, data types, sizes, keys and constraints."],
+            ["Example", "In an ACCOUNTS table, Account_Number is a TEXT column of size 14 and is the primary key."]
+          ]
+        },
+        {
+          "type": "table",
+          "title": "ACCOUNTS table described by metadata",
+          "headers": ["Column name", "Data type", "Size", "Key / constraint"],
+          "rows": [
+            ["Account_Number", "TEXT", "14", "Primary key"],
+            ["Customer_Name", "TEXT", "50", "None"],
+            ["Account_Type", "TEXT", "20", "None"],
+            ["Balance", "DECIMAL", "12,2", "None"]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "data-hierarchy",
+      "title": "Data Hierarchy",
+      "icon": "📶",
+      "blocks": [
+        {
+          "type": "figure",
+          "kind": "pyramid",
+          "title": "Data hierarchy (largest to smallest)",
+          "items": [
+            ["Database", "Organised collection of related data"],
+            ["File / Table", "Collection of related records"],
+            ["Record", "Related fields about one customer"],
+            ["Field", "One data item, e.g. Customer_Name"],
+            ["Byte / Character", "Eight bits; one symbol"],
+            ["Bit", "Binary digit, 0 or 1"]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "Levels explained",
+          "rows": [
+            ["Bit", "A binary digit: either 0 or 1."],
+            ["Byte", "Eight bits."],
+            ["Character", "A letter, digit or symbol. The encoding decides how much storage it needs."],
+            ["Field", "A single data item, such as Customer_Name."],
+            ["Record", "A set of related fields that describe one customer."],
+            ["File / Table", "A collection of related records."],
+            ["Database", "An organised collection of related data structures."]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "Two clarifications",
+          "text": "A character does **not** always take one byte, because the encoding decides its size. Also, a database table is not technically identical to an operating-system file."
+        },
+        {
+          "type": "text",
+          "text": "Before DBMS approaches became common, applications often kept their own separate files. That caused duplication, inconsistent copies, difficult sharing and program-file dependence, which is exactly what a DBMS was designed to reduce."
+        }
+      ]
+    },
+    {
+      "id": "architectures",
+      "title": "Database Architectures",
+      "icon": "🏛️",
+      "blocks": [
+        {
+          "type": "keyvalue",
+          "title": "Tier architectures",
+          "rows": [
+            ["One-tier", "The application and the database run in the same local environment. Suits local development or a standalone application."],
+            ["Two-tier", "A client application talks **directly** to a database server."],
+            ["Three-tier", "The user reaches the database through an application server in the middle."]
+          ]
+        },
+        {
+          "type": "figure",
+          "kind": "flow",
+          "title": "Three-tier architecture",
+          "items": [
+            ["User interface", "Presentation tier: UI and input"],
+            ["Application server", "Application tier: business rules"],
+            ["Database server", "Data tier: storage and management"]
+          ]
+        },
+        {
+          "type": "text",
+          "text": "Example: a banking app sends its requests through an application server instead of connecting the customer directly to the database tables."
+        },
+        {
+          "type": "figure",
+          "kind": "layers",
+          "title": "Three-schema architecture",
+          "items": [
+            ["External level", "Individual user or application views"],
+            ["Conceptual level", "Overall logical structure, relations, constraints"],
+            ["Internal level", "Physical storage and access methods"]
+          ]
+        },
+        {
+          "type": "text",
+          "text": "Example: a customer sees an account view (external), the conceptual model defines customers and accounts, and the internal level decides how their data is physically stored."
+        },
+        {
+          "type": "keyvalue",
+          "title": "Why separate the levels?",
+          "rows": [
+            ["Data abstraction", "Hides unnecessary detail from users."],
+            ["Data independence", "A change at one level has less effect on the other levels."],
+            ["Physical independence", "Storage changes need not alter the logical design."],
+            ["Logical independence", "Suitable logical changes need not alter user views or applications."]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "Do not confuse the two threes",
+          "text": "**Three-tier** describes how an application is deployed (presentation, application, data). **Three-schema** describes how a database is represented (external, conceptual, internal)."
+        }
+      ]
+    },
+    {
+      "id": "database-types",
+      "title": "Common Database Types",
+      "icon": "🗃️",
+      "blocks": [
+        {
+          "type": "keyvalue",
+          "title": "Eight common categories",
+          "rows": [
+            ["Centralised", "Data is managed at one central site or system."],
+            ["Distributed", "Related data is kept across connected locations or computers."],
+            ["Relational", "Data is organised in tables of rows and columns. Keys and constraints build relationships and enforce rules."],
+            ["NoSQL", "An umbrella term for models such as documents, key-value pairs, wide-column structures and graphs."],
+            ["Cloud", "A database deployed on cloud infrastructure; it may be self-managed or a managed service."],
+            ["Object-oriented", "Information is stored as objects, following ideas from object-oriented programming."],
+            ["Hierarchical", "Records form a parent-child tree. In the classic model a child has only one parent."],
+            ["Network", "Records are joined by links, which allows more flexible associations than a simple hierarchy."]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "remember",
+          "text": "These categories can overlap. For example, a cloud-hosted database can also be relational and distributed. The eight labels are common examples, not a complete or mutually exclusive classification."
+        },
+        {
+          "type": "keyvalue",
+          "title": "Relational model vocabulary",
+          "rows": [
+            ["Relation", "A table."],
+            ["Tuple", "A row."],
+            ["Attribute", "A column."]
+          ]
+        },
+        {
+          "type": "text",
+          "text": "Tables are characteristic of relational databases, not a universal storage format for every DBMS. Also, calling a database just a complex data structure is incomplete: databases use tables, indexes, trees and hash-based structures. A better description is an organised collection of related data."
+        },
+        {
+          "type": "callout",
+          "kind": "tip",
+          "title": "Quick memory",
+          "text": "Hierarchical = tree. Network = linked records. Relational = tables."
+        }
+      ]
+    },
+    {
+      "id": "software-licences",
+      "title": "Database Software and Licences",
+      "icon": "📦",
+      "blocks": [
+        {
+          "type": "bullets",
+          "title": "Relational and desktop examples",
+          "items": [
+            "MySQL, PostgreSQL, MariaDB, SQLite",
+            "Oracle Database, IBM Db2, Microsoft SQL Server",
+            "Microsoft Access (desktop database)",
+            "SAP ASE (formerly Sybase ASE)",
+            "FoxPro: a historical database-management and programming system",
+            "Quickbase: a platform for database-backed business applications"
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Other systems and platforms",
+          "headers": ["Product", "What it is"],
+          "rows": [
+            ["MongoDB", "Document database"],
+            ["Apache Cassandra", "Distributed wide-column database"],
+            ["Amazon DynamoDB", "AWS-managed NoSQL database"],
+            ["CockroachDB", "Distributed SQL database"],
+            ["Elasticsearch", "Distributed search and analytics engine"],
+            ["Firebase", "Google's app-development platform; includes Realtime Database and Cloud Firestore"]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "Open source and proprietary",
+          "rows": [
+            ["Open-source examples", "MySQL Community Edition, PostgreSQL, MariaDB and Apache Cassandra."],
+            ["Public domain", "The core of SQLite is public-domain software."],
+            ["Proprietary examples", "Oracle Database, IBM Db2, SQL Server, Access, SAP HANA and SAP ASE."]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "Licence cautions",
+          "text": "MongoDB Community Server uses the SSPL, which is not an OSI-approved open-source licence. Newer CockroachDB releases use the company's own Software License, so do not simply call it open source. Elasticsearch offers AGPLv3 for free parts of its source, and licences differ by component. Free of charge does **not** automatically mean open source."
+        },
+        {
+          "type": "keyvalue",
+          "title": "Excel and SAP",
+          "rows": [
+            ["Excel", "A spreadsheet application, not a conventional DBMS."],
+            ["SAP", "Systems, Applications and Products in Data Processing."],
+            ["HANA", "High-performance Analytic Appliance. SAP HANA is an in-memory database platform."]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "tip",
+          "title": "OS in software lists",
+          "text": "In some older software lists, OS means Open Source. Normally, though, OS means Operating System, so read the question carefully."
+        }
+      ]
+    },
+    {
+      "id": "sql-history",
+      "title": "SQL History, Standards and QBE",
+      "icon": "📜",
+      "blocks": [
+        {
+          "type": "keyvalue",
+          "title": "SQL basics",
+          "rows": [
+            ["SQL", "**Structured Query Language**. Used to define structures, retrieve and modify data, manage privileges and control transactions in relational systems."],
+            ["SEQUEL", "The earlier name: **Structured English Query Language**."],
+            ["Designers", "**Donald D. Chamberlin** and **Raymond F. Boyce**, at IBM in the 1970s."]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "Language vs product",
+          "text": "SQL is a language. Microsoft SQL Server is a database product."
+        },
+        {
+          "type": "timeline",
+          "title": "Key dates",
+          "items": [
+            ["1970", "Codd's relational-model paper."],
+            ["1974", "Chamberlin and Boyce's SEQUEL paper."],
+            ["1986", "First American national SQL standard (ANSI)."],
+            ["1987", "First ISO SQL standard."]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "Date correction",
+          "text": "1970 is the year of Codd's paper, not the publication year of SEQUEL. The SEQUEL paper came in **1974**."
+        },
+        {
+          "type": "keyvalue",
+          "title": "Standards bodies",
+          "rows": [
+            ["ANSI", "American National Standards Institute."],
+            ["ISO", "International Organization for Standardization."],
+            ["Exam answer", "The SQL standards bodies are ANSI and ISO."]
+          ]
+        },
+        {
+          "type": "text",
+          "text": "SQL products share a standard foundation, but each may add its own syntax and extensions. SQL is commonly classed as a **fourth-generation language (4GL)** in exam material. Its core style is **declarative**: you state the result you want and the DBMS decides how to get it."
+        },
+        {
+          "type": "keyvalue",
+          "title": "Query by Example (QBE)",
+          "rows": [
+            ["QBE", "**Query by Example**, developed at IBM by **Moshe Zloof**."],
+            ["Idea", "An early visual querying approach that uses examples, forms or table-like screens, so users write less query text."]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "fact",
+          "title": "IBM history note",
+          "text": "Charles Ranlett Flint organised the 1911 merger that formed CTR, the company that later became IBM."
+        }
+      ]
+    },
+    {
+      "id": "sql-commands",
+      "title": "SQL Command Groups and CRUD",
+      "icon": "⌨️",
+      "blocks": [
+        {
+          "type": "table",
+          "title": "Five teaching groups of SQL commands",
+          "headers": ["Group", "Full form", "Commands", "Purpose"],
+          "rows": [
+            ["DDL", "Data Definition Language", "CREATE, ALTER, DROP, TRUNCATE, RENAME", "Defines or changes structures"],
+            ["DML", "Data Manipulation Language", "INSERT, UPDATE, DELETE", "Changes stored records"],
+            ["DQL", "Data Query Language", "SELECT", "Retrieves information"],
+            ["DCL", "Data Control Language", "GRANT, REVOKE", "Manages permissions"],
+            ["TCL", "Transaction Control Language", "COMMIT, ROLLBACK, SAVEPOINT", "Manages transactions"]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "What each command does",
+          "rows": [
+            ["CREATE", "Creates an object."],
+            ["ALTER", "Changes an object."],
+            ["DROP", "Removes an object."],
+            ["TRUNCATE", "Removes all rows but keeps the table structure."],
+            ["RENAME", "Changes an object's name; syntax varies."],
+            ["INSERT", "Adds records."],
+            ["UPDATE", "Modifies records."],
+            ["DELETE", "Removes records. Without a filter it may remove all rows."],
+            ["SELECT", "Returns the requested data."],
+            ["GRANT", "Gives privileges."],
+            ["REVOKE", "Withdraws granted privileges."],
+            ["COMMIT", "Completes a transaction and makes changes permanent."],
+            ["ROLLBACK", "Undoes uncommitted work, fully or back to a savepoint."],
+            ["SAVEPOINT", "Marks a position for partial rollback."]
+          ]
+        },
+        {
+          "type": "table",
+          "title": "CRUD operations",
+          "headers": ["CRUD word", "SQL command"],
+          "rows": [
+            ["Create", "INSERT (add a record)"],
+            ["Read", "SELECT (retrieve records)"],
+            ["Update", "UPDATE (modify records)"],
+            ["Delete", "DELETE (remove records)"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "Classification traps",
+          "text": "**Create** in CRUD means adding a record (INSERT), whereas CREATE TABLE defines a structure and belongs to DDL. INSERT is DML, not DDL. DAL is not one of the five groups."
+        },
+        {
+          "type": "callout",
+          "kind": "remember",
+          "title": "Exam pairs",
+          "text": "TCL = COMMIT and ROLLBACK. DCL = GRANT and REVOKE. Some documentation puts SELECT under DML instead of a separate DQL, and Oracle files GRANT and REVOKE under DDL, but exam material normally uses DCL."
+        }
+      ]
+    },
+    {
+      "id": "transactions-acid",
+      "title": "Transactions and ACID",
+      "icon": "🔁",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "A **transaction** is a logical unit of database work made up of one or more related operations. The **ACID** properties support reliable transaction processing."
+        },
+        {
+          "type": "keyvalue",
+          "title": "ACID properties",
+          "rows": [
+            ["A: Atomicity", "All operations succeed together, or their effects are undone. Memory cue: **all or nothing**."],
+            ["C: Consistency", "A successful transaction preserves the database's defined constraints and business rules."],
+            ["I: Isolation", "Controls how simultaneous transactions interact. The exact guarantee depends on the isolation level."],
+            ["D: Durability", "Committed changes persist despite later failures covered by the system's guarantees."]
+          ]
+        },
+        {
+          "type": "figure",
+          "kind": "flow",
+          "title": "Bank transfer of 1,000 units",
+          "items": [
+            ["Debit account A", "Reduce A by 1,000"],
+            ["Credit account B", "Increase B by 1,000"],
+            ["COMMIT", "Only after both steps succeed"]
+          ]
+        },
+        {
+          "type": "text",
+          "text": "If the transfer cannot finish before the commit, ROLLBACK stops a half-finished transfer from remaining in the database. A SAVEPOINT is a named marker inside a transaction, so later work can be rolled back without undoing all the earlier work. Typical pattern: BEGIN, SAVEPOINT S1, ROLLBACK TO S1, COMMIT."
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "Limits of ACID",
+          "text": "ACID is about correctness and reliability of transactions. It does not replace access controls or provide every kind of security. Guarantees depend on the DBMS, storage engine, configuration and transaction mode, so do not assume every operation in every database is fully ACID. A rollback does not normally undo a transaction that is already committed."
+        },
+        {
+          "type": "callout",
+          "kind": "tip",
+          "title": "Memory trick",
+          "text": "A = All or nothing, C = Correct rules kept, I = Independent concurrent work, D = Durable once committed."
+        }
+      ]
+    },
+    {
+      "id": "keys",
+      "title": "Database Keys",
+      "icon": "🔑",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "A **key** is an attribute, or a set of attributes, used to identify records or to establish relationships between tables."
+        },
+        {
+          "type": "keyvalue",
+          "title": "Types of identifying keys",
+          "rows": [
+            ["Super key", "Any set of attributes that uniquely identifies a row. It may contain unnecessary attributes."],
+            ["Candidate key", "A **minimal** super key: it identifies a row uniquely and removing any attribute destroys that uniqueness."],
+            ["Primary key", "The candidate key chosen as the main identifier. Values must be unique and its columns cannot hold NULL."],
+            ["Alternate key", "A candidate key that was **not** chosen as the primary key."]
+          ]
+        },
+        {
+          "type": "text",
+          "text": "If Employee_ID is unique, then {Employee_ID}, {Employee_ID, Name} and {Employee_ID, Name, Age} are all super keys, but only {Employee_ID} is minimal. A table can have at most one primary-key constraint, though that key may use several columns."
+        },
+        {
+          "type": "table",
+          "title": "Simple Employee example",
+          "headers": ["Employee_ID", "Official_Email", "Name"],
+          "rows": [
+            ["101", "asha@example.org", "Asha"],
+            ["102", "ravi@example.org", "Ravi"]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "Keys in this table (unique, non-null values assumed)",
+          "rows": [
+            ["Candidate keys", "Employee_ID and Official_Email."],
+            ["Primary key", "Employee_ID."],
+            ["Alternate key", "Official_Email."]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "Minimal is not shortest",
+          "text": "Minimal means no unnecessary attribute. It does not mean the shortest stored value."
+        },
+        {
+          "type": "callout",
+          "kind": "remember",
+          "title": "Exam clarification",
+          "text": "For the basic question about identifying each record, the usual answer is **primary key**. Candidate keys and super keys also identify rows uniquely by definition. Memory line: candidate = minimal super key, primary = selected candidate, alternate = unselected candidate."
+        }
+      ]
+    },
+    {
+      "id": "composite-foreign",
+      "title": "Composite Key, Foreign Key and Relationships",
+      "icon": "🔗",
+      "blocks": [
+        {
+          "type": "keyvalue",
+          "title": "Composite and foreign keys",
+          "rows": [
+            ["Composite key", "A key made of two or more attributes used together; also called a **compound key**. Example: Enrolment(Student_ID, Course_ID)."],
+            ["Foreign key", "An attribute or group of attributes that references a primary key or another eligible unique key. Example: Employee.Department_ID references Department.Department_ID."]
+          ]
+        },
+        {
+          "type": "bullets",
+          "title": "Composite key facts",
+          "items": [
+            "Together {Student_ID, Course_ID} can identify one enrolment, even though each column repeats on its own.",
+            "A composite key can be the primary key.",
+            "It is not a collection of primary keys.",
+            "Card + PIN and username + OTP describe authentication, not general database-key examples."
+          ]
+        },
+        {
+          "type": "bullets",
+          "title": "Foreign key facts",
+          "items": [
+            "It maintains **referential integrity** by preventing invalid references.",
+            "Foreign-key values may repeat.",
+            "NULL may be allowed if the constraints permit.",
+            "A foreign key can refer to the same table.",
+            "A table can have several foreign keys."
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Relationship types",
+          "headers": ["Type", "Meaning", "Example"],
+          "rows": [
+            ["One-to-one (1:1)", "Each record has at most one related record on the other side", "Employee and employee profile"],
+            ["One-to-many (1:M)", "One record relates to several records on the other side", "One department, many employees"],
+            ["Many-to-many (M:N)", "Several records on either side relate to several on the other", "Employees working on projects"]
+          ]
+        },
+        {
+          "type": "text",
+          "text": "In the department example, each employee belongs to one department. Seen from employee to department, the same link is many-to-one. A many-to-many relationship is handled with a **linking table**, such as Employee_Project, which records the assignments."
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "Two uses of cardinality",
+          "text": "**Relation cardinality** is the number of rows in a table. **Relationship cardinality** is the association pattern such as 1:1, 1:M or M:N."
+        }
+      ]
+    },
+    {
+      "id": "relational-design",
+      "title": "Relational Tables, Schema and ER Model",
+      "icon": "📐",
+      "blocks": [
+        {
+          "type": "keyvalue",
+          "title": "Table terminology",
+          "rows": [
+            ["Relation", "A table."],
+            ["Tuple / record", "A row."],
+            ["Attribute", "A column."],
+            ["Field", "An introductory term for a column; it can also mean one data item in other contexts."],
+            ["Cardinality", "The number of **rows**."],
+            ["Degree", "The number of **columns**."]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "text": "Do not count the heading row as a record when finding cardinality."
+        },
+        {
+          "type": "table",
+          "title": "Counting practice: STUDENT table (degree 4, cardinality 5)",
+          "headers": ["Roll_No", "Name", "Age", "Branch_ID"],
+          "rows": [
+            ["1", "Asha", "18", "10"],
+            ["2", "Ravi", "19", "10"],
+            ["3", "Meera", "20", "10"],
+            ["4", "Imran", "21", "11"],
+            ["5", "Zoya", "21", "12"]
+          ]
+        },
+        {
+          "type": "bullets",
+          "title": "More counting examples",
+          "items": [
+            "Three rows with ID, name, login and age: degree 4, cardinality 3.",
+            "Four rows with roll number, name and CGPA: degree 3, cardinality 4.",
+            "Four rows with student ID, name, phone and birth date: degree 4, cardinality 4."
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "Schema and instance",
+          "rows": [
+            ["Schema", "The defined structure: columns, types, relationships and constraints. It is the **design**."],
+            ["Instance / state", "The actual data stored at a particular moment."]
+          ]
+        },
+        {
+          "type": "text",
+          "text": "Inserting a row changes the state, not necessarily the schema. Product terminology varies: in Oracle, an instance means the memory and processes that manage the database files."
+        },
+        {
+          "type": "keyvalue",
+          "title": "Entity-Relationship (ER) model",
+          "rows": [
+            ["Entity", "A thing being described, such as Customer or Account."],
+            ["Attribute", "A property, such as Customer_ID or Balance."],
+            ["Relationship", "An association, such as a customer holding an account."]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "tip",
+          "title": "Quick rules",
+          "text": "Add a row and the cardinality changes. Add a column and the degree changes. Schema is the design; state is the current data. The ER model is used to plan a database before it is built."
+        }
+      ]
+    },
+    {
+      "id": "normalisation-tools",
+      "title": "Normalisation, Dictionary, View, Index and Trigger",
+      "icon": "🛠️",
+      "blocks": [
+        {
+          "type": "keyvalue",
+          "title": "Normalisation",
+          "rows": [
+            ["Normalisation", "Organising relational tables with rules that reduce unnecessary duplication and unsuitable dependencies."],
+            ["Benefit", "Prevents insertion, update and deletion anomalies and improves consistency."],
+            ["Example", "Store department details once in a Department table and reference Department_ID from the Employee table."]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "text": "Normalisation does not mean removing every repeated value. It reduces avoidable redundancy."
+        },
+        {
+          "type": "keyvalue",
+          "title": "Data dictionary and catalog",
+          "rows": [
+            ["Metadata", "Describes database objects: tables, columns, types, sizes, keys, constraints and privileges."],
+            ["Data dictionary", "Stores these descriptions."],
+            ["System catalog", "Also holds database metadata."]
+          ]
+        },
+        {
+          "type": "text",
+          "text": "If an MCQ offers both catalog and data dictionary as options, the wording may be ambiguous, so read the question carefully."
+        },
+        {
+          "type": "keyvalue",
+          "title": "View, index and trigger",
+          "rows": [
+            ["View", "A named query that presents its results like a virtual table. An ordinary view normally does not store a separate copy of the results."],
+            ["Materialised view", "A view that physically stores its query results."],
+            ["Index", "An extra structure that helps find matching rows efficiently."],
+            ["Trigger", "Database logic that runs automatically when a defined event occurs, usually INSERT, UPDATE or DELETE."]
+          ]
+        },
+        {
+          "type": "bullets",
+          "title": "Handy details",
+          "items": [
+            "View example: show customer names and cities while hiding sensitive account details.",
+            "Views simplify queries and can support controlled access.",
+            "Index example: an index on Account_Number can speed up suitable account searches.",
+            "Indexes use storage and need maintenance during writes, and they do not speed up every query.",
+            "Trigger example: changing a salary automatically creates an audit record.",
+            "Supported trigger events vary; some DBMSs also support database-level event triggers."
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "tip",
+          "title": "One-line memory",
+          "text": "Index = faster retrieval. View = named query. Trigger = automatic response to an event. Dictionary = metadata."
+        }
+      ]
+    },
+    {
+      "id": "codd-rules",
+      "title": "Codd's Rules and Final Recap",
+      "icon": "🏁",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "**E. F. Codd** proposed criteria to judge whether a DBMS is fully relational. They are conventionally called **Codd's 12 Rules**. An extra foundation rule is numbered 0, so there are 12 numbered rules plus Rule 0, which makes 13 rules numbered 0 to 12."
+        },
+        {
+          "type": "callout",
+          "kind": "remember",
+          "title": "Rule 0",
+          "text": "A system that claims to be an RDBMS must manage databases through its relational capabilities. These criteria are not special to Microsoft SQL Server."
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "Exam caution",
+          "text": "If the question says Codd's 12 Rules, the conventional answer is 12. If it explicitly counts Rule 0, the total is 13."
+        },
+        {
+          "type": "keyvalue",
+          "title": "Final one-line revision",
+          "rows": [
+            ["Database", "Organised related data."],
+            ["DBMS", "Software that manages databases."],
+            ["IDS", "Integrated Data Store, by Charles Bachman."],
+            ["Relational model", "E. F. Codd, 1970."],
+            ["SQL", "Structured Query Language, designed by Chamberlin and Boyce at IBM."],
+            ["SEQUEL", "Structured English Query Language; paper in 1974."],
+            ["QBE", "Query by Example, by Moshe Zloof."],
+            ["SQL standards", "ANSI 1986, ISO 1987."],
+            ["ACID", "Atomicity, Consistency, Isolation, Durability."],
+            ["CRUD", "Create, Read, Update, Delete."]
+          ]
+        },
+        {
+          "type": "text",
+          "text": "Remember the pairs: TCL has COMMIT and ROLLBACK, DCL has GRANT and REVOKE, INSERT is DML and not DDL. Rows are tuples and columns are attributes. Row count is cardinality and column count is degree. A candidate key is a minimal super key, a primary key is the selected candidate key, and a foreign key supports referential integrity. Learn the corrected concepts rather than ambiguous or outdated answer markings."
+        }
+      ]
+    }
+  ],
+  "revision": [
+    "Database = organised related data; DBMS = the software that manages it; RDBMS stores data in tables.",
+    "Charles Bachman developed IDS (Integrated Data Store) at General Electric; Edgar F. Codd introduced the relational model in 1970.",
+    "Data hierarchy, smallest to largest: bit, byte/character, field, record, file/table, database. Eight bits = one byte.",
+    "Metadata is data about data: table names, column names, types, sizes, keys and constraints.",
+    "Three-tier = presentation, application, data. Three-schema = external, conceptual, internal.",
+    "Hierarchical = tree; Network = linked records; Relational = tables (relation = table, tuple = row, attribute = column).",
+    "SQL = Structured Query Language, by Chamberlin and Boyce at IBM; earlier name SEQUEL, paper in 1974.",
+    "SQL standards: ANSI 1986 and ISO 1987. QBE = Query by Example by Moshe Zloof.",
+    "DDL defines structure, DML changes records, DQL queries, DCL = GRANT and REVOKE, TCL = COMMIT, ROLLBACK and SAVEPOINT.",
+    "CRUD: Create = INSERT, Read = SELECT, Update = UPDATE, Delete = DELETE. INSERT is DML, not DDL.",
+    "ACID = Atomicity (all or nothing), Consistency, Isolation, Durability.",
+    "Candidate key = minimal super key; primary key = chosen candidate (no NULL); alternate key = unchosen candidate.",
+    "Foreign key keeps referential integrity; a composite key uses two or more attributes; M:N needs a linking table.",
+    "Cardinality = number of rows; degree = number of columns. Adding a row changes cardinality, adding a column changes degree.",
+    "Normalisation reduces avoidable redundancy; an index speeds retrieval; a view is a named query; a trigger fires on an event.",
+    "Codd's 12 Rules (plus Rule 0 makes 13). Excel is a spreadsheet, not a conventional DBMS."
+  ],
+  "mindmap": {
+    "center": "Database Management System",
+    "branches": [
+      {
+        "label": "Basics",
+        "children": ["Database vs DBMS", "RDBMS", "Bachman IDS", "Codd 1970", "Controlled redundancy"]
+      },
+      {
+        "label": "Structure",
+        "children": ["Metadata", "Bit to Database", "Three-tier", "Three-schema", "Data independence"]
+      },
+      {
+        "label": "Types and software",
+        "children": ["Relational", "NoSQL", "Hierarchical (tree)", "Network (links)", "MySQL, Oracle, Access"]
+      },
+      {
+        "label": "SQL",
+        "children": ["Chamberlin and Boyce", "SEQUEL 1974", "ANSI 1986, ISO 1987", "QBE: Moshe Zloof", "4GL, declarative"]
+      },
+      {
+        "label": "SQL commands",
+        "children": ["DDL", "DML", "DQL", "DCL: GRANT, REVOKE", "TCL: COMMIT, ROLLBACK", "CRUD"]
+      },
+      {
+        "label": "Transactions",
+        "children": ["Atomicity", "Consistency", "Isolation", "Durability", "SAVEPOINT"]
+      },
+      {
+        "label": "Keys",
+        "children": ["Super key", "Candidate key", "Primary key", "Alternate key", "Foreign key", "Composite key"]
+      },
+      {
+        "label": "Design",
+        "children": ["Cardinality and degree", "Schema vs instance", "ER model", "Normalisation", "View, index, trigger", "Codd's rules"]
+      }
+    ]
+  }
+}

@@ -1,0 +1,470 @@
+{
+  "id": "unix-os",
+  "sections": [
+    {
+      "id": "unix-history",
+      "title": "History and introduction",
+      "icon": "📜",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "**UNIX** is a **multi-user, multitasking** operating system. Its development began in **1969** at **AT&T Bell Laboratories**. The principal developers were **Ken Thompson** and **Dennis Ritchie**; in exam questions Ken Thompson is often called the **father of UNIX**."
+        },
+        {
+          "type": "timeline",
+          "title": "UNIX at a glance",
+          "items": [
+            ["1969", "Development starts at AT&T Bell Laboratories"],
+            ["First machine", "DEC PDP-7 minicomputer ran the first implementation"],
+            ["Early years", "Early UNIX was written in assembly language"],
+            ["1973", "Much of UNIX was rewritten in the C language"]
+          ]
+        },
+        {
+          "type": "figure",
+          "kind": "flow",
+          "title": "How UNIX's code evolved",
+          "items": [
+            ["PDP-7 minicomputer", "First implementation, 1969"],
+            ["Assembly language", "Early UNIX code"],
+            ["C language (1973)", "Rewritten so it is easy to port"]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "Key points",
+          "rows": [
+            ["Developers", "Ken Thompson and Dennis Ritchie"],
+            ["Organisation", "AT&T Bell Laboratories (Bell Labs)"],
+            ["First hardware", "DEC PDP-7 minicomputer"],
+            ["Why C mattered", "C made UNIX easier to port to different hardware; C's early development was closely linked to UNIX system programming"],
+            ["Early name", "**UNICS**, commonly expanded as 'Uniplexed Information and Computing Service' - later became UNIX"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "remember",
+          "text": "**Portability** was a major reason for UNIX's spread. Remember the chain: Bell Labs (1969), Thompson and Ritchie, PDP-7, assembly, then C."
+        }
+      ]
+    },
+    {
+      "id": "unix-features",
+      "title": "Key features and interface",
+      "icon": "✨",
+      "blocks": [
+        {
+          "type": "keyvalue",
+          "title": "Key features",
+          "rows": [
+            ["Multi-user", "Several users share the system resources"],
+            ["Multitasking", "Multiple programs make progress concurrently"],
+            ["Time-sharing", "CPU time is shared among tasks and users"],
+            ["Portability", "Software can be adapted across computer architectures"],
+            ["Hierarchical file system", "Directories form a tree that starts at the root /"],
+            ["Security", "User accounts, ownership and access permissions"],
+            ["Networking", "Strong networking facilities; valued for stability and reliability"]
+          ]
+        },
+        {
+          "type": "bullets",
+          "title": "Where UNIX is commonly used",
+          "items": ["Servers", "Workstations", "Databases", "Enterprise systems", "Scientific computing"]
+        },
+        {
+          "type": "keyvalue",
+          "title": "User interface",
+          "rows": [
+            ["CLI", "**Command-Line Interface** - commands and scripts are typed into a shell"],
+            ["CUI", "**Character User Interface** - text-based interaction"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "fact",
+          "text": "Traditional UNIX interaction is text-based, but graphical environments are also available."
+        }
+      ]
+    },
+    {
+      "id": "unix-architecture",
+      "title": "Architecture: kernel and shell",
+      "icon": "🏗️",
+      "blocks": [
+        {
+          "type": "figure",
+          "kind": "layers",
+          "title": "Four-layer view of UNIX",
+          "items": [
+            ["Utilities & applications", "Outer layer for user tasks"],
+            ["Shell", "Command interpreter - starts programs"],
+            ["Kernel", "Core that manages resources and hardware"],
+            ["Hardware", "CPU, memory, disks, terminals, printers"]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "The parts explained",
+          "rows": [
+            ["Hardware", "Physical CPU, memory, disks, terminals, printers and other devices"],
+            ["Kernel", "The OS core; manages resources and interacts with hardware"],
+            ["Shell", "Interprets user commands and starts programs"],
+            ["Utilities and applications", "Outer software layer for user tasks"]
+          ]
+        },
+        {
+          "type": "bullets",
+          "title": "What the kernel does",
+          "items": [
+            "Controls **process scheduling**, memory, devices and file-system services.",
+            "Uses **device drivers** to communicate with hardware.",
+            "Programs request kernel services through **system calls**."
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "Three or four?",
+          "text": "Counting the hardware gives a **four-layer** view. Counting software only, UNIX has **three main parts**: kernel, shell and utilities/applications. Core = **kernel**; command interpreter = **shell**."
+        }
+      ]
+    },
+    {
+      "id": "unix-files-permissions",
+      "title": "Files, directories and permissions",
+      "icon": "🗂️",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "The **root directory** is written **/** and is the top of the directory tree. Directories hold files and subdirectories. Common top-level directories include **bin, etc, home, usr and var**. Applications run as **processes**, and the kernel manages their resources. The shell supports **scripts, pipelines and input/output redirection**."
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "'Everything is a file'",
+          "text": "This UNIX design principle means many resources, including devices, use **file-like interfaces**. It is not a literal rule for every system object."
+        },
+        {
+          "type": "table",
+          "title": "The three basic permissions",
+          "headers": ["Permission", "On a file", "On a directory"],
+          "rows": [
+            ["Read (r)", "Read the file", "List directory entries"],
+            ["Write (w)", "Modify the file", "Add or remove entries where permitted"],
+            ["Execute (x)", "Run an executable file", "Traverse (enter) the directory"]
+          ]
+        },
+        {
+          "type": "bullets",
+          "items": [
+            "Permissions are assigned separately to the **owner**, the **group** and **others**.",
+            "**chmod** changes permissions; **chown** changes ownership.",
+            "Example: **chmod u+x script.sh** adds execute permission for the owner."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "unix-bsd-families",
+      "title": "UNIX families: System III/V and BSD",
+      "icon": "🌳",
+      "blocks": [
+        {
+          "type": "keyvalue",
+          "title": "Historical branches",
+          "rows": [
+            ["System III and System V", "Historical AT&T UNIX releases and families"],
+            ["BSD", "**Berkeley Software Distribution** - originated at the University of California, Berkeley; informally called Berkeley UNIX"]
+          ]
+        },
+        {
+          "type": "bullets",
+          "title": "BSD contributions",
+          "items": [
+            "BSD helped spread **TCP/IP networking**.",
+            "The **vi** text editor and the **C shell (csh)** are associated with Berkeley's UNIX work."
+          ]
+        },
+        {
+          "type": "table",
+          "title": "BSD descendants",
+          "headers": ["System", "Known for"],
+          "rows": [
+            ["FreeBSD", "Open-source BSD descendant"],
+            ["NetBSD", "Open-source BSD descendant known for portability; its name is not a standard acronym expansion"],
+            ["OpenBSD", "Open-source BSD descendant focused on security and code correctness"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "remember",
+          "text": "BSD descendants have genuine historical **UNIX ancestry**; they are not merely inspired by UNIX's design."
+        }
+      ]
+    },
+    {
+      "id": "unix-modern-commercial",
+      "title": "Modern, commercial and related systems",
+      "icon": "🏢",
+      "blocks": [
+        {
+          "type": "table",
+          "title": "Commercial UNIX variants",
+          "headers": ["System", "Company / note"],
+          "rows": [
+            ["Solaris", "Originally from **Sun Microsystems**; widely used on Sun workstations and servers, including in the 1990s. Oracle acquired Sun in 2010"],
+            ["AIX", "**IBM** - Advanced Interactive eXecutive"],
+            ["HP-UX", "**Hewlett-Packard's** UNIX"],
+            ["Xenix", "Historical **Microsoft** UNIX variant based on licensed UNIX"],
+            ["IRIX", "Historical UNIX from **Silicon Graphics**"],
+            ["System III / V", "**AT&T**"]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "Modern and related systems",
+          "rows": [
+            ["macOS", "Apple's Mac operating system with BSD and NeXTSTEP heritage; specific releases and configurations have UNIX certification"],
+            ["Linux", "Independently developed open-source **UNIX-like** kernel used in complete OS distributions; **not derived from original UNIX source**"],
+            ["GNU/Linux", "Linux kernel plus GNU components and other software"],
+            ["GNU", "'GNU's Not Unix' - this expands GNU, not GNU/Linux"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "Licensing and certification",
+          "text": "Historical AT&T UNIX was **proprietary**; commercial UNIX and open-source UNIX-related systems coexist. **UNIX certification** and **open-source licensing** are different ideas. **Windows 11** belongs to the Windows NT family - it is not UNIX."
+        },
+        {
+          "type": "callout",
+          "kind": "tip",
+          "title": "Memory trick",
+          "text": "Company to system: **S**un - Solaris, **I**BM - AIX, **H**P - HP-UX, **A**pple - macOS, **M**icrosoft - Xenix, Berkeley - BSD."
+        }
+      ]
+    },
+    {
+      "id": "unix-general-user-cmds",
+      "title": "Commands: general tools, users and logins",
+      "icon": "👤",
+      "blocks": [
+        {
+          "type": "table",
+          "title": "General tools",
+          "headers": ["Command", "What it does"],
+          "rows": [
+            ["man", "Opens reference manual pages (example: man ls)"],
+            ["clear", "Clears the terminal display"],
+            ["history", "Shows previous commands in shells that support it"],
+            ["date", "Displays the system date and time"],
+            ["sleep", "Pauses execution for a specified time (example: sleep 5)"],
+            ["uptime", "Shows how long the system has been running, usually with other status data"],
+            ["echo", "Writes text or values to standard output (example: echo \"Hello UNIX\")"]
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Users and logins",
+          "headers": ["Command", "What it does"],
+          "rows": [
+            ["whoami", "Shows the username of the effective user ID"],
+            ["id", "Displays user and group identifiers"],
+            ["groups", "Lists a user's group memberships"],
+            ["passwd", "Changes an account password, subject to permissions and policy"],
+            ["who", "Lists users currently logged in"],
+            ["last", "Displays recorded login sessions where supported and available"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "Exam distinctions",
+          "text": "**whoami** = effective username. **who** = current login sessions. **last** = recorded login history. **history** = previous shell commands. Command availability and options vary across UNIX/Linux systems."
+        }
+      ]
+    },
+    {
+      "id": "unix-directory-cmds",
+      "title": "Commands: directory basics",
+      "icon": "📂",
+      "blocks": [
+        {
+          "type": "table",
+          "headers": ["Command", "What it does"],
+          "rows": [
+            ["pwd", "Print working directory - shows the current directory path"],
+            ["cd", "Changes the shell's current directory"],
+            ["ls", "Lists directory contents"],
+            ["mkdir", "Creates a directory"],
+            ["rmdir", "Removes an **empty** directory"]
+          ]
+        },
+        {
+          "type": "steps",
+          "title": "Example session",
+          "items": [
+            "pwd - shows where you are now.",
+            "mkdir practice - creates a directory named practice.",
+            "cd practice - moves into it.",
+            "ls - lists its contents."
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "tip",
+          "text": "**pwd** = Where am I? **cd** = Go elsewhere. **ls** = What is here? **mkdir** = Make folder. **rmdir** = Remove an empty folder."
+        }
+      ]
+    },
+    {
+      "id": "unix-file-text-pipes",
+      "title": "Commands: files, text tools and pipes",
+      "icon": "📄",
+      "blocks": [
+        {
+          "type": "table",
+          "title": "File operations",
+          "headers": ["Command", "What it does"],
+          "rows": [
+            ["cp", "Copies files; suitable options copy directories"],
+            ["mv", "Moves or renames files and directories"],
+            ["rm", "Removes files; removing directories needs suitable options"],
+            ["chmod", "Changes permission settings"],
+            ["chown", "Changes ownership, subject to privileges"]
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Text tools",
+          "headers": ["Command", "What it does"],
+          "rows": [
+            ["cat", "Reads files and writes their contents in sequence to standard output; can concatenate files"],
+            ["grep", "Selects lines that match a given pattern"]
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Worked examples",
+          "headers": ["Command", "Result"],
+          "rows": [
+            ["cp notes.txt backup.txt", "Copies notes.txt to backup.txt"],
+            ["mv backup.txt revision.txt", "Renames backup.txt as revision.txt"],
+            ["cat revision.txt", "Displays the file contents"],
+            ["grep \"kernel\" notes.txt", "Prints matching lines from notes.txt"],
+            ["chmod u+x script.sh", "Adds execute permission for the owner"],
+            ["cat file1.txt file2.txt", "Joins both files' contents to standard output"]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "The pipe symbol",
+          "rows": [
+            ["| (vertical bar)", "Connects commands: standard output of the left command becomes standard input of the right command"],
+            ["cat file | grep \"UNIX\"", "cat supplies the file contents; grep selects the matching lines"]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "unix-network-process",
+      "title": "Commands: network, processes and shutdown",
+      "icon": "🖧",
+      "blocks": [
+        {
+          "type": "table",
+          "title": "Network commands",
+          "headers": ["Command", "What it does"],
+          "rows": [
+            ["ifconfig", "Displays or configures network interfaces on systems that provide it"],
+            ["ping", "Sends ICMP echo requests to test reachability"],
+            ["netstat", "Shows connections, routing or interface statistics, depending on options"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "text": "A failed **ping** does not always mean a host is offline - ICMP traffic may be blocked."
+        },
+        {
+          "type": "table",
+          "title": "Processes and system control",
+          "headers": ["Command", "What it does"],
+          "rows": [
+            ["ps", "Lists processes (shows PID, TTY and command)"],
+            ["kill", "Sends a signal to a process; commonly requests termination, but the result depends on the signal and how the process handles it"],
+            ["shutdown", "Arranges a controlled shutdown; options may request halt, power-off or restart"],
+            ["halt", "Requests that the system stop running"],
+            ["reboot", "Requests a system restart"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "remember",
+          "text": "**kill** does not always force an immediate stop. **halt** and **reboot** are not inherently ungraceful - normal operation on many systems includes orderly service shutdown; forced options can change the behaviour."
+        },
+        {
+          "type": "callout",
+          "kind": "tip",
+          "title": "Quick recall",
+          "text": "pwd = current path, mkdir = create directory, rmdir = remove empty directory, cat = display text, grep = search text, chmod = permissions, chown = ownership, mv = move or rename, | = pipe."
+        }
+      ]
+    }
+  ],
+  "revision": [
+    "UNIX origin: AT&T Bell Laboratories, 1969; developers Ken Thompson and Dennis Ritchie.",
+    "First UNIX ran on a DEC PDP-7 minicomputer, written in assembly; largely rewritten in C in 1973.",
+    "UNIX is multi-user, multitasking and time-sharing; portability helped it spread.",
+    "Early name UNICS = Uniplexed Information and Computing Service.",
+    "CLI = Command-Line Interface; CUI = Character User Interface.",
+    "Core of UNIX = kernel; command interpreter = shell; root directory = /.",
+    "Permissions r, w, x for owner, group and others; chmod changes them, chown changes ownership.",
+    "BSD = Berkeley Software Distribution; vi editor and C shell are linked with Berkeley.",
+    "FreeBSD, NetBSD and OpenBSD are BSD descendants; Linux is UNIX-like, not derived from UNIX source.",
+    "Solaris = Sun, AIX = IBM, HP-UX = Hewlett-Packard, Xenix = Microsoft, IRIX = Silicon Graphics.",
+    "GNU = GNU's Not Unix; Windows 11 is in the Windows NT family, not UNIX.",
+    "whoami = effective user, who = current logins, last = login history, history = past commands.",
+    "pwd shows the path, cd changes directory, ls lists, mkdir creates, rmdir removes an empty directory.",
+    "cp copies, mv moves or renames, rm removes, cat displays or joins files, grep searches text.",
+    "Pipe | sends the output of the left command to the input of the right command.",
+    "ping tests reachability, ifconfig shows interfaces, netstat shows connections, ps shows processes, kill sends a signal."
+  ],
+  "mindmap": {
+    "center": "Unix OS",
+    "branches": [
+      {
+        "label": "History",
+        "children": ["AT&T Bell Labs, 1969", "Thompson and Ritchie", "DEC PDP-7", "Assembly then C (1973)", "UNICS"]
+      },
+      {
+        "label": "Features",
+        "children": ["Multi-user", "Multitasking", "Time-sharing", "Portability", "Hierarchical file system"]
+      },
+      {
+        "label": "Architecture",
+        "children": ["Hardware", "Kernel", "Shell", "Utilities and apps"]
+      },
+      {
+        "label": "Files and permissions",
+        "children": ["Root directory /", "r, w, x", "Owner, group, others", "chmod and chown"]
+      },
+      {
+        "label": "BSD family",
+        "children": ["Berkeley", "FreeBSD", "NetBSD", "OpenBSD", "vi and C shell"]
+      },
+      {
+        "label": "Commercial and related",
+        "children": ["Solaris - Sun", "AIX - IBM", "HP-UX - HP", "Xenix - Microsoft", "macOS - Apple"]
+      },
+      {
+        "label": "Basic commands",
+        "children": ["pwd, cd, ls", "mkdir, rmdir", "cp, mv, rm", "cat, grep, pipe |"]
+      },
+      {
+        "label": "System commands",
+        "children": ["whoami, who, last", "ping, ifconfig, netstat", "ps, kill", "shutdown, halt, reboot"]
+      }
+    ]
+  }
+}

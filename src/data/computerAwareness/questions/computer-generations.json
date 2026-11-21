@@ -1,0 +1,522 @@
+[
+  {
+    "id": "computer-generations-01",
+    "q": "Computer generations are mainly identified by major changes in which of the following?",
+    "options": [
+      "Processing hardware",
+      "Screen size",
+      "Brand of the manufacturer",
+      "Number of users"
+    ],
+    "answer": 0,
+    "explain": "A generation is a broad stage of technological development, mainly marked by major changes in processing hardware.",
+    "section": "what-is-a-generation"
+  },
+  {
+    "id": "computer-generations-02",
+    "q": "Which technology was the basis of the first generation of computers?",
+    "options": [
+      "Transistors",
+      "Vacuum tubes",
+      "Integrated circuits",
+      "Microprocessors"
+    ],
+    "answer": 1,
+    "explain": "First-generation computers used vacuum tubes for electronic switching and amplification.",
+    "section": "what-is-a-generation"
+  },
+  {
+    "id": "computer-generations-03",
+    "q": "Smaller size, lower power use and better reliability helped which device replace vacuum tubes?",
+    "options": [
+      "Floppy disk",
+      "Punched card",
+      "Magnetic drum",
+      "Transistor"
+    ],
+    "answer": 3,
+    "explain": "The transistor is a semiconductor switch and amplifier that was smaller, cooler and more reliable than a tube.",
+    "section": "what-is-a-generation"
+  },
+  {
+    "id": "computer-generations-04",
+    "q": "VLSI stands for:",
+    "options": [
+      "Very Large-Scale Integration",
+      "Variable Logic System Interface",
+      "Very Little Silicon Integration",
+      "Virtual Large Storage Interface"
+    ],
+    "answer": 0,
+    "explain": "VLSI is Very Large-Scale Integration, in which very large numbers of transistors are placed on one chip.",
+    "section": "what-is-a-generation"
+  },
+  {
+    "id": "computer-generations-05",
+    "q": "In the textbook convention, the second generation of computers (transistors) covers which period?",
+    "options": [
+      "1940-1956",
+      "1964-1971",
+      "1980 onwards",
+      "1957-1963"
+    ],
+    "answer": 3,
+    "explain": "The textbook ranges are 1940-1956, 1957-1963, 1964-1971, then microprocessors and AI emphasis.",
+    "section": "generations-at-a-glance"
+  },
+  {
+    "id": "computer-generations-06",
+    "q": "Integrated circuits characterise which generation of computers, with the textbook period 1964-1971?",
+    "options": [
+      "First generation",
+      "Second generation",
+      "Third generation",
+      "Fourth generation"
+    ],
+    "answer": 2,
+    "explain": "ICs mark the third generation, which is dated 1964-1971 in the textbook convention.",
+    "section": "generations-at-a-glance"
+  },
+  {
+    "id": "computer-generations-07",
+    "q": "Which statement about the date ranges of computer generations is correct?",
+    "options": [
+      "They are strict universal cutoffs",
+      "New technology instantly replaced older machines",
+      "Every textbook uses exactly the same dates",
+      "They are textbook ranges with overlapping boundaries"
+    ],
+    "answer": 3,
+    "explain": "The ranges are textbook conventions. Newer technology did not instantly replace older machines, so boundaries overlap.",
+    "section": "generations-at-a-glance"
+  },
+  {
+    "id": "computer-generations-08",
+    "q": "Approximately how many vacuum tubes did ENIAC contain?",
+    "options": [
+      "1,800",
+      "18,000",
+      "180,000",
+      "180"
+    ],
+    "answer": 1,
+    "explain": "ENIAC contained approximately 18,000 vacuum tubes.",
+    "section": "first-generation"
+  },
+  {
+    "id": "computer-generations-09",
+    "q": "Which of the following was electromechanical rather than a vacuum-tube electronic computer?",
+    "options": [
+      "ENIAC",
+      "UNIVAC I",
+      "Harvard Mark I",
+      "IBM 701"
+    ],
+    "answer": 2,
+    "explain": "Harvard Mark I was electromechanical. ENIAC, UNIVAC I and IBM 701 were vacuum-tube machines.",
+    "section": "first-generation"
+  },
+  {
+    "id": "computer-generations-10",
+    "q": "Which machine used a magnetic drum as its main memory?",
+    "options": [
+      "IBM 650",
+      "IBM 7094",
+      "CDC 3600",
+      "IBM System/360"
+    ],
+    "answer": 0,
+    "explain": "The first-generation IBM 650 used a magnetic drum as main memory.",
+    "section": "first-generation"
+  },
+  {
+    "id": "computer-generations-11",
+    "q": "Which of the following is an example of a second-generation computer?",
+    "options": [
+      "ENIAC",
+      "IBM 7094",
+      "Apple II",
+      "IBM 701"
+    ],
+    "answer": 1,
+    "explain": "IBM 7094 is a listed second-generation machine, along with IBM 1620, CDC 1604 and CDC 3600. ENIAC and IBM 701 are first generation.",
+    "section": "second-generation"
+  },
+  {
+    "id": "computer-generations-12",
+    "q": "Jobs are collected and run with little user interaction during execution. This describes:",
+    "options": [
+      "Time-sharing",
+      "Multiprogramming",
+      "Real-time editing",
+      "Batch processing"
+    ],
+    "answer": 3,
+    "explain": "Batch processing runs collected jobs with little interaction. It was important in the second generation, but is not exclusive to it.",
+    "section": "second-generation"
+  },
+  {
+    "id": "computer-generations-13",
+    "q": "Which pair of languages became established during the second generation?",
+    "options": [
+      "Python and Java",
+      "FORTRAN and COBOL",
+      "C++ and Ruby",
+      "SQL and JavaScript"
+    ],
+    "answer": 1,
+    "explain": "Assembly language was important in the second generation, and FORTRAN and COBOL also became established.",
+    "section": "second-generation"
+  },
+  {
+    "id": "computer-generations-14",
+    "q": "Which development became increasingly important in the third generation?",
+    "options": [
+      "Vacuum-tube switching",
+      "Multiprogramming and time-sharing",
+      "Magnetic-drum main memory only",
+      "Quantum computing"
+    ],
+    "answer": 1,
+    "explain": "Third-generation systems used ICs and relied increasingly on multiprogramming and time-sharing, with keyboards and display terminals for interactive use.",
+    "section": "third-generation"
+  },
+  {
+    "id": "computer-generations-15",
+    "q": "Which of the following is commonly listed as a third-generation example?",
+    "options": [
+      "UNIVAC I",
+      "CDC 1604",
+      "IBM 650",
+      "IBM System/360"
+    ],
+    "answer": 3,
+    "explain": "IBM System/360 and System/370 and the ICL 2900 are commonly listed third-generation examples, although many System/360 models used hybrid Solid Logic Technology modules.",
+    "section": "third-generation"
+  },
+  {
+    "id": "computer-generations-16",
+    "q": "What does PDP stand for in the DEC PDP family of computers?",
+    "options": [
+      "Processed Data Panel",
+      "Personal Desktop Processor",
+      "Programmed Data Processor",
+      "Primary Digital Platform"
+    ],
+    "answer": 2,
+    "explain": "PDP is Programmed Data Processor, a family that spanned different technological periods.",
+    "section": "third-generation"
+  },
+  {
+    "id": "computer-generations-17",
+    "q": "Which was introduced in November 1971 and is widely recognised as the first commercially available single-chip microprocessor?",
+    "options": [
+      "Intel 4004",
+      "Pentium 4",
+      "AMD Athlon",
+      "Apple I"
+    ],
+    "answer": 0,
+    "explain": "Intel 4004 was the first commercially available single-chip microprocessor. Pentium 4 and AMD Athlon are much later processor families.",
+    "section": "fourth-generation"
+  },
+  {
+    "id": "computer-generations-18",
+    "q": "Which of the following characterised fourth-generation computers?",
+    "options": [
+      "Vacuum tubes and punched cards only",
+      "Microprocessors and VLSI supporting compact, affordable personal computers",
+      "Hybrid Solid Logic Technology modules",
+      "Magnetic-drum main memory"
+    ],
+    "answer": 1,
+    "explain": "In the fourth generation the CPU moved onto an integrated circuit and VLSI density made personal computers affordable.",
+    "section": "fourth-generation"
+  },
+  {
+    "id": "computer-generations-19",
+    "q": "Which of the following is a vector supercomputer rather than a personal computer?",
+    "options": [
+      "Apple II",
+      "Cray X-MP",
+      "Apple I",
+      "IBM-compatible PC"
+    ],
+    "answer": 1,
+    "explain": "The Cray X-MP was a vector supercomputer, while the others are personal computers.",
+    "section": "fourth-generation"
+  },
+  {
+    "id": "computer-generations-20",
+    "q": "Which of the following is an emphasis of fifth-generation computing?",
+    "options": [
+      "Vacuum tubes",
+      "Batch processing only",
+      "Punched-card input",
+      "Artificial intelligence and knowledge-based systems"
+    ],
+    "answer": 3,
+    "explain": "The fifth generation emphasises AI, expert systems, knowledge-based systems, neural networks, NLP, parallel processing and intelligent robotics.",
+    "section": "fifth-generation"
+  },
+  {
+    "id": "computer-generations-21",
+    "q": "In which year did Japan's formal fifth-generation computer project begin?",
+    "options": [
+      "1971",
+      "1982",
+      "1990",
+      "1976"
+    ],
+    "answer": 1,
+    "explain": "Japan's project began in 1982 and combined knowledge information processing, large-scale parallel processing and logic programming.",
+    "section": "fifth-generation"
+  },
+  {
+    "id": "computer-generations-22",
+    "q": "Which statement about KIPS is correct?",
+    "options": [
+      "It is an input device",
+      "It is an output device",
+      "It stands for Knowledge Information Processing System and describes a processing approach",
+      "It is a type of storage disc"
+    ],
+    "answer": 2,
+    "explain": "KIPS is Knowledge Information Processing System, a processing approach and not an input/output device.",
+    "section": "fifth-generation"
+  },
+  {
+    "id": "computer-generations-23",
+    "q": "Which of the following is a better description of what defines a fifth-generation computer?",
+    "options": [
+      "Having a Pentium 4 processor",
+      "Being a smartphone or tablet",
+      "Emphasis on AI, knowledge processing and parallel processing",
+      "Using an AMD Athlon chip"
+    ],
+    "answer": 2,
+    "explain": "Processor families (Pentium 4, AMD Athlon) and device categories (smartphone, tablet) do not define a generation; the AI and knowledge-processing emphasis does.",
+    "section": "fifth-generation"
+  },
+  {
+    "id": "computer-generations-24",
+    "q": "Which memory type was widely used as main memory in the transistor era?",
+    "options": [
+      "Magnetic core",
+      "Mercury delay line",
+      "Electrostatic storage",
+      "Holographic disc"
+    ],
+    "answer": 0,
+    "explain": "Magnetic-core main memory was widely used in the second generation. Delay lines and electrostatic storage belong to the early electronic era.",
+    "section": "memory-and-storage"
+  },
+  {
+    "id": "computer-generations-25",
+    "q": "HVD stands for:",
+    "options": [
+      "High Volume Disk",
+      "Hybrid Virtual Drive",
+      "Holographic Versatile Disc",
+      "Hard Virtual Disk"
+    ],
+    "answer": 2,
+    "explain": "HVD is the Holographic Versatile Disc, a specialised holographic optical-storage format.",
+    "section": "memory-and-storage"
+  },
+  {
+    "id": "computer-generations-26",
+    "q": "Which statement about SSDs is correct?",
+    "options": [
+      "They are exclusive to the fifth generation",
+      "They are Solid-State Drives, a form of flash storage, and are not exclusive to the fifth generation",
+      "They are optical discs",
+      "They store data on magnetic tape"
+    ],
+    "answer": 1,
+    "explain": "SSD means Solid-State Drive and most SSDs use flash storage. They are not exclusive to the fifth generation.",
+    "section": "memory-and-storage"
+  },
+  {
+    "id": "computer-generations-27",
+    "q": "A historical class of computer smaller and less expensive than mainframes, many of which supported multiple users, is called a:",
+    "options": [
+      "Minicomputer",
+      "Tablet",
+      "Smartphone",
+      "Supercomputer"
+    ],
+    "answer": 0,
+    "explain": "Minicomputers sat between mainframes and personal computers in size and cost, and many supported multiple users.",
+    "section": "computer-categories"
+  },
+  {
+    "id": "computer-generations-28",
+    "q": "Which language is designed for scientific and numerical programming and became established in 1957?",
+    "options": [
+      "COBOL",
+      "BASIC",
+      "FORTRAN",
+      "SQL"
+    ],
+    "answer": 2,
+    "explain": "FORTRAN is used for scientific and numerical programming. COBOL is for business data processing.",
+    "section": "languages-and-time-units"
+  },
+  {
+    "id": "computer-generations-29",
+    "q": "Which of the following correctly lists time units from LONGEST to SHORTEST?",
+    "options": [
+      "Microsecond, millisecond, nanosecond, picosecond",
+      "Millisecond, microsecond, nanosecond, picosecond",
+      "Nanosecond, picosecond, microsecond, millisecond",
+      "Picosecond, nanosecond, microsecond, millisecond"
+    ],
+    "answer": 1,
+    "explain": "A millisecond is 1/1,000 s, a microsecond 1/1,000,000 s, a nanosecond 1/1,000,000,000 s, and a picosecond 10^-12 s.",
+    "section": "languages-and-time-units"
+  },
+  {
+    "id": "computer-generations-30",
+    "q": "The language named from 'Matrix Laboratory', used for numerical computation, is:",
+    "options": [
+      "Lisp",
+      "Prolog",
+      "MATLAB",
+      "Mercury"
+    ],
+    "answer": 2,
+    "explain": "MATLAB takes its name from Matrix Laboratory. Lisp is List Processing and Prolog is Programming in Logic.",
+    "section": "languages-and-time-units"
+  },
+  {
+    "id": "computer-generations-31",
+    "q": "In operating-system development, which approach divides processing time among tasks or users to give interactive service?",
+    "options": [
+      "Batch processing",
+      "Time-sharing",
+      "Single-task operation",
+      "Sequential processing"
+    ],
+    "answer": 1,
+    "explain": "Time-sharing splits processing time among users or tasks for interactive use. Batch jobs run with little interaction.",
+    "section": "os-interfaces-networks"
+  },
+  {
+    "id": "computer-generations-32",
+    "q": "Which of the following gives the correct broad order of network development?",
+    "options": [
+      "Cloud, Internet, WAN, LAN",
+      "Standalone, WAN, LAN, Internet",
+      "Standalone, LAN, WAN, Internet, Cloud",
+      "LAN, standalone, Internet, WAN"
+    ],
+    "answer": 2,
+    "explain": "Networks grew from standalone systems to LANs, WANs, the Internet and cloud computing, and the older kinds remain in use.",
+    "section": "os-interfaces-networks"
+  },
+  {
+    "id": "computer-generations-33",
+    "q": "Which device provides both input and output?",
+    "options": [
+      "Scanner",
+      "Touchscreen",
+      "Printer",
+      "Microphone"
+    ],
+    "answer": 1,
+    "explain": "A touchscreen displays output and accepts touch input.",
+    "section": "os-interfaces-networks"
+  },
+  {
+    "id": "computer-generations-34",
+    "q": "In quantum computing, a qubit can be prepared in:",
+    "options": [
+      "Only the state 0",
+      "Only the state 1",
+      "A superposition of the states associated with 0 and 1",
+      "Any decimal value from 0 to 9"
+    ],
+    "answer": 2,
+    "explain": "A qubit can be in a superposition of 0 and 1, but measuring it gives one result, 0 or 1.",
+    "section": "ai-quantum-emerging"
+  },
+  {
+    "id": "computer-generations-35",
+    "q": "Which of the following is an example of natural language processing (NLP)?",
+    "options": [
+      "A floppy disk drive",
+      "A voice assistant interpreting 'Play music'",
+      "A vacuum tube",
+      "A punched card reader"
+    ],
+    "answer": 1,
+    "explain": "Voice assistants, chatbots, translators and spam filters all analyse human language.",
+    "section": "ai-quantum-emerging"
+  },
+  {
+    "id": "computer-generations-36",
+    "q": "Which statement about the 'sixth generation' of computers is correct?",
+    "options": [
+      "It has a universally accepted definition and start date",
+      "It is an informal label some textbooks use for quantum computing, nanotechnology and IoT, with no universal definition",
+      "It began in 1982 with Japan's project",
+      "It means computers using vacuum tubes"
+    ],
+    "answer": 1,
+    "explain": "There is no universally accepted sixth-generation definition or starting date; the label is informal.",
+    "section": "ai-quantum-emerging"
+  },
+  {
+    "id": "computer-generations-37",
+    "q": "Which machine ran the first program stored in electronic memory on 21 June 1948?",
+    "options": [
+      "EDSAC",
+      "ENIAC",
+      "Manchester Baby (SSEM)",
+      "UNIVAC I"
+    ],
+    "answer": 2,
+    "explain": "The Manchester Baby (Small-Scale Experimental Machine) ran the first stored program. EDSAC followed in 1949 as an early practical stored-program service.",
+    "section": "historical-milestones"
+  },
+  {
+    "id": "computer-generations-38",
+    "q": "Which two people are recognised as co-inventors of the integrated circuit?",
+    "options": [
+      "Jack Kilby and Robert Noyce",
+      "Steve Jobs and Steve Wozniak",
+      "Herman Hollerith and Charles Babbage",
+      "John Bardeen and Ada Lovelace"
+    ],
+    "answer": 0,
+    "explain": "Jack Kilby demonstrated a working semiconductor circuit in 1958, and Robert Noyce developed the practical monolithic silicon IC concept in 1959.",
+    "section": "historical-milestones"
+  },
+  {
+    "id": "computer-generations-39",
+    "q": "Herman Hollerith's punched-card tabulation was used for which event?",
+    "options": [
+      "The 1890 US Census",
+      "The 1948 Manchester Baby run",
+      "The 1971 launch of the Intel 4004",
+      "The 1982 Japanese project"
+    ],
+    "answer": 0,
+    "explain": "Hollerith developed punched-card statistical tabulation for the 1890 US Census. Punched-card control existed earlier on Jacquard looms.",
+    "section": "historical-milestones"
+  },
+  {
+    "id": "computer-generations-40",
+    "q": "EDSAC stands for:",
+    "options": [
+      "Electronic Discrete Variable Automatic Computer",
+      "Electronic Numerical Integrator and Computer",
+      "Universal Automatic Computer",
+      "Electronic Delay Storage Automatic Calculator"
+    ],
+    "answer": 3,
+    "explain": "EDSAC is Electronic Delay Storage Automatic Calculator. The first option is EDVAC, the second ENIAC and the third UNIVAC.",
+    "section": "historical-milestones"
+  }
+]

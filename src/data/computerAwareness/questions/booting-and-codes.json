@@ -1,0 +1,522 @@
+[
+  {
+    "id": "booting-and-codes-01",
+    "q": "What is the main purpose of booting a computer?",
+    "options": [
+      "To permanently erase data from the hard disk",
+      "To initialise hardware and load the OS kernel into RAM",
+      "To install new application software automatically",
+      "To connect the computer to the Internet"
+    ],
+    "answer": 1,
+    "explain": "Booting prepares the machine for use by initialising essential hardware and loading the operating-system kernel into RAM.",
+    "section": "boot-basics"
+  },
+  {
+    "id": "booting-and-codes-02",
+    "q": "The word \"boot\" in computing is derived from which term?",
+    "options": [
+      "Bootleg",
+      "Boot sector",
+      "Reboot",
+      "Bootstrap"
+    ],
+    "answer": 3,
+    "explain": "Boot is short for bootstrap, the idea of a system pulling itself up by its own bootstraps.",
+    "section": "boot-basics"
+  },
+  {
+    "id": "booting-and-codes-03",
+    "q": "Which of the following shows the correct order of a typical boot sequence?",
+    "options": [
+      "BIOS/UEFI, POST, boot loader, OS kernel, login screen",
+      "POST, OS kernel, BIOS/UEFI, boot loader, login screen",
+      "Boot loader, BIOS/UEFI, POST, login screen, OS kernel",
+      "BIOS/UEFI, boot loader, POST, login screen, OS kernel"
+    ],
+    "answer": 0,
+    "explain": "Firmware starts first, POST checks hardware, the boot loader loads the kernel, and finally the login screen or desktop appears.",
+    "section": "boot-basics"
+  },
+  {
+    "id": "booting-and-codes-04",
+    "q": "In the boot sequence, which program loads the OS kernel into RAM and passes control to it?",
+    "options": [
+      "POST",
+      "Web browser",
+      "Boot loader",
+      "Device driver"
+    ],
+    "answer": 2,
+    "explain": "The boot loader loads the kernel into RAM and transfers control to it. POST only checks hardware.",
+    "section": "boot-basics"
+  },
+  {
+    "id": "booting-and-codes-05",
+    "q": "Which of the following executes first when a computer is switched on?",
+    "options": [
+      "Microsoft Word",
+      "The operating system desktop",
+      "A web browser",
+      "Firmware such as BIOS or UEFI"
+    ],
+    "answer": 3,
+    "explain": "Firmware runs before the boot loader and the operating system. Ordinary applications load only after the OS.",
+    "section": "who-starts-first"
+  },
+  {
+    "id": "booting-and-codes-06",
+    "q": "Where is the BIOS/UEFI normally stored?",
+    "options": [
+      "In non-volatile motherboard memory, usually flash",
+      "In the RAM of the computer",
+      "On the keyboard controller only",
+      "In the cache memory of the printer"
+    ],
+    "answer": 0,
+    "explain": "Firmware sits in non-volatile memory on the motherboard (traditionally described as ROM, now commonly flash) so it survives power-off.",
+    "section": "who-starts-first"
+  },
+  {
+    "id": "booting-and-codes-07",
+    "q": "During booting, which memory holds the kernel and the active OS components?",
+    "options": [
+      "ROM",
+      "BIOS chip",
+      "RAM",
+      "CMOS battery"
+    ],
+    "answer": 2,
+    "explain": "The installed OS lives on the SSD/HDD, but the kernel and active components are loaded into RAM to run.",
+    "section": "who-starts-first"
+  },
+  {
+    "id": "booting-and-codes-08",
+    "q": "Which statement is correct?",
+    "options": [
+      "Applications such as Paint load before the OS",
+      "The OS is loaded before ordinary applications like Paint",
+      "The boot loader runs before the firmware",
+      "The kernel is a type of application program"
+    ],
+    "answer": 1,
+    "explain": "Order is firmware, boot loader, OS, then applications. The kernel is the core of the OS, not an application.",
+    "section": "who-starts-first"
+  },
+  {
+    "id": "booting-and-codes-09",
+    "q": "Pressing the power button on a computer that has been shut down is called a:",
+    "options": [
+      "Warm boot",
+      "Cold boot",
+      "Soft reboot",
+      "Safe boot"
+    ],
+    "answer": 1,
+    "explain": "Starting from a powered-off state is a cold boot, also called a cold start or hard boot.",
+    "section": "boot-types"
+  },
+  {
+    "id": "booting-and-codes-10",
+    "q": "Selecting \"Restart\" from the Start menu of a running computer is an example of:",
+    "options": [
+      "Cold boot",
+      "Hard boot",
+      "Dual boot",
+      "Warm boot"
+    ],
+    "answer": 3,
+    "explain": "Restarting without manually switching off the power is a warm boot (warm restart or soft reboot).",
+    "section": "boot-types"
+  },
+  {
+    "id": "booting-and-codes-11",
+    "q": "What is the full form of BIOS?",
+    "options": [
+      "Basic Input/Output System",
+      "Binary Input/Output System",
+      "Basic Internal Operating System",
+      "Boot Input/Output Software"
+    ],
+    "answer": 0,
+    "explain": "BIOS stands for Basic Input/Output System, the firmware that initialises hardware and begins startup.",
+    "section": "firmware-bios-uefi"
+  },
+  {
+    "id": "booting-and-codes-12",
+    "q": "UEFI stands for:",
+    "options": [
+      "Universal Executable File Interface",
+      "Unified External Firmware Instruction",
+      "Unified Extensible Firmware Interface",
+      "Unique Extended Firmware Integration"
+    ],
+    "answer": 2,
+    "explain": "UEFI = Unified Extensible Firmware Interface, the modern firmware interface that replaces legacy BIOS.",
+    "section": "firmware-bios-uefi"
+  },
+  {
+    "id": "booting-and-codes-13",
+    "q": "POST in the context of booting means:",
+    "options": [
+      "Primary Operating System Test",
+      "Power-Off System Transfer",
+      "Program Order Startup Table",
+      "Power-On Self-Test"
+    ],
+    "answer": 3,
+    "explain": "POST (Power-On Self-Test) is a set of firmware routines that check essential hardware like memory and devices.",
+    "section": "firmware-bios-uefi"
+  },
+  {
+    "id": "booting-and-codes-14",
+    "q": "Which statement about POST is correct?",
+    "options": [
+      "It is part of the firmware, not a separate hardware device",
+      "It is a separate chip fitted on the hard disk",
+      "It is a program loaded after the desktop appears",
+      "It is a type of boot loader for Linux"
+    ],
+    "answer": 0,
+    "explain": "POST belongs to the firmware and runs the initial hardware checks at startup.",
+    "section": "firmware-bios-uefi"
+  },
+  {
+    "id": "booting-and-codes-15",
+    "q": "Which file system is normally used for the EFI System Partition on fixed disks?",
+    "options": [
+      "NTFS only",
+      "ext4",
+      "FAT32",
+      "XFS"
+    ],
+    "answer": 2,
+    "explain": "UEFI startup files are stored in the EFI System Partition, normally formatted as FAT32.",
+    "section": "firmware-bios-uefi"
+  },
+  {
+    "id": "booting-and-codes-16",
+    "q": "Where did traditional PCs retain BIOS settings?",
+    "options": [
+      "Boot sector of the hard disk",
+      "Battery-backed CMOS memory",
+      "Cache memory of the processor",
+      "The GRUB menu file"
+    ],
+    "answer": 1,
+    "explain": "Traditional PCs kept settings in battery-backed CMOS; modern firmware may use NVRAM instead.",
+    "section": "firmware-bios-uefi"
+  },
+  {
+    "id": "booting-and-codes-17",
+    "q": "GRUB is a:",
+    "options": [
+      "Text editor of Unix",
+      "Boot loader widely used with Linux",
+      "Antivirus for Windows",
+      "Type of file system"
+    ],
+    "answer": 1,
+    "explain": "GRUB (GRand Unified Bootloader) loads the OS kernel and can show a menu to choose an operating system.",
+    "section": "boot-loader-tools"
+  },
+  {
+    "id": "booting-and-codes-18",
+    "q": "Having two operating systems installed on one computer, with the user choosing which one to start, is called:",
+    "options": [
+      "Warm boot",
+      "Fast boot",
+      "Safe boot",
+      "Dual boot"
+    ],
+    "answer": 3,
+    "explain": "Dual boot lets the user pick between two installed operating systems at startup.",
+    "section": "boot-loader-tools"
+  },
+  {
+    "id": "booting-and-codes-19",
+    "q": "MBR stands for:",
+    "options": [
+      "Master Boot Record",
+      "Main Boot Register",
+      "Memory Boot Routine",
+      "Master Binary Record"
+    ],
+    "answer": 0,
+    "explain": "The Master Boot Record is a disk structure that traditionally holds initial boot code and partition information.",
+    "section": "boot-loader-tools"
+  },
+  {
+    "id": "booting-and-codes-20",
+    "q": "Safe Mode in Windows is mainly used to:",
+    "options": [
+      "Speed up the Internet connection",
+      "Install a second operating system",
+      "Diagnose startup and software problems with limited drivers and services",
+      "Increase the RAM capacity"
+    ],
+    "answer": 2,
+    "explain": "Safe Mode starts Windows with only essential files, drivers and services so faults can be diagnosed.",
+    "section": "safe-mode-keys"
+  },
+  {
+    "id": "booting-and-codes-21",
+    "q": "Which Safe Mode option adds network components?",
+    "options": [
+      "Safe Mode with Command Prompt",
+      "Fast Boot mode",
+      "Dual Boot mode",
+      "Safe Mode with Networking"
+    ],
+    "answer": 3,
+    "explain": "Safe Mode with Networking loads the network components in addition to the basic Safe Mode set.",
+    "section": "safe-mode-keys"
+  },
+  {
+    "id": "booting-and-codes-22",
+    "q": "In modern Windows, what does Ctrl + Alt + Delete normally do?",
+    "options": [
+      "Opens the security screen",
+      "Directly restarts the PC",
+      "Starts a cold boot",
+      "Opens Safe Mode"
+    ],
+    "answer": 0,
+    "explain": "Historically linked to a warm reboot on older PCs, it now opens the security screen and does not directly restart the PC.",
+    "section": "safe-mode-keys"
+  },
+  {
+    "id": "booting-and-codes-23",
+    "q": "Which of the following is NOT a likely cause of sudden, repeated unexpected restarts?",
+    "options": [
+      "Faulty RAM",
+      "Overheating",
+      "Installing a larger monitor",
+      "Unstable power supply"
+    ],
+    "answer": 2,
+    "explain": "Faulty RAM, overheating and power problems (also malware and bad drivers) can cause unexpected restarts; a monitor size does not.",
+    "section": "startup-faults"
+  },
+  {
+    "id": "booting-and-codes-24",
+    "q": "\"Random booting\" is best described as:",
+    "options": [
+      "A standard type of booting like cold boot",
+      "A fault symptom of sudden or repeated unexpected restarts",
+      "A boot mode that selects the OS at random",
+      "A feature that speeds up startup"
+    ],
+    "answer": 1,
+    "explain": "Random booting is an informal term for a fault symptom, not a standard boot type.",
+    "section": "startup-faults"
+  },
+  {
+    "id": "booting-and-codes-25",
+    "q": "Unicode is best described as a:",
+    "options": [
+      "Font design format",
+      "Universal character-encoding standard",
+      "Keyboard layout",
+      "Programming language"
+    ],
+    "answer": 1,
+    "explain": "Unicode assigns code points to characters of many writing systems. It is neither a font nor a keyboard layout.",
+    "section": "unicode-basics"
+  },
+  {
+    "id": "booting-and-codes-26",
+    "q": "Work on Unicode began in late:",
+    "options": [
+      "1963",
+      "1991",
+      "1973",
+      "1987"
+    ],
+    "answer": 3,
+    "explain": "Unicode work began in late 1987; the Consortium was incorporated in 1991 and the first version came out in October 1991.",
+    "section": "unicode-basics"
+  },
+  {
+    "id": "booting-and-codes-27",
+    "q": "How many bytes per scalar value does UTF-32 use?",
+    "options": [
+      "4 bytes",
+      "1 to 4 bytes",
+      "2 or 4 bytes",
+      "8 bytes"
+    ],
+    "answer": 0,
+    "explain": "UTF-32 has 32-bit code units and always uses 4 bytes per scalar value.",
+    "section": "utf-encodings"
+  },
+  {
+    "id": "booting-and-codes-28",
+    "q": "Which Unicode encoding form uses 1 to 4 bytes per scalar value?",
+    "options": [
+      "UTF-16",
+      "UTF-32",
+      "UTF-8",
+      "UTF-64"
+    ],
+    "answer": 2,
+    "explain": "UTF-8 uses 8-bit code units, giving 1 to 4 bytes per scalar value.",
+    "section": "utf-encodings"
+  },
+  {
+    "id": "booting-and-codes-29",
+    "q": "Which statement about Unicode is correct?",
+    "options": [
+      "Unicode is an acronym for a coding standard",
+      "Unicode has one fixed length of 16 bits",
+      "Unicode supports only English letters",
+      "A font supplies glyph shapes while Unicode identifies characters"
+    ],
+    "answer": 3,
+    "explain": "Unicode has no single fixed bit length and is not an acronym; fonts draw the glyphs for the characters it identifies.",
+    "section": "utf-encodings"
+  },
+  {
+    "id": "booting-and-codes-30",
+    "q": "EBCDIC stands for:",
+    "options": [
+      "Extended Binary Coded Decimal Interchange Code",
+      "Enhanced Binary Computer Data Interchange Code",
+      "Extended Basic Coded Digital Information Code",
+      "Electronic Binary Coded Decimal Input Code"
+    ],
+    "answer": 0,
+    "explain": "EBCDIC = Extended Binary Coded Decimal Interchange Code, a character encoding like ASCII.",
+    "section": "utf-encodings"
+  },
+  {
+    "id": "booting-and-codes-31",
+    "q": "ASCII stands for:",
+    "options": [
+      "American Standard Code for Internet Interchange",
+      "Asian Standard Code for Information Interchange",
+      "American Standard Code for Information Interchange",
+      "American Scientific Code for Information Interchange"
+    ],
+    "answer": 2,
+    "explain": "ASCII is the American Standard Code for Information Interchange.",
+    "section": "ascii-basics"
+  },
+  {
+    "id": "booting-and-codes-32",
+    "q": "Standard ASCII is a fixed-length code of how many bits?",
+    "options": [
+      "8 bits",
+      "7 bits",
+      "16 bits",
+      "4 bits"
+    ],
+    "answer": 1,
+    "explain": "Standard ASCII uses 7 bits, giving 2^7 = 128 code values (0-127).",
+    "section": "ascii-basics"
+  },
+  {
+    "id": "booting-and-codes-33",
+    "q": "How many code values are available in Extended ASCII (8-bit)?",
+    "options": [
+      "128",
+      "256",
+      "512",
+      "65,536"
+    ],
+    "answer": 1,
+    "explain": "With 8 bits there are 2^8 = 256 code values, numbered 0-255.",
+    "section": "ascii-basics"
+  },
+  {
+    "id": "booting-and-codes-34",
+    "q": "Who contributed a 1961 proposal for a common character code that led to ASCII?",
+    "options": [
+      "Ken Thompson",
+      "Joe Becker",
+      "Linus Torvalds",
+      "Bob Bemer"
+    ],
+    "answer": 3,
+    "explain": "IBM engineer Bob Bemer contributed the 1961 proposal; the first ASCII standard was published in 1963.",
+    "section": "ascii-basics"
+  },
+  {
+    "id": "booting-and-codes-35",
+    "q": "Which statement about Extended ASCII is correct?",
+    "options": [
+      "It refers to several ASCII-based 8-bit code pages",
+      "It is one single universal 8-bit table",
+      "It uses 16 bits for each character",
+      "Its upper half is 0-127"
+    ],
+    "answer": 0,
+    "explain": "Extended ASCII is not one table; the upper-half values (128-255) depend on the code page.",
+    "section": "ascii-basics"
+  },
+  {
+    "id": "booting-and-codes-36",
+    "q": "What is the ASCII decimal value of the capital letter A?",
+    "options": [
+      "97",
+      "48",
+      "65",
+      "32"
+    ],
+    "answer": 2,
+    "explain": "Uppercase A-Z run from 65 to 90, so A = 65.",
+    "section": "ascii-values"
+  },
+  {
+    "id": "booting-and-codes-37",
+    "q": "What is the ASCII decimal value of the lowercase letter a?",
+    "options": [
+      "65",
+      "122",
+      "48",
+      "97"
+    ],
+    "answer": 3,
+    "explain": "Lowercase a-z run from 97 to 122, so a = 97.",
+    "section": "ascii-values"
+  },
+  {
+    "id": "booting-and-codes-38",
+    "q": "The ASCII values 48 to 57 represent:",
+    "options": [
+      "Digits 0 to 9",
+      "Uppercase letters A to J",
+      "Lowercase letters a to j",
+      "Punctuation marks only"
+    ],
+    "answer": 0,
+    "explain": "Digits 0-9 occupy 48-57, uppercase A-Z 65-90 and lowercase a-z 97-122.",
+    "section": "ascii-values"
+  },
+  {
+    "id": "booting-and-codes-39",
+    "q": "The ASCII value of a lowercase letter is greater than its uppercase letter by:",
+    "options": [
+      "26",
+      "64",
+      "32",
+      "16"
+    ],
+    "answer": 2,
+    "explain": "For example a (97) - A (65) = 32, and z (122) - Z (90) = 32.",
+    "section": "ascii-values"
+  },
+  {
+    "id": "booting-and-codes-40",
+    "q": "If the ASCII value of \"D\" is 68, what is the ASCII value of \"d\"?",
+    "options": [
+      "36",
+      "100",
+      "132",
+      "98"
+    ],
+    "answer": 1,
+    "explain": "Add 32 to convert uppercase to lowercase: 68 + 32 = 100.",
+    "section": "ascii-values"
+  }
+]

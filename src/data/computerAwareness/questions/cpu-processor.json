@@ -1,0 +1,496 @@
+[
+  {
+    "id": "cpu-processor-01",
+    "q": "Which language does the CPU execute directly?",
+    "options": [
+      "Assembly language written with mnemonics",
+      "A high-level language such as Python",
+      "Machine language made of binary 0s and 1s",
+      "Natural English instructions"
+    ],
+    "answer": 2,
+    "explain": "The CPU directly runs binary machine instructions; other languages must be translated into them.",
+    "section": "cpu-foundations"
+  },
+  {
+    "id": "cpu-processor-02",
+    "q": "Which CPU part decodes instructions and directs operations by issuing control signals?",
+    "options": [
+      "Control Unit",
+      "Arithmetic Logic Unit",
+      "Register bank",
+      "Power supply unit"
+    ],
+    "answer": 0,
+    "explain": "The Control Unit fetches and decodes instructions and coordinates registers, memory and I/O. It does not do the arithmetic itself.",
+    "section": "cpu-foundations"
+  },
+  {
+    "id": "cpu-processor-03",
+    "q": "Which of the following is NOT a standard component of the CPU?",
+    "options": [
+      "Control Unit",
+      "Arithmetic Logic Unit",
+      "Register bank",
+      "Program unit"
+    ],
+    "answer": 3,
+    "explain": "The three basic parts are the Control Unit, ALU and registers. A program unit is not a standard CPU component.",
+    "section": "cpu-foundations"
+  },
+  {
+    "id": "cpu-processor-04",
+    "q": "Which sequence correctly shows the instruction cycle?",
+    "options": [
+      "Decode, fetch, write back, execute",
+      "Fetch, decode, execute, write back",
+      "Execute, fetch, decode, write back",
+      "Write back, fetch, execute, decode"
+    ],
+    "answer": 1,
+    "explain": "The CPU first fetches an instruction, decodes it, executes it, and writes back a result when needed.",
+    "section": "instruction-cycle"
+  },
+  {
+    "id": "cpu-processor-05",
+    "q": "Which of the following is NOT a stage of the instruction cycle?",
+    "options": [
+      "Fetch",
+      "Device installation",
+      "Decode",
+      "Write back"
+    ],
+    "answer": 1,
+    "explain": "Device installation is not an instruction-cycle stage, although installation software also uses CPU cycles.",
+    "section": "instruction-cycle"
+  },
+  {
+    "id": "cpu-processor-06",
+    "q": "Which task is performed by the logic section of the ALU?",
+    "options": [
+      "Addition of two numbers",
+      "Subtraction of two numbers",
+      "Fetching instructions from memory",
+      "Comparing two values"
+    ],
+    "answer": 3,
+    "explain": "Comparisons and Boolean operations (AND, OR, NOT) belong to the logic section. Addition and subtraction belong to the arithmetic section.",
+    "section": "alu-logic"
+  },
+  {
+    "id": "cpu-processor-07",
+    "q": "An accumulator is best described as:",
+    "options": [
+      "A CPU register that holds an operand or an intermediate result",
+      "A separate kind of main memory",
+      "A type of hard disk",
+      "The unit that decodes instructions"
+    ],
+    "answer": 0,
+    "explain": "An accumulator is a register used in some architectures; other designs store results in general-purpose registers.",
+    "section": "alu-logic"
+  },
+  {
+    "id": "cpu-processor-08",
+    "q": "Which statement about execution inside the CPU is accurate?",
+    "options": [
+      "Every instruction is performed entirely by the ALU",
+      "The control unit performs all arithmetic",
+      "The ALU handles arithmetic and logic, while other execution units handle other instruction types",
+      "Registers execute all instructions"
+    ],
+    "answer": 2,
+    "explain": "Not every instruction is performed entirely by the ALU; a basic ALU may also lack hardware for functions like square roots, which may use an FPU or software.",
+    "section": "alu-logic"
+  },
+  {
+    "id": "cpu-processor-09",
+    "q": "Which register holds the address of the main-memory location to be read or written?",
+    "options": [
+      "MDR (Memory Data Register)",
+      "PC (Program Counter)",
+      "MAR (Memory Address Register)",
+      "IR (Instruction Register)"
+    ],
+    "answer": 2,
+    "explain": "MAR stores the address. MDR holds the data, PC the next instruction address and IR the current instruction.",
+    "section": "registers"
+  },
+  {
+    "id": "cpu-processor-10",
+    "q": "Which register holds the address used to locate the next instruction?",
+    "options": [
+      "Program Counter (PC)",
+      "Instruction Register (IR)",
+      "Memory Buffer Register (MBR)",
+      "Memory Address Register (MAR)"
+    ],
+    "answer": 0,
+    "explain": "The Program Counter points to the next instruction, while the IR holds the instruction being decoded or executed.",
+    "section": "registers"
+  },
+  {
+    "id": "cpu-processor-11",
+    "q": "MBR is another name for which register?",
+    "options": [
+      "MAR (Memory Address Register)",
+      "IR (Instruction Register)",
+      "PC (Program Counter)",
+      "MDR (Memory Data Register)"
+    ],
+    "answer": 3,
+    "explain": "MDR, also called MBR (Memory Buffer Register), holds data transferred to or from memory.",
+    "section": "registers"
+  },
+  {
+    "id": "cpu-processor-12",
+    "q": "A register is usually built from which basic circuit element, with each element storing one bit?",
+    "options": [
+      "Resistors",
+      "Flip-flops",
+      "Capacitor plates",
+      "Magnetic platters"
+    ],
+    "answer": 1,
+    "explain": "A register is a sequential digital circuit made from flip-flops, so an n-bit register holds n bits.",
+    "section": "registers"
+  },
+  {
+    "id": "cpu-processor-13",
+    "q": "Among registers, cache and main memory, which is the fastest to access?",
+    "options": [
+      "Cache",
+      "Registers",
+      "Main memory (RAM)",
+      "All three have the same speed"
+    ],
+    "answer": 1,
+    "explain": "Registers sit inside the CPU and are the fastest; a hard disk or SSD is slower still.",
+    "section": "buffer-hierarchy"
+  },
+  {
+    "id": "cpu-processor-14",
+    "q": "What is the main purpose of a buffer?",
+    "options": [
+      "To store data permanently",
+      "To translate programs into machine code",
+      "To convert AC power to DC power",
+      "To temporarily hold data during transfer between components of different speeds"
+    ],
+    "answer": 3,
+    "explain": "A buffer smooths transfers when devices or components work at different rates.",
+    "section": "buffer-hierarchy"
+  },
+  {
+    "id": "cpu-processor-15",
+    "q": "Which statement about a stack is correct?",
+    "options": [
+      "A stack is a way of organising data, not a separate memory technology with a fixed speed",
+      "A stack is a memory faster than registers",
+      "A stack is a type of hard disk",
+      "A stack is the same as cache memory"
+    ],
+    "answer": 0,
+    "explain": "A stack describes how data is organised, so it has no fixed speed of its own.",
+    "section": "buffer-hierarchy"
+  },
+  {
+    "id": "cpu-processor-16",
+    "q": "Clock speed of a CPU is measured in:",
+    "options": [
+      "KIPS and MIPS",
+      "Bytes per second",
+      "Hertz (Hz), such as MHz or GHz",
+      "Kilobytes and gigabytes"
+    ],
+    "answer": 2,
+    "explain": "Clock frequency uses hertz. KIPS and MIPS measure instruction throughput, and bytes per second measure data transfer.",
+    "section": "clock-speed"
+  },
+  {
+    "id": "cpu-processor-17",
+    "q": "How is 1 MIPS related to KIPS?",
+    "options": [
+      "1 MIPS = 100 KIPS",
+      "1 MIPS = 10,000 KIPS",
+      "1 MIPS = 1,000 KIPS",
+      "1 MIPS = 1 KIPS"
+    ],
+    "answer": 2,
+    "explain": "MIPS means million instructions per second, and KIPS means thousand instructions per second, so 1 MIPS equals 1,000 KIPS.",
+    "section": "clock-speed"
+  },
+  {
+    "id": "cpu-processor-18",
+    "q": "Which statement about CPU performance is correct?",
+    "options": [
+      "Clock frequency alone does not decide performance",
+      "A higher GHz value always means a faster computer",
+      "Every instruction takes exactly one clock cycle",
+      "MIPS is a perfect comparison between all instruction sets"
+    ],
+    "answer": 0,
+    "explain": "Architecture, instructions per cycle, core count, cache, memory and workload also matter, and MIPS is not reliable across different instruction sets.",
+    "section": "clock-speed"
+  },
+  {
+    "id": "cpu-processor-19",
+    "q": "What does RISC stand for?",
+    "options": [
+      "Regular Instruction Sequence Computer",
+      "Rapid Instruction Set Circuit",
+      "Restricted Integrated System Computer",
+      "Reduced Instruction Set Computer"
+    ],
+    "answer": 3,
+    "explain": "RISC emphasises simpler, regular instruction designs and efficient execution.",
+    "section": "risc-cisc"
+  },
+  {
+    "id": "cpu-processor-20",
+    "q": "Which statement about RISC and CISC is correct?",
+    "options": [
+      "CISC is always cheaper to build than RISC",
+      "CISC supports more complex instruction forms; Arm is a RISC architecture family",
+      "Arm is a CISC architecture family",
+      "RISC and CISC describe the number of cores in a CPU"
+    ],
+    "answer": 1,
+    "explain": "RISC and CISC are instruction-set approaches; cost depends on the full implementation, and CISC is not automatically more costly.",
+    "section": "risc-cisc"
+  },
+  {
+    "id": "cpu-processor-21",
+    "q": "How many cores does an octa-core processor have?",
+    "options": [
+      "6",
+      "8",
+      "10",
+      "4"
+    ],
+    "answer": 1,
+    "explain": "Quad = 4, hexa = 6, octa = 8 and deca = 10 cores.",
+    "section": "cores"
+  },
+  {
+    "id": "cpu-processor-22",
+    "q": "Which statement about a dual-core processor is correct?",
+    "options": [
+      "It always belongs to the Intel Core 2 family",
+      "It has two separate physical CPUs",
+      "It has four cores",
+      "It has two cores and need not belong to the Intel Core 2 product family"
+    ],
+    "answer": 3,
+    "explain": "Dual-core describes the number of cores, not a brand name.",
+    "section": "cores"
+  },
+  {
+    "id": "cpu-processor-23",
+    "q": "Which statement about CPU count and core count is correct?",
+    "options": [
+      "One CPU package can contain several cores, so the two are different",
+      "A multi-core CPU is always a multiprocessor system",
+      "Multithreading means having multiple physical processors",
+      "A uniprocessor system always has a single core"
+    ],
+    "answer": 0,
+    "explain": "Physical CPU count and core count are different. Multithreading concerns execution threads, not physical processors.",
+    "section": "cores"
+  },
+  {
+    "id": "cpu-processor-24",
+    "q": "The Intel 4004, introduced in 1971, was:",
+    "options": [
+      "An 8-bit multi-core microprocessor",
+      "A 16-bit graphics processor",
+      "A 4-bit, single-chip microprocessor",
+      "A 64-bit server processor"
+    ],
+    "answer": 2,
+    "explain": "It is widely recognised as the first commercially available single-chip microprocessor.",
+    "section": "microprocessors"
+  },
+  {
+    "id": "cpu-processor-25",
+    "q": "Microprocessor-based computers belong to which generation in the usual textbook classification?",
+    "options": [
+      "Second generation",
+      "Third generation",
+      "Fourth generation",
+      "Fifth generation"
+    ],
+    "answer": 2,
+    "explain": "The fourth generation is the era of microprocessors.",
+    "section": "microprocessors"
+  },
+  {
+    "id": "cpu-processor-26",
+    "q": "How much physical memory can the Intel 8086 address with its 20-bit physical address?",
+    "options": [
+      "1 MiB (1,048,576 bytes)",
+      "64 KB",
+      "16 MiB",
+      "4 GiB"
+    ],
+    "answer": 0,
+    "explain": "With 20 address bits it can address 2^20 bytes, which is 1,048,576 bytes or 1 MiB.",
+    "section": "microprocessors"
+  },
+  {
+    "id": "cpu-processor-27",
+    "q": "The name Intel was formed from which phrase?",
+    "options": [
+      "Internal electronics",
+      "Intelligent technology",
+      "Instruction network element",
+      "Integrated electronics"
+    ],
+    "answer": 3,
+    "explain": "Intel comes from integrated electronics. AMD stands for Advanced Micro Devices.",
+    "section": "microprocessors"
+  },
+  {
+    "id": "cpu-processor-28",
+    "q": "ARM originally stood for:",
+    "options": [
+      "Advanced Register Memory",
+      "Acorn RISC Machine",
+      "Automatic RISC Module",
+      "Applied Real-time Machine"
+    ],
+    "answer": 1,
+    "explain": "The Arm architecture originated at Acorn Computers; Advanced RISC Machine is a later, commonly taught expansion.",
+    "section": "arm"
+  },
+  {
+    "id": "cpu-processor-29",
+    "q": "In which year did the ARM1 chip work?",
+    "options": [
+      "1971",
+      "1985",
+      "1994",
+      "1999"
+    ],
+    "answer": 1,
+    "explain": "The ARM1 chip worked in 1985, with early use in Acorn computer systems.",
+    "section": "arm"
+  },
+  {
+    "id": "cpu-processor-30",
+    "q": "What is the key strength of a GPU?",
+    "options": [
+      "Storing data permanently",
+      "Supplying power to the motherboard",
+      "Replacing the control unit in every task",
+      "Handling many similar calculations in parallel"
+    ],
+    "answer": 3,
+    "explain": "A GPU was developed to speed up graphics rendering and is useful for other workloads that split into many similar calculations.",
+    "section": "gpu"
+  },
+  {
+    "id": "cpu-processor-31",
+    "q": "Which statement about a GPU and a graphics card is correct?",
+    "options": [
+      "A graphics card is an add-in board that contains a GPU plus parts such as video memory and cooling",
+      "A GPU and a graphics card are exactly the same thing",
+      "A graphics card is a chip inside every CPU",
+      "An integrated GPU must always be on a separate graphics card"
+    ],
+    "answer": 0,
+    "explain": "The GPU is the chip; the card is the board around it. An integrated GPU need not be on a separate card.",
+    "section": "gpu"
+  },
+  {
+    "id": "cpu-processor-32",
+    "q": "Which statement about CPUs and GPUs is correct?",
+    "options": [
+      "GPUs are always faster than CPUs",
+      "CPUs cannot do any parallel work",
+      "GPUs are not faster for every task, and CPUs can also perform parallel work",
+      "GPUs are used only for gaming"
+    ],
+    "answer": 2,
+    "explain": "CPUs handle general-purpose, control-heavy work, while GPUs excel at workloads that divide into similar calculations.",
+    "section": "gpu"
+  },
+  {
+    "id": "cpu-processor-33",
+    "q": "What does SMPS stand for?",
+    "options": [
+      "Static Memory Processing System",
+      "Serial Motherboard Power Source",
+      "Switched-Mode Power Supply",
+      "System Main Processing Switch"
+    ],
+    "answer": 2,
+    "explain": "The power supply unit converts incoming AC electricity into regulated DC power for components.",
+    "section": "system-unit"
+  },
+  {
+    "id": "cpu-processor-34",
+    "q": "Which statement about the computer cabinet is correct?",
+    "options": [
+      "The assembled case and its contents are commonly called the system unit; CPU cabinet is an informal term",
+      "The cabinet is the same thing as the CPU",
+      "The cabinet contains only the processor",
+      "The system unit refers only to the monitor"
+    ],
+    "answer": 0,
+    "explain": "The CPU is just the processor, not the entire box that houses the motherboard, RAM, drives, power supply and cooling.",
+    "section": "system-unit"
+  },
+  {
+    "id": "cpu-processor-35",
+    "q": "What does an offline device mean in traditional usage?",
+    "options": [
+      "A device that is always faulty",
+      "A device that works only with the internet",
+      "A device built inside the CPU",
+      "A device unavailable for direct communication with or control by the computer"
+    ],
+    "answer": 3,
+    "explain": "An offline device may be disconnected or switched off; it is not necessarily faulty.",
+    "section": "system-unit"
+  },
+  {
+    "id": "cpu-processor-36",
+    "q": "Which bus carries the address that identifies a memory location or device?",
+    "options": [
+      "Data bus",
+      "Address bus",
+      "Control bus",
+      "Power bus"
+    ],
+    "answer": 1,
+    "explain": "The address bus says where; the data bus carries the data and instruction values; the control bus carries signals such as read and write.",
+    "section": "buses"
+  },
+  {
+    "id": "cpu-processor-37",
+    "q": "Which of the following is NOT one of the three basic system buses?",
+    "options": [
+      "Address bus",
+      "Cache bus",
+      "Data bus",
+      "Control bus"
+    ],
+    "answer": 1,
+    "explain": "Address, data and control are the standard three categories; specialised cache interconnects exist but sit outside this basic classification.",
+    "section": "buses"
+  },
+  {
+    "id": "cpu-processor-38",
+    "q": "Which company is associated with the GeForce 256, a major consumer GPU milestone of 1999?",
+    "options": [
+      "Intel",
+      "Sony",
+      "Acorn",
+      "NVIDIA"
+    ],
+    "answer": 3,
+    "explain": "NVIDIA introduced the GeForce 256 in 1999. Sony is associated with the PlayStation graphics processor of 1994.",
+    "section": "gpu"
+  }
+]

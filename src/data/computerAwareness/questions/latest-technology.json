@@ -1,0 +1,522 @@
+[
+  {
+    "id": "latest-technology-01",
+    "q": "Who is commonly called the Father of Artificial Intelligence?",
+    "options": [
+      "Alan Kay",
+      "Kevin Ashton",
+      "Joseph Weizenbaum",
+      "John McCarthy"
+    ],
+    "answer": 3,
+    "explain": "John McCarthy was a founding AI researcher and is commonly called the Father of AI.",
+    "section": "ai-foundations"
+  },
+  {
+    "id": "latest-technology-02",
+    "q": "The Dartmouth Summer Research Project on Artificial Intelligence, a founding event of AI as a discipline, took place in:",
+    "options": [
+      "1950",
+      "1955",
+      "1956",
+      "1958"
+    ],
+    "answer": 2,
+    "explain": "The Dartmouth workshop was held in 1956; the proposal using the term 'artificial intelligence' dated from 31 August 1955.",
+    "section": "ai-foundations"
+  },
+  {
+    "id": "latest-technology-03",
+    "q": "Which branch of AI learns patterns from data?",
+    "options": [
+      "Machine Learning",
+      "Virtual Reality",
+      "Robotics hardware",
+      "Blockchain"
+    ],
+    "answer": 0,
+    "explain": "Machine Learning is the AI branch that learns patterns from data; deep learning is ML with many-layered neural networks.",
+    "section": "ai-foundations"
+  },
+  {
+    "id": "latest-technology-04",
+    "q": "Deep learning is best described as:",
+    "options": [
+      "Processing images only",
+      "A database technique",
+      "ML using neural networks with multiple processing layers",
+      "A type of virtual reality"
+    ],
+    "answer": 2,
+    "explain": "Deep learning uses neural networks with several processing layers and is a branch of machine learning.",
+    "section": "ai-foundations"
+  },
+  {
+    "id": "latest-technology-05",
+    "q": "Logic Theorist, one of the earliest AI programs that proved mathematical theorems, was developed in 1956 by:",
+    "options": [
+      "McCarthy, Kay and Wirth",
+      "Haber, Stornetta and Nakamoto",
+      "Backus, Kemeny and Kurtz",
+      "Newell, Simon and Shaw"
+    ],
+    "answer": 3,
+    "explain": "Allen Newell, Herbert A. Simon and J. C. Shaw created Logic Theorist, which ran on RAND's JOHNNIAC computer.",
+    "section": "ai-foundations"
+  },
+  {
+    "id": "latest-technology-06",
+    "q": "LISP, an influential language for symbolic AI, was developed by John McCarthy in:",
+    "options": [
+      "1958",
+      "1946",
+      "1966",
+      "1972"
+    ],
+    "answer": 0,
+    "explain": "LISP (List Processing) dates to 1958; ELIZA's landmark paper appeared in 1966.",
+    "section": "ai-languages-landmarks"
+  },
+  {
+    "id": "latest-technology-07",
+    "q": "The early chatbot ELIZA, which used keywords and scripted response rules, was developed by:",
+    "options": [
+      "John McCarthy at Stanford",
+      "Alan Kay at Xerox PARC",
+      "Joseph Weizenbaum at MIT",
+      "Herbert Simon at RAND"
+    ],
+    "answer": 2,
+    "explain": "Joseph Weizenbaum of MIT created ELIZA, and the landmark paper came out in 1966.",
+    "section": "ai-languages-landmarks"
+  },
+  {
+    "id": "latest-technology-08",
+    "q": "Which language preceded LISP and was used for Logic Theorist?",
+    "options": [
+      "Prolog",
+      "Python",
+      "Information Processing Language (IPL)",
+      "Julia"
+    ],
+    "answer": 2,
+    "explain": "IPL came before LISP, which is why LISP is called an early influential AI language rather than unconditionally the first.",
+    "section": "ai-languages-landmarks"
+  },
+  {
+    "id": "latest-technology-09",
+    "q": "Sophia, the humanoid robot granted Saudi Arabian citizenship in 2017, was made by:",
+    "options": [
+      "IBM",
+      "Apple",
+      "Hanson Robotics",
+      "OpenAI"
+    ],
+    "answer": 2,
+    "explain": "Sophia is a humanoid robot made by Hanson Robotics; Saudi Arabia announced citizenship for it in 2017.",
+    "section": "ai-languages-landmarks"
+  },
+  {
+    "id": "latest-technology-10",
+    "q": "IBM Watson became famous for winning which televised contest, in 2011?",
+    "options": [
+      "Jeopardy!",
+      "Chess Olympiad",
+      "Who Wants to Be a Millionaire",
+      "RoboCup"
+    ],
+    "answer": 0,
+    "explain": "Watson, IBM's question-answering system, won Jeopardy! in 2011; watsonx was announced in 2023.",
+    "section": "ai-languages-landmarks"
+  },
+  {
+    "id": "latest-technology-11",
+    "q": "Claude, the AI chatbot, was developed by:",
+    "options": [
+      "OpenAI",
+      "Meta",
+      "xAI",
+      "Anthropic"
+    ],
+    "answer": 3,
+    "explain": "Claude is from Anthropic (March 2023). ChatGPT is OpenAI's, Grok is xAI's and Meta AI belongs to Meta.",
+    "section": "chatbots-assistants"
+  },
+  {
+    "id": "latest-technology-12",
+    "q": "Grok is a chatbot developed by:",
+    "options": [
+      "Google",
+      "Microsoft",
+      "DeepSeek",
+      "xAI"
+    ],
+    "answer": 3,
+    "explain": "Grok comes from xAI and was introduced in November 2023.",
+    "section": "chatbots-assistants"
+  },
+  {
+    "id": "latest-technology-13",
+    "q": "Google's chatbot Bard was renamed Gemini in:",
+    "options": [
+      "December 2022",
+      "March 2023",
+      "December 2023",
+      "February 2024"
+    ],
+    "answer": 3,
+    "explain": "Gemini models arrived in December 2023, but the Bard-to-Gemini chatbot renaming was in February 2024.",
+    "section": "chatbots-assistants"
+  },
+  {
+    "id": "latest-technology-14",
+    "q": "Which pairing of assistant and company is correct?",
+    "options": [
+      "Alexa - Amazon",
+      "Siri - Microsoft",
+      "Cortana - Apple",
+      "Watson - Google"
+    ],
+    "answer": 0,
+    "explain": "Alexa is Amazon's, Siri is Apple's, Cortana is Microsoft's and Watson is IBM's.",
+    "section": "chatbots-assistants"
+  },
+  {
+    "id": "latest-technology-15",
+    "q": "Cortana's announcement with Windows Phone 8.1 happened in:",
+    "options": [
+      "2011",
+      "2014",
+      "2017",
+      "2023"
+    ],
+    "answer": 1,
+    "explain": "Microsoft announced Cortana with Windows Phone 8.1 in 2014; Siri's iPhone 4S integration was in 2011.",
+    "section": "chatbots-assistants"
+  },
+  {
+    "id": "latest-technology-16",
+    "q": "What does GPT stand for in ChatGPT?",
+    "options": [
+      "General Purpose Technology",
+      "Graphical Programming Template",
+      "Global Processing Tool",
+      "Generative Pre-trained Transformer"
+    ],
+    "answer": 3,
+    "explain": "GPT means Generative Pre-trained Transformer; 'Chat' just describes the conversational interface.",
+    "section": "chatgpt-basics"
+  },
+  {
+    "id": "latest-technology-17",
+    "q": "ChatGPT was publicly introduced on:",
+    "options": [
+      "30 November 2021",
+      "15 March 2023",
+      "30 November 2022",
+      "1 January 2024"
+    ],
+    "answer": 2,
+    "explain": "OpenAI publicly introduced ChatGPT on 30 November 2022.",
+    "section": "chatgpt-basics"
+  },
+  {
+    "id": "latest-technology-18",
+    "q": "In basic exam categories, ChatGPT is classified as:",
+    "options": [
+      "Super AI",
+      "Narrow AI",
+      "A binary-only assembler",
+      "A quantum computer"
+    ],
+    "answer": 1,
+    "explain": "ChatGPT is treated as Narrow AI powered by large language models; it should not be described as Super AI.",
+    "section": "chatgpt-basics"
+  },
+  {
+    "id": "latest-technology-19",
+    "q": "Which field of AI deals with processing and generating human language, the area ChatGPT works in?",
+    "options": [
+      "Robotics",
+      "Natural Language Processing",
+      "Computer graphics",
+      "Cryptography"
+    ],
+    "answer": 1,
+    "explain": "NLP concerns processing and generating human language, central to ChatGPT.",
+    "section": "chatgpt-basics"
+  },
+  {
+    "id": "latest-technology-20",
+    "q": "OpenAI was announced in:",
+    "options": [
+      "December 2015",
+      "November 2022",
+      "January 2023",
+      "December 2019"
+    ],
+    "answer": 0,
+    "explain": "OpenAI was announced in December 2015; Microsoft's expanded partnership came in January 2023.",
+    "section": "chatgpt-basics"
+  },
+  {
+    "id": "latest-technology-21",
+    "q": "Who published foundational research on secure digital timestamping in 1991, an early step towards blockchain?",
+    "options": [
+      "Satoshi Nakamoto and Kevin Ashton",
+      "Stuart Haber and W. Scott Stornetta",
+      "John Romkey and Simon Hackett",
+      "Allen Newell and Herbert Simon"
+    ],
+    "answer": 1,
+    "explain": "Haber and Stornetta published the 1991 timestamping research; Satoshi Nakamoto presented Bitcoin in 2008.",
+    "section": "blockchain-history"
+  },
+  {
+    "id": "latest-technology-22",
+    "q": "The Bitcoin network began operating in which year?",
+    "options": [
+      "1991",
+      "2008",
+      "2014",
+      "2009"
+    ],
+    "answer": 3,
+    "explain": "The Bitcoin proposal came in 2008 and the network began operating in 2009.",
+    "section": "blockchain-history"
+  },
+  {
+    "id": "latest-technology-23",
+    "q": "Which statement about Bitcoin and blockchain is correct?",
+    "options": [
+      "Blockchain is an application and Bitcoin is the technology",
+      "Bitcoin is an application; blockchain is the record-keeping technology",
+      "They are exactly the same thing",
+      "Blockchain was invented only in 2009 by Satoshi alone"
+    ],
+    "answer": 1,
+    "explain": "Bitcoin is a cryptocurrency application built on blockchain, and earlier research from 1991 means Satoshi was not the sole inventor of the ideas.",
+    "section": "blockchain-history"
+  },
+  {
+    "id": "latest-technology-24",
+    "q": "In a blockchain, successive blocks are linked by:",
+    "options": [
+      "Telephone numbers",
+      "Hash values of the previous block",
+      "Email addresses",
+      "Serial cables"
+    ],
+    "answer": 1,
+    "explain": "Each block stores the previous block's hash, which creates the cryptographic link and lets changes to earlier data be detected.",
+    "section": "blockchain-working"
+  },
+  {
+    "id": "latest-technology-25",
+    "q": "The first block of a blockchain, which has no preceding block, is called the:",
+    "options": [
+      "Root hash",
+      "Ledger node",
+      "Genesis block",
+      "Consensus block"
+    ],
+    "answer": 2,
+    "explain": "The genesis block is the first block and has no previous block.",
+    "section": "blockchain-working"
+  },
+  {
+    "id": "latest-technology-26",
+    "q": "Which blockchain network type restricts access and participation to an organisation?",
+    "options": [
+      "Public",
+      "Hybrid",
+      "Open",
+      "Private"
+    ],
+    "answer": 3,
+    "explain": "Private networks are controlled by an organisation; public ones are broadly open and hybrid ones mix public and private features.",
+    "section": "blockchain-working"
+  },
+  {
+    "id": "latest-technology-27",
+    "q": "Which of the following is NOT a defining feature of a decentralised blockchain?",
+    "options": [
+      "Centralised control by one authority",
+      "Cryptographic protection of records",
+      "Consensus among participants",
+      "Hash-linked blocks"
+    ],
+    "answer": 0,
+    "explain": "A decentralised public blockchain has no single central ledger authority; centralised control is not a defining feature.",
+    "section": "blockchain-working"
+  },
+  {
+    "id": "latest-technology-28",
+    "q": "Which statement about blockchain immutability is most accurate?",
+    "options": [
+      "It guarantees no change is ever possible",
+      "It means blockchain can never be attacked",
+      "It means strong resistance to alteration under normal operation, not an absolute guarantee",
+      "It applies only to cryptocurrencies"
+    ],
+    "answer": 2,
+    "explain": "Immutability means altering accepted history is very hard, but blockchain is not automatically attack-proof.",
+    "section": "blockchain-working"
+  },
+  {
+    "id": "latest-technology-29",
+    "q": "Who is widely credited with introducing the term Internet of Things in 1999?",
+    "options": [
+      "Kevin Ashton",
+      "Satoshi Nakamoto",
+      "Joseph Weizenbaum",
+      "John Romkey"
+    ],
+    "answer": 0,
+    "explain": "Kevin Ashton used the phrase in a Procter & Gamble presentation about RFID-based supply chains.",
+    "section": "iot-origins"
+  },
+  {
+    "id": "latest-technology-30",
+    "q": "RFID stands for:",
+    "options": [
+      "Remote Frequency Identification",
+      "Radio Frequency Identification",
+      "Rapid File Identification Device",
+      "Radio Fiber Interface Data"
+    ],
+    "answer": 1,
+    "explain": "RFID is Radio Frequency Identification, where the R means Radio; it identifies tagged objects using radio communication.",
+    "section": "iot-origins"
+  },
+  {
+    "id": "latest-technology-31",
+    "q": "In 1982, Carnegie Mellon students connected which device to ARPANET, an early IoT example?",
+    "options": [
+      "A toaster",
+      "A Coca-Cola vending machine",
+      "A refrigerator",
+      "A smart watch"
+    ],
+    "answer": 1,
+    "explain": "The CMU Coke machine (1982) came before the internet-controlled toaster of 1990 (John Romkey and Simon Hackett).",
+    "section": "iot-origins"
+  },
+  {
+    "id": "latest-technology-32",
+    "q": "Which statement about an RFID tag is correct?",
+    "options": [
+      "It always has its own internet connection",
+      "It does not automatically have its own internet connection; readers and connected systems provide the link",
+      "It works only with GPS",
+      "It cannot identify objects"
+    ],
+    "answer": 1,
+    "explain": "A tag identifies objects by radio; readers and connected systems link it to the internet.",
+    "section": "iot-origins"
+  },
+  {
+    "id": "latest-technology-33",
+    "q": "In an IoT system, which component carries out physical actions such as operating a valve or switch?",
+    "options": [
+      "Sensor",
+      "Gateway",
+      "Actuator",
+      "Hash"
+    ],
+    "answer": 2,
+    "explain": "Actuators perform physical actions, while sensors collect information about the physical world.",
+    "section": "iot-applications-security"
+  },
+  {
+    "id": "latest-technology-34",
+    "q": "Which protocol provides TLS-style protection for datagram communication, commonly over UDP?",
+    "options": [
+      "IPsec",
+      "MQTT",
+      "DTLS",
+      "RFID"
+    ],
+    "answer": 2,
+    "explain": "DTLS (Datagram Transport Layer Security) protects datagram traffic; IPsec works at the IP network layer.",
+    "section": "iot-applications-security"
+  },
+  {
+    "id": "latest-technology-35",
+    "q": "Which statement about 5G and IoT is correct?",
+    "options": [
+      "5G is the broader concept of connected physical objects",
+      "5G is a connectivity technology; IoT is the broader concept of connected physical objects",
+      "IoT is a generation of mobile networks",
+      "5G and IoT mean the same thing"
+    ],
+    "answer": 1,
+    "explain": "5G is fifth-generation mobile communication technology, while IoT covers connected physical objects in general.",
+    "section": "iot-applications-security"
+  },
+  {
+    "id": "latest-technology-36",
+    "q": "Which of the following is true about a self-driving vehicle?",
+    "options": [
+      "It is always an IoT system",
+      "It is automatically IoT only because it is automated",
+      "It is not automatically IoT merely because it is automated; connectivity and data exchange matter",
+      "It is IoT only if it uses a standalone GPS receiver"
+    ],
+    "answer": 2,
+    "explain": "Automation alone does not make something IoT; the object must be connected and exchange data.",
+    "section": "iot-applications-security"
+  },
+  {
+    "id": "latest-technology-37",
+    "q": "MQTT is a lightweight messaging protocol that uses which model?",
+    "options": [
+      "Publish-subscribe",
+      "Client-server file transfer",
+      "Peer-to-peer mining",
+      "Broadcast radio"
+    ],
+    "answer": 0,
+    "explain": "In MQTT a publisher sends messages, a broker forwards them, and subscribers interested in the topic receive them.",
+    "section": "iiot-mqtt-ble"
+  },
+  {
+    "id": "latest-technology-38",
+    "q": "IIoT refers to:",
+    "options": [
+      "Intelligent Internet of Text",
+      "Industrial Internet of Things",
+      "International Internet of Things",
+      "Integrated Input-Output Technology"
+    ],
+    "answer": 1,
+    "explain": "IIoT is Industrial Internet of Things: connected sensors, machines and software applied to industrial operations.",
+    "section": "iiot-mqtt-ble"
+  },
+  {
+    "id": "latest-technology-39",
+    "q": "Bluetooth Low Energy (BLE) is mainly useful for:",
+    "options": [
+      "High-speed fibre backbones",
+      "Battery-operated devices such as fitness trackers and wireless sensors",
+      "Satellite broadcasting",
+      "Wired factory networks"
+    ],
+    "answer": 1,
+    "explain": "BLE is designed for very low power use, extending operating time between battery changes or charges.",
+    "section": "iiot-mqtt-ble"
+  },
+  {
+    "id": "latest-technology-40",
+    "q": "What is the status of the MQTT name in the current standard?",
+    "options": [
+      "It officially expands to Message Queuing Telemetry Transport",
+      "It officially expands to Machine Query Transfer Tool",
+      "It uses MQTT as the protocol name with no official expansion",
+      "It stands for Mobile Quick Transfer Technology"
+    ],
+    "answer": 2,
+    "explain": "Message Queuing Telemetry Transport is a common exam expansion; historically it was MQ Telemetry Transport, and the standard now has no official expansion.",
+    "section": "iiot-mqtt-ble"
+  }
+]

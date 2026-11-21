@@ -1,0 +1,518 @@
+{
+  "id": "latest-technology",
+  "sections": [
+    {
+      "id": "ai-foundations",
+      "title": "Artificial Intelligence Foundations",
+      "icon": "🧠",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "**Artificial Intelligence (AI)** is the field of building computer systems that perform tasks linked with intelligence: learning, reasoning, pattern recognition, language processing and problem-solving. AI does not need to copy the exact way a human thinks."
+        },
+        {
+          "type": "figure",
+          "kind": "pyramid",
+          "title": "From broad field to specific method (broad on top)",
+          "items": [
+            ["Artificial Intelligence", "Broad field of intelligent systems"],
+            ["Machine Learning", "Learns patterns from data"],
+            ["Neural Networks", "Connected computational units"],
+            ["Deep Learning", "Neural networks with many layers"]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "Related concepts",
+          "rows": [
+            ["AI", "The broad field of intelligent systems."],
+            ["Machine Learning (ML)", "A branch of AI that learns patterns from data."],
+            ["Neural networks", "ML models built from connected computational units; they can be shallow or deep."],
+            ["Deep learning", "ML that uses neural networks with multiple processing layers."],
+            ["NLP", "Natural Language Processing: processing and generating human language."],
+            ["AI-enabled robotics", "Intelligent software combined with physical machines; not every robot uses AI."],
+            ["Virtual Reality", "Creates simulated environments; it may use AI but is not ordinarily an AI subfield."]
+          ]
+        },
+        {
+          "type": "timeline",
+          "title": "John McCarthy and Dartmouth",
+          "items": [
+            ["31 Aug 1955", "The Dartmouth proposal used the term 'artificial intelligence'."],
+            ["1956", "The Dartmouth Summer Research Project on Artificial Intelligence took place; it is widely seen as a founding event of AI as an academic discipline."],
+            ["1956", "Allen Newell, Herbert A. Simon and J. C. Shaw developed Logic Theorist, one of the earliest AI programs, which proved mathematical theorems."]
+          ]
+        },
+        {
+          "type": "bullets",
+          "items": [
+            "**John McCarthy** was a founding AI researcher and is commonly called the **Father of AI**.",
+            "Do not mix up the proposal date (1955) with the workshop date (1956).",
+            "Logic Theorist involved the Carnegie Institute of Technology (later part of CMU) and RAND, and it ran on RAND's JOHNNIAC computer; saying it was simply 'first run at CMU' is an oversimplification."
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "remember",
+          "text": "McCarthy = AI pioneer. 1955 = proposal. 1956 = Dartmouth workshop."
+        }
+      ]
+    },
+    {
+      "id": "ai-languages-landmarks",
+      "title": "AI Languages & Landmark Systems",
+      "icon": "🤖",
+      "blocks": [
+        {
+          "type": "keyvalue",
+          "title": "Lisp and early languages",
+          "rows": [
+            ["LISP", "List Processing; developed by John McCarthy in 1958; influential for symbolic AI and list manipulation."],
+            ["IPL", "Information Processing Language; it came before LISP and was used for Logic Theorist."],
+            ["Prolog", "Programming in Logic; used for rule-based reasoning."]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "text": "Call LISP an early, influential AI language, not unconditionally the first, because IPL came earlier."
+        },
+        {
+          "type": "table",
+          "title": "Languages used in AI",
+          "headers": ["Language", "Typical AI use"],
+          "rows": [
+            ["Python", "Machine learning and data analysis"],
+            ["LISP", "Symbolic processing"],
+            ["Prolog", "Logic programming"],
+            ["Java", "Application integration"],
+            ["JavaScript", "Web-based AI"],
+            ["C++", "Performance-sensitive software"],
+            ["Julia", "Scientific and numerical computing"],
+            ["Haskell", "Functional programming and research"],
+            ["Scala", "Data processing and JVM applications"],
+            ["R", "Statistical analysis and modelling"]
+          ]
+        },
+        {
+          "type": "bullets",
+          "items": [
+            "Python is a common choice but not universally the best for every project.",
+            "Perl is a less typical choice for AI, though not incapable of it.",
+            ".NET is a software platform, not a single programming language."
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "Landmark systems",
+          "rows": [
+            ["ELIZA", "Early chatbot by Joseph Weizenbaum at MIT; it used keywords and scripted response rules. Its landmark paper appeared in 1966, not 1961."],
+            ["Siri", "Apple's influential smartphone assistant, integrated into the iPhone 4S in 2011; not the first virtual assistant of every kind."],
+            ["Watson", "IBM question-answering system; won Jeopardy! in 2011. Calling it the 'first AI supercomputer' is too broad."],
+            ["Sophia", "Humanoid robot made by Hanson Robotics; Saudi Arabia announced citizenship for it in 2017, presented as the first citizenship given to a robot."]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "tip",
+          "text": "LISP: McCarthy, 1958. ELIZA: Weizenbaum, 1966. Sophia: Saudi Arabia, 2017."
+        }
+      ]
+    },
+    {
+      "id": "chatbots-assistants",
+      "title": "Chatbots & Digital Assistants",
+      "icon": "💬",
+      "blocks": [
+        {
+          "type": "table",
+          "title": "Tools, developers and milestones",
+          "headers": ["Tool", "Developer", "Milestone"],
+          "rows": [
+            ["ChatGPT", "OpenAI", "30 November 2022"],
+            ["Gemini", "Google", "Gemini models: December 2023; Bard renamed Gemini: February 2024"],
+            ["Microsoft Copilot", "Microsoft", "Consumer conversational-AI milestone: 2023 (Bing Chat)"],
+            ["Claude", "Anthropic", "March 2023"],
+            ["Perplexity", "Perplexity AI", "Answer engine: 2022"],
+            ["Meta AI", "Meta", "September 2023"],
+            ["Grok", "xAI", "November 2023"],
+            ["DeepSeek", "DeepSeek (China)", "Company founded in 2023; company date is not every product's launch date"],
+            ["Watson", "IBM", "Jeopardy! victory: 2011; watsonx announced: 2023"],
+            ["Siri", "Apple", "iPhone 4S integration: 2011"],
+            ["Alexa", "Amazon", "Original Echo introduction: 2014"],
+            ["Cortana", "Microsoft", "Windows Phone 8.1 announcement: 2014"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "Do not confuse the dates",
+          "text": "A company's founding, a model release, a product launch and a rebranding are different events. Gemini models: 2023, but the Gemini chatbot name: 2024. Watson's famous achievement: 2011, but watsonx: 2023."
+        },
+        {
+          "type": "bullets",
+          "title": "What these tools do",
+          "items": [
+            "**Chatbots** exchange messages in natural language.",
+            "**Digital assistants** may also respond to voice commands and perform tasks."
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "tip",
+          "text": "Quick pairs: ChatGPT = OpenAI, Claude = Anthropic, Grok = xAI, Siri = Apple."
+        }
+      ]
+    },
+    {
+      "id": "chatgpt-basics",
+      "title": "ChatGPT - Complete Basics",
+      "icon": "✨",
+      "blocks": [
+        {
+          "type": "keyvalue",
+          "title": "Identity and launch",
+          "rows": [
+            ["ChatGPT", "OpenAI's conversational AI assistant, publicly introduced on 30 November 2022."],
+            ["GPT", "Generative Pre-trained Transformer."],
+            ["Chat", "Describes the conversational interface."]
+          ]
+        },
+        {
+          "type": "bullets",
+          "title": "The technology behind it",
+          "items": [
+            "AI is the broad field; ML learns patterns from data; deep learning uses multilayer neural networks.",
+            "GPT models use the **Transformer** architecture.",
+            "NLP is about processing and generating human language.",
+            "ChatGPT is a generative-AI conversational assistant powered by **large language models (LLMs)**.",
+            "It handles natural human language and is not limited to binary, machine or assembly language.",
+            "In basic exam categories it counts as **Narrow AI**; it should not be called Super AI."
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "OpenAI and Microsoft",
+          "rows": [
+            ["OpenAI", "Announced in December 2015. Founding figures included Sam Altman, Elon Musk, Greg Brockman and Ilya Sutskever, though they were not the complete founding group."],
+            ["Microsoft link", "Major investments in OpenAI in 2019 and 2021, and an expanded multi-billion-dollar partnership announced in January 2023."]
+          ]
+        },
+        {
+          "type": "bullets",
+          "title": "Main uses",
+          "items": [
+            "Answer questions and explain concepts.",
+            "Draft essays and other written content.",
+            "Generate, explain and help debug code.",
+            "Translate languages, rewrite and summarise text.",
+            "Hold conversations and answer follow-up questions."
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "text": "'Image recognition only' is a wrong description of ChatGPT because language tasks are central to it. Exam links: developer OpenAI, broad technology AI, learning method ML/deep learning, language field NLP, main use AI-based conversation."
+        }
+      ]
+    },
+    {
+      "id": "blockchain-history",
+      "title": "Blockchain - Meaning & History",
+      "icon": "⛓️",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "**Blockchain** is a distributed digital ledger whose records are grouped into cryptographically linked blocks. Copies of the ledger are kept across many network computers."
+        },
+        {
+          "type": "keyvalue",
+          "title": "Breaking down the idea",
+          "rows": [
+            ["Ledger", "A record of transactions or events."],
+            ["Distributed", "Copies are kept across network computers called nodes."],
+            ["Blocks", "Groups of records plus related metadata."],
+            ["Chain", "Formed by cryptographic links between successive blocks."]
+          ]
+        },
+        {
+          "type": "timeline",
+          "title": "Historical milestones",
+          "items": [
+            ["1991", "Stuart Haber and W. Scott Stornetta published foundational research on secure digital timestamping."],
+            ["2008", "Satoshi Nakamoto presented the Bitcoin electronic-cash proposal."],
+            ["2009", "The Bitcoin network began operating, bringing blockchain wider recognition."]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "Bitcoin and cryptocurrency",
+          "rows": [
+            ["Satoshi Nakamoto", "The pseudonym used by Bitcoin's creator or creators."],
+            ["Bitcoin", "The first widely adopted decentralised cryptocurrency and the first major modern blockchain application."],
+            ["Cryptocurrency", "A digital asset secured using cryptographic methods."],
+            ["Blockchain", "The record-keeping technology holding the transaction history behind Bitcoin."]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "Historical accuracy",
+          "text": "Bitcoin is an application; blockchain is the record-keeping technology. Do not call Satoshi the sole inventor of all blockchain ideas, since the 1991 research came first. Use 2009 for Bitcoin's network launch, and remember blockchain has uses beyond cryptocurrency."
+        }
+      ]
+    },
+    {
+      "id": "blockchain-working",
+      "title": "Blockchain - Working & Applications",
+      "icon": "🧱",
+      "blocks": [
+        {
+          "type": "bullets",
+          "title": "What a block contains",
+          "items": [
+            "Common fields: transaction data, a timestamp, a cryptographic representation of the data (the hash) and the previous block's hash.",
+            "A **hash** is a calculated digital fingerprint of data.",
+            "Including the previous block's hash creates the cryptographic link, so changes to earlier data can be detected.",
+            "The first block, the **genesis block**, has no preceding block.",
+            "Exact data fields differ between blockchain implementations."
+          ]
+        },
+        {
+          "type": "figure",
+          "kind": "flow",
+          "title": "Blocks chained by hash",
+          "items": [
+            ["Block 1 (genesis)", "Data, timestamp, hash"],
+            ["Block 2", "Stores hash of Block 1"],
+            ["Block 3", "Stores hash of Block 2"],
+            ["Block 4 ...", "Chain keeps growing"]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "Key features",
+          "rows": [
+            ["Cryptography", "Hashes and digital signatures protect record integrity."],
+            ["Consensus", "Participants follow rules to agree on which records are accepted."],
+            ["Tamper resistance", "Changing accepted history is difficult."],
+            ["Traceability", "Records can provide an audit trail."],
+            ["Transparency", "Authorised participants can inspect the relevant records."]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "text": "Immutability means strong resistance to alteration under normal operation, not an absolute guarantee against every possible change. Blockchain is not automatically attack-proof."
+        },
+        {
+          "type": "table",
+          "title": "Applications",
+          "headers": ["Area", "Use"],
+          "rows": [
+            ["Banking and finance", "Transfers, settlement records and digital assets"],
+            ["Supply chains", "Tracking goods and their history"],
+            ["Healthcare", "Verifiable records and controlled data sharing"],
+            ["Voting", "Experimental or specially designed ballot-recording systems"]
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Network types",
+          "headers": ["Type", "Meaning"],
+          "rows": [
+            ["Public", "Participation is broadly open under the network rules"],
+            ["Private", "An organisation restricts access and participation"],
+            ["Hybrid", "Combines selected public and private features"]
+          ]
+        },
+        {
+          "type": "bullets",
+          "title": "Exam facts",
+          "items": [
+            "A decentralised public network has no single central ledger authority, while private systems may have central governance.",
+            "Blocks are linked by hash values and security relies on cryptography.",
+            "Bitcoin is closely related to blockchain.",
+            "Centralised control is not a defining feature of a decentralised blockchain.",
+            "Success of any application depends on the design of the complete system."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "iot-origins",
+      "title": "Internet of Things - Origins",
+      "icon": "📡",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "**IoT (Internet of Things)** means physical objects that use sensors, electronics, software or actuators plus network connections to exchange information. It supports remote monitoring, automation and control. Devices may connect through a gateway instead of directly to the public internet."
+        },
+        {
+          "type": "keyvalue",
+          "title": "Kevin Ashton and RFID",
+          "rows": [
+            ["Kevin Ashton", "Widely credited with introducing the phrase 'Internet of Things' in 1999, in a Procter & Gamble presentation about linking RFID-based supply-chain identification with internet-connected information systems."],
+            ["RFID", "Radio Frequency Identification (the R is Radio); identifies tagged objects using radio communication."],
+            ["Why it mattered", "It helped computers get information about physical objects with less manual data entry."],
+            ["Tag and internet", "An RFID tag does not automatically have its own internet connection; readers and connected systems provide the link."]
+          ]
+        },
+        {
+          "type": "timeline",
+          "title": "Growth of IoT",
+          "items": [
+            ["1982", "Carnegie Mellon students connected a Coca-Cola vending machine to ARPANET to check stock and whether bottles were cold; widely cited as an early IoT device."],
+            ["1990", "John Romkey and Simon Hackett demonstrated an internet-controlled toaster at Interop."],
+            ["1999", "Kevin Ashton introduced the term Internet of Things."],
+            ["2000s", "Growth in RFID and M2M (Machine-to-Machine) communication."],
+            ["2010s", "Wider use in smart homes, wearables and connected vehicles."],
+            ["Later", "Integration with cloud computing, edge AI and smart cities."]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "text": "The vending machine (1982) came before the toaster (1990). Also, 2016 is not a universal starting year for these technologies."
+        }
+      ]
+    },
+    {
+      "id": "iot-applications-security",
+      "title": "IoT - Applications & Security",
+      "icon": "🏠",
+      "blocks": [
+        {
+          "type": "figure",
+          "kind": "cycle",
+          "title": "How connected objects help",
+          "items": [
+            ["Sensors collect", "Information about the physical world"],
+            ["Network shares", "Information is exchanged"],
+            ["Software analyses", "Readings are studied; can trigger an action"],
+            ["Actuators act", "Physical action, such as a valve or switch"]
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Applications",
+          "headers": ["Area", "Examples and notes"],
+          "rows": [
+            ["Smart homes", "Lights and air conditioners monitored or controlled remotely; Alexa-enabled devices give voice-based interaction with home equipment"],
+            ["Healthcare", "Wearable sensors collect health readings; remote monitoring sends measurements to a monitoring system (fitness trackers, connected health monitors)"],
+            ["Connected vehicles", "Remote tracking, diagnostics and connected functions within automated vehicles"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "text": "GPS gives location, and a standalone GPS receiver is not automatically an IoT system. A self-driving vehicle is not automatically IoT just because it is automated: connectivity and data exchange matter."
+        },
+        {
+          "type": "keyvalue",
+          "title": "Security protocols",
+          "rows": [
+            ["TLS", "Transport Layer Security: protects communication against interception, tampering and message forgery."],
+            ["DTLS", "Datagram Transport Layer Security: TLS-style protection for datagram communication, commonly over UDP."],
+            ["IPsec", "Internet Protocol Security: security services at the IP network layer."]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "5G and IoT",
+          "rows": [
+            ["5G", "Fifth-generation mobile communication technology."],
+            ["Difference", "5G is a connectivity technology; IoT is the broader concept of connected physical objects."]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "remember",
+          "text": "TLS, DTLS and IPsec are general network-security techniques that can be used in IoT; they are not exclusive to IoT."
+        }
+      ]
+    },
+    {
+      "id": "iiot-mqtt-ble",
+      "title": "IIoT, MQTT & Bluetooth Low Energy",
+      "icon": "🏭",
+      "blocks": [
+        {
+          "type": "keyvalue",
+          "title": "Key terms",
+          "rows": [
+            ["IIoT", "Industrial Internet of Things: connected sensors, machines and software applied to industrial operations to monitor equipment, improve processes and support automation."],
+            ["M2M", "Machine-to-Machine communication."],
+            ["MQTT", "A lightweight protocol for M2M and IoT messaging, designed for constrained devices and low-bandwidth, high-latency or unreliable networks."],
+            ["BLE", "Bluetooth Low Energy: wireless communication designed for very low power use, ideal for battery-operated devices."]
+          ]
+        },
+        {
+          "type": "figure",
+          "kind": "flow",
+          "title": "MQTT publish-subscribe model",
+          "items": [
+            ["Publisher (sensor)", "Sends messages on a topic"],
+            ["Broker", "Receives and forwards messages"],
+            ["Subscribers", "Receive messages for topics they follow"]
+          ]
+        },
+        {
+          "type": "bullets",
+          "items": [
+            "IIoT examples: connected factory machines, equipment-monitoring sensors and industrial asset tracking.",
+            "MQTT example: a sensor publishes temperature readings and a monitoring application receives them.",
+            "BLE examples: fitness trackers, health monitors and wireless sensors; low energy use extends the time between battery changes or charges."
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "MQTT name",
+          "text": "Exams commonly expand MQTT as Message Queuing Telemetry Transport. Historically it was MQ Telemetry Transport, and the current standard simply uses MQTT as the protocol name with no official expansion."
+        },
+        {
+          "type": "table",
+          "title": "Compare the terms",
+          "headers": ["Term", "Meaning"],
+          "rows": [
+            ["IoT", "Broad concept of connected physical objects"],
+            ["IIoT", "IoT applied to industry"],
+            ["MQTT", "Application messaging between connected systems"],
+            ["BLE", "A low-power wireless communication technology"]
+          ]
+        }
+      ]
+    }
+  ],
+  "revision": [
+    "AI is the broad field; ML learns from data; deep learning uses multilayer neural networks; NLP handles human language.",
+    "John McCarthy is the Father of AI; the Dartmouth proposal was in 1955 and the workshop in 1956.",
+    "Logic Theorist (1956): Newell, Simon and Shaw; one of the earliest AI programs. LISP: McCarthy, 1958; ELIZA: Weizenbaum, 1966.",
+    "Siri (Apple, 2011), Watson (IBM, Jeopardy! 2011), Sophia (Hanson Robotics; Saudi citizenship 2017).",
+    "ChatGPT: OpenAI, 30 November 2022; GPT = Generative Pre-trained Transformer; it is Narrow AI built on LLMs.",
+    "Claude: Anthropic (March 2023). Grok: xAI (November 2023). Gemini: Google (Bard renamed in February 2024).",
+    "Alexa: Amazon, Echo 2014. Cortana: Microsoft, 2014. Meta AI: Meta, September 2023. DeepSeek: China, founded 2023.",
+    "OpenAI was announced in December 2015; Microsoft's expanded partnership came in January 2023.",
+    "Blockchain is a distributed ledger of cryptographically linked blocks; blocks store the previous block's hash.",
+    "Blockchain timeline: 1991 Haber and Stornetta timestamping, 2008 Bitcoin proposal by Satoshi Nakamoto, 2009 network launch.",
+    "Blockchain features: cryptography, consensus, tamper resistance, traceability, transparency; networks are public, private or hybrid.",
+    "Kevin Ashton introduced the term Internet of Things in 1999; RFID = Radio Frequency Identification.",
+    "IoT milestones: CMU Coke machine 1982, internet toaster 1990 (Romkey and Hackett).",
+    "TLS, DTLS and IPsec are general network-security techniques; DTLS commonly runs over UDP.",
+    "IIoT is industrial IoT; MQTT is a lightweight publish-subscribe messaging protocol; BLE is Bluetooth Low Energy."
+  ],
+  "mindmap": {
+    "center": "Latest Technology",
+    "branches": [
+      { "label": "AI basics", "children": ["AI > ML > Deep learning", "NLP", "McCarthy: Father of AI", "Dartmouth 1956"] },
+      { "label": "AI landmarks", "children": ["LISP 1958", "ELIZA 1966", "Siri 2011", "Watson 2011", "Sophia 2017"] },
+      { "label": "Chatbots", "children": ["ChatGPT: OpenAI", "Claude: Anthropic", "Gemini: Google", "Grok: xAI", "Copilot: Microsoft"] },
+      { "label": "ChatGPT", "children": ["Launched 30 Nov 2022", "Generative Pre-trained Transformer", "LLM based", "Narrow AI"] },
+      { "label": "Blockchain", "children": ["Distributed ledger", "Hash-linked blocks", "Bitcoin 2009", "Public / private / hybrid"] },
+      { "label": "IoT origins", "children": ["Kevin Ashton 1999", "RFID", "CMU Coke machine 1982", "Internet toaster 1990"] },
+      { "label": "IoT use and security", "children": ["Smart homes", "Healthcare wearables", "Connected vehicles", "TLS / DTLS / IPsec"] },
+      { "label": "IIoT, MQTT, BLE", "children": ["IIoT: industry", "MQTT: pub-sub", "M2M", "BLE: low power"] }
+    ]
+  }
+}

@@ -1,0 +1,547 @@
+{
+  "id": "linux",
+  "sections": [
+    {
+      "id": "linux-origin",
+      "title": "Origin and open source",
+      "icon": "🐧",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "**Linux** is a family of **open-source, Unix-like** operating systems built around the **Linux kernel**. It follows Unix design principles but was developed independently. Linux is classed as **open-source system software**."
+        },
+        {
+          "type": "keyvalue",
+          "title": "Key facts",
+          "rows": [
+            ["Creator", "**Linus Torvalds**"],
+            ["First kernel release", "Version **0.01**, on **17 September 1991**"],
+            ["Mascot", "**Tux**, the penguin"],
+            ["Licence", "The Linux kernel uses the **GNU GPL version 2** licence"],
+            ["Design heritage", "Unix-like concepts, but developed independently"]
+          ]
+        },
+        {
+          "type": "bullets",
+          "title": "What open source means here",
+          "items": [
+            "Source code may be studied, modified and redistributed under its licence.",
+            "Many distributions are free to obtain, but paid support and services also exist.",
+            "A **distribution** packages the kernel with utilities, applications and installation tools."
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "text": "'Linux distribution' is a **category** of products, not Linux's original name. A distribution contains more than the kernel alone."
+        }
+      ]
+    },
+    {
+      "id": "linux-features",
+      "title": "Features, interfaces and security",
+      "icon": "⭐",
+      "blocks": [
+        {
+          "type": "keyvalue",
+          "title": "Key features",
+          "rows": [
+            ["Multi-user", "Separate accounts can use system resources"],
+            ["Multitasking", "Several programs can run concurrently"],
+            ["Customisable", "Choose your software, desktops and system settings"],
+            ["Lightweight options", "Suitable for limited hardware"],
+            ["Reputation", "Valued for stability, security controls and flexibility"]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "Interfaces and languages",
+          "rows": [
+            ["CLI", "**Command-Line Interface**"],
+            ["GUI", "**Graphical User Interface**"],
+            ["Kernel code", "Mainly **C**, plus assembly and support for Rust"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "Security fact check",
+          "text": "Linux **can be affected by malware** - it is not virus-proof. End-to-end encryption belongs to specific apps and protocols, not to all Linux activity."
+        },
+        {
+          "type": "callout",
+          "kind": "tip",
+          "title": "Memory trick",
+          "text": "Torvalds - 1991 - Unix-like - Open source - Multi-user - Multitasking."
+        }
+      ]
+    },
+    {
+      "id": "linux-distributions",
+      "title": "Popular distributions",
+      "icon": "📦",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "A **Linux distribution** (distro) combines the kernel, utilities, package management and other software into a ready-to-install system."
+        },
+        {
+          "type": "table",
+          "title": "Distribution and what it is known for",
+          "headers": ["Distribution", "Known for"],
+          "rows": [
+            ["Debian", "Stability and reliability, especially Debian Stable"],
+            ["Ubuntu", "Debian-based; developed by **Canonical** with community contributions"],
+            ["Linux Mint", "Beginner-friendly desktop experience"],
+            ["RHEL", "**Red Hat Enterprise Linux** - designed for business and enterprise workloads and servers"],
+            ["Fedora", "Community Linux project **sponsored by Red Hat**"],
+            ["CentOS", "Distinguish historical CentOS Linux from CentOS Stream"],
+            ["Arch Linux", "Highly customisable, with rolling releases"],
+            ["Gentoo", "Flexible system with strong source-based customisation"],
+            ["openSUSE", "Community distribution for desktop and server use"],
+            ["SUSE", "Originated in **Germany**"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "tip",
+          "title": "High-value pairs",
+          "text": "Ubuntu = Debian-based = Canonical. Fedora = Red Hat. RHEL = enterprise. SUSE = Germany. Debian = stability. Kali = security testing."
+        }
+      ]
+    },
+    {
+      "id": "kali-desktops-gnu",
+      "title": "Kali Linux, other names, GNOME and GNU",
+      "icon": "🐉",
+      "blocks": [
+        {
+          "type": "keyvalue",
+          "title": "Kali Linux",
+          "rows": [
+            ["Purpose", "Built for authorised **penetration testing**, security auditing and digital forensics"],
+            ["Key original developers", "**Mati Aharoni** and **Devon Kearns**"],
+            ["Users", "Security professionals and researchers"]
+          ]
+        },
+        {
+          "type": "bullets",
+          "title": "Other names that appear in exams",
+          "items": [
+            "Slackware, KNOPPIX, Mandriva, MEPIS and Xandros.",
+            "Some of these are historical distributions.",
+            "Novell was a company associated with SUSE."
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "Desktop and GNU",
+          "rows": [
+            ["GNOME", "One desktop environment; originally meant 'GNU Network Object Model Environment'"],
+            ["KDE Plasma", "An alternative Linux desktop environment"],
+            ["GNU", "'GNU's Not Unix'"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "text": "GNOME is **one** desktop option, not the only Linux GUI. Linux also offers alternatives such as KDE Plasma."
+        }
+      ]
+    },
+    {
+      "id": "linux-kernel-shell",
+      "title": "Kernel and shell",
+      "icon": "🧠",
+      "blocks": [
+        {
+          "type": "keyvalue",
+          "title": "Core terms",
+          "rows": [
+            ["Kernel", "Central component managing CPU time, memory, processes and devices"],
+            ["Device drivers", "Let the kernel communicate with hardware"],
+            ["System calls", "How applications request kernel services"],
+            ["Shell", "Interprets commands and runs programs or scripts"],
+            ["Terminal", "Text interface through which a shell is commonly used"],
+            ["Console", "System text input/output interface"],
+            ["Prompt", "Shows that the shell is ready for input"]
+          ]
+        },
+        {
+          "type": "figure",
+          "kind": "layers",
+          "title": "How a command reaches the hardware",
+          "items": [
+            ["User / applications", "Types commands, runs programs"],
+            ["Shell", "Interprets the commands"],
+            ["Kernel (+ drivers)", "Manages CPU, memory, processes, devices"],
+            ["Hardware", "Physical machine"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "remember",
+          "text": "A **kernel** is the central resource manager - it is not a shell or a text editor. Kernel manages resources, shell interprets commands."
+        }
+      ]
+    },
+    {
+      "id": "linux-kernel-architecture",
+      "title": "Kernel architecture types",
+      "icon": "🧩",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "Linux uses a **monolithic kernel with loadable modules**. The designs below are general kernel concepts - they are **not five types of Linux kernel**."
+        },
+        {
+          "type": "table",
+          "title": "Kernel design concepts",
+          "headers": ["Design", "Idea"],
+          "rows": [
+            ["Monolithic", "Most core services run in kernel space (Linux's approach)"],
+            ["Microkernel", "Only essential services remain in kernel space"],
+            ["Hybrid", "Combines architectural approaches"],
+            ["Nanokernel", "An extremely small low-level layer"],
+            ["Exokernel", "Gives applications more control of the allocated resources"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "text": "Linux is **monolithic** (with loadable modules). Do not choose microkernel, hybrid, nanokernel or exokernel for Linux."
+        }
+      ]
+    },
+    {
+      "id": "linux-directory-access",
+      "title": "Directory tree and access control",
+      "icon": "🌲",
+      "blocks": [
+        {
+          "type": "table",
+          "title": "Important locations",
+          "headers": ["Path", "Meaning"],
+          "rows": [
+            ["/", "Root of the directory hierarchy"],
+            ["/home/username", "Typical home of an ordinary user"],
+            ["/root", "Usual home of the root account"],
+            ["/dev", "Device files and interfaces"],
+            ["/etc", "System-wide configuration"]
+          ]
+        },
+        {
+          "type": "bullets",
+          "title": "File-name rules",
+          "items": [
+            "Names beginning with a dot, such as .profile, are normally hidden.",
+            "Names are generally case-sensitive.",
+            "Many resources have file-like interfaces - the Unix 'everything is a file' principle."
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "Access control",
+          "rows": [
+            ["Root", "Traditional **superuser** with extensive administrative privileges"],
+            ["Permissions", "Read (r), write (w) and execute (x)"],
+            ["Applied to", "Owner, group and others separately"],
+            ["chmod", "Changes permissions"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "text": "The **root user** (administrative account) and the **root directory** (/) are different concepts."
+        }
+      ]
+    },
+    {
+      "id": "linux-file-commands",
+      "title": "Essential file commands",
+      "icon": "⌨️",
+      "blocks": [
+        {
+          "type": "table",
+          "title": "Navigation",
+          "headers": ["Command", "What it does"],
+          "rows": [
+            ["pwd", "Prints the current working directory's path"],
+            ["cd", "Changes the current working directory"],
+            ["cd ..", "Moves to the parent directory"],
+            ["ls", "Lists directory contents"],
+            ["ls -a", "Includes hidden entries"]
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Directories and files",
+          "headers": ["Command", "What it does"],
+          "rows": [
+            ["mkdir notes", "Creates a directory named notes"],
+            ["rm draft.txt", "Removes a file"],
+            ["rm -r folder", "Removes a directory recursively"],
+            ["cp source.txt copy.txt", "Copies a file"],
+            ["cp -r source destination", "Copies a directory recursively"],
+            ["mv old.txt new.txt", "Renames a file"],
+            ["mv file.txt notes/", "Moves a file into the notes directory"],
+            ["touch new.txt", "Creates an empty file if it does not exist; also updates timestamps of an existing file"]
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Text, help and permissions",
+          "headers": ["Command", "What it does"],
+          "rows": [
+            ["cat notes.txt", "Displays file contents; cat also concatenates files"],
+            ["grep \"Linux\" notes.txt", "Finds lines matching the pattern"],
+            ["man cp", "Opens the available manual page for cp"],
+            ["chmod u+x script.sh", "Adds execute permission for the owner"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "text": "**touch** does not only create files - it can also **update timestamps** of an existing file."
+        }
+      ]
+    },
+    {
+      "id": "linux-redirection-memory-aids",
+      "title": "Output redirection and command memory aids",
+      "icon": "📝",
+      "blocks": [
+        {
+          "type": "table",
+          "title": "Output redirection",
+          "headers": ["Command", "Effect"],
+          "rows": [
+            ["ls > files.txt", "Writes the output to files.txt, **replacing** existing contents"],
+            ["date >> log.txt", "**Appends** the output to log.txt"]
+          ]
+        },
+        {
+          "type": "text",
+          "text": "Both operators can create the target file if it does not already exist. Remember: **>** overwrites, **>>** appends."
+        },
+        {
+          "type": "table",
+          "title": "Where am I? Command memory aid",
+          "headers": ["Question", "Command"],
+          "rows": [
+            ["Where am I?", "pwd"],
+            ["What is here?", "ls"],
+            ["Go elsewhere", "cd"],
+            ["Make a folder", "mkdir"],
+            ["Copy", "cp"],
+            ["Move or rename", "mv"],
+            ["Remove", "rm"],
+            ["Manual / help", "man"]
+          ]
+        },
+        {
+          "type": "steps",
+          "title": "Mini practice",
+          "items": [
+            "pwd - shows the starting location.",
+            "mkdir linux_notes - creates a directory.",
+            "cd linux_notes - enters the directory.",
+            "touch revision.txt - creates an empty file.",
+            "ls - lists its contents."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "linux-processes-memory",
+      "title": "Processes, memory and storage",
+      "icon": "📊",
+      "blocks": [
+        {
+          "type": "table",
+          "title": "Process commands",
+          "headers": ["Command", "What it does"],
+          "rows": [
+            ["ps", "Snapshot of selected processes"],
+            ["ps -ef", "Lists processes across the system"],
+            ["top", "Continuously updating view of processes and resources"],
+            ["kill", "Sends a signal to a process; by default requests termination"]
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Disk space and memory",
+          "headers": ["Command", "What it does"],
+          "rows": [
+            ["df", "Reports file-system disk space"],
+            ["df -h", "Human-readable disk figures"],
+            ["free", "Reports memory and swap usage"],
+            ["free -h", "Human-readable memory figures"]
+          ]
+        },
+        {
+          "type": "bullets",
+          "title": "Virtual memory and swap",
+          "items": [
+            "Linux supports **virtual memory** and per-process virtual address spaces.",
+            "**Swap** stores memory pages moved out of RAM.",
+            "Disk-backed swap may use a file or a partition and is **slower than RAM**.",
+            "Compressed RAM-based swap also exists."
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "text": "**ps** gives a snapshot, while **top** updates its display continuously. **kill** sends signals; it does not always forcibly terminate. Swap is not equal in speed to physical RAM."
+        }
+      ]
+    },
+    {
+      "id": "linux-boot-filesystems",
+      "title": "Booting and file systems",
+      "icon": "💾",
+      "blocks": [
+        {
+          "type": "keyvalue",
+          "title": "Booting",
+          "rows": [
+            ["Bootloader", "Loads the kernel during startup"],
+            ["GRUB", "**GRand Unified Bootloader** - widely used, but Linux supports other bootloaders"]
+          ]
+        },
+        {
+          "type": "table",
+          "title": "File systems",
+          "headers": ["File system", "Notes"],
+          "rows": [
+            ["ext4", "**Fourth Extended File System** - widely used on Linux"],
+            ["XFS", "Scalable journaling file system; use the name XFS rather than a misleading expansion"],
+            ["Btrfs", "Copy-on-write file system with snapshots and checksums; often called B-tree FS or Butter FS"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "text": "ext4 is common, but **no file system is the default for all Linux installations** - defaults vary by distribution. GRUB is common, not the only bootloader."
+        }
+      ]
+    },
+    {
+      "id": "linux-shutdown",
+      "title": "Shutdown commands (corrected fact)",
+      "icon": "⏻",
+      "blocks": [
+        {
+          "type": "table",
+          "headers": ["Command", "What it does"],
+          "rows": [
+            ["shutdown", "Schedules or starts an **orderly** shutdown - the general shutdown command"],
+            ["poweroff", "Requests shutdown and power-off"],
+            ["halt", "Halts the system; power-off depends on implementation and options"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "Corrected exam answer",
+          "text": "**stop** is not a standard general shutdown command. So a question listing shutdown, halt, poweroff and 'stop' cannot have 'all of these' as the answer - the general shutdown command is **shutdown**."
+        },
+        {
+          "type": "callout",
+          "kind": "tip",
+          "text": "Remember the trio: **shutdown** (orderly), **poweroff** (shut down and power off), **halt** (stop the system)."
+        }
+      ]
+    },
+    {
+      "id": "linux-final-facts",
+      "title": "Quick facts and final distinctions",
+      "icon": "✅",
+      "blocks": [
+        {
+          "type": "table",
+          "title": "One-line fact bank",
+          "headers": ["Question", "Answer"],
+          "rows": [
+            ["Linux kernel creator", "Linus Torvalds"],
+            ["First release year", "1991"],
+            ["Software category", "Open-source system software"],
+            ["Root directory symbol", "/"],
+            ["Widely used Linux file system", "ext4"],
+            ["Traditional superuser", "root"],
+            ["Company behind Ubuntu", "Canonical"],
+            ["Distribution known for stability", "Debian"],
+            ["Distribution for authorised security testing", "Kali Linux"],
+            ["Fedora's sponsor", "Red Hat"],
+            ["SUSE's country of origin", "Germany"],
+            ["Component managing hardware access", "Kernel and its drivers"]
+          ]
+        },
+        {
+          "type": "bullets",
+          "title": "Important distinctions",
+          "items": [
+            "A kernel is the central resource manager, not a shell or a text editor.",
+            "Linux is not immune to malware.",
+            "The root account is not the root directory.",
+            "GNOME is one desktop option, not the only Linux GUI."
+          ]
+        }
+      ]
+    }
+  ],
+  "revision": [
+    "Linux kernel creator: Linus Torvalds; first kernel release 0.01 on 17 September 1991; mascot Tux the penguin.",
+    "Linux is open-source, Unix-like system software; the kernel uses the GNU GPL version 2 licence.",
+    "A distribution = kernel plus utilities, applications and package management.",
+    "Ubuntu = Debian-based, by Canonical; Fedora = sponsored by Red Hat; RHEL = enterprise; SUSE = Germany.",
+    "Debian is known for stability; Kali Linux is for authorised penetration testing (Mati Aharoni, Devon Kearns).",
+    "Kernel manages CPU, memory, processes and devices; shell interprets commands; Linux has a monolithic kernel.",
+    "Root directory = /; root user = superuser; they are different. /home is for users, /dev for devices, /etc for configuration.",
+    "Permissions r, w, x for owner, group and others; chmod changes them.",
+    "pwd = current path, cd = change directory, ls = list, mkdir = create directory, cp = copy, mv = move or rename, rm = remove.",
+    "man opens manual pages; cat displays or joins files; grep searches text; touch creates a file or updates timestamps.",
+    "> overwrites a file with output; >> appends output to it.",
+    "ps = process snapshot, top = live view, kill = sends a signal, df = disk space, free = memory and swap.",
+    "Swap is slower than RAM; GRUB = GRand Unified Bootloader; ext4 is common but no universal default file system.",
+    "General shutdown command is shutdown; 'stop' is not a standard shutdown command.",
+    "GNU = GNU's Not Unix; GNOME is only one desktop environment; Linux can be hit by malware."
+  ],
+  "mindmap": {
+    "center": "Linux",
+    "branches": [
+      {
+        "label": "Origin and licence",
+        "children": ["Linus Torvalds", "Version 0.01, 1991", "Tux the penguin", "GNU GPL v2", "Open source"]
+      },
+      {
+        "label": "Features",
+        "children": ["Multi-user", "Multitasking", "Customisable", "CLI and GUI"]
+      },
+      {
+        "label": "Distributions",
+        "children": ["Debian - stability", "Ubuntu - Canonical", "Fedora - Red Hat", "RHEL - enterprise", "Kali - security testing", "SUSE - Germany"]
+      },
+      {
+        "label": "Kernel and shell",
+        "children": ["Kernel manages resources", "Device drivers", "System calls", "Shell, terminal, prompt", "Monolithic with modules"]
+      },
+      {
+        "label": "Files and access",
+        "children": ["Root directory /", "/home, /root, /dev, /etc", "Root superuser", "r, w, x and chmod"]
+      },
+      {
+        "label": "File commands",
+        "children": ["pwd, cd, ls", "mkdir, rm, cp, mv", "cat, grep, man, touch", "> and >> redirection"]
+      },
+      {
+        "label": "Processes and memory",
+        "children": ["ps and top", "kill signals", "df and free", "Swap is slower than RAM"]
+      },
+      {
+        "label": "Boot and file systems",
+        "children": ["GRUB bootloader", "ext4, XFS, Btrfs", "shutdown, poweroff, halt", "No universal default FS"]
+      }
+    ]
+  }
+}

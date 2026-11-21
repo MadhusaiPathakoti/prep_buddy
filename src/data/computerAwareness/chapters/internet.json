@@ -1,0 +1,667 @@
+{
+  "id": "internet",
+  "sections": [
+    {
+      "id": "internet-foundations",
+      "title": "Internet Foundations",
+      "icon": "🌍",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "The **Internet** is a worldwide network of **interconnected networks**. It carries web pages, email, files, calls and many other services. The basic rules computers follow to talk to each other come from **TCP/IP**."
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "Not an acronym",
+          "text": "'Internet' is not a short form of anything. The phrase 'interconnected networks' only describes its meaning."
+        },
+        {
+          "type": "keyvalue",
+          "title": "Origins",
+          "rows": [
+            ["ARPA", "Advanced Research Projects Agency"],
+            ["ARPANET", "Advanced Research Projects Agency Network; operational in 1969 and a major precursor of today's Internet"],
+            ["TCP/IP milestone", "On 1 January 1983 ARPANET adopted TCP/IP, often called the birth of the modern Internet"]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "People to remember",
+          "rows": [
+            ["Vint Cerf and Bob Kahn", "Co-designed TCP/IP; widely called the Fathers of the Internet"],
+            ["Radia Perlman", "Developed the Spanning Tree Protocol (STP), which prevents loops in Ethernet networks; popularly called the Mother of the Internet"]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "India and early access",
+          "rows": [
+            ["ISP", "Internet Service Provider"],
+            ["VSNL", "Videsh Sanchar Nigam Limited"],
+            ["Public Internet in India", "Formally launched on 15 August 1995; pre-launch service began on 14 August"],
+            ["Telenet", "Pioneered commercial public packet-data service; calling it the first modern ISP is a simplification"],
+            ["BJP", "The usual exam answer for India's first political party with a website; reported launch years vary"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "remember",
+          "text": "ARPA to ARPANET (1969), TCP/IP milestone (1983), public Internet service in India (1995)."
+        }
+      ]
+    },
+    {
+      "id": "world-wide-web",
+      "title": "The World Wide Web",
+      "icon": "🕸️",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "**WWW** means World Wide Web, also called the **Web** or **W3**. It is a system of linked pages and resources accessed through the Internet. The Internet is the network infrastructure; the Web is just **one service** that runs on it."
+        },
+        {
+          "type": "timeline",
+          "title": "Birth of the Web",
+          "items": [
+            ["1989", "Tim Berners-Lee proposed the Web while working at CERN"],
+            ["1990", "First browser, server and website working (by end of 1990), hosted on his NeXT computer"],
+            ["6 August 1991", "Public announcement of the Web project on the Internet"],
+            ["1994", "Tim Berners-Lee founded the W3C"]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "Key terms",
+          "rows": [
+            ["CERN", "Its English name is European Organization for Nuclear Research; the acronym comes from its historical French name"],
+            ["W3C", "World Wide Web Consortium; develops open web standards"],
+            ["First website", "Created by Tim Berners-Lee at CERN to explain the WWW project"],
+            ["First website address", "info.cern.ch"],
+            ["First page", "http://info.cern.ch/hypertext/WWW/TheProject.html"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "text": "Do not mix up the 1989 proposal, the 1990 working system and the 1991 public announcement. Also, CERN is the institution while info.cern.ch is the website address."
+        }
+      ]
+    },
+    {
+      "id": "web-pages-technologies",
+      "title": "Web Pages and Web Technologies",
+      "icon": "📄",
+      "blocks": [
+        {
+          "type": "keyvalue",
+          "title": "Pages, sites and links",
+          "rows": [
+            ["Web page", "A document displayed by a browser"],
+            ["Website", "A collection of related pages and resources"],
+            ["Homepage", "A site's main entry page"],
+            ["Hyperlink", "Clickable text, image, icon or button leading to another resource or a place within the same page"]
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Building a web page",
+          "headers": ["Technology", "Full form", "Job"],
+          "rows": [
+            ["HTML", "Hyper Text Markup Language", "Structure and content"],
+            ["CSS", "Cascading Style Sheets", "Appearance and layout"],
+            ["JavaScript", "Not an acronym", "Interactive behaviour, including form checks"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "text": "HTML is a **markup language**, not a programming language."
+        },
+        {
+          "type": "keyvalue",
+          "title": "HTTP and old web programs",
+          "rows": [
+            ["HTTP", "Hypertext Transfer Protocol; exchanges web requests and responses"],
+            ["HTTPS", "Protects HTTP communication using TLS"],
+            ["Java applets", "Small Java programs embedded in web pages"],
+            ["Flash", "Supported animation and multimedia; not a generic name for every small web program. Adobe ended general Flash Player support on 31 December 2020"]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "BOM and DOM",
+          "rows": [
+            ["BOM", "Browser Object Model: the browser-window facilities, with window as the main global object"],
+            ["window.location", "Handles the URL"],
+            ["window.history", "Handles navigation"],
+            ["window.navigator", "Exposes browser and environment information"],
+            ["window.screen", "Describes the display"],
+            ["window.frames", "Refers to child frames"],
+            ["DOM", "Document Object Model: the page's structure and elements, reached through window.document"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "tip",
+          "text": "HTML = structure, CSS = style, JavaScript = behaviour, HTTP = communication, hyperlink = navigation."
+        }
+      ]
+    },
+    {
+      "id": "early-browsers",
+      "title": "Early Web Browsers",
+      "icon": "🧭",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "A **browser** is a client application that requests web resources and displays pages. A **search engine** is a different thing: a service for finding information. Browsers open websites directly from URLs, while some Internet services can also work through other apps."
+        },
+        {
+          "type": "keyvalue",
+          "title": "The first browser",
+          "rows": [
+            ["Name", "WorldWideWeb"],
+            ["Creator", "Tim Berners-Lee"],
+            ["Year", "1990"],
+            ["Platform", "NeXT computer"],
+            ["Special feature", "Combined browsing with page editing; later renamed Nexus to avoid confusion with the Web itself"]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "Mosaic and Lynx",
+          "rows": [
+            ["NCSA Mosaic (1993)", "Developed by Marc Andreessen, Eric Bina and their team at the University of Illinois; made graphical browsing widely popular"],
+            ["Mosaic fact", "Earlier graphical browsers existed, so Mosaic was not the first graphical browser"],
+            ["Lynx (1992)", "A well-known text-based browser"]
+          ]
+        },
+        {
+          "type": "timeline",
+          "title": "Netscape to Firefox",
+          "items": [
+            ["1994", "Netscape Navigator by Netscape Communications"],
+            ["1998", "Open-source Mozilla project began (Mozilla was an internal Netscape name)"],
+            ["1999", "AOL acquired Netscape"],
+            ["2002", "Mozilla 1.0 and Phoenix appeared"],
+            ["2004", "Firefox 1.0 arrived (Phoenix later became Firefox)"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "text": "AOL acquired Netscape in 1999 but did not originally create Navigator. Also, Firefox is another name for the red panda, but the browser logo shows a fox."
+        }
+      ]
+    },
+    {
+      "id": "browser-directory",
+      "title": "Browser Directory and Dates",
+      "icon": "📅",
+      "blocks": [
+        {
+          "type": "table",
+          "title": "Major browsers",
+          "headers": ["Browser", "Company", "Year and notes"],
+          "rows": [
+            ["Opera", "Opera Software", "Early version 1995, public release 1996"],
+            ["Internet Explorer", "Microsoft", "1995; final major version was IE 11"],
+            ["Safari", "Apple", "2003"],
+            ["Chrome", "Google", "2008"],
+            ["Chromium", "Open-source project started by Google", "2008; Chrome and Chromium are distinct"],
+            ["Yandex Browser", "Yandex", "2012 (the Yandex search engine began in 1997)"],
+            ["Baidu Browser", "Baidu, China", "2011"],
+            ["Epic", "Hidden Reflex, an Indian-origin company", "Original browser 2010; Chromium-based privacy version 2013"],
+            ["UC Browser", "UCWeb", "Launched in 2004; 'Universal Control' is not a verified standard expansion"]
+          ]
+        },
+        {
+          "type": "timeline",
+          "title": "Microsoft Edge and Internet Explorer",
+          "items": [
+            ["29 April 2015", "Edge's name was announced"],
+            ["29 July 2015", "The original Edge shipped with Windows 10"],
+            ["2020", "Some services, such as Teams web, stopped supporting IE 11, but that was not its overall retirement"],
+            ["15 June 2022", "IE 11 desktop support ended on certain Windows 10 editions"]
+          ]
+        },
+        {
+          "type": "timeline",
+          "title": "Tor timeline",
+          "items": [
+            ["2002", "Tor network deployment"],
+            ["2006", "Tor Project nonprofit formed"],
+            ["2008", "Tor Browser development"]
+          ]
+        },
+        {
+          "type": "bullets",
+          "items": [
+            "**Tor** uses onion routing for privacy and can access ordinary websites as well as .onion services.",
+            "Do not treat the organisation's founding year (2006) as the browser's launch year.",
+            "Browser speed depends on the device, the connection and the page."
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "tip",
+          "title": "Quick match",
+          "text": "Safari = Apple, Firefox = Mozilla, Edge = Microsoft, Epic = Hidden Reflex, UC = UCWeb, Chrome = Google."
+        }
+      ]
+    },
+    {
+      "id": "open-source-plugins",
+      "title": "Open Source, Plugins and Shortcuts",
+      "icon": "🧩",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "In **open-source** software, the source code is available for inspection, modification and distribution under its license. Open-source browsers include Firefox, Chromium, Waterfox, Basilisk, Pale Moon, Brave and Dooble."
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "text": "Free-of-charge software is not necessarily open source. 'Open source' is about code access and licence, not price."
+        },
+        {
+          "type": "table",
+          "title": "Plugin versus extension",
+          "headers": ["Term", "Meaning"],
+          "rows": [
+            ["Plugin", "Adds a specialized capability or runtime to another program"],
+            ["Extension", "Adds browser features such as translation, password management or content blocking"]
+          ]
+        },
+        {
+          "type": "bullets",
+          "title": "Historical plugin examples (not routinely supported by today's browsers)",
+          "items": [
+            "Adobe Acrobat/Reader: PDF viewing",
+            "Adobe Flash Player: animation and multimedia",
+            "Java plugin: Java applets",
+            "QuickTime and RealPlayer: audio and video",
+            "Shockwave: interactive multimedia",
+            "Silverlight: rich web applications"
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Chrome shortcuts (Windows and Linux)",
+          "headers": ["Shortcut", "Action"],
+          "rows": [
+            ["Ctrl + T", "Open a new tab"],
+            ["Ctrl + W", "Close the current tab"],
+            ["Ctrl + Shift + N", "Open a new Incognito window"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "Incognito and Tor",
+          "text": "Incognito reduces local session traces; it does not make a person anonymous. Tor Browser routes traffic through relays and helps hide the source IP address, which improves privacy but cannot guarantee perfect anonymity."
+        }
+      ]
+    },
+    {
+      "id": "search-history",
+      "title": "Search History and Pioneers",
+      "icon": "🔎",
+      "blocks": [
+        {
+          "type": "timeline",
+          "title": "Before and during early web search",
+          "items": [
+            ["1990", "Archie, created by Alan Emtage at McGill (early work 1989); indexed FTP file listings, not full web pages"],
+            ["1991", "Gopher, a menu-based information retrieval system and protocol, not a conventional web search engine"],
+            ["1994", "Yahoo began as a web directory by Jerry Yang and David Filo"],
+            ["1994 (Lycos)", "Lycos, by Michael Mauldin at Carnegie Mellon University"],
+            ["1995", "AltaVista, an early major search service"],
+            ["1996 / 1997", "Ask Jeeves company founded in 1996; website launched in 1997; later called Ask.com"]
+          ]
+        },
+        {
+          "type": "timeline",
+          "title": "Late 1990s and the 2000s",
+          "items": [
+            ["1997", "Yandex search, Russia"],
+            ["1998", "Google Inc., by Larry Page and Sergey Brin"],
+            ["1999", "AOL Search relaunch (AOL = America Online; the 1999 date is a relaunch, not the company's founding)"],
+            ["2000", "Baidu, a Chinese search company, founded"],
+            ["2003", "AltaVista acquired by Overture; Yahoo acquired Overture later that year"]
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Who made it?",
+          "headers": ["Search service", "Linked with"],
+          "rows": [
+            ["Archie", "Alan Emtage"],
+            ["Yahoo", "Jerry Yang and David Filo"],
+            ["Lycos", "Michael Mauldin"],
+            ["Google", "Larry Page and Sergey Brin"],
+            ["Yandex", "Russia"],
+            ["Baidu", "China"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "text": "Distinguish a service's launch, a company's incorporation and an acquisition date. They are different events and often fall in different years."
+        }
+      ]
+    },
+    {
+      "id": "search-tools",
+      "title": "Search Tools and How Search Works",
+      "icon": "🧠",
+      "blocks": [
+        {
+          "type": "keyvalue",
+          "title": "Other major services",
+          "rows": [
+            ["YouTube", "Video-sharing and video-search platform; founders Steve Chen, Chad Hurley and Jawed Karim; website registered on 14 February 2005 (not the same event as its later full public launch); later became part of Google"],
+            ["DuckDuckGo", "Founded by Gabriel Weinberg in 2008"],
+            ["Bing", "Microsoft's search service, introduced in 2009 after MSN Search and Live Search"],
+            ["WolframAlpha", "Launched in 2009; a computational knowledge engine that calculates answers from curated data and algorithms rather than just listing links"]
+          ]
+        },
+        {
+          "type": "figure",
+          "kind": "flow",
+          "title": "How a search engine works",
+          "items": [
+            ["Crawl", "Crawler or spider discovers pages and fetches content"],
+            ["Index", "Index or database stores the analysed information"],
+            ["Rank", "Query processing selects and ranks relevant results"],
+            ["Serve", "Search interface takes the query and shows results"]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "Search vocabulary",
+          "rows": [
+            ["SERP", "Search Engine Results Page"],
+            ["SEO", "Search Engine Optimization: improving content and technical accessibility for search"],
+            ["SEM", "Search Engine Marketing: marketing through search platforms, commonly paid search advertising"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "remember",
+          "text": "A browser opens pages; a search engine helps you find them. Crawling finds content, indexing organises it, and serving returns results."
+        }
+      ]
+    },
+    {
+      "id": "web-layers",
+      "title": "Internet, Intranet, Extranet and Layers of the Web",
+      "icon": "🧅",
+      "blocks": [
+        {
+          "type": "table",
+          "title": "Internet, Intranet and Extranet",
+          "headers": ["Network", "Meaning"],
+          "rows": [
+            ["Internet", "Global interconnection of networks"],
+            ["Intranet", "An organisation's private internal network or services"],
+            ["Extranet", "Controlled access to selected organisational resources for authorised outsiders, such as partners and suppliers"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "tip",
+          "text": "Inter = between, Intra = within, Extra = outside."
+        },
+        {
+          "type": "figure",
+          "kind": "layers",
+          "title": "Layers of the web",
+          "items": [
+            ["Surface Web", "Public content ordinary search engines can index"],
+            ["Deep Web", "Content outside ordinary public search indexes"],
+            ["Dark Web", "Part of the Deep Web needing special networks or software"]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "What each layer holds",
+          "rows": [
+            ["Surface Web", "Public news articles, Wikipedia pages, blogs, product pages and public video pages"],
+            ["Deep Web", "Private email, banking dashboards, medical records, internal databases, private Dropbox files, PayPal account details and subscription-protected content"],
+            ["Dark Web", "A specialized part of the Deep Web requiring special networks or software; Tor onion services are an example"]
+          ]
+        },
+        {
+          "type": "bullets",
+          "items": [
+            "A platform can have both public and private areas: a public Netflix introduction page may be indexed while the protected content is not.",
+            "The Dark Web is used for privacy and censorship resistance, but criminal misuse can include fraud, illicit markets and ransomware-related services.",
+            "Cryptocurrency or encryption alone does not define the Dark Web.",
+            "Fixed claims such as '4% Surface and 96% Deep' are not reliable universal measurements."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "url-ip-protocols",
+      "title": "URL, IP and Internet Protocols",
+      "icon": "🔗",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "**URL** means Uniform Resource Locator. In the example **https://www.example.com/notes**, each part has a name. A URL may also include a port, a query or a fragment, so the simple 'protocol plus resource address' idea is only an introduction."
+        },
+        {
+          "type": "table",
+          "title": "Parts of a URL",
+          "headers": ["Part", "Example", "Role"],
+          "rows": [
+            ["Scheme", "https", "How to talk to the resource"],
+            ["Subdomain", "www", "A section of the domain"],
+            ["Domain", "example.com", "The site's name"],
+            ["Top-level domain (TLD)", ".com", "The last part of the domain"],
+            ["Path", "/notes", "The resource on the site"]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "IP address",
+          "rows": [
+            ["IP", "Internet Protocol"],
+            ["IP address", "Identifies a network interface for addressing and packet delivery"],
+            ["Several addresses", "A device can have several addresses, and addresses may change"],
+            ["NAT", "Lets multiple devices share one public address"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "text": "An IP address is not always a permanent identity for one computer."
+        },
+        {
+          "type": "keyvalue",
+          "title": "Protocols to remember",
+          "rows": [
+            ["TCP", "Transmission Control Protocol: reliable, ordered delivery of a byte stream"],
+            ["IP", "Internet Protocol: addressing and packet delivery"],
+            ["HTTP", "Hypertext Transfer Protocol: web requests and responses"],
+            ["FTP", "File Transfer Protocol: file transfer"],
+            ["DNS", "Domain Name System: looks up records such as IP addresses for domain names"],
+            ["DHCP", "Dynamic Host Configuration Protocol: gives clients IP addresses and network settings"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "tip",
+          "text": "DNS = name lookup (like a phone book), DHCP = address and settings configuration."
+        }
+      ]
+    },
+    {
+      "id": "packets-connectivity",
+      "title": "Packets, Hosts and Connectivity",
+      "icon": "📦",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "Internet traffic travels in **packets** over shared network links. Packets can take **different routes**, and IP packets can have **different lengths** (subject to protocol and link limits); they are not universally fixed at 64 bytes."
+        },
+        {
+          "type": "table",
+          "title": "Packet switching versus circuit switching",
+          "headers": ["Method", "How it works"],
+          "rows": [
+            ["Packet switching", "Shares network capacity among many users"],
+            ["Circuit switching", "Reserves a circuit or capacity for the communication"]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "TCP/IP and hosts",
+          "rows": [
+            ["TCP/IP", "A suite of related protocols, not a single protocol"],
+            ["TCP", "Reliable ordered delivery"],
+            ["IP", "Addressing and packet forwarding"],
+            ["Host", "A network-connected endpoint"],
+            ["Client", "Requests a service; a browser is one kind of client"],
+            ["Server", "A program or system that provides a service"],
+            ["ISP", "Supplies Internet connectivity"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "text": "A server runs on a host, but not every host is a server. A browser is one kind of client, but it is not required for every Internet application."
+        },
+        {
+          "type": "table",
+          "title": "Broadband connections",
+          "headers": ["Type", "Medium"],
+          "rows": [
+            ["DSL", "Digital Subscriber Line over copper telephone lines"],
+            ["Cable", "Cable network"],
+            ["Fiber", "Optical fibre"],
+            ["Satellite", "Communication via satellites"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "remember",
+          "text": "Traditional dial-up uses a telephone modem connection and is **not broadband**. Connection performance varies with technology and conditions."
+        }
+      ]
+    },
+    {
+      "id": "cookies-everyday-use",
+      "title": "Cookies and Everyday Internet Use",
+      "icon": "🍪",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "**Cookies** are small records stored by the browser on the **client side**. A server can set one using **Set-Cookie**, and the browser sends the relevant cookies back in later requests. JavaScript can set some cookies too. They are used for sessions, preferences and shopping carts. Browser storage is not always a separate plain-text file per cookie."
+        },
+        {
+          "type": "figure",
+          "kind": "cycle",
+          "title": "The cookie cycle",
+          "items": [
+            ["Browser requests a page", "Visit to the site"],
+            ["Server sends Set-Cookie", "Response carries the cookie"],
+            ["Browser stores the cookie", "Client side"],
+            ["Browser sends cookie back", "In later requests"]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "Files, browsing and patches",
+          "rows": [
+            ["Downloading", "Remote system to your device"],
+            ["Uploading", "Your device to a remote system"],
+            ["Browsing or web surfing", "Viewing pages and following links"],
+            ["Patch", "A change to software that fixes bugs, security flaws or compatibility problems; being free is not part of its definition"]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "Voice and chat",
+          "rows": [
+            ["VoIP", "Voice over Internet Protocol, also called IP telephony; carries voice as digital packets over IP networks (WhatsApp voice calls are an example); it is not simply broadcasting"],
+            ["IRC", "Internet Relay Chat: real-time text conversations in channels and private messages"]
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Login and access",
+          "headers": ["Term", "Meaning"],
+          "rows": [
+            ["Authentication", "Verifies identity, using a password, OTP or biometrics"],
+            ["Authorization", "Determines the actions a user is permitted to do"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "remember",
+          "title": "Final exam check",
+          "text": "A login name and password check is authentication. HTML builds page structure, a URL locates a resource, IP addresses support network delivery, DHCP assigns settings, Tor improves privacy, and a browser is never the same thing as a search engine."
+        }
+      ]
+    }
+  ],
+  "revision": [
+    "The Internet is a worldwide network of interconnected networks and is not an acronym; TCP/IP provides its basic rules.",
+    "ARPANET (Advanced Research Projects Agency Network) was operational in 1969; it adopted TCP/IP on 1 January 1983.",
+    "Vint Cerf and Bob Kahn co-designed TCP/IP; Radia Perlman developed STP and is called the Mother of the Internet.",
+    "Public Internet service in India was formally launched on 15 August 1995 (pre-launch on 14 August); ISP = Internet Service Provider.",
+    "Tim Berners-Lee proposed the Web in 1989 at CERN; 1990 first browser and site (info.cern.ch); 1991 public announcement; W3C founded 1994.",
+    "HTML = structure, CSS = style, JavaScript = behaviour, HTTP = communication, HTTPS = HTTP protected by TLS.",
+    "First browser: WorldWideWeb (1990, NeXT), later renamed Nexus; Mosaic (1993) made graphical browsing popular; Lynx (1992) is text-based.",
+    "Netscape Navigator 1994; Mozilla project 1998; AOL bought Netscape in 1999; Firefox 1.0 in 2004.",
+    "Safari = Apple (2003), Chrome = Google (2008), Edge = Microsoft, Epic = Hidden Reflex, UC Browser = UCWeb; Chrome and Chromium are distinct.",
+    "Free software is not necessarily open source; a plugin adds a specialized capability, an extension adds browser features.",
+    "Chrome: Ctrl+T new tab, Ctrl+W close tab, Ctrl+Shift+N Incognito; Incognito does not make you anonymous, Tor improves privacy only.",
+    "Archie (Alan Emtage), Yahoo (Yang and Filo, 1994), Google (Page and Brin, 1998), Yandex (Russia, 1997), Baidu (China, 2000).",
+    "Search engine flow: crawl, index, rank, serve; SERP = results page, SEO = optimization, SEM = marketing.",
+    "Surface Web is publicly indexable, Deep Web lies outside ordinary indexes, Dark Web needs special networks such as Tor onion services.",
+    "URL = Uniform Resource Locator; DNS looks up IP addresses for names; DHCP gives clients addresses and settings; TCP is reliable, IP is addressing.",
+    "Packets can take different routes and vary in length; dial-up is not broadband; cookies live on the client; authentication verifies identity."
+  ],
+  "mindmap": {
+    "center": "Internet",
+    "branches": [
+      {
+        "label": "Origins",
+        "children": ["ARPANET 1969", "TCP/IP adopted 1 Jan 1983", "Cerf and Kahn", "Radia Perlman: STP", "India public launch 1995"]
+      },
+      {
+        "label": "World Wide Web",
+        "children": ["Tim Berners-Lee, CERN", "Proposal 1989", "First site 1990: info.cern.ch", "Announced 6 Aug 1991", "W3C 1994"]
+      },
+      {
+        "label": "Web technologies",
+        "children": ["HTML: structure", "CSS: style", "JavaScript: behaviour", "HTTP and HTTPS (TLS)", "BOM and DOM"]
+      },
+      {
+        "label": "Browsers",
+        "children": ["WorldWideWeb to Nexus", "Mosaic 1993, Lynx 1992", "Netscape to Firefox 2004", "Chrome 2008, Safari 2003", "Plugin vs extension", "Tor and Incognito"]
+      },
+      {
+        "label": "Search",
+        "children": ["Archie, Yahoo, Google", "Yandex Russia, Baidu China", "Crawl, index, rank, serve", "SERP, SEO, SEM"]
+      },
+      {
+        "label": "Layers and networks",
+        "children": ["Intranet and extranet", "Surface Web", "Deep Web", "Dark Web: Tor onion"]
+      },
+      {
+        "label": "Addresses and protocols",
+        "children": ["URL parts", "IP address and NAT", "DNS: name lookup", "DHCP: settings", "TCP and FTP"]
+      },
+      {
+        "label": "Everyday use",
+        "children": ["Packet switching", "DSL, cable, fiber, satellite", "Cookies and Set-Cookie", "VoIP and IRC", "Authentication vs authorization"]
+      }
+    ]
+  }
+}

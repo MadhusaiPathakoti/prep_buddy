@@ -1,0 +1,467 @@
+{
+  "id": "programming-languages",
+  "sections": [
+    {
+      "id": "foundations",
+      "title": "Programming Foundations",
+      "icon": "🧱",
+      "blocks": [
+        {
+          "type": "keyvalue",
+          "title": "Basic terms",
+          "rows": [
+            ["Programming language", "A formal language used to write instructions that a computer can carry out."],
+            ["Program", "An organised set (sequence) of instructions written for one particular task."],
+            ["Algorithm", "A finite sequence of clear, ordered steps that solves a problem."],
+            ["Syntax", "The grammatical rules for writing valid instructions in a language."],
+            ["Coding", "Writing the solution as instructions in a programming language."],
+            ["Flowchart", "A visual picture of an algorithm or program logic, drawn with standard shapes and arrows."],
+            ["Bug", "A fault in a program that can give wrong results or unexpected behaviour."],
+            ["Debugging", "Finding, investigating and fixing the faults (bugs) in a program."]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "Three kinds of code",
+          "rows": [
+            ["Source code", "Human-readable instructions written by the programmer (for example a .py file)."],
+            ["Object code", "Output of a compiler or assembler; it commonly holds machine instructions plus linking information and may still need linking (for example .obj)."],
+            ["Machine code", "Binary-encoded instructions (0s and 1s) that the processor executes directly."]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "tip",
+          "title": "One-line memory aid",
+          "text": "Algorithm = ordered solution. Flowchart = visual logic. Coding = writing instructions. Debugging = correcting faults."
+        }
+      ]
+    },
+    {
+      "id": "language-levels",
+      "title": "Language Levels & Generations",
+      "icon": "🪜",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "**Low-level languages** (machine language and assembly language) closely mirror what the processor does, so they are generally **architecture-dependent**. **High-level languages** use readable instructions and abstractions. Languages are also grouped into five generations (1GL to 5GL); a higher number means a higher level of abstraction."
+        },
+        {
+          "type": "table",
+          "title": "Five generations of languages",
+          "headers": ["Generation", "Type", "Key points", "Examples"],
+          "rows": [
+            ["1GL", "Machine language", "Binary instructions using 0s and 1s; directly executable by the relevant processor", "Binary code such as 01001010"],
+            ["2GL", "Assembly language", "Uses mnemonics; an assembler converts it into machine code", "MOV, ADD, SUB, JMP"],
+            ["3GL", "High-level languages", "More readable instructions and abstractions", "C, C++, Java, BASIC, Visual Basic, Python, JavaScript"],
+            ["4GL", "Task-oriented languages", "Commonly linked with databases, reporting and numerical work", "SQL (typical); some lists include MATLAB"],
+            ["5GL", "Logic and constraints", "Describe relationships, rules or constraints rather than step-by-step procedures", "Prolog (standard example); Mercury"]
+          ]
+        },
+        {
+          "type": "figure",
+          "kind": "layers",
+          "title": "Higher level of abstraction (top) to machine level (bottom)",
+          "items": [
+            ["5GL", "Logic and constraints"],
+            ["4GL", "Task-oriented languages"],
+            ["3GL", "High-level languages"],
+            ["2GL", "Assembly language"],
+            ["1GL", "Machine language"]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "Full forms to remember",
+          "rows": [
+            ["MATLAB", "Matrix Laboratory"],
+            ["LISP", "List Processing"],
+            ["Prolog", "Programming in Logic"],
+            ["OPS5", "A rule-based expert-system language"]
+          ]
+        },
+        {
+          "type": "bullets",
+          "title": "Important distinctions",
+          "items": [
+            "**Python, Perl and Ruby** are high-level scripting languages and are generally classified as 3GLs. Scripting does not automatically mean 4GL.",
+            "**Lisp and OPS5** are important AI languages, but not every AI language is a 5GL.",
+            "Assembly is the usual exam answer for the **second generation of computers**, although machine code and early high-level languages existed then too.",
+            "Hardware generations and language generations are two different classifications."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "translators",
+      "title": "Language Translators",
+      "icon": "🔁",
+      "blocks": [
+        {
+          "type": "keyvalue",
+          "title": "Language processors",
+          "rows": [
+            ["Assembler", "Translates assembly instructions into machine-code object files."],
+            ["Compiler", "Translates source code into another form such as object code, machine code or bytecode."],
+            ["Interpreter", "Executes instructions through an interpreting environment."],
+            ["Linker", "Combines object files and libraries to create an executable (or other linked output)."]
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Exam comparison",
+          "headers": ["Translator", "Conventional behaviour", "Input to it"],
+          "rows": [
+            ["Compiler", "Translates the program as a whole, then gives object code as output", "High-level source program"],
+            ["Interpreter", "Processes and executes instructions step by step", "High-level source program"],
+            ["Assembler", "Converts assembly language to machine code", "Assembly language program"]
+          ]
+        },
+        {
+          "type": "figure",
+          "kind": "flow",
+          "title": "From source code to a running program",
+          "items": [
+            ["Source code", "Written by the programmer"],
+            ["Compiler / Assembler", "Translates the program"],
+            ["Object files", "Object 1, Object 2 ..."],
+            ["Linker", "Adds libraries"],
+            ["Executable file", "Ready to run on the CPU"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "Real systems are messier",
+          "text": "Real implementations may mix compilation and interpretation. Not every compiler produces native machine code (some give bytecode), and not every interpreter works one source line at a time. For basic exams stay with the conventional picture above."
+        },
+        {
+          "type": "bullets",
+          "title": "Software category",
+          "items": [
+            "Translators (assembler, compiler, interpreter) are classified as **system software**.",
+            "Application software such as a word processor is **not** a language-processor category.",
+            "Compiler input is **source code**; its conventional output is **object code**."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "performance-portability",
+      "title": "Speed, Portability & High-level Benefits",
+      "icon": "⚡",
+      "blocks": [
+        {
+          "type": "keyvalue",
+          "rows": [
+            ["Execution speed", "Machine code runs directly on the processor, so machine language is the expected basic-exam answer for direct execution."],
+            ["Real speed", "Actual speed depends on the algorithm, generated instructions, optimisation and hardware. Handwritten machine code is not automatically fastest."],
+            ["Portability", "High-level languages generally give greater source-code portability, but you still need a suitable compiler or interpreter, compatible libraries and operating-system support."],
+            ["High-level benefits", "Easier reading, coding, debugging and maintenance; quicker development; greater source-code portability."],
+            ["Efficiency limitation", "Some implementations add runtime or memory overhead. Lower efficiency is the usual stated limitation of high-level languages, but it is a possible limitation, not a universal rule."]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "remember",
+          "text": "Machine language and assembly language are both low-level. Machine language is the one the CPU executes directly; assembly needs an assembler first."
+        }
+      ]
+    },
+    {
+      "id": "early-history",
+      "title": "Early Language History",
+      "icon": "📜",
+      "blocks": [
+        {
+          "type": "timeline",
+          "title": "From 1843 to 1972",
+          "items": [
+            ["1843", "Ada Lovelace published notes on Charles Babbage's proposed Analytical Engine that included an algorithm for Bernoulli numbers."],
+            ["1957", "FORTRAN (Formula Translation) was developed by an IBM team led by John Backus; its first compiler came out in 1957 and a manual appeared in 1956."],
+            ["1958", "ALGOL (Algorithmic Language) began as an influential language family."],
+            ["1958", "LISP (List Processing) was created by John McCarthy for list processing, symbolic computation and AI; an influential paper followed in 1960."],
+            ["1959", "COBOL (Common Business-Oriented Language) was designed for commercial data processing such as banking, payroll, billing and insurance."],
+            ["1964", "BASIC (Beginner's All-purpose Symbolic Instruction Code) was developed by John Kemeny and Thomas Kurtz."],
+            ["1967", "Simula 67 by Ole-Johan Dahl and Kristen Nygaard, widely recognised as the first object-oriented programming language."],
+            ["1970", "Pascal was developed by Niklaus Wirth."],
+            ["Around 1972", "Dennis Ritchie developed C at Bell Labs during the early Unix era."],
+            ["1972", "Prolog came from Alain Colmerauer's team, particularly Philippe Roussel, with important contributions from Robert Kowalski; used for logic programming."]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "FORTRAN dates and title",
+          "text": "FORTRAN: manual in 1956, first compiler in 1957. It is more precisely called the first widely adopted high-level language, and it is linked with scientific and numerical computing."
+        },
+        {
+          "type": "table",
+          "title": "Language to purpose",
+          "headers": ["Language", "Linked with"],
+          "rows": [
+            ["FORTRAN", "Science and numerical computing"],
+            ["COBOL", "Business and commercial data processing"],
+            ["BASIC", "Beginners"],
+            ["Lisp and Prolog", "Historic AI languages"]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "modern-history",
+      "title": "Modern Language History",
+      "icon": "🗓️",
+      "blocks": [
+        {
+          "type": "timeline",
+          "title": "From the 1970s to 2014",
+          "items": [
+            ["1970s", "Smalltalk: Alan Kay and colleagues at Xerox PARC advanced object-oriented programming."],
+            ["1979 / 1983", "Bjarne Stroustrup began C with Classes at Bell Labs in 1979; the name C++ was adopted in 1983. It supports object-oriented and other styles."],
+            ["1991", "Python: first public release, by Guido van Rossum."],
+            ["1991", "Visual Basic: Microsoft's visual, event-driven development environment based on BASIC."],
+            ["1994 / 1995", "PHP: created by Rasmus Lerdorf in 1994 and publicly released in 1995. It now stands for PHP: Hypertext Preprocessor."],
+            ["1995", "Java: publicly introduced by Sun Microsystems; principal designer James Gosling; early members included Mike Sheridan and Patrick Naughton; originally called Oak."],
+            ["2000", "C# was announced by Microsoft."],
+            ["2014", "Swift was introduced by Apple."]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "text": "PHP did not begin in 1993; use 1994 for creation and 1995 for the public release. Java was first called Oak."
+        },
+        {
+          "type": "table",
+          "title": "Who created what",
+          "headers": ["Language", "Creator / organisation"],
+          "rows": [
+            ["C", "Dennis Ritchie (Bell Labs)"],
+            ["C++", "Bjarne Stroustrup"],
+            ["Python", "Guido van Rossum"],
+            ["Java", "James Gosling (Sun Microsystems)"],
+            ["PHP", "Rasmus Lerdorf"],
+            ["C#", "Microsoft"],
+            ["Swift", "Apple"]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "c-language",
+      "title": "The C Language",
+      "icon": "🇨",
+      "blocks": [
+        {
+          "type": "bullets",
+          "title": "Essential facts about C",
+          "items": [
+            "Developer: **Dennis Ritchie**, at **Bell Labs**.",
+            "Commonly cited year: **1972**.",
+            "A general-purpose, **procedural** language, closely connected with implementing Unix.",
+            "Many statements end with a **semicolon**, but not every block or construct needs one.",
+            "C is a high-level language that also has low-level facilities; 'middle-level' is only an informal textbook description.",
+            "'Mother of all languages' is just an informal nickname; FORTRAN, Lisp, ALGOL and COBOL are all older than C.",
+            "C has no built-in classes or inheritance, so it is the expected non-OOP answer among C, C++, Java and modern Visual Basic."
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "tip",
+          "text": "Remember by pairs: C = Ritchie, C++ = Stroustrup, Python = van Rossum, Java = Gosling, PHP = Lerdorf."
+        }
+      ]
+    },
+    {
+      "id": "oop",
+      "title": "Object-Oriented Programming",
+      "icon": "🧩",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "**Object-oriented programming (OOP)** organises software around objects that combine data with the operations that work on that data. For example, a Student class holds data (name, age) and operations (study, display); Alice (20) and Bob (22) are two objects made from it."
+        },
+        {
+          "type": "keyvalue",
+          "title": "Class and object",
+          "rows": [
+            ["Class", "A definition describing the data and behaviour of a category of objects."],
+            ["Object", "A particular instance of a class in class-based programming."]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "Four core concepts",
+          "rows": [
+            ["Encapsulation", "Groups data and operations together, with controlled access."],
+            ["Abstraction", "Exposes essential features while hiding unnecessary detail."],
+            ["Inheritance", "Lets a type or class build on another."],
+            ["Polymorphism", "Supports different implementations through a shared interface."]
+          ]
+        },
+        {
+          "type": "bullets",
+          "title": "Milestones and supporting languages",
+          "items": [
+            "**Simula 67** is widely recognised as the first object-oriented language (Ole-Johan Dahl and Kristen Nygaard).",
+            "**Smalltalk** emerged in the 1970s and is commonly described as a pure object-oriented language; **Alan Kay** was a major OOP pioneer who led its development.",
+            "Languages supporting OOP: Java, Python, C++, C#, JavaScript, PHP, Ruby, Simula, Smalltalk and modern Visual Basic .NET.",
+            "**Go** has methods, interfaces and an object-oriented style, but lacks the conventional class-inheritance hierarchy of Java or C++.",
+            "No single-person founder label captures the full history of OOP."
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "remember",
+          "text": "Class = definition. Object = instance. Simula = early OOP. Smalltalk = pure OOP association."
+        }
+      ]
+    },
+    {
+      "id": "web-ai-apps",
+      "title": "Web, AI & Application Languages",
+      "icon": "🌐",
+      "blocks": [
+        {
+          "type": "keyvalue",
+          "title": "Web technologies",
+          "rows": [
+            ["HTML", "Hyper Text Markup Language: defines webpage structure and meaning of content. A markup language."],
+            ["CSS", "Cascading Style Sheets: controls colours, spacing and layout. A style-sheet language."],
+            ["JavaScript", "Adds programmable behaviour and interaction; a programming language."],
+            ["PHP", "Commonly used for server-side web programming."],
+            ["SQL", "Structured Query Language: defines, retrieves and modifies relational data."],
+            ["MySQL", "A relational database management system (RDBMS) that uses SQL."],
+            ["Node.js", "A JavaScript runtime, not a separate programming language."]
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Languages used for AI and machine learning",
+          "headers": ["Language", "Role"],
+          "rows": [
+            ["Lisp and Prolog", "Historic symbolic AI, reasoning and knowledge representation"],
+            ["Python", "Widely used for AI, machine learning and data analysis"],
+            ["R", "Statistics, data analysis and machine learning"],
+            ["C++", "Performance-critical computation"],
+            ["Java", "Also supports AI and ML (Tribuo is a Java ML library)"],
+            ["Julia", "Numerical and scientific computing, including ML"],
+            ["JavaScript", "AI applications in browsers and servers"]
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Application associations",
+          "headers": ["Area", "Language"],
+          "rows": [
+            ["Android apps", "Java (the usual exam answer); Kotlin is also officially supported, with a Kotlin-first approach"],
+            ["iOS apps", "Swift (the usual exam answer)"],
+            ["Scientific computing", "FORTRAN"],
+            ["Commercial data processing", "COBOL"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "Watch the odd-one-out questions",
+          "text": "Scala, Ruby, C#, C++ and Python are programming languages. Photoshop, Microsoft Word and Adobe Illustrator are application software. HTML (markup), CSS (styling) and MySQL (an RDBMS) all make a plain 'which is not a programming language' question ambiguous, and Java cannot simply be excluded from AI/ML languages."
+        }
+      ]
+    },
+    {
+      "id": "loops-roles",
+      "title": "Loops & Development Roles",
+      "icon": "🔄",
+      "blocks": [
+        {
+          "type": "keyvalue",
+          "title": "Loops",
+          "rows": [
+            ["Loop", "Repeats a block of instructions according to a condition or an iteration rule."],
+            ["for", "Often goes through a sequence or repeats a set number of times."],
+            ["while", "Repeats as long as a condition is true."],
+            ["do...while", "Checks the condition after the body, so the body runs at least once."]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "Development roles",
+          "rows": [
+            ["Systems analyst", "Studies requirements and helps design system specifications."],
+            ["Developer / programmer", "Designs program logic, writes, tests and maintains code."],
+            ["End user", "Uses the system and gives requirements or feedback."]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "remember",
+          "text": "In exams, 'who designs the system' usually means the systems analyst, although developers also design the internal structure of a program."
+        }
+      ]
+    },
+    {
+      "id": "errors-reserved-words",
+      "title": "Errors & Reserved Words",
+      "icon": "🐞",
+      "blocks": [
+        {
+          "type": "table",
+          "title": "Types of programming errors",
+          "headers": ["Error", "Meaning", "Example"],
+          "rows": [
+            ["Syntax error", "Violates the grammar of the language; usually detected while parsing or compiling", "Malformed statement; missing required semicolon in C"],
+            ["Runtime error", "Problem that occurs while the program executes (runtime = execution time)", "Division by zero; Python raises ZeroDivisionError, which can be handled"],
+            ["Logical error", "Program runs but gives a wrong result because its reasoning is wrong", "Using the wrong formula"],
+            ["Fatal error", "Error that terminates execution", "Not every runtime error is fatal"]
+          ]
+        },
+        {
+          "type": "bullets",
+          "title": "Fine points",
+          "items": [
+            "Compilation errors are a broader category than syntax errors; some type errors are also caught at compile time.",
+            "Division by zero is not automatically fatal; the behaviour depends on the language and operation.",
+            "**Reserved words** have predefined meaning or restrictions in a language and are normally not available as ordinary identifiers. C examples: if, else, while, for, int, return."
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "tip",
+          "text": "Syntax = invalid form. Runtime = failure during execution. Logic = wrong result. Debugging = finding and fixing faults."
+        }
+      ]
+    }
+  ],
+  "revision": [
+    "Algorithm = finite ordered steps; flowchart = visual logic; coding = writing instructions; debugging = fixing faults.",
+    "Source code is human-readable; compiler input is source code and its conventional output is object code.",
+    "1GL machine language, 2GL assembly, 3GL high-level, 4GL task-oriented (SQL), 5GL logic and constraints (Prolog).",
+    "Machine language is executed directly by the CPU; machine and assembly languages are both low-level.",
+    "Assembly uses mnemonics such as MOV, ADD, SUB, JMP and needs an assembler.",
+    "Compiler translates the whole program; interpreter works step by step; assembler converts assembly; linker builds the executable.",
+    "Translators are system software; application software like Word or Photoshop is not a language processor.",
+    "FORTRAN: John Backus, IBM, 1957 (scientific). COBOL: 1959 (business). BASIC: 1964, Kemeny and Kurtz.",
+    "LISP: John McCarthy, 1958. Pascal: Niklaus Wirth, 1970. Prolog: Colmerauer's team, 1972.",
+    "C: Dennis Ritchie, Bell Labs, around 1972. C++: Stroustrup (1979, named 1983). Python: van Rossum, 1991.",
+    "Java: James Gosling, Sun, 1995, formerly Oak. PHP: Rasmus Lerdorf, 1994/1995. C#: Microsoft 2000. Swift: Apple 2014.",
+    "Simula 67 (Dahl and Nygaard) is the first OOP language; Smalltalk (Alan Kay, 1970s) is a pure OOP language.",
+    "OOP pillars: encapsulation, abstraction, inheritance, polymorphism. C is procedural and not OOP.",
+    "HTML is markup, CSS is styling, MySQL is an RDBMS, Node.js is a JavaScript runtime. Android: Java/Kotlin; iOS: Swift.",
+    "do...while runs its body at least once; missing semicolon in C is a syntax error; division by zero is a runtime error.",
+    "Systems analyst studies requirements and designs system specifications; reserved words have predefined meaning."
+  ],
+  "mindmap": {
+    "center": "Programming Languages",
+    "branches": [
+      { "label": "Basics", "children": ["Algorithm", "Flowchart", "Source / object / machine code", "Bug and debugging"] },
+      { "label": "Levels (1GL-5GL)", "children": ["Machine language", "Assembly (mnemonics)", "High-level 3GL", "SQL 4GL", "Prolog 5GL"] },
+      { "label": "Translators", "children": ["Assembler", "Compiler (whole program)", "Interpreter (step by step)", "Linker", "System software"] },
+      { "label": "Language history", "children": ["FORTRAN 1957", "COBOL 1959", "BASIC 1964", "C 1972", "Java 1995"] },
+      { "label": "Creators", "children": ["C: Ritchie", "C++: Stroustrup", "Python: van Rossum", "Java: Gosling", "PHP: Lerdorf"] },
+      { "label": "OOP", "children": ["Class and object", "Encapsulation", "Abstraction", "Inheritance", "Polymorphism", "Simula, Smalltalk"] },
+      { "label": "Web, AI & apps", "children": ["HTML / CSS / SQL", "Python, R, Julia for AI", "Android: Java, Kotlin", "iOS: Swift"] },
+      { "label": "Errors & control", "children": ["Syntax error", "Runtime error", "Logical error", "for / while / do...while", "Reserved words"] }
+    ]
+  }
+}

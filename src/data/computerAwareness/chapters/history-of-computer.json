@@ -1,0 +1,781 @@
+{
+  "id": "history-of-computer",
+  "sections": [
+    {
+      "id": "early-calculating-aids",
+      "title": "Early Calculating Aids",
+      "icon": "🧮",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "The word **computer** comes from *compute*, which goes back to the Latin **computare** meaning 'to calculate or reckon'. Long before machines, a 'computer' was simply a **person** who carried out calculations by hand."
+        },
+        {
+          "type": "keyvalue",
+          "title": "The first manual aids",
+          "rows": [
+            ["Abacus", "One of the earliest known calculating aids. Beads or counters stand for numbers, and moving them performs arithmetic, mostly addition and subtraction. It is operated **manually**."],
+            ["Napier's Bones", "Invented by the Scottish mathematician **John Napier** and described in his book **Rabdologiae (1617)**. Numbered rods carry multiplication tables; arranging and reading them simplifies **multiplication and division**."],
+            ["Slide Rule", "Credited to **William Oughtred** in the **1620s**. Movable logarithmic scales make multiplication and division easier. It built on logarithms and on Edmund Gunter's calculating scale."]
+          ]
+        },
+        {
+          "type": "timeline",
+          "title": "Early aids at a glance",
+          "items": [
+            ["Ancient times", "Abacus, developed in several ancient societies"],
+            ["1617", "Napier's Bones described in Rabdologiae"],
+            ["1620s", "Oughtred's slide rule"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "Who invented the abacus?",
+          "text": "Exam options often say 'Ancient China', but its exact origin and inventor are uncertain. Forms of it appeared in many ancient societies, so crediting only China is too definite. If the question asks for the **earliest calculating aid** among Pascaline, Abacus, Napier's Bones, Leibniz Calculator and Difference Engine, the answer is the **Abacus**."
+        },
+        {
+          "type": "callout",
+          "kind": "remember",
+          "text": "Abacus, Napier's Bones and the slide rule are **manual aids**, not electronic or automatic machines. Napier = rods, Oughtred = slide rule."
+        }
+      ]
+    },
+    {
+      "id": "mechanical-machines-babbage",
+      "title": "Mechanical Calculators & Babbage",
+      "icon": "⚙️",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "An ancient calculating **aid** (abacus) and a **machine** that mechanically performs arithmetic are different categories. The early mechanical machines used gears and wheels. **Wilhelm Schickard** designed one in 1623, before Pascal, but in exam options the early mechanical calculating machine is usually the **Pascaline**."
+        },
+        {
+          "type": "keyvalue",
+          "title": "Mechanical machines and designs",
+          "rows": [
+            ["Pascaline", "Built by **Blaise Pascal** in **1642**. Interconnected wheels and gears perform **addition and subtraction**, taking arithmetic a step towards automation."],
+            ["Stepped Reckoner", "Also called the **Leibniz Calculator**, by **Gottfried Wilhelm Leibniz**. A stepped drum linked to gears handled addition, subtraction, **multiplication and division**, going beyond Pascal's machine. Leibniz also explained **binary arithmetic** (0 and 1)."],
+            ["Difference Engine", "Designed by **Charles Babbage** to automate **mathematical tables** using the method of finite differences. It was a specialised machine meant to cut manual work and errors."],
+            ["Analytical Engine", "Babbage's general-purpose, **programmable mechanical computer**. It was meant to do different tasks, and the full machine was **never completed** in his lifetime."],
+            ["Mill", "The part of the Analytical Engine for arithmetic **processing** (like a modern ALU)."],
+            ["Store", "The part that holds numbers and intermediate results (like modern **memory**)."],
+            ["Charles Babbage", "Commonly called the **Father of the Computer** for his pioneering machine designs."]
+          ]
+        },
+        {
+          "type": "figure",
+          "kind": "flow",
+          "title": "Plan of the Analytical Engine",
+          "items": [
+            ["Punched cards", "Program and data fed in"],
+            ["Store", "Keeps numbers and intermediate results"],
+            ["Mill", "Does the arithmetic"],
+            ["Results", "Output of the calculation"]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "Programming and punched-card pioneers",
+          "rows": [
+            ["Jacquard loom", "A loom controlled by punched cards. Babbage adapted this idea so the Analytical Engine could be programmed with **punched cards**."],
+            ["Ada Lovelace", "Studied the Analytical Engine and in **1843** published extensive notes on it. They contained an early published computer program, so she is widely recognised as the **first computer programmer**. She also saw that such a machine could work on information beyond plain arithmetic."],
+            ["Herman Hollerith", "Built a **punched-card tabulating system** for statistical data, used in the **1890 U.S. Census**. Punched-card control already existed (Jacquard loom); his contribution was adapting it for **data processing**."]
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Difference Engine vs Analytical Engine",
+          "headers": ["Feature", "Difference Engine", "Analytical Engine"],
+          "rows": [
+            ["Purpose", "Specialised: mathematical tables", "General purpose, programmable"],
+            ["Key idea", "Method of finite differences", "Mill + Store + punched cards"],
+            ["Designer", "Charles Babbage", "Charles Babbage"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "tip",
+          "title": "Memory trick",
+          "text": "**Mill = processor, Store = memory.** Babbage's 1800s design already had the two ideas that define a modern computer."
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "text": "Pascaline = **add and subtract** only. Leibniz's Stepped Reckoner = all **four** operations. Lovelace is linked to the **Analytical Engine**, not the Difference Engine."
+        }
+      ]
+    },
+    {
+      "id": "early-electronic-computers",
+      "title": "Early Electronic Computers",
+      "icon": "💡",
+      "blocks": [
+        {
+          "type": "timeline",
+          "title": "Key dates",
+          "items": [
+            ["1941", "Konrad Zuse's Z3, an earlier relay-based machine"],
+            ["1944", "Harvard Mark I begins operating"],
+            ["1945", "John von Neumann's report on EDVAC"],
+            ["Feb 1946", "ENIAC publicly announced"],
+            ["1947", "The famous Harvard Mark II moth incident"],
+            ["21 June 1948", "Manchester Baby runs a stored program"],
+            ["1949", "EDSAC becomes operational"]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "The machines",
+          "rows": [
+            ["Harvard Mark I", "A large **electromechanical** computer. **Howard H. Aiken** conceived it and **IBM** engineers built it; it ran at Harvard from **1944**. IBM's original name was **ASCC** (Automatic Sequence Controlled Calculator). It was not the first electromechanical computer, since Zuse's relay-based Z3 (1941) came earlier."],
+            ["ENIAC", "**Electronic Numerical Integrator and Computer**, built at the University of Pennsylvania by a team led by **J. Presper Eckert** and **John W. Mauchly**. It used **vacuum tubes** and is recognised as the first **general-purpose electronic digital computer**. Announced in **February 1946**."],
+            ["EDVAC", "**Electronic Discrete Variable Automatic Computer**, designed around the **stored-program** concept, where instructions sit in memory along with data."],
+            ["Manchester Baby", "Successfully ran a program held in electronic read-write memory on **21 June 1948**. It is the correct answer for a literal 'first electronic stored-program computer' question."],
+            ["EDSAC", "**Electronic Delay Storage Automatic Calculator**, operational in **1949**. An early **practical** stored-program computer that gave a useful computing service, but not simply 'the first ever'."]
+          ]
+        },
+        {
+          "type": "text",
+          "text": "In the **stored-program** idea, program instructions live in memory and the CPU fetches and runs them. **John von Neumann** is closely linked to it through his **1945 EDVAC report**, though many pioneers contributed. The **Harvard architecture** is a different layout that keeps instruction and data memories (or pathways) **separate**. The two are not rival categories: a Harvard-architecture machine can still store its program in memory."
+        },
+        {
+          "type": "figure",
+          "kind": "flow",
+          "title": "Stored-program computing",
+          "items": [
+            ["Input", "Program and data go in"],
+            ["Memory", "Holds instructions + data"],
+            ["CPU", "Fetch, decode, execute"],
+            ["Output", "Results come out"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "fact",
+          "title": "The computer bug story",
+          "text": "In 1947 a moth was found in the Harvard Mark II relay panel, and **Grace Hopper** is associated with the tale. But 'bug' already meant a technical fault in the 19th century (Thomas Edison used it); the moth was just a memorable example."
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "text": "Read 'first' questions carefully. ENIAC = first **general-purpose electronic** computer; Mark I = **electromechanical**; Manchester Baby (1948) ran the first stored program, with EDSAC (1949) just after it."
+        }
+      ]
+    },
+    {
+      "id": "commercial-personal-computers",
+      "title": "Commercial & Personal Computers",
+      "icon": "💼",
+      "blocks": [
+        {
+          "type": "timeline",
+          "title": "From business machines to the PC",
+          "items": [
+            ["1951", "UNIVAC I delivered to the U.S. Census Bureau"],
+            ["1971", "Intel 4004 microprocessor; Kenbak-1 personal computer"],
+            ["1976", "Apple I, designed by Steve Wozniak"],
+            ["1977", "Apple II introduced"],
+            ["12 Aug 1981", "IBM Personal Computer, Model 5150"]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "rows": [
+            ["UNIVAC I", "**Universal Automatic Computer**, developed by **J. Presper Eckert and John Mauchly**. The U.S. Census Bureau received its first machine in **1951**. An important early **commercial** computer for administrative and business data processing."],
+            ["Ferranti Mark 1", "A British machine with a strong claim to be the first **commercially available general-purpose** computer."],
+            ["Kenbak-1 (1971)", "Widely credited as the first commercially available **personal computer**."],
+            ["Apple I (1976)", "Designed by **Steve Wozniak**; Steve Jobs helped set up the early business."],
+            ["Apple II (1977)", "An influential early **mass-market** personal computer, but not the first one."],
+            ["IBM PC (Model 5150)", "Introduced by IBM on **12 August 1981**, a major milestone in personal computing. Personal computers existed before it; 1981 is just the IBM PC's launch year."],
+            ["Intel 4004 (1971)", "Recognised as the first **commercially available single-chip microprocessor**."]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "text": "Calling UNIVAC 'the world's first commercial computer' is too broad because of the Ferranti Mark 1. In an MCQ without Ferranti, **UNIVAC** is the expected answer for early commercial data processing."
+        },
+        {
+          "type": "callout",
+          "kind": "remember",
+          "text": "Year chain: **1971** Intel 4004 and Kenbak-1, **1976** Apple I, **1977** Apple II, **1981** IBM PC."
+        }
+      ]
+    },
+    {
+      "id": "computing-pioneers",
+      "title": "Computing Pioneers & Inventors",
+      "icon": "👨‍💻",
+      "blocks": [
+        {
+          "type": "table",
+          "title": "Who is known for what",
+          "headers": ["Person", "Known for"],
+          "rows": [
+            ["Alan Turing", "Father of Modern Computer Science; Turing machine (1936); Turing Test (1950)"],
+            ["John von Neumann", "Stored-program architecture, through his 1945 EDVAC report"],
+            ["Douglas Engelbart", "Conceived the computer mouse"],
+            ["Bill English", "Built the first mouse prototype at Stanford Research Institute, 1964"],
+            ["Tim Berners-Lee", "Invented the World Wide Web in 1989 at CERN"],
+            ["Bill Gates", "Co-founded Microsoft with Paul Allen; Windows 1.0 released in 1985"],
+            ["Steve Jobs", "Co-founder of Apple; popularised PCs and GUI computing through the Macintosh"],
+            ["Grace Hopper", "Compiler pioneer; developed A-0, often called the first compiler; helped develop COBOL"],
+            ["John McCarthy", "Father of Artificial Intelligence; coined the term in 1955"],
+            ["Vint Cerf and Bob Kahn", "Co-designed TCP/IP, the foundation of Internet communication"],
+            ["Jack Kilby", "Built the first working integrated circuit at Texas Instruments in 1958 (germanium)"],
+            ["Robert Noyce", "Independently developed a practical silicon IC in 1959; co-inventor of the IC"],
+            ["Eckert and Mauchly", "Developed ENIAC (and UNIVAC) with the University of Pennsylvania team"],
+            ["Howard Aiken", "Conceived the Harvard Mark I"],
+            ["Herman Hollerith", "Punched-card tabulating system for the 1890 census"]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "Turing in detail",
+          "rows": [
+            ["Turing machine", "A theoretical model from **1936** that explains computation as a precise sequence of rules. It is a **theory**, not a commercial computer."],
+            ["Turing Test", "Proposed in **1950** as the imitation game. A human evaluator chats by text and tries to tell a **machine from a person**. It tests human-like conversational behaviour, not every aspect of intelligence. The simplified exam answer is 'machine intelligence'."]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "Web is not the Internet",
+          "text": "The **World Wide Web** (Berners-Lee, 1989) is a system that runs **over** the Internet. The Internet's technical base is **TCP/IP** (Cerf and Kahn). They are related but not the same thing."
+        },
+        {
+          "type": "callout",
+          "kind": "remember",
+          "text": "Titles like 'Father of AI' or 'Father of the Computer' honour major contributions, but many researchers built computing and AI. Memorise: **Babbage** = Father of the Computer, **Turing** = Father of Modern Computer Science, **McCarthy** = Father of AI."
+        },
+        {
+          "type": "text",
+          "text": "McCarthy used the phrase 'artificial intelligence' in **1955** for the research meeting proposed for **1956** at Dartmouth. Most modern ICs are built on **silicon**."
+        }
+      ]
+    },
+    {
+      "id": "language-os-creators",
+      "title": "Language & OS Creators",
+      "icon": "🐧",
+      "blocks": [
+        {
+          "type": "table",
+          "title": "Who created what",
+          "headers": ["Creation", "Creator", "Extra detail"],
+          "rows": [
+            ["C language", "Dennis Ritchie", "Bell Labs; he also played a major role in UNIX"],
+            ["UNIX", "Ken Thompson, Dennis Ritchie and colleagues", "Bell Labs; a collaborative project"],
+            ["Linux kernel", "Linus Torvalds", "First released in 1991"],
+            ["Java", "James Gosling", "Sun Microsystems; first called Oak, grew with a wider team"],
+            ["Python", "Guido van Rossum", "Created at CWI in the Netherlands"],
+            ["PHP", "Rasmus Lerdorf", "Began in 1994 as personal tools; source released publicly in 1995"],
+            ["COBOL", "Grace Hopper made major contributions", "Common Business-Oriented Language"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "Language, OS or kernel?",
+          "text": "C, Java, Python and PHP are **programming languages**. **UNIX** is an **operating system**. **Linux**, strictly speaking, is a **kernel** used inside operating systems. The **kernel** is the core component of an OS."
+        },
+        {
+          "type": "callout",
+          "kind": "tip",
+          "text": "Say it as a chain: Ritchie = C, Thompson = UNIX, Torvalds = Linux, Gosling = Java, van Rossum = Python, Lerdorf = PHP."
+        }
+      ]
+    },
+    {
+      "id": "platform-founders",
+      "title": "Tech Platform Founders & Arattai",
+      "icon": "📱",
+      "blocks": [
+        {
+          "type": "table",
+          "title": "Founders of well-known platforms",
+          "headers": ["Platform", "Founders"],
+          "rows": [
+            ["Facebook / Meta", "Mark Zuckerberg (principal founder) with co-founders, 2004; parent company renamed Meta in 2021"],
+            ["Google", "Larry Page and Sergey Brin (search work began at Stanford)"],
+            ["Instagram", "Kevin Systrom and Mike Krieger"],
+            ["WhatsApp", "Jan Koum and Brian Acton"],
+            ["Twitter / X", "Jack Dorsey, Noah Glass, Biz Stone and Evan Williams"],
+            ["YouTube", "Steve Chen, Chad Hurley and Jawed Karim"],
+            ["LinkedIn", "Reid Hoffman, Allen Blue, Konstantin Guericke, Eric Ly and Jean-Luc Vaillant"],
+            ["Snapchat", "Evan Spiegel and Bobby Murphy; Reggie Brown proposed the disappearing-picture idea and was later acknowledged"],
+            ["Telegram", "Pavel Durov and Nikolai Durov; Pavel gave financial and organisational support, Nikolai key technical work"]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "Arattai (Indian messaging app)",
+          "rows": [
+            ["Maker", "**Zoho Corporation**; **Sridhar Vembu** is a co-founder of Zoho."],
+            ["Launch", "First publicly available through a soft launch in **2021**."],
+            ["Features", "Text and voice messages, audio calls and video calls."],
+            ["Privacy", "Presented as privacy-focused, with end-to-end encryption described for direct chats and calls."]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "remember",
+          "text": "Page + Brin = Google, Systrom + Krieger = Instagram, Koum + Acton = WhatsApp, Chen + Hurley + Karim = YouTube, Pavel + Nikolai Durov = Telegram, Zoho = Arattai."
+        }
+      ]
+    },
+    {
+      "id": "keyboard-and-mouse",
+      "title": "Keyboard & Mouse",
+      "icon": "⌨️",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "The computer keyboard grew out of the **typewriter**. **Christopher Latham Sholes**, with other inventors, played a major role in the **QWERTY** layout, named after the first six letters of the top-left letter row. The **Sholes-Glidden typewriter** reached an important stage in **1873**, and **Remington** marketed it in **1874**. Modern external keyboards connect by USB cable, Bluetooth or a wireless USB receiver."
+        },
+        {
+          "type": "table",
+          "title": "Toggle keys vs modifier keys",
+          "headers": ["Key type", "What it does", "Examples"],
+          "rows": [
+            ["Toggle", "Switches a mode between two states; press again to reverse", "Caps Lock, Num Lock, Scroll Lock"],
+            ["Modifier", "Changes the action of another key when pressed with it; usually inserts nothing alone", "Shift, Ctrl, Alt"]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "What each key does",
+          "rows": [
+            ["Caps Lock", "Switches typing between lowercase and uppercase letters."],
+            ["Num Lock", "Switches the numeric keypad between number entry and other functions such as navigation."],
+            ["Scroll Lock", "Changes scrolling or navigation in applications that support it."],
+            ["Shift", "Gives uppercase letters or the alternate symbol on a key."],
+            ["Ctrl (Control)", "Used for shortcuts, for example Ctrl+C to copy."],
+            ["Alt (Alternate)", "Used for shortcuts, for example Alt+Tab to switch applications in Windows."]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "The computer mouse",
+          "rows": [
+            ["Concept", "**Douglas Engelbart** conceived the mouse, a pointing device that moves the on-screen pointer."],
+            ["First prototype", "Built by **Bill English** at **Stanford Research Institute** in **1964**, with a wooden body, one button and **two perpendicular wheels**."],
+            ["Later types", "Mechanical mice used a **ball**; modern mice use **optical sensors** with LED or laser light."]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "text": "The very first mouse used **wheels**, not a rolling ball. The ball came with later mechanical mice."
+        }
+      ]
+    },
+    {
+      "id": "hardware-generations",
+      "title": "Hardware Evolution & Generations",
+      "icon": "🧬",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "A computer **generation** is a broad stage of technological development, usually explained by changes in electronic components and circuit integration. Dates **overlap and differ between textbooks**, so treat them as approximate. Greater integration generally gave smaller parts, shorter connections, better reliability and more processing power."
+        },
+        {
+          "type": "figure",
+          "kind": "flow",
+          "title": "How hardware evolved",
+          "items": [
+            ["Vacuum tubes", "1st generation"],
+            ["Transistors", "2nd generation"],
+            ["Integrated circuits", "3rd generation"],
+            ["Microprocessors", "4th generation (LSI/VLSI)"],
+            ["AI-oriented systems", "5th generation"]
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Generation table (approximate)",
+          "headers": ["Generation", "Period", "Main technology"],
+          "rows": [
+            ["First", "1940-1956", "Vacuum tubes"],
+            ["Second", "1957-1963", "Transistors"],
+            ["Third", "1964-1971", "Integrated circuits and microelectronics"],
+            ["Fourth", "1972-1979", "Microprocessors, increasing integration (LSI/VLSI)"],
+            ["Fifth", "1980 onward", "AI, parallel processing, advanced integration, robotics, KBS"]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "Hardware terms",
+          "rows": [
+            ["Vacuum tube", "Controls the movement of electrons in a vacuum. Early electronic computers used tubes for switching. ENIAC had **17,468** tubes (rounded to about **18,000**)."],
+            ["Transistor", "A **semiconductor** device that amplifies signals or acts as an electronic switch. It replaced vacuum tubes, was smaller, used less power and gave off less heat."],
+            ["Integrated Circuit (IC)", "Combines transistors, resistors, diodes and capacitors on one semiconductor chip."],
+            ["Microprocessor", "Puts CPU functions on a chip; linked with the **fourth generation**. The transistors inside do the switching, not the whole processor."],
+            ["VLSI", "Very large numbers of transistors on a chip."],
+            ["ULSI", "Even higher integration density, commonly millions of transistors. Textbooks link fifth-generation computers with ULSI microprocessors, AI and parallel processing."]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "Important full forms",
+          "rows": [
+            ["IC", "Integrated Circuit"],
+            ["VLSI", "Very-Large-Scale Integration"],
+            ["ULSI", "Ultra-Large-Scale Integration"],
+            ["AI", "Artificial Intelligence"],
+            ["KBS", "Knowledge-Based System"],
+            ["CPU", "Central Processing Unit"],
+            ["SSD", "Solid-State Drive"],
+            ["HVD", "Holographic Versatile Disc"],
+            ["ENIAC", "Electronic Numerical Integrator and Computer"],
+            ["EDVAC", "Electronic Discrete Variable Automatic Computer"],
+            ["EDSAC", "Electronic Delay Storage Automatic Calculator"],
+            ["UNIVAC", "Universal Automatic Computer"],
+            ["PDP", "Programmed Data Processor"],
+            ["ASCC", "Automatic Sequence Controlled Calculator"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "text": "VLSI and ULSI are **levels of integration inside ICs**, not new replacements for the IC. Microprocessor-based computing carried on well past 1979, and the fourth and fifth generations overlap with no universally agreed date."
+        }
+      ]
+    },
+    {
+      "id": "memory-storage-io",
+      "title": "Memory, Storage, Speed & I/O",
+      "icon": "💾",
+      "blocks": [
+        {
+          "type": "table",
+          "title": "Memory through the generations",
+          "headers": ["Period", "Main memory and storage"],
+          "rows": [
+            ["Early electronic computers", "Delay lines, electrostatic memory or magnetic drums, depending on the machine; magnetic core appeared in the 1950s"],
+            ["Second generation", "Punched media and magnetic tape for storage; drums could also be auxiliary storage"],
+            ["Third generation", "Magnetic core widely used as main memory; tape and magnetic disks became key secondary storage"],
+            ["Fourth generation", "Core still important; semiconductor memory began replacing it around 1970"],
+            ["Modern systems", "Semiconductor main memory (RAM and ROM); SSDs, HDDs, flash, optical media and tape for different storage needs"]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "Storage types",
+          "rows": [
+            ["Magnetic disk", "Floppy disk and hard disk; data stored magnetically."],
+            ["Magnetic tape", "Data recorded along magnetically coated tape."],
+            ["Optical disc", "CD and DVD, read with optical methods."],
+            ["HVD", "**Holographic Versatile Disc**, a holographic optical-storage format."],
+            ["Flash memory", "**Non-volatile** semiconductor memory used in USB drives and many SSDs."],
+            ["SSD", "A complete device using non-volatile memory, typically NAND flash, instead of spinning magnetic platters."],
+            ["Magnetic drum", "A rotating cylinder with a magnetic surface used as memory or storage in some early computers; **IBM 650** is a well-known example."]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "text": "Core was not the only first-generation memory, and it stayed in use into the 1970s. Drums sometimes served as main memory (IBM 650). An **SSD is a device**; **flash is the memory technology** inside it."
+        },
+        {
+          "type": "table",
+          "title": "Time units (each step is 1,000 times smaller)",
+          "headers": ["Unit", "Symbol", "Fraction of a second"],
+          "rows": [
+            ["Millisecond", "ms", "10^-3"],
+            ["Microsecond", "µs", "10^-6"],
+            ["Nanosecond", "ns", "10^-9"],
+            ["Picosecond", "ps", "10^-12"],
+            ["Femtosecond", "fs", "10^-15"]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "Textbook speed memory aid",
+          "rows": [
+            ["First generation", "Milliseconds"],
+            ["Second generation", "Microseconds"],
+            ["Third generation", "Nanoseconds"],
+            ["Fourth generation", "Picoseconds"]
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Input and output through the years",
+          "headers": ["Era", "Input", "Output"],
+          "rows": [
+            ["Early computers", "Punched cards, paper tape, switches or control panels", "Printed results, punched media, indicator displays"],
+            ["Transistor era", "Punched cards and magnetic tape", "Printers and tape output"],
+            ["Interactive systems", "Keyboard or terminal", "Screens and printers"],
+            ["Personal computers", "Keyboard, mouse, scanner, touchscreen", "Monitors, LCD/LED displays, colour printers"],
+            ["AI-enabled systems", "Text, speech, image, touch and sensor input", "Text, speech and digital visual output"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "remember",
+          "text": "These speed links are **simplified**, and fifth-generation computers are not defined by femtosecond speed. **KIPS** (Knowledge Information Processing System) means knowledge-based processing using knowledge and inference. It belongs to fifth-generation research and is **not** an input/output device. Execution time is a duration, while processing rate is work done per second."
+        }
+      ]
+    },
+    {
+      "id": "examples-and-types",
+      "title": "Computer Examples & Types",
+      "icon": "🗂️",
+      "blocks": [
+        {
+          "type": "table",
+          "title": "Example groups",
+          "headers": ["Category", "Examples"],
+          "rows": [
+            ["Vacuum-tube electronic computers", "ENIAC, UNIVAC I, EDSAC, EDVAC, IBM 650, IBM 701"],
+            ["Transistor-era systems", "IBM 1620, IBM 7094, CDC 1604, CDC 3600, IBM 1400 series"],
+            ["Linked with third generation", "IBM System/360 and System/370"],
+            ["Families needing model-specific classification", "DEC PDP family, ICL 2900 series"],
+            ["Microprocessor-based personal computer", "Apple II"],
+            ["Supercomputer", "Cray X-MP"],
+            ["Processor examples", "Intel Pentium 4, AMD Athlon"],
+            ["Modern device categories", "Desktops, laptops, tablets, smartphones"]
+          ]
+        },
+        {
+          "type": "bullets",
+          "title": "Classification points",
+          "items": [
+            "Harvard Mark I was **electromechanical**, so it does not belong with vacuum-tube electronic computers.",
+            "System/360 used IBM **Solid Logic Technology (SLT)**, a hybrid microelectronic approach, so calling every model a plain monolithic-IC machine is an oversimplification.",
+            "ICL 2900 appeared in **1974**, outside a strict 1964-1971 third-generation bracket.",
+            "PDP names a **family**; the generation depends on the model. CDC STAR-100 is a documented historical model.",
+            "The lists mix whole computers, processor families and device categories, so keep them distinct. A desktop, laptop, tablet or smartphone does not prove a particular generation."
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "Computer types and performance",
+          "rows": [
+            ["Microcomputer", "Traditionally microprocessor-based; includes desktops, laptops and tablets."],
+            ["Minicomputer", "Historical mid-sized systems that commonly supported multiple users."],
+            ["Mainframe", "Built for heavy workloads, high transaction volumes and reliable service."],
+            ["MIPS", "**Millions of Instructions Per Second**, a measure of instruction rate. Alone it cannot reliably compare different processor architectures."]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "languages-and-os",
+      "title": "Language Generations & Operating Systems",
+      "icon": "🖥️",
+      "blocks": [
+        {
+          "type": "table",
+          "title": "Programming language generations",
+          "headers": ["Generation", "Type", "Notes and examples"],
+          "rows": [
+            ["1GL", "Machine code", "Binary instructions"],
+            ["2GL", "Assembly", "Symbolic instructions (mnemonics) turned into machine code by an assembler"],
+            ["3GL", "High-level general purpose", "C, C++, Java, Visual Basic, JavaScript, Python, Perl, Ruby"],
+            ["4GL", "Database, query and reporting", "SQL is a common example"],
+            ["5GL", "Logic and constraint based", "Prolog is a common textbook example"]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "Language facts",
+          "rows": [
+            ["Prolog", "Name from **Programming in Logic**."],
+            ["LISP", "Name from **List Processing**; important in symbolic AI."],
+            ["Mercury", "A declarative logic/functional language."],
+            ["OPS5", "A rule-based language used for expert systems."],
+            ["MATLAB", "**Matrix Laboratory**; technical-computing language whose generation label varies."],
+            ["FORTRAN", "Commercially released in **1957**."],
+            ["COBOL", "Emerged in **1959**."]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "text": "Hardware generations and language generations are **separate classifications**. Second-generation computers did not use assembly exclusively (FORTRAN and COBOL also arrived then), and scripting does not automatically make Python, Perl or Ruby fourth-generation languages."
+        },
+        {
+          "type": "figure",
+          "kind": "flow",
+          "title": "Operating system approaches (they overlap)",
+          "items": [
+            ["Manual operation", "Operators load jobs; often no OS"],
+            ["Batch processing", "Prepared jobs run together"],
+            ["Multiprogramming", "CPU switches when a job waits for I/O"],
+            ["Time-sharing", "Short CPU slices, interactive use"],
+            ["Distributed / networked", "Resources shared across computers"],
+            ["Cloud environments", "Network-delivered computing"]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "OS concepts",
+          "rows": [
+            ["Batch processing", "Prepared jobs run together with little user interaction. It began in the **1950s** (GM-NAA dates to **1956**) and continued across generations, so it is **not** exclusive to the first generation."],
+            ["Multiprogramming", "Several programs stay available, and the CPU works on another when one waits for input/output."],
+            ["Time-sharing", "Short CPU time slices give interactive service to many tasks or users."],
+            ["Distributed OS", "Coordinates resources across connected computers."],
+            ["Cloud environments", "Network-delivered computing using virtualisation and resource-management software."]
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Interface evolution",
+          "headers": ["Interface", "How you use it"],
+          "rows": [
+            ["CLI (Command-Line Interface)", "Type commands"],
+            ["GUI (Graphical User Interface)", "Windows, icons, menus and graphical controls"],
+            ["Touch UI", "Taps, swipes and gestures"],
+            ["Voice interface", "Spoken commands and questions"],
+            ["AI-assisted interface", "Natural-language interaction with context-aware replies"],
+            ["CUI", "Commonly Character User Interface; may use text menus without typed commands"]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "parallel-ai-nlp",
+      "title": "Parallel Computing, AI & NLP",
+      "icon": "🤖",
+      "blocks": [
+        {
+          "type": "keyvalue",
+          "title": "Ways to organise computation",
+          "rows": [
+            ["Sequential", "Operations run one after another in order."],
+            ["Parallel", "Several cores or processing units work on parts of a task at the same time."],
+            ["Distributed", "Separate connected computers coordinate their work."]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "remember",
+          "text": "**Parallel = concurrent computation; distributed = computation across connected machines.** Modern computers combine sequential, parallel and distributed methods."
+        },
+        {
+          "type": "keyvalue",
+          "title": "Fifth-generation themes",
+          "rows": [
+            ["Expert systems", "Use a knowledge base and rules for one problem domain."],
+            ["Neural networks", "Learn patterns from data using interconnected computing units."],
+            ["Logic programming", "Represents facts, rules and logical relationships."],
+            ["Parallel processing", "Supports suitable concurrent workloads."],
+            ["Japan's Fifth Generation Computer Systems project", "Investigated knowledge processing, logic programming and parallel inference."]
+          ]
+        },
+        {
+          "type": "bullets",
+          "title": "NLP (Natural Language Processing) in daily life",
+          "items": [
+            "**NLP** is a field of AI that lets computers process, interpret and generate human language.",
+            "**Chatbots and virtual assistants** interpret questions and generate replies.",
+            "**Machine translation** converts text between languages; Google Translate is an example.",
+            "**Voice assistants** combine speech technology with NLP to act on spoken requests.",
+            "**Spam filtering** analyses message content, and also uses sender reputation and links.",
+            "**Predictive typing** suggests the next word; **autocorrect** fixes likely typing or spelling errors."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "networking-emerging",
+      "title": "Networking & Emerging Technology",
+      "icon": "🌐",
+      "blocks": [
+        {
+          "type": "keyvalue",
+          "title": "Network terms",
+          "rows": [
+            ["Standalone computer", "Does local work without depending on a network."],
+            ["LAN", "**Local Area Network**; connects devices in a limited area such as an office or building."],
+            ["WAN", "**Wide Area Network**; connects devices or networks over a larger geographical area."],
+            ["Internet", "A global system of interconnected networks."],
+            ["Cloud computing", "Storage, applications and processing delivered through a network. It does not replace networks."],
+            ["IoT", "**Internet of Things**; connected physical devices such as sensors and smart devices that collect or exchange data."]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "The 'sixth generation' label",
+          "rows": [
+            ["Sixth generation", "Some study material uses this label for emerging technology, with **quantum technology** as the usual exam answer. It is not a universally agreed technical category."],
+            ["Nanotechnology", "Engineering materials or devices at extremely small scales."],
+            ["LSI, VLSI, ULSI", "Large, Very Large and Ultra Large Scale Integration."],
+            ["UULSI", "Sometimes expanded as Ultra-Ultra Large Scale Integration; not a universally accepted defining feature of any generation."]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "Quantum basics",
+          "rows": [
+            ["Classical bit", "Value 0 or 1."],
+            ["Qubit", "Can be prepared in state 0, state 1 or a **superposition** of both. Measuring it gives 0 or 1."],
+            ["Quantum algorithms", "Use superposition, interference and entanglement."]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "text": "'Both 0 and 1 at once' is only an introductory shorthand. Quantum computers help only for **selected tasks** (such as quantum simulation and some optimisation problems), they are not faster for everything, and they do not simply try every password at once. They also differ from ordinary multicore parallel processing."
+        }
+      ]
+    }
+  ],
+  "revision": [
+    "Abacus is the earliest calculating aid; its exact origin is uncertain (not only China).",
+    "Napier's Bones (Rabdologiae, 1617): multiplication and division. Oughtred: slide rule in the 1620s.",
+    "Pascaline (Pascal, 1642) adds and subtracts; Leibniz's Stepped Reckoner does all four operations and he explained binary.",
+    "Babbage = Father of the Computer: Difference Engine (math tables) and Analytical Engine (Mill + Store + punched cards).",
+    "Ada Lovelace published notes on the Analytical Engine in 1843 and is the first computer programmer; Hollerith's punched cards served the 1890 census.",
+    "Harvard Mark I (1944, Aiken + IBM) was electromechanical; ENIAC (1946, Eckert + Mauchly) was the first general-purpose electronic computer.",
+    "Stored program: von Neumann's 1945 EDVAC report; Manchester Baby ran one on 21 June 1948; EDSAC followed in 1949.",
+    "UNIVAC I went to the U.S. Census Bureau in 1951; the IBM PC (Model 5150) was launched on 12 August 1981.",
+    "Intel 4004 (1971) is the first commercially available single-chip microprocessor; Kenbak-1 1971, Apple I 1976 (Wozniak), Apple II 1977.",
+    "Turing machine 1936, Turing Test 1950; McCarthy coined 'artificial intelligence' in 1955; Berners-Lee invented the WWW at CERN in 1989.",
+    "Creators: Ritchie = C, Thompson + Ritchie = UNIX, Torvalds = Linux kernel (1991), Gosling = Java, van Rossum = Python, Lerdorf = PHP.",
+    "Generations: vacuum tubes, transistors, ICs, microprocessors (VLSI), then AI and KIPS; Kilby and Noyce share credit for the IC, and silicon is the usual material.",
+    "Batch processing began in the 1950s and is not exclusive to the first generation; 1GL machine code, 2GL assembly, 4GL SQL, 5GL Prolog.",
+    "Time units fall in 1,000-fold steps: ms, µs, ns, ps, fs. KIPS is a knowledge-processing idea, not an I/O device.",
+    "Toggle keys (Caps, Num, Scroll Lock) switch a state; modifier keys (Shift, Ctrl, Alt) change another key's action."
+  ],
+  "mindmap": {
+    "center": "History of Computer",
+    "branches": [
+      {
+        "label": "Early aids and machines",
+        "children": ["Abacus", "Napier's Bones", "Slide rule", "Pascaline", "Stepped Reckoner"]
+      },
+      {
+        "label": "Babbage and programming",
+        "children": ["Difference Engine", "Analytical Engine", "Mill and Store", "Ada Lovelace", "Hollerith cards"]
+      },
+      {
+        "label": "Electronic computers",
+        "children": ["Harvard Mark I (1944)", "ENIAC (1946)", "EDVAC and von Neumann", "Manchester Baby (1948)", "EDSAC (1949)"]
+      },
+      {
+        "label": "Commercial and PCs",
+        "children": ["UNIVAC I (1951)", "Intel 4004 (1971)", "Apple I and II", "IBM PC (1981)"]
+      },
+      {
+        "label": "Pioneers and creators",
+        "children": ["Turing", "Berners-Lee: WWW", "McCarthy: AI", "Ritchie: C and UNIX", "Torvalds: Linux"]
+      },
+      {
+        "label": "Generations",
+        "children": ["Vacuum tubes", "Transistors", "ICs", "Microprocessors", "AI and KIPS"]
+      },
+      {
+        "label": "Memory, speed and I/O",
+        "children": ["Magnetic drum and core", "SSD and flash", "ms, µs, ns, ps, fs", "Punched cards to touch"]
+      },
+      {
+        "label": "Modern computing",
+        "children": ["Parallel and distributed", "NLP", "Cloud and IoT", "Quantum and qubit"]
+      }
+    ]
+  }
+}

@@ -1,0 +1,410 @@
+{
+  "id": "monitor",
+  "sections": [
+    {
+      "id": "monitor-and-vdu",
+      "title": "Monitor & VDU",
+      "icon": "🖥️",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "A **monitor** is an **output device** that shows text, pictures, graphics and video. It contains the screen and the electronics needed to run it. Another common name for a monitor is **VDU**."
+        },
+        {
+          "type": "keyvalue",
+          "title": "Key terms",
+          "rows": [
+            ["Monitor", "Output device that displays text, images, graphics and video"],
+            ["VDU", "**Visual Display Unit**, commonly used as another term for a monitor"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "Wrong full form",
+          "text": "VDU stands for **Visual** Display Unit. 'Vast Display Unit' is incorrect and often appears as a wrong option."
+        },
+        {
+          "type": "figure",
+          "kind": "flow",
+          "title": "Study sequence of monitor types",
+          "items": [
+            ["CRT", "Bulky, electron-gun tube"],
+            ["LCD", "Liquid crystals, flat panel"],
+            ["LED-backlit LCD", "LCD lit by LEDs"],
+            ["OLED", "Organic self-emitting pixels"]
+          ]
+        },
+        {
+          "type": "text",
+          "text": "This order is only a simplified exam sequence. It is a broad study guide, not an exact timeline of when each technology was invented."
+        }
+      ]
+    },
+    {
+      "id": "screen-size",
+      "title": "Screen Size & Diagonal",
+      "icon": "📏",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "Screen size is measured **diagonally** across the viewable screen, usually in **inches**. A 24-inch monitor has a nominal 24-inch diagonal. The measurement excludes the bezel (frame) and the stand. The diagonal is the distance between opposite corners of the viewable screen."
+        },
+        {
+          "type": "keyvalue",
+          "title": "Diagonal of a rectangular screen",
+          "rows": [
+            ["Formula", "diagonal = square root of (width² + height²), using the Pythagorean theorem"],
+            ["Example", "A screen 24 inches wide and 18 inches high has a diagonal of the square root of (576 + 324) = 30 inches"]
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Common screen sizes (inches)",
+          "headers": ["Sizes", "Category"],
+          "rows": [
+            ["15, 17", "Older small sizes"],
+            ["19, 21", "Mid sizes"],
+            ["22, 24", "Common desktop sizes"],
+            ["27, 32", "Larger screens"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "remember",
+          "text": "Size = **diagonal** (in inches). Resolution = **pixels**. Never mix these up: 1920 x 1080 is a pixel count, not a size in inches."
+        }
+      ]
+    },
+    {
+      "id": "resolution",
+      "title": "Resolution",
+      "icon": "🔲",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "**Resolution** = horizontal pixels x vertical pixels. For example, 1920 x 1080 means 1920 pixels across and 1080 pixels down. Total pixels = width in pixels x height in pixels."
+        },
+        {
+          "type": "table",
+          "title": "Standard resolutions",
+          "headers": ["Name", "Resolution", "Total pixels"],
+          "rows": [
+            ["VGA", "640 x 480 (legacy computer format)", "307,200"],
+            ["HD / 720p", "1280 x 720", "921,600"],
+            ["Full HD / 1080p", "1920 x 1080", "2,073,600"],
+            ["QHD / WQHD / 1440p", "2560 x 1440", "3,686,400"],
+            ["4K UHD", "3840 x 2160", "8,294,400"],
+            ["8K UHD", "7680 x 4320", "33,177,600"]
+          ]
+        },
+        {
+          "type": "figure",
+          "kind": "pyramid",
+          "title": "Resolution ladder (top = highest)",
+          "items": [
+            ["8K UHD", "7680 x 4320"],
+            ["4K UHD", "3840 x 2160"],
+            ["QHD / 1440p", "2560 x 1440"],
+            ["Full HD / 1080p", "1920 x 1080"],
+            ["HD / 720p", "1280 x 720"],
+            ["VGA", "640 x 480"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "Exam accuracy",
+          "text": "Full HD has 2,073,600 pixels; 4K UHD has **four times** as many (8,294,400). **2048 x 1080** is DCI 2K cinema resolution, **not** Full HD. Consumer 4K UHD is 3840 x 2160; cinema DCI 4K is a different format. VGA 640 x 480 is the commonly quoted legacy format, not a universal definition."
+        }
+      ]
+    },
+    {
+      "id": "pixel-and-rgb",
+      "title": "Pixel & RGB",
+      "icon": "🎨",
+      "blocks": [
+        {
+          "type": "keyvalue",
+          "rows": [
+            ["Pixel", "Short for **picture element**: an individual element of a digital image"],
+            ["RGB", "**Red, Green, Blue**; monitors combine light using this **additive** colour model"],
+            ["Subpixels", "A conventional RGB pixel has red, green and blue subpixels; some panels use other layouts"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "tip",
+          "title": "Light adds up",
+          "text": "Monitors make colour by **adding light** (RGB). Printers work differently: colour laser printers use CMYK toners."
+        }
+      ]
+    },
+    {
+      "id": "colour-depth",
+      "title": "Colour Depth",
+      "icon": "🌈",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "If a pixel uses **b** total colour bits, the number of possible colour values is **2 to the power b**. More bits per pixel means more colours."
+        },
+        {
+          "type": "table",
+          "headers": ["Total bits per pixel", "Colour values", "Common name"],
+          "rows": [
+            ["8-bit total", "2⁸ = 256", "-"],
+            ["16-bit total", "2¹⁶ = 65,536", "High Color"],
+            ["24-bit RGB", "2²⁴ = 16,777,216 (about 16.7 million)", "True Color"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "Per channel vs total",
+          "text": "**8 bits per RGB channel** means 24 bits in total: 256 x 256 x 256, about **16.7 million** colours. But **8-bit total** means only **256** colours."
+        }
+      ]
+    },
+    {
+      "id": "density-refresh-response",
+      "title": "Pixel Density, Refresh Rate & Response Time",
+      "icon": "⚡",
+      "blocks": [
+        {
+          "type": "table",
+          "headers": ["Measure", "Meaning", "Unit"],
+          "rows": [
+            ["Pixel density", "Pixels packed into each inch of screen", "**PPI** (pixels per inch)"],
+            ["Refresh rate", "How many times the image updates every second (60 Hz = 60 refreshes per second)", "**Hz** (hertz)"],
+            ["Pixel response time", "Time taken for a pixel transition", "Usually **ms** (milliseconds)"],
+            ["Aspect ratio", "Screen width : height (example 16:9)", "Ratio"]
+          ]
+        },
+        {
+          "type": "bullets",
+          "items": [
+            "At the same screen size, a higher native resolution gives a higher PPI and potentially sharper detail.",
+            "A higher refresh rate looks smoother.",
+            "Source quality and display settings still affect the final detail."
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "remember",
+          "title": "Quick revision",
+          "text": "PPI = density, Hz = refresh, ms = response, nits = luminance. **Refresh rate and response time are different measurements.**"
+        }
+      ]
+    },
+    {
+      "id": "brightness-and-brands",
+      "title": "Brightness (Nits) & Brands",
+      "icon": "💡",
+      "blocks": [
+        {
+          "type": "keyvalue",
+          "title": "Nits",
+          "rows": [
+            ["Nit", "Unit of **luminance**: 1 nit = 1 candela per square metre (cd/m²)"],
+            ["Meaning", "A higher measured nit value means greater luminance, commonly called screen brightness"],
+            ["Typical range", "About 200-300 nits for many basic office monitors; models vary and this is not a universal standard"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "Nits are not 'night visibility'",
+          "text": "'Night visibility brightness' is **not** what nits stands for. Nits is a unit name for luminance. Precisely, luminous intensity uses the candela, while luminance uses cd/m²."
+        },
+        {
+          "type": "bullets",
+          "title": "Monitor brands mentioned",
+          "items": ["Dell", "HP (Hewlett-Packard)", "Samsung", "LG", "Acer", "ASUS", "Lenovo", "BenQ", "Zebronics (an Indian brand)"]
+        }
+      ]
+    },
+    {
+      "id": "crt-lcd-led-tft",
+      "title": "CRT, LCD, LED & TFT",
+      "icon": "📺",
+      "blocks": [
+        {
+          "type": "keyvalue",
+          "title": "Core display types",
+          "rows": [
+            ["CRT", "**Cathode Ray Tube**: electron guns direct electron beams onto a phosphor-coated screen. Bulky, deep and usually heavy; the oldest technology among those listed. Not a flat-panel display."],
+            ["LCD", "**Liquid Crystal Display**: liquid crystals control the passage of light; they do not make their own light."],
+            ["LED monitor", "A conventional 'LED monitor' is an **LCD panel lit by LED backlights**. The LED describes the light source, not a separate display principle."],
+            ["TFT", "**Thin-Film Transistor** LCD: an **active-matrix** display where transistors control pixels or subpixels precisely."]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "Backlights",
+          "rows": [
+            ["CCFL", "**Cold Cathode Fluorescent Lamp**: the backlight in older LCD monitors"],
+            ["LED backlight", "Uses LEDs instead of CCFL; it can use less electricity than CCFL backlighting"]
+          ]
+        },
+        {
+          "type": "bullets",
+          "items": [
+            "CRT has no fixed addressable pixel matrix like an LCD, but saying it has 'no pixels at all' is an oversimplification.",
+            "LCD does not always mean CCFL: LED backlighting is also widely used.",
+            "A TFT LCD may use CCFL or LED backlighting, so TFT control and LED backlighting can exist in the same monitor."
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "LED is not a separate panel",
+          "text": "An LED monitor is still an LCD. Liquid crystals form the picture; LEDs only provide the backlight. The old CCFL lamp is the fluorescent backlight that LEDs replaced."
+        }
+      ]
+    },
+    {
+      "id": "plasma-oled-and-more",
+      "title": "Plasma, OLED, QLED, MicroLED & Mini-LED",
+      "icon": "✨",
+      "blocks": [
+        {
+          "type": "table",
+          "headers": ["Technology", "How it works", "Backlight?"],
+          "rows": [
+            ["Plasma", "Small gas-filled cells are electrically excited into plasma (ionised gas); ultraviolet radiation excites phosphors to give visible light. A flat-panel technology.", "No LCD-style backlight"],
+            ["OLED (Organic Light-Emitting Diode)", "Organic light-emitting elements produce light directly; individual pixels can switch off, giving deep blacks and high contrast. Very fast pixel transitions and wide viewing angles.", "No separate backlight"],
+            ["QLED (Quantum-dot LED)", "A conventional QLED is an **LED-backlit LCD** enhanced with quantum dots, which improve colour reproduction.", "Uses a backlight"],
+            ["MicroLED", "Microscopic inorganic LEDs emit their own light; distinct from Mini-LED.", "No separate backlight"],
+            ["Mini-LED", "Uses smaller LEDs in an LCD backlight, often giving more local-dimming zones and finer brightness control; can improve contrast. LCD pixels remain non-self-emissive.", "It is the backlight"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "tip",
+          "title": "One-word memory aids",
+          "text": "**Organic** = OLED. **Quantum dots** = QLED. **Inorganic emitters** = MicroLED. **Tiny backlight** = Mini-LED. **Gas** = Plasma. **Electron gun** = CRT."
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "Exam traps",
+          "text": "Self-emission is **not exclusive to OLED**: MicroLED and plasma also generate light directly. QLED = quantum dots, OLED = organic emitters. Electricity use depends on size, brightness, content and mode, so MicroLED is not universally the lowest-power or best choice. Saying OLED is 'always fastest' or 'always best' is too absolute."
+        }
+      ]
+    },
+    {
+      "id": "display-rapid-revision",
+      "title": "Rapid Revision: Display Technologies",
+      "icon": "🔁",
+      "blocks": [
+        {
+          "type": "table",
+          "title": "Clue to answer",
+          "headers": ["Clue", "Answer"],
+          "rows": [
+            ["Oldest type among the listed display technologies", "CRT"],
+            ["Electron gun and electron beams", "CRT"],
+            ["Bulky, heavy, deep-bodied monitor; conventional non-flat-panel display", "CRT"],
+            ["Liquid-crystal-based display", "LCD"],
+            ["Conventional LED monitor", "An LCD with LED backlighting"],
+            ["Fluorescent CCFL backlighting", "Older CCFL-backlit LCD"],
+            ["Quantum-dot-enhanced LED-backlit display", "QLED"],
+            ["Organic self-emitting pixels; no separate backlight among the original choices", "OLED"],
+            ["Very fast pixel transitions; wide viewing angles (expected exam answer)", "OLED"],
+            ["Gas-filled display cells; ionised-gas operation", "Plasma"],
+            ["Advanced inorganic self-emissive LEDs", "MicroLED"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "remember",
+          "text": "LCD and LED are related; QLED and OLED differ. Mini-LED is a **backlight**; MicroLED is **self-emissive**. 'Most advanced' is subjective, not a fixed technical category. Least power consumption cannot be decided by the technology name alone; compare equal size, brightness, content and model specifications."
+        }
+      ]
+    },
+    {
+      "id": "size-colour-accuracy-check",
+      "title": "Rapid Revision: Size, Resolution, Colour & Brightness",
+      "icon": "✅",
+      "blocks": [
+        {
+          "type": "table",
+          "title": "Facts to recall",
+          "headers": ["Topic", "Fact"],
+          "rows": [
+            ["Monitor size", "Measured diagonally, in inches; excludes bezel and stand"],
+            ["Full HD", "1920 x 1080 = 2,073,600 pixels"],
+            ["QHD", "2560 x 1440, higher than Full HD"],
+            ["4K UHD", "3840 x 2160 = 4 x Full HD pixels"],
+            ["True Color", "24-bit RGB, about 16.7 million colours"],
+            ["High Color", "16-bit total, 65,536 colours"],
+            ["8-bit total", "256 colours"],
+            ["8-bit per channel", "16.7 million colours"],
+            ["Pixel", "From 'picture element'"],
+            ["Brightness unit", "Nits (luminance); 1 nit = 1 cd/m²"]
+          ]
+        },
+        {
+          "type": "bullets",
+          "title": "Technology truths",
+          "items": [
+            "Conventional QLED is based on LCD technology.",
+            "OLED needs no backlight; CRT is not a conventional flat panel; plasma does not use liquid crystals.",
+            "Fluorescent lamps (CCFL) were used in older LCD monitors.",
+            "Higher native resolution at the same size raises pixel density (PPI) and can improve detail."
+          ]
+        }
+      ]
+    }
+  ],
+  "revision": [
+    "A monitor is an output device; VDU = Visual Display Unit (never 'Vast').",
+    "Screen size is measured diagonally in inches, excluding the bezel and stand.",
+    "Resolution = horizontal pixels x vertical pixels; Full HD is 1920 x 1080 (not 2048 x 1080).",
+    "QHD is 2560 x 1440; 4K UHD is 3840 x 2160, which is four times the pixels of Full HD.",
+    "Pixel = picture element; RGB (Red, Green, Blue) is an additive colour model.",
+    "True Color is 24-bit RGB (about 16.7 million colours); High Color is 16-bit (65,536 colours); 8-bit total is 256.",
+    "PPI = pixel density, Hz = refresh rate, ms = response time, nits = luminance (cd/m²).",
+    "CRT uses electron guns and is bulky; it is the oldest display type listed and not a flat panel.",
+    "LCD uses liquid crystals, which do not emit light; an LED monitor is an LCD with LED backlights.",
+    "CCFL (Cold Cathode Fluorescent Lamp) backlit older LCD monitors; TFT is an active-matrix LCD.",
+    "Plasma uses ionised gas cells; OLED uses organic emitters; QLED uses quantum dots on an LCD.",
+    "MicroLED is self-emissive (inorganic LEDs); Mini-LED is only a small-LED backlight for LCD.",
+    "Self-emission is not exclusive to OLED: MicroLED and plasma also make their own light.",
+    "Simplified exam sequence: CRT, LCD, LED-backlit LCD, OLED (not an exact invention timeline)."
+  ],
+  "mindmap": {
+    "center": "Computer Monitor",
+    "branches": [
+      {
+        "label": "Basics",
+        "children": ["Output device", "VDU = Visual Display Unit", "Diagonal size in inches", "Excludes bezel and stand"]
+      },
+      {
+        "label": "Resolution",
+        "children": ["Width x height pixels", "Full HD 1920 x 1080", "QHD 2560 x 1440", "4K UHD 3840 x 2160", "8K UHD 7680 x 4320"]
+      },
+      {
+        "label": "Pixels & Colour",
+        "children": ["Pixel = picture element", "RGB additive model", "8-bit = 256 colours", "16-bit High Color 65,536", "24-bit True Color 16.7M"]
+      },
+      {
+        "label": "Performance",
+        "children": ["PPI pixel density", "Hz refresh rate", "ms response time", "Aspect ratio 16:9", "Nits = luminance"]
+      },
+      {
+        "label": "Older Technologies",
+        "children": ["CRT: electron gun", "LCD: liquid crystals", "LED = LCD backlight", "CCFL fluorescent lamp", "TFT active matrix"]
+      },
+      {
+        "label": "Advanced Displays",
+        "children": ["Plasma: ionised gas", "OLED: organic emitters", "QLED: quantum dots", "MicroLED: inorganic LEDs", "Mini-LED: small backlight"]
+      },
+      {
+        "label": "Exam Traps",
+        "children": ["Vast Display Unit is wrong", "2048 x 1080 is not Full HD", "Self-emission not only OLED", "Nits is not night visibility"]
+      }
+    ]
+  }
+}

@@ -1,0 +1,282 @@
+[
+  {
+    "id": "software-01",
+    "q": "Which of the following best describes software?",
+    "options": ["The physical parts of a computer", "Programs, instructions and associated information used to perform computer tasks", "Only the files stored on a hard disk", "The electrical power supplied to a computer"],
+    "answer": 1,
+    "explain": "Software is the set of programs, instructions and related information that tells a computer what to do. Hardware is the physical part.",
+    "section": "software-basics"
+  },
+  {
+    "q": "A functional component that performs a particular job, and which together with others can form an application, is called a:",
+    "options": ["Bit", "Process", "Package", "Module"],
+    "answer": 3,
+    "explain": "A module is a functional component that does a specific job. Several cooperating modules can form an application, though a module is not universally the smallest software unit.",
+    "section": "software-basics",
+    "id": "software-02"
+  },
+  {
+    "id": "software-03",
+    "q": "The original instructions written by a programmer are known as:",
+    "options": ["Source code", "Object code", "Machine code", "Executable file"],
+    "answer": 0,
+    "explain": "Source code is what the programmer writes. Object code and machine code are produced later by translation.",
+    "section": "code-to-execution"
+  },
+  {
+    "id": "software-04",
+    "q": "Which program combines object files and required libraries into a single linked output?",
+    "options": ["Loader", "Debugger", "Linker", "Interpreter"],
+    "answer": 2,
+    "explain": "The linker joins object files and libraries. The loader only places the finished program in memory to run it.",
+    "section": "code-to-execution"
+  },
+  {
+    "id": "software-05",
+    "q": "Which of the following places a program in memory and prepares it to run?",
+    "options": ["Compiler", "Linker", "Assembler", "Loader"],
+    "answer": 3,
+    "explain": "The loader loads the executable into memory and prepares it for execution.",
+    "section": "code-to-execution"
+  },
+  {
+    "id": "software-06",
+    "q": "Which of the following statements about the .exe extension is correct?",
+    "options": ["It is used by every kind of software", "It is a common Windows executable extension, but not all software uses it", "It is used only for image files", "It stands for External Extension"],
+    "answer": 1,
+    "explain": ".exe means executable and is common on Windows, but other software (and other systems) use different formats.",
+    "section": "code-to-execution"
+  },
+  {
+    "id": "software-07",
+    "q": "A program that is currently being executed, together with its state and resources, is called a:",
+    "options": ["Process", "Package", "Module", "Source file"],
+    "answer": 0,
+    "explain": "A program is stored instructions; a process is an executing instance of that program.",
+    "section": "program-process-people"
+  },
+  {
+    "id": "software-08",
+    "q": "Who is widely recognised as the first computer programmer for her work on Babbage's Analytical Engine?",
+    "options": ["Grace Hopper", "Ada Lovelace", "Margaret Hamilton", "Hedy Lamarr"],
+    "answer": 1,
+    "explain": "Ada Lovelace wrote notes and an algorithm for Babbage's Analytical Engine and is widely regarded as the first programmer.",
+    "section": "program-process-people"
+  },
+  {
+    "id": "software-09",
+    "q": "Which of the following is a drawing app found in the traditional Accessories group of a PC?",
+    "options": ["Word", "Calculator", "Paint", "Excel"],
+    "answer": 2,
+    "explain": "Paint is a drawing app. Word is a word processor and Excel is a spreadsheet.",
+    "section": "program-process-people"
+  },
+  {
+    "id": "software-10",
+    "q": "Which of the following is NOT system software?",
+    "options": ["Device driver", "Operating system", "Utility program", "Spreadsheet"],
+    "answer": 3,
+    "explain": "A spreadsheet is application software used for a user task. Drivers, operating systems and utilities manage or support the system.",
+    "section": "system-and-application"
+  },
+  {
+    "id": "software-11",
+    "q": "MS-DOS is an example of:",
+    "options": ["Application software", "An operating system", "A word processor", "A language translator"],
+    "answer": 1,
+    "explain": "MS-DOS is an operating system, which makes it system software, not application software.",
+    "section": "system-and-application"
+  },
+  {
+    "id": "software-12",
+    "q": "Which software provides the interface that lets the operating system communicate with a printer?",
+    "options": ["Device driver", "Compiler", "Middleware", "Spreadsheet"],
+    "answer": 0,
+    "explain": "A device driver gives the OS a way to talk to specific hardware such as printers, graphics cards or network adapters.",
+    "section": "system-and-application"
+  },
+  {
+    "id": "software-13",
+    "q": "Which of the following tools examines file-system or drive problems?",
+    "options": ["Compression tool", "Backup tool", "Antivirus", "Disk checking tool"],
+    "answer": 3,
+    "explain": "Disk checking tools look for file-system or drive errors. Compression saves space, backup copies data, and antivirus fights malware.",
+    "section": "utilities-and-defragmentation"
+  },
+  {
+    "id": "software-14",
+    "q": "Defragmentation is the process of:",
+    "options": ["Deleting temporary and unnecessary files", "Reorganising scattered file fragments on a hard disk for efficient access", "Copying data for later recovery", "Removing viruses from the disk"],
+    "answer": 1,
+    "explain": "Defragmentation rearranges existing data so each file's pieces sit together. Deleting unnecessary files is Disk Cleanup.",
+    "section": "utilities-and-defragmentation"
+  },
+  {
+    "id": "software-15",
+    "q": "Which statement correctly separates Disk Cleanup from defragmentation?",
+    "options": ["Both delete unnecessary files", "Both rearrange existing data", "Disk Cleanup rearranges data and defragmentation deletes it", "Disk Cleanup deletes unnecessary data while defragmentation rearranges existing data"],
+    "answer": 3,
+    "explain": "Cleanup removes selected temporary and unneeded files; defragmentation only reorganises data that is kept.",
+    "section": "utilities-and-defragmentation"
+  },
+  {
+    "id": "software-16",
+    "q": "Which technique does Windows commonly use when optimising an SSD, instead of classic defragmentation?",
+    "options": ["TRIM", "BIOS", "ROM", "Scandisk"],
+    "answer": 0,
+    "explain": "Windows treats HDDs and SSDs differently; SSD optimisation commonly uses TRIM.",
+    "section": "utilities-and-defragmentation"
+  },
+  {
+    "id": "software-17",
+    "q": "Software built for a particular defined job, such as payroll or ticket reservation, is called:",
+    "options": ["General-purpose software", "Special-purpose software", "System software", "Firmware"],
+    "answer": 1,
+    "explain": "Special-purpose application software handles a defined task, while general-purpose software serves common needs.",
+    "section": "application-software"
+  },
+  {
+    "id": "software-18",
+    "q": "ERP stands for:",
+    "options": ["Electronic Record Processing", "Enterprise Resource Planning", "Enterprise Resource Programming", "Efficient Resource Protocol"],
+    "answer": 1,
+    "explain": "ERP is Enterprise Resource Planning, software that integrates finance, purchasing, inventory and human resources.",
+    "section": "application-software"
+  },
+  {
+    "id": "software-19",
+    "q": "Which statement about ERP and SAP is correct?",
+    "options": ["ERP is a company and SAP is a software category", "ERP and SAP are the same thing", "ERP is a software category and SAP is a company supplying business software", "SAP is an operating system and ERP is a compiler"],
+    "answer": 2,
+    "explain": "ERP is a category of software; SAP is a company whose products include ERP applications.",
+    "section": "application-software"
+  },
+  {
+    "id": "software-20",
+    "q": "Software that serves a particular industry or profession, such as hospital-management or hotel-management systems, is called:",
+    "options": ["Horizontal software", "Freeware", "Middleware", "Vertical software"],
+    "answer": 3,
+    "explain": "Vertical (industry-specific or niche) software is built for one industry. Horizontal software, like a word processor, serves many industries.",
+    "section": "horizontal-vertical-banking"
+  },
+  {
+    "id": "software-21",
+    "q": "Finacle, a banking software example of vertical software, was developed by:",
+    "options": ["Infosys", "SAP", "Microsoft", "Tally Solutions"],
+    "answer": 0,
+    "explain": "Finacle is banking software developed by Infosys. Bacs, by contrast, is a UK payment system and not a core banking package.",
+    "section": "horizontal-vertical-banking"
+  },
+  {
+    "id": "software-22",
+    "q": "Which of the following is a UK payment system supporting Direct Debit and Direct Credit?",
+    "options": ["Finacle", "Bacs", "Tally", "SAP"],
+    "answer": 1,
+    "explain": "Bacs is a UK payment system. It is not a core banking software package like Finacle.",
+    "section": "horizontal-vertical-banking"
+  },
+  {
+    "id": "software-23",
+    "q": "Which of the following is an example of open source software?",
+    "options": ["Microsoft Office", "Tally", "Avast Antivirus", "Mozilla Firefox"],
+    "answer": 3,
+    "explain": "Firefox is open source. Microsoft Office, Tally and Avast are closed source examples.",
+    "section": "open-and-closed-source"
+  },
+  {
+    "id": "software-24",
+    "q": "Which statement about open source software is correct?",
+    "options": ["It must always be free of charge", "Its licence makes source code available and permits use, modification and redistribution under stated conditions", "It can never be sold commercially", "It can be modified by anyone without any skill"],
+    "answer": 1,
+    "explain": "Open source is about source-code rights under a licence. It can be free or sold, and modifying it may still need programming skill.",
+    "section": "open-and-closed-source"
+  },
+  {
+    "id": "software-25",
+    "q": "Software distributed for evaluation, with payment expected or required for continued use or extra features, is called:",
+    "options": ["Freeware", "Public-domain software", "Shareware", "Open-source software"],
+    "answer": 2,
+    "explain": "Shareware is for evaluation, after which payment is expected. Freeware has no purchase price.",
+    "section": "distribution-terms"
+  },
+  {
+    "id": "software-26",
+    "q": "Software that repeatedly shows pop-up reminders asking the user to register, buy or pay is known as:",
+    "options": ["Nagware", "Freeware", "Firmware", "Middleware"],
+    "answer": 0,
+    "explain": "Nagware, also called annoyware or begware, nags users with repeated reminders.",
+    "section": "distribution-terms"
+  },
+  {
+    "id": "software-27",
+    "q": "EULA stands for:",
+    "options": ["Electronic User Licence Authority", "End User Licence Application", "Enterprise User Legal Agreement", "End User License Agreement"],
+    "answer": 3,
+    "explain": "EULA is the End User License Agreement, the terms that govern how an end user may install, copy and use the software.",
+    "section": "distribution-terms"
+  },
+  {
+    "id": "software-28",
+    "q": "Which statement about public-domain software is correct?",
+    "options": ["It is not protected by copyright, whereas freeware and open source can still be copyrighted", "It is the same as freeware", "It is the same as open source software", "It is software protected by a EULA"],
+    "answer": 0,
+    "explain": "Public-domain software has no copyright protection. Freeware and open-source software are free to get but still copyrighted.",
+    "section": "distribution-terms"
+  },
+  {
+    "id": "software-29",
+    "q": "Which translator converts assembly-language instructions into machine-code object output?",
+    "options": ["Compiler", "Interpreter", "Assembler", "Debugger"],
+    "answer": 2,
+    "explain": "An assembler handles assembly language. Converting a high-level language into assembly is a compiler task.",
+    "section": "languages-and-translators"
+  },
+  {
+    "id": "software-30",
+    "q": "In Java, which component executes bytecode using interpretation and, in many implementations, just-in-time compilation?",
+    "options": ["Linker", "JVM", "Loader", "Assembler"],
+    "answer": 1,
+    "explain": "The Java compiler produces bytecode, and the Java Virtual Machine (JVM) runs it. This is why Java is the usual example of compilation plus interpretation.",
+    "section": "languages-and-translators"
+  },
+  {
+    "id": "software-31",
+    "q": "Which tool helps inspect program execution and locate defects, but is NOT a language translator?",
+    "options": ["Debugger", "Compiler", "Interpreter", "Assembler"],
+    "answer": 0,
+    "explain": "A debugger is a separate tool for finding defects. Compilers, interpreters and assemblers are the translators.",
+    "section": "languages-and-translators"
+  },
+  {
+    "id": "software-32",
+    "q": "Which malware self-replicates and can spread without attaching itself to a host file?",
+    "options": ["Virus", "Trojan horse", "Worm", "Rootkit"],
+    "answer": 2,
+    "explain": "A worm spreads on its own. A virus needs an infected host file or program to run.",
+    "section": "malware-and-maintenance"
+  },
+  {
+    "id": "software-33",
+    "q": "A targeted fix released for defects, vulnerabilities or behaviour in software is called a:",
+    "options": ["Upgrade", "Patch", "Bug", "Module"],
+    "answer": 1,
+    "explain": "A patch is a targeted fix. An upgrade is a move to a newer or more capable version, and a bug is the defect itself.",
+    "section": "malware-and-maintenance"
+  },
+  {
+    "id": "software-34",
+    "q": "Software stored in non-volatile memory to control a device's basic functions, such as BIOS/UEFI, is called:",
+    "options": ["Middleware", "Shareware", "Freeware", "Firmware"],
+    "answer": 3,
+    "explain": "Firmware lives in non-volatile memory such as ROM, EEPROM or flash and controls basic device operation.",
+    "section": "firmware-and-middleware"
+  },
+  {
+    "id": "software-35",
+    "q": "Which software is often called the 'glue' because it connects applications, components, clients, servers and data sources?",
+    "options": ["Firmware", "Middleware", "Utility software", "Nagware"],
+    "answer": 1,
+    "explain": "Middleware provides shared services that link applications and other components together.",
+    "section": "firmware-and-middleware"
+  }
+]

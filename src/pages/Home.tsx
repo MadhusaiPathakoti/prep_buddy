@@ -38,6 +38,15 @@ const modules: { id: string; title: string; description: string; to: string; gam
     icon: '🧩',
   },
   {
+    id: 'general-awareness',
+    title: 'General Awareness',
+    description: 'Computer Awareness as an illustrated book with chapter mind maps, a big MCQ question bank, a play-quiz and starred favourites.',
+    to: '/general-awareness',
+    gameCount: 0,
+    meta: 'Computer Awareness',
+    icon: '🌍',
+  },
+  {
     id: 'mocks',
     title: 'Mocks',
     description: 'Full-length, sectional and topic-wise SBI/IBPS PO and Clerk mocks in the real test-software interface, with a downloadable PDF analysis.',
@@ -76,7 +85,7 @@ export default function Home() {
         <div className="rounded-3xl border-2 border-dashed border-slate-200 dark:border-slate-700 p-6 text-slate-400 dark:text-slate-500">
           <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-slate-50 dark:bg-slate-800 text-2xl">🚧</div>
           <h2 className="mt-4 text-xl font-bold text-slate-400 dark:text-slate-500">More modules</h2>
-          <p className="mt-1 text-sm">General awareness modules are coming soon.</p>
+          <p className="mt-1 text-sm">More general awareness subjects are coming soon.</p>
         </div>
       </div>
     </div>

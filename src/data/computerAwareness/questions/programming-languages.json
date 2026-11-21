@@ -1,0 +1,522 @@
+[
+  {
+    "id": "programming-languages-01",
+    "q": "A finite sequence of clear, ordered steps that solves a problem is called a(n):",
+    "options": [
+      "Flowchart",
+      "Algorithm",
+      "Syntax",
+      "Compiler"
+    ],
+    "answer": 1,
+    "explain": "An algorithm is the ordered step-by-step solution; a flowchart is only its visual representation.",
+    "section": "foundations"
+  },
+  {
+    "id": "programming-languages-02",
+    "q": "Which term means finding, investigating and fixing faults in a program?",
+    "options": [
+      "Coding",
+      "Compiling",
+      "Linking",
+      "Debugging"
+    ],
+    "answer": 3,
+    "explain": "Debugging is the process of locating and correcting bugs; coding is just writing the instructions.",
+    "section": "foundations"
+  },
+  {
+    "id": "programming-languages-03",
+    "q": "Human-readable instructions written by a programmer are known as:",
+    "options": [
+      "Source code",
+      "Object code",
+      "Machine code",
+      "Executable file"
+    ],
+    "answer": 0,
+    "explain": "Source code is what the programmer writes; object and machine code are produced after translation.",
+    "section": "foundations"
+  },
+  {
+    "id": "programming-languages-04",
+    "q": "Which language uses mnemonics such as MOV, ADD, SUB and JMP?",
+    "options": [
+      "Machine language",
+      "Fourth-generation language",
+      "Assembly language",
+      "Logic programming language"
+    ],
+    "answer": 2,
+    "explain": "Assembly language (2GL) uses mnemonic names for operations; an assembler turns them into machine code.",
+    "section": "language-levels"
+  },
+  {
+    "id": "programming-languages-05",
+    "q": "Which language is made of binary instructions that the processor can execute directly?",
+    "options": [
+      "Machine language",
+      "Assembly language",
+      "Python",
+      "SQL"
+    ],
+    "answer": 0,
+    "explain": "Machine language (1GL) is binary code executed directly by the processor; assembly still needs an assembler.",
+    "section": "language-levels"
+  },
+  {
+    "id": "programming-languages-06",
+    "q": "Which of the following is a typical example of a fourth-generation (4GL) language?",
+    "options": [
+      "Prolog",
+      "Assembly",
+      "C",
+      "SQL"
+    ],
+    "answer": 3,
+    "explain": "4GLs are task-oriented and commonly linked with databases and reporting; SQL is the typical example. Prolog is a 5GL.",
+    "section": "language-levels"
+  },
+  {
+    "id": "programming-languages-07",
+    "q": "Prolog, which describes relationships, rules and constraints, is a standard example of which generation?",
+    "options": [
+      "2GL",
+      "3GL",
+      "4GL",
+      "5GL"
+    ],
+    "answer": 3,
+    "explain": "Fifth-generation languages work with logic and constraints, and Prolog is the standard example.",
+    "section": "language-levels"
+  },
+  {
+    "id": "programming-languages-08",
+    "q": "Which of the following is NOT a low-level language?",
+    "options": [
+      "Machine language",
+      "Assembly language",
+      "Python",
+      "Processor-specific machine code"
+    ],
+    "answer": 2,
+    "explain": "Python is a high-level scripting language; machine and assembly languages are the low-level ones.",
+    "section": "language-levels"
+  },
+  {
+    "id": "programming-languages-09",
+    "q": "Which statement about Python, Perl and Ruby is correct?",
+    "options": [
+      "They are 4GLs because they are scripting languages",
+      "They are high-level scripting languages generally classified as 3GLs",
+      "They are assembly languages",
+      "They are 5GL logic languages"
+    ],
+    "answer": 1,
+    "explain": "Scripting does not automatically mean 4GL; these languages are generally treated as 3GLs.",
+    "section": "language-levels"
+  },
+  {
+    "id": "programming-languages-10",
+    "q": "An assembler is used to convert:",
+    "options": [
+      "High-level source code into bytecode",
+      "Machine code into assembly language",
+      "Assembly language into machine code",
+      "Object files into libraries"
+    ],
+    "answer": 2,
+    "explain": "An assembler translates assembly instructions into machine-code object files.",
+    "section": "translators"
+  },
+  {
+    "id": "programming-languages-11",
+    "q": "In the conventional compiler model, a compiler takes ______ as input and gives ______ as output.",
+    "options": [
+      "object code; source code",
+      "source code; object code",
+      "machine code; source code",
+      "bytecode; flowchart"
+    ],
+    "answer": 1,
+    "explain": "The conventional compiler reads the source program and produces object code, translating the program as a whole.",
+    "section": "translators"
+  },
+  {
+    "id": "programming-languages-12",
+    "q": "Which translator conventionally processes and executes instructions step by step?",
+    "options": [
+      "Compiler",
+      "Linker",
+      "Assembler",
+      "Interpreter"
+    ],
+    "answer": 3,
+    "explain": "An interpreter works through instructions step by step, whereas a compiler translates the whole program.",
+    "section": "translators"
+  },
+  {
+    "id": "programming-languages-13",
+    "q": "Which of the following is NOT a language processor?",
+    "options": [
+      "Compiler",
+      "Microsoft Word",
+      "Interpreter",
+      "Assembler"
+    ],
+    "answer": 1,
+    "explain": "Word processors are application software; compiler, interpreter and assembler are language processors.",
+    "section": "translators"
+  },
+  {
+    "id": "programming-languages-14",
+    "q": "Language translators are conventionally classified as:",
+    "options": [
+      "Application software",
+      "Utility hardware",
+      "System software",
+      "Database software"
+    ],
+    "answer": 2,
+    "explain": "Translators support the running of programs and are classified as system software.",
+    "section": "translators"
+  },
+  {
+    "id": "programming-languages-15",
+    "q": "A linker is used to:",
+    "options": [
+      "Combine object files and libraries to create an executable",
+      "Execute source code line by line",
+      "Convert machine code into source code",
+      "Find logical errors in a program"
+    ],
+    "answer": 0,
+    "explain": "The linker joins object files and libraries into an executable or other linked output.",
+    "section": "translators"
+  },
+  {
+    "id": "programming-languages-16",
+    "q": "Which statement about execution speed is most accurate?",
+    "options": [
+      "Handwritten machine code is always the fastest",
+      "High-level code is always slower than assembly",
+      "Speed depends only on the processor",
+      "Actual speed depends on algorithms, generated instructions, optimisation and hardware"
+    ],
+    "answer": 3,
+    "explain": "Machine code runs directly on the CPU, but real speed depends on several factors, so no language is automatically fastest.",
+    "section": "performance-portability"
+  },
+  {
+    "id": "programming-languages-17",
+    "q": "Which language was developed by an IBM team led by John Backus?",
+    "options": [
+      "COBOL",
+      "FORTRAN",
+      "BASIC",
+      "Pascal"
+    ],
+    "answer": 1,
+    "explain": "FORTRAN (Formula Translation) came from John Backus's IBM team and is linked with scientific and numerical computing.",
+    "section": "early-history"
+  },
+  {
+    "id": "programming-languages-18",
+    "q": "FORTRAN's first compiler was released in which year, while its manual appeared a year earlier?",
+    "options": [
+      "1956",
+      "1957",
+      "1958",
+      "1959"
+    ],
+    "answer": 1,
+    "explain": "The first FORTRAN compiler was released in 1957; the manual appeared in 1956.",
+    "section": "early-history"
+  },
+  {
+    "id": "programming-languages-19",
+    "q": "COBOL, designed in 1959, is mainly associated with:",
+    "options": [
+      "Scientific calculations",
+      "Commercial data processing such as banking and payroll",
+      "Artificial intelligence research",
+      "Teaching beginners"
+    ],
+    "answer": 1,
+    "explain": "COBOL (Common Business-Oriented Language) targets business uses like banking, payroll, billing and insurance.",
+    "section": "early-history"
+  },
+  {
+    "id": "programming-languages-20",
+    "q": "BASIC was developed by:",
+    "options": [
+      "John Kemeny and Thomas Kurtz",
+      "Niklaus Wirth and Dennis Ritchie",
+      "John McCarthy and John Backus",
+      "Ole-Johan Dahl and Kristen Nygaard"
+    ],
+    "answer": 0,
+    "explain": "BASIC (Beginner's All-purpose Symbolic Instruction Code), 1964, was created by Kemeny and Kurtz.",
+    "section": "early-history"
+  },
+  {
+    "id": "programming-languages-21",
+    "q": "Ada Lovelace's 1843 notes on Babbage's Analytical Engine are famous for including an algorithm for:",
+    "options": [
+      "Prime numbers",
+      "Bernoulli numbers",
+      "Fibonacci numbers",
+      "Binary conversion"
+    ],
+    "answer": 1,
+    "explain": "Her notes on the proposed Analytical Engine included an algorithm for Bernoulli numbers.",
+    "section": "early-history"
+  },
+  {
+    "id": "programming-languages-22",
+    "q": "LISP (List Processing), created in 1958, is credited to:",
+    "options": [
+      "John Backus",
+      "Alan Kay",
+      "Alain Colmerauer",
+      "John McCarthy"
+    ],
+    "answer": 3,
+    "explain": "John McCarthy created LISP, which is tied to list processing, symbolic computation and AI.",
+    "section": "early-history"
+  },
+  {
+    "id": "programming-languages-23",
+    "q": "Prolog (1972), used for logic programming, came from the team of:",
+    "options": [
+      "Alain Colmerauer",
+      "Bjarne Stroustrup",
+      "Alan Kay",
+      "James Gosling"
+    ],
+    "answer": 0,
+    "explain": "Alain Colmerauer's team, particularly Philippe Roussel, developed Prolog with important contributions from Robert Kowalski.",
+    "section": "early-history"
+  },
+  {
+    "id": "programming-languages-24",
+    "q": "Java was originally named:",
+    "options": [
+      "Oak",
+      "Cedar",
+      "Mocha",
+      "Smalltalk"
+    ],
+    "answer": 0,
+    "explain": "Java, publicly introduced by Sun Microsystems in 1995 with James Gosling as principal designer, was first called Oak.",
+    "section": "modern-history"
+  },
+  {
+    "id": "programming-languages-25",
+    "q": "Which statement about PHP is correct?",
+    "options": [
+      "Created by Guido van Rossum in 1991",
+      "Created by Rasmus Lerdorf in 1994 and released publicly in 1995",
+      "Created by James Gosling in 1995",
+      "Began in 1993 at Microsoft"
+    ],
+    "answer": 1,
+    "explain": "PHP was created by Rasmus Lerdorf in 1994 and publicly released in 1995; it now expands to PHP: Hypertext Preprocessor.",
+    "section": "modern-history"
+  },
+  {
+    "id": "programming-languages-26",
+    "q": "Which of the following correctly matches a language with its developer?",
+    "options": [
+      "Python - James Gosling",
+      "Java - Guido van Rossum",
+      "C - Dennis Ritchie",
+      "C++ - Rasmus Lerdorf"
+    ],
+    "answer": 2,
+    "explain": "C was developed by Dennis Ritchie at Bell Labs. Python is van Rossum's, Java is Gosling's and C++ is Stroustrup's.",
+    "section": "c-language"
+  },
+  {
+    "id": "programming-languages-27",
+    "q": "Among C, C++, Java and modern Visual Basic, which is the expected non-OOP (procedural) language?",
+    "options": [
+      "C++",
+      "Java",
+      "Visual Basic .NET",
+      "C"
+    ],
+    "answer": 3,
+    "explain": "C is procedural with no built-in classes or inheritance, while the other three support object-oriented programming.",
+    "section": "c-language"
+  },
+  {
+    "id": "programming-languages-28",
+    "q": "Which statement about the C language is correct?",
+    "options": [
+      "It is older than FORTRAN and COBOL",
+      "It was closely connected with implementing Unix",
+      "It has built-in classes and inheritance",
+      "Every block in C must end with a semicolon"
+    ],
+    "answer": 1,
+    "explain": "C was closely tied to Unix. FORTRAN, Lisp, ALGOL and COBOL are older, and C has no classes or inheritance.",
+    "section": "c-language"
+  },
+  {
+    "id": "programming-languages-29",
+    "q": "Which language is widely recognised as the first object-oriented programming language?",
+    "options": [
+      "Simula 67",
+      "Smalltalk",
+      "C++",
+      "Java"
+    ],
+    "answer": 0,
+    "explain": "Simula 67, developed by Ole-Johan Dahl and Kristen Nygaard, is widely recognised as the first OOP language.",
+    "section": "oop"
+  },
+  {
+    "id": "programming-languages-30",
+    "q": "Which OOP concept lets a class build on another class?",
+    "options": [
+      "Encapsulation",
+      "Abstraction",
+      "Inheritance",
+      "Polymorphism"
+    ],
+    "answer": 2,
+    "explain": "Inheritance allows a type or class to build on another. Polymorphism is different implementations through a shared interface.",
+    "section": "oop"
+  },
+  {
+    "id": "programming-languages-31",
+    "q": "Alan Kay, a major OOP pioneer, led the development of which language at Xerox PARC?",
+    "options": [
+      "Simula",
+      "Smalltalk",
+      "Pascal",
+      "Prolog"
+    ],
+    "answer": 1,
+    "explain": "Smalltalk emerged in the 1970s under Alan Kay and is commonly described as a pure object-oriented language.",
+    "section": "oop"
+  },
+  {
+    "id": "programming-languages-32",
+    "q": "HTML is best classified as a:",
+    "options": [
+      "Style-sheet language",
+      "Relational database system",
+      "JavaScript runtime",
+      "Markup language"
+    ],
+    "answer": 3,
+    "explain": "HTML defines page structure and content meaning, so it is a markup language; CSS is the style-sheet language.",
+    "section": "web-ai-apps"
+  },
+  {
+    "id": "programming-languages-33",
+    "q": "Node.js is best described as:",
+    "options": [
+      "A JavaScript runtime",
+      "A separate programming language",
+      "A relational database",
+      "A markup language"
+    ],
+    "answer": 0,
+    "explain": "Node.js runs JavaScript outside the browser; it is a runtime, not a separate language.",
+    "section": "web-ai-apps"
+  },
+  {
+    "id": "programming-languages-34",
+    "q": "Which of the following is application software rather than a programming language?",
+    "options": [
+      "Scala",
+      "Ruby",
+      "Adobe Illustrator",
+      "C#"
+    ],
+    "answer": 2,
+    "explain": "Photoshop, Microsoft Word and Adobe Illustrator are application software; Scala, Ruby and C# are programming languages.",
+    "section": "web-ai-apps"
+  },
+  {
+    "id": "programming-languages-35",
+    "q": "Which loop checks its condition after the body, so the body runs at least once?",
+    "options": [
+      "for",
+      "while",
+      "do...while",
+      "repeat-until-false"
+    ],
+    "answer": 2,
+    "explain": "A do...while loop tests the condition after executing the body, guaranteeing one run.",
+    "section": "loops-roles"
+  },
+  {
+    "id": "programming-languages-36",
+    "q": "Who studies requirements and helps design system specifications in software development?",
+    "options": [
+      "Systems analyst",
+      "End user",
+      "Compiler",
+      "Tester only"
+    ],
+    "answer": 0,
+    "explain": "The systems analyst studies requirements and helps design specifications; developers write, test and maintain the code.",
+    "section": "loops-roles"
+  },
+  {
+    "id": "programming-languages-37",
+    "q": "Omitting a required semicolon in a C statement causes a:",
+    "options": [
+      "Logical error",
+      "Runtime error",
+      "Syntax error",
+      "Hardware fault"
+    ],
+    "answer": 2,
+    "explain": "Violating the grammar of the language is a syntax error, usually caught during parsing or compilation.",
+    "section": "errors-reserved-words"
+  },
+  {
+    "id": "programming-languages-38",
+    "q": "A program runs without crashing but gives a wrong result because its reasoning is flawed. This is a:",
+    "options": [
+      "Syntax error",
+      "Logical error",
+      "Compilation error",
+      "Linker error"
+    ],
+    "answer": 1,
+    "explain": "Logical errors do not stop the program; the output is simply wrong because of faulty logic.",
+    "section": "errors-reserved-words"
+  },
+  {
+    "id": "programming-languages-39",
+    "q": "Words such as if, else, while, for, int and return in C are called:",
+    "options": [
+      "Variables",
+      "Comments",
+      "Library files",
+      "Reserved words"
+    ],
+    "answer": 3,
+    "explain": "Reserved words have predefined meaning or restrictions and are normally not usable as ordinary identifiers.",
+    "section": "errors-reserved-words"
+  },
+  {
+    "id": "programming-languages-40",
+    "q": "Dividing a number by zero while a program is running is most likely to cause a:",
+    "options": [
+      "Syntax error",
+      "Runtime error",
+      "Logical error that is always silent",
+      "Linking error"
+    ],
+    "answer": 1,
+    "explain": "Division by zero typically raises a runtime (execution-time) error, such as Python's ZeroDivisionError, which can be handled.",
+    "section": "errors-reserved-words"
+  }
+]

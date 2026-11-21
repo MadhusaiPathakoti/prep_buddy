@@ -1,0 +1,322 @@
+[
+  {
+    "id": "email-01",
+    "q": "Who developed an early ARPANET network email system in 1971 and used the @ sign to separate the user from the host?",
+    "options": ["Ray Tomlinson", "Paul Buchheit", "Sabeer Bhatia", "Jerry Yang"],
+    "answer": 0,
+    "explain": "Ray Tomlinson developed network email in 1971 and chose @ to separate user and destination host.",
+    "section": "email-foundations"
+  },
+  {
+    "id": "email-02",
+    "q": "In an email system, the storage space associated with an email account is called a:",
+    "options": ["Packet", "Mailbox", "Domain", "Client"],
+    "answer": 1,
+    "explain": "A mailbox stores the messages of an account. A packet is the unit in which data travels across the network.",
+    "section": "email-foundations"
+  },
+  {
+    "id": "email-03",
+    "q": "Which of the following is a network designed for controlled access by outside parties, unlike an internal-only intranet?",
+    "options": ["Internet", "Intranet", "Extranet", "Ethernet"],
+    "answer": 2,
+    "explain": "An extranet permits controlled outside access, while an intranet is internal to the organisation.",
+    "section": "email-foundations"
+  },
+  {
+    "id": "email-04",
+    "q": "Hotmail, an early free webmail service, was founded by which pair?",
+    "options": ["Larry Page and Sergey Brin", "Jerry Yang and David Filo", "Jim Kimsey and Steve Case", "Sabeer Bhatia and Jack Smith"],
+    "answer": 3,
+    "explain": "Hotmail was founded by Sabeer Bhatia and Jack Smith and launched on 4 July 1996. Jerry Yang and David Filo founded Yahoo.",
+    "section": "email-foundations"
+  },
+  {
+    "id": "email-05",
+    "q": "In the email address student@example.com, what is 'student' called?",
+    "options": ["Local part (username)", "Domain", "Top-level label", "Protocol"],
+    "answer": 0,
+    "explain": "The text before @ is the local part, commonly called the username. The text after @ is the domain.",
+    "section": "email-address"
+  },
+  {
+    "id": "email-06",
+    "q": "Which of the following is a correctly structured email address?",
+    "options": ["userName.website.com", "userName@website@com", "userName@website.com", "userName website.com"],
+    "answer": 2,
+    "explain": "A valid address has exactly two parts separated by one @. The others have no @, two @ signs or a space.",
+    "section": "email-address"
+  },
+  {
+    "id": "email-07",
+    "q": "Which characters are NOT permitted in a standard Gmail username?",
+    "options": ["Letters a-z", "Digits 0-9", "Periods", "Underscores and hyphens"],
+    "answer": 3,
+    "explain": "Standard Gmail usernames use a-z, 0-9 and periods only, normally 6-30 characters long.",
+    "section": "email-address"
+  },
+  {
+    "id": "email-08",
+    "q": "The SMTP limit for the local part of an email address is:",
+    "options": ["32 octets", "64 octets", "255 octets", "320 octets"],
+    "answer": 1,
+    "explain": "The local part is limited to 64 octets and the domain to 255 octets. The whole address normally fits in 254 octets, so the 320 figure is a myth.",
+    "section": "email-address"
+  },
+  {
+    "id": "email-09",
+    "q": "Which statement about the complete email address length is correct?",
+    "options": ["It can always reach 320 characters by adding 64 + 1 + 255", "It is limited to exactly 64 characters", "It normally fits within 254 octets", "It has no limit at all"],
+    "answer": 2,
+    "explain": "The SMTP path limit includes punctuation, so a complete mailbox address normally fits within 254 octets.",
+    "section": "email-address"
+  },
+  {
+    "id": "email-10",
+    "q": "A browser-based way of accessing an email service, with no separate desktop program needed, is called:",
+    "options": ["Webmail", "Email client", "Provider", "User Agent"],
+    "answer": 0,
+    "explain": "Webmail is a browser interface to an email service. An email client is an installed application such as Outlook.",
+    "section": "clients-webmail"
+  },
+  {
+    "id": "email-11",
+    "q": "Which of the following is an email client application rather than a webmail service?",
+    "options": ["Rediffmail", "Mozilla Thunderbird", "Zoho Mail", "Yandex Mail"],
+    "answer": 1,
+    "explain": "Thunderbird is an email client program. Rediffmail, Zoho Mail and Yandex Mail are webmail services.",
+    "section": "clients-webmail"
+  },
+  {
+    "id": "email-12",
+    "q": "Microsoft Outlook (the application) is both an email program and a:",
+    "options": ["Search engine", "Web browser", "Personal Information Manager", "File Transfer Protocol"],
+    "answer": 2,
+    "explain": "Outlook is a PIM: it handles calendars, contacts and tasks as well as email.",
+    "section": "clients-webmail"
+  },
+  {
+    "id": "email-13",
+    "q": "Which of the following is an email marketing platform, not a conventional personal mailbox?",
+    "options": ["Tuta", "Proton Mail", "iCloud Mail", "Mailchimp"],
+    "answer": 3,
+    "explain": "Mailchimp is a marketing platform with a limited free plan. Tuta, Proton Mail and iCloud Mail are mailbox services.",
+    "section": "clients-webmail"
+  },
+  {
+    "id": "email-14",
+    "q": "Gmail was launched by Google in which year, with Paul Buchheit as its key developer?",
+    "options": ["1996", "2004", "1997", "2011"],
+    "answer": 1,
+    "explain": "Gmail launched on 1 April 2004. 1996 is Hotmail, 1997 is Yahoo Mail and 2011 is iCloud.",
+    "section": "providers-milestones"
+  },
+  {
+    "id": "email-15",
+    "q": "Yahoo Mail was launched in which year (the company itself began in 1994)?",
+    "options": ["1994", "2000", "1997", "2004"],
+    "answer": 2,
+    "explain": "Yahoo began in 1994 with Jerry Yang and David Filo, but Yahoo Mail came in 1997.",
+    "section": "providers-milestones"
+  },
+  {
+    "id": "email-16",
+    "q": "Microsoft acquired Hotmail in which month and year?",
+    "options": ["July 1996", "April 2004", "June 2000", "December 1997"],
+    "answer": 3,
+    "explain": "Hotmail launched in July 1996 and Microsoft bought it in December 1997; it later became Outlook.com.",
+    "section": "providers-milestones"
+  },
+  {
+    "id": "email-17",
+    "q": "iCloud, whose Mail service integrates with Apple devices, was launched on which date?",
+    "options": ["12 October 2011", "1 April 2004", "26 June 2000", "4 July 1996"],
+    "answer": 0,
+    "explain": "iCloud launched on 12 October 2011. Yandex Mail dates from 26 June 2000.",
+    "section": "providers-milestones"
+  },
+  {
+    "id": "email-18",
+    "q": "Which of the following is NOT one of Gmail's five inbox categories?",
+    "options": ["Social", "Outbox", "Forums", "Updates"],
+    "answer": 1,
+    "explain": "The five categories are Primary, Social, Promotions, Updates and Forums. Outbox is a sidebar item for messages waiting to be sent.",
+    "section": "gmail-interface"
+  },
+  {
+    "id": "email-19",
+    "q": "Receipts, confirmations and automated notices usually appear in which Gmail category?",
+    "options": ["Promotions", "Social", "Updates", "Forums"],
+    "answer": 2,
+    "explain": "Updates collects receipts, confirmations and automated notices. Promotions holds offers and marketing mail.",
+    "section": "gmail-interface"
+  },
+  {
+    "id": "email-20",
+    "q": "Where would an unfinished message that you saved for later editing be found?",
+    "options": ["Outbox", "Sent", "Spam", "Drafts"],
+    "answer": 3,
+    "explain": "Drafts hold unfinished messages. Outbox messages are complete but queued for sending.",
+    "section": "gmail-interface"
+  },
+  {
+    "id": "email-21",
+    "q": "A message is waiting to go out because the Internet connection is poor. Where does it normally stay in an email app?",
+    "options": ["Drafts", "Outbox", "Trash", "All Mail"],
+    "answer": 1,
+    "explain": "Messages queued for sending wait in the Outbox. Drafts are unfinished messages.",
+    "section": "gmail-interface"
+  },
+  {
+    "id": "email-22",
+    "q": "Which Gmail section includes archived mail but excludes Spam and Trash?",
+    "options": ["Starred", "Important", "All Mail", "Snoozed"],
+    "answer": 2,
+    "explain": "All Mail covers archived mail too but leaves out Spam and Trash.",
+    "section": "gmail-interface"
+  },
+  {
+    "id": "email-23",
+    "q": "After how many days does Gmail normally delete messages in Trash permanently?",
+    "options": ["7 days", "15 days", "60 days", "30 days"],
+    "answer": 3,
+    "explain": "Trashed messages are normally removed permanently after 30 days, unless you delete them earlier.",
+    "section": "gmail-interface"
+  },
+  {
+    "id": "email-24",
+    "q": "In an email, Bcc recipients are people whose addresses are:",
+    "options": ["Visible to everyone", "Hidden from the To and Cc recipients", "Hidden from the sender's sent copy", "Used only for replies"],
+    "answer": 1,
+    "explain": "Bcc (Blind Carbon Copy) hides those addresses from other recipients, though the sender can still see them in the sent copy.",
+    "section": "compose-copy-reply"
+  },
+  {
+    "id": "email-25",
+    "q": "What does Cc stand for in an email?",
+    "options": ["Common Copy", "Closed Copy", "Carbon Copy", "Confidential Copy"],
+    "answer": 2,
+    "explain": "Cc means Carbon Copy; those recipients get a visible copy.",
+    "section": "compose-copy-reply"
+  },
+  {
+    "id": "email-26",
+    "q": "Which command passes a received message on to a new person?",
+    "options": ["Reply", "Reply all", "Compose", "Forward"],
+    "answer": 3,
+    "explain": "Forward sends a received message to someone else. Reply answers the sender, and Reply all answers the sender plus the visible recipients.",
+    "section": "compose-copy-reply"
+  },
+  {
+    "id": "email-27",
+    "q": "Which statement about an email signature is correct?",
+    "options": ["It is the same as a cryptographic digital signature", "It is a reusable closing block with name or contact details", "It is required before any email can be sent", "It encrypts the message body"],
+    "answer": 1,
+    "explain": "A signature is just a reusable closing text block. A digital signature is a cryptographic feature that verifies authenticity.",
+    "section": "compose-copy-reply"
+  },
+  {
+    "id": "email-28",
+    "q": "Which protocol is used to send outgoing email and relay it between mail systems?",
+    "options": ["POP3", "IMAP", "SMTP", "FTP"],
+    "answer": 2,
+    "explain": "SMTP (Simple Mail Transfer Protocol) sends and relays mail. POP3 and IMAP retrieve mail, and FTP transfers files.",
+    "section": "protocols-ports"
+  },
+  {
+    "id": "email-29",
+    "q": "Which protocol synchronises messages, folders and read status across several devices?",
+    "options": ["SMTP", "POP3", "MIME", "IMAP"],
+    "answer": 3,
+    "explain": "IMAP works with a server-based mailbox so every device sees the same state. POP3 is download-oriented.",
+    "section": "protocols-ports"
+  },
+  {
+    "id": "email-30",
+    "q": "Which set correctly gives the basic (non-secure) port numbers of SMTP, POP3 and IMAP?",
+    "options": ["25, 110, 143", "110, 25, 143", "143, 110, 25", "587, 995, 993"],
+    "answer": 0,
+    "explain": "SMTP uses 25, POP3 uses 110 and IMAP uses 143. 587, 995 and 993 are the secure/submission variants.",
+    "section": "protocols-ports"
+  },
+  {
+    "id": "email-31",
+    "q": "IMAP over implicit TLS uses which port?",
+    "options": ["465", "993", "995", "587"],
+    "answer": 1,
+    "explain": "IMAP over implicit TLS uses 993. POP3 over implicit TLS uses 995 and SMTP submission over implicit TLS uses 465.",
+    "section": "protocols-ports"
+  },
+  {
+    "id": "email-32",
+    "q": "Which statement is correct about POP3 and IMAP?",
+    "options": ["POP3 sends mail and IMAP receives it", "IMAP cannot be used for received mail", "Both support access to received email", "POP3 is technically limited to one device only"],
+    "answer": 2,
+    "explain": "Both retrieve received email. POP3 is download-oriented and IMAP is server-oriented; the one-device idea is only an exam shortcut.",
+    "section": "protocols-ports"
+  },
+  {
+    "id": "email-33",
+    "q": "MIME stands for:",
+    "options": ["Mail Internet Message Exchange", "Multiple Internet Mail Encryption", "Mobile Internet Mail Extensions", "Multipurpose Internet Mail Extensions"],
+    "answer": 3,
+    "explain": "MIME means Multipurpose Internet Mail Extensions; it extends email message formats for non-text content and non-ASCII text.",
+    "section": "mime-delivery"
+  },
+  {
+    "id": "email-34",
+    "q": "Which encoding is commonly used to represent binary attachments as ASCII-safe text for traditional mail transport?",
+    "options": ["Unicode", "Base64", "Morse", "Gray code"],
+    "answer": 1,
+    "explain": "Base64 converts binary data into safe ASCII characters, because traditional SMTP was designed for 7-bit text.",
+    "section": "mime-delivery"
+  },
+  {
+    "id": "email-35",
+    "q": "In SMTP, which system acts as the SMTP client?",
+    "options": ["The one that accepts the connection", "The recipient's mailbox", "The one that initiates the transfer", "The web browser"],
+    "answer": 2,
+    "explain": "The system that starts the transfer is the SMTP client; the one accepting the connection is the SMTP server.",
+    "section": "mime-delivery"
+  },
+  {
+    "id": "email-36",
+    "q": "How many messages can a personal Gmail account generally send per day?",
+    "options": ["500", "1,500", "2,000", "10,000"],
+    "answer": 0,
+    "explain": "Personal Gmail is generally limited to 500 messages a day. 2,000 is the paid Workspace figure and 1,500 is the mail-merge figure.",
+    "section": "gmail-limits"
+  },
+  {
+    "id": "email-37",
+    "q": "What is the total attachment size limit per message in personal Gmail?",
+    "options": ["15 MB", "25 MB", "100 MB", "2 GB"],
+    "answer": 1,
+    "explain": "Personal Gmail allows 25 MB of attachments per message; larger files can be shared with a Google Drive link. 15 GB is the shared storage.",
+    "section": "gmail-limits"
+  },
+  {
+    "id": "email-38",
+    "q": "Which technology supports email encryption and digital signatures and is expanded as Pretty Good Privacy?",
+    "options": ["TLS", "MIME", "SMTP", "PGP"],
+    "answer": 3,
+    "explain": "PGP encrypts messages for confidentiality and signs them to verify authenticity.",
+    "section": "email-security"
+  },
+  {
+    "id": "email-39",
+    "q": "Falsifying the sender information of an email to impersonate another sender is called:",
+    "options": ["Phishing", "Sniffing", "Spoofing", "Skimming"],
+    "answer": 2,
+    "explain": "Spoofing fakes the sender. Phishing seeks sensitive information, sniffing captures traffic and skimming steals card data.",
+    "section": "email-security"
+  },
+  {
+    "id": "email-40",
+    "q": "Phishing carried out through SMS or text messages is known as:",
+    "options": ["Vishing", "Smishing", "Spamming", "Spoofing"],
+    "answer": 1,
+    "explain": "Smishing is SMS phishing. Spoofing is faking a sender identity.",
+    "section": "email-security"
+  }
+]

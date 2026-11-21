@@ -1,0 +1,322 @@
+[
+  {
+    "id": "ms-powerpoint-01",
+    "q": "In Microsoft PowerPoint, one page of a presentation is called a:",
+    "options": ["Slide", "Sheet", "Frame", "Canvas"],
+    "answer": 0,
+    "explain": "A presentation is a collection of slides, and a slide is a single page of it.",
+    "section": "what-is-powerpoint"
+  },
+  {
+    "id": "ms-powerpoint-02",
+    "q": "Which of the following is Apple's presentation application?",
+    "options": ["Keynotes", "Numbers", "Keynote", "Impress"],
+    "answer": 2,
+    "explain": "Apple's presentation program is Keynote (singular). Numbers is Apple's spreadsheet app and Impress belongs to LibreOffice/OpenOffice.",
+    "section": "what-is-powerpoint"
+  },
+  {
+    "id": "ms-powerpoint-03",
+    "q": "Which free and open-source presentation program is part of LibreOffice and Apache OpenOffice?",
+    "options": ["PowerPoint", "Keynote", "Google Slides", "Impress"],
+    "answer": 3,
+    "explain": "Impress is the presentation program in both open-source suites. PowerPoint, Keynote and Google Slides are not open source.",
+    "section": "what-is-powerpoint"
+  },
+  {
+    "id": "ms-powerpoint-04",
+    "q": "Who were the principal creators of PowerPoint at Forethought, Inc.?",
+    "options": ["Bill Gates and Paul Allen", "Robert Gaskins and Dennis Austin", "Steve Jobs and Steve Wozniak", "Sabeer Bhatia and Jack Smith"],
+    "answer": 1,
+    "explain": "PowerPoint was created at Forethought, Inc. by Robert Gaskins and Dennis Austin. Microsoft acquired the company in 1987.",
+    "section": "what-is-powerpoint"
+  },
+  {
+    "id": "ms-powerpoint-05",
+    "q": "What was the original working name of PowerPoint?",
+    "options": ["Slideshow", "Showcase", "Forethought", "Presenter"],
+    "answer": 3,
+    "explain": "The program was first called Presenter before it became PowerPoint. Forethought was the company, not the product.",
+    "section": "what-is-powerpoint"
+  },
+  {
+    "id": "ms-powerpoint-06",
+    "q": "PowerPoint was first released for the Macintosh, and Microsoft acquired Forethought, in which year?",
+    "options": ["1987", "1984", "1990", "1993"],
+    "answer": 0,
+    "explain": "Both the Macintosh release and Microsoft's acquisition of Forethought happened in 1987.",
+    "section": "what-is-powerpoint"
+  },
+  {
+    "id": "ms-powerpoint-07",
+    "q": "Which PowerPoint term means a reusable starting file that holds design, layouts and sometimes sample content?",
+    "options": ["Theme", "Layout", "Template", "Placeholder"],
+    "answer": 2,
+    "explain": "A template is a whole reusable starter file. A theme only coordinates colours, fonts, effects and backgrounds.",
+    "section": "key-terms"
+  },
+  {
+    "id": "ms-powerpoint-08",
+    "q": "A preformatted container for text, pictures, charts or tables, often drawn with a dotted boundary, is called a:",
+    "options": ["Text box", "Placeholder", "Thumbnail", "Variant"],
+    "answer": 1,
+    "explain": "Placeholders are preformatted containers defined by the layout. An ordinary inserted text box is not the same thing.",
+    "section": "key-terms"
+  },
+  {
+    "id": "ms-powerpoint-09",
+    "q": "A standard new blank presentation normally starts with which layout and how many placeholders?",
+    "options": ["Title Slide with two placeholders", "Blank with one placeholder", "Title and Content with three placeholders", "Section Header with four placeholders"],
+    "answer": 0,
+    "explain": "The first slide uses the Title Slide layout, which has a title placeholder and a subtitle placeholder.",
+    "section": "key-terms"
+  },
+  {
+    "id": "ms-powerpoint-10",
+    "q": "What is the typical default name of a newly created, unsaved PowerPoint file?",
+    "options": ["Slide1", "Untitled", "Document1", "Presentation1"],
+    "answer": 3,
+    "explain": "A new unsaved file is normally called Presentation1 (the number can increase). Document1 is Word's equivalent.",
+    "section": "key-terms"
+  },
+  {
+    "id": "ms-powerpoint-11",
+    "q": "Which command typed into the Run box (Windows + R) opens desktop PowerPoint?",
+    "options": ["winppt", "powerpt", "powerpnt", "slideshow"],
+    "answer": 2,
+    "explain": "The executable is POWERPNT.EXE, so typing powerpnt in Run launches PowerPoint if it is installed.",
+    "section": "window-and-formats"
+  },
+  {
+    "id": "ms-powerpoint-12",
+    "q": "Which file extension is used for a reusable PowerPoint template?",
+    "options": [".pptx", ".potx", ".ppsx", ".pptm"],
+    "answer": 1,
+    "explain": ".potx is the template format. .pptx is a normal presentation, .ppsx a show and .pptm a macro-enabled file.",
+    "section": "window-and-formats"
+  },
+  {
+    "id": "ms-powerpoint-13",
+    "q": "A file saved as .ppsx normally opens in which way?",
+    "options": ["Directly in Slide Show", "In Outline view only", "As a read-only template", "In Slide Sorter"],
+    "answer": 0,
+    "explain": "A PowerPoint Show (.ppsx) launches straight into Slide Show instead of the editing window.",
+    "section": "window-and-formats"
+  },
+  {
+    "id": "ms-powerpoint-14",
+    "q": "Which PowerPoint file extension indicates a macro-enabled presentation?",
+    "options": [".pps", ".ppt", ".potx", ".pptm"],
+    "answer": 3,
+    "explain": "The m in .pptm stands for macro. .ppt is the older 97-2003 format and .pps the older show format.",
+    "section": "window-and-formats"
+  },
+  {
+    "id": "ms-powerpoint-15",
+    "q": "In the PowerPoint window, which pane holds the speaker notes of the current slide?",
+    "options": ["Thumbnail Pane", "Slide Pane", "Notes Pane", "Status Bar"],
+    "answer": 2,
+    "explain": "The Notes Pane, below the slide, stores speaker notes. The Thumbnail Pane shows slide previews and the Slide Pane shows the slide being edited.",
+    "section": "window-and-formats"
+  },
+  {
+    "id": "ms-powerpoint-16",
+    "q": "The File tab in modern PowerPoint opens which area, which replaced the Office Button of PowerPoint 2007?",
+    "options": ["Quick Access Toolbar", "Backstage View", "Slide Master", "Presenter View"],
+    "answer": 1,
+    "explain": "The File tab opens Backstage View for file management (New, Open, Save, Print, Share, Export and so on).",
+    "section": "window-and-formats"
+  },
+  {
+    "id": "ms-powerpoint-17",
+    "q": "Which view is best for seeing all slide thumbnails together to rearrange or delete slides?",
+    "options": ["Normal", "Outline", "Reading", "Slide Sorter"],
+    "answer": 3,
+    "explain": "Slide Sorter shows every slide as a thumbnail so you can reorder or delete them. Outline shows only text.",
+    "section": "views-and-masters"
+  },
+  {
+    "id": "ms-powerpoint-18",
+    "q": "Which of the following does NOT appear in Outline view?",
+    "options": ["Slide titles", "Text in body placeholders", "Text typed in a manually inserted text box", "Bulleted text in the content placeholder"],
+    "answer": 2,
+    "explain": "Outline view lists titles and main placeholder text only. Pictures and manually inserted text boxes are not shown.",
+    "section": "views-and-masters"
+  },
+  {
+    "id": "ms-powerpoint-19",
+    "q": "To give every slide the same title font and background, you should edit the:",
+    "options": ["Handout Master", "Slide Master", "Notes Page", "Slide Sorter"],
+    "answer": 1,
+    "explain": "Slide Master holds the shared design, fonts, colours, backgrounds and placeholder positions for linked layouts and slides.",
+    "section": "views-and-masters"
+  },
+  {
+    "id": "ms-powerpoint-20",
+    "q": "Header, footer, date, page number and orientation of printed handouts are controlled in the:",
+    "options": ["Handout Master", "Slide Master", "Notes Master", "Presenter View"],
+    "answer": 0,
+    "explain": "Handout Master controls printed handout appearance. Notes Master controls printed notes pages.",
+    "section": "views-and-masters"
+  },
+  {
+    "id": "ms-powerpoint-21",
+    "q": "Which view shows the speaker notes, slide previews and a timer to the presenter while the audience sees only the slide show?",
+    "options": ["Reading view", "Notes Page", "Outline view", "Presenter View"],
+    "answer": 3,
+    "explain": "Presenter View is a delivery view for the speaker. Notes Page is an editing view for preparing notes.",
+    "section": "views-and-masters"
+  },
+  {
+    "id": "ms-powerpoint-22",
+    "q": "The editing zoom range of PowerPoint is:",
+    "options": ["1% to 100%", "25% to 200%", "10% to 400%", "50% to 500%"],
+    "answer": 2,
+    "explain": "Zoom ranges from 10% to 400%. It changes only the on-screen magnification, not the real slide size.",
+    "section": "layouts-zoom-fonts"
+  },
+  {
+    "id": "ms-powerpoint-23",
+    "q": "What is the maximum font size that can be typed directly in desktop PowerPoint?",
+    "options": ["96 pt", "3600 pt", "4000 pt", "1638 pt"],
+    "answer": 1,
+    "explain": "The dropdown presets stop at 96 pt, but you can type any size from 1 to 3600 pt. 4000 is a common wrong answer.",
+    "section": "layouts-zoom-fonts"
+  },
+  {
+    "id": "ms-powerpoint-24",
+    "q": "From which version did 16:9 Widescreen become the default slide size?",
+    "options": ["PowerPoint 2013", "PowerPoint 2003", "PowerPoint 2007", "PowerPoint 2010"],
+    "answer": 0,
+    "explain": "PowerPoint 2003, 2007 and 2010 defaulted to 4:3 Standard; from PowerPoint 2013 onward the default is 16:9.",
+    "section": "layouts-zoom-fonts"
+  },
+  {
+    "id": "ms-powerpoint-25",
+    "q": "Where do you insert an Organization Chart to show employee hierarchy?",
+    "options": ["Design -> Layout -> Organization", "Home -> Slides -> Layout", "View -> Master Views", "Insert -> SmartArt -> Hierarchy"],
+    "answer": 3,
+    "explain": "An organization chart is a SmartArt graphic from the Hierarchy category. It is not a standard slide layout.",
+    "section": "layouts-zoom-fonts"
+  },
+  {
+    "id": "ms-powerpoint-26",
+    "q": "Which keyboard shortcut inserts a new slide in PowerPoint?",
+    "options": ["Ctrl + N", "Ctrl + D", "Ctrl + M", "Ctrl + H"],
+    "answer": 2,
+    "explain": "Ctrl + M adds a new slide. Ctrl + N creates a whole new presentation.",
+    "section": "file-home-insert"
+  },
+  {
+    "id": "ms-powerpoint-27",
+    "q": "Which of the following is placed on the Insert tab rather than another tab?",
+    "options": ["Themes", "Chart", "Slide Size", "Notes Page"],
+    "answer": 1,
+    "explain": "Chart is in the Illustrations group of Insert. Themes and Slide Size are on Design, and Notes Page is on View.",
+    "section": "file-home-insert"
+  },
+  {
+    "id": "ms-powerpoint-28",
+    "q": "Cut, Copy, Paste and Format Painter belong to which group of the Home tab?",
+    "options": ["Clipboard", "Editing", "Drawing", "Paragraph"],
+    "answer": 0,
+    "explain": "The Clipboard group holds Cut, Copy, Paste and Format Painter. Find and Replace are in Editing.",
+    "section": "file-home-insert"
+  },
+  {
+    "id": "ms-powerpoint-29",
+    "q": "Themes and Slide Size are found on which ribbon tab?",
+    "options": ["Home", "View", "Insert", "Design"],
+    "answer": 3,
+    "explain": "The Design tab holds Themes, Variants and Customize (Slide Size, Format Background).",
+    "section": "draw-design-review-help"
+  },
+  {
+    "id": "ms-powerpoint-30",
+    "q": "Which ribbon tab contains Spelling, Thesaurus and Accessibility checking?",
+    "options": ["Help", "Review", "Draw", "Design"],
+    "answer": 1,
+    "explain": "Proofing (Spelling, Thesaurus) and Accessibility are in the Review tab. The Spelling shortcut is F7.",
+    "section": "draw-design-review-help"
+  },
+  {
+    "id": "ms-powerpoint-31",
+    "q": "The effect seen when the show moves from one slide to the next is called a:",
+    "options": ["Transition", "Animation", "Motion path", "Emphasis"],
+    "answer": 0,
+    "explain": "A transition acts between slides. An animation acts on an object inside a slide.",
+    "section": "transitions"
+  },
+  {
+    "id": "ms-powerpoint-32",
+    "q": "Which of the following is NOT one of the three categories in the Transitions gallery?",
+    "options": ["Subtle", "Exciting", "Entrance", "Dynamic Content"],
+    "answer": 2,
+    "explain": "The gallery groups transitions as Subtle, Exciting and Dynamic Content. Entrance is an animation category.",
+    "section": "transitions"
+  },
+  {
+    "id": "ms-powerpoint-33",
+    "q": "Which of the following is NOT one of the four principal animation categories?",
+    "options": ["Entrance", "Emphasis", "Motion Paths", "Transition"],
+    "answer": 3,
+    "explain": "The four categories are Entrance, Emphasis, Exit and Motion Paths. Transitions belong to slide changes; None just means no animation.",
+    "section": "animations"
+  },
+  {
+    "id": "ms-powerpoint-34",
+    "q": "An animation that highlights an object which is already visible on the slide belongs to which category?",
+    "options": ["Entrance", "Emphasis", "Exit", "Motion Paths"],
+    "answer": 1,
+    "explain": "Emphasis effects (such as Pulse or Spin) highlight a visible object. Entrance brings it in, and Exit removes it.",
+    "section": "animations"
+  },
+  {
+    "id": "ms-powerpoint-35",
+    "q": "Which Advanced Animation tool copies animation settings from one object to another?",
+    "options": ["Add Animation", "Trigger", "Animation Pane", "Animation Painter"],
+    "answer": 3,
+    "explain": "Animation Painter copies animation settings, like Format Painter does for formatting. Trigger starts an effect after an action.",
+    "section": "animations"
+  },
+  {
+    "id": "ms-powerpoint-36",
+    "q": "Which of the following is NOT a Start option for an animation?",
+    "options": ["On Click", "With Previous", "On Hover", "After Previous"],
+    "answer": 2,
+    "explain": "The Start options are On Click, With Previous and After Previous.",
+    "section": "animations"
+  },
+  {
+    "id": "ms-powerpoint-37",
+    "q": "Which shortcut starts the slide show from the current slide?",
+    "options": ["F5", "Shift + F5", "Ctrl + F5", "F12"],
+    "answer": 1,
+    "explain": "F5 starts from the first slide, while Shift + F5 starts from the slide currently selected. F12 is Save As.",
+    "section": "slide-show-recording"
+  },
+  {
+    "id": "ms-powerpoint-38",
+    "q": "Where is the Rehearse Timings command located, and what does it record?",
+    "options": ["Slide Show tab; time spent on each slide", "Insert tab; the date and time on slides", "Review tab; comments on each slide", "View tab; zoom level of each slide"],
+    "answer": 0,
+    "explain": "Rehearse Timings is on the Slide Show tab and records how long you spend on each slide. Date and time on slides come from Insert -> Date & Time.",
+    "section": "slide-show-recording"
+  },
+  {
+    "id": "ms-powerpoint-39",
+    "q": "During a slide show, pressing Esc will:",
+    "options": ["Move to the next slide", "Return to the first slide", "End the slide show", "Select the next hyperlink"],
+    "answer": 2,
+    "explain": "Esc exits the show; it does not advance. Home returns to the first slide and Tab selects the next hyperlink.",
+    "section": "slide-show-recording"
+  },
+  {
+    "id": "ms-powerpoint-40",
+    "q": "Which shortcut duplicates the selected slide explicitly in the Windows desktop version?",
+    "options": ["Ctrl + D", "Ctrl + M", "Ctrl + Y", "Ctrl + Shift + D"],
+    "answer": 3,
+    "explain": "Ctrl + Shift + D is the explicit slide-copy shortcut. Ctrl + D duplicates a selected object (and also slide thumbnails in the pane).",
+    "section": "shortcuts-exam-facts"
+  }
+]

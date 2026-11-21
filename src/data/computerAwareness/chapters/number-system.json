@@ -1,0 +1,639 @@
+{
+  "id": "number-system",
+  "sections": [
+    {
+      "id": "number-bases",
+      "title": "Number Systems and Bases",
+      "icon": "🔢",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "A **number system** writes numerical values using digits and a fixed set of rules. The **base** (also called the **radix**) is the count of distinct digits the system uses, including zero. Computers work in binary, while people prefer decimal, so exams keep asking how to move between the two."
+        },
+        {
+          "type": "table",
+          "title": "The four number systems",
+          "headers": ["System", "Base", "Valid digits"],
+          "rows": [
+            ["Binary", "2", "0, 1"],
+            ["Octal", "8", "0 to 7"],
+            ["Decimal", "10", "0 to 9"],
+            ["Hexadecimal", "16", "0 to 9 and A to F"]
+          ]
+        },
+        {
+          "type": "text",
+          "text": "Conventional digital computers store data and machine instructions as **binary patterns**. One binary digit is one **bit**. The processor executes machine instructions directly, and those instructions are binary too."
+        },
+        {
+          "type": "bullets",
+          "title": "Validity check: is this number legal?",
+          "items": [
+            "**1010, 1111, 1001** and **0001** are valid binary patterns.",
+            "**1201** is not binary, because binary has no digit 2.",
+            "Octal has exactly eight symbols (0 to 7), so **8 and 9 are invalid** octal digits.",
+            "**BAD, BED, ACE** are valid hexadecimal numbers; **BEG** is not, because G lies outside A to F."
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "tip",
+          "title": "Memory trick",
+          "text": "The biggest digit in any system is always one less than its base: binary 1, octal 7, decimal 9, hex F (which equals 15)."
+        }
+      ]
+    },
+    {
+      "id": "positional-value",
+      "title": "Positional Value and Weights",
+      "icon": "⚖️",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "A digit's value depends on **where it sits**. Starting at the rightmost whole-number digit, the positions carry weights of base⁰, base¹, base², and so on. That is why 5 in 50 is worth more than 5 in 5."
+        },
+        {
+          "type": "table",
+          "title": "Weights of positions (right to left)",
+          "headers": ["System", "Weights"],
+          "rows": [
+            ["Binary", "16, 8, 4, 2, 1 (powers of 2)"],
+            ["Decimal", "1000, 100, 10, 1 (powers of 10)"]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "Base subscript",
+          "rows": [
+            ["(101)₂", "Binary 101, which equals decimal 5"],
+            ["(101)₁₀", "Decimal one hundred and one"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "remember",
+          "text": "The small subscript tells you the base. The same digits mean different values in different bases, so always label the base in your answer."
+        }
+      ]
+    },
+    {
+      "id": "data-units",
+      "title": "Bit, Nibble, Byte and KiB",
+      "icon": "📏",
+      "blocks": [
+        {
+          "type": "keyvalue",
+          "title": "Basic data units",
+          "rows": [
+            ["Bit", "One binary digit, either 0 or 1"],
+            ["Nibble", "4 bits"],
+            ["Byte", "8 bits, which is 2 nibbles"],
+            ["KiB (kibibyte)", "1024 bytes, the precise binary unit"],
+            ["kB (kilobyte)", "1000 bytes in decimal notation"]
+          ]
+        },
+        {
+          "type": "figure",
+          "kind": "flow",
+          "title": "Data units build up",
+          "items": [
+            ["Bit", "0 or 1"],
+            ["Nibble", "4 bits"],
+            ["Byte", "8 bits = 2 nibbles"],
+            ["KiB", "1024 bytes"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "KB or KiB?",
+          "text": "Older exam material often calls 1024 bytes '1 KB'. The precise name for 1024 bytes is **KiB**, while kB (kilobyte) strictly means 1000 bytes in decimal notation."
+        }
+      ]
+    },
+    {
+      "id": "codes-parity",
+      "title": "BCD, ASCII, Parity and Why Octal and Hex",
+      "icon": "🧩",
+      "blocks": [
+        {
+          "type": "keyvalue",
+          "title": "Important codes",
+          "rows": [
+            ["BCD", "Binary-Coded Decimal; standard 8421 BCD gives each decimal digit its own 4-bit group"],
+            ["ASCII", "American Standard Code for Information Interchange"],
+            ["Standard ASCII", "7 bits, so 128 code values (0 to 127): letters, digits, punctuation and control codes"],
+            ["Extended ASCII", "Several 8-bit extensions with up to 256 values; their character mappings differ"]
+          ]
+        },
+        {
+          "type": "text",
+          "text": "BCD example: decimal **59** becomes **0101 1001**, because 5 is 0101 and 9 is 1001. Each digit is encoded separately, so BCD is not the same as converting the whole number to binary."
+        },
+        {
+          "type": "table",
+          "title": "Parity bit",
+          "headers": ["Type", "Rule"],
+          "rows": [
+            ["Even parity", "Total number of 1s (data plus parity bit) is even"],
+            ["Odd parity", "Total number of 1s (data plus parity bit) is odd"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "What parity can and cannot do",
+          "text": "A parity bit helps **detect** certain errors in transmission or storage. A single parity bit detects an odd number of bit flips; it cannot detect every error and cannot correct errors by itself."
+        },
+        {
+          "type": "bullets",
+          "title": "Why use octal and hexadecimal?",
+          "items": [
+            "**Octal** shortens binary: one octal digit equals 3 bits.",
+            "**Hexadecimal** is common in programming, debugging and memory-address displays: one hex digit equals 4 bits.",
+            "The underlying data always remains binary; octal and hex are only shorter ways to write it."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "binary-decimal",
+      "title": "Binary and Decimal Conversions",
+      "icon": "🔄",
+      "blocks": [
+        {
+          "type": "steps",
+          "title": "Binary to decimal",
+          "items": [
+            "Write the weight of each position under the bits: 16, 8, 4, 2, 1 (rightmost bit has weight 2⁰ = 1).",
+            "Multiply every bit by its weight.",
+            "Add all the contributions."
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Worked examples: binary to decimal",
+          "headers": ["Binary", "Working", "Decimal"],
+          "rows": [
+            ["(11110)₂", "1×16 + 1×8 + 1×4 + 1×2 + 0×1 = 16 + 8 + 4 + 2", "(30)₁₀"],
+            ["(10111)₂", "1×16 + 0×8 + 1×4 + 1×2 + 1×1 = 16 + 4 + 2 + 1", "(23)₁₀"]
+          ]
+        },
+        {
+          "type": "steps",
+          "title": "Decimal to binary (sum of powers of 2)",
+          "items": [
+            "Break the number into a sum of powers of 2.",
+            "Write 1 under every weight you used and 0 under every weight you skipped.",
+            "Read the bits from the highest weight to the lowest."
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Worked examples: decimal to binary",
+          "headers": ["Decimal", "Powers of 2 used", "Binary"],
+          "rows": [
+            ["25", "16 + 8 + 1 (weights 16, 8, 4, 2, 1 give bits 1 1 0 0 1)", "(11001)₂"],
+            ["14", "8 + 4 + 2 (weights 8, 4, 2, 1 give bits 1 1 1 0)", "(1110)₂"]
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Alternative: repeated division by 2, shown for 25",
+          "headers": ["Division", "Quotient", "Remainder"],
+          "rows": [
+            ["25 ÷ 2", "12", "1"],
+            ["12 ÷ 2", "6", "0"],
+            ["6 ÷ 2", "3", "0"],
+            ["3 ÷ 2", "1", "1"],
+            ["1 ÷ 2", "0", "1"]
+          ]
+        },
+        {
+          "type": "text",
+          "text": "Read the remainders from **bottom to top**: 1, 1, 0, 0, 1, so (25)₁₀ = (11001)₂, matching the first method. Leading zeros do not change an unsigned value, and you should always label the base."
+        }
+      ]
+    },
+    {
+      "id": "octal-binary",
+      "title": "Octal and Binary Conversions",
+      "icon": "8️⃣",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "Because 8 = 2³, **one octal digit equals exactly three bits**. This makes octal a compact way to write long binary patterns."
+        },
+        {
+          "type": "table",
+          "title": "Octal digit to 3-bit group",
+          "headers": ["Octal", "Binary", "Octal", "Binary"],
+          "rows": [
+            ["0", "000", "4", "100"],
+            ["1", "001", "5", "101"],
+            ["2", "010", "6", "110"],
+            ["3", "011", "7", "111"]
+          ]
+        },
+        {
+          "type": "steps",
+          "title": "Octal to binary",
+          "items": [
+            "Replace every octal digit with exactly three bits.",
+            "Keep the zeros inside each group.",
+            "Join the groups; leading zeros of the whole answer may be dropped."
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Worked examples: octal to binary",
+          "headers": ["Octal", "Digit by digit", "Binary"],
+          "rows": [
+            ["(537)₈", "5 → 101; 3 → 011; 7 → 111", "(101011111)₂"],
+            ["(632)₈", "6 → 110; 3 → 011; 2 → 010", "(110011010)₂"],
+            ["(172)₈", "1 → 001; 7 → 111; 2 → 010", "(1111010)₂"]
+          ]
+        },
+        {
+          "type": "steps",
+          "title": "Binary to octal",
+          "items": [
+            "Group the whole-number bits in threes, starting from the right.",
+            "Pad the leftmost group with zeros if it has fewer than three bits.",
+            "Convert each group to one octal digit."
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Worked examples: binary to octal",
+          "headers": ["Binary", "Grouped in threes", "Octal"],
+          "rows": [
+            ["(1010111100)₂", "001 | 010 | 111 | 100 → 1 | 2 | 7 | 4", "(1274)₈"],
+            ["(10101110)₂", "010 | 101 | 110 → 2 | 5 | 6", "(256)₈"]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "hex-binary",
+      "title": "Hexadecimal and Binary",
+      "icon": "🔤",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "Since 16 = 2⁴, **one hex digit equals four bits**. The letters A to F stand for the decimal values 10 to 15."
+        },
+        {
+          "type": "table",
+          "title": "Hex reference table",
+          "headers": ["Decimal", "Binary", "Hex"],
+          "rows": [
+            ["0", "0000", "0"],
+            ["1", "0001", "1"],
+            ["2", "0010", "2"],
+            ["3", "0011", "3"],
+            ["4", "0100", "4"],
+            ["5", "0101", "5"],
+            ["6", "0110", "6"],
+            ["7", "0111", "7"],
+            ["8", "1000", "8"],
+            ["9", "1001", "9"],
+            ["10", "1010", "A"],
+            ["11", "1011", "B"],
+            ["12", "1100", "C"],
+            ["13", "1101", "D"],
+            ["14", "1110", "E"],
+            ["15", "1111", "F"]
+          ]
+        },
+        {
+          "type": "steps",
+          "title": "Binary to hex",
+          "items": [
+            "Group the bits in fours, starting from the right.",
+            "Pad the left with zeros to complete the last group.",
+            "Replace each group with its hex digit."
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Worked examples",
+          "headers": ["Conversion", "Working", "Result"],
+          "rows": [
+            ["(1010101101001)₂ to hex", "0001 | 0101 | 0110 | 1001 → 1 | 5 | 6 | 9", "(1569)₁₆"],
+            ["(5AD)₁₆ to binary", "5 → 0101; A → 1010; D → 1101", "(10110101101)₂"]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "Facts to remember",
+          "rows": [
+            ["D in hex", "Decimal 13"],
+            ["Largest two-digit hex", "(FF)₁₆ = 15×16 + 15 = (255)₁₀"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "tip",
+          "text": "Octal groups of 3 bits, hex groups of 4 bits. Remember '8 = 2³ so 3, 16 = 2⁴ so 4'."
+        }
+      ]
+    },
+    {
+      "id": "binary-arithmetic",
+      "title": "Binary Addition and Subtraction",
+      "icon": "➕",
+      "blocks": [
+        {
+          "type": "table",
+          "title": "Addition rules",
+          "headers": ["Sum", "Result"],
+          "rows": [
+            ["0 + 0", "0"],
+            ["0 + 1 or 1 + 0", "1"],
+            ["1 + 1", "(10)₂, which means write 0 and carry 1"],
+            ["1 + 1 + 1", "(11)₂, which means write 1 and carry 1"]
+          ]
+        },
+        {
+          "type": "text",
+          "text": "Work from **right to left** and include any incoming carry. Example: (1010)₂ + (0011)₂ = (1101)₂, and the decimal check agrees: 10 + 3 = 13. Digital logic circuits in the processor carry out binary arithmetic."
+        },
+        {
+          "type": "table",
+          "title": "Subtraction rules",
+          "headers": ["Difference", "Result"],
+          "rows": [
+            ["0 − 0", "0"],
+            ["1 − 0", "1"],
+            ["1 − 1", "0"],
+            ["0 − 1", "Borrow from the next higher position; the borrowed 1 becomes two units, so (10)₂ − (1)₂ = (1)₂"]
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Worked subtraction examples (align the rightmost digits, pad with leading zeros)",
+          "headers": ["Subtraction", "Result", "Decimal check"],
+          "rows": [
+            ["(1010)₂ − (0101)₂", "(0101)₂", "10 − 5 = 5"],
+            ["(1100)₂ − (0111)₂", "(0101)₂", "12 − 7 = 5"],
+            ["(100)₂ − (001)₂", "(011)₂, also written 11 or 0011", "4 − 1 = 3"],
+            ["(1101)₂ − (0101)₂", "(1000)₂", "13 − 5 = 8"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "text": "Binary 1 + 1 is **10** (read 'one zero'), not decimal ten. Binary 1 + 1 + 1 is **11**, not decimal eleven."
+        }
+      ]
+    },
+    {
+      "id": "binary-fractions",
+      "title": "Binary Fractions",
+      "icon": "➗",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "The **binary point** separates the whole part from the fractional part. To its left are non-negative powers of 2; to its right are negative powers of 2. To convert, multiply each bit by its positional weight and add the results."
+        },
+        {
+          "type": "table",
+          "title": "Fractional weights",
+          "headers": ["Power", "Fraction", "Decimal"],
+          "rows": [
+            ["2⁰", "1", "1"],
+            ["2⁻¹", "1/2", "0.5"],
+            ["2⁻²", "1/4", "0.25"],
+            ["2⁻³", "1/8", "0.125"],
+            ["2⁻⁴", "1/16", "0.0625"],
+            ["2⁻⁵", "1/32", "0.03125"]
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Worked examples",
+          "headers": ["Binary", "Working", "Decimal"],
+          "rows": [
+            ["(0.1011)₂", "1×0.5 + 0×0.25 + 1×0.125 + 1×0.0625", "(0.6875)₁₀"],
+            ["(1101.1011)₂", "Whole part 8 + 4 + 1 = 13; fraction 0.5 + 0.125 + 0.0625 = 0.6875", "(13.6875)₁₀"],
+            ["(0.11)₂", "0.5 + 0.25", "(0.75)₁₀"],
+            ["(0.101)₂", "0.5 + 0 + 0.125", "(0.625)₁₀"],
+            ["(0.1101)₂", "0.5 + 0.25 + 0 + 0.0625", "(0.8125)₁₀"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "text": "The first place after the binary point is worth **one-half (0.5)**, not one-tenth."
+        }
+      ]
+    },
+    {
+      "id": "ones-twos-complement",
+      "title": "One's and Two's Complement",
+      "icon": "🔁",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "Complements change a digit pattern by a fixed rule. They help implement subtraction, signed-number representation and logical operations. Always fix the **bit length first**, because leading zeros turn into ones and different widths give different answers."
+        },
+        {
+          "type": "keyvalue",
+          "title": "One's complement",
+          "rows": [
+            ["Rule", "Invert every bit (0 becomes 1, 1 becomes 0) and keep exactly the original length"],
+            ["10101", "01010"],
+            ["110010", "001101"],
+            ["10101110", "01010001"],
+            ["1010", "0101"]
+          ]
+        },
+        {
+          "type": "table",
+          "title": "One's complement of decimal numbers",
+          "headers": ["Number and width", "Binary form", "One's complement"],
+          "rows": [
+            ["45, six bits", "45 = 32 + 8 + 4 + 1 = 101101", "010010"],
+            ["45, eight bits", "00101101 (padded with zeros)", "11010010"],
+            ["10, four bits", "1010", "0101"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "Notation matters",
+          "text": "If '10' means the two-bit binary pattern (10)₂, its one's complement is 01. If it means decimal 10 in four bits, the pattern is 1010 and the complement is 0101. State the width first."
+        },
+        {
+          "type": "figure",
+          "kind": "flow",
+          "title": "Finding the two's complement",
+          "items": [
+            ["Fix the bit length", "Choose the width first"],
+            ["Invert every bit", "This gives the one's complement"],
+            ["Add 1 at the LSB", "LSB is the rightmost bit"],
+            ["Keep the width", "Discard any carry beyond it"]
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Worked two's complement examples",
+          "headers": ["Original", "One's complement", "Add 1", "Two's complement"],
+          "rows": [
+            ["110100 (6 bits)", "001011", "001011 + 000001", "001100"],
+            ["1010100 (7 bits)", "0101011", "0101011 + 0000001", "0101100"],
+            ["101110 (6 bits)", "010001", "010001 + 000001", "010010"],
+            ["1010 (4 bits)", "0101", "0101 + 0001", "0110"]
+          ]
+        },
+        {
+          "type": "text",
+          "text": "Two's complement is widely used for **signed integers**: it represents positive values, zero and negative values, and is especially handy for encoding negative integers. Subtraction can be done by adding the two's complement of the number being subtracted, at a fixed width. Two's complement equals one's complement plus 1, and never change the width halfway through the calculation."
+        }
+      ]
+    },
+    {
+      "id": "decimal-complements",
+      "title": "Nine's and Ten's Complement",
+      "icon": "9️⃣",
+      "blocks": [
+        {
+          "type": "bullets",
+          "title": "Rules",
+          "items": [
+            "**Nine's complement**: subtract each decimal digit from 9. For n digits it is (10ⁿ − 1) − N, so use as many 9s as the chosen digit length.",
+            "**Ten's complement**: nine's complement plus 1. For a nonzero N in n digits it equals 10ⁿ − N.",
+            "Choose the digit length first and keep it fixed; discard overflow beyond that width.",
+            "The fixed-width ten's complement of zero is zero."
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Nine's complement examples (two digits)",
+          "headers": ["Number", "Working", "Nine's complement"],
+          "rows": [
+            ["45", "99 − 45 (digit check: 9−4 = 5, 9−5 = 4)", "54"],
+            ["28", "99 − 28", "71"],
+            ["12", "99 − 12", "87"]
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Ten's complement examples",
+          "headers": ["Number", "Nine's complement", "Add 1 (ten's complement)"],
+          "rows": [
+            ["455 (three digits)", "999 − 455 = 544", "544 + 1 = 545 (check: 1000 − 455 = 545)"],
+            ["28 (two digits)", "99 − 28 = 71", "71 + 1 = 72"]
+          ]
+        },
+        {
+          "type": "text",
+          "text": "To show the ten's complement of 28 in BCD, encode 72 digit by digit: 7 = 0111 and 2 = 0010, so the BCD result is **0111 0010**. That is decimal ten's complement followed by BCD encoding."
+        },
+        {
+          "type": "callout",
+          "kind": "tip",
+          "text": "Nine's complement is a digit-by-digit 'subtract from 9'. Ten's complement is just one more: add 1."
+        }
+      ]
+    },
+    {
+      "id": "bcd-binary",
+      "title": "BCD and Ordinary Binary",
+      "icon": "🔟",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "Standard **8421 BCD** encodes each decimal digit separately using four bits weighted 8, 4, 2, 1. The groups 0000 to 1001 are valid; 1010 to 1111 are not valid decimal-digit groups."
+        },
+        {
+          "type": "table",
+          "title": "8421 BCD codes",
+          "headers": ["Decimal digit", "BCD", "Decimal digit", "BCD"],
+          "rows": [
+            ["0", "0000", "5", "0101"],
+            ["1", "0001", "6", "0110"],
+            ["2", "0010", "7", "0111"],
+            ["3", "0011", "8", "1000"],
+            ["4", "0100", "9", "1001"]
+          ]
+        },
+        {
+          "type": "steps",
+          "title": "BCD to ordinary binary",
+          "items": [
+            "Split the BCD into four-bit groups.",
+            "Decode each group as one decimal digit.",
+            "Combine the digits into a decimal number.",
+            "Convert that whole decimal value to ordinary binary."
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Worked examples",
+          "headers": ["BCD", "Decimal", "Powers of 2", "Binary"],
+          "rows": [
+            ["1001 1000", "98", "64 + 32 + 2", "1100010"],
+            ["0010 1000", "28", "16 + 8 + 4", "11100"],
+            ["0011 1000", "38", "32 + 4 + 2", "100110"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "remember",
+          "text": "BCD 0010 1000 and binary 11100 both stand for decimal 28, but they follow different encoding rules. Always distinguish the base, the encoding and the bit width."
+        }
+      ]
+    }
+  ],
+  "revision": [
+    "Bases: binary 2, octal 8, decimal 10, hexadecimal 16; the base counts the distinct digits including zero.",
+    "Binary digits are 0 and 1, octal 0 to 7, decimal 0 to 9, hex 0 to 9 and A to F; 1201 is invalid binary, 8 and 9 are invalid octal, BEG is invalid hex.",
+    "Nibble = 4 bits, byte = 8 bits = 2 nibbles; KiB = 1024 bytes (precise binary unit), kB = 1000 bytes.",
+    "BCD = Binary-Coded Decimal: each decimal digit gets its own 4-bit group (decimal 59 = 0101 1001).",
+    "Standard ASCII is 7 bits with 128 values (0 to 127); extended ASCII is 8-bit with up to 256 values.",
+    "A parity bit helps detect errors (even parity: even count of 1s; odd parity: odd count); it does not correct them.",
+    "One octal digit = 3 bits (8 = 2³); one hex digit = 4 bits (16 = 2⁴); hex D = 13; FF = 255.",
+    "Binary to decimal: multiply each bit by its weight (16, 8, 4, 2, 1) and add; decimal to binary: sum of powers of 2.",
+    "Binary addition: 1+1 = 10 (write 0, carry 1) and 1+1+1 = 11; example 1010 + 0011 = 1101, and 1101 − 0101 = 1000.",
+    "Binary fractions: first place after the point is 0.5; (0.1011)₂ = 0.6875 and (1101.1011)₂ = 13.6875.",
+    "One's complement: invert all bits at a fixed width; two's complement: invert all bits, then add 1 (LSB = rightmost bit).",
+    "Nine's complement: subtract each digit from 9 (28 → 71); ten's complement: nine's complement + 1 (28 → 72, 455 → 545).",
+    "8421 BCD groups 1010 to 1111 are invalid; BCD 1001 1000 = decimal 98 = binary 1100010.",
+    "Octal shortens long binary patterns; hex is common for memory-address displays; the underlying data stays binary."
+  ],
+  "mindmap": {
+    "center": "Number System",
+    "branches": [
+      {
+        "label": "Bases",
+        "children": ["Binary 2: 0, 1", "Octal 8: 0-7", "Decimal 10: 0-9", "Hex 16: 0-9, A-F", "Subscript shows base"]
+      },
+      {
+        "label": "Data units and codes",
+        "children": ["Nibble 4 bits", "Byte 8 bits", "KiB 1024 bytes", "ASCII 7 bits, 128 values", "Parity detects errors"]
+      },
+      {
+        "label": "Conversions",
+        "children": ["Binary to decimal: weights", "Decimal to binary: powers of 2", "Octal: groups of 3 bits", "Hex: groups of 4 bits", "FF = 255"]
+      },
+      {
+        "label": "Binary arithmetic",
+        "children": ["1+1 = 10, carry 1", "1+1+1 = 11", "Subtraction uses borrow", "Binary fractions: 0.5, 0.25"]
+      },
+      {
+        "label": "Binary complements",
+        "children": ["One's: invert bits", "Two's: invert, add 1", "Fix bit length first", "Used for signed integers"]
+      },
+      {
+        "label": "Decimal complements",
+        "children": ["Nine's: subtract from 9", "Ten's: nine's + 1", "455 gives 545", "28 gives 72"]
+      },
+      {
+        "label": "BCD",
+        "children": ["8421 weights", "Each digit separate", "Valid: 0000-1001", "BCD differs from binary"]
+      }
+    ]
+  }
+}

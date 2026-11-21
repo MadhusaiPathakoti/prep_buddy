@@ -1,0 +1,545 @@
+{
+  "id": "software",
+  "sections": [
+    {
+      "id": "software-basics",
+      "title": "Software Basics",
+      "icon": "💿",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "**Software** is the set of programs, instructions and related information that tells a computer what to do. Hardware is the machine you can touch; software is what makes it useful."
+        },
+        {
+          "type": "keyvalue",
+          "title": "Key terms",
+          "rows": [
+            ["Software", "Programs, instructions and associated information used to perform computer tasks"],
+            ["Program", "An organised set of instructions that the computer follows"],
+            ["Mobile app", "Software made for smartphones and tablets"],
+            ["Module", "A functional component that does one particular job; several cooperating modules can form an application"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "Module is not the smallest unit",
+          "text": "A **module** is a component that performs a job, but it is not universally the smallest software unit. Do not choose it as the answer to 'smallest unit of software'."
+        }
+      ]
+    },
+    {
+      "id": "code-to-execution",
+      "title": "From Code to Execution",
+      "icon": "🛠️",
+      "blocks": [
+        {
+          "type": "keyvalue",
+          "title": "Stages and terms",
+          "rows": [
+            ["Source code", "The original instructions written by a programmer"],
+            ["Object code", "Output of a compiler or assembler; native object files hold machine instructions plus linking information"],
+            ["Machine code", "Instructions a processor can run directly, represented in binary"],
+            ["Linker", "Combines object files and the libraries they need into linked output"],
+            ["Executable file", "A file prepared to run as a program"],
+            ["Loader", "Places a program in memory and prepares it to run"]
+          ]
+        },
+        {
+          "type": "figure",
+          "kind": "flow",
+          "title": "From source code to a running program",
+          "items": [
+            ["Source code", "Written by the programmer"],
+            ["Compiler / assembler", "Produces object code"],
+            ["Linker", "Joins object files and libraries"],
+            ["Executable file", "Ready to run, e.g. .exe on Windows"],
+            ["Loader", "Puts it in memory"],
+            ["Process", "The program now running"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "remember",
+          "text": "**.exe** means executable and is a common Windows executable extension. Not all software uses .exe."
+        }
+      ]
+    },
+    {
+      "id": "program-process-people",
+      "title": "Program, Process, Package and People",
+      "icon": "👩‍💻",
+      "blocks": [
+        {
+          "type": "table",
+          "title": "Program vs process vs package",
+          "headers": ["Term", "Meaning"],
+          "rows": [
+            ["Program", "Stored instructions (sitting on disk)"],
+            ["Process", "An executing instance of a program, with its own state and resources"],
+            ["Software package", "Software distributed as one unit: program files, supporting resources and documentation"],
+            ["Accessories", "A traditional group of small supporting apps such as Calculator, a text editor and Paint"]
+          ]
+        },
+        {
+          "type": "text",
+          "text": "In the Accessories group, **Paint** is a drawing app, while **Word** is a word processor. Do not mix them up."
+        },
+        {
+          "type": "keyvalue",
+          "title": "People who work with software",
+          "rows": [
+            ["Programmer / coder", "Writes, tests and changes code"],
+            ["Developer / software engineer", "Designs and builds software; the roles overlap"],
+            ["Database administrator", "Manages databases"],
+            ["Ada Lovelace", "Widely recognised as the first computer programmer, for her work on Babbage's Analytical Engine"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "tip",
+          "title": "Quick memory line",
+          "text": "Source = original code | Process = running program | .exe = Windows executable."
+        }
+      ]
+    },
+    {
+      "id": "system-and-application",
+      "title": "System vs Application Software",
+      "icon": "🧩",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "Software has two main groups. **System software** manages the hardware and system resources and supports other programs. **Application software** helps users perform specific tasks."
+        },
+        {
+          "type": "figure",
+          "kind": "layers",
+          "title": "Where software sits",
+          "items": [
+            ["Application software", "Word, Excel, browser, Tally, media player"],
+            ["Middleware", "Shared services, the 'glue' between components"],
+            ["Operating system", "Manages processes, memory, files, devices"],
+            ["Drivers and firmware", "Talk to and control the hardware"],
+            ["Hardware", "The physical machine"]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "System software components",
+          "rows": [
+            ["Operating system", "Manages processes, memory, files and devices and provides services to applications"],
+            ["Device driver", "Gives the OS an interface to talk to hardware, e.g. printer, graphics, audio and network drivers"],
+            ["Language translators", "Compilers, interpreters and assemblers"],
+            ["Utilities", "Maintain, protect and manage the system and its data"],
+            ["Firmware", "Software closely tied to a device's basic operation"]
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Classification check",
+          "headers": ["Software", "Type"],
+          "rows": [
+            ["Operating systems, utilities, drivers", "System software"],
+            ["Word processors, spreadsheets, media players", "Application software"],
+            ["Email and messaging apps", "Application software"],
+            ["Networking components of the OS", "System software"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "text": "**MS-DOS** is an operating system, so it is system software, not application software. Communication software needs context: apps are applications, OS networking parts are system software."
+        }
+      ]
+    },
+    {
+      "id": "utilities-and-defragmentation",
+      "title": "Utilities and Defragmentation",
+      "icon": "🧹",
+      "blocks": [
+        {
+          "type": "keyvalue",
+          "title": "Common utility tools",
+          "rows": [
+            ["Antivirus", "Detects, blocks and removes malware"],
+            ["Disk Cleanup", "Removes selected temporary and unnecessary files"],
+            ["Backup tool", "Copies data so it can be recovered later"],
+            ["Compression tool", "Reduces the storage space needed by suitable data"],
+            ["Disk checking tool", "Examines file-system or drive problems"]
+          ]
+        },
+        {
+          "type": "text",
+          "text": "Utilities support reliability, security and efficiency. Some improve performance, but not every utility makes the computer faster."
+        },
+        {
+          "type": "keyvalue",
+          "title": "Fragmentation and defragmentation",
+          "rows": [
+            ["Fragmentation", "A file's data ends up stored in separate, scattered locations"],
+            ["Defragmentation", "Reorganises the scattered file fragments on a hard disk so they can be read more efficiently"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "Cleanup is not defragmentation",
+          "text": "**Disk Cleanup** deletes unnecessary data; **defragmentation** rearranges existing data. Defragmentation is not just collecting folders or separating used and unused space."
+        },
+        {
+          "type": "callout",
+          "kind": "fact",
+          "text": "Windows optimises HDDs and SSDs differently. For SSDs the optimisation commonly uses **TRIM**."
+        }
+      ]
+    },
+    {
+      "id": "application-software",
+      "title": "Application Software",
+      "icon": "📊",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "Application software is also called **end-user software**. **General-purpose** applications serve common needs, while **special-purpose** applications handle a defined job such as payroll or ticket reservation."
+        },
+        {
+          "type": "table",
+          "title": "Common applications",
+          "headers": ["Application", "Use"],
+          "rows": [
+            ["Microsoft Office", "Documents, spreadsheets and presentations"],
+            ["Word processor", "Create and edit text documents"],
+            ["Spreadsheet", "Organise data and perform calculations"],
+            ["Browser", "Access websites and web applications"],
+            ["Media player", "Play audio and video, e.g. VLC Media Player, Windows Media Player"],
+            ["Accounting software", "Tally and similar products"],
+            ["Database application", "Store, organise and retrieve information"],
+            ["Customised software", "Built or adapted for a customer's requirements"]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "Enterprise software",
+          "rows": [
+            ["ERP", "Enterprise Resource Planning: integrates business activities such as finance, purchasing, inventory and human resources"],
+            ["SAP", "A company that supplies business software, including ERP applications"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "text": "**ERP** is a software category; **SAP** is a company that supplies business software (including ERP). They are not the same thing."
+        }
+      ]
+    },
+    {
+      "id": "horizontal-vertical-banking",
+      "title": "Horizontal, Vertical and Banking Software",
+      "icon": "🏦",
+      "blocks": [
+        {
+          "type": "table",
+          "title": "Horizontal vs vertical software",
+          "headers": ["Type", "Serves", "Examples"],
+          "rows": [
+            ["Horizontal", "Common needs across many industries", "Word processors, spreadsheets, general collaboration tools"],
+            ["Vertical (industry-specific or niche)", "One particular industry or profession", "Banking platforms, hospital-management and hotel-management systems"],
+            ["Custom (tailored)", "Developed or adapted for one organisation", "A system built to one bank's own needs"]
+          ]
+        },
+        {
+          "type": "text",
+          "text": "Vertical software can be a standard product or a custom solution, so the two terms are not identical. **On-demand** describes how software is delivered, not an automatic synonym for vertical software."
+        },
+        {
+          "type": "keyvalue",
+          "title": "Banking examples",
+          "rows": [
+            ["Finacle", "Banking software developed by Infosys; a vertical software example"],
+            ["Bacs", "A UK payment system supporting Direct Debit and Direct Credit; not the name of a core banking software package"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "tip",
+          "text": "Horizontal = many industries, like a wide road. Vertical = one industry, like a tall tower. Application = user task, ERP = integrated business processes."
+        }
+      ]
+    },
+    {
+      "id": "open-and-closed-source",
+      "title": "Open Source and Closed Source",
+      "icon": "🔓",
+      "blocks": [
+        {
+          "type": "keyvalue",
+          "title": "Open source",
+          "rows": [
+            ["OSS", "Open Source Software"],
+            ["Meaning", "The licence makes source code available and permits use, modification and redistribution under stated conditions"],
+            ["Price", "Can be supplied free or sold commercially"],
+            ["Examples", "Linux kernel, Mozilla Firefox, Apache OpenOffice, VLC Media Player"],
+            ["AOSP", "Android Open Source Project; Android devices may also contain proprietary apps and components"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "text": "Open source does not simply mean free of charge or easy to edit. Programming skill may still be needed to modify it."
+        },
+        {
+          "type": "keyvalue",
+          "title": "Closed source",
+          "rows": [
+            ["Meaning", "Source code is usually withheld and modification is restricted by the owner"],
+            ["Examples", "Microsoft Office, Tally, many SAP applications, Avast Antivirus"]
+          ]
+        },
+        {
+          "type": "text",
+          "text": "A free edition of Avast is not automatically open source. Free to use and open source are different ideas."
+        }
+      ]
+    },
+    {
+      "id": "distribution-terms",
+      "title": "Freeware, Shareware, EULA and Piracy",
+      "icon": "📜",
+      "blocks": [
+        {
+          "type": "table",
+          "title": "Distribution terms",
+          "headers": ["Term", "Meaning"],
+          "rows": [
+            ["Freeware", "Supplied without a purchase price, subject to licence terms; source code need not be available"],
+            ["Shareware", "Distributed for evaluation; payment is expected or required for continued use or extra features"],
+            ["Trialware", "Evaluation software limited by time, features or usage; commonly a form of shareware"],
+            ["Nagware (annoyware, begware)", "Shows repeated pop-up reminders to register, buy or pay"]
+          ]
+        },
+        {
+          "type": "bullets",
+          "title": "Things to note",
+          "items": [
+            "**VLC** is free of charge AND open source.",
+            "Older material lists **Internet Explorer** as a browser supplied without a separate purchase price.",
+            "Antivirus products such as **Kaspersky** and **Quick Heal** may have trial or paid editions. Antivirus is a function, not a licence type.",
+            "Redistribution of shareware depends on its licence; it is not automatically allowed for everyone."
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "EULA, public domain and piracy",
+          "rows": [
+            ["EULA", "End User License Agreement: terms for an end user's use of software, such as installation, copying, permitted devices and restrictions"],
+            ["Public-domain software", "Not protected by copyright"],
+            ["Software piracy", "Unauthorised copying, distribution or use that violates rights or licence terms"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "text": "**Freeware** and **open-source** software can still be copyrighted. Being freely available does not make software public domain."
+        }
+      ]
+    },
+    {
+      "id": "languages-and-translators",
+      "title": "Languages and Translators",
+      "icon": "🔤",
+      "blocks": [
+        {
+          "type": "keyvalue",
+          "title": "Languages",
+          "rows": [
+            ["HLL", "High-Level Language, with abstractions easier to use than machine instructions, e.g. Python, Java, C++"],
+            ["ML", "Machine Language"],
+            ["Assembly language", "A low-level language; the assembler is its translator, not a programming language"]
+          ]
+        },
+        {
+          "type": "text",
+          "text": "Programmers commonly use high-level languages but can also write assembly or other low-level code."
+        },
+        {
+          "type": "table",
+          "title": "Translators compared",
+          "headers": ["Translator", "What it does", "Note"],
+          "rows": [
+            ["Compiler", "Translates source code into another form (assembly, object code, machine code or bytecode) before it is executed", "May work in several passes and compile separate files"],
+            ["Interpreter", "Executes a program through a runtime, commonly processing statements or intermediate instructions progressively", "'Line by line' is a simplified exam description"],
+            ["Assembler", "Converts assembly-language instructions into machine-code object output", "High-level to assembly is a compiler task"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "Assembler correction",
+          "text": "Converting a high-level language into assembly language is a **compiler** task, not an assembler task. Also, not every compiler emits native machine code directly."
+        },
+        {
+          "type": "figure",
+          "kind": "flow",
+          "title": "A typical native build",
+          "items": [
+            ["Preprocessing", "Prepares the source text"],
+            ["Compilation", "Can produce assembly"],
+            ["Assembly", "Produces object files"],
+            ["Linking", "Combines object files and libraries"],
+            ["Loading", "Loader prepares the program to run"]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "Java and debugger",
+          "rows": [
+            ["Java compiler", "Converts source code into bytecode"],
+            ["JVM", "Java Virtual Machine: runs bytecode using interpretation and, in many implementations, just-in-time compilation"],
+            ["Debugger", "Helps inspect execution and locate defects; a separate tool, not a language translator"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "remember",
+          "text": "Java is the common exam example of **compilation plus interpretation**."
+        }
+      ]
+    },
+    {
+      "id": "malware-and-maintenance",
+      "title": "Malware and Maintenance Terms",
+      "icon": "🐛",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "**Malware** means malicious software, created to steal data, damage systems, disrupt operations or gain unauthorised access."
+        },
+        {
+          "type": "keyvalue",
+          "title": "Kinds of malware",
+          "rows": [
+            ["Virus", "Infects host files or programs and spreads when the infected code runs"],
+            ["Worm", "Self-replicates and can spread without attaching to a host file"],
+            ["Trojan horse", "Looks legitimate while doing harmful things"],
+            ["Rootkit", "Hides malicious activity or helps keep privileged access"],
+            ["Ransomware", "Locks systems or encrypts data and demands payment"],
+            ["Malicious adware", "Unwanted advertising with harmful or intrusive behaviour"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "text": "Advertising-supported software is not automatically malware. Only adware with harmful or intrusive behaviour counts."
+        },
+        {
+          "type": "table",
+          "title": "Maintenance terms",
+          "headers": ["Term", "Meaning"],
+          "rows": [
+            ["Bug", "A software defect causing incorrect or unexpected behaviour"],
+            ["Debugging", "Finding, investigating and correcting defects"],
+            ["Troubleshooting", "Identifying and resolving system, app or device problems"],
+            ["Patch", "A targeted fix for defects, vulnerabilities or behaviour"],
+            ["Update", "Fixes, security improvements or smaller feature changes"],
+            ["Upgrade", "A move to a newer or more capable version, usually with larger changes"]
+          ]
+        },
+        {
+          "type": "text",
+          "text": "Patches need not be online or free. Upgrading does not require you to manually uninstall the old version first."
+        }
+      ]
+    },
+    {
+      "id": "firmware-and-middleware",
+      "title": "Firmware and Middleware",
+      "icon": "🔌",
+      "blocks": [
+        {
+          "type": "keyvalue",
+          "title": "Firmware",
+          "rows": [
+            ["Meaning", "Software stored in non-volatile memory to control a device's basic functions"],
+            ["Examples", "BIOS/UEFI, remote controls, printers, routers, traffic-signal controllers and other embedded devices"],
+            ["Where stored", "ROM is the traditional exam answer; EEPROM and rewritable flash are also used"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "text": "Firmware is software associated with hardware. It is not literally 'hardware plus software' and it does not replace hardware."
+        },
+        {
+          "type": "keyvalue",
+          "title": "Middleware",
+          "rows": [
+            ["Meaning", "Shared software services that connect applications, components, clients, servers and data sources"],
+            ["Nickname", "The 'glue' between components; it can provide services between applications and the operating system"],
+            ["Embedded middleware", "Supplies shared services inside embedded systems, including those using a real-time OS"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "tip",
+          "text": "Bug = defect | Patch = targeted fix | Firmware = device control | Middleware = connection services."
+        }
+      ]
+    }
+  ],
+  "revision": [
+    "Software = programs, instructions and related information; a module is a job-doing component, not the smallest unit.",
+    "Source code is original; object code comes from a compiler or assembler; machine code is binary run by the processor.",
+    "Linker joins object files and libraries; loader puts the program in memory; .exe is a common Windows executable extension.",
+    "Program = stored instructions; process = a running instance of a program.",
+    "System software manages hardware: OS, device drivers, translators, utilities, firmware. MS-DOS is an OS.",
+    "Application software (end-user software) does user tasks; word processors, spreadsheets and media players are applications.",
+    "Defragmentation reorganises scattered file fragments on a hard disk; Disk Cleanup deletes unnecessary files; SSDs use TRIM.",
+    "ERP = Enterprise Resource Planning; SAP is a company. Finacle (Infosys) is vertical banking software; Bacs is a UK payment system.",
+    "Horizontal software serves many industries; vertical software serves one industry or profession.",
+    "Open source gives source rights (Linux kernel, Firefox, VLC); closed source is withheld (MS Office, Tally, Avast).",
+    "Freeware = no purchase price; shareware = evaluation then payment; trialware = limited trial; nagware = repeated reminders.",
+    "EULA = End User License Agreement; public-domain software has no copyright; freeware and open source can still be copyrighted.",
+    "Compiler translates source before execution; interpreter executes via a runtime; assembler turns assembly into object code.",
+    "Java: compiler gives bytecode, then the JVM interprets it and often uses just-in-time compilation.",
+    "Patch = targeted fix; update = fixes or small changes; upgrade = newer, more capable version; bug = defect.",
+    "Firmware sits in non-volatile memory (BIOS/UEFI, routers, printers); middleware is the glue connecting applications."
+  ],
+  "mindmap": {
+    "center": "Computer Software",
+    "branches": [
+      {
+        "label": "Basics",
+        "children": ["Program and module", "Source / object / machine code", "Linker and loader", "Process vs program", ".exe file"]
+      },
+      {
+        "label": "System software",
+        "children": ["Operating system", "Device drivers", "Translators", "Utilities", "Firmware"]
+      },
+      {
+        "label": "Utilities",
+        "children": ["Antivirus", "Disk Cleanup", "Backup", "Compression", "Defragmentation"]
+      },
+      {
+        "label": "Application software",
+        "children": ["General vs special purpose", "Office, browser, Tally", "ERP", "Horizontal vs vertical", "Finacle"]
+      },
+      {
+        "label": "Licences",
+        "children": ["Open source (OSS)", "Closed source", "Freeware", "Shareware / trialware", "Nagware", "EULA and piracy"]
+      },
+      {
+        "label": "Translators",
+        "children": ["Compiler", "Interpreter", "Assembler", "Java and JVM", "Debugger"]
+      },
+      {
+        "label": "Malware and fixes",
+        "children": ["Virus and worm", "Trojan and rootkit", "Ransomware", "Bug and debugging", "Patch, update, upgrade"]
+      },
+      {
+        "label": "Firmware and middleware",
+        "children": ["BIOS / UEFI", "ROM, EEPROM, flash", "Middleware as glue", "Embedded systems"]
+      }
+    ]
+  }
+}

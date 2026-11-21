@@ -1,0 +1,322 @@
+[
+  {
+    "id": "shortcut-keys-01",
+    "q": "Which of the following is a toggle key?",
+    "options": ["Ctrl", "Caps Lock", "Alt", "Shift"],
+    "answer": 1,
+    "explain": "Caps Lock, Num Lock and Scroll Lock switch a mode on or off. Ctrl, Alt and Shift are modifier keys.",
+    "section": "keyboard-basics"
+  },
+  {
+    "id": "shortcut-keys-02",
+    "q": "Keys such as Ctrl, Alt and Shift, which change the action of another key when held with it, are called:",
+    "options": ["Toggle keys", "Function keys", "Modifier keys", "Navigation keys"],
+    "answer": 2,
+    "explain": "Modifier keys combine with another key to change its action. Toggle keys, in contrast, switch a mode on or off.",
+    "section": "keyboard-basics"
+  },
+  {
+    "id": "shortcut-keys-03",
+    "q": "In Microsoft Word, which shortcut selects all the content of the document?",
+    "options": ["Ctrl + A", "Ctrl + S", "Ctrl + L", "Ctrl + M"],
+    "answer": 0,
+    "explain": "Ctrl + A selects all. Ctrl + S saves, Ctrl + L aligns left and Ctrl + M increases the indent.",
+    "section": "ctrl-a-to-m"
+  },
+  {
+    "id": "shortcut-keys-04",
+    "q": "Which shortcut opens the Font dialog box in MS Word?",
+    "options": ["Ctrl + F", "Ctrl + H", "Ctrl + B", "Ctrl + D"],
+    "answer": 3,
+    "explain": "Ctrl + D opens the Font dialog in Word. Ctrl + F is Find, Ctrl + H is Find and Replace and Ctrl + B toggles bold.",
+    "section": "ctrl-a-to-m"
+  },
+  {
+    "id": "shortcut-keys-05",
+    "q": "Which shortcut is used to centre a paragraph in MS Word?",
+    "options": ["Ctrl + J", "Ctrl + E", "Ctrl + R", "Ctrl + L"],
+    "answer": 1,
+    "explain": "Ctrl + E centres the paragraph. Ctrl + J justifies, Ctrl + R aligns right and Ctrl + L aligns left.",
+    "section": "ctrl-a-to-m"
+  },
+  {
+    "id": "shortcut-keys-06",
+    "q": "Which of the following pairs is correct for MS Word?",
+    "options": ["Ctrl + K : Insert a hyperlink", "Ctrl + G : Find text", "Ctrl + H : Go To", "Ctrl + M : Justify the paragraph"],
+    "answer": 0,
+    "explain": "Ctrl + K inserts a hyperlink. Ctrl + G is Go To, Ctrl + H is Find and Replace and Ctrl + J justifies.",
+    "section": "ctrl-a-to-m"
+  },
+  {
+    "id": "shortcut-keys-07",
+    "q": "Which Word shortcut opens the Find and Replace dialog?",
+    "options": ["Ctrl + G", "Ctrl + F", "Ctrl + R", "Ctrl + H"],
+    "answer": 3,
+    "explain": "Ctrl + H opens Find and Replace. Ctrl + F only opens Find and Ctrl + G opens Go To.",
+    "section": "ctrl-a-to-m"
+  },
+  {
+    "id": "shortcut-keys-08",
+    "q": "Which of the following shortcuts is used to REDO an undone action in MS Word?",
+    "options": ["Ctrl + Z", "Ctrl + X", "Ctrl + Y", "Ctrl + V"],
+    "answer": 2,
+    "explain": "Ctrl + Y redoes an undone action (or repeats a supported command). Ctrl + Z is Undo.",
+    "section": "ctrl-n-to-z"
+  },
+  {
+    "id": "shortcut-keys-09",
+    "q": "In MS Word, Ctrl + N is used to:",
+    "options": ["Create a new page", "Create a new document", "Open an existing file", "Open print options"],
+    "answer": 1,
+    "explain": "Ctrl + N creates a new document, not a new page. Ctrl + O opens an existing file and Ctrl + P opens print options.",
+    "section": "ctrl-n-to-z"
+  },
+  {
+    "id": "shortcut-keys-10",
+    "q": "Which shortcut removes direct paragraph formatting in MS Word?",
+    "options": ["Ctrl + Q", "Ctrl + U", "Ctrl + T", "Ctrl + W"],
+    "answer": 0,
+    "explain": "Ctrl + Q resets paragraph formatting (not all character formatting). Ctrl + W closes the document and Ctrl + U underlines.",
+    "section": "ctrl-n-to-z"
+  },
+  {
+    "id": "shortcut-keys-11",
+    "q": "In MS Word, Ctrl + T is used to:",
+    "options": ["Open a new tab", "Insert a table", "Turn underlining on or off", "Create a hanging indent"],
+    "answer": 3,
+    "explain": "In Word, Ctrl + T creates a hanging indent. In a browser the same keys open a new tab.",
+    "section": "ctrl-n-to-z"
+  },
+  {
+    "id": "shortcut-keys-12",
+    "q": "Which shortcut closes the current document in MS Word?",
+    "options": ["Ctrl + X", "Ctrl + W", "Ctrl + Q", "Ctrl + O"],
+    "answer": 1,
+    "explain": "Ctrl + W closes the current document. Ctrl + X cuts, Ctrl + Q resets paragraph formatting and Ctrl + O opens a file.",
+    "section": "ctrl-n-to-z"
+  },
+  {
+    "id": "shortcut-keys-13",
+    "q": "Which of the following correctly matches the shortcut with its action?",
+    "options": ["Ctrl + X : Copy", "Ctrl + V : Cut", "Ctrl + C : Paste", "Ctrl + Z : Undo"],
+    "answer": 3,
+    "explain": "Ctrl + Z is Undo. Ctrl + X is Cut, Ctrl + C is Copy and Ctrl + V is Paste.",
+    "section": "ctrl-n-to-z"
+  },
+  {
+    "id": "shortcut-keys-14",
+    "q": "Which shortcut opens Task Manager directly in Windows?",
+    "options": ["Ctrl + Shift + Esc", "Ctrl + Alt + Delete", "Alt + Tab", "Win + L"],
+    "answer": 0,
+    "explain": "Ctrl + Shift + Esc opens Task Manager directly. Ctrl + Alt + Delete opens the security screen, which also offers Task Manager.",
+    "section": "windows-security-keys"
+  },
+  {
+    "id": "shortcut-keys-15",
+    "q": "On modern Windows, Ctrl + Alt + Delete mainly:",
+    "options": ["Restarts the computer immediately", "Opens the Windows security screen", "Closes the active window", "Locks the computer without a menu"],
+    "answer": 1,
+    "explain": "It opens a security screen with Lock, Switch user, Sign out and Task Manager. It does not directly restart modern Windows.",
+    "section": "windows-security-keys"
+  },
+  {
+    "id": "shortcut-keys-16",
+    "q": "Which function key is used to rename a selected file or folder in File Explorer?",
+    "options": ["F1", "F3", "F2", "F4"],
+    "answer": 2,
+    "explain": "F2 renames the selected item. F1 opens Help and F3 searches in File Explorer.",
+    "section": "function-keys"
+  },
+  {
+    "id": "shortcut-keys-17",
+    "q": "Which function key starts spelling and grammar checking in MS Word?",
+    "options": ["F5", "F7", "F8", "F9"],
+    "answer": 1,
+    "explain": "F7 opens spelling and grammar checking. F5 opens Go To, F8 extends the selection and F9 updates fields.",
+    "section": "function-keys"
+  },
+  {
+    "id": "shortcut-keys-18",
+    "q": "Which function key toggles full-screen mode in a web browser?",
+    "options": ["F10", "F12", "F6", "F11"],
+    "answer": 3,
+    "explain": "F11 enters or leaves browser full-screen mode. F12 opens Developer Tools in browsers.",
+    "section": "function-keys"
+  },
+  {
+    "id": "shortcut-keys-19",
+    "q": "In MS Word, pressing F9 will:",
+    "options": ["Update selected fields", "Open the Thesaurus", "Open Save As", "Repeat the last action"],
+    "answer": 0,
+    "explain": "F9 updates selected fields in Word (for example field-based dates). It does not update the whole document.",
+    "section": "function-keys"
+  },
+  {
+    "id": "shortcut-keys-20",
+    "q": "Which shortcut opens the Thesaurus for synonyms in MS Word?",
+    "options": ["Shift + F10", "Ctrl + F7", "Shift + F7", "Alt + F7"],
+    "answer": 2,
+    "explain": "Shift + F7 opens the Thesaurus. Shift + F10 opens the context menu, like a right-click.",
+    "section": "function-keys"
+  },
+  {
+    "id": "shortcut-keys-21",
+    "q": "Which statement about starting Safe Mode is correct?",
+    "options": ["F8 at startup always works on every Windows version", "On modern Windows, use Startup Settings after Restart and choose 4 or F4", "Press Ctrl + F5 during startup", "Press Alt + F4 during startup"],
+    "answer": 1,
+    "explain": "F8 opened boot options on older Windows. Modern Windows uses Recovery > Troubleshoot > Advanced options > Startup Settings > Restart, then 4 or F4.",
+    "section": "safe-mode"
+  },
+  {
+    "id": "shortcut-keys-22",
+    "q": "Which shortcut switches between open application windows?",
+    "options": ["Alt + Esc", "Ctrl + Tab", "Alt + Tab", "Win + Tab"],
+    "answer": 2,
+    "explain": "Alt + Tab switches between open windows. Alt + Esc cycles them in the order opened, Ctrl + Tab changes browser tabs and Win + Tab opens Task View.",
+    "section": "alt-commands-reload"
+  },
+  {
+    "id": "shortcut-keys-23",
+    "q": "Which shortcut copies a screenshot of only the active window to the clipboard?",
+    "options": ["Alt + Print Screen", "Print Screen", "Win + Print Screen", "Ctrl + Print Screen"],
+    "answer": 0,
+    "explain": "Alt + Print Screen captures the active window to the clipboard. Print Screen alone captures the whole screen.",
+    "section": "alt-commands-reload"
+  },
+  {
+    "id": "shortcut-keys-24",
+    "q": "Which shortcut opens the Properties of the selected item in File Explorer?",
+    "options": ["Alt + D", "Alt + F4", "Alt + Enter", "Alt + H"],
+    "answer": 2,
+    "explain": "Alt + Enter opens Properties. Alt + D selects the address bar and Alt + F4 closes the active window.",
+    "section": "alt-commands-reload"
+  },
+  {
+    "id": "shortcut-keys-25",
+    "q": "Which statement about a hard reload (Ctrl + F5 or Ctrl + Shift + R) is correct?",
+    "options": ["It erases all cookies and browsing history", "It reloads the page while bypassing cached content", "It closes and reopens the browser", "It reloads the page using only cached content"],
+    "answer": 1,
+    "explain": "A hard reload bypasses the cache, which helps when a page shows an older version. It does not erase cookies or history.",
+    "section": "alt-commands-reload"
+  },
+  {
+    "id": "shortcut-keys-26",
+    "q": "Which shortcut reopens a recently closed browser tab?",
+    "options": ["Ctrl + T", "Ctrl + Shift + T", "Ctrl + Shift + N", "Ctrl + W"],
+    "answer": 1,
+    "explain": "Ctrl + Shift + T reopens a closed tab. Ctrl + T opens a new tab and Ctrl + Shift + N opens Incognito.",
+    "section": "browser-tabs-navigation"
+  },
+  {
+    "id": "shortcut-keys-27",
+    "q": "In Chrome, which shortcut selects the LAST tab, even if it is not the ninth?",
+    "options": ["Ctrl + 8", "Ctrl + 0", "Ctrl + Shift + 9", "Ctrl + 9"],
+    "answer": 3,
+    "explain": "Ctrl + 9 jumps to the last tab. Ctrl + 1 to Ctrl + 8 select the tab at that position.",
+    "section": "browser-tabs-navigation"
+  },
+  {
+    "id": "shortcut-keys-28",
+    "q": "Which shortcut opens Incognito mode in Chrome (InPrivate in Edge)?",
+    "options": ["Ctrl + Shift + N", "Ctrl + N", "Ctrl + Shift + P", "Ctrl + Alt + N"],
+    "answer": 0,
+    "explain": "Ctrl + Shift + N opens an Incognito (Chrome) or InPrivate (Edge) window. Ctrl + N opens an ordinary new window.",
+    "section": "browser-tabs-navigation"
+  },
+  {
+    "id": "shortcut-keys-29",
+    "q": "Which key stops a web page from loading in the browser?",
+    "options": ["End", "Esc", "Home", "F5"],
+    "answer": 1,
+    "explain": "Esc stops loading. F5 reloads, and Home and End move to the top or bottom of the page.",
+    "section": "browser-tabs-navigation"
+  },
+  {
+    "id": "shortcut-keys-30",
+    "q": "Which shortcut opens the browser's downloads list?",
+    "options": ["Ctrl + H", "Ctrl + D", "Ctrl + B", "Ctrl + J"],
+    "answer": 3,
+    "explain": "Ctrl + J opens downloads. Ctrl + H opens history and Ctrl + D bookmarks the page.",
+    "section": "browser-tools"
+  },
+  {
+    "id": "shortcut-keys-31",
+    "q": "Which shortcut restores the default zoom level of a webpage?",
+    "options": ["Ctrl + 0", "Ctrl + Plus (+)", "Ctrl + Minus (-)", "F11"],
+    "answer": 0,
+    "explain": "Ctrl + 0 restores 100 percent zoom. Ctrl + Plus zooms in, Ctrl + Minus zooms out and F11 toggles full screen.",
+    "section": "browser-tools"
+  },
+  {
+    "id": "shortcut-keys-32",
+    "q": "Which shortcut shows the HTML source of the current webpage?",
+    "options": ["Ctrl + Shift + I", "Ctrl + U", "F12", "Ctrl + P"],
+    "answer": 1,
+    "explain": "Ctrl + U shows the page source. Ctrl + Shift + I or F12 open Developer Tools, and Ctrl + P opens print options.",
+    "section": "browser-tools"
+  },
+  {
+    "id": "shortcut-keys-33",
+    "q": "Which of the following opens Clear Browsing Data in a browser?",
+    "options": ["Ctrl + Shift + B", "Ctrl + Alt + Delete", "Ctrl + Shift + Delete", "Ctrl + Delete"],
+    "answer": 2,
+    "explain": "Ctrl + Shift + Delete opens Clear Browsing Data, where you choose items and confirm. Ctrl + Shift + B shows or hides the bookmarks bar.",
+    "section": "browser-tools"
+  },
+  {
+    "id": "shortcut-keys-34",
+    "q": "Ctrl + H opens Find and Replace in Word. What does it open in a web browser?",
+    "options": ["Downloads", "Bookmarks bar", "Home page", "Browsing history"],
+    "answer": 3,
+    "explain": "In a browser Ctrl + H opens the browsing history; Ctrl + J opens downloads.",
+    "section": "same-keys-different-program"
+  },
+  {
+    "id": "shortcut-keys-35",
+    "q": "Which of these shortcuts has the SAME meaning (reload) as F5 in a browser?",
+    "options": ["Ctrl + R", "Ctrl + L", "Ctrl + E", "Ctrl + U"],
+    "answer": 0,
+    "explain": "Ctrl + R reloads a page in a browser, although in Word it aligns the paragraph right. F5 itself opens Go To in Word.",
+    "section": "same-keys-different-program"
+  },
+  {
+    "id": "shortcut-keys-36",
+    "q": "What does F12 do in MS Word?",
+    "options": ["Open Developer Tools", "Open Save As", "Show the desktop", "Toggle full screen"],
+    "answer": 1,
+    "explain": "In Word, F12 opens Save As. In supported browsers the same key opens Developer Tools.",
+    "section": "same-keys-different-program"
+  },
+  {
+    "id": "shortcut-keys-37",
+    "q": "Which Windows shortcut locks the computer?",
+    "options": ["Win + D", "Win + E", "Win + I", "Win + L"],
+    "answer": 3,
+    "explain": "Win + L locks the computer. Win + D shows the desktop, Win + E opens File Explorer and Win + I opens Settings.",
+    "section": "windows-key-shortcuts"
+  },
+  {
+    "id": "shortcut-keys-38",
+    "q": "Win + P is used to:",
+    "options": ["Open display projection choices", "Open Windows Search", "Print the screen", "Open clipboard history"],
+    "answer": 0,
+    "explain": "Win + P offers PC screen only, Duplicate, Extend and Second screen only. Win + S is Search and Win + V is clipboard history.",
+    "section": "windows-key-shortcuts"
+  },
+  {
+    "id": "shortcut-keys-39",
+    "q": "Which shortcut lets you choose from previously copied items?",
+    "options": ["Ctrl + V", "Win + V", "Ctrl + C", "Win + C"],
+    "answer": 1,
+    "explain": "Win + V opens clipboard history. Ctrl + V only pastes the current clipboard content.",
+    "section": "windows-key-shortcuts"
+  },
+  {
+    "id": "shortcut-keys-40",
+    "q": "Which statement about Win + D and Win + M is correct?",
+    "options": ["Both permanently close all windows", "Win + D toggles the desktop, while Win + M minimises all windows", "Win + M toggles the desktop, while Win + D minimises all windows", "Both open Task View"],
+    "answer": 1,
+    "explain": "Win + D shows the desktop and pressing it again restores the previous view. Win + M minimises windows, and Win + Shift + M restores them.",
+    "section": "windows-key-shortcuts"
+  }
+]

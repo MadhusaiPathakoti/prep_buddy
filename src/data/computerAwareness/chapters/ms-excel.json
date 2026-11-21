@@ -1,0 +1,944 @@
+{
+  "id": "ms-excel",
+  "sections": [
+    {
+      "id": "excel-basics",
+      "title": "Spreadsheet Fundamentals",
+      "icon": "📊",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "**Microsoft Excel** is spreadsheet software from Microsoft. It organises data, performs calculations, analyses information and creates charts."
+        },
+        {
+          "type": "keyvalue",
+          "title": "Building blocks",
+          "rows": [
+            ["Workbook", "An Excel file that contains sheets."],
+            ["Worksheet", "A grid of rows, columns and cells."],
+            ["Cell", "The **intersection of a row and a column** - the basic data-entry unit."],
+            ["Active cell", "The currently selected cell."],
+            ["Active worksheet", "The currently selected sheet."],
+            ["Rows", "Run **horizontally** and use **numbers** (1, 2, 3...)."],
+            ["Columns", "Run **vertically** and use **letters** (A...Z, AA, AB...)."]
+          ]
+        },
+        {
+          "type": "bullets",
+          "title": "A1 notation",
+          "items": [
+            "In A1 notation the **column comes before the row**.",
+            "**A1** is the first cell; **A25** means column A, row 25.",
+            "The 19th column is **S**, so row 13, column 19 is **S13**."
+          ]
+        },
+        {
+          "type": "bullets",
+          "title": "Default names",
+          "items": [
+            "A new, unsaved English desktop workbook is normally **Book1**; further new workbooks are Book2, Book3...",
+            "A sheet is normally named **Sheet1** (then Sheet2, Sheet3...).",
+            "**Book1** is a workbook name; **Sheet1** is a worksheet name (workbook contains sheets; worksheet contains cells)."
+          ]
+        },
+        {
+          "type": "timeline",
+          "title": "Spreadsheet history",
+          "items": [
+            ["VisiCalc", "Widely recognised as the **first personal-computer spreadsheet**"],
+            ["Lotus 1-2-3", "A prominent **DOS-based** spreadsheet"],
+            ["1985", "**Microsoft Excel** first released for the **Macintosh**"],
+            ["1987", "The **Windows** edition of Excel followed"]
+          ]
+        },
+        {
+          "type": "text",
+          "text": "Excel was developed by Microsoft, including its first Macintosh release. The claim 'Excel is written in C++' is an oversimplification across versions and components, so do not treat it as a firm fact."
+        },
+        {
+          "type": "table",
+          "title": "Other spreadsheet programs",
+          "headers": ["Company / project", "Spreadsheet"],
+          "rows": [
+            ["Microsoft", "Excel"],
+            ["Apple", "Numbers"],
+            ["Google", "Sheets"],
+            ["LibreOffice", "Calc"],
+            ["Apache OpenOffice", "Calc"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "text": "LibreOffice and Apache OpenOffice are **separate suites**, even though both name their spreadsheet Calc."
+        }
+      ]
+    },
+    {
+      "id": "excel-window",
+      "title": "Excel Window and Ribbon",
+      "icon": "🪟",
+      "blocks": [
+        {
+          "type": "keyvalue",
+          "title": "Know the interface",
+          "rows": [
+            ["Title bar", "Workbook name and application information."],
+            ["Quick Access Toolbar", "Frequently used commands."],
+            ["File tab", "Open, save, print and file management."],
+            ["Ribbon", "Commands arranged into tabs and groups."],
+            ["Name Box", "Shows the **active cell address** or a defined name."],
+            ["Formula Bar", "View and edit the active cell's **contents or formula**."],
+            ["Column headings", "Letters across the top."],
+            ["Row headings", "Numbers along the left."],
+            ["Worksheet area", "The grid where data is entered."],
+            ["Sheet tabs", "Select sheets near the bottom."],
+            ["Sheet navigation buttons", "Move through the list of sheet tabs."],
+            ["Scroll bars", "Move the visible area horizontally or vertically."],
+            ["Status bar", "Activity, selection information and calculations."],
+            ["View buttons", "Switch worksheet views."],
+            ["Zoom controls", "Change worksheet magnification."],
+            ["Help", "Guidance on Excel features."]
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Main tabs and their purposes",
+          "headers": ["Tab", "Purpose"],
+          "rows": [
+            ["File", "Manage files and print"],
+            ["Home", "Edit, format and work with cells"],
+            ["Insert", "Tables, charts, pictures and objects"],
+            ["Page Layout", "Themes, page setup and printing layout"],
+            ["Formulas", "Functions, calculation and formula tools"],
+            ["Data", "Import, sort, filter and manage data"],
+            ["Review", "Proofing, annotations and protection"],
+            ["View", "Zoom, windows, panes and workbook views"],
+            ["Help", "Assistance and learning"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "remember",
+          "title": "Name Box vs Formula Bar",
+          "text": "The **Name Box** shows the address (for example C7). The **Formula Bar** shows the contents (for example =SUM(F2:F9)). The cell itself normally displays the calculated result. **Ctrl + F1** expands or collapses the Ribbon. Available tabs vary with version and selected objects."
+        }
+      ]
+    },
+    {
+      "id": "excel-files-limits",
+      "title": "Files, Defaults and Limits",
+      "icon": "📏",
+      "blocks": [
+        {
+          "type": "table",
+          "title": "Excel file types",
+          "headers": ["Extension", "Meaning"],
+          "rows": [
+            [".xls", "Legacy Excel workbook, commonly Excel 97-2003"],
+            [".xlsx", "Standard modern workbook, introduced in **Excel 2007**"],
+            [".xlsm", "**Macro-enabled** workbook"],
+            [".xltm", "Macro-enabled **template**"]
+          ]
+        },
+        {
+          "type": "bullets",
+          "items": [
+            "**.xlsx** cannot retain VBA macro code.",
+            "Lotus 1-2-3 used **.123, .wk1, .wk3, .wk4 and .wks** across its releases. An extension question that offers both .123 and .wk1 is ambiguous."
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Default sheet count",
+          "headers": ["Excel version", "Sheets in a new workbook"],
+          "rows": [
+            ["Excel 2003, 2007 and 2010", "Normally **3**"],
+            ["Excel 2013 and later (2016/2019/2021)", "Normally **1**"]
+          ]
+        },
+        {
+          "type": "text",
+          "text": "Users can change the starting number of sheets or use templates."
+        },
+        {
+          "type": "table",
+          "title": "Worksheet dimensions",
+          "headers": ["Version", "Rows x Columns", "Last column", "Total cells"],
+          "rows": [
+            ["Excel 2003 (.xls)", "65,536 x 256", "IV", "16,777,216"],
+            ["Excel 2007 onward (modern formats)", "1,048,576 x 16,384", "XFD", "17,179,869,184"]
+          ]
+        },
+        {
+          "type": "text",
+          "text": "A legacy .xls file keeps the older, smaller worksheet limits."
+        },
+        {
+          "type": "table",
+          "title": "Important capacities",
+          "headers": ["Item", "Limit"],
+          "rows": [
+            ["Characters per cell", "32,767"],
+            ["Maximum column width", "255 character-width units"],
+            ["Maximum row height", "409 points"],
+            ["Worksheet zoom", "10% to 400% (normal view is 100%)"],
+            ["Sheets per workbook", "Limited only by available memory and resources"],
+            ["Function count", "341 is a legacy specification/exam figure"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "text": "255 is the **maximum** column width - not the default width and not the cell text limit (that is 32,767). 'Unlimited' sheets is not literally true: it depends on resources. 341 functions is a legacy figure, not a universal cap, because available functions vary by version and platform."
+        },
+        {
+          "type": "callout",
+          "kind": "tip",
+          "title": "Quick revision",
+          "text": "Rows = 1,048,576 | Columns = 16,384 | Cell text = 32,767 | Width = 255 | Height = 409."
+        }
+      ]
+    },
+    {
+      "id": "excel-shortcuts",
+      "title": "Workbook and Editing Shortcuts",
+      "icon": "⌨️",
+      "blocks": [
+        {
+          "type": "table",
+          "title": "Excel for Windows - workbook shortcuts",
+          "headers": ["Shortcut", "Action"],
+          "rows": [
+            ["Ctrl + N", "Create a new workbook"],
+            ["Ctrl + O", "Open an existing workbook"],
+            ["F12", "Open Save As"],
+            ["Ctrl + W", "Close the current workbook window"],
+            ["Ctrl + F4", "Close the selected workbook window"],
+            ["Alt + F4", "Close the Excel application window"],
+            ["Ctrl + Tab", "Switch to the next open workbook window"],
+            ["Ctrl + Page Up", "Previous worksheet"],
+            ["Ctrl + Page Down", "Next worksheet"],
+            ["Shift + F11", "Insert a new worksheet"],
+            ["Alt + Shift + F1", "Also inserts a worksheet"]
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Formulas, editing and display",
+          "headers": ["Shortcut", "Action"],
+          "rows": [
+            ["Shift + F3", "Open Insert Function"],
+            ["F2", "Edit the active cell"],
+            ["Ctrl + Z", "Undo the most recent undoable action"],
+            ["Alt + Enter", "New line inside the same cell"],
+            ["Ctrl + 5", "Apply or remove strikethrough"],
+            ["Ctrl + 1", "Open Format Cells"],
+            ["Ctrl + Shift + F", "Open Format Cells at the Font settings"],
+            ["Alt + =", "Insert AutoSum (check the proposed range)"],
+            ["Ctrl + F1", "Expand or collapse the Ribbon"],
+            ["F11", "Create a chart on a separate chart sheet"],
+            ["Alt + F11", "Open the Visual Basic Editor"]
+          ]
+        },
+        {
+          "type": "steps",
+          "title": "Three ways to edit cell content",
+          "items": [
+            "Select the cell and press **F2**.",
+            "Or double-click the cell, when direct in-cell editing is enabled.",
+            "Or edit through the **Formula Bar**."
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "text": "**F11** uses the **default chart type**, not specifically a bar chart. **Alt** alone only activates the Ribbon access keys - it does not edit a cell."
+        },
+        {
+          "type": "callout",
+          "kind": "tip",
+          "text": "Deleted something by accident? Use Undo: **Ctrl + Z**. Keyboard layout, version and laptop Fn settings can affect shortcuts."
+        }
+      ]
+    },
+    {
+      "id": "excel-select-dates",
+      "title": "Selection, Navigation and Dates",
+      "icon": "🗓️",
+      "blocks": [
+        {
+          "type": "table",
+          "title": "Select and move",
+          "headers": ["Shortcut", "Action"],
+          "rows": [
+            ["Shift + Spacebar", "Select the whole **row**"],
+            ["Ctrl + Spacebar", "Select the whole **column**"],
+            ["Ctrl + Shift + Spacebar", "Expand the selection towards the whole worksheet"],
+            ["Ctrl + 9", "Hide the selected rows"],
+            ["Ctrl + 0", "Hide the selected columns"],
+            ["Ctrl + Home", "Beginning of the worksheet, normally A1"],
+            ["Ctrl + End", "Last cell of the **used range** (not the final possible cell)"]
+          ]
+        },
+        {
+          "type": "bullets",
+          "items": [
+            "Inside a data region, repeated presses of Ctrl + Shift + Spacebar may be needed.",
+            "Hold **Ctrl** while clicking to select non-adjacent cells or ranges."
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Current date and time",
+          "headers": ["Entry", "Result", "Behaviour"],
+          "rows": [
+            ["=TODAY()", "Current date", "Updates when Excel recalculates"],
+            ["=NOW()", "Current date and time", "Updates when Excel recalculates"],
+            ["Ctrl + ;", "Inserts the current date", "Stays fixed"],
+            ["Ctrl + Shift + ;", "Inserts the current time", "Stays fixed"]
+          ]
+        },
+        {
+          "type": "bullets",
+          "items": [
+            "For date and time together: **Ctrl + ;**, then a space, then **Ctrl + Shift + ;**.",
+            "On a US keyboard the time shortcut is also written Ctrl + Shift + :.",
+            "Number formatting determines what is displayed for a date or time."
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "Date display and alignment",
+          "rows": [
+            ["Ctrl + Shift + 3", "On a US keyboard applies a day-month-year style **date format** (often written Ctrl + Shift + #). It only formats - it does not insert today's date."],
+            ["Default alignment", "Under General alignment, recognised dates and times align **right** because they are numeric."],
+            ["Text vs numbers", "Text normally aligns **left**; numbers align **right**."],
+            ["Overrides", "Manual formatting can override alignment, and a date-like entry stored as text may behave differently."]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "remember",
+          "text": "TODAY = date | NOW = date and time | Shortcut entry = fixed value | Function result = recalculated."
+        }
+      ]
+    },
+    {
+      "id": "excel-formats-tools",
+      "title": "Data Formats and Worksheet Tools",
+      "icon": "🛠️",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "Cells can contain numbers, text, logical values, errors and formulas. A formula calculates a numeric, text, logical or error result. Formatting generally changes how a value looks, not the number actually stored."
+        },
+        {
+          "type": "table",
+          "title": "Number formats",
+          "headers": ["Format", "Meaning", "Example"],
+          "rows": [
+            ["Number", "Numeric values with chosen decimals/separators", "1234.5"],
+            ["Currency", "Numeric values shown with currency symbols", "$1,234.50"],
+            ["Date", "A numeric serial displayed as a calendar date", "16/04/2024"],
+            ["Time", "A fraction of a day displayed as time", "14:30"],
+            ["Percentage", "0.25 is displayed as 25%", "25%"],
+            ["Text", "Treats entries as text; useful for identifiers with leading zeros", "00123"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "text": "'Character' is not a separate introductory entry category in Excel, although characters can be entered as text."
+        },
+        {
+          "type": "keyvalue",
+          "title": "AutoFill and Transpose",
+          "rows": [
+            ["AutoFill", "Copies entries/formulas or extends patterns (number sequences, dates, weekdays, month names) using the **fill handle**."],
+            ["Transpose", "Changes **rows into columns** and columns into rows."],
+            ["How to transpose", "Use **Paste Special > Transpose** or the **TRANSPOSE** function."]
+          ]
+        },
+        {
+          "type": "bullets",
+          "title": "Freeze Panes and Split",
+          "items": [
+            "**Freeze Panes** keeps headings visible while scrolling. **View > Freeze Panes** offers Top Row, First Column and Freeze Panes.",
+            "Select **B2** and freeze: row 1 and column A remain visible.",
+            "Freezing controls the view - it does **not** protect cells from editing.",
+            "**Split** divides the same worksheet into separately scrollable panes; the selection can produce two or four panes.",
+            "Modern route: **View > Window group > Split**. Older Excel 2003 route: Window > Split."
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "Merge cells",
+          "rows": [
+            ["Merge", "Combines adjacent cells into one larger cell."],
+            ["Merge & Center", "Also centres the retained content."],
+            ["What is kept", "In left-to-right sheets only the **upper-left** content is kept; other contents are discarded after confirmation."],
+            ["Not concatenation", "Merging does **not** join the text of every cell together."]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "##### display",
+          "rows": [
+            ["Usual cause", "The column is **too narrow** for a formatted number or date."],
+            ["Another cause", "A negative date/time result can also show #####."],
+            ["Fix", "Widen or AutoFit the column, reduce decimals, or use a shorter format."],
+            ["Important", "The displayed hashes do not automatically mean data was lost."]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "excel-paste-web",
+      "title": "Paste Special, Notes, CSV and the Web",
+      "icon": "📋",
+      "blocks": [
+        {
+          "type": "keyvalue",
+          "title": "Paste Special options",
+          "rows": [
+            ["Values", "Paste formula **results** instead of formulas."],
+            ["Formulas", "Paste the formulas."],
+            ["Formats", "Transfer cell formatting."],
+            ["Comments and Notes", "Transfer annotations, depending on version."],
+            ["Multiply", "Multiply the destination values by the copied value."],
+            ["Transpose", "Swap rows and columns."]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "text": "All of these are Paste Special capabilities - Values is **not** its only purpose."
+        },
+        {
+          "type": "bullets",
+          "title": "Comments and Notes",
+          "items": [
+            "Traditional comments are called **Notes** in Microsoft 365.",
+            "Modern **Comments** support **threaded discussions**.",
+            "A red triangle at a cell's upper-right corner traditionally indicated a comment; in modern Excel it indicates a **Note**.",
+            "'Cell tip' is an informal term found in older exam material."
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "CSV - Comma-Separated Values",
+          "rows": [
+            ["What it is", "Plain-text tabular data: records on separate lines, fields commonly separated by commas (for example 'Name,Marks' then 'Asha,85')."],
+            ["Excel export", "Normally saves the **active sheet's** displayed text/values."],
+            ["What is lost", "It does **not** preserve workbook formatting, charts or multiple sheets."]
+          ]
+        },
+        {
+          "type": "bullets",
+          "title": "Excel for the web and HTML",
+          "items": [
+            "**Excel for the web** is the browser-based edition; a free personal version is available with a Microsoft account.",
+            "It supports common formulas, formatting and collaboration, but desktop capabilities differ.",
+            "**Internet Assistant Wizard** is a historical HTML-conversion tool.",
+            "Supported desktop versions can use **File > Save As > Web Page (.htm/.html)**. Keep the original workbook because HTML may lose Excel features."
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "Word-Excel integration (OLE)",
+          "rows": [
+            ["OLE", "**Object Linking and Embedding**."],
+            ["Excel object placed in Word", "Word is the **container/client**; Excel is the **supplying server**."],
+            ["Roles", "Depend on which application contains the object."]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "excel-references",
+      "title": "Cell References and Ranges",
+      "icon": "📌",
+      "blocks": [
+        {
+          "type": "table",
+          "title": "Three reference types",
+          "headers": ["Type", "Example", "When copied"],
+          "rows": [
+            ["Relative", "A1", "Row and column both adjust"],
+            ["Absolute", "$A$1", "Both stay fixed"],
+            ["Mixed", "$A1", "Column fixed, row changes"],
+            ["Mixed", "A$1", "Column changes, row fixed"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "remember",
+          "text": "The **$** fixes the part immediately after it. It does **not** protect the cell. While editing a formula reference, **F4** cycles through the reference forms."
+        },
+        {
+          "type": "table",
+          "title": "Copy two columns right and two rows down",
+          "headers": ["Original", "After copying"],
+          "rows": [
+            ["A1", "C3"],
+            ["$A$1", "$A$1"],
+            ["A$1", "C$1"],
+            ["$A1", "$A3"]
+          ]
+        },
+        {
+          "type": "bullets",
+          "title": "Exam examples",
+          "items": [
+            "**$A$9** and **$A$5** are absolute references.",
+            "**A$9** is mixed: row 9 is fixed. **$A4** is mixed: column A is fixed.",
+            "Copy $A4 one row down: **$A5**. Copy $A4 one column right: **$A4** (unchanged).",
+            "Second row, seventh column is **G2**; its absolute form is **$G$2**."
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "Cross-sheet references",
+          "rows": [
+            ["=Sheet2!A1", "Returns cell A1 of Sheet2."],
+            ["='Monthly Sales'!B5", "Quotes are needed around a sheet name that contains a space."],
+            ["The ! sign", "Separates the sheet name from the cell reference."]
+          ]
+        },
+        {
+          "type": "bullets",
+          "title": "Range notation",
+          "items": [
+            "A **colon** joins the first and last cells of a range.",
+            "**B1:G10** covers columns B to G and rows 1 to 10. **B1:E5** is the inclusive rectangle from B1 through E5.",
+            "**$B$2:$B$10** is an absolute range.",
+            "**A9:E9** contains 5 cells. **A9:A99** contains 99 - 9 + 1 = **91** cells."
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Counting cells in a rectangle (columns x rows)",
+          "headers": ["Range", "Working", "Cells"],
+          "rows": [
+            ["A1:D7", "4 columns x 7 rows", "28"],
+            ["A10:D30", "4 x (30 - 10 + 1)", "84"],
+            ["B1:G10", "6 columns x 10 rows", "60"]
+          ]
+        },
+        {
+          "type": "text",
+          "text": "The formula **=ROWS(A1:D7)*COLUMNS(A1:D7)** returns 28. Note that =COUNT(A1:D7) gives 28 only if all 28 cells contain numbers - COUNT counts numeric entries, not automatically all cells."
+        }
+      ]
+    },
+    {
+      "id": "excel-count-functions",
+      "title": "The COUNT Family",
+      "icon": "🔢",
+      "blocks": [
+        {
+          "type": "table",
+          "title": "Choose the right function",
+          "headers": ["Function", "What it counts"],
+          "rows": [
+            ["COUNT", "**Numeric** entries, including numeric dates/times"],
+            ["COUNTA", "Cells containing **any information** (non-empty)"],
+            ["COUNTBLANK", "Empty cells, and formulas that return an empty string \"\""],
+            ["COUNTIF", "Cells meeting **one** condition"],
+            ["COUNTIFS", "Cells meeting **multiple** conditions together"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "text": "**COUNTNUMBERS** is not a standard built-in worksheet function."
+        },
+        {
+          "type": "table",
+          "title": "Worked data: A1 = Qty (text), A2 = 50, A3 = empty, A4 = 5.5, A5 = 10",
+          "headers": ["Formula", "Result", "Why"],
+          "rows": [
+            ["=COUNT(A1:A5)", "3", "Only 50, 5.5 and 10 are numbers"],
+            ["=COUNTA(A1:A5)", "4", "Qty, 50, 5.5 and 10 hold information"],
+            ["=COUNTBLANK(A1:A5)", "1", "Only A3 is empty"]
+          ]
+        },
+        {
+          "type": "bullets",
+          "items": [
+            "COUNTA also includes formulas that return an empty string \"\"; COUNTBLANK counts those as blank too.",
+            "A space is **not** genuinely empty. **Zero is numeric**, not blank."
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Zero and text example: A1 = 0, B1 = a, A2 = 0, B2 = 0",
+          "headers": ["Formula", "Result"],
+          "rows": [
+            ["=COUNT(A1:B2)", "3 (all three zeros count; the text 'a' is ignored)"]
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Direct argument examples",
+          "headers": ["Formula", "Result"],
+          "rows": [
+            ["=COUNT(1,2,3)", "3"],
+            ["=COUNT(1,\"a\",\"b\")", "1"],
+            ["=COUNT(\"apple\",100,125,150,\"orange\")", "3"],
+            ["=COUNT(1,\"2\")", "2 (numeric text typed directly can count)"]
+          ]
+        },
+        {
+          "type": "text",
+          "text": "COUNT ignores text and logical values that sit in referenced cells, but numeric text typed directly as an argument can be counted."
+        },
+        {
+          "type": "table",
+          "title": "Conditional counts",
+          "headers": ["Formula", "What it counts"],
+          "rows": [
+            ["=COUNTIF(B1:B10,\">=50\")", "Values that are at least 50"],
+            ["=COUNTIFS(B1:B10,\">=50\",C1:C10,\"Pass\")", "Rows meeting both conditions"]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "excel-lookup-logic",
+      "title": "Lookups, Logic and Text",
+      "icon": "🔎",
+      "blocks": [
+        {
+          "type": "keyvalue",
+          "title": "VLOOKUP - vertical lookup",
+          "rows": [
+            ["Purpose", "Searches the **first column** of a table and returns a value from a specified column in the matching row."],
+            ["Example", "=VLOOKUP(E2,A2:C20,3,FALSE)"],
+            ["Lookup value", "E2 (the value to find)."],
+            ["Table", "A2:C20 (the lookup table)."],
+            ["3", "The table's **third column** supplies the result."],
+            ["FALSE", "Requests **exact** matching."]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "IF and concatenation",
+          "rows": [
+            ["IF", "Tests a condition and selects between two results."],
+            ["Example", "=IF(B2>=40,\"Pass\",\"Fail\") shows Pass when B2 is 40 or more, otherwise Fail."],
+            ["& operator", "Joins text."],
+            ["Example", "=A1&\" \"&B1 joins two cell values with a space between them."]
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Wildcards",
+          "headers": ["Symbol", "Meaning", "Example"],
+          "rows": [
+            ["*", "Any sequence of characters, including none", "*Pen* matches Pen, Pencil, Gel Pen, etc."],
+            ["?", "Exactly one character", "P?n matches Pen or Pcn, but not Pencil"],
+            ["~", "Escapes a wildcard", "~* searches for a literal asterisk (*)"]
+          ]
+        },
+        {
+          "type": "table",
+          "title": "COUNTIF worked data (Row 1 holds the headings Item and Qty)",
+          "headers": ["Row", "Item", "Qty"],
+          "rows": [
+            ["2", "Pen", "5"],
+            ["3", "Pencil", "9"],
+            ["4", "Binder", "9"],
+            ["5", "Pen", "6"],
+            ["6", "Gel Pen", "12"],
+            ["7", "Binder", "12"],
+            ["8", "Pencil", "10"],
+            ["9", "Binder", "6"],
+            ["10", "Pen", "11"]
+          ]
+        },
+        {
+          "type": "table",
+          "headers": ["Formula", "Result", "Why"],
+          "rows": [
+            ["=COUNTIF(A1:A10,\"*Pen*\")", "6", "Pen 3 times + Pencil 2 times + Gel Pen once"],
+            ["=COUNTIF(A1:A10,\"Pen\")", "3", "Exact text Pen appears 3 times"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "remember",
+          "text": "COUNTIF counts **matching cells**, not the quantities in the Qty column."
+        }
+      ]
+    },
+    {
+      "id": "excel-formulas-calcs",
+      "title": "Formulas and Solved Calculations",
+      "icon": "🧮",
+      "blocks": [
+        {
+          "type": "bullets",
+          "title": "Formula essentials",
+          "items": [
+            "Standard formulas begin with **=**. A **function** is a predefined calculation, such as SUM.",
+            "With A1 to A4 holding 10, 20, 30, 40: =SUM(A1:A4), =A1+A2+A3+A4 and =SUM(A1,A2,A3,A4) all return **100**.",
+            "There is **no** standard SUBTRACT worksheet function - use the minus sign. =20-8 returns 12 and =A1-B1 subtracts B1 from A1.",
+            "A formula shown in the Formula Bar can produce a different displayed result in the cell."
+          ]
+        },
+        {
+          "type": "bullets",
+          "title": "Order of operations",
+          "items": [
+            "Parentheses control the order; multiplication/division come before addition/subtraction.",
+            "Consecutive divisions run **left to right**."
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Solved examples - order of operations",
+          "headers": ["Formula", "Working", "Result"],
+          "rows": [
+            ["=SUM(8/4/2,1-2/2)", "8/4/2 = 1; 1-2/2 = 0; SUM(1,0)", "1"],
+            ["=256/8/4/2", "256/8 = 32; 32/4 = 8; 8/2", "4"]
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Powers and logical arguments",
+          "headers": ["Formula", "Working", "Result"],
+          "rows": [
+            ["=SUM(1,2)^2", "3^2", "9"],
+            ["=SUM(5,5,TRUE,FALSE,TRUE,FALSE)", "5+5+1+0+1+0", "12"]
+          ]
+        },
+        {
+          "type": "bullets",
+          "items": [
+            "**TRUE = 1** and **FALSE = 0** when typed directly as SUM arguments.",
+            "SUM normally **ignores logical values** in referenced cells or ranges (so a row holding TRUE, FALSE, TRUE, FALSE adds up to 0)."
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Check the error question",
+          "headers": ["Formula", "Outcome"],
+          "rows": [
+            ["=SUM(Sales)-A3", "Valid if Sales is a suitable defined name"],
+            ["=SUM(Sales)-A3 with no such name", "Produces **#NAME?**"],
+            ["=SUM(A1:A5)*.5", "Calculates half of the total"],
+            ["=SUM(A1:A5)/(10-10)", "Produces **#DIV/0!** (zero denominator)"],
+            ["=SUM(A1:A5)-10", "Subtracts 10 from the total"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "remember",
+          "text": "SUM adds values; COUNT counts numeric entries. =A1+A2 with 10 and 20 in A1 and A2 shows 30 in the cell while the Formula Bar shows the formula."
+        }
+      ]
+    },
+    {
+      "id": "excel-math-functions",
+      "title": "FLOOR, CEILING, SUMSQ, FACT, MOD, ODD and EVEN",
+      "icon": "➗",
+      "blocks": [
+        {
+          "type": "keyvalue",
+          "title": "Syntax and meaning",
+          "rows": [
+            ["=FLOOR(number, significance)", "For positive significance, rounds to the nearest multiple **at or below** the number."],
+            ["=CEILING(number, significance)", "For positive numbers and significance, rounds to the nearest multiple **at or above** the number."],
+            ["=SUMSQ(number1, [number2], ...)", "**Squares** each number, then **adds** the squares."],
+            ["=FACT(number)", "Factorial: multiplies the positive integers from 1 to n. **0! is defined as 1**."],
+            ["=MOD(number, divisor)", "The **remainder** after division. A zero divisor gives #DIV/0!."],
+            ["=ODD(number)", "Rounds **away from zero** to an odd integer."],
+            ["=EVEN(number)", "Rounds **away from zero** to an even integer."]
+          ]
+        },
+        {
+          "type": "table",
+          "title": "FLOOR and CEILING solved examples",
+          "headers": ["Numbers", "FLOOR", "CEILING"],
+          "rows": [
+            ["(14, 4)", "12", "16"],
+            ["(10, 3)", "9", "12"],
+            ["(40, 7)", "35", "42"],
+            ["(25, 5)", "25", "25"]
+          ]
+        },
+        {
+          "type": "bullets",
+          "items": [
+            "Exact multiples stay unchanged: FLOOR(25,5) = CEILING(25,5) = 25.",
+            "=FLOOR(610,100) = 600.",
+            "=FLOOR(-54/10,1) = **-6**: with positive significance, negative numbers round down, away from zero.",
+            "Traditional FLOOR and CEILING **require** the significance argument. The standard function is **CEILING**, not CEIL."
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Combined examples",
+          "headers": ["Formula", "Working", "Result"],
+          "rows": [
+            ["=CEILING(19,4)+FLOOR(19,4)", "20 + 16", "36"],
+            ["=FLOOR(24/10,1)+CEILING(29/10,1)", "2 + 3", "5"],
+            ["=SUMSQ(1,2,3,4)", "1 + 4 + 9 + 16", "30"]
+          ]
+        },
+        {
+          "type": "table",
+          "title": "FACT, MOD, ODD and EVEN solved examples",
+          "headers": ["Formula", "Working", "Result"],
+          "rows": [
+            ["=FACT(0)", "0! is defined as 1", "1"],
+            ["=FACT(3)", "3 x 2 x 1", "6"],
+            ["=FACT(5)", "5 x 4 x 3 x 2 x 1", "120"],
+            ["=FACT(0)+FACT(3)+FACT(5)", "1 + 6 + 120", "127"],
+            ["=MOD(11,3)", "11 = 3 x 3 + 2", "2"],
+            ["=MOD(17,5)", "17 = 5 x 3 + 2", "2"],
+            ["=ODD(20)", "Next odd integer away from zero", "21"],
+            ["=EVEN(39)", "Next even integer away from zero", "40"],
+            ["=ODD(20)+EVEN(39)", "21 + 40", "61"],
+            ["=ODD(-2)", "Away from zero means more negative", "-3"],
+            ["=EVEN(-3)", "Away from zero means more negative", "-4"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "tip",
+          "text": "An integer that already has the required parity stays unchanged (EVEN(40) = 40). Factorial, remainder and parity-rounding solve different tasks - read the function name before calculating."
+        }
+      ]
+    },
+    {
+      "id": "excel-charts-macros-whatif",
+      "title": "Charts, Macros and What-If Analysis",
+      "icon": "📈",
+      "blocks": [
+        {
+          "type": "table",
+          "title": "Choose a chart",
+          "headers": ["Chart", "Best for"],
+          "rows": [
+            ["Bar / Column", "Comparing values across categories (for example, two employees)"],
+            ["Line", "Showing trends or changes over time"],
+            ["Pie", "Showing **one data series** as parts of a whole"],
+            ["Doughnut", "Parts of a whole; multiple series may appear as rings"]
+          ]
+        },
+        {
+          "type": "bullets",
+          "items": [
+            "A pie chart suits shares of a meaningful total.",
+            "Older Excel used the **Chart Wizard**; modern charts are under the **Insert** tab.",
+            "**F11** creates a separate chart sheet using the default chart type."
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "Sparklines",
+          "rows": [
+            ["What", "**Tiny charts inside individual worksheet cells**."],
+            ["Three types", "**Line, Column and Win/Loss**."],
+            ["Highlights", "High/low points, first/last points and markers are formatting options, **not extra chart types**."],
+            ["How to add", "**Insert > Sparklines**."]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "Macros",
+          "rows": [
+            ["Macro", "Automates repeated tasks."],
+            ["XLM", "The **legacy Excel 4.0** macro language."],
+            ["VBA", "**Visual Basic for Applications**, used for desktop automation."],
+            ["Recommendation", "Microsoft recommends migrating legacy XLM macros to VBA."],
+            ["Commands", "**View > Macros** and **Developer > Code > Macros**."],
+            ["Alt + F11", "Opens the VBA editor."]
+          ]
+        },
+        {
+          "type": "table",
+          "title": "What-If Analysis tools",
+          "headers": ["Tool", "Purpose"],
+          "rows": [
+            ["Scenario Manager", "Save and compare sets of inputs"],
+            ["Goal Seek", "Find the **one input** needed to reach a chosen formula result"],
+            ["Data Table", "Calculate results for different values of one or two inputs"]
+          ]
+        },
+        {
+          "type": "steps",
+          "title": "Using Goal Seek (route: Data > What-If Analysis > Goal Seek)",
+          "items": [
+            "**Set cell** - choose the cell that holds the formula (for example Revenue).",
+            "**To value** - type the result you want (for example 2,000).",
+            "**By changing cell** - choose the single input to adjust (for example Quantity).",
+            "Example: with Price $20 and Quantity 100, Revenue is $2,000; Goal Seek finds the sales quantity needed for a revenue target at a fixed price."
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "remember",
+          "text": "Pie = one series | Sparkline = in-cell chart | Goal Seek = target result to required input."
+        }
+      ]
+    }
+  ],
+  "revision": [
+    "Workbook contains sheets; worksheet contains cells. A new workbook is Book1 and a sheet is Sheet1; the column comes before the row in A1 notation (row 13, column 19 = S13).",
+    "Excel first released for Macintosh in 1985 and for Windows in 1987; VisiCalc was the first PC spreadsheet and Lotus 1-2-3 a DOS spreadsheet.",
+    "Name Box = cell address; Formula Bar = contents. The cell shows the calculated result. Ctrl + F1 expands or collapses the Ribbon.",
+    ".xls = legacy (97-2003); .xlsx = standard since 2007; .xlsm = macro-enabled; .xltm = macro-enabled template; .xlsx cannot keep VBA code.",
+    "Default sheets: 3 in Excel 2003/2007/2010 and 1 from Excel 2013 onward.",
+    "Excel 2003: 65,536 rows x 256 columns (last column IV). Excel 2007+: 1,048,576 rows x 16,384 columns (last column XFD).",
+    "Capacities: 32,767 characters per cell, column width 255, row height 409 points, zoom 10% - 400%.",
+    "Ctrl+N new, Ctrl+O open, F12 Save As, Ctrl+W close, Shift+F11 new sheet, F2 edit cell, Alt+Enter new line in a cell, Alt+= AutoSum, F11 chart sheet, Alt+F11 VBA editor.",
+    "Shift+Space selects a row; Ctrl+Space selects a column; Ctrl+9 hides rows, Ctrl+0 hides columns; Ctrl+End goes to the last used cell.",
+    "=TODAY() and =NOW() recalculate; Ctrl+; and Ctrl+Shift+; insert fixed date and time values.",
+    "Reference types: A1 relative, $A$1 absolute, $A1 and A$1 mixed; F4 cycles them. Copying A1 two columns right and two rows down gives C3.",
+    "COUNT = numbers, COUNTA = non-empty, COUNTBLANK = empty, COUNTIF = one condition, COUNTIFS = many conditions; COUNTNUMBERS does not exist.",
+    "Wildcards: * any characters, ? one character, ~ escapes a wildcard. VLOOKUP's FALSE means exact match.",
+    "FLOOR(14,4)=12, CEILING(14,4)=16, SUMSQ(1,2,3,4)=30, FACT(5)=120, MOD(11,3)=2, ODD(20)=21, EVEN(39)=40.",
+    "Charts: column compares categories, line shows trends, pie shows one series. Sparklines are in-cell charts (Line, Column, Win/Loss); Goal Seek finds an input for a target result."
+  ],
+  "mindmap": {
+    "center": "Microsoft Excel",
+    "branches": [
+      {
+        "label": "Basics",
+        "children": ["Workbook, worksheet, cell", "A1 notation", "Book1 and Sheet1", "VisiCalc and Lotus 1-2-3", "Excel 1985 / 1987"]
+      },
+      {
+        "label": "Window",
+        "children": ["Name Box vs Formula Bar", "Ribbon tabs", "Sheet tabs", "Status bar and zoom"]
+      },
+      {
+        "label": "Files & limits",
+        "children": [".xls / .xlsx / .xlsm / .xltm", "Sheets: 3 then 1", "1,048,576 rows x 16,384 cols", "32,767 chars per cell", "Width 255, height 409"]
+      },
+      {
+        "label": "Shortcuts",
+        "children": ["Workbook keys (Ctrl+N, F12)", "Edit keys (F2, Alt+Enter)", "Selection keys", "Date and time entries"]
+      },
+      {
+        "label": "References & ranges",
+        "children": ["Relative / absolute / mixed", "F4 cycles forms", "Sheet2!A1 references", "Range cell counts"]
+      },
+      {
+        "label": "Functions",
+        "children": ["COUNT family", "VLOOKUP, IF, &", "Wildcards * ? ~", "FLOOR, CEILING, SUMSQ", "FACT, MOD, ODD, EVEN"]
+      },
+      {
+        "label": "Tools",
+        "children": ["Paste Special", "Freeze Panes and Split", "CSV and web export", "AutoFill and Transpose"]
+      },
+      {
+        "label": "Charts & analysis",
+        "children": ["Column, line, pie, doughnut", "Sparklines", "Macros: XLM and VBA", "Goal Seek, Data Table"]
+      }
+    ]
+  }
+}

@@ -1,0 +1,703 @@
+{
+  "id": "ms-powerpoint",
+  "sections": [
+    {
+      "id": "what-is-powerpoint",
+      "title": "What PowerPoint Does & Its History",
+      "icon": "📽️",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "**PowerPoint** builds a presentation as a sequence of **slides**. A slide is simply one page of the presentation. Each slide can mix text, tables, pictures, charts, shapes, SmartArt, audio, video, animations and transitions. PowerPoint is **proprietary** software owned by Microsoft."
+        },
+        {
+          "type": "timeline",
+          "title": "Where it came from",
+          "items": [
+            ["Before 1987", "Created at **Forethought, Inc.** by **Robert Gaskins** and **Dennis Austin** (principal creators); the original working name was **Presenter**"],
+            ["1987", "PowerPoint released for the **Macintosh**"],
+            ["1987", "**Microsoft acquired Forethought** the same year"]
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Presentation apps by company",
+          "headers": ["Company / suite", "Presentation app"],
+          "rows": [
+            ["Microsoft", "**PowerPoint**"],
+            ["Apple", "**Keynote** (singular, never Keynotes)"],
+            ["Google", "**Google Slides**"],
+            ["LibreOffice", "**Impress**"],
+            ["Apache OpenOffice", "**Impress**"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "remember",
+          "title": "Open source",
+          "text": "LibreOffice and Apache OpenOffice are two separate office suites, but both call their presentation program **Impress**, and it is free and open source. PowerPoint is not."
+        },
+        {
+          "type": "figure",
+          "kind": "pyramid",
+          "title": "From a whole deck down to one box",
+          "items": [
+            ["Presentation", "The complete collection of slides"],
+            ["Slide", "One page of the presentation"],
+            ["Layout", "Arrangement of placeholders on a slide"],
+            ["Placeholder", "Preformatted container for content"]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "key-terms",
+      "title": "Key Terms & Your First Presentation",
+      "icon": "🔑",
+      "blocks": [
+        {
+          "type": "keyvalue",
+          "title": "Words you must know",
+          "rows": [
+            ["Presentation", "The complete collection of slides."],
+            ["Slide", "One page in that collection."],
+            ["Template", "A reusable starting file that holds design, layouts and sometimes sample content."],
+            ["Theme", "A coordinated set of colours, fonts, effects and backgrounds."],
+            ["Layout", "The arrangement of placeholders on a slide."],
+            ["Placeholder", "A preformatted container for text, pictures, charts, tables or video, often drawn with a dotted boundary."]
+          ]
+        },
+        {
+          "type": "bullets",
+          "title": "A brand-new blank presentation",
+          "items": [
+            "It normally opens with one **Title Slide**.",
+            "That layout has **two placeholders**: title and subtitle.",
+            "Placeholder count depends on the layout; the **Blank** layout can have none.",
+            "The usual unsaved file name is **Presentation1** (the number may increase for more new files)."
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "tip",
+          "title": "Template vs Theme",
+          "text": "A **template** supplies reusable structure (a whole starter file), while a **theme** only coordinates the look: colours, fonts, effects and backgrounds."
+        }
+      ]
+    },
+    {
+      "id": "window-and-formats",
+      "title": "Window Parts & File Formats",
+      "icon": "🪟",
+      "blocks": [
+        {
+          "type": "keyvalue",
+          "title": "Parts of the PowerPoint window",
+          "rows": [
+            ["Title Bar", "Shows the presentation name and application information; holds Minimise, Maximise/Restore and Close."],
+            ["Quick Access Toolbar", "Frequently used commands such as Save and Undo."],
+            ["Ribbon", "Commands organised into tabs and groups. Modern PowerPoint uses a Ribbon; Menu Bar is older terminology."],
+            ["File tab", "Opens Backstage View for file management. PowerPoint 2007 used the Office Button instead."],
+            ["Thumbnail Pane", "Small slide previews, normally on the left."],
+            ["Slide Pane", "The current slide being edited."],
+            ["Notes Pane", "Speaker notes for the current slide."],
+            ["Status Bar", "Bottom bar with view and zoom controls."],
+            ["Scroll Bars", "Navigate content; the thumbnail pane is not a scroll bar."]
+          ]
+        },
+        {
+          "type": "steps",
+          "title": "Open PowerPoint through Run",
+          "items": [
+            "Press **Windows + R**.",
+            "Type **powerpnt**.",
+            "Press **Enter**. The program file is **POWERPNT.EXE**, and desktop PowerPoint must be installed."
+          ]
+        },
+        {
+          "type": "table",
+          "title": "File extensions",
+          "headers": ["Extension", "Meaning"],
+          "rows": [
+            [".pptx", "Standard modern presentation, introduced in 2007"],
+            [".ppt", "Older PowerPoint 97-2003 presentation"],
+            [".pptm", "Macro-enabled presentation"],
+            [".ppsx", "PowerPoint Show; normally launches straight into Slide Show"],
+            [".potx", "Reusable PowerPoint template"],
+            [".pps", "Older slide-show format"]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "Content you can place on slides",
+          "rows": [
+            [".jpg / .jpeg", "Still images."],
+            [".gif", "Still or animated images; the animation normally plays during a slide show."],
+            [".wav", "Audio."]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "tip",
+          "title": "Extension memory trick",
+          "text": "**x** = XML-based modern file. Then the letter before tells the job: **pptx** presentation, **potx** template (o for original), **ppsx** show, **pptm** macros (m for macro)."
+        }
+      ]
+    },
+    {
+      "id": "views-and-masters",
+      "title": "Views, Masters & Slide Organisation",
+      "icon": "👁️",
+      "blocks": [
+        {
+          "type": "keyvalue",
+          "title": "Presentation views",
+          "rows": [
+            ["Normal", "Main editing view: thumbnails on the left, current slide in the centre, speaker notes below. It is the usual desktop default, though preferences can change it."],
+            ["Outline", "Shows titles and main placeholder text; good for structure and text editing. Pictures and manually inserted text boxes do not appear here."],
+            ["Slide Sorter", "Shows all slide thumbnails together to organise, rearrange or delete slides; large decks may need scrolling."],
+            ["Notes Page", "Edit a slide together with its speaker notes and prepare notes pages."],
+            ["Reading", "Review the presentation within a window."]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "Master views",
+          "rows": [
+            ["Slide Master", "Holds the shared slide design, fonts, colours, backgrounds and placeholder positions. Use View -> Slide Master for consistent title formatting."],
+            ["Handout Master", "Controls how printed handouts look: header, footer, date, page number, orientation and arrangement."],
+            ["Notes Master", "Controls the shared look of printed notes pages."]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "Delivery views",
+          "rows": [
+            ["Slide Show", "What the audience sees, normally full screen."],
+            ["Presenter View", "Speaker notes, slide previews, a timer and controls for you, while the audience sees only the presentation."]
+          ]
+        },
+        {
+          "type": "text",
+          "text": "On the View tab there are **eight view commands**: five Presentation Views plus three Master Views. Add Slide Show and Presenter View and you reach the **ten** modes in this teaching list. That is a counting convention, not a rule that only Microsoft 365 has ten. The rest of the View tab holds groups: Show (Ruler, Gridlines, Guides, Notes), Zoom (magnification, Fit to Window), Color/Grayscale (colour, grayscale or black-and-white preview), Window (manage presentation windows) and Macros (automation, where supported)."
+        },
+        {
+          "type": "callout",
+          "kind": "remember",
+          "title": "Match the need to the view",
+          "text": "Thumbnails of all slides = **Slide Sorter**. Text outline = **Outline**. Shared design for every slide = **Slide Master**. Printed handouts = **Handout Master**."
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "Master changes",
+          "text": "Edits in Slide Master flow to the layouts and slides linked to it, but slides with direct formatting, or slides using a different master, may still need manual adjustment."
+        }
+      ]
+    },
+    {
+      "id": "layouts-zoom-fonts",
+      "title": "Layouts, Zoom, Fonts & Slide Size",
+      "icon": "📐",
+      "blocks": [
+        {
+          "type": "bullets",
+          "title": "Layouts and placeholders",
+          "items": [
+            "**Title Slide** is the usual first layout of a standard blank presentation, with two placeholders (title and subtitle).",
+            "A layout controls where content sits and how it is formatted.",
+            "A **placeholder** is a preformatted content container; it is not the same as an ordinary inserted text box.",
+            "Placeholder counts vary by layout, and a Blank layout can contain none."
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Numbers worth remembering",
+          "headers": ["Item", "Value"],
+          "rows": [
+            ["Editing zoom range", "**10% to 400%**; zoom only changes on-screen magnification, not the real slide size"],
+            ["Common font-size dropdown", "**8 pt to 96 pt** (presets only)"],
+            ["Actual desktop font-size range", "**1 pt to 3600 pt**, in 0.1-point steps (e.g. 10.3 pt, 105.7 pt)"],
+            ["Standard aspect ratio", "**4:3** (default in PowerPoint 2003, 2007, 2010)"],
+            ["Widescreen aspect ratio", "**16:9** (default from PowerPoint 2013, incl. 2016, 2019, 2021 and Microsoft 365)"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "Font and zoom traps",
+          "text": "The dropdown's 8-96 pt is only a list of presets; type a size directly to go beyond it. The true maximum is **3600 pt**, not 4000. The 8-96 range is not a special limit for table text. Also, 100% zoom is selectable but is not a universal opening default: PowerPoint may fit the slide to the window or keep a saved setting."
+        },
+        {
+          "type": "steps",
+          "title": "Change the slide size",
+          "items": [
+            "Open the **Design** tab.",
+            "Choose **Slide Size**.",
+            "Pick **Standard**, **Widescreen** or **Custom Slide Size**. Existing files, templates or customised defaults may differ from the standard default."
+          ]
+        },
+        {
+          "type": "bullets",
+          "title": "Resize and special objects",
+          "items": [
+            "To resize a picture, shape or text box: select it, then drag the sizing handles or type Height and Width under Picture Format / Shape Format.",
+            "An **Organization Chart** shows reporting relationships and employee hierarchy. Insert it with Insert -> SmartArt -> Hierarchy -> Organization Chart.",
+            "An organisation chart is a **SmartArt layout**, not a standard slide layout.",
+            "There is no universal maximum number of slides (50, 75 or 100 are not rules); a sensible length depends on purpose and time, and real capacity depends on resources, file size and performance."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "file-home-insert",
+      "title": "File, Home & Insert Tabs",
+      "icon": "🗂️",
+      "blocks": [
+        {
+          "type": "keyvalue",
+          "title": "File tab (Backstage View)",
+          "rows": [
+            ["Home", "Recent files and starting options."],
+            ["New", "Create a blank presentation or use a template."],
+            ["Open", "Open an existing file."],
+            ["Info", "Properties, protection and management."],
+            ["Save", "Store the current changes."],
+            ["Save As", "Save with a different name, location or format."],
+            ["History / Version History", "Earlier versions, where supported (depends on storage and versioning)."],
+            ["Print", "Print slides, notes and handouts."],
+            ["Share", "Give others access."],
+            ["Export", "Create PDF, video and other outputs."],
+            ["Close", "Close the current presentation."],
+            ["Account / Feedback / Options", "Account and product details; send feedback; application settings."]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "Home tab groups",
+          "rows": [
+            ["Clipboard", "Cut, Copy, Paste and Format Painter."],
+            ["Slides", "New Slide, Layout, Reset and Sections."],
+            ["Font", "Typeface, size, colour and character formatting."],
+            ["Paragraph", "Bullets, numbering, alignment and spacing."],
+            ["Drawing", "Insert, arrange and format shapes."],
+            ["Editing", "Find, Replace and Select."],
+            ["Add-ins", "Extra tools where available."]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "Insert tab groups",
+          "rows": [
+            ["Slides", "Add a slide."],
+            ["Tables", "Insert a table."],
+            ["Images", "Pictures, screenshot and photo album."],
+            ["Illustrations", "Shapes, icons, SmartArt, charts and supported 3D models."],
+            ["Links", "Hyperlinks, actions and supported Zoom links."],
+            ["Comments", "Add a comment."],
+            ["Text", "Text box, WordArt, header/footer, date/time, slide number and object."],
+            ["Symbols", "Equations and special characters."],
+            ["Media", "Video, audio and screen recording."]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "Easy-to-mix pairs",
+          "text": "**Ctrl + N** creates a new presentation, but **Ctrl + M** inserts a new slide. Chart is on **Insert**, Themes are on **Design**, Notes Page is on **View**. The File-menu Home page is a Backstage command, whereas the Ribbon Home tab holds the editing tools. Command availability varies by edition."
+        },
+        {
+          "type": "callout",
+          "kind": "remember",
+          "text": "File = manage | Home = edit | Insert = add content."
+        }
+      ]
+    },
+    {
+      "id": "draw-design-review-help",
+      "title": "Draw, Design, Review & Help Tabs",
+      "icon": "🎨",
+      "blocks": [
+        {
+          "type": "keyvalue",
+          "title": "Draw tab (ink)",
+          "rows": [
+            ["Tools", "Selection, lasso selection and eraser."],
+            ["Pens", "Pen type, ink colour and thickness."],
+            ["Stencils", "Drawing aids such as a ruler."],
+            ["Convert", "Ink to Shape and Ink to Math, where supported."],
+            ["Help", "Guidance for ink features."]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "Design tab",
+          "rows": [
+            ["Themes", "Coordinated presentation designs."],
+            ["Variants", "Alternative colours, fonts, effects and backgrounds."],
+            ["Customize", "Slide Size and Format Background."]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "Review tab",
+          "rows": [
+            ["Proofing", "Spelling and Thesaurus."],
+            ["Accessibility", "Finds barriers for users with disabilities."],
+            ["Insights", "Research/lookup tools in older interfaces that include them."],
+            ["Language", "Proofing language and translation."],
+            ["Comments", "Create, read and manage comments."],
+            ["Compare", "Compare/merge presentations in supporting older editions."],
+            ["Ink", "Available ink-review tools."]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "Help tab",
+          "rows": [
+            ["Help", "Instructions and explanations."],
+            ["Contact Support", "Available support options."],
+            ["Feedback", "Report issues or suggestions."],
+            ["Show Training", "Learning resources."]
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Correct feature - tab pairs",
+          "headers": ["Feature", "Tab"],
+          "rows": [
+            ["Themes", "Design"],
+            ["Slide Size", "Design"],
+            ["Spelling (F7)", "Review"],
+            ["Notes Page", "View"],
+            ["Slide Master", "View"],
+            ["Handout Master", "View"],
+            ["Organisation Chart", "Insert -> SmartArt"],
+            ["Rehearse Timings", "Slide Show"]
+          ]
+        },
+        {
+          "type": "text",
+          "text": "The ribbon tabs shown in the teaching picture are File, Home, Insert, Draw, Design, Transitions, Animations, Slide Show, Record, Review, View and Help (twelve). That count is not universal: tabs vary by version, platform, settings and selection. **Contextual tabs** such as Picture Format, Shape Format, Chart Design or Table Layout appear only when the matching object is selected. The pictured Ribbon is an older one: Compare and Merge was retired from Microsoft 365 PowerPoint for Windows from version 2502, and older research tools may be absent today. Handwriting and ink conversion depend on version, platform and device."
+        },
+        {
+          "type": "callout",
+          "kind": "remember",
+          "text": "Draw = ink | Design = appearance | Review = check | Help = guidance."
+        }
+      ]
+    },
+    {
+      "id": "transitions",
+      "title": "Transitions & Their Effects",
+      "icon": "🔀",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "A **transition** is the effect you see when the show moves from one slide to the next. It is applied to the entrance of the selected slide."
+        },
+        {
+          "type": "keyvalue",
+          "title": "Transitions tab controls",
+          "rows": [
+            ["Preview", "Plays the selected effect."],
+            ["Transition to This Slide", "The gallery where you choose a transition."],
+            ["Effect Options", "Adjusts supported variations or direction (tied to the gallery, not always a separate group)."],
+            ["Timing", "Duration, sound and slide advancement."]
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Gallery categories and examples",
+          "headers": ["Category", "Nature", "Examples"],
+          "rows": [
+            ["Subtle", "Restrained", "Cut, Fade, Push, Wipe, Split, Reveal, Random Bars, Shape, Uncover, Cover, Flash"],
+            ["Exciting", "More dramatic", "Fall Over, Drape, Curtains, Wind, Prestige, Fracture, Crush, Peel Off, Page Curl, Airplane, Origami, Dissolve, Checkerboard, Blinds, Clock, Ripple, Honeycomb, Glitter, Vortex, Shred, Switch, Flip, Gallery, Cube, Doors, Box, Comb, Zoom, Random"],
+            ["Dynamic Content", "Movement of slide content", "Pan, Ferris Wheel, Conveyor, Rotate, Window, Orbit, Fly Through"]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "Timing settings",
+          "rows": [
+            ["Duration", "How long the transition lasts."],
+            ["Sound", "Optional audio with the effect."],
+            ["On Mouse Click", "Advance by clicking."],
+            ["After", "Advance automatically after a set interval."],
+            ["Apply to All", "Use the chosen settings across the whole presentation."]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "Transition vs Animation",
+          "text": "A **transition** changes **between slides**. An **animation** acts on text or another **object inside a slide**. None under transitions means no transition. Which effects exist, and how they are grouped, varies by version."
+        }
+      ]
+    },
+    {
+      "id": "animations",
+      "title": "Animations & the Animation Pane",
+      "icon": "✨",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "**Animation** controls how text, pictures, shapes and other objects on a slide appear, draw attention, move or disappear. The Animations tab has four areas: Preview, Animation, Advanced Animation and Timing."
+        },
+        {
+          "type": "table",
+          "title": "Four principal categories",
+          "headers": ["Category", "Job", "Colour cue"],
+          "rows": [
+            ["Entrance", "Brings an object into view", "Green star"],
+            ["Emphasis", "Highlights an object already visible", "Yellow star"],
+            ["Exit", "Removes an object from view", "Red star"],
+            ["Motion Paths", "Moves an object along a chosen route", "Path symbols"]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "Examples shown in each category",
+          "rows": [
+            ["Entrance", "Appear, Fade, Fly In, Float In, Split, Wipe, Shape, Wheel, Random Bars, Grow & Turn, Zoom, Swivel, Bounce."],
+            ["Emphasis", "Pulse, Color Pulse, Teeter, Spin, Grow/Shrink, Desaturate, Darken, Lighten, Transparency, Object Color, Complementary Color, Line Color, Fill Color, Brush Color, Font Color, Underline, Bold Flash, Bold Reveal, Wave."],
+            ["Exit", "Disappear, Fade, Fly Out, Float Out, Split, Wipe, Shape."],
+            ["Motion Paths", "Preset lines, curves or other routes, or draw a custom path."]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "Advanced Animation",
+          "rows": [
+            ["Add Animation", "Adds another effect without replacing the existing one."],
+            ["Animation Pane", "Lists, inspects, reorders and manages effects; normally opens on the right."],
+            ["Trigger", "Starts an effect after a specified action."],
+            ["Animation Painter", "Copies animation settings from one object to another."]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "Timing",
+          "rows": [
+            ["Start", "On Click, With Previous or After Previous."],
+            ["Duration", "Length of the effect."],
+            ["Delay", "Waiting interval before the effect begins."],
+            ["Move Earlier / Move Later", "Reorder the effects."]
+          ]
+        },
+        {
+          "type": "figure",
+          "kind": "flow",
+          "title": "Life of an animated object",
+          "items": [
+            ["Entrance", "Object appears"],
+            ["Emphasis", "Highlight it while visible"],
+            ["Motion Path", "Move it along a route"],
+            ["Exit", "Object leaves the slide"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "None is not a category",
+          "text": "**None** simply means no animation. It is not a fifth category; the four are Entrance, Emphasis, Exit and Motion Paths."
+        }
+      ]
+    },
+    {
+      "id": "slide-show-recording",
+      "title": "Slide Show, Recording & Rehearsal",
+      "icon": "🎬",
+      "blocks": [
+        {
+          "type": "keyvalue",
+          "title": "Slide Show tab",
+          "rows": [
+            ["Start Slide Show", "From Beginning, From Current Slide and Custom Slide Show."],
+            ["Set Up", "Configure the show, hide slides, rehearse timings and manage playback."],
+            ["Monitors", "Select the display and use Presenter View."],
+            ["Custom Show", "Present a chosen subset or sequence of slides from a larger presentation."]
+          ]
+        },
+        {
+          "type": "steps",
+          "title": "Rehearse Timings",
+          "items": [
+            "Go to **Slide Show -> Rehearse Timings**.",
+            "Practise your talk while PowerPoint records the time spent on each slide.",
+            "Advance at the pace you intend to use.",
+            "Save the timings when prompted. Saved timings can then control automatic advancement."
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "text": "Rehearse Timings measures delivery time only. To show a date or time on slides, use **Insert -> Date & Time**."
+        },
+        {
+          "type": "keyvalue",
+          "title": "Record tab groups",
+          "rows": [
+            ["Record", "Record the presentation."],
+            ["Content", "Screenshot and screen recording."],
+            ["Auto-play Media", "Audio and video tools."],
+            ["Save", "Save as Show and Export to Video."]
+          ]
+        },
+        {
+          "type": "text",
+          "text": "Recording can capture narration and timings, and supported versions also record presenter video."
+        },
+        {
+          "type": "table",
+          "title": "Controls during the show",
+          "headers": ["Key", "Action"],
+          "rows": [
+            ["F5", "Start from the first slide"],
+            ["Shift + F5", "Start from the current slide"],
+            ["Esc", "End the slide show (it does not advance)"],
+            ["Right Arrow, Down Arrow, Enter, Spacebar or N", "Next animation or next slide"],
+            ["Left click", "Usually advances, depending on show settings"],
+            ["Home", "Return to the first slide during the show"],
+            ["Tab / Shift + Tab", "Select the next / previous hyperlink or hotspot"],
+            ["Enter", "Activate the selected hyperlink"]
+          ]
+        },
+        {
+          "type": "bullets",
+          "title": "Pen and practical notes",
+          "items": [
+            "The presentation pen is **red** by default; other colours can be chosen. Draw-tab pens have their own settings.",
+            "An advance command may play the next animation before it changes slides."
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "remember",
+          "text": "F5 = beginning | Shift + F5 = current slide | Esc = finish | Rehearse = record timings."
+        }
+      ]
+    },
+    {
+      "id": "shortcuts-exam-facts",
+      "title": "Keyboard Shortcuts & Exam Facts",
+      "icon": "⌨️",
+      "blocks": [
+        {
+          "type": "table",
+          "title": "Windows desktop shortcuts",
+          "headers": ["Action", "Shortcut"],
+          "rows": [
+            ["New presentation", "Ctrl + N"],
+            ["New slide", "Ctrl + M"],
+            ["Save", "Ctrl + S"],
+            ["Save As", "F12"],
+            ["Print", "Ctrl + P"],
+            ["Exit PowerPoint", "Ctrl + Q"],
+            ["Find", "Ctrl + F"],
+            ["Replace", "Ctrl + H"],
+            ["Undo", "Ctrl + Z"],
+            ["Redo / repeat (when available)", "Ctrl + Y"],
+            ["Insert hyperlink", "Ctrl + K"],
+            ["Align left", "Ctrl + L"],
+            ["Centre text", "Ctrl + E"],
+            ["Align right", "Ctrl + R"],
+            ["Increase font size", "Ctrl + Shift + >"],
+            ["Decrease font size", "Ctrl + Shift + <"],
+            ["Superscript", "Ctrl + Shift + +"],
+            ["Subscript", "Ctrl + ="],
+            ["Duplicate selected slide", "Ctrl + Shift + D"],
+            ["Duplicate selected object", "Ctrl + D"],
+            ["Spelling check", "F7"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "Context matters",
+          "text": "Ctrl + D also duplicates selected slide thumbnails, but **Ctrl + Shift + D** is the explicit slide-copy shortcut. Ctrl + Home goes to the first slide only depending on focus: inside a text box it goes to the start of that text, so during a show use **Home**. Shortcuts differ on Mac, mobile and the web."
+        },
+        {
+          "type": "table",
+          "title": "Final exam facts",
+          "headers": ["Question", "Answer"],
+          "rows": [
+            ["Presentation page", "Slide"],
+            ["Default title layout", "Title Slide (typically two placeholders)"],
+            ["Typical unsaved file", "Presentation1"],
+            ["Default desktop editing view", "Normal"],
+            ["All-slide thumbnail overview", "Slide Sorter"],
+            ["Titles and main text", "Outline"],
+            ["Uniform title fonts", "Slide Master"],
+            ["Printed handout header/footer", "Handout Master"],
+            ["Employee hierarchy", "SmartArt Organization Chart"],
+            ["Template extension", ".potx"],
+            ["Modern presentation / Show extension", ".pptx / .ppsx"],
+            ["Zoom range", "10% - 400%"],
+            ["Font presets / actual range", "8-96 pt / 1-3600 pt"],
+            ["Current standard blank-slide ratio", "16:9"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "tip",
+          "title": "Key pairs",
+          "text": "Themes - Design and Notes Page - View are both correct pairs. Transitions change slides; animations affect objects."
+        }
+      ]
+    }
+  ],
+  "revision": [
+    "A slide is one page of a presentation; Apple's app is Keynote, Google's is Slides, and the open-source one is Impress.",
+    "Forethought created PowerPoint (Robert Gaskins, Dennis Austin; working name Presenter); Mac release and Microsoft takeover both in 1987.",
+    "A blank presentation opens with a Title Slide holding two placeholders (title and subtitle); unsaved name is Presentation1.",
+    ".pptx = presentation, .ppt = old 97-2003, .pptm = macros, .ppsx = show, .potx = template, .pps = old show.",
+    "Open PowerPoint via Run: Windows + R, type powerpnt (POWERPNT.EXE).",
+    "Views: Normal (default editing), Outline (titles and body text), Slide Sorter (thumbnails), Notes Page, Reading.",
+    "Masters: Slide Master (shared design), Handout Master (printed handouts), Notes Master (notes pages); all under the View tab.",
+    "Zoom runs 10%-400%; font presets 8-96 pt but the real range is 1-3600 pt; default ratio 16:9 since PowerPoint 2013 (4:3 before).",
+    "Themes and Slide Size are on Design; Spelling (F7) on Review; Chart, SmartArt and Org Chart on Insert.",
+    "Ctrl + N = new presentation; Ctrl + M = new slide; Ctrl + Shift + D duplicates a slide; Ctrl + D duplicates an object.",
+    "Transition = change between slides; animation = effect on an object inside a slide.",
+    "Four animation categories: Entrance, Emphasis, Exit, Motion Paths; Start options: On Click, With Previous, After Previous.",
+    "F5 starts the show from the beginning, Shift + F5 from the current slide, Esc ends it; the pen is red by default.",
+    "Rehearse Timings (Slide Show tab) records the time spent on each slide; Ctrl + K inserts a hyperlink; F12 is Save As."
+  ],
+  "mindmap": {
+    "center": "Microsoft PowerPoint",
+    "branches": [
+      {
+        "label": "Basics & history",
+        "children": ["Slide = one page", "Forethought, 1987", "Gaskins & Austin", "Keynote / Slides / Impress"]
+      },
+      {
+        "label": "Window & files",
+        "children": ["Ribbon, Backstage View", "Thumbnail, Slide, Notes panes", ".pptx / .ppt / .pptm", ".ppsx show, .potx template"]
+      },
+      {
+        "label": "Views & masters",
+        "children": ["Normal, Outline", "Slide Sorter, Reading", "Slide Master", "Handout & Notes Master", "Presenter View"]
+      },
+      {
+        "label": "Layout & limits",
+        "children": ["Title Slide, 2 placeholders", "Zoom 10%-400%", "Font 1-3600 pt", "4:3 vs 16:9"]
+      },
+      {
+        "label": "Ribbon tabs",
+        "children": ["File: Backstage", "Home: edit", "Insert: add content", "Design: themes, slide size", "Review: spelling"]
+      },
+      {
+        "label": "Transitions & animation",
+        "children": ["Subtle, Exciting, Dynamic", "Entrance, Emphasis, Exit", "Motion Paths", "Animation Pane, Painter", "Start, Duration, Delay"]
+      },
+      {
+        "label": "Slide show",
+        "children": ["F5, Shift + F5, Esc", "Rehearse Timings", "Custom Show", "Record tab", "Red pen"]
+      },
+      {
+        "label": "Shortcuts",
+        "children": ["Ctrl + N, Ctrl + M", "Ctrl + S, F12", "Ctrl + K hyperlink", "Ctrl + D, Ctrl + Shift + D", "F7 spelling"]
+      }
+    ]
+  }
+}

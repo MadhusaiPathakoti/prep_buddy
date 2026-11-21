@@ -1,0 +1,894 @@
+{
+  "id": "ms-word",
+  "sections": [
+    {
+      "id": "word-basics",
+      "title": "What is Microsoft Word?",
+      "icon": "📝",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "**Microsoft Word** is Microsoft's **word-processing** application. You use it to create, edit, format, save and print documents such as letters, reports, resumes and study notes. It is one of the most widely used word processors in the world."
+        },
+        {
+          "type": "keyvalue",
+          "title": "Key terms",
+          "rows": [
+            ["WYSIWYG", "**What You See Is What You Get** - the editing screen closely matches the final printed page."],
+            ["Open Word from the keyboard", "Press **Windows + R**, type **winword** and press Enter (Word must already be installed)."],
+            ["Word on Windows", "Word is a separate application. It is not automatically included with every Windows installation."]
+          ]
+        },
+        {
+          "type": "timeline",
+          "title": "Development timeline",
+          "items": [
+            ["Original name", "**Multi-Tool Word**"],
+            ["Key developers", "**Charles Simonyi** and **Richard Brodie**"],
+            ["1983", "First release; early platforms included **Xenix** and **MS-DOS**"],
+            ["1985", "Macintosh version, with a graphical editing environment"],
+            ["1989", "**Word for Windows**"],
+            ["2007", "Word 2007 introduced the **Ribbon** user interface"]
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Other word processors",
+          "headers": ["Company / group", "Word processor"],
+          "rows": [
+            ["Microsoft", "Word"],
+            ["Corel", "WordPerfect"],
+            ["Apple", "Pages"],
+            ["LibreOffice (The Document Foundation)", "Writer"],
+            ["Google", "Google Docs"]
+          ]
+        },
+        {
+          "type": "bullets",
+          "title": "Early and related names",
+          "items": [
+            "**Electric Pencil** and **WordStar** were distinct early word processors. Electric Pencil is linked with the first word processor for microcomputers, but a question on the 'first word processor' needs a clearly defined category.",
+            "Apple's **Numbers** handles spreadsheets and **Keynote** handles presentations (Pages is the word processor).",
+            "**IBM** is the conventional exam answer for the company that introduced and popularised the term 'word processing'."
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "tip",
+          "title": "Quick recall",
+          "text": "Word = word processing | Pages = Apple | 1983 = first release | 1989 = Word for Windows | 2007 = Ribbon."
+        }
+      ]
+    },
+    {
+      "id": "word-window",
+      "title": "The Word Window",
+      "icon": "🪟",
+      "blocks": [
+        {
+          "type": "figure",
+          "kind": "layers",
+          "title": "Word window, top to bottom",
+          "items": [
+            ["Title bar + Quick Access", "Document name, Save/Undo/Redo, window controls"],
+            ["Ribbon tabs and groups", "File, Home, Insert, Draw, Design, Layout..."],
+            ["Ruler", "Indents, tab stops, margin boundaries"],
+            ["Document area", "Where text and objects are typed"],
+            ["Status bar", "Page info, word count, view buttons, zoom slider"]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "Top of the window",
+          "rows": [
+            ["Title bar", "Shows the **document name** and application information."],
+            ["Window controls", "**Minimise**, **Maximise/Restore** and **Close**."],
+            ["Office Button (Word 2007)", "Sits at the **upper left** in Word 2007. Later versions use the File tab instead."],
+            ["Quick Access Toolbar", "In the traditional layout it is to the right of the Office Button; the title text appears farther right."],
+            ["Ribbon", "Normally sits **below** the title/toolbar area."]
+          ]
+        },
+        {
+          "type": "text",
+          "text": "The toolbar and the title text share the top area of the window - they are not separate, fixed side-by-side bars. Older Word versions used menus and toolbars; modern Word uses **tabs and command groups**. The tabs available and the number of 'bars' vary by version."
+        },
+        {
+          "type": "bullets",
+          "title": "Quick Access Toolbar",
+          "items": [
+            "A set of **customisable shortcuts** for frequent tasks.",
+            "Traditional default commands: **Save**, **Undo** and **Redo/Repeat**.",
+            "It can be moved or hidden, depending on the version and settings."
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "Editing area",
+          "rows": [
+            ["Document area", "The workspace for text and objects."],
+            ["Insertion point", "The **blinking cursor** where new text appears."],
+            ["Ruler", "Controls **indents, tab stops and margin boundaries**."],
+            ["Vertical scroll bar", "Moves the view up and down."],
+            ["Horizontal scroll bar", "Moves the view left and right when required."]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "Bottom of the window",
+          "rows": [
+            ["Status bar", "Page information, **word count** and other indicators."],
+            ["View buttons", "Change the document view."],
+            ["Zoom slider", "Normally at the **lower right**. Desktop zoom range is **10% - 500%**; **100%** is the normal reference magnification."]
+          ]
+        },
+        {
+          "type": "bullets",
+          "title": "Ribbon tabs",
+          "items": [
+            "Tabs: File, **Home**, Insert, Draw, Design, Layout, References, Mailings, Review, View, Help.",
+            "**Home** is the usual starting editing tab.",
+            "A document may reopen at its saved zoom, and zoom affects the **screen display only, not the printed size**."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "word-files-macros",
+      "title": "File Formats, Macros and OLE",
+      "icon": "🗂️",
+      "blocks": [
+        {
+          "type": "table",
+          "title": "Word file formats",
+          "headers": ["Extension", "Meaning"],
+          "rows": [
+            [".doc", "Older Word document (before Word 2007)"],
+            [".docx", "Standard modern document, introduced in **2007**"],
+            [".docm", "Open XML **macro-enabled** document"],
+            [".dot", "Older Word template"],
+            [".dotx", "Modern template **without** VBA macros"],
+            [".dotm", "Macro-enabled template"],
+            [".rtf", "Rich Text Format - formatted text supported by several programs"]
+          ]
+        },
+        {
+          "type": "bullets",
+          "items": [
+            "A **template** is a reusable document starting point.",
+            "A **.docx** file does **not** store VBA macros; save macro-bearing documents as **.docm**.",
+            "**RTF** = Rich Text Format (extension .rtf)."
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "WordPad, Notepad and Word",
+          "rows": [
+            ["WordPad", "A basic word processor bundled with older Windows releases. It was **removed from Windows 11 starting with version 24H2** and from **Windows Server 2025**."],
+            ["Notepad", "Primarily edits **plain text**."],
+            ["Microsoft Word", "A separate application, not included automatically with every Windows installation."]
+          ]
+        },
+        {
+          "type": "steps",
+          "title": "Recording a macro",
+          "items": [
+            "Open the **View** tab.",
+            "Choose **Macros**, then **Record Macro**.",
+            "Perform the repeated steps (for example, a set of formatting steps).",
+            "Stop recording. Press **Alt + F8** at any time to open the Macros dialog.",
+            "Save the document as **.docm** so the macro is kept."
+          ]
+        },
+        {
+          "type": "text",
+          "text": "**Macros** automate repeated tasks through recorded or programmed commands. View Macros, Record and Pause Recording appear where supported."
+        },
+        {
+          "type": "keyvalue",
+          "title": "Word + Excel: OLE",
+          "rows": [
+            ["OLE", "**Object Linking and Embedding**."],
+            ["Excel sheet inside Word", "Word is the **container/client**; Excel is the **source/server**."],
+            ["Roles", "Depend on which application **contains** the object."]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "Server roles",
+          "text": "Typical servers host websites, share databases and handle email, so 'word processing' is the intended non-server role in the basic exam question. It is not an absolute restriction, though - servers can also provide document-processing services."
+        }
+      ]
+    },
+    {
+      "id": "word-shortcuts",
+      "title": "Essential Keyboard Shortcuts",
+      "icon": "⌨️",
+      "blocks": [
+        {
+          "type": "table",
+          "title": "Document commands",
+          "headers": ["Shortcut", "Action"],
+          "rows": [
+            ["Ctrl + N", "New document"],
+            ["Ctrl + O", "Open document"],
+            ["Ctrl + S", "Save changes"],
+            ["Ctrl + P", "Printing options"],
+            ["Ctrl + W or Ctrl + F4", "Close the current document"],
+            ["Alt + F4", "Close the active Word window"]
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Clipboard and editing",
+          "headers": ["Shortcut", "Action"],
+          "rows": [
+            ["Ctrl + C", "Copy selection"],
+            ["Ctrl + X", "Cut selection"],
+            ["Ctrl + V", "Paste clipboard content"],
+            ["Ctrl + Z", "Undo"],
+            ["Ctrl + Y", "Redo or repeat a supported action"],
+            ["Ctrl + A", "Select all document content"],
+            ["Ctrl + F", "Find text"],
+            ["Ctrl + H", "Find and replace"],
+            ["Ctrl + K", "Insert/edit a hyperlink"]
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Navigation and deletion",
+          "headers": ["Shortcut", "Action"],
+          "rows": [
+            ["Ctrl + Home", "Beginning of the document"],
+            ["Ctrl + End", "End of the document"],
+            ["Ctrl + Page Up", "Top of the previous page"],
+            ["Ctrl + Page Down", "Top of the next page"],
+            ["Ctrl + Backspace", "Delete the preceding word"],
+            ["Ctrl + Delete", "Delete the following word"]
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Date and time",
+          "headers": ["Shortcut", "Action"],
+          "rows": [
+            ["Alt + Shift + D", "Insert a **date field**"],
+            ["Alt + Shift + T", "Insert a **time field**"]
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Format copying - check the version",
+          "headers": ["Version", "Shortcut", "Action"],
+          "rows": [
+            ["Older Word", "Ctrl + Shift + C", "Copies formatting"],
+            ["Older Word", "Ctrl + Shift + V", "Pastes formatting"],
+            ["Newer Microsoft 365", "Ctrl + Alt + C", "Copies formatting"],
+            ["Newer Microsoft 365", "Ctrl + Alt + V", "Pastes formatting"],
+            ["Newer Microsoft 365", "Ctrl + Shift + V", "Pastes text only"]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "Copyright symbol",
+          "rows": [
+            ["Word 2021 traditional shortcut", "**Ctrl + Alt + C** inserts the copyright symbol."],
+            ["Newer builds", "May reassign that shortcut."],
+            ["Alternative", "Type **00A9**, then press **Alt + X**."]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "remember",
+          "text": "Unsaved changes normally trigger a save prompt when you close. Fields inserted by the date/time shortcuts can be updated. Custom keyboard settings can change any shortcut's behaviour."
+        }
+      ]
+    },
+    {
+      "id": "word-fonts",
+      "title": "Font Formatting and Change Case",
+      "icon": "🔤",
+      "blocks": [
+        {
+          "type": "bullets",
+          "title": "Font basics",
+          "items": [
+            "**Font face** = typeface, such as Arial, Cambria or Times New Roman.",
+            "Four common styles: **Regular, Italic, Bold, Bold Italic**. Regular is the usual body-text starting style.",
+            "Templates and user settings can change the default font."
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Default fonts by version",
+          "headers": ["Word version", "Common default"],
+          "rows": [
+            ["Word 2003 and earlier", "Times New Roman, 12 pt"],
+            ["Word 2007 - 2021", "Calibri, 11 pt"],
+            ["Newer Microsoft 365 / Word 2024", "Aptos (size depends on the template)"]
+          ]
+        },
+        {
+          "type": "bullets",
+          "title": "Font size",
+          "items": [
+            "Size range: **1 - 1,638 pt**, including half-point values.",
+            "Dropdown presets commonly run from **8 - 72 pt**.",
+            "**72 pt = 1 inch**; **36 pt = 0.5 inch**.",
+            "Visible letter height also depends on the typeface."
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Font shortcuts",
+          "headers": ["Shortcut", "Action"],
+          "rows": [
+            ["Ctrl + B / I / U", "Bold / Italic / Underline"],
+            ["Ctrl + D", "Font dialog"],
+            ["Ctrl + Shift + >  /  <", "Larger / smaller **preset** size"],
+            ["Ctrl + ]  /  [", "Increase / decrease size by **1 pt**"],
+            ["Ctrl + Shift + =", "Superscript"],
+            ["Ctrl + =", "Subscript"],
+            ["Ctrl + Shift + A", "All Caps"],
+            ["Ctrl + Shift + K", "Small Caps"]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "Font effects",
+          "rows": [
+            ["Strikethrough", "One line through the text."],
+            ["Double Strikethrough", "Two lines through the text."],
+            ["Superscript", "Smaller raised text, as in x2."],
+            ["Subscript", "Smaller lowered text, as in H2O."],
+            ["Small Caps", "Lowercase letters appear as small capitals."],
+            ["All Caps", "Letters display as capitals."],
+            ["Hidden", "Visibility/printing depend on settings."]
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Change Case - five options (example: Banking exams need practice.)",
+          "headers": ["Option", "Result"],
+          "rows": [
+            ["Sentence case", "Banking exams need practice."],
+            ["lowercase", "banking exams need practice."],
+            ["UPPERCASE", "BANKING EXAMS NEED PRACTICE."],
+            ["Capitalize Each Word", "Banking Exams Need Practice."],
+            ["tOGGLE cASE", "Banking becomes bANKING."]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "text": "**Shift + F3** cycles through the common case forms, but it does not cycle through all five options in the Change Case menu."
+        }
+      ]
+    },
+    {
+      "id": "word-paragraph",
+      "title": "Paragraphs, Selection and Proofing",
+      "icon": "📐",
+      "blocks": [
+        {
+          "type": "table",
+          "title": "Four paragraph alignments",
+          "headers": ["Alignment", "Shortcut", "Effect"],
+          "rows": [
+            ["Left", "Ctrl + L", "Lines align with the left margin (usual for English body text)"],
+            ["Centre", "Ctrl + E", "Text is centred between the margins"],
+            ["Right", "Ctrl + R", "Lines align with the right margin"],
+            ["Justify", "Ctrl + J", "Spacing aligns most lines with both margins; the last line usually stays left-aligned"]
+          ]
+        },
+        {
+          "type": "text",
+          "text": "**Ctrl + Q** removes direct paragraph formatting and restores the settings of the paragraph style."
+        },
+        {
+          "type": "table",
+          "title": "Three different breaks",
+          "headers": ["Key", "Break"],
+          "rows": [
+            ["Enter", "Paragraph break"],
+            ["Shift + Enter", "Line break within the same paragraph"],
+            ["Ctrl + Enter", "Page break"]
+          ]
+        },
+        {
+          "type": "steps",
+          "title": "F8 Extend Selection (starting with no selection)",
+          "items": [
+            "Press **F8** once to activate Extend Selection.",
+            "Press F8 twice to select the current **word**.",
+            "Press F8 three times to select the current **sentence**.",
+            "Press **Esc** to exit Extend Selection mode."
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "Proofing marks",
+          "rows": [
+            ["Older versions - red", "Possible **spelling** error."],
+            ["Older versions - green", "**Grammar**."],
+            ["Older versions - blue", "**Contextual** spelling (a correctly spelled word used incorrectly)."],
+            ["Newer Editor", "Commonly **red for spelling**, **blue for grammar**, and other colours for refinements."],
+            ["Unrecognised names", "May also receive red marks."]
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Proofing tools",
+          "headers": ["Shortcut", "Tool"],
+          "rows": [
+            ["F7", "Spelling/grammar check, or Editor"],
+            ["Shift + F7", "**Thesaurus** - suggests synonyms and related words"],
+            ["Ctrl + Shift + G", "**Word Count** dialog"]
+          ]
+        },
+        {
+          "type": "bullets",
+          "title": "Word Count",
+          "items": [
+            "Counts **pages, words, characters (with and without spaces), paragraphs and lines**.",
+            "It can include **text boxes, footnotes and endnotes**.",
+            "Modern path: **Review > Word Count**; older versions used the **Tools** menu.",
+            "A **dictionary** primarily supplies definitions, while a thesaurus gives synonyms."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "word-page-setup",
+      "title": "Page Setup and Printing",
+      "icon": "🖨️",
+      "blocks": [
+        {
+          "type": "keyvalue",
+          "title": "Orientation and paper size",
+          "rows": [
+            ["Portrait", "**Taller than wide**; the usual blank-page orientation."],
+            ["Landscape", "**Wider than tall**."],
+            ["Where to set", "**Layout > Orientation** (older tab: Page Layout). **Layout > Size** selects paper dimensions."],
+            ["Letter", "**8.5 x 11 inches** - the exam answer for US-style defaults."],
+            ["A4", "**210 x 297 mm** (about 8.27 x 11.69 inches)."]
+          ]
+        },
+        {
+          "type": "text",
+          "text": "Actual defaults depend on the region, template and printer."
+        },
+        {
+          "type": "table",
+          "title": "Margins",
+          "headers": ["Version", "Default margins"],
+          "rows": [
+            ["Word 2007 onward (standard)", "1 inch on all four sides"],
+            ["Word 2003 and earlier (traditional)", "Top/bottom 1 inch; left/right 1.25 inches"]
+          ]
+        },
+        {
+          "type": "bullets",
+          "items": [
+            "Margins separate body content from the page edges. The four sides are **Top, Bottom, Left and Right** - 'Centre' is an alignment, not a margin side.",
+            "1 inch = 2.54 cm. Defaults can be changed; use **Layout > Margins > Custom Margins**.",
+            "**Gutter** = extra space at the **binding edge**, so text is not hidden by a book's spine. Its position depends on binding and page settings."
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "Header and footer",
+          "rows": [
+            ["Header", "The **top** area of a page."],
+            ["Footer", "The **bottom** area of a page."],
+            ["Contents", "Titles, dates, page numbers or organisation details."],
+            ["Variations", "They can repeat, with different first-page, odd/even or section settings."],
+            ["Where to insert", "**Insert > Header / Footer / Page Number**."]
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Print settings",
+          "headers": ["Option", "What it prints"],
+          "rows": [
+            ["Print All Pages", "The entire document"],
+            ["Print Selection", "Only the selected content"],
+            ["Print Current Page", "The page that contains the cursor"],
+            ["Custom Print", "Specified pages/ranges - for example '2, 5-8' prints page 2 and pages 5 to 8"]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "Save choices",
+          "rows": [
+            ["Save (Ctrl + S)", "Saves the current file's changes."],
+            ["Save As", "Saves under **another name, location or format**."]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "word-home-insert-draw",
+      "title": "Home, Insert and Draw Tabs",
+      "icon": "🏠",
+      "blocks": [
+        {
+          "type": "table",
+          "title": "Home tab groups",
+          "headers": ["Group", "What it holds"],
+          "rows": [
+            ["Clipboard", "Cut, Copy, Paste, **Format Painter**"],
+            ["Font", "Name, style, effects, colour, size; Bold, Italic, Underline and Font Colour belong here"],
+            ["Paragraph", "Alignment, lists, indentation, spacing and paragraph controls"],
+            ["Styles", "Normal, No Spacing, Heading 1, Heading 2"],
+            ["Editing", "Find, Replace, Select"],
+            ["Add-ins", "Extra tools where supported"]
+          ]
+        },
+        {
+          "type": "bullets",
+          "items": [
+            "**Format Painter** copies **formatting**, not the text itself.",
+            "The Font dialog shows name, style, effects, colour, size and a preview; the Paragraph dialog has **Indents and Spacing** and **Line and Page Breaks** tabs.",
+            "Clipboard, Font and Paragraph are **groups**, not single commands."
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Insert tab groups",
+          "headers": ["Group", "Commands"],
+          "rows": [
+            ["Pages", "Cover Page, Blank Page, Page Break"],
+            ["Tables", "Insert rows-and-columns tables"],
+            ["Illustrations", "Pictures, Shapes, Icons, SmartArt, 3D Models, Chart, Screenshot"],
+            ["Media", "Online Video (where supported)"],
+            ["Links", "Hyperlink, Bookmark, Cross-reference"],
+            ["Comments", "Insert a comment"],
+            ["Header & Footer", "Header, Footer, Page Number"],
+            ["Text", "Text Box, Quick Parts, WordArt, **Drop Cap**"],
+            ["Symbols", "Equation and Symbol"]
+          ]
+        },
+        {
+          "type": "bullets",
+          "items": [
+            "**Drop Cap** enlarges a paragraph's opening letter across several lines.",
+            "**Styles** primarily belong to the **Home** tab, not Insert.",
+            "Older Insert tabs included **Clip Art**."
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "Draw tab",
+          "rows": [
+            ["Eraser", "Removes digital ink."],
+            ["Pens", "Add/customise Pencil, Pen and Highlighter."],
+            ["Ruler", "Guides drawing where supported."],
+            ["Format Background", "Offers ruled/grid backgrounds in supported builds."],
+            ["Ink to Shape", "Converts drawings into shapes."],
+            ["Ink to Math", "Converts handwritten mathematics into equations."],
+            ["Drawing Canvas", "Organises drawings."]
+          ]
+        },
+        {
+          "type": "text",
+          "text": "Drawing tools vary by Word version and device."
+        }
+      ]
+    },
+    {
+      "id": "word-design-layout",
+      "title": "Design and Layout Tabs",
+      "icon": "🎨",
+      "blocks": [
+        {
+          "type": "keyvalue",
+          "title": "Design tab - document appearance",
+          "rows": [
+            ["Themes", "Coordinated document design."],
+            ["Colours", "Theme colour scheme."],
+            ["Fonts", "Coordinated heading/body fonts."],
+            ["Paragraph Spacing", "Document-wide spacing choices."],
+            ["Effects", "Theme effects for graphics."],
+            ["Set as Default", "Reuse the design choices."],
+            ["Page Background", "**Watermark, Page Colour, Page Borders**."]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "Layout tab - Page Setup",
+          "rows": [
+            ["Margins", "Normal, Narrow, Moderate, Wide, Mirrored."],
+            ["Orientation", "Portrait or Landscape."],
+            ["Size", "Letter, Tabloid, Legal, Statement, Executive, A3, A4, A5, B4, B5 (choices can depend on printer support)."],
+            ["Columns", "Multiple **text columns**."],
+            ["Breaks", "Page and section breaks."],
+            ["Line Numbers", "Numbers alongside document lines."],
+            ["Hyphenation", "Controls word division at line ends."]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "Layout tab - Arrange objects",
+          "rows": [
+            ["Position", "Locate an object on the page."],
+            ["Wrap Text", "Control text flow around an object."],
+            ["Bring Forward", "Raise the stacking order."],
+            ["Send Backward", "Lower the stacking order."],
+            ["Selection Pane", "Locate, select and manage objects."],
+            ["Align", "Line up objects."],
+            ["Group", "Combine objects for joint handling."],
+            ["Rotate", "Change object orientation."]
+          ]
+        },
+        {
+          "type": "bullets",
+          "title": "Layout tab - Paragraph and the Ruler",
+          "items": [
+            "The Layout Paragraph group adjusts **left/right indents** and **spacing before/after** paragraphs; the Paragraph dialog also holds Line and Page Breaks settings.",
+            "The **ruler** adjusts first-line and hanging indents, tab stops and margin boundaries in suitable views. It changes layout/formatting rather than rewriting the text."
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "remember",
+          "text": "**Design** controls the coordinated look (themes, colours, fonts, page background). **Layout** controls page geometry, paragraph placement and object arrangement. Command positions can vary by release."
+        }
+      ]
+    },
+    {
+      "id": "word-references-mailings",
+      "title": "References Tab and Mail Merge",
+      "icon": "✉️",
+      "blocks": [
+        {
+          "type": "keyvalue",
+          "title": "References tab",
+          "rows": [
+            ["Table of Contents", "Insert and update a heading-based contents list."],
+            ["Footnotes", "Insert explanatory notes and move to the next note."],
+            ["Research", "Research assistance where available (tools changed across versions)."],
+            ["Citations & Bibliography", "Record sources and generate references."],
+            ["Captions", "Label tables, figures and other objects."],
+            ["Index", "Alphabetical list of marked topics."],
+            ["Table of Authorities", "List of cited legal authorities."]
+          ]
+        },
+        {
+          "type": "text",
+          "text": "Table of Contents, Footnotes and Citations & Bibliography are all groups on the References tab."
+        },
+        {
+          "type": "text",
+          "text": "**Mail Merge** produces many personalised documents from one common document and a recipient list. For example, the same invitation can carry a different name and address for every recipient. Outputs include letters, envelopes, labels and email messages."
+        },
+        {
+          "type": "keyvalue",
+          "title": "Mail merge parts",
+          "rows": [
+            ["Main document", "The shared message and layout."],
+            ["Data source", "The recipient records."],
+            ["Merge fields", "Placeholders for the variable details."],
+            ["Merged output", "The personalised results."]
+          ]
+        },
+        {
+          "type": "figure",
+          "kind": "flow",
+          "title": "Mailings tab workflow",
+          "items": [
+            ["Start Mail Merge", "Choose the document type"],
+            ["Select Recipients", "Choose the data source"],
+            ["Edit Recipient List", "Filter or adjust recipients"],
+            ["Write & Insert Fields", "Add recipient information"],
+            ["Preview Results", "Check each personalised version"],
+            ["Finish & Merge", "Produce, print or send"]
+          ]
+        },
+        {
+          "type": "bullets",
+          "items": [
+            "The Mailings tab also has a **Create** group with **Envelopes and Labels**.",
+            "Mailings is specialised for correspondence and bulk personalisation."
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "'Least used tab' questions",
+          "text": "No Ribbon tab is universally the 'least used'. Someone who prepares many personalised letters may use Mailings very often - usage depends on the person's work, not on a fixed Word rule."
+        }
+      ]
+    },
+    {
+      "id": "word-review-view-help",
+      "title": "Review, View and Help Tabs",
+      "icon": "🔍",
+      "blocks": [
+        {
+          "type": "keyvalue",
+          "title": "Review tab",
+          "rows": [
+            ["Proofing / Editor", "Spelling, grammar and writing suggestions."],
+            ["Thesaurus", "Synonyms and related words."],
+            ["Word Count", "Document statistics."],
+            ["Speech / Read Aloud", "Reads content aloud."],
+            ["Accessibility", "Identifies barriers for readers with disabilities."],
+            ["Language", "Proofing-language and translation tools."],
+            ["Comments", "Add and manage review comments."],
+            ["Tracking", "Records edits with **Track Changes**."],
+            ["Changes", "**Accept/reject** revisions."],
+            ["Compare", "Compare document versions."],
+            ["Protect", "Restrict editing or apply protection."],
+            ["Ink", "Ink-review tools where supported."]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "View tab",
+          "rows": [
+            ["Views", "Read Mode, Print Layout, Web Layout, Outline, Draft."],
+            ["Immersive", "Immersive Reader."],
+            ["Page Movement", "Vertical or Side to Side."],
+            ["Show", "Ruler, Gridlines, Navigation Pane."],
+            ["Zoom", "Screen magnification."],
+            ["Window", "New Window, Arrange All, Split, Switch Windows."],
+            ["Macros", "View, Record and Pause Recording where available."]
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Five traditional views",
+          "headers": ["View", "What it shows"],
+          "rows": [
+            ["Print Layout", "Page boundaries, margins, headers/footers - how it will print"],
+            ["Read Mode / Full Screen Reading", "Reading-focused display"],
+            ["Web Layout", "Continuous, web-page-style display"],
+            ["Outline", "Heading hierarchy and section organisation"],
+            ["Draft", "Simplified text-editing display"]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "Help tab",
+          "rows": [
+            ["Help", "Guidance."],
+            ["Contact Support", "Support options."],
+            ["Feedback", "Submit comments."],
+            ["Show Training", "Learning resources."]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "text": "**Properties** is not a universal View command - document properties are commonly found under **File > Info**."
+        },
+        {
+          "type": "keyvalue",
+          "title": "AI in Word",
+          "rows": [
+            ["Copilot", "Can assist with drafting, rewriting and summarising in supported editions/subscriptions."],
+            ["Cortana", "A Microsoft digital assistant, **not** Word's former built-in AI. Cortana has been retired."],
+            ["Availability", "Depends on version, device and subscription."]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "word-file-borders-misc",
+      "title": "File Tab, Borders, Clip Art and Exam Distinctions",
+      "icon": "🖼️",
+      "blocks": [
+        {
+          "type": "keyvalue",
+          "title": "File tab / Backstage",
+          "rows": [
+            ["Home", "Start screen and recent files."],
+            ["New", "Blank document or template."],
+            ["Open", "Open an existing file."],
+            ["Save", "Store changes."],
+            ["Save As", "Another name, location or format."],
+            ["Print", "Settings and preview."],
+            ["Share", "Sharing/collaboration."],
+            ["Export", "Output such as **PDF**."],
+            ["Close", "Close the current document."],
+            ["Account", "Account/product details."],
+            ["Feedback", "Send feedback."],
+            ["Options", "Application settings."]
+          ]
+        },
+        {
+          "type": "bullets",
+          "title": "Word 2007 Office Button",
+          "items": [
+            "An upper-left button containing **New, Open, Save, Save As, Print, Prepare, Send, Publish and Close**.",
+            "Prepare, Send and Publish were all present in it.",
+            "Later versions use the **File** tab instead."
+          ]
+        },
+        {
+          "type": "bullets",
+          "title": "Borders",
+          "items": [
+            "Borders can surround **pages, text, paragraphs, pictures and tables**; you choose the line style, colour and thickness.",
+            "Page borders: **Design > Page Borders** (older versions may use Page Layout).",
+            "**Art** provides decorative page-border graphics.",
+            "A picture border frames a picture; a text border frames selected text. 'Colourful, text, picture' describe different border aspects/targets, not three equal page-border categories."
+          ]
+        },
+        {
+          "type": "timeline",
+          "title": "Clip art and pictures",
+          "items": [
+            ["Older Word", "Included a dedicated **Clip Art** command (ready-made illustrations)."],
+            ["1 Dec 2014", "Microsoft announced the closure of the **Office.com Clip Art** and image library."],
+            ["Afterwards", "**Bing Image Search** became an alternative; existing saved illustrations could still be inserted."]
+          ]
+        },
+        {
+          "type": "text",
+          "text": "The closure of the Office.com Clip Art library did not remove all illustration support from Word."
+        },
+        {
+          "type": "bullets",
+          "title": "Final exam distinctions",
+          "items": [
+            "A Word **table** allows **63 columns**; text-layout columns are a different feature.",
+            "To **split a table**, place the cursor in the row that will start the new table, then press **Ctrl + Shift + Enter**.",
+            "'Paint-style Brush' is not a standard Word text-editing command. **Format Painter** has a brush icon; supported Word versions also offer pens/drawing tools.",
+            "Version-specific questions need version-specific answers."
+          ]
+        }
+      ]
+    }
+  ],
+  "revision": [
+    "Word is a word processor; WYSIWYG = What You See Is What You Get; open it with Windows + R, then winword.",
+    "Original name Multi-Tool Word; developers Charles Simonyi and Richard Brodie; first release 1983; Word for Windows 1989; Ribbon from Word 2007.",
+    ".doc = old format, .docx = standard since 2007 (no macros), .docm = macro-enabled, .dotx = template, .dotm = macro template, .rtf = Rich Text Format.",
+    "OLE = Object Linking and Embedding; Word is the container/client and Excel the source/server when an Excel object sits in Word.",
+    "Alt + F8 opens the Macros dialog; macros are recorded from View > Macros > Record Macro; save as .docm.",
+    "Ctrl+N new, Ctrl+O open, Ctrl+S save, Ctrl+P print, Ctrl+W close, Ctrl+Z undo, Ctrl+Y redo, Ctrl+A select all, Ctrl+F find, Ctrl+H replace, Ctrl+K hyperlink.",
+    "Alignment shortcuts: Ctrl+L left, Ctrl+E centre, Ctrl+R right, Ctrl+J justify; Ctrl+Q resets paragraph formatting.",
+    "Enter = paragraph break; Shift+Enter = line break; Ctrl+Enter = page break.",
+    "F7 = spelling/grammar; Shift+F7 = Thesaurus; Ctrl+Shift+G = Word Count; F8 pressed twice selects a word, three times a sentence.",
+    "Font size range 1 - 1,638 pt; 72 pt = 1 inch; defaults: Times New Roman 12 (2003), Calibri 11 (2007-2021), Aptos (newer 365).",
+    "Margins: 1 inch on all sides from Word 2007; older Word had 1.25 inch left/right. Letter = 8.5 x 11 in; A4 = 210 x 297 mm.",
+    "Mail merge parts: main document, data source, merge fields; steps on the Mailings tab end with Finish & Merge.",
+    "Desktop zoom range is 10% - 500%; zoom changes the screen display, not the printed size.",
+    "Five traditional views: Print Layout, Read Mode, Web Layout, Outline, Draft; a Word table allows 63 columns; Ctrl+Shift+Enter splits a table."
+  ],
+  "mindmap": {
+    "center": "Microsoft Word",
+    "branches": [
+      {
+        "label": "Basics & history",
+        "children": ["WYSIWYG", "Multi-Tool Word", "1983 first release", "Word for Windows 1989", "Ribbon in 2007"]
+      },
+      {
+        "label": "Window",
+        "children": ["Title bar", "Quick Access Toolbar", "Ruler and scroll bars", "Status bar and zoom", "Ribbon tabs"]
+      },
+      {
+        "label": "Files & macros",
+        "children": [".doc / .docx / .docm", "Templates .dot/.dotx/.dotm", "RTF and WordPad", "Macros (Alt + F8)", "OLE container/server"]
+      },
+      {
+        "label": "Formatting",
+        "children": ["Font face, size, styles", "Font effects", "Change Case (5 options)", "Alignment shortcuts", "Breaks and F8 select"]
+      },
+      {
+        "label": "Page setup",
+        "children": ["Portrait / Landscape", "Letter and A4", "Margins and gutter", "Header and footer", "Print ranges"]
+      },
+      {
+        "label": "Ribbon tabs",
+        "children": ["Home, Insert, Draw", "Design and Layout", "References", "Mailings (mail merge)", "Review, View, Help"]
+      },
+      {
+        "label": "Shortcuts",
+        "children": ["Document commands", "Clipboard and editing", "Navigation and deletion", "Date and time fields", "Format painter keys"]
+      }
+    ]
+  }
+}

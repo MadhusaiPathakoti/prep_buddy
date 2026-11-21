@@ -1,0 +1,497 @@
+{
+  "id": "ms-office",
+  "sections": [
+    {
+      "id": "office-basics",
+      "title": "Office Basics and Early History",
+      "icon": "🏢",
+      "blocks": [
+        {
+          "type": "keyvalue",
+          "title": "What is Microsoft Office?",
+          "rows": [
+            ["Microsoft Office", "A productivity suite from Microsoft for documents, spreadsheets, presentations and other office work."],
+            ["Office suite", "A collection of related productivity applications."],
+            ["Category", "**Application software**."],
+            ["Licence", "**Proprietary** and closed source."],
+            ["Core applications", "Word, Excel and PowerPoint."]
+          ]
+        },
+        {
+          "type": "figure",
+          "kind": "flow",
+          "title": "How Office first appeared",
+          "items": [
+            ["1988", "Bill Gates announced the Office suite"],
+            ["1989", "First commercial package, for Apple Macintosh"],
+            ["1990", "Office for Windows followed"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "Announcement is not release",
+          "text": "The announcement came in **1988**; the first release (for the Apple Macintosh, not Windows) came in **1989**; the Windows version arrived in **1990**."
+        },
+        {
+          "type": "text",
+          "text": "Office was built by teams at Microsoft. Bill Gates announced it and is Microsoft's co-founder, but he was not its sole creator. In basic exam questions, Office 1.0 is the introductory version designation."
+        },
+        {
+          "type": "callout",
+          "kind": "remember",
+          "text": "Office = application software + a proprietary office suite. It is closed source, not open source."
+        }
+      ]
+    },
+    {
+      "id": "release-names",
+      "title": "Office Release Names",
+      "icon": "🔢",
+      "blocks": [
+        {
+          "type": "table",
+          "title": "Office versions to recognise",
+          "headers": ["Group", "Releases"],
+          "rows": [
+            ["Early platform releases", "Office 1.0, 2.0, 3.0 and 4.0 (numbering differed between Windows and Mac)"],
+            ["Later names", "Office 95, 97, 2000, XP, 2003, 2007 and 2010"],
+            ["Further editions", "Office 2013, 2016, 2019, 2021 and 2024"]
+          ]
+        },
+        {
+          "type": "bullets",
+          "title": "Handy points",
+          "items": [
+            "Office 2021 was released in 2021.",
+            "Office for Mac 2011 was a real product.",
+            "Office 2021 was not the final Office release: Office 2024 followed.",
+            "Office 2019 and Office 2021 were one-time purchase editions."
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "There is no Office Vista",
+          "text": "**Office Vista** is not a recognised Office release. Windows Vista was an operating system, not an Office edition."
+        }
+      ]
+    },
+    {
+      "id": "core-applications",
+      "title": "Core Applications and Their Uses",
+      "icon": "🧰",
+      "blocks": [
+        {
+          "type": "table",
+          "title": "Office applications at a glance",
+          "headers": ["Application", "Use"],
+          "rows": [
+            ["Word", "Word processing: create, edit and format letters, reports and other documents"],
+            ["Excel", "Spreadsheets: organise data, calculate with formulas, analyse information and build charts"],
+            ["PowerPoint", "Presentations: combine slides, text, images, audio and video"],
+            ["Access", "Desktop relational database management system"],
+            ["Outlook", "Email and personal information management"],
+            ["OneNote", "Record and organise digital notes, ideas and information"]
+          ]
+        },
+        {
+          "type": "bullets",
+          "title": "Access in more detail",
+          "items": [
+            "Tables store records.",
+            "Relationships connect data.",
+            "Queries retrieve information.",
+            "Forms simplify data entry.",
+            "Reports organise output.",
+            "It is available on Windows in eligible editions and plans."
+          ]
+        },
+        {
+          "type": "text",
+          "text": "**Outlook** helps you organise contacts, calendars, appointments and meetings, besides handling email."
+        },
+        {
+          "type": "callout",
+          "kind": "tip",
+          "title": "One-word memory",
+          "text": "Word = documents, Excel = calculations, PowerPoint = presentations, Access = databases, Outlook = email, OneNote = notes."
+        }
+      ]
+    },
+    {
+      "id": "legacy-exam-facts",
+      "title": "Legacy Tools and Other Exam Facts",
+      "icon": "🗂️",
+      "blocks": [
+        {
+          "type": "keyvalue",
+          "title": "Legacy Office tools",
+          "rows": [
+            ["Publisher", "Desktop publishing for newsletters, business cards, flyers, greeting cards and postcards. Retired from Microsoft 365 in October 2026; perpetual-edition support ended on 13 October 2026."],
+            ["Picture Manager", "Organises pictures and makes basic image adjustments. It replaced Photo Editor in Office 2003; it was a replacement, not simply a new name."]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "Other exam facts",
+          "rows": [
+            ["Microsoft Paint", "A Windows drawing and basic image-editing application. It was not an original Office component."],
+            ["MOS", "**Microsoft Office Specialist**: a certification that shows practical Office skills through the relevant examinations."]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "Original package",
+          "text": "The original core package was Word, Excel and PowerPoint. Both Paint and Outlook were absent from it, so a question that lists both as options has more than one valid answer."
+        }
+      ]
+    },
+    {
+      "id": "microsoft-365",
+      "title": "Office 365 to Microsoft 365",
+      "icon": "☁️",
+      "blocks": [
+        {
+          "type": "timeline",
+          "title": "Timeline",
+          "items": [
+            ["2010", "Office 365 announced and entered early testing."],
+            ["28 June 2011", "Commercial launch of Office 365."],
+            ["2017", "Microsoft introduced the Microsoft 365 brand for business offerings. The original business bundle combined Office 365, Windows and enterprise security services."],
+            ["21 April 2020", "Several consumer and business subscriptions adopted Microsoft 365 names."]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "text": "Some Office 365 plan names remained after 2020. The change did not rename every offering."
+        },
+        {
+          "type": "keyvalue",
+          "title": "What Microsoft 365 provides",
+          "rows": [
+            ["Product family", "Productivity applications, collaboration tools and cloud services."],
+            ["Billing", "Paid subscriptions use recurring billing."],
+            ["Users", "Home users, educational institutions, businesses and large organisations."],
+            ["Common tools", "Word, Excel, PowerPoint, Outlook and OneNote."]
+          ]
+        },
+        {
+          "type": "bullets",
+          "title": "Plans and access",
+          "items": [
+            "Personal plan: one person.",
+            "Family plan: up to six people in total, including the subscription owner.",
+            "Business and enterprise offerings serve organisational needs.",
+            "Apps and services vary by plan; do not assume every plan includes every desktop application.",
+            "Access is a Windows application in eligible plans."
+          ]
+        },
+        {
+          "type": "bullets",
+          "title": "Web and desktop",
+          "items": [
+            "Word, Excel and PowerPoint for the web run in a browser.",
+            "Web apps are updated continuously and are not labelled as a fixed 2016, 2019 or 2021 edition.",
+            "Eligible subscriptions include installed desktop apps that can work offline.",
+            "The internet is needed for activation, updates and online services."
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "remember",
+          "text": "Microsoft 365 includes cloud services and eligible offline desktop apps; it is not online-only."
+        }
+      ]
+    },
+    {
+      "id": "cloud-collaboration",
+      "title": "Cloud, Collaboration and AI Tools",
+      "icon": "🤝",
+      "blocks": [
+        {
+          "type": "table",
+          "title": "Microsoft 365 services",
+          "headers": ["Service", "What it does"],
+          "rows": [
+            ["OneDrive", "Personal cloud files: store, synchronise and share files online"],
+            ["SharePoint", "Shared content: organisational sites, shared document libraries and content management"],
+            ["Teams", "Chats, online meetings and video conferencing, with shared work and document access"],
+            ["Copilot", "AI assistance inside supported Microsoft applications"],
+            ["Power BI", "Business analytics: connect to data and build interactive reports and dashboards"]
+          ]
+        },
+        {
+          "type": "bullets",
+          "title": "OneDrive vs SharePoint",
+          "items": [
+            "OneDrive usually holds an individual's work files; SharePoint commonly holds shared team content.",
+            "Both support file sharing and collaboration.",
+            "OneDrive is a common cloud-saving location for Microsoft 365 documents, but local saving is also possible, so it is not compulsory for every document.",
+            "Files can be reached across supported devices with the required account and permissions."
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "Name check",
+          "text": "The correct product name is **Teams**, not Team."
+        },
+        {
+          "type": "bullets",
+          "title": "Plan limits and security",
+          "items": [
+            "Copilot availability and usage limits depend on the plan.",
+            "Power BI publishing and sharing depend on licensing, and it is not automatically included in every Microsoft 365 subscription.",
+            "Security can include account authentication, multi-factor authentication and file-sharing controls; exact protection varies by service and subscription."
+          ]
+        },
+        {
+          "type": "bullets",
+          "title": "Working together",
+          "items": [
+            "Supported apps allow real-time co-authoring.",
+            "Cloud files can be reached from different places over the internet.",
+            "Supported computers, tablets and smartphones give access, with platform differences.",
+            "Subscription apps get ongoing updates; automatic installation depends on settings and policy."
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "tip",
+          "title": "Quick match",
+          "text": "OneDrive = cloud files, SharePoint = shared content, Teams = meetings, Power BI = dashboards, Copilot = AI help."
+        }
+      ]
+    },
+    {
+      "id": "office-2024-2021",
+      "title": "Office 2024 and Office 2021",
+      "icon": "🆕",
+      "blocks": [
+        {
+          "type": "bullets",
+          "title": "Office 2024 overview",
+          "items": [
+            "Consumer editions became available on 1 October 2024.",
+            "It succeeds Office 2021 and was the current perpetual Office generation as checked in October 2026.",
+            "It is a one-time purchase, without a recurring Microsoft 365 subscription.",
+            "It is available for supported Windows PCs and Macs."
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Office 2024 editions",
+          "headers": ["Edition", "What it offers"],
+          "rows": [
+            ["Office Home 2024", "Word, Excel, PowerPoint and OneNote for one PC or Mac"],
+            ["Home & Business 2024", "Adds Outlook and commercial-use rights"],
+            ["Office LTSC 2024", "Designed for commercial and government deployment needs"]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "New look and features",
+          "rows": [
+            ["Fluent design", "A refreshed default theme gives applications a consistent appearance and fits Windows 11. Retail Office 2021 also got a visual refresh; LTSC 2021 did not."],
+            ["Excel dynamic charts", "Excel 2024 charts can reference dynamic arrays and adjust when the linked array recalculates and changes size. Excel 2021 already supported dynamic arrays; the 2024 improvement concerns charts."],
+            ["PowerPoint Cameo", "Place a live camera feed directly on a slide and apply formatting, styles and effects to the camera object."]
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Support dates",
+          "headers": ["Edition", "Support"],
+          "rows": [
+            ["Office 2021", "Ended in October 2026"],
+            ["Office 2024", "Ends in October 2029"]
+          ]
+        },
+        {
+          "type": "bullets",
+          "title": "Purchase and support",
+          "items": [
+            "Office 2024 keeps the feature set you bought and receives security and quality updates.",
+            "A later major Office edition normally needs a separate purchase.",
+            "Microsoft 365 gets ongoing feature upgrades while you stay subscribed.",
+            "Both editions launched with roughly five years of support; 2024 has the later end date."
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "remember",
+          "text": "Office 2024 = one-time purchase. Microsoft 365 = subscription. Cameo = live camera on slides."
+        }
+      ]
+    },
+    {
+      "id": "other-suites",
+      "title": "Other Office Suites and LibreOffice",
+      "icon": "🧮",
+      "blocks": [
+        {
+          "type": "table",
+          "title": "Match the applications",
+          "headers": ["Job", "Microsoft", "LibreOffice", "Apple", "Google"],
+          "rows": [
+            ["Word processing", "Word", "Writer", "Pages", "Docs"],
+            ["Spreadsheets", "Excel", "Calc", "Numbers", "Sheets"],
+            ["Presentations", "PowerPoint", "Impress", "Keynote", "Slides"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "text": "The correct Apple presentation app is **Keynote**, not Keynotes."
+        },
+        {
+          "type": "keyvalue",
+          "title": "Development and licensing",
+          "rows": [
+            ["LibreOffice", "Free and open source, built by a worldwide community and supported by **The Document Foundation**, a nonprofit organisation. It grew out of the OpenOffice.org codebase but is a separate project."],
+            ["Microsoft Office desktop", "Proprietary and paid."],
+            ["Apple", "Pages, Numbers and Keynote offer free core functions; some premium features need payment."],
+            ["Google", "Business plans of Google Workspace are generally paid; consumer Docs, Sheets and Slides have free-access options."]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "LibreOffice: six components",
+          "rows": [
+            ["Writer", "Text documents."],
+            ["Calc", "Spreadsheets, calculations, analysis and charts."],
+            ["Impress", "Multimedia presentations."],
+            ["Draw", "Vector graphics, diagrams and flowcharts."],
+            ["Base", "Databases, tables, queries, forms and reports."],
+            ["Math", "Editing and displaying mathematical formulas and equations."]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "text": "Math is not a calculation engine. Use **Calc** for spreadsheet calculations."
+        },
+        {
+          "type": "timeline",
+          "title": "Version facts",
+          "items": [
+            ["18 Aug 2022", "LibreOffice 7.4 Community was released. It is a historical release, not the current latest version."],
+            ["27 Oct 2026", "The official download page showed LibreOffice 26.8.1 on this check date."]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "tip",
+          "title": "Memory line",
+          "text": "Writer = words, Calc = calculations, Impress = slides, Draw = diagrams, Base = database, Math = equations."
+        }
+      ]
+    },
+    {
+      "id": "word-history-corrections",
+      "title": "Word History and Exam Corrections",
+      "icon": "✅",
+      "blocks": [
+        {
+          "type": "keyvalue",
+          "title": "Microsoft Word: early development",
+          "rows": [
+            ["First name", "Word was initially known as **Multi-Tool Word**."],
+            ["Early release", "Its early release history dates to 1983."],
+            ["Developers", "**Charles Simonyi** and **Richard Brodie** played central roles at Microsoft. Brodie wrote much of the original program, with input from Simonyi and other developers."]
+          ]
+        },
+        {
+          "type": "text",
+          "text": "Keep the individual developers separate from Microsoft, the company behind the product."
+        },
+        {
+          "type": "keyvalue",
+          "title": "LinkedIn and Microsoft",
+          "rows": [
+            ["LinkedIn", "A professional networking platform for career connections, profiles and recruitment."],
+            ["Acquisition", "Microsoft acquired LinkedIn in **2016**; the deal was completed on 8 December 2016."]
+          ]
+        },
+        {
+          "type": "bullets",
+          "title": "Correcting common exam traps",
+          "items": [
+            "First Office platform: Apple Macintosh, not Windows.",
+            "Announcement in 1988 is different from the Mac release in 1989.",
+            "Original core package: Word, Excel and PowerPoint.",
+            "Paint and Outlook were both absent from the original package.",
+            "Office for Mac 2011 existed and is not a fictitious version.",
+            "Office 2021 was not the final Office release; Office 2024 followed.",
+            "Office 2019 and 2021 were one-time purchase editions.",
+            "Microsoft 365 includes cloud services and eligible offline apps; it is not online-only.",
+            "Office is proprietary and closed source, not open source."
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "Programming-language questions",
+          "text": "Office and Microsoft 365 contain many applications and services. A precise language answer must name the component, so do not treat a short list such as C++ and C# as a full description of the whole product family."
+        }
+      ]
+    }
+  ],
+  "revision": [
+    "Microsoft Office is a proprietary, closed-source productivity suite and counts as application software.",
+    "Bill Gates announced Office in 1988; first Mac release 1989; first Windows release 1990.",
+    "Original core applications: Word, Excel and PowerPoint. Paint and Outlook were not in the original package.",
+    "Word = documents, Excel = spreadsheets, PowerPoint = presentations, Access = databases, Outlook = email, OneNote = notes.",
+    "Office Vista does not exist; Office for Mac 2011 was real; Picture Manager replaced Photo Editor in Office 2003.",
+    "MOS = Microsoft Office Specialist, a certification of practical Office skills.",
+    "Office 365: tested in 2010, commercial launch 28 June 2011; Microsoft 365 business brand in 2017; plan renaming on 21 April 2020.",
+    "Microsoft 365 is a paid subscription with cloud services and offline desktop apps; Family plan covers up to six people.",
+    "OneDrive = personal cloud files; SharePoint = shared content; Teams = meetings (not Team); Power BI = dashboards; Copilot = AI help.",
+    "Office 2024: consumer release on 1 October 2024, one-time purchase, support ends October 2029; Office 2021 support ended October 2026.",
+    "Office 2024 highlights: Fluent design, Excel charts with dynamic arrays and PowerPoint Cameo (live camera on a slide).",
+    "Equivalents: Writer, Calc, Impress (LibreOffice); Pages, Numbers, Keynote (Apple); Docs, Sheets, Slides (Google).",
+    "LibreOffice is free and open source (The Document Foundation) with six parts: Writer, Calc, Impress, Draw, Base, Math.",
+    "LibreOffice 7.4 Community was released on 18 August 2022.",
+    "Word was first called Multi-Tool Word; developers Charles Simonyi and Richard Brodie; history from 1983.",
+    "Microsoft acquired LinkedIn in 2016; the deal completed on 8 December 2016."
+  ],
+  "mindmap": {
+    "center": "Microsoft Office",
+    "branches": [
+      {
+        "label": "History",
+        "children": ["Announced 1988", "Mac release 1989", "Windows 1990", "Proprietary suite"]
+      },
+      {
+        "label": "Releases",
+        "children": ["Office 1.0 to 4.0", "95, 97, 2000, XP", "2003 to 2010", "2013 to 2024", "No Office Vista"]
+      },
+      {
+        "label": "Applications",
+        "children": ["Word", "Excel", "PowerPoint", "Access", "Outlook", "OneNote"]
+      },
+      {
+        "label": "Legacy and extras",
+        "children": ["Publisher retired 2026", "Picture Manager", "Paint not original", "MOS certification"]
+      },
+      {
+        "label": "Microsoft 365",
+        "children": ["Launch 2011", "Brand 2017", "Rename 21 Apr 2020", "Family: up to 6", "Web and desktop apps"]
+      },
+      {
+        "label": "Cloud services",
+        "children": ["OneDrive", "SharePoint", "Teams", "Copilot", "Power BI"]
+      },
+      {
+        "label": "Office 2024",
+        "children": ["1 October 2024", "One-time purchase", "Fluent design", "Excel dynamic charts", "PowerPoint Cameo"]
+      },
+      {
+        "label": "Other suites",
+        "children": ["LibreOffice six parts", "Apple Pages, Numbers, Keynote", "Google Docs, Sheets, Slides", "Word: Simonyi and Brodie"]
+      }
+    ]
+  }
+}

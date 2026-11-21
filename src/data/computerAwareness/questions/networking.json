@@ -1,0 +1,522 @@
+[
+ {
+  "id": "networking-01",
+  "q": "In which year did ARPANET become operational?",
+  "options": [
+   "1959",
+   "1969",
+   "1974",
+   "1983"
+  ],
+  "answer": 1,
+  "explain": "ARPANET, funded through ARPA of the US Department of Defense, became operational in 1969. 1983 is the year it moved to TCP/IP.",
+  "section": "network-basics"
+ },
+ {
+  "id": "networking-02",
+  "q": "ARPANET switched from NCP to TCP/IP on:",
+  "options": [
+   "1 January 1983",
+   "1 January 1969",
+   "1 January 1984",
+   "1 January 1990"
+  ],
+  "answer": 0,
+  "explain": "The switch from the Network Control Protocol (NCP) to TCP/IP took place on 1 January 1983.",
+  "section": "network-basics"
+ },
+ {
+  "id": "networking-03",
+  "q": "Which term correctly describes any participating device or connection point in a network?",
+  "options": [
+   "Client",
+   "Server",
+   "Node",
+   "Protocol"
+  ],
+  "answer": 2,
+  "explain": "Every computer, server, printer, router or switch taking part in a network is a node. Client and server are only roles a node plays.",
+  "section": "network-basics"
+ },
+ {
+  "id": "networking-04",
+  "q": "Which layer of the OSI model transmits raw bits as electrical, optical or radio signals?",
+  "options": [
+   "Data Link",
+   "Network",
+   "Transport",
+   "Physical"
+  ],
+  "answer": 3,
+  "explain": "The Physical layer (Layer 1) is concerned with sending bits as signals over the medium.",
+  "section": "osi-model"
+ },
+ {
+  "id": "networking-05",
+  "q": "Which OSI layer handles data representation, compression and encryption-related functions?",
+  "options": [
+   "Presentation",
+   "Session",
+   "Application",
+   "Transport"
+  ],
+  "answer": 0,
+  "explain": "Layer 6, the Presentation layer, deals with data format conversion, compression and encryption-related functions.",
+  "section": "osi-model"
+ },
+ {
+  "id": "networking-06",
+  "q": "What is the Protocol Data Unit (PDU) of the Data Link layer?",
+  "options": [
+   "Packet",
+   "Segment",
+   "Frame",
+   "Bit"
+  ],
+  "answer": 2,
+  "explain": "Layer 2 works with frames. Packets belong to Layer 3, segments to Layer 4 and bits to Layer 1.",
+  "section": "osi-model"
+ },
+ {
+  "id": "networking-07",
+  "q": "Which sequence correctly shows encapsulation as data moves down the stack?",
+  "options": [
+   "Data, frame, packet, segment, bits",
+   "Data, segment, packet, frame, bits",
+   "Data, packet, segment, frame, bits",
+   "Bits, frame, packet, segment, data"
+  ],
+  "answer": 1,
+  "explain": "Data is wrapped as a TCP segment, then an IP packet, then a frame, and finally sent as bits.",
+  "section": "osi-model"
+ },
+ {
+  "id": "networking-08",
+  "q": "Which OSI layer is called the end-to-end layer, handling process-to-process communication and port numbers?",
+  "options": [
+   "Network",
+   "Session",
+   "Data Link",
+   "Transport"
+  ],
+  "answer": 3,
+  "explain": "The Transport layer (Layer 4) provides end-to-end communication between processes using ports, segmentation and reassembly.",
+  "section": "osi-model"
+ },
+ {
+  "id": "networking-09",
+  "q": "In the TCP/IP model, which single layer covers the OSI Application, Presentation and Session layers?",
+  "options": [
+   "Internet",
+   "Network Access",
+   "Application",
+   "Transport"
+  ],
+  "answer": 2,
+  "explain": "Session and Presentation functions are included in the TCP/IP Application layer, so TCP/IP has no separate layers for them.",
+  "section": "tcp-ip-architecture"
+ },
+ {
+  "id": "networking-10",
+  "q": "Which TCP/IP layer corresponds to the OSI Network layer?",
+  "options": [
+   "Internet",
+   "Transport",
+   "Network Access",
+   "Application"
+  ],
+  "answer": 0,
+  "explain": "OSI Network (Layer 3) maps to the TCP/IP Internet layer, where IP and ICMP work.",
+  "section": "tcp-ip-architecture"
+ },
+ {
+  "id": "networking-11",
+  "q": "Which protocol is connectionless and has low overhead, with no built-in guarantee of delivery or ordering?",
+  "options": [
+   "TCP",
+   "UDP",
+   "SMTP",
+   "FTP"
+  ],
+  "answer": 1,
+  "explain": "UDP sends independent datagrams with no handshake, which keeps overhead low but offers no delivery guarantee.",
+  "section": "tcp-udp-ip"
+ },
+ {
+  "id": "networking-12",
+  "q": "Which feature belongs to TCP but not to UDP?",
+  "options": [
+   "Acknowledgements and retransmission of lost data",
+   "Use of port numbers",
+   "Operation at the Transport layer",
+   "Carrying application data"
+  ],
+  "answer": 0,
+  "explain": "Both use ports at Layer 4, but only TCP adds acknowledgements, retransmissions and ordering for reliability.",
+  "section": "tcp-udp-ip"
+ },
+ {
+  "id": "networking-13",
+  "q": "Which statement about IP (Internet Protocol) is correct?",
+  "options": [
+   "It guarantees ordered delivery",
+   "It sets up a connection before sending",
+   "It is a connectionless, best-effort delivery protocol",
+   "It works at the Data Link layer"
+  ],
+  "answer": 2,
+  "explain": "IP delivers packets on a best-effort basis with no end-to-end reliability guarantee; reliability is added by TCP or the application.",
+  "section": "tcp-udp-ip"
+ },
+ {
+  "id": "networking-14",
+  "q": "Which IEEE 802 standard defines Ethernet?",
+  "options": [
+   "802.11",
+   "802.5",
+   "802.16",
+   "802.3"
+  ],
+  "answer": 3,
+  "explain": "802.3 is Ethernet. 802.11 is wireless LAN (Wi-Fi), 802.5 is Token Ring and 802.16 is associated with WiMAX.",
+  "section": "ieee-802"
+ },
+ {
+  "id": "networking-15",
+  "q": "Which IEEE standard is associated with WiMAX broadband wireless access?",
+  "options": [
+   "802.15",
+   "802.14",
+   "802.16",
+   "802.9"
+  ],
+  "answer": 2,
+  "explain": "802.16 covers broadband wireless access associated with WiMAX (Worldwide Interoperability for Microwave Access).",
+  "section": "ieee-802"
+ },
+ {
+  "id": "networking-16",
+  "q": "How many bits are in an IPv6 address?",
+  "options": [
+   "32",
+   "128",
+   "64",
+   "256"
+  ],
+  "answer": 1,
+  "explain": "IPv6 uses 128 bits (16 bytes) written in hexadecimal groups. IPv4 uses 32 bits.",
+  "section": "ip-addresses"
+ },
+ {
+  "id": "networking-17",
+  "q": "A historical Class C IPv4 address has a first octet in the range:",
+  "options": [
+   "0-127",
+   "128-191",
+   "224-239",
+   "192-223"
+  ],
+  "answer": 3,
+  "explain": "Class C covers 192-223 with a default mask of 255.255.255.0 (/24). Class A is 0-127, B is 128-191 and D is 224-239.",
+  "section": "ip-addresses"
+ },
+ {
+  "id": "networking-18",
+  "q": "Which IPv4 address is the common loopback address of the local host?",
+  "options": [
+   "127.0.0.1",
+   "255.255.255.255",
+   "192.168.0.1",
+   "10.0.0.1"
+  ],
+  "answer": 0,
+  "explain": "127.0.0.1 is the usual loopback address, and the whole 127.0.0.0/8 block is reserved for loopback.",
+  "section": "ip-addresses"
+ },
+ {
+  "id": "networking-19",
+  "q": "A conventional Ethernet MAC address is written with how many hexadecimal digits?",
+  "options": [
+   "6",
+   "8",
+   "16",
+   "12"
+  ],
+  "answer": 3,
+  "explain": "A MAC address has 48 bits = 6 bytes = 12 hexadecimal digits.",
+  "section": "mac-and-address-services"
+ },
+ {
+  "id": "networking-20",
+  "q": "At which OSI layer does a MAC address operate?",
+  "options": [
+   "Physical layer",
+   "Data Link layer",
+   "Network layer",
+   "Transport layer"
+  ],
+  "answer": 1,
+  "explain": "MAC addresses are used for local-link frame delivery at Layer 2. Calling it a 'physical address' does not place it in the Physical layer.",
+  "section": "mac-and-address-services"
+ },
+ {
+  "id": "networking-21",
+  "q": "Which protocol finds the MAC address for a known IPv4 address on the local link?",
+  "options": [
+   "ARP",
+   "DNS",
+   "DHCP",
+   "ICMP"
+  ],
+  "answer": 0,
+  "explain": "ARP (Address Resolution Protocol) maps a known IPv4 address to its link-layer address. RARP does the reverse and is legacy.",
+  "section": "mac-and-address-services"
+ },
+ {
+  "id": "networking-22",
+  "q": "Which protocol automatically supplies a host with an IP address, subnet mask, gateway and DNS servers?",
+  "options": [
+   "ARP",
+   "DNS",
+   "DHCP",
+   "SMTP"
+  ],
+  "answer": 2,
+  "explain": "DHCP (Dynamic Host Configuration Protocol) provides IP addresses and network settings. DNS only resolves names.",
+  "section": "mac-and-address-services"
+ },
+ {
+  "id": "networking-23",
+  "q": "Which device is a multiport repeater that sends incoming signals to every other port without MAC learning?",
+  "options": [
+   "Switch",
+   "Bridge",
+   "Router",
+   "Hub"
+  ],
+  "answer": 3,
+  "explain": "A hub works at Layer 1 and simply repeats signals to all other ports, which is why it is called a dumb device.",
+  "section": "network-devices"
+ },
+ {
+  "id": "networking-24",
+  "q": "Which device connects different IP networks and forwards packets using destination IP and a routing table?",
+  "options": [
+   "Repeater",
+   "Router",
+   "Bridge",
+   "Hub"
+  ],
+  "answer": 1,
+  "explain": "A router works mainly at Layer 3, choosing routes and next hops by IP address.",
+  "section": "network-devices"
+ },
+ {
+  "id": "networking-25",
+  "q": "A bridge operates at which OSI layer?",
+  "options": [
+   "Layer 2 (Data Link)",
+   "Layer 1 (Physical)",
+   "Layer 3 (Network)",
+   "Layer 4 (Transport)"
+  ],
+  "answer": 0,
+  "explain": "A bridge learns MAC addresses and forwards or filters frames at the Data Link layer.",
+  "section": "network-devices"
+ },
+ {
+  "id": "networking-26",
+  "q": "What does a modem's name 'modulator-demodulator' refer to?",
+  "options": [
+   "Compressing and decompressing files",
+   "Encrypting and decrypting data",
+   "Encoding data onto a carrier and recovering it",
+   "Assigning and releasing IP addresses"
+  ],
+  "answer": 2,
+  "explain": "Modulation puts digital information onto a carrier signal and demodulation recovers it from the received signal.",
+  "section": "gateway-modem-firewall"
+ },
+ {
+  "id": "networking-27",
+  "q": "Which statement about gateways is accurate?",
+  "options": [
+   "Every gateway works at all seven OSI layers",
+   "A gateway can translate between differing communication systems",
+   "A gateway is always a hub",
+   "A gateway works only at the Physical layer"
+  ],
+  "answer": 1,
+  "explain": "A protocol gateway translates between different systems or formats, and the layers it uses depend on its function.",
+  "section": "gateway-modem-firewall"
+ },
+ {
+  "id": "networking-28",
+  "q": "IP spoofing means:",
+  "options": [
+   "Encrypting IP packets",
+   "Sending packets with a forged source IP address",
+   "Changing your own IP via DHCP",
+   "Blocking an IP at the firewall"
+  ],
+  "answer": 1,
+  "explain": "IP spoofing falsifies the source IP of packets. Legitimately changing a setting is not spoofing.",
+  "section": "gateway-modem-firewall"
+ },
+ {
+  "id": "networking-29",
+  "q": "Which protocol synchronizes mail stored on the server across several devices?",
+  "options": [
+   "SMTP",
+   "POP3",
+   "IMAP",
+   "MIME"
+  ],
+  "answer": 2,
+  "explain": "IMAP accesses mail on the server and keeps folders and status in sync across devices. POP3 mainly downloads messages.",
+  "section": "application-protocols"
+ },
+ {
+  "id": "networking-30",
+  "q": "MIME is used in email to:",
+  "options": [
+   "Send outgoing mail between servers",
+   "Support attachments, multimedia and non-ASCII text",
+   "Download mail to a local device",
+   "Encrypt mail in transit"
+  ],
+  "answer": 1,
+  "explain": "MIME (Multipurpose Internet Mail Extensions) defines content formats; it does not send mail by itself.",
+  "section": "application-protocols"
+ },
+ {
+  "id": "networking-31",
+  "q": "Which protocol transfers files over an encrypted SSH connection?",
+  "options": [
+   "FTP",
+   "TFTP",
+   "Telnet",
+   "SFTP"
+  ],
+  "answer": 3,
+  "explain": "SFTP (SSH File Transfer Protocol) works over SSH, unlike plain FTP.",
+  "section": "application-protocols"
+ },
+ {
+  "id": "networking-32",
+  "q": "Which port number is used by HTTPS?",
+  "options": [
+   "80",
+   "8080",
+   "443",
+   "25"
+  ],
+  "answer": 2,
+  "explain": "HTTPS uses port 443. HTTP uses 80 and SMTP uses 25.",
+  "section": "security-protocols-ports"
+ },
+ {
+  "id": "networking-33",
+  "q": "Which pair correctly matches protocol and well-known port?",
+  "options": [
+   "POP3 - 143",
+   "IMAP - 110",
+   "Telnet - 22",
+   "SSH - 22"
+  ],
+  "answer": 3,
+  "explain": "SSH uses 22. POP3 uses 110, IMAP uses 143 and Telnet uses 23.",
+  "section": "security-protocols-ports"
+ },
+ {
+  "id": "networking-34",
+  "q": "Which statement about SSL and TLS is correct?",
+  "options": [
+   "SSL is the modern successor of TLS",
+   "TLS is the successor of the obsolete SSL",
+   "They are both unencrypted",
+   "SSL stands for Secure Socket Link"
+  ],
+  "answer": 1,
+  "explain": "TLS replaced SSL (Secure Sockets Layer), which is obsolete. TLS gives encryption, integrity and authentication.",
+  "section": "security-protocols-ports"
+ },
+ {
+  "id": "networking-35",
+  "q": "Which topology uses a single shared backbone, with terminators at both ends in traditional coaxial form?",
+  "options": [
+   "Star",
+   "Ring",
+   "Bus",
+   "Mesh"
+  ],
+  "answer": 2,
+  "explain": "Bus topology uses one shared backbone, and terminators at the ends prevent signal reflections.",
+  "section": "topologies"
+ },
+ {
+  "id": "networking-36",
+  "q": "How many links does a full mesh of six nodes need, using one link per pair?",
+  "options": [
+   "12",
+   "15",
+   "30",
+   "36"
+  ],
+  "answer": 1,
+  "explain": "Full mesh needs n(n-1)/2 links, so 6 x 5 / 2 = 15.",
+  "section": "topologies"
+ },
+ {
+  "id": "networking-37",
+  "q": "Which network type interconnects LANs in nearby buildings of one organization, such as a university?",
+  "options": [
+   "PAN",
+   "CAN",
+   "MAN",
+   "SAN"
+  ],
+  "answer": 1,
+  "explain": "A Campus Area Network (CAN) links LANs across nearby buildings such as library, hostel and departments.",
+  "section": "network-types-modes"
+ },
+ {
+  "id": "networking-38",
+  "q": "Which mode allows data to flow in both directions, but only one direction at a time?",
+  "options": [
+   "Simplex",
+   "Full-duplex",
+   "Half-duplex",
+   "Multiplex"
+  ],
+  "answer": 2,
+  "explain": "A walkie-talkie is half-duplex. Simplex is one way only and full-duplex is both ways at once.",
+  "section": "network-types-modes"
+ },
+ {
+  "id": "networking-39",
+  "q": "Which medium is immune to electromagnetic interference and carries data as light?",
+  "options": [
+   "Coaxial cable",
+   "Unshielded twisted pair",
+   "Fibre optic cable",
+   "Microwave link"
+  ],
+  "answer": 2,
+  "explain": "Fibre carries light through glass or plastic, so electromagnetic interference does not affect it.",
+  "section": "cables-and-media"
+ },
+ {
+  "id": "networking-40",
+  "q": "In fibre connectors, what does FC stand for?",
+  "options": [
+   "Fibre Channel",
+   "Ferrule Connector",
+   "Fast Connector",
+   "Flat Cable"
+  ],
+  "answer": 1,
+  "explain": "FC is the Ferrule Connector with threaded coupling; it is not Fibre Channel.",
+  "section": "cables-and-media"
+ }
+]

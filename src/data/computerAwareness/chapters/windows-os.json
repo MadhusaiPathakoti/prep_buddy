@@ -1,0 +1,760 @@
+{
+  "id": "windows-os",
+  "sections": [
+    {
+      "id": "windows-basics",
+      "title": "Windows at a Glance",
+      "icon": "🪟",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "**Windows** is an operating system made by **Microsoft**. It is mainly **proprietary software** (the source code is not freely open). Its first version, **Windows 1.0**, appeared on **20 November 1985** as a graphical environment running on top of **MS-DOS**."
+        },
+        {
+          "type": "keyvalue",
+          "title": "Key terms",
+          "rows": [
+            ["GUI", "Graphical User Interface - windows, icons, menus and buttons that you use with a mouse, keyboard or touch."],
+            ["Multitasking", "Running several applications in one session at the same time."],
+            ["NT", "New Technology - the family that all modern desktop Windows versions belong to."],
+            ["XP", "Comes from the word **eXPerience**."],
+            ["Kernel type", "The kernel of modern NT-based Windows is commonly classified as **hybrid**."]
+          ]
+        },
+        {
+          "type": "bullets",
+          "title": "What Windows supports",
+          "items": [
+            "A visual GUI with mouse, keyboard and touch input",
+            "Multitasking of many applications",
+            "Networking and internet access",
+            "Installing compatible third-party software on desktops and laptops (subject to permissions)",
+            "Windows 10 came in both 32-bit and 64-bit editions; **Windows 11 is 64-bit only** but can run many compatible 32-bit applications"
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Windows vs open-source systems",
+          "headers": ["Name", "What it is"],
+          "rows": [
+            ["Windows", "Proprietary OS from Microsoft; NT family with a hybrid kernel"],
+            ["Linux", "An **open-source kernel**"],
+            ["Ubuntu", "A Linux **distribution** (a complete OS built around the Linux kernel)"],
+            ["Android", "Its core is open source through **AOSP**; devices can also ship proprietary apps and drivers"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "fact",
+          "title": "The first operating system",
+          "text": "**GM-NAA I/O**, used on the **IBM 704 in 1956**, is commonly cited as the first operating system. It was developed by **General Motors Research** and **North American Aviation** and improved **batch processing**. Use this proper name, not vague labels such as GMOS."
+        }
+      ]
+    },
+    {
+      "id": "release-timeline",
+      "title": "Windows Release Timeline",
+      "icon": "📅",
+      "blocks": [
+        {
+          "type": "timeline",
+          "title": "Major Windows releases",
+          "items": [
+            ["1985", "Windows 1.0"],
+            ["1987", "Windows 2.0"],
+            ["1990", "Windows 3.0"],
+            ["1992", "Windows 3.1"],
+            ["1993", "Windows NT 3.1"],
+            ["1995", "Windows 95"],
+            ["1998", "Windows 98"],
+            ["2000", "Windows 2000"],
+            ["2000", "Windows ME (Millennium Edition)"],
+            ["2001", "Windows XP"],
+            ["2006/2007", "Windows Vista"],
+            ["2009", "Windows 7"],
+            ["2012", "Windows 8"],
+            ["2013", "Windows 8.1"],
+            ["2015", "Windows 10"],
+            ["2021", "Windows 11"]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "Important exact dates",
+          "rows": [
+            ["Windows 1.0", "20 November 1985"],
+            ["Windows 95 public launch", "24 August 1995 - Windows Explorer and My Computer arrived with this version"],
+            ["Windows Vista", "Business availability in 2006; worldwide consumer launch on 30 January 2007"],
+            ["Windows 11 unveiled", "24 June 2021"],
+            ["Windows 11 availability date announced", "31 August 2021"],
+            ["Windows 11 general release", "5 October 2021"],
+            ["Windows 10 standard support ended", "14 October 2025 (extended-security and specialised editions have separate terms)"]
+          ]
+        },
+        {
+          "type": "bullets",
+          "title": "Historical exam facts",
+          "items": [
+            "**Windows 8** removed the traditional desktop Start button.",
+            "**Windows 8.1** brought the Start button back.",
+            "**Windows 10** restored a redesigned Start menu.",
+            "**Windows 2000 Professional** was a client edition; the Server editions supported server roles."
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "Do not mix the 2021 dates",
+          "text": "Windows 11 has three dates: **unveiled 24 June**, **availability date announced 31 August**, **general release 5 October 2021**. Only 5 October is the release. Likewise, Vista has two years: 2006 (business) and 2007 (consumer)."
+        },
+        {
+          "type": "callout",
+          "kind": "tip",
+          "title": "Memory trick",
+          "text": "The two 2000s: **Windows 2000** (business, NT-based) and **Windows ME** (home) were both released in 2000. First Windows 1985, Explorer 1995, Windows 11 in 2021."
+        }
+      ]
+    },
+    {
+      "id": "desktop-taskbar",
+      "title": "Desktop, Taskbar & Window Controls",
+      "icon": "🖥️",
+      "blocks": [
+        {
+          "type": "keyvalue",
+          "title": "Desktop basics",
+          "rows": [
+            ["Desktop", "The main workspace you see after signing in."],
+            ["Work area", "Usable desktop space, excluding the taskbar and other reserved desktop toolbars."],
+            ["Wallpaper", "The background image or colour behind desktop items."],
+            ["Start menu", "Gives access to apps, search, files, settings and power options such as Restart or Shut down."]
+          ]
+        },
+        {
+          "type": "bullets",
+          "title": "Taskbar and system tray",
+          "items": [
+            "**Taskbar** buttons launch pinned apps and switch between running windows.",
+            "A **minimized** app usually keeps running; its taskbar button restores it.",
+            "The taskbar is **not** a storage location.",
+            "**System tray = notification area**, normally at the right end of a horizontal taskbar. It can show network, volume, battery, security, printing and background-app status.",
+            "The clock and date sit in the taskbar's system area."
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "Tray traps",
+          "text": "**Microsoft Office Suite** is not a standard system-status indicator. **Action Center** is a separate panel, not another name for the system tray."
+        },
+        {
+          "type": "table",
+          "title": "Taskbar position depends on the version",
+          "headers": ["Version", "Taskbar behaviour"],
+          "rows": [
+            ["Windows 10 and many earlier versions", "Can sit on any screen edge"],
+            ["Windows 11 (standard settings)", "Stays at the bottom; its icons can align left or centre"]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "Title bar buttons",
+          "rows": [
+            ["Title bar", "Usually shows the app or document name."],
+            ["Minimize", "Hides the window but keeps it open."],
+            ["Maximize", "Fills the available work area."],
+            ["Restore Down", "Returns the window to its earlier size."],
+            ["Close", "Closes the window; an unsaved-work prompt may appear. Shortcut: Alt + F4."]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "file-explorer",
+      "title": "File Explorer: Parts & Views",
+      "icon": "📁",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "**Windows Explorer**, now called **File Explorer**, is Microsoft's graphical **file manager**, introduced with **Windows 95**. It browses files, folders, drives and network locations, and supports copy, move, rename, search and delete."
+        },
+        {
+          "type": "bullets",
+          "title": "Ways to open it",
+          "items": [
+            "Press **Win + E**",
+            "Use Start or Search",
+            "Click its pinned folder icon on the taskbar",
+            "Type **explorer** or **explorer.exe** in the Run box (do not type the shortcut text Windows + E into Run)"
+          ]
+        },
+        {
+          "type": "figure",
+          "kind": "layers",
+          "title": "File Explorer window, top to bottom",
+          "items": [
+            ["Ribbon / command bar", "File commands; design varies by Windows version"],
+            ["Address bar + Search box", "Current path; search the chosen location"],
+            ["Nav | Content | Preview", "Left pane, main area, right pane"],
+            ["Status bar", "Item and selection information"]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "Explorer window parts",
+          "rows": [
+            ["Navigation pane", "On the **LEFT** side; browse folders, drives, libraries, OneDrive and network locations."],
+            ["Quick access / Home", "Convenient access to pinned or recent locations; labels vary by version."],
+            ["Content pane", "The main area showing items in the selected location; it is not the navigation pane."],
+            ["Address bar", "Shows the current path."],
+            ["Search box", "Searches the chosen location."],
+            ["Ribbon / command bar", "File commands; design varies by Windows version."],
+            ["Status bar", "Item and selection information."],
+            ["Preview pane", "Shows a preview of the content."],
+            ["Details pane", "Shows information about the selected item."]
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Eight common folder views",
+          "headers": ["View", "Description"],
+          "rows": [
+            ["Extra large icons", "Largest icons or thumbnails"],
+            ["Large icons", "Large previews"],
+            ["Medium icons", "Medium-sized symbols"],
+            ["Small icons", "Compact symbols and names"],
+            ["List", "Compact item lists"],
+            ["Details", "Columns such as Name, Type, Size and Date modified"],
+            ["Tiles", "Icons with selected extra information"],
+            ["Content", "Descriptive information alongside items"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "remember",
+          "text": "Win + E opens File Explorer. The navigation pane is on the left. There are **8** common folder views."
+        }
+      ]
+    },
+    {
+      "id": "file-operations",
+      "title": "File Operations, Names & Paths",
+      "icon": "🗂️",
+      "blocks": [
+        {
+          "type": "table",
+          "title": "Everyday file actions",
+          "headers": ["Action", "How"],
+          "rows": [
+            ["Rename", "Select the item and press **F2**, or right-click and choose Rename"],
+            ["New folder", "**Ctrl + Shift + N**, type a name, press Enter"],
+            ["Properties", "**Alt + Enter** on the selected item"],
+            ["Copy", "Ctrl + C"],
+            ["Cut", "Ctrl + X"],
+            ["Paste", "Ctrl + V"],
+            ["Delete", "Normally sends eligible local items to the **Recycle Bin**"],
+            ["Permanent-style delete", "**Shift + Delete** bypasses the Recycle Bin"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "Recycle Bin limits",
+          "text": "Shift + Delete bypasses the Recycle Bin but does **not** guarantee secure erasure or prevent recovery. The Recycle Bin can restore many deleted items until it is emptied; some locations and deletion methods bypass it."
+        },
+        {
+          "type": "bullets",
+          "title": "Filename rules",
+          "items": [
+            "Nine characters cannot normally appear in a filename: backslash \\, forward slash /, colon :, asterisk *, question mark ?, double quote \", less-than <, greater-than > and pipe |.",
+            "Spaces inside names are allowed.",
+            "Ordinary names should not end with a space or a period.",
+            "Reserved device names include **CON, PRN, AUX and NUL**.",
+            "My Documents / Documents is a common default working folder; the real Open and Save locations depend on the app and user settings."
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "Filename vs full path",
+          "rows": [
+            ["Filename example", "Revision.docx"],
+            ["Full path example", "C:\\Users\\Student\\Documents\\Revision.docx"],
+            ["Traditional MAX_PATH", "**260 characters** including the terminating null - it is the whole-path limit, not the filename limit."],
+            ["NTFS filename component", "Usually limited to **255 characters**."],
+            ["Longer paths", "Windows 10 version 1607 and later can support them when the required settings and application support are present."]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "file-systems",
+      "title": "File Systems & NTFS",
+      "icon": "💽",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "A **file system** organises stored files and folders on a drive. It is **not a document format**. **NTFS (New Technology File System)** was introduced with **Windows NT 3.1 in 1993** and is normally used for the system partition of modern Windows. NT-based releases support it: 2000, XP, Vista, 7, 8, 10 and 11."
+        },
+        {
+          "type": "keyvalue",
+          "title": "Important NTFS features",
+          "rows": [
+            ["Journaling", "Records file-system changes to help recovery."],
+            ["Permissions", "Control which users can access files."],
+            ["Compression", "Can reduce the stored file size."],
+            ["EFS", "Encrypting File System - encrypts individual files on NTFS."],
+            ["TxF", "Transactional NTFS, introduced with Vista; lets certain file operations succeed or fail as one unit. Microsoft recommends alternatives for new development."]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "remember",
+          "text": "A file cannot use ordinary **NTFS compression** and **EFS encryption** at the same time."
+        },
+        {
+          "type": "table",
+          "title": "Other file systems",
+          "headers": ["File system", "Association"],
+          "rows": [
+            ["FAT32", "Supported by Windows for appropriate uses"],
+            ["exFAT", "Supported by Windows for appropriate uses"],
+            ["EXT4", "Linux - not a standard native File Explorer file system"],
+            ["HFS / APFS", "Apple systems - not a standard native File Explorer file system"]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "resource-sharing",
+      "title": "Resource Sharing & Early Networking",
+      "icon": "🔗",
+      "blocks": [
+        {
+          "type": "table",
+          "title": "Shared resource limits",
+          "headers": ["Windows version", "Connecting devices"],
+          "rows": [
+            ["Windows XP Home", "5"],
+            ["Windows XP Professional", "10"],
+            ["Windows 7 / 8 / 10 / 11 (common exam figure)", "20 - edition, service and configuration matter"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "What the limit means",
+          "text": "These numbers concern **incoming resource-sharing or device connections**. They do not mean 20 simultaneous desktop users or 20 open files."
+        },
+        {
+          "type": "bullets",
+          "title": "Networking in older Windows",
+          "items": [
+            "A **client-server network** uses servers to supply services and resources; **Windows 2000 Server** editions supported these roles.",
+            "Standard **Windows 3.1** lacked integrated networking; add-on software could provide it.",
+            "**Windows for Workgroups 3.10** included networking."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "startup-boot",
+      "title": "Startup, Safe Mode & Boot Files",
+      "icon": "🔧",
+      "blocks": [
+        {
+          "type": "table",
+          "title": "Startup modes",
+          "headers": ["Mode", "What it does"],
+          "rows": [
+            ["Normal startup", "The default; loads configured drivers, services and the desktop"],
+            ["Safe Mode", "Loads only a limited set of essential files and drivers, for troubleshooting"],
+            ["Safe Mode with Networking", "Safe Mode plus networking drivers and services"],
+            ["Safe Mode with Command Prompt", "Uses a command window instead of the usual desktop"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "Not a real mode",
+          "text": "**Turbo Mode** is not a standard Windows startup mode. Command Prompt alone is an application; the startup option is Safe Mode with Command Prompt."
+        },
+        {
+          "type": "table",
+          "title": "Opening advanced startup",
+          "headers": ["Windows", "Method"],
+          "rows": [
+            ["Windows 7 and older-style startup", "Press **F8** before Windows loads to get Advanced Boot Options"],
+            ["Windows 10 / 11", "Hold **Shift** while selecting Restart, then go to Troubleshoot > Advanced options > Startup Settings"]
+          ]
+        },
+        {
+          "type": "figure",
+          "kind": "flow",
+          "title": "Boot sequence: BIOS-based system",
+          "items": [
+            ["Firmware (BIOS)", "Runs preboot code first"],
+            ["bootmgr", "Windows Boot Manager"],
+            ["winload.exe", "Operating-system loader"],
+            ["ntoskrnl.exe", "The Windows kernel"]
+          ]
+        },
+        {
+          "type": "figure",
+          "kind": "flow",
+          "title": "Boot sequence: UEFI-based system",
+          "items": [
+            ["Firmware (UEFI)", "Runs preboot code first"],
+            ["bootmgfw.efi", "Windows Boot Manager"],
+            ["winload.efi", "Operating-system loader"],
+            ["ntoskrnl.exe", "The Windows kernel"]
+          ]
+        },
+        {
+          "type": "bullets",
+          "items": [
+            "The Windows Boot Manager selects and starts the operating-system loader; the loader starts the kernel with the required components.",
+            "**NTLDR** belongs to older systems such as Windows XP.",
+            "**explorer.exe** provides the desktop shell later; it is not the initial boot manager.",
+            "The claim that bootmgr always loads first needs BIOS/UEFI and Windows-version context."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "security",
+      "title": "Security, Accounts & Encryption",
+      "icon": "🛡️",
+      "blocks": [
+        {
+          "type": "keyvalue",
+          "title": "Built-in protection",
+          "rows": [
+            ["Microsoft Defender Antivirus", "Built-in **malware** protection in modern Windows."],
+            ["Windows Firewall", "Filters **network traffic** by security rules and helps block unauthorised connections."],
+            ["User accounts", "Separate profiles, settings and permissions; passwords and other sign-in methods restrict access. Managed through Settings and Control Panel tools."]
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Encryption and recovery tools",
+          "headers": ["Tool", "Protects / does"],
+          "rows": [
+            ["BitLocker", "Encrypts supported **drives or volumes**"],
+            ["EFS", "Encrypts **individual files** on NTFS volumes"],
+            ["System Restore", "Rolls back system files, drivers, Registry settings and certain installed software using restore points"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "Encryption is not backup, restore is not file backup",
+          "text": "Encryption protects **confidentiality**; it does not make a spare copy. System Restore is for **system recovery**, not a personal-file backup, and it differs from restoring a deleted document from the Recycle Bin. Encryption availability depends on the Windows edition and device configuration."
+        },
+        {
+          "type": "bullets",
+          "title": "Third-party security: Bitdefender",
+          "items": [
+            "Bitdefender is a developer of antivirus and other security products.",
+            "**Bitdefender Antivirus Free for Windows** is a free malware-protection tier; other editions are paid.",
+            "**Safepay** is its specialised secure-browsing feature, associated with sensitive tasks such as online banking; availability depends on the product.",
+            "Do not describe every Bitdefender product as fully free, or as mainly for online banking."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "memory-power",
+      "title": "Memory & Power Options",
+      "icon": "🔋",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "Windows uses a **paging file**, usually **pagefile.sys**, as part of **virtual-memory** management. It stores some memory pages outside physical RAM. It is not a substitute for RAM, because disk storage is much slower than RAM."
+        },
+        {
+          "type": "figure",
+          "kind": "cycle",
+          "title": "Virtual memory idea",
+          "items": [
+            ["RAM", "Fast physical memory"],
+            ["Memory full", "Some pages must move out"],
+            ["pagefile.sys", "Pages stored on the drive"],
+            ["Pages brought back", "Loaded into RAM when needed"]
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Sleep vs Hibernate",
+          "headers": ["Feature", "Sleep", "Hibernate"],
+          "rows": [
+            ["Where the session is kept", "Mainly in RAM", "Saved to storage"],
+            ["Power use", "Uses a little power", "Uses less power than sleep"],
+            ["Resume speed", "Usually quick", "Usually slower"],
+            ["Best for", "Short breaks", "Longer breaks"]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "system-tools",
+      "title": "System Utilities & Folders",
+      "icon": "🧰",
+      "blocks": [
+        {
+          "type": "keyvalue",
+          "title": "Configuration tools",
+          "rows": [
+            ["Settings and Control Panel", "Provide system configuration options."],
+            ["Registry", "A hierarchical database of many Windows, app and user settings."],
+            ["regedit", "Command that opens the Registry Editor."],
+            ["services.msc", "Command that opens the Services console, to view service status and manage startup settings."]
+          ]
+        },
+        {
+          "type": "bullets",
+          "title": "Task Manager and cleanup",
+          "items": [
+            "**Task Manager** monitors running apps and processes, resource use and system performance.",
+            "It can close an unresponsive process; shortcut **Ctrl + Shift + Esc**.",
+            "**Disk Cleanup** removes selected temporary and unnecessary files to free storage.",
+            "**Optimize Drives / defragmentation** is about storage optimisation, not deleting junk files."
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "Command Prompt and key folders",
+          "rows": [
+            ["Command Prompt", "Executable **cmd.exe**; runs text commands for listing, copying and changing files and system tasks."],
+            ["System32", "Holds essential Windows executables, libraries, drivers and configuration components. Typical path: **C:\\Windows\\System32** (the installation drive may differ)."],
+            ["Program Files", "Installed apps."],
+            ["Users", "Profiles and personal folders."],
+            ["Temp folders", "Temporary working data."]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "tip",
+          "title": "Command cheat line",
+          "text": "regedit = Registry, services.msc = Services, cmd.exe = Command Prompt, explorer.exe = File Explorer."
+        }
+      ]
+    },
+    {
+      "id": "windows-11-features",
+      "title": "Windows 11 & Multitasking Features",
+      "icon": "✨",
+      "blocks": [
+        {
+          "type": "bullets",
+          "title": "Windows 11 interface",
+          "items": [
+            "Redesigned **Start menu** and **centred taskbar icons** by default.",
+            "**Widgets** show information such as weather and news.",
+            "**Virtual desktops** organise apps into separate workspaces.",
+            "Launch highlights included **Microsoft Teams Chat** integration and gaming technologies such as **Auto HDR** and **DirectStorage** on compatible hardware."
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "Snap and shake",
+          "rows": [
+            ["Snap", "Resizes and positions selected windows at screen edges or corners."],
+            ["Snap Assist", "Suggests other windows to fill the remaining spaces."],
+            ["Snap Layouts", "Predefined arrangements in Windows 11; hover over Maximize or press **Win + Z**. Six layouts appear on some displays, but choices depend on screen size and orientation."],
+            ["Title bar shake (Aero Shake)", "Minimizes other windows when you shake the active title bar. Turn it on in Settings > System > Multitasking."],
+            ["Win + Home", "Also minimizes or restores other windows."]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "Sticky Keys",
+          "rows": [
+            ["What it is", "An accessibility feature that lets you use modifier-key combinations one key at a time."],
+            ["Shortcut", "Press **Shift five times** when enabled; Windows may ask for confirmation."]
+          ]
+        },
+        {
+          "type": "bullets",
+          "title": "Former features",
+          "items": [
+            "**Cortana** was Microsoft's digital assistant in Windows 10 and earlier Windows 11 releases; its standalone Windows app was retired in 2023.",
+            "Selected Android apps once ran through the **Windows Subsystem for Android** and the **Amazon Appstore**; support for that arrangement ended on **5 March 2025**, so treat it as a former feature."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "shortcuts",
+      "title": "Keyboard Shortcuts: Quick Reference",
+      "icon": "⌨️",
+      "blocks": [
+        {
+          "type": "table",
+          "title": "Windows logo key (Win) shortcuts",
+          "headers": ["Shortcut", "Action"],
+          "rows": [
+            ["Win", "Open or close Start"],
+            ["Win + R", "Run dialog"],
+            ["Win + X", "Quick Link / Power User menu"],
+            ["Win + P", "Display projection options"],
+            ["Win + S or Win + Q", "Search in Windows 10/11"],
+            ["Win + I", "Settings"],
+            ["Win + L", "Lock the computer"],
+            ["Win + D", "Show or hide the desktop"],
+            ["Win + E", "File Explorer"],
+            ["Win + V", "Clipboard history (enable it if prompted)"],
+            ["Win + Shift + S", "Screen-capture selection"],
+            ["Win + Z", "Windows 11 Snap Layouts"],
+            ["Win + Left/Right Arrow", "Snap the window to that side"],
+            ["Win + Home", "Minimize or restore other desktop windows"]
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Version-specific notification shortcuts",
+          "headers": ["Shortcut", "Windows 10", "Windows 11"],
+          "rows": [
+            ["Win + A", "Action Center", "Quick Settings"],
+            ["Win + N", "No separate panel listed", "Notification Center and calendar"]
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Other essential keys",
+          "headers": ["Keys", "Action"],
+          "rows": [
+            ["Alt + Tab", "Switch between open windows"],
+            ["Alt + F4", "Close the active window or app"],
+            ["Alt + Enter", "Properties of the selected item"],
+            ["Ctrl + Shift + Esc", "Task Manager"],
+            ["F2", "Rename the selected item"],
+            ["Ctrl + Shift + N", "New folder in File Explorer"],
+            ["Shift + Delete", "Bypass the Recycle Bin"],
+            ["F5", "Refresh the desktop or a supported active window"],
+            ["Shift pressed five times", "Sticky Keys shortcut"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "remember",
+          "text": "Win means the Windows logo key. Shortcut behaviour can depend on the app and the Windows version."
+        }
+      ]
+    },
+    {
+      "id": "apps-web",
+      "title": "Built-in Apps, Browsers & Reloading",
+      "icon": "🌐",
+      "blocks": [
+        {
+          "type": "keyvalue",
+          "title": "Text and document tools",
+          "rows": [
+            ["Notepad", "Plain-text editor; commonly works with .txt files."],
+            ["WordPad", "Basic formatted-document editor formerly bundled with Windows; removed starting with **Windows 11 version 24H2**, so it is a historical answer in older exams."],
+            ["Microsoft Word", "Advanced word processing."],
+            ["Paint", "Simple graphics editing."]
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Browser vs search engine",
+          "headers": ["Name", "What it is"],
+          "rows": [
+            ["Microsoft Edge", "Microsoft's modern browser supplied with Windows 10/11"],
+            ["Internet Explorer", "Microsoft's earlier browser, predecessor to Edge - not the world's first browser"],
+            ["Bing", "Microsoft's web search engine"]
+          ]
+        },
+        {
+          "type": "bullets",
+          "items": [
+            "A **browser** displays web pages; a **search engine** finds information online.",
+            "The older Windows XP question expects **MSN** in its historical Internet Explorer / MSN Search context.",
+            "Browser search providers can be changed."
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Refresh vs hard reload (Chrome on Windows)",
+          "headers": ["Keys", "Effect"],
+          "rows": [
+            ["F5 or Ctrl + R", "Normal reload of the webpage"],
+            ["Ctrl + F5", "Hard reload"],
+            ["Shift + F5 or Ctrl + Shift + R", "Reload while ignoring cached content"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "text": "A hard reload bypasses cached content for that one reload; it does **not** erase the entire browser cache."
+        },
+        {
+          "type": "bullets",
+          "title": "Last-minute reminders",
+          "items": [
+            "A GUI uses visual controls; Command Prompt runs text commands.",
+            "The **clipboard** stores copied or cut content; icons represent items; thumbnails preview contents.",
+            "Disk Cleanup removes unnecessary files; BitLocker encrypts drives.",
+            "Normal startup is the default; Safe Mode is for troubleshooting."
+          ]
+        }
+      ]
+    }
+  ],
+  "revision": [
+    "Windows is Microsoft's mainly proprietary GUI operating system; Windows 1.0 came on 20 November 1985 over MS-DOS.",
+    "NT = New Technology; XP = eXPerience; Windows 11 is 64-bit only.",
+    "GM-NAA I/O (IBM 704, 1956) is commonly cited as the first operating system.",
+    "Explorer and My Computer arrived with Windows 95 (public launch 24 August 1995).",
+    "Windows 11: unveiled 24 June 2021, general release 5 October 2021; Windows 10 standard support ended 14 October 2025.",
+    "Windows 8 removed the Start button, 8.1 restored it, and Windows 10 brought back a redesigned Start menu.",
+    "System tray = notification area; Minimize keeps the app running; Alt + F4 closes the active window.",
+    "File Explorer: Win + E; navigation pane on the left; 8 common folder views; Run command explorer.exe.",
+    "F2 renames, Ctrl + Shift + N makes a new folder, Alt + Enter opens Properties, Shift + Delete bypasses the Recycle Bin.",
+    "Nine characters are banned in filenames: \\ / : * ? \" < > | ; traditional MAX_PATH is 260 characters.",
+    "NTFS (Windows NT 3.1, 1993): journaling, permissions, compression; EFS encrypts files; BitLocker encrypts drives.",
+    "XP Home allows 5 connecting devices and XP Professional 10; the common figure for Windows 7 and later is 20.",
+    "Safe Mode is for troubleshooting; Turbo Mode is not a startup mode; Windows 10/11 recovery uses Shift + Restart.",
+    "Boot order on BIOS: bootmgr, winload.exe, ntoskrnl.exe; on UEFI: bootmgfw.efi, winload.efi, ntoskrnl.exe.",
+    "regedit = Registry, services.msc = Services, cmd.exe = Command Prompt, pagefile.sys = paging file.",
+    "Win + Z opens Snap Layouts; Shift five times starts Sticky Keys; Ctrl + F5 is a hard reload in Chrome."
+  ],
+  "mindmap": {
+    "center": "Windows OS",
+    "branches": [
+      {
+        "label": "History & versions",
+        "children": ["Windows 1.0 - 1985", "Windows 95 - Explorer", "XP - 2001", "Windows 11 - 5 Oct 2021"]
+      },
+      {
+        "label": "Desktop & Explorer",
+        "children": ["Taskbar and system tray", "Title bar buttons", "Navigation pane (left)", "8 folder views"]
+      },
+      {
+        "label": "Files & file systems",
+        "children": ["F2 rename", "Shift + Delete", "NTFS (NT 3.1, 1993)", "Journaling and EFS", "MAX_PATH 260"]
+      },
+      {
+        "label": "Startup & boot",
+        "children": ["Normal vs Safe Mode", "F8 / Shift + Restart", "bootmgr to winload", "ntoskrnl.exe"]
+      },
+      {
+        "label": "Security",
+        "children": ["Microsoft Defender", "Windows Firewall", "BitLocker (drives)", "System Restore", "Bitdefender Safepay"]
+      },
+      {
+        "label": "Utilities",
+        "children": ["regedit", "services.msc", "Task Manager", "Disk Cleanup", "pagefile.sys"]
+      },
+      {
+        "label": "Windows 11 features",
+        "children": ["Snap Layouts (Win + Z)", "Widgets", "Sticky Keys", "Quick Settings (Win + A)"]
+      },
+      {
+        "label": "Apps & shortcuts",
+        "children": ["Notepad and WordPad", "Edge vs Bing", "Ctrl + F5 hard reload", "Win + L, Win + D, Win + E"]
+      }
+    ]
+  }
+}

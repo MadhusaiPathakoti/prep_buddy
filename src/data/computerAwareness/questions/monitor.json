@@ -1,0 +1,298 @@
+[
+  {
+    "id": "monitor-01",
+    "q": "What is the correct full form of VDU?",
+    "options": ["Vast Display Unit", "Video Data Unit", "Visual Display Unit", "Virtual Display Unit"],
+    "answer": 2,
+    "explain": "VDU stands for Visual Display Unit and is commonly used as another term for a monitor. 'Vast Display Unit' is incorrect.",
+    "section": "monitor-and-vdu"
+  },
+  {
+    "id": "monitor-02",
+    "q": "A computer monitor is classified as:",
+    "options": ["An input device", "An output device", "A storage device", "A processing device"],
+    "answer": 1,
+    "explain": "A monitor shows text, pictures, graphics and video, so it is an output device.",
+    "section": "monitor-and-vdu"
+  },
+  {
+    "id": "monitor-03",
+    "q": "How is the size of a monitor screen measured?",
+    "options": ["Along the width", "Along the height", "Diagonally across the viewable screen", "Around the bezel"],
+    "answer": 2,
+    "explain": "Screen size is the diagonal of the viewable screen, usually in inches. It excludes the bezel and stand.",
+    "section": "screen-size"
+  },
+  {
+    "id": "monitor-04",
+    "q": "A '24-inch monitor' refers to the nominal:",
+    "options": ["Screen diagonal", "Screen width", "Screen height", "Stand height"],
+    "answer": 0,
+    "explain": "The 24 inches is the nominal diagonal of the viewable screen, not its width or height.",
+    "section": "screen-size"
+  },
+  {
+    "id": "monitor-05",
+    "q": "For a rectangular screen, the diagonal can be found using which relationship?",
+    "options": ["width + height", "width x height", "square root of (width² + height²)", "(width² - height²)"],
+    "answer": 2,
+    "explain": "The diagonal follows the Pythagorean theorem: the square root of (width² + height²).",
+    "section": "screen-size"
+  },
+  {
+    "id": "monitor-06",
+    "q": "Which of the following is the unit commonly used for screen size?",
+    "options": ["Pixel", "Inch", "Hertz", "Nit"],
+    "answer": 1,
+    "explain": "Screen size is quoted in inches. Pixels measure resolution, hertz refresh rate and nits luminance.",
+    "section": "screen-size"
+  },
+  {
+    "id": "monitor-07",
+    "q": "What does a resolution of 1920 x 1080 mean?",
+    "options": ["1920 inches wide and 1080 inches high", "1920 pixels across and 1080 pixels down", "1920 Hz refresh at 1080 nits", "1920 colours at 1080 brightness"],
+    "answer": 1,
+    "explain": "Resolution is horizontal pixels x vertical pixels, so 1920 x 1080 is a pixel count, not a size in inches.",
+    "section": "resolution"
+  },
+  {
+    "id": "monitor-08",
+    "q": "Which resolution is called Full HD?",
+    "options": ["1280 x 720", "2048 x 1080", "3840 x 2160", "1920 x 1080"],
+    "answer": 3,
+    "explain": "Full HD (1080p) is 1920 x 1080. 2048 x 1080 is DCI 2K cinema, and 1280 x 720 is HD.",
+    "section": "resolution"
+  },
+  {
+    "id": "monitor-09",
+    "q": "Which resolution is QHD (WQHD / 1440p)?",
+    "options": ["2560 x 1440", "1920 x 1080", "3840 x 2160", "640 x 480"],
+    "answer": 0,
+    "explain": "QHD is 2560 x 1440, which is higher than Full HD.",
+    "section": "resolution"
+  },
+  {
+    "id": "monitor-10",
+    "q": "How many times as many pixels does a consumer 4K UHD display (3840 x 2160) have compared with Full HD?",
+    "options": ["Two times", "Three times", "Four times", "Eight times"],
+    "answer": 2,
+    "explain": "3840 x 2160 is 8,294,400 pixels, exactly four times Full HD (2,073,600).",
+    "section": "resolution"
+  },
+  {
+    "id": "monitor-11",
+    "q": "Which of the following is the correct resolution of 8K UHD?",
+    "options": ["3840 x 2160", "5120 x 2880", "7680 x 4320", "4096 x 2160"],
+    "answer": 2,
+    "explain": "8K UHD is 7680 x 4320. 3840 x 2160 is 4K UHD.",
+    "section": "resolution"
+  },
+  {
+    "id": "monitor-12",
+    "q": "VGA is commonly quoted as which legacy resolution?",
+    "options": ["640 x 480", "800 x 600", "1024 x 768", "1280 x 1024"],
+    "answer": 0,
+    "explain": "The commonly cited legacy VGA format is 640 x 480, although it is not a universal definition.",
+    "section": "resolution"
+  },
+  {
+    "id": "monitor-13",
+    "q": "The word 'pixel' is derived from:",
+    "options": ["Pixie element", "Picture element", "Print element", "Picture exchange level"],
+    "answer": 1,
+    "explain": "A pixel is a 'picture element', the smallest individual element of a digital image.",
+    "section": "pixel-and-rgb"
+  },
+  {
+    "id": "monitor-14",
+    "q": "Monitors create colours using which model?",
+    "options": ["CMYK subtractive model", "RGB additive model", "Black-and-white model", "HSB subtractive model"],
+    "answer": 1,
+    "explain": "Monitors combine red, green and blue light, which is an additive colour model. CMYK is used by colour printing.",
+    "section": "pixel-and-rgb"
+  },
+  {
+    "id": "monitor-15",
+    "q": "Which colour depth is known as True Color?",
+    "options": ["8-bit total", "16-bit total", "32-bit total", "24-bit RGB"],
+    "answer": 3,
+    "explain": "24-bit RGB (8 bits per channel) gives about 16.7 million colours and is called True Color.",
+    "section": "colour-depth"
+  },
+  {
+    "id": "monitor-16",
+    "q": "How many colours are possible with a 16-bit total colour depth (High Color)?",
+    "options": ["256", "65,536", "16.7 million", "4,096"],
+    "answer": 1,
+    "explain": "2 to the power 16 is 65,536 colours, commonly called High Color.",
+    "section": "colour-depth"
+  },
+  {
+    "id": "monitor-17",
+    "q": "A display uses 8 bits per RGB channel. How many colours can it show?",
+    "options": ["256", "65,536", "About 16.7 million", "About 1 billion"],
+    "answer": 2,
+    "explain": "8 bits per channel is 24 bits in total: 256 x 256 x 256, about 16.7 million colours. Only 8 bits in total would give 256.",
+    "section": "colour-depth"
+  },
+  {
+    "id": "monitor-18",
+    "q": "Pixel density is measured in:",
+    "options": ["PPI", "Hz", "ms", "Nits"],
+    "answer": 0,
+    "explain": "PPI means pixels per inch. Hz is refresh rate, ms is response time and nits is luminance.",
+    "section": "density-refresh-response"
+  },
+  {
+    "id": "monitor-19",
+    "q": "The refresh rate of a monitor is expressed in:",
+    "options": ["Milliseconds", "Hertz", "Nits", "Inches"],
+    "answer": 1,
+    "explain": "Refresh rate is the number of image updates per second, measured in hertz. A 60 Hz display refreshes 60 times each second.",
+    "section": "density-refresh-response"
+  },
+  {
+    "id": "monitor-20",
+    "q": "Pixel response time is usually measured in:",
+    "options": ["Hertz", "Candela", "Milliseconds", "PPI"],
+    "answer": 2,
+    "explain": "Response time is how long a pixel transition takes, commonly in milliseconds. It is different from refresh rate.",
+    "section": "density-refresh-response"
+  },
+  {
+    "id": "monitor-21",
+    "q": "At the same screen size, a higher native resolution generally gives:",
+    "options": ["Lower pixel density", "Higher pixel density", "Lower refresh rate", "Lower brightness"],
+    "answer": 1,
+    "explain": "More pixels in the same area raise the PPI, which can give sharper detail.",
+    "section": "density-refresh-response"
+  },
+  {
+    "id": "monitor-22",
+    "q": "Nits are a unit used to measure a monitor's:",
+    "options": ["Luminance (brightness)", "Resolution", "Refresh rate", "Colour depth"],
+    "answer": 0,
+    "explain": "One nit equals one candela per square metre (cd/m²) and measures luminance. It is not an abbreviation for night visibility.",
+    "section": "brightness-and-brands"
+  },
+  {
+    "id": "monitor-23",
+    "q": "Which of the following is an Indian monitor brand mentioned in the book?",
+    "options": ["Zebronics", "BenQ", "Acer", "Lenovo"],
+    "answer": 0,
+    "explain": "Zebronics is the Indian brand listed; BenQ, Acer and Lenovo are not Indian brands.",
+    "section": "brightness-and-brands"
+  },
+  {
+    "id": "monitor-24",
+    "q": "Which display technology uses electron guns to direct electron beams onto a phosphor-coated screen?",
+    "options": ["LCD", "CRT", "Plasma", "OLED"],
+    "answer": 1,
+    "explain": "A CRT (Cathode Ray Tube) uses electron guns. It is bulky and is not a flat-panel display.",
+    "section": "crt-lcd-led-tft"
+  },
+  {
+    "id": "monitor-25",
+    "q": "A conventional 'LED monitor' is best described as:",
+    "options": ["A CRT with LED lamps", "A plasma screen with LEDs", "An LCD panel lit by LED backlights", "A fully self-emitting organic display"],
+    "answer": 2,
+    "explain": "In an LED monitor the picture is still formed by liquid crystals; LEDs only act as the backlight.",
+    "section": "crt-lcd-led-tft"
+  },
+  {
+    "id": "monitor-26",
+    "q": "CCFL, the backlight used in older LCD monitors, stands for:",
+    "options": ["Cold Cathode Fluorescent Lamp", "Colour Controlled Flat Light", "Cathode Coated Fluorescent Layer", "Cold Crystal Flat Lamp"],
+    "answer": 0,
+    "explain": "CCFL is the Cold Cathode Fluorescent Lamp. LED backlights replaced it in most modern LCDs.",
+    "section": "crt-lcd-led-tft"
+  },
+  {
+    "id": "monitor-27",
+    "q": "TFT LCD is known as which type of display?",
+    "options": ["Passive-matrix display", "Active-matrix display", "Gas-discharge display", "Cathode-ray display"],
+    "answer": 1,
+    "explain": "In a TFT (Thin-Film Transistor) LCD, transistors control the pixels or subpixels, which makes it an active-matrix display.",
+    "section": "crt-lcd-led-tft"
+  },
+  {
+    "id": "monitor-28",
+    "q": "Which statement about liquid crystals in an LCD is correct?",
+    "options": ["They generate their own light", "They control the passage of light", "They emit ultraviolet radiation", "They fire electron beams"],
+    "answer": 1,
+    "explain": "Liquid crystals only control how light passes through; they do not produce light themselves. A backlight is needed.",
+    "section": "crt-lcd-led-tft"
+  },
+  {
+    "id": "monitor-29",
+    "q": "Which display technology works by exciting small gas-filled cells into ionised gas so that phosphors glow?",
+    "options": ["Plasma", "QLED", "Mini-LED", "TFT"],
+    "answer": 0,
+    "explain": "Plasma displays use ionised gas; ultraviolet radiation then excites phosphors to give visible light.",
+    "section": "plasma-oled-and-more"
+  },
+  {
+    "id": "monitor-30",
+    "q": "A conventional QLED display is based on:",
+    "options": ["Organic emitters with no backlight", "Plasma cells", "An LED-backlit LCD enhanced with quantum dots", "Electron guns"],
+    "answer": 2,
+    "explain": "QLED is an LED-backlit LCD with quantum dots for better colour. OLED, not QLED, uses organic emitters.",
+    "section": "plasma-oled-and-more"
+  },
+  {
+    "id": "monitor-31",
+    "q": "Which technology has organic elements that produce light directly, so individual pixels can switch off for deep blacks?",
+    "options": ["QLED", "OLED", "CRT", "LCD"],
+    "answer": 1,
+    "explain": "OLED (Organic Light-Emitting Diode) pixels emit their own light and can turn off completely, giving deep blacks and high contrast.",
+    "section": "plasma-oled-and-more"
+  },
+  {
+    "id": "monitor-32",
+    "q": "Which statement about Mini-LED and MicroLED is correct?",
+    "options": ["Both are self-emissive displays", "Mini-LED is an LCD backlight, while MicroLED uses self-emitting inorganic LEDs", "MicroLED is an LCD backlight, while Mini-LED is self-emitting", "Both use liquid crystals as the light source"],
+    "answer": 1,
+    "explain": "Mini-LED uses smaller LEDs behind an LCD, so its pixels are not self-emissive. MicroLED uses microscopic inorganic LEDs that emit their own light.",
+    "section": "plasma-oled-and-more"
+  },
+  {
+    "id": "monitor-33",
+    "q": "Which of the following generates its own light directly and is NOT an OLED?",
+    "options": ["LCD with CCFL", "Quantum-dot LCD", "MicroLED", "Mini-LED backlit LCD"],
+    "answer": 2,
+    "explain": "MicroLED (and plasma) also produce light directly, so self-emission is not exclusive to OLED. The other options still depend on a backlight.",
+    "section": "display-rapid-revision"
+  },
+  {
+    "id": "monitor-34",
+    "q": "Which is the oldest display technology among CRT, LCD, plasma and OLED?",
+    "options": ["LCD", "Plasma", "OLED", "CRT"],
+    "answer": 3,
+    "explain": "CRT is the oldest of the listed technologies and is bulky and deep-bodied.",
+    "section": "display-rapid-revision"
+  },
+  {
+    "id": "monitor-35",
+    "q": "Which statement is the most accurate about power consumption of displays?",
+    "options": ["MicroLED always uses the least power", "OLED always uses the least power", "It depends on size, brightness, content and the specific model", "CRT always uses the least power"],
+    "answer": 2,
+    "explain": "Power use cannot be decided by technology name alone; compare equal size, brightness, content and model specifications.",
+    "section": "display-rapid-revision"
+  },
+  {
+    "id": "monitor-36",
+    "q": "Which sequence matches the simplified exam order of monitor types?",
+    "options": ["OLED, LCD, CRT, LED-backlit LCD", "CRT, LCD, LED-backlit LCD, OLED", "LCD, CRT, OLED, LED-backlit LCD", "CRT, OLED, LCD, LED-backlit LCD"],
+    "answer": 1,
+    "explain": "The study sequence is CRT, LCD, LED-backlit LCD, OLED. It is a broad guide, not an exact invention timeline.",
+    "section": "monitor-and-vdu"
+  },
+  {
+    "id": "monitor-37",
+    "q": "Which statement about colour depth is correct?",
+    "options": ["8 bits total gives 16.7 million colours", "16 bits total gives 256 colours", "24-bit RGB gives 2²⁴ colours, called True Color", "True Color is a 16-bit mode"],
+    "answer": 2,
+    "explain": "24-bit RGB gives 2²⁴ (about 16.7 million) colours and is called True Color. 8 bits total gives only 256, and 16 bits gives 65,536.",
+    "section": "size-colour-accuracy-check"
+  }
+]

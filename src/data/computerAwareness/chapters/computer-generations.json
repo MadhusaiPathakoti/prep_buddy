@@ -1,0 +1,629 @@
+{
+  "id": "computer-generations",
+  "sections": [
+    {
+      "id": "what-is-a-generation",
+      "title": "What Is a Computer Generation?",
+      "icon": "🧬",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "A **computer generation** is a broad stage of technological development, mainly identified by major changes in **processing hardware**. The boundaries overlap, because newer technology did not instantly replace older machines."
+        },
+        {
+          "type": "figure",
+          "kind": "flow",
+          "title": "Technology path of the generations",
+          "items": [
+            ["Vacuum tubes", "1st generation"],
+            ["Transistors", "2nd generation"],
+            ["Integrated circuits", "3rd generation"],
+            ["Microprocessors / VLSI", "4th generation"],
+            ["AI-oriented computing", "5th generation"]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "Key technologies",
+          "rows": [
+            ["Vacuum tube", "Electronic device that controls electron flow inside an evacuated enclosure; early electronic computers used tubes for switching and amplification"],
+            ["Transistor", "Semiconductor device that switches or amplifies electronic signals; smaller size, lower power use and better reliability let it replace tubes"],
+            ["Integrated circuit (IC)", "Interconnected components, including transistors and resistors, fabricated on a small semiconductor chip; silicon is the most common base material"],
+            ["VLSI", "Very Large-Scale Integration: very large numbers of transistors on one chip"],
+            ["ULSI", "Ultra Large-Scale Integration: a historical label for still higher density; exact numerical thresholds vary, and modern chips hold billions of transistors"],
+            ["Microprocessor", "An integrated circuit that implements CPU processing functions; its switching elements are transistors, but the whole processor is not a single switch"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "Semiconductor or transistor?",
+          "text": "When both 'semiconductors' and 'transistors' appear as options for what replaced vacuum tubes, choose the more specific answer: **transistors**."
+        }
+      ]
+    },
+    {
+      "id": "generations-at-a-glance",
+      "title": "Generations at a Glance",
+      "icon": "📅",
+      "blocks": [
+        {
+          "type": "table",
+          "title": "The five generations (textbook ranges)",
+          "headers": ["Generation", "Period", "Technology", "Examples"],
+          "rows": [
+            ["First", "1940 - 1956", "Vacuum tubes", "ENIAC, EDVAC, EDSAC, UNIVAC I, IBM 650, IBM 701"],
+            ["Second", "1957 - 1963", "Transistors", "IBM 1620, IBM 7094, CDC 1604, CDC 3600, IBM 1400 series"],
+            ["Third", "1964 - 1971", "Integrated circuits", "IBM System/360, System/370, ICL 2900, selected DEC PDP models"],
+            ["Fourth", "1972 - 1979 (as per this convention)", "Microprocessors / VLSI", "Apple II, IBM-compatible PCs"],
+            ["Fifth", "1980 onwards", "AI, knowledge systems, parallel processing", "No single machine defines it"]
+          ]
+        },
+        {
+          "type": "timeline",
+          "title": "Dates to remember",
+          "items": [
+            ["1940 - 1956", "First generation: vacuum tubes"],
+            ["1957 - 1963", "Second generation: transistors"],
+            ["1964 - 1971", "Third generation: integrated circuits"],
+            ["Nov 1971", "Intel 4004, first commercially available single-chip microprocessor"],
+            ["1972 - 1979", "Fourth generation (this convention): microprocessors and VLSI"],
+            ["1980 onwards", "Fifth generation: AI and knowledge-processing emphasis"],
+            ["1982", "Japan's formal fifth-generation project begins"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "remember",
+          "title": "Accuracy note",
+          "text": "These are **textbook ranges, not universal cutoffs**. Commercial microprocessors arrived in 1971 and microprocessor computing continues today, so many books start the fourth generation at 1971. Fifth-generation aims overlap with this technology."
+        },
+        {
+          "type": "callout",
+          "kind": "tip",
+          "title": "Memory trick",
+          "text": "First = tubes, Second = transistors, Third = ICs, Fourth = microprocessors, Fifth = AI emphasis. Think T-T-I-M-A."
+        }
+      ]
+    },
+    {
+      "id": "first-generation",
+      "title": "First Generation: Vacuum Tubes",
+      "icon": "💡",
+      "blocks": [
+        {
+          "type": "bullets",
+          "title": "Features (textbook period 1940-1956)",
+          "items": [
+            "Large machines that used **vacuum tubes** for electronic switching.",
+            "Needed substantial electricity and cooling and required frequent maintenance.",
+            "Programs relied heavily on machine-level instructions.",
+            "Punched cards and paper tape were common input media; printed or punched results were the output.",
+            "Main memory differed by machine: magnetic drums, mercury delay lines and electrostatic storage were used. Magnetic-core memory was not universal."
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "Examples and facts",
+          "rows": [
+            ["Examples", "ENIAC, EDVAC, EDSAC, UNIVAC I, IBM 650, IBM 701"],
+            ["ENIAC", "Contained approximately 18,000 vacuum tubes"],
+            ["IBM 650", "Used a magnetic drum as main memory"],
+            ["Operation times", "Basic exam charts often describe first-generation operation in milliseconds"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "Harvard Mark I",
+          "text": "**Harvard Mark I** was electromechanical. It was an early computing milestone, but not a vacuum-tube electronic computer."
+        }
+      ]
+    },
+    {
+      "id": "second-generation",
+      "title": "Second Generation: Transistors",
+      "icon": "🔌",
+      "blocks": [
+        {
+          "type": "bullets",
+          "title": "Features (textbook period 1957-1963)",
+          "items": [
+            "**Transistors** replaced vacuum tubes as the principal switching components.",
+            "Computers generally became smaller, more reliable and less power-hungry.",
+            "Magnetic-core main memory became widespread; magnetic tapes and disks supported storage.",
+            "Assembly language was important, and FORTRAN and COBOL also became established.",
+            "Punched-card input and printed output remained common.",
+            "Elementary comparison charts often associate operation times with microseconds."
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "Examples and terms",
+          "rows": [
+            ["Examples", "IBM 1620, IBM 7094, CDC 1604, CDC 3600 and IBM 1400-series machines"],
+            ["Assembly code", "Uses symbolic instructions and is translated by an assembler"],
+            ["Batch processing", "Jobs are collected and run with little user interaction during execution"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "text": "Batch systems were particularly important in the second-generation era, but **batch processing is not exclusive to one generation**."
+        }
+      ]
+    },
+    {
+      "id": "third-generation",
+      "title": "Third Generation: Integrated Circuits",
+      "icon": "🔲",
+      "blocks": [
+        {
+          "type": "bullets",
+          "title": "Features (textbook period 1964-1971)",
+          "items": [
+            "**Integrated-circuit** technology increased component density and improved speed, reliability and processing capacity.",
+            "Multiprogramming and time-sharing became increasingly important.",
+            "Keyboards and display terminals supported interactive use.",
+            "Core memory remained significant; semiconductor memory developed during the transition to later systems.",
+            "Magnetic disks and tape were widely used."
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "Examples",
+          "rows": [
+            ["Commonly listed", "IBM System/360, IBM System/370, ICL 2900 and selected DEC PDP models"],
+            ["PDP", "Programmed Data Processor"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "Caution on examples",
+          "text": "Many System/360 models used hybrid **Solid Logic Technology** modules. PDP was a family spanning different technological periods, so its generation depends on the model."
+        }
+      ]
+    },
+    {
+      "id": "fourth-generation",
+      "title": "Fourth Generation: Microprocessors",
+      "icon": "🖥️",
+      "blocks": [
+        {
+          "type": "bullets",
+          "title": "Features",
+          "items": [
+            "**Microprocessors** brought CPU functions onto a single integrated circuit.",
+            "Increasing **VLSI** density supported compact, affordable personal computers.",
+            "Semiconductor RAM and ROM became standard.",
+            "Storage expanded through hard disks, floppy disks, optical media and flash devices.",
+            "Keyboards, mice, scanners, displays and printers supported interaction.",
+            "Networking and graphical interfaces became widespread."
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "Examples and facts",
+          "rows": [
+            ["Examples", "Apple II and IBM-compatible PCs; Apple I is also cited as a fourth-era example"],
+            ["Intel 4004", "Introduced in November 1971; widely recognised as the first commercially available single-chip microprocessor"],
+            ["Cray X-MP", "A vector supercomputer"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "Unreliable chart labels",
+          "text": "A chart entry named 'STAR 1000' has an unclear intended model, so do not memorise it as a verified generation marker. Labels such as 'i3-i11' are also not a reliable generation classification."
+        }
+      ]
+    },
+    {
+      "id": "fifth-generation",
+      "title": "Fifth Generation: AI Emphasis",
+      "icon": "🤖",
+      "blocks": [
+        {
+          "type": "bullets",
+          "title": "Fifth-generation emphasis",
+          "items": [
+            "Artificial intelligence (AI)",
+            "Expert systems and knowledge-based systems",
+            "Neural networks",
+            "Natural language processing",
+            "Parallel processing",
+            "Intelligent robotics"
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "Terms",
+          "rows": [
+            ["Japan's 1982 project", "Combined knowledge information processing, large-scale parallel processing and logic programming"],
+            ["KBS", "Knowledge-Based System"],
+            ["KIPS", "Knowledge Information Processing System; it describes a processing approach, not an input/output device"]
+          ]
+        },
+        {
+          "type": "text",
+          "text": "**VLSI/ULSI** describe how densely chips are integrated, while **AI** describes computational methods and applications. These ideas overlap."
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "Important distinction",
+          "text": "**Pentium 4** and **AMD Athlon** are processor families. **Desktop, laptop, tablet and smartphone** are device categories. None of them alone defines a fifth-generation computer."
+        }
+      ]
+    },
+    {
+      "id": "memory-and-storage",
+      "title": "Memory and Storage Through the Generations",
+      "icon": "💾",
+      "blocks": [
+        {
+          "type": "table",
+          "title": "Memory development",
+          "headers": ["Era", "Main memory"],
+          "rows": [
+            ["Early electronic era", "Drums, delay lines and electrostatic storage; core memory appeared later"],
+            ["Transistor era", "Magnetic-core main memory widely used"],
+            ["IC era", "Core remained important while semiconductor memory emerged"],
+            ["Microprocessor era onwards", "Semiconductor RAM and ROM became standard"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "remember",
+          "text": "No generation used only one memory or storage technology."
+        },
+        {
+          "type": "keyvalue",
+          "title": "Secondary storage",
+          "rows": [
+            ["Early and later systems", "Magnetic tape and magnetic disks were important throughout"],
+            ["Magnetic disk", "Hard disk and floppy disk"],
+            ["Optical disc", "CD, DVD and Blu-ray"],
+            ["HVD", "Holographic Versatile Disc, a specialised holographic optical-storage format"],
+            ["Flash storage", "USB drives, memory cards and most modern SSDs"],
+            ["SSD", "Solid-State Drive"]
+          ]
+        },
+        {
+          "type": "text",
+          "text": "Microprocessor-era systems added widespread optical and flash storage. Modern computers use SSDs, hard disks and network or cloud storage. **SSDs are not exclusive to the fifth generation.**"
+        }
+      ]
+    },
+    {
+      "id": "computer-categories",
+      "title": "Computer Categories",
+      "icon": "🗂️",
+      "blocks": [
+        {
+          "type": "table",
+          "title": "Categories",
+          "headers": ["Category", "Meaning"],
+          "rows": [
+            ["Tablet", "A portable microprocessor-based personal computer, usually operated by touch"],
+            ["Minicomputer", "A historical class smaller and less expensive than mainframes; many supported multiple users"],
+            ["Mainframe", "Supports demanding organisational workloads, large-scale data processing and many concurrent activities"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "text": "**Desktop, laptop, tablet and smartphone** identify form or use, not a unique hardware generation."
+        }
+      ]
+    },
+    {
+      "id": "languages-and-time-units",
+      "title": "Languages and Processing Time",
+      "icon": "⏱️",
+      "blocks": [
+        {
+          "type": "table",
+          "title": "Languages and their purpose",
+          "headers": ["Language", "Purpose"],
+          "rows": [
+            ["Machine language", "Binary instructions executed by a processor"],
+            ["Assembly", "Symbolic instructions translated by an assembler"],
+            ["FORTRAN", "Scientific and numerical programming"],
+            ["COBOL", "Business data processing"],
+            ["BASIC", "General-purpose programming and education"],
+            ["C and C++", "Systems and application programming"],
+            ["Java", "General-purpose application development"],
+            ["Visual Basic", "Application programming, especially desktop tools"],
+            ["JavaScript", "Web scripting and broader application uses"],
+            ["Perl, Python, Ruby", "General-purpose programming and scripting"],
+            ["SQL", "Database definition, queries and data manipulation"],
+            ["MATLAB", "Numerical computation and technical programming; named from Matrix Laboratory"],
+            ["Lisp", "Symbolic processing and AI; named from List Processing"],
+            ["Prolog", "Logic programming and AI; named from Programming in Logic"],
+            ["OPS5", "A rule-based production-system language"],
+            ["Mercury", "Logic and functional programming"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "remember",
+          "title": "Chronology check",
+          "text": "FORTRAN became established in **1957**, Lisp originated in the late 1950s and C appeared in **1972**. A language cannot be assigned exclusively to one hardware generation."
+        },
+        {
+          "type": "keyvalue",
+          "title": "Time units (smaller means shorter)",
+          "rows": [
+            ["Millisecond (ms)", "1/1,000 second"],
+            ["Microsecond (us)", "1/1,000,000 second"],
+            ["Nanosecond (ns)", "1/1,000,000,000 second"],
+            ["Picosecond (ps)", "10 to the power -12 second"],
+            ["Femtosecond (fs)", "10 to the power -15 second"],
+            ["MIPS", "Millions of Instructions Per Second; used when discussing processor or mainframe capacity"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "Exam-chart caution",
+          "text": "Charts link first to milliseconds, second to microseconds, third to nanoseconds, fourth to picoseconds and fifth to femtoseconds. This is an oversimplified comparison, not a universal rule, and **MIPS** is not a complete measure of real application performance."
+        }
+      ]
+    },
+    {
+      "id": "os-interfaces-networks",
+      "title": "Operating Systems, Interfaces, I/O and Networks",
+      "icon": "🌐",
+      "blocks": [
+        {
+          "type": "figure",
+          "kind": "flow",
+          "title": "Operating-system development",
+          "items": [
+            ["Single-task", "One main task at a time"],
+            ["Batch systems", "Jobs run with little interaction"],
+            ["Multiprogramming", "Several programs stay in memory"],
+            ["Time-sharing", "Processing time split among users"],
+            ["Distributed and cloud", "Connected computers, shared services"]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "OS approaches",
+          "rows": [
+            ["Multiprogramming", "Several programs stay in memory; the CPU changes work when necessary"],
+            ["Time-sharing", "Processing time is divided among tasks or users for interactive service"],
+            ["Distributed systems", "Connected computers coordinate their work"],
+            ["Cloud environments", "Computing resources and services are supplied through networks"]
+          ]
+        },
+        {
+          "type": "text",
+          "text": "These approaches coexist rather than replacing one another completely."
+        },
+        {
+          "type": "keyvalue",
+          "title": "User interfaces",
+          "rows": [
+            ["CLI", "Command-Line Interface: users enter text commands"],
+            ["GUI", "Graphical User Interface: windows, icons, menus and other visual controls"],
+            ["CUI", "Commonly Character User Interface: a text-based interface that can still run on modern machines"]
+          ]
+        },
+        {
+          "type": "text",
+          "text": "The broad trend is command-line, then graphical, then touch, then voice and AI-assisted interaction. All of them remain in use."
+        },
+        {
+          "type": "table",
+          "title": "Input and output",
+          "headers": ["Stage", "Devices"],
+          "rows": [
+            ["Early systems", "Punched cards, paper tape, printers and punched output"],
+            ["Interactive terminals", "Keyboards and displays"],
+            ["Personal computers", "Keyboard, mouse, scanner, monitor and printer"],
+            ["Modern devices", "Touchscreens, cameras, microphones, sensors and voice"]
+          ]
+        },
+        {
+          "type": "text",
+          "text": "A **touchscreen provides both input and output**. LCD/LED displays and colour printers are not generation-exclusive."
+        },
+        {
+          "type": "figure",
+          "kind": "flow",
+          "title": "Network development",
+          "items": [
+            ["Standalone systems", "Single machines"],
+            ["LAN", "Local Area Network, a limited area"],
+            ["WAN", "Wide Area Network, larger areas"],
+            ["Internet", "Global network of networks"],
+            ["Cloud computing", "Network access to computing resources"]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "Processing methods",
+          "rows": [
+            ["Sequential", "Operations follow an ordered sequence"],
+            ["Parallel", "Multiple processing units handle different parts of the work simultaneously"],
+            ["Distributed", "Work is coordinated across separate networked computers"]
+          ]
+        },
+        {
+          "type": "text",
+          "text": "LANs and WANs remain part of modern networks. Modern systems combine sequential and parallel execution, and speed gains depend on the workload. The **WWW** and **e-commerce** are services or applications, not defining hardware components of a generation."
+        }
+      ]
+    },
+    {
+      "id": "ai-quantum-emerging",
+      "title": "AI, Quantum and Emerging Computing",
+      "icon": "⚛️",
+      "blocks": [
+        {
+          "type": "keyvalue",
+          "title": "Artificial intelligence",
+          "rows": [
+            ["Expert systems", "Use stored knowledge and rules"],
+            ["Neural networks", "Learn patterns from data"],
+            ["Robotics", "Combines sensing, control and sometimes AI"],
+            ["NLP", "Natural Language Processing: methods for analysing, interpreting and generating human language"]
+          ]
+        },
+        {
+          "type": "bullets",
+          "title": "NLP examples",
+          "items": [
+            "Chatbots answer questions.",
+            "Google Translate converts text between languages.",
+            "Voice assistants interpret spoken requests such as 'Play music'.",
+            "Spam filters can analyse language to identify unwanted email.",
+            "Predictive typing suggests words; autocorrect fixes likely spelling errors.",
+            "Speech applications combine language processing with speech-recognition technology."
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "Quantum computing",
+          "rows": [
+            ["Idea", "Uses quantum-mechanical principles to process information"],
+            ["Classical bit", "Has the value 0 or 1"],
+            ["Qubit", "Can be prepared in a superposition of the states associated with 0 and 1"],
+            ["Measurement", "In the computational basis it gives one result, 0 or 1"],
+            ["Algorithms", "Use superposition, interference and sometimes entanglement"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "Common quantum myths",
+          "text": "Quantum computers may beat classical methods for particular problems, not every task. Superposition does not let a computer display every answer at once, and quantum search is not simply trying all passwords at the same time. Traffic routing and optimisation are research applications with no guaranteed speed advantage."
+        },
+        {
+          "type": "keyvalue",
+          "title": "The informal 'sixth generation'",
+          "rows": [
+            ["Grouping", "Some textbooks bundle quantum computing, nanotechnology, Internet of Things, advanced parallel processing and higher chip density under this label"],
+            ["Status", "There is no universally accepted sixth-generation definition or starting date"],
+            ["IoT", "Internet of Things: connected physical devices with sensors, software and communication capabilities"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "remember",
+          "text": "'UULSI = Ultra-squared Large-Scale Integration' is not a standard generation-defining term. If a question calls quantum technology 'sixth generation', treat that as a teaching convention."
+        }
+      ]
+    },
+    {
+      "id": "historical-milestones",
+      "title": "Historical Milestones and Full Forms",
+      "icon": "🏛️",
+      "blocks": [
+        {
+          "type": "timeline",
+          "title": "Milestones",
+          "items": [
+            ["1890", "Herman Hollerith's punched-card tabulation used for the US Census"],
+            ["21 June 1948", "Manchester Baby (SSEM) runs the first program stored in electronic memory"],
+            ["1949", "EDSAC begins operating at Cambridge, giving an early practical stored-program computing service"],
+            ["1958", "Jack Kilby demonstrates a working semiconductor circuit"],
+            ["1959", "Robert Noyce develops the practical monolithic silicon IC concept"],
+            ["Nov 1971", "Intel 4004 introduced"],
+            ["1976", "Apple I, designed by Steve Wozniak, is demonstrated"]
+          ]
+        },
+        {
+          "type": "bullets",
+          "title": "Details behind the dates",
+          "items": [
+            "**Stored-program concept:** program instructions are kept in memory for automatic fetching and execution.",
+            "For an unrestricted question on the first electronic stored-program computer, distinguish **Manchester Baby**; EDSAC is the early practical service.",
+            "**Kilby and Noyce** are both recognised as IC co-inventors. Most conventional ICs use silicon.",
+            "**Punched cards:** holes in stiff cards encode information for machine reading. Punched-card control existed earlier in textile machinery such as Jacquard looms.",
+            "Hollerith's contribution was data-processing tabulation, not inventing every punched card.",
+            "**Apple I:** Wozniak and Steve Jobs helped bring it to market."
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "Full forms",
+          "rows": [
+            ["ENIAC", "Electronic Numerical Integrator and Computer"],
+            ["EDVAC", "Electronic Discrete Variable Automatic Computer"],
+            ["EDSAC", "Electronic Delay Storage Automatic Calculator"],
+            ["UNIVAC", "Universal Automatic Computer"],
+            ["PDP", "Programmed Data Processor"],
+            ["SSEM", "Small-Scale Experimental Machine"],
+            ["CPU", "Central Processing Unit"],
+            ["RAM", "Random Access Memory"],
+            ["ROM", "Read-Only Memory"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "tip",
+          "text": "Remember the pairs: Kilby = 1958, Noyce = 1959, Baby = 1948, EDSAC = 1949, Hollerith = 1890, Apple I = 1976."
+        }
+      ]
+    }
+  ],
+  "revision": [
+    "A generation is a broad stage of hardware development; boundaries overlap and the dates are textbook ranges.",
+    "First: 1940-1956, vacuum tubes. Second: 1957-1963, transistors. Third: 1964-1971, integrated circuits.",
+    "Fourth: microprocessors and VLSI (1972-1979 in this convention); fifth: 1980 onwards, AI and knowledge processing.",
+    "ENIAC used about 18,000 vacuum tubes; Harvard Mark I was electromechanical, not a tube computer.",
+    "If both semiconductors and transistors are options for replacing tubes, choose transistors.",
+    "Second generation: assembly language, FORTRAN, COBOL, magnetic-core memory and batch processing.",
+    "Third generation: ICs, multiprogramming and time-sharing; IBM System/360, System/370 and ICL 2900 are listed examples.",
+    "Intel 4004 (November 1971) is recognised as the first commercially available single-chip microprocessor.",
+    "VLSI = Very Large-Scale Integration; ULSI = Ultra Large-Scale Integration; KIPS = Knowledge Information Processing System.",
+    "Japan's formal fifth-generation project began in 1982.",
+    "Pentium 4 and AMD Athlon are processor families; desktop, laptop, tablet and smartphone are device categories.",
+    "Time units shrink: millisecond, microsecond, nanosecond, picosecond (10^-12 s), femtosecond (10^-15 s).",
+    "Manchester Baby (SSEM) ran the first stored program on 21 June 1948; EDSAC started in 1949.",
+    "Kilby demonstrated a working semiconductor circuit in 1958; Noyce developed the monolithic silicon IC in 1959.",
+    "Hollerith's punched-card tabulation was used in the 1890 US Census; Jacquard looms used punched-card control earlier.",
+    "A qubit can be in a superposition of 0 and 1; measurement gives one result; 'sixth generation' has no universal definition."
+  ],
+  "mindmap": {
+    "center": "Computer Generations",
+    "branches": [
+      {
+        "label": "Technology path",
+        "children": ["Vacuum tubes", "Transistors", "Integrated circuits", "Microprocessors / VLSI", "AI-oriented computing"]
+      },
+      {
+        "label": "First and second",
+        "children": ["1940-1956 tubes", "ENIAC 18,000 tubes", "1957-1963 transistors", "Assembly, FORTRAN, COBOL", "Batch processing"]
+      },
+      {
+        "label": "Third and fourth",
+        "children": ["1964-1971 ICs", "System/360 and ICL 2900", "Time-sharing", "Intel 4004 (Nov 1971)", "Apple II, IBM PCs"]
+      },
+      {
+        "label": "Fifth generation",
+        "children": ["AI and expert systems", "Neural networks, NLP", "Parallel processing", "Japan 1982 project", "KIPS and KBS"]
+      },
+      {
+        "label": "Memory and storage",
+        "children": ["Drums and delay lines", "Magnetic core", "Semiconductor RAM / ROM", "Optical and flash", "SSD and HVD"]
+      },
+      {
+        "label": "Languages and time",
+        "children": ["FORTRAN 1957, C 1972", "Lisp, Prolog, SQL", "ms, us, ns, ps, fs", "MIPS"]
+      },
+      {
+        "label": "OS, UI and networks",
+        "children": ["Multiprogramming", "Time-sharing", "CLI, GUI, CUI", "LAN, WAN, Internet, cloud"]
+      },
+      {
+        "label": "Milestones",
+        "children": ["Manchester Baby 1948", "EDSAC 1949", "Kilby 1958, Noyce 1959", "Hollerith 1890", "Apple I 1976"]
+      }
+    ]
+  }
+}
