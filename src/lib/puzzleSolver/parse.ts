@@ -1875,7 +1875,7 @@ function parseOpenSize(raw: string): ParseResult | null {
     maxRun = BIG_NUM[w] ?? Number(w)
     if (!Number.isFinite(maxRun)) maxRun = undefined
   }
-  const isSetup = (x: string, i: number) => i === kMin || i === kCertain
+  const isSetup = (_x: string, i: number) => i === kMin || i === kCertain
   const setup = sentences.filter(isSetup).join(' ')
   const clues = sentences.filter((x, i) => !isSetup(x, i) && i !== kRun)
   const named = new Set<string>()
