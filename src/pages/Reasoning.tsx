@@ -10,6 +10,13 @@ export const REASONING_GAMES = [
     icon: 'A1',
   },
   {
+    id: 'alpha-num-series',
+    title: 'Alphanumeric Series',
+    description: 'A row of letters, numbers and symbols — e.g. which element is 12th to the left of the 15th from the right, or how many even numbers sit between a vowel and a consonant.',
+    to: '/reasoning/alpha-num-series',
+    icon: 'D2@',
+  },
+  {
     id: 'statement-conclusions',
     title: 'Statement & Conclusions',
     description: 'Coded inequality chains, e.g. F > R ≥ T = E — decide which conclusions definitely follow.',

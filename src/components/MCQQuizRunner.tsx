@@ -216,7 +216,14 @@ export default function MCQQuizRunner({ gameId, questions, onExit, onRestart, sh
           </div>
         )}
         {current.context && (
-          <div className="mb-6 whitespace-pre-line rounded-xl bg-slate-50 dark:bg-slate-900/40 px-4 py-3 text-left text-sm leading-relaxed text-slate-700 dark:text-slate-300">
+          <div
+            className={[
+              'mb-6 whitespace-pre-line rounded-xl bg-slate-50 dark:bg-slate-900/40 px-4 py-3 text-slate-700 dark:text-slate-300',
+              current.contextBig
+                ? 'break-words text-center font-mono text-xl font-bold leading-loose tracking-widest text-slate-900 dark:text-slate-100 [word-spacing:0.35em]'
+                : 'text-left text-sm leading-relaxed',
+            ].join(' ')}
+          >
             {current.context}
           </div>
         )}
