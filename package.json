@@ -23,6 +23,7 @@
     "verify:surds": "tsx scripts/verify-surds.ts",
     "verify:quadratic": "tsx scripts/verify-quadratic.ts",
     "verify:quadratic-bank": "tsx scripts/verify-quadratic-bank.ts",
+    "verify:powers": "tsx scripts/verify-powers.ts",
     "verify:alpha-series": "tsx scripts/verify-alpha-series.ts",
     "verify:letter-pairs": "tsx scripts/verify-letter-pairs.ts",
     "verify:puzzle":"tsx scripts/verify-puzzle-solver.ts",

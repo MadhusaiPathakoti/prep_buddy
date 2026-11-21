@@ -30,6 +30,7 @@ const AdditionsPractice = lazy(() => import('./pages/games/AdditionsPractice'))
 const SubtractionPractice = lazy(() => import('./pages/games/SubtractionPractice'))
 const DivisionPractice = lazy(() => import('./pages/games/DivisionPractice'))
 const TablesPractice = lazy(() => import('./pages/games/TablesPractice'))
+const Powers = lazy(() => import('./pages/games/Powers'))
 const SquaresCubes = lazy(() => import('./pages/games/SquaresCubes'))
 const RatioPercent = lazy(() => import('./pages/games/RatioPercent'))
 const PercentToRatio = lazy(() => import('./pages/games/PercentToRatio'))
@@ -150,6 +151,7 @@ export default function App() {
           <Route path="/speed-math/division" element={<DivisionPractice />} />
           <Route path="/speed-math/tables" element={<TablesPractice />} />
           <Route path="/speed-math/squares-cubes" element={<SquaresCubes />} />
+          <Route path="/speed-math/powers" element={<Powers />} />
           <Route path="/speed-math/ratios" element={<RatioPercent />} />
           <Route path="/speed-math/percent-to-ratio" element={<PercentToRatio />} />
           <Route path="/speed-math/pythagorean-triplets" element={<PythagoreanTriplets />} />

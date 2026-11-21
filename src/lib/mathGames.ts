@@ -59,6 +59,13 @@ const SPEED_DRILLS: MathGame[] = [
     icon: '²³',
   },
   {
+    id: 'powers',
+    title: 'Powers',
+    description: 'Pick the numbers (2 to 10) and the powers (2 to 10), e.g. 2⁸ = _. Every question is shown with your answer and the correct one at the end.',
+    to: '/speed-math/powers',
+    icon: 'xⁿ',
+  },
+  {
     id: 'ratios',
     title: 'Ratios to Percentage',
     description: 'Convert fractions to percentages, e.g. 1/9 = 11.11%.',
