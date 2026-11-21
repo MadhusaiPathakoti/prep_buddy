@@ -17,6 +17,13 @@ export const REASONING_GAMES = [
     icon: 'D2@',
   },
   {
+    id: 'letter-pairs',
+    title: 'Letter Pairs',
+    description: 'In FINANCIAL, how many pairs of letters have the same gap as in the alphabet? Plus alphabetical-order word puzzles, with quick-solve tips.',
+    to: '/reasoning/letter-pairs',
+    icon: 'A·C',
+  },
+  {
     id: 'statement-conclusions',
     title: 'Statement & Conclusions',
     description: 'Coded inequality chains, e.g. F > R ≥ T = E — decide which conclusions definitely follow.',

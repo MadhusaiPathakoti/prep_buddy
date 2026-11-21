@@ -24,6 +24,7 @@
     "verify:quadratic": "tsx scripts/verify-quadratic.ts",
     "verify:quadratic-bank": "tsx scripts/verify-quadratic-bank.ts",
     "verify:alpha-series": "tsx scripts/verify-alpha-series.ts",
+    "verify:letter-pairs": "tsx scripts/verify-letter-pairs.ts",
     "verify:puzzle":"tsx scripts/verify-puzzle-solver.ts",
     "verify:syllogism": "tsx scripts/verify-syllogism-solver.ts",
     "preview": "vite preview",

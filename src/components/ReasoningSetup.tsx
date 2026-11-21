@@ -44,10 +44,12 @@ interface ReasoningSetupProps {
   generate: (choice: Record<string, string>, count: number) => MCQQuestion[]
   /** Adds a "check with solver" button to each question; the solver can send the player back to the quiz. */
   solver?: SolverLink
+  /** Tips shown between the intro and the options, e.g. a <TipsCard />. */
+  tips?: ReactNode
 }
 
 /** Shared setup screen for the deterministic Reasoning games: pick options, then hand the questions to MCQQuizRunner. */
-export default function ReasoningSetup({ gameId, title, intro, groups, counts = [8, 12, 16, 20, 24], defaultCount = 12, generate, solver }: ReasoningSetupProps) {
+export default function ReasoningSetup({ gameId, title, intro, groups, counts = [8, 12, 16, 20, 24], defaultCount = 12, generate, solver, tips }: ReasoningSetupProps) {
   const location = useLocation()
   const navigate = useNavigate()
   const [choice, setChoice] = useState<Record<string, string>>(() => Object.fromEntries(groups.map((g) => [g.key, g.defaultId])))
@@ -125,6 +127,7 @@ export default function ReasoningSetup({ gameId, title, intro, groups, counts = 
       </Link>
       <h1 className="mt-2 text-3xl font-extrabold text-slate-900 dark:text-slate-100">{title}</h1>
       <div className="mt-2 text-slate-500 dark:text-slate-400">{intro}</div>
+      {tips}
 
       <div className="mt-8 rounded-3xl bg-white dark:bg-slate-800 p-6 shadow-sm ring-1 ring-slate-200 dark:ring-slate-700">
         {groups.map((g, gi) => (
