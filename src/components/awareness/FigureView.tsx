@@ -1,5 +1,5 @@
-import { THEMES } from '../../lib/computerAwareness/theme'
-import type { CaTheme, FigureKind } from '../../lib/computerAwareness/types'
+import { THEMES } from '../../lib/awareness/theme'
+import type { CaTheme, FigureKind } from '../../lib/awareness/types'
 
 interface FigureProps {
   kind: FigureKind

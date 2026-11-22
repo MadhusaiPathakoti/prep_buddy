@@ -1,0 +1,763 @@
+[
+  {
+    "id": "financial-organisations-01",
+    "q": "NABARD was set up on which date?",
+    "options": [
+      "1 April 1935",
+      "12 July 1982",
+      "12 July 1981",
+      "2 April 1990"
+    ],
+    "answer": 1,
+    "explain": "NABARD began working on 12 July 1982 to implement the NABARD Act, 1981. SIDBI is the one that began on 2 April 1990.",
+    "section": "nabard"
+  },
+  {
+    "id": "financial-organisations-02",
+    "q": "NABARD was established on the recommendations of which committee?",
+    "options": [
+      "Narasimham Committee",
+      "Nayak Committee",
+      "Rangarajan Committee",
+      "Shivaraman Committee"
+    ],
+    "answer": 3,
+    "explain": "The Shivaraman Committee reviewed institutional credit arrangements for agriculture and rural development and led to NABARD.",
+    "section": "nabard"
+  },
+  {
+    "id": "financial-organisations-03",
+    "q": "Where is the headquarters of NABARD?",
+    "options": [
+      "Mumbai",
+      "New Delhi",
+      "Lucknow",
+      "Kolkata"
+    ],
+    "answer": 0,
+    "explain": "NABARD is headquartered in Mumbai. Lucknow is the HQ of SIDBI and New Delhi that of NHB.",
+    "section": "nabard"
+  },
+  {
+    "id": "financial-organisations-04",
+    "q": "Which set of bodies did NABARD replace?",
+    "options": [
+      "The Industrial Finance Corporation and the Unit Trust of India",
+      "Regional Rural Banks and Land Development Banks",
+      "The RBI’s Agricultural Credit Department and Rural Planning and Credit Cell, and the Agricultural Refinance and Development Corporation",
+      "The Imperial Bank and the State Financial Corporations"
+    ],
+    "answer": 2,
+    "explain": "NABARD took over the RBI’s ACD and RPCC and the ARDC, bringing rural credit functions under one apex bank.",
+    "section": "nabard"
+  },
+  {
+    "id": "financial-organisations-05",
+    "q": "As on 31 March 2013, what share of NABARD’s paid-up capital of ₹4,000 crore was held by the Government of India?",
+    "options": [
+      "50%",
+      "75%",
+      "99.50%",
+      "100%"
+    ],
+    "answer": 2,
+    "explain": "The Government held ₹3,980 crore (99.50%) and the RBI ₹20 crore (0.50%) of the capital at that time.",
+    "section": "nabard"
+  },
+  {
+    "id": "financial-organisations-06",
+    "q": "What was the initial capital of NABARD?",
+    "options": [
+      "₹100 crore",
+      "₹500 crore",
+      "₹1,000 crore",
+      "₹4,000 crore"
+    ],
+    "answer": 0,
+    "explain": "NABARD started with ₹100 crore; the paid-up capital grew to ₹4,000 crore by March 2013 and ₹4,700 crore by March 2014.",
+    "section": "nabard"
+  },
+  {
+    "id": "financial-organisations-07",
+    "q": "NABARD established JLG to tap the productive capacity of the rural population. What does JLG stand for?",
+    "options": [
+      "Junior Link Group",
+      "Joint Line Group",
+      "Join Life Group",
+      "Joint Liability Group"
+    ],
+    "answer": 3,
+    "explain": "In a Joint Liability Group members jointly guarantee each other’s loans, which helps small rural borrowers get credit.",
+    "section": "nabard-roles-csr",
+    "exam": "SBI PO Main 2015"
+  },
+  {
+    "id": "financial-organisations-08",
+    "q": "Which of these is NOT among the rural initiatives NABARD has taken up through its social work?",
+    "options": [
+      "SHG-bank linkage programme",
+      "Printing and issuing currency notes",
+      "Watershed approach to soil and water conservation",
+      "Farmer clubs for sharing information"
+    ],
+    "answer": 1,
+    "explain": "Currency issue is the RBI’s job. NABARD’s CSR work includes SHG linkage, watershed projects, tribal livelihoods and farmer clubs.",
+    "section": "nabard-roles-csr"
+  },
+  {
+    "id": "financial-organisations-09",
+    "q": "Which role best describes NABARD’s main support to rural lenders?",
+    "options": [
+      "Underwriting government securities",
+      "Refinancing the institutions that lend to the rural sector",
+      "Issuing export credit to large exporters",
+      "Regulating stock exchanges"
+    ],
+    "answer": 1,
+    "explain": "NABARD is an apex agency that refinances the institutions giving investment and production credit in rural areas.",
+    "section": "nabard-roles-csr"
+  },
+  {
+    "id": "financial-organisations-10",
+    "q": "The apex body that deals with refinance for agriculture and rural development in India is",
+    "options": [
+      "SEBI",
+      "SIDBI",
+      "IDBI",
+      "NABARD"
+    ],
+    "answer": 3,
+    "explain": "NABARD is the apex development bank for agriculture and rural development. SIDBI serves MSMEs and IDBI industry.",
+    "section": "nabard-roles-csr"
+  },
+  {
+    "id": "financial-organisations-11",
+    "q": "Approximately how many partner organisations has NABARD worked with in its social innovation efforts?",
+    "options": [
+      "4,000",
+      "400",
+      "1,400",
+      "14,000"
+    ],
+    "answer": 0,
+    "explain": "The study material says NABARD has partnered with about 4,000 organisations on initiatives such as SHG-bank linkage and watershed projects.",
+    "section": "nabard-roles-csr"
+  },
+  {
+    "id": "financial-organisations-12",
+    "q": "Which was the first Development Financial Institution set up by the Government of India after independence?",
+    "options": [
+      "IDBI",
+      "SIDBI",
+      "IFCI",
+      "NHB"
+    ],
+    "answer": 2,
+    "explain": "IFCI (1948) was the first DFI after independence, to meet the long-term financial needs of industry.",
+    "section": "ifci"
+  },
+  {
+    "id": "financial-organisations-13",
+    "q": "In which year was IFCI reconstituted as a company to give it more operational flexibility?",
+    "options": [
+      "1964",
+      "1982",
+      "1993",
+      "2006"
+    ],
+    "answer": 2,
+    "explain": "In 1993 IFCI became a company and was allowed to approach the capital markets directly.",
+    "section": "ifci"
+  },
+  {
+    "id": "financial-organisations-14",
+    "q": "The Industrial Finance Corporation of India provides loans to",
+    "options": [
+      "Joint stock companies and cooperative societies engaged in manufacturing and processing of goods",
+      "Only government companies in the core sector",
+      "Only newly set up units in backward districts",
+      "Private limited companies and partnership firms"
+    ],
+    "answer": 0,
+    "explain": "IFCI lends only to public limited (joint stock) companies and cooperatives, not to private limited companies or partnership firms.",
+    "section": "ifci"
+  },
+  {
+    "id": "financial-organisations-15",
+    "q": "IDBI was established in 1964 by",
+    "options": [
+      "A Presidential ordinance",
+      "A Supreme Court order",
+      "A Companies Act registration by private owners",
+      "An Act of Parliament"
+    ],
+    "answer": 3,
+    "explain": "IDBI was created by an Act of Parliament to provide credit and facilities for the development of Indian industry.",
+    "section": "idbi"
+  },
+  {
+    "id": "financial-organisations-16",
+    "q": "Where is IDBI’s overseas branch located?",
+    "options": [
+      "Singapore",
+      "Dubai",
+      "Beijing",
+      "London"
+    ],
+    "answer": 1,
+    "explain": "IDBI’s one overseas branch is at Dubai; its overseas centres are in Singapore and Beijing.",
+    "section": "idbi"
+  },
+  {
+    "id": "financial-organisations-17",
+    "q": "How is IDBI described in the current study material?",
+    "options": [
+      "A payments bank",
+      "A universal bank on a core banking platform",
+      "A regional rural bank",
+      "A small finance bank"
+    ],
+    "answer": 1,
+    "explain": "IDBI has moved from a pure development bank to a universal bank offering retail and corporate banking.",
+    "section": "idbi"
+  },
+  {
+    "id": "financial-organisations-18",
+    "q": "SIDBI was initially incorporated as a wholly owned subsidiary of which institution?",
+    "options": [
+      "NABARD",
+      "RBI",
+      "SBI",
+      "IDBI"
+    ],
+    "answer": 3,
+    "explain": "SIDBI began on 2 April 1990 as a subsidiary of IDBI; ownership is now with 33 government-owned or controlled institutions.",
+    "section": "sidbi"
+  },
+  {
+    "id": "financial-organisations-19",
+    "q": "Where is the headquarters of SIDBI?",
+    "options": [
+      "Lucknow",
+      "Varanasi",
+      "New Delhi",
+      "Mumbai"
+    ],
+    "answer": 0,
+    "explain": "SIDBI is headquartered in Lucknow.",
+    "section": "sidbi"
+  },
+  {
+    "id": "financial-organisations-20",
+    "q": "Which is the principal institution for promotion, financing and development of the small-scale and MSME sector?",
+    "options": [
+      "RBI",
+      "SBI",
+      "SIDBI",
+      "IDBI"
+    ],
+    "answer": 2,
+    "explain": "SIDBI is the principal financial institution for the MSME sector and coordinates similar institutions.",
+    "section": "sidbi"
+  },
+  {
+    "id": "financial-organisations-21",
+    "q": "SIDBI’s Micro Finance branches are aimed at giving loans up to",
+    "options": [
+      "₹50,000",
+      "₹1 lakh",
+      "₹5 lakh",
+      "₹25 lakh"
+    ],
+    "answer": 2,
+    "explain": "SIDBI opened seven Micro Finance branches especially for loans up to ₹5 lakh.",
+    "section": "sidbi"
+  },
+  {
+    "id": "financial-organisations-22",
+    "q": "Which scheme did SIDBI introduce in 1992-93 to give direct finance to well-run small units for technology up-gradation?",
+    "options": [
+      "Equipment finance scheme",
+      "Fund of Funds",
+      "SPEED",
+      "Mahila Aajeevika Bond"
+    ],
+    "answer": 0,
+    "explain": "The equipment finance scheme gave direct finance to well-run units upgrading technology. The others came decades later.",
+    "section": "sidbi"
+  },
+  {
+    "id": "financial-organisations-23",
+    "q": "What was the initial corpus of the SIDBI venture capital fund meant exclusively for small-scale units?",
+    "options": [
+      "₹1 crore",
+      "₹100 crore",
+      "₹500 crore",
+      "₹10 crore"
+    ],
+    "answer": 3,
+    "explain": "The venture capital fund launched in the early 1990s had an initial corpus of ₹10 crore.",
+    "section": "sidbi"
+  },
+  {
+    "id": "financial-organisations-24",
+    "q": "In which year was the Credit Guarantee Fund Trust for Micro and Small Enterprises (CGTMSE) set up as a SIDBI milestone?",
+    "options": [
+      "1994",
+      "2000",
+      "1999",
+      "2005"
+    ],
+    "answer": 1,
+    "explain": "CGTMSE came in 2000, after SIDBI Venture Capital Limited (1999) and before SMERA Ratings (2005).",
+    "section": "sidbi-milestones"
+  },
+  {
+    "id": "financial-organisations-25",
+    "q": "India SME Asset Reconstruction Company Ltd. (ISARC) was set up in which year?",
+    "options": [
+      "2000",
+      "2008",
+      "2005",
+      "2015"
+    ],
+    "answer": 1,
+    "explain": "ISARC (2008) follows SMERA Ratings (2005) in the SIDBI milestone list.",
+    "section": "sidbi-milestones"
+  },
+  {
+    "id": "financial-organisations-26",
+    "q": "Which SIDBI milestone year saw the launch of Certified Credit Counsellor (CCC)?",
+    "options": [
+      "2015",
+      "2016",
+      "2019",
+      "2017"
+    ],
+    "answer": 3,
+    "explain": "MUDRA was 2015, TReDS 2016 and Certified Credit Counsellor 2017.",
+    "section": "sidbi-milestones"
+  },
+  {
+    "id": "financial-organisations-27",
+    "q": "Which was SIDBI’s largest shareholder as on 4 May 2022?",
+    "options": [
+      "Government of India (20.85%)",
+      "State Bank of India (15.65%)",
+      "LIC (13.33%)",
+      "NABARD (9.36%)"
+    ],
+    "answer": 0,
+    "explain": "The Government of India held 20.85%, ahead of SBI, LIC and NABARD.",
+    "section": "sidbi-milestones"
+  },
+  {
+    "id": "financial-organisations-28",
+    "q": "Among SIDBI’s four major shareholders listed for May 2022, which held the smallest stake?",
+    "options": [
+      "LIC",
+      "SBI",
+      "NABARD",
+      "Government of India"
+    ],
+    "answer": 2,
+    "explain": "NABARD held 9.36%, below LIC (13.33%), SBI (15.65%) and the Government (20.85%).",
+    "section": "sidbi-milestones"
+  },
+  {
+    "id": "financial-organisations-29",
+    "q": "SIDBI’s SPEED, launched in 2019, aims to speed credit to MSMEs for investing in",
+    "options": [
+      "Agricultural land",
+      "Residential housing",
+      "Machinery",
+      "Export insurance"
+    ],
+    "answer": 2,
+    "explain": "SPEED stands for SIDBI Loan for Purchase of Equipment for Enterprise Development.",
+    "section": "sidbi-milestones"
+  },
+  {
+    "id": "financial-organisations-30",
+    "q": "What does SMILE, launched by SIDBI in 2015, stand for?",
+    "options": [
+      "SIDBI Make in India Soft Loan Fund for MSMEs",
+      "Small Industries Micro Investment and Loan Entity",
+      "SIDBI Micro Industry Lending Exchange",
+      "Small Investor Make in India Loan Scheme"
+    ],
+    "answer": 0,
+    "explain": "SMILE provides soft loans for new manufacturing or service enterprises under the Make in India push.",
+    "section": "sidbi-milestones"
+  },
+  {
+    "id": "financial-organisations-31",
+    "q": "The India Aspiration Fund (IAF) to boost the start-up ecosystem was launched under SIDBI in",
+    "options": [
+      "2013",
+      "2017",
+      "2019",
+      "2015"
+    ],
+    "answer": 3,
+    "explain": "IAF came in 2015; the Fund of Funds followed in 2016.",
+    "section": "sidbi-milestones"
+  },
+  {
+    "id": "financial-organisations-32",
+    "q": "The Women’s Livelihood Bond (Mahila Aajeevika Bond) announced in February 2019 offers what annual coupon and tenure?",
+    "options": [
+      "5% and three years",
+      "3% and five years",
+      "7% and ten years",
+      "9% and seven years"
+    ],
+    "answer": 1,
+    "explain": "The World Bank, SIDBI and UN Women announced the bond with a 3% annual coupon and five-year tenure for rural women entrepreneurs.",
+    "section": "sidbi-milestones"
+  },
+  {
+    "id": "financial-organisations-33",
+    "q": "Receivables Exchange of India Ltd (RXIL) was formed in February 2016 as a joint venture of SIDBI and which other body?",
+    "options": [
+      "BSE",
+      "NSE",
+      "RBI",
+      "NABARD"
+    ],
+    "answer": 1,
+    "explain": "RXIL, which runs the TReDS platform, is a joint venture of NSE and SIDBI.",
+    "section": "regulators-misc",
+    "exam": "SBI PO Main 2019"
+  },
+  {
+    "id": "financial-organisations-34",
+    "q": "EXIM Bank of India was set up in 1982 under which Act?",
+    "options": [
+      "SIDBI Act, 1989",
+      "National Housing Bank Act, 1987",
+      "Banking Regulation Act, 1949",
+      "Export-Import Bank of India Act, 1981"
+    ],
+    "answer": 3,
+    "explain": "EXIM Bank was created under the EXIM Bank of India Act 1981 and began operations in 1982, like NABARD.",
+    "section": "exim"
+  },
+  {
+    "id": "financial-organisations-35",
+    "q": "Which of these is NOT a function of EXIM Bank?",
+    "options": [
+      "Refinancing rural cooperative banks",
+      "Extending buyers’ credit",
+      "Extending lines of credit",
+      "Paying special attention to capital goods exports"
+    ],
+    "answer": 0,
+    "explain": "Rural refinance is NABARD’s role. EXIM Bank focuses on export-import finance.",
+    "section": "exim"
+  },
+  {
+    "id": "financial-organisations-36",
+    "q": "Which institution is regarded as the premier export finance institution of India?",
+    "options": [
+      "SIDBI",
+      "IFCI",
+      "EXIM Bank",
+      "NHB"
+    ],
+    "answer": 2,
+    "explain": "The Export-Import Bank of India is the premier export finance institution.",
+    "section": "exim"
+  },
+  {
+    "id": "financial-organisations-37",
+    "q": "ICICI Bank’s registered office is in which city, with its corporate headquarters in Mumbai?",
+    "options": [
+      "Pune",
+      "Surat",
+      "Vadodara",
+      "Ahmedabad"
+    ],
+    "answer": 2,
+    "explain": "ICICI is registered in Vadodara (Gujarat) but its corporate headquarters is in Mumbai.",
+    "section": "icici"
+  },
+  {
+    "id": "financial-organisations-38",
+    "q": "Which of these was an objective of ICICI?",
+    "options": [
+      "To sponsor and underwrite new issues",
+      "To issue currency notes",
+      "To supervise cooperative banks",
+      "To insure bank deposits"
+    ],
+    "answer": 0,
+    "explain": "ICICI’s objectives included underwriting new issues and lending to private-sector industry; the others belong to RBI, NABARD and DICGC.",
+    "section": "icici"
+  },
+  {
+    "id": "financial-organisations-39",
+    "q": "Which two banks were first designated as Domestic Systemically Important Banks (D-SIBs) by the RBI in 2015?",
+    "options": [
+      "PNB and SBI",
+      "HDFC Bank and SBI",
+      "ICICI Bank and PNB",
+      "ICICI Bank and SBI"
+    ],
+    "answer": 3,
+    "explain": "SBI and ICICI Bank were the first two D-SIBs; HDFC Bank was added later.",
+    "section": "icici",
+    "exam": "IBPS PO Main 2015"
+  },
+  {
+    "id": "financial-organisations-40",
+    "q": "On which date was the National Housing Bank (NHB) set up?",
+    "options": [
+      "12 July 1982",
+      "9 July 1988",
+      "2 April 1990",
+      "1 February 1964"
+    ],
+    "answer": 1,
+    "explain": "NHB was set up on 9 July 1988 under the National Housing Bank Act, 1987.",
+    "section": "nhb"
+  },
+  {
+    "id": "financial-organisations-41",
+    "q": "Where is the head office of NHB?",
+    "options": [
+      "Mumbai",
+      "New Delhi",
+      "Lucknow",
+      "Hyderabad"
+    ],
+    "answer": 1,
+    "explain": "NHB’s head office is in New Delhi.",
+    "section": "nhb"
+  },
+  {
+    "id": "financial-organisations-42",
+    "q": "Who contributed the entire paid-up capital of NHB when it was set up?",
+    "options": [
+      "State Bank of India",
+      "LIC",
+      "IDBI",
+      "Reserve Bank of India"
+    ],
+    "answer": 3,
+    "explain": "The RBI funded NHB at the start; the Finance Act 2018 later enabled transfer of the shares to the Central Government.",
+    "section": "nhb"
+  },
+  {
+    "id": "financial-organisations-43",
+    "q": "Which of these is NOT an objective of the National Housing Bank?",
+    "options": [
+      "Issuing currency notes",
+      "Promoting specialised housing finance institutions",
+      "Giving refinance to housing finance institutions and scheduled banks",
+      "Providing guarantee and underwriting facilities to housing finance institutions"
+    ],
+    "answer": 0,
+    "explain": "NHB deals with housing finance; only the RBI issues currency.",
+    "section": "nhb"
+  },
+  {
+    "id": "financial-organisations-44",
+    "q": "The National Housing Bank Act under which NHB was set up was passed in which year?",
+    "options": [
+      "1964",
+      "1981",
+      "1987",
+      "1990"
+    ],
+    "answer": 2,
+    "explain": "NHB was set up in 1988 under the National Housing Bank Act, 1987.",
+    "section": "nhb"
+  },
+  {
+    "id": "financial-organisations-45",
+    "q": "IIFCL was set up in 2006 to give long-term finance to",
+    "options": [
+      "Agricultural cooperatives",
+      "Export-oriented textile units only",
+      "Viable infrastructure projects",
+      "Home buyers"
+    ],
+    "answer": 2,
+    "explain": "India Infrastructure Finance Company Ltd is a wholly government-owned company for long-term infrastructure finance.",
+    "section": "infra-finance"
+  },
+  {
+    "id": "financial-organisations-46",
+    "q": "As on 31 March 2017, what were the authorised and paid-up capital of IIFCL?",
+    "options": [
+      "₹6,000 crore and ₹4,002 crore",
+      "₹4,002 crore and ₹6,000 crore",
+      "₹1,000 crore and ₹500 crore",
+      "₹10,000 crore and ₹9,000 crore"
+    ],
+    "answer": 0,
+    "explain": "IIFCL’s authorised capital was ₹6,000 crore and paid-up capital ₹4,002 crore.",
+    "section": "infra-finance"
+  },
+  {
+    "id": "financial-organisations-47",
+    "q": "In 2016 the Irrigation and Water Resources Finance Corporation (IWRFC) was amalgamated with",
+    "options": [
+      "NABARD",
+      "NHB",
+      "SIDBI",
+      "IIFCL"
+    ],
+    "answer": 3,
+    "explain": "IWRFC, formed on 29 March 2008 for irrigation investment, merged into IIFCL in 2016.",
+    "section": "infra-finance"
+  },
+  {
+    "id": "financial-organisations-48",
+    "q": "Which sector is eligible for financial assistance from IIFCL?",
+    "options": [
+      "Retail gold lending",
+      "Water and sanitation",
+      "Personal consumption loans",
+      "Stock market trading"
+    ],
+    "answer": 1,
+    "explain": "IIFCL supports transportation, energy, water, sanitation, communication and social and commercial infrastructure.",
+    "section": "infra-finance"
+  },
+  {
+    "id": "financial-organisations-49",
+    "q": "The Unit Trust of India was first set up in which year?",
+    "options": [
+      "1963",
+      "1964",
+      "1969",
+      "1982"
+    ],
+    "answer": 1,
+    "explain": "The UTI Act was passed on 30 December 1963 and UTI was first set up on 1 February 1964.",
+    "section": "uti-iibi"
+  },
+  {
+    "id": "financial-organisations-50",
+    "q": "UTI Bank changed its name to which bank in 2007?",
+    "options": [
+      "ICICI Bank",
+      "Yes Bank",
+      "IDFC First Bank",
+      "Axis Bank"
+    ],
+    "answer": 3,
+    "explain": "UTI Bank became Axis Bank in 2007.",
+    "section": "uti-iibi"
+  },
+  {
+    "id": "financial-organisations-51",
+    "q": "Where was the headquarters of the Industrial Investment Bank of India (IIBI)?",
+    "options": [
+      "Kolkata",
+      "Mumbai",
+      "Chennai",
+      "New Delhi"
+    ],
+    "answer": 0,
+    "explain": "IIBI, a 100% government-owned institution, was headquartered in Kolkata and closed in 2012.",
+    "section": "uti-iibi"
+  },
+  {
+    "id": "financial-organisations-52",
+    "q": "In which year did the Government close down the Industrial Investment Bank of India?",
+    "options": [
+      "2000",
+      "2008",
+      "2012",
+      "2016"
+    ],
+    "answer": 2,
+    "explain": "IIBI began in 1971 as IRCL, became IRBI in 1985 and was closed in 2012.",
+    "section": "uti-iibi"
+  },
+  {
+    "id": "financial-organisations-53",
+    "q": "The Board for Financial Supervision constituted by the RBI in 1994 undertakes consolidated supervision of which entities?",
+    "options": [
+      "Only commercial banks",
+      "Only cooperative banks and RRBs",
+      "Commercial banks, financial institutions and NBFCs together",
+      "Only insurance companies"
+    ],
+    "answer": 2,
+    "explain": "The BFS looks at commercial banks, financial institutions and non-banking finance companies together.",
+    "section": "regulators-misc"
+  },
+  {
+    "id": "financial-organisations-54",
+    "q": "Mutual funds fall within the supervisory purview of",
+    "options": [
+      "SEBI",
+      "RBI",
+      "SBI",
+      "IRDAI"
+    ],
+    "answer": 0,
+    "explain": "SEBI regulates mutual funds; IRDAI regulates insurance.",
+    "section": "regulators-misc"
+  },
+  {
+    "id": "financial-organisations-55",
+    "q": "India’s first small finance bank was opened in which city?",
+    "options": [
+      "Ahmedabad",
+      "Bengaluru",
+      "Kolkata",
+      "Jalandhar"
+    ],
+    "answer": 3,
+    "explain": "Capital Small Finance Bank in Jalandhar was the first, among 10 entities given in-principle approval by the RBI.",
+    "section": "regulators-misc",
+    "exam": "IBPS RRB Asst. Main 2020"
+  },
+  {
+    "id": "financial-organisations-56",
+    "q": "The Serum Institute of India, the world’s largest vaccine maker by doses, is located in",
+    "options": [
+      "Mumbai",
+      "Pune",
+      "New Delhi",
+      "Kolkata"
+    ],
+    "answer": 1,
+    "explain": "Serum Institute of India is based in Pune.",
+    "section": "regulators-misc",
+    "exam": "SBI Clerk Main 2020"
+  },
+  {
+    "id": "financial-organisations-57",
+    "q": "SEBI raised the penalty on rating agencies ICRA, CARE and India Ratings to ₹1 crore each for lapses in rating NCDs of which company?",
+    "options": [
+      "Tesco",
+      "IL&FS",
+      "Honda",
+      "Wal-Mart"
+    ],
+    "answer": 1,
+    "explain": "IL&FS is a systemically important non-deposit-accepting core investment company registered with the RBI.",
+    "section": "regulators-misc",
+    "exam": "RBI Asst. Main 2020"
+  },
+  {
+    "id": "financial-organisations-58",
+    "q": "ICAO is a specialised agency of which body?",
+    "options": [
+      "International Monetary Fund",
+      "European Union",
+      "World Economic Forum",
+      "United Nations"
+    ],
+    "answer": 3,
+    "explain": "The International Civil Aviation Organization is a UN agency that helps 193 countries cooperate in the skies.",
+    "section": "regulators-misc",
+    "exam": "IBPS Clerk Mains 2023"
+  }
+]

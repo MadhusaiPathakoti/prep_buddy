@@ -1,0 +1,445 @@
+[
+  {
+    "id": "negotiable-instruments-01",
+    "q": "In which year was the Negotiable Instruments Act enacted in India?",
+    "options": ["1861", "1881", "1901", "1934"],
+    "answer": 1,
+    "explain": "The Negotiable Instruments Act was enacted in 1881. The RBI Act of 1934 is a different law, though the NI Act works subject to its Sections 31 and 32.",
+    "section": "act-and-meaning"
+  },
+  {
+    "id": "negotiable-instruments-02",
+    "q": "Before the Negotiable Instruments Act of 1881 was enacted, which law applied in India?",
+    "options": ["The Indian Contract Act", "The Companies Act", "The Banking Regulation Act", "The English Negotiable Instruments law"],
+    "answer": 3,
+    "explain": "The English law applied earlier, and the Indian Act of 1881 is itself based on the English Act with some modifications.",
+    "section": "act-and-meaning"
+  },
+  {
+    "id": "negotiable-instruments-03",
+    "q": "The Negotiable Instruments Act operates subject to Sections 31 and 32 of which Act?",
+    "options": ["Companies Act, 1956", "Banking Regulation Act, 1949", "Reserve Bank of India Act, 1934", "Indian Contract Act, 1872"],
+    "answer": 2,
+    "explain": "Sections 31 and 32 of the RBI Act, 1934 limit how instruments payable to bearer can be issued, and the NI Act works subject to them.",
+    "section": "act-and-meaning"
+  },
+  {
+    "id": "negotiable-instruments-04",
+    "q": "Under Section 13(a), a negotiable instrument means a promissory note, a bill of exchange or a",
+    "options": ["share certificate", "cheque", "fixed deposit receipt", "insurance policy"],
+    "answer": 1,
+    "explain": "The three instruments recognised by statute are the promissory note, the bill of exchange and the cheque, payable to order or to bearer.",
+    "section": "act-and-meaning"
+  },
+  {
+    "id": "negotiable-instruments-05",
+    "q": "Which instrument can never be made payable to the bearer, whether on demand or after a certain time?",
+    "options": ["Promissory note", "Cheque", "Bill of exchange payable after a certain time", "Share warrant"],
+    "answer": 0,
+    "explain": "A promissory note cannot be made payable to the bearer. A cheque can be bearer on demand, and a bill can be bearer after a time.",
+    "section": "act-and-meaning"
+  },
+  {
+    "id": "negotiable-instruments-06",
+    "q": "Which statement is correct about payable-to-bearer instruments?",
+    "options": ["A promissory note can be made payable to bearer on demand", "A bill of exchange can be made payable to bearer on demand", "A cheque can never be drawn payable to bearer", "A bill of exchange cannot be made payable to bearer on demand"],
+    "answer": 3,
+    "explain": "A bill cannot be bearer on demand, though it can be bearer after a certain time. A cheque, drawn on a banker, may be bearer on demand.",
+    "section": "act-and-meaning"
+  },
+  {
+    "id": "negotiable-instruments-07",
+    "q": "A bona fide transferee for value who is not affected by defects in the title of earlier holders is called a",
+    "options": ["payee in need", "acceptor for honour", "drawee in case of need", "holder in due course"],
+    "answer": 3,
+    "explain": "A holder in due course takes the instrument in good faith and for value, and gets a clean title.",
+    "section": "characteristics"
+  },
+  {
+    "id": "negotiable-instruments-08",
+    "q": "A negotiable instrument can be transferred any number of times until it reaches",
+    "options": ["maturity", "dishonour", "protest", "endorsement"],
+    "answer": 0,
+    "explain": "Transfer by negotiation can continue as long as the instrument has not matured.",
+    "section": "characteristics"
+  },
+  {
+    "id": "negotiable-instruments-09",
+    "q": "The transferee of a negotiable instrument can sue in his own name in case of",
+    "options": ["maturity", "dishonour", "endorsement in blank", "crossing"],
+    "answer": 1,
+    "explain": "The right to sue in his own name on dishonour is one of the rights of the transferee.",
+    "section": "characteristics"
+  },
+  {
+    "id": "negotiable-instruments-10",
+    "q": "It is not necessary to write ‘for value received’ in a promissory note because",
+    "options": ["the Act forbids such words", "the RBI has banned them", "payment of consideration is presumed", "only a bill needs consideration"],
+    "answer": 2,
+    "explain": "Consideration is presumed for every negotiable instrument until the contrary is proved, so those words add nothing.",
+    "section": "characteristics"
+  },
+  {
+    "id": "negotiable-instruments-11",
+    "q": "Which of the following is NOT a characteristic of a negotiable instrument?",
+    "options": ["Property", "Title", "Prompt payment", "Compulsory crossing"],
+    "answer": 3,
+    "explain": "The characteristics are property, title, rights, presumptions and prompt payment. Crossing is a feature of cheques only and is not compulsory.",
+    "section": "characteristics"
+  },
+  {
+    "id": "negotiable-instruments-12",
+    "q": "A holder of a negotiable instrument can expect prompt payment because dishonour",
+    "options": ["ruins the credit of all persons who are parties to it", "is a punishable offence for the holder", "cancels the instrument automatically", "is impossible in law"],
+    "answer": 0,
+    "explain": "Because dishonour would ruin the credit of every party, parties pay promptly.",
+    "section": "characteristics"
+  },
+  {
+    "id": "negotiable-instruments-13",
+    "q": "Which sections of the Negotiable Instruments Act lay down presumptions about negotiable instruments?",
+    "options": ["Sections 4 and 5", "Sections 118 and 119", "Sections 91 and 92", "Sections 13 and 131"],
+    "answer": 1,
+    "explain": "Sections 118 and 119 list the presumptions that the court makes without needing proof.",
+    "section": "presumptions"
+  },
+  {
+    "id": "negotiable-instruments-14",
+    "q": "Where a negotiable instrument is dated, the court presumes that it",
+    "options": ["is stale", "was made or drawn on that date unless the contrary is proved", "is post-dated", "must be paid on the same day"],
+    "answer": 1,
+    "explain": "The presumption as to date means the date written on the instrument is taken as its date of making unless disproved.",
+    "section": "presumptions"
+  },
+  {
+    "id": "negotiable-instruments-15",
+    "q": "Under Section 119, on proof of protest the court presumes",
+    "options": ["the fact of acceptance", "that the instrument was forged", "that it was duly stamped", "the fact of dishonour"],
+    "answer": 3,
+    "explain": "In a suit on a dishonoured instrument, proof of protest leads the court to presume dishonour until it is disproved.",
+    "section": "presumptions"
+  },
+  {
+    "id": "negotiable-instruments-16",
+    "q": "Which of the following is NOT a presumption under Section 118?",
+    "options": ["That the drawer is solvent", "That the instrument was made for consideration", "That endorsements were made in the order in which they appear", "That a transfer was made before maturity"],
+    "answer": 0,
+    "explain": "Consideration, date, time of acceptance, time of transfer, order of endorsement, stamp and holder in due course are presumed. Solvency is not.",
+    "section": "presumptions"
+  },
+  {
+    "id": "negotiable-instruments-17",
+    "q": "A lost promissory note, bill of exchange or cheque is presumed, until the contrary is proved, to have been",
+    "options": ["dishonoured", "duly stamped", "forged", "crossed"],
+    "answer": 1,
+    "explain": "Stamp is one of the presumptions: a lost instrument is presumed to have been duly stamped.",
+    "section": "presumptions"
+  },
+  {
+    "id": "negotiable-instruments-18",
+    "q": "Until the contrary is proved, the holder of a negotiable instrument is presumed to be",
+    "options": ["a thief", "the drawer", "a holder in due course", "the acceptor for honour"],
+    "answer": 2,
+    "explain": "Every holder is presumed to have paid consideration and taken the instrument in good faith, so is presumed a holder in due course.",
+    "section": "presumptions"
+  },
+  {
+    "id": "negotiable-instruments-19",
+    "q": "Section 4 of the Negotiable Instruments Act deals with",
+    "options": ["Cheques", "Hundis", "Bills of exchange", "Promissory notes"],
+    "answer": 3,
+    "explain": "Section 4 defines the promissory note, Section 5 the bill of exchange and Section 6 the cheque.",
+    "section": "kinds-of-instruments"
+  },
+  {
+    "id": "negotiable-instruments-20",
+    "q": "Which section of the Negotiable Instruments Act deals with the cheque?",
+    "options": ["Section 6", "Section 5", "Section 7", "Section 8"],
+    "answer": 0,
+    "explain": "Section 6 defines a cheque as a bill of exchange drawn on a specified banker and payable on demand.",
+    "section": "kinds-of-instruments"
+  },
+  {
+    "id": "negotiable-instruments-21",
+    "q": "A bill of exchange is",
+    "options": ["a conditional promise to pay", "an unconditional order to pay", "an unconditional promise to pay", "a conditional order to pay"],
+    "answer": 1,
+    "explain": "A bill of exchange contains an unconditional order directing a certain person to pay. A promissory note contains a promise.",
+    "section": "kinds-of-instruments"
+  },
+  {
+    "id": "negotiable-instruments-22",
+    "q": "Which of the following is correct about a promissory note?",
+    "options": ["It need not be in writing", "An implied promise is enough", "The promise to pay must be definite and unconditional", "The payment can be in kind"],
+    "answer": 2,
+    "explain": "A promissory note must be in writing, with a definite and unconditional undertaking to pay a certain sum of money.",
+    "section": "kinds-of-instruments"
+  },
+  {
+    "id": "negotiable-instruments-23",
+    "q": "How many parties are involved in a promissory note?",
+    "options": ["6", "5", "3", "2"],
+    "answer": 3,
+    "explain": "A promissory note has two parties: the maker (debtor) who promises to pay and the payee (creditor) who receives.",
+    "section": "kinds-of-instruments"
+  },
+  {
+    "id": "negotiable-instruments-24",
+    "q": "Which of the following is recognised as a negotiable instrument by usage or custom rather than by statute?",
+    "options": ["Hundi", "Promissory note", "Bill of exchange", "Cheque"],
+    "answer": 0,
+    "explain": "Promissory notes, bills and cheques are statutory. Hundis, share warrants, dividend warrants, railway receipts and the like are recognised by custom.",
+    "section": "kinds-of-instruments"
+  },
+  {
+    "id": "negotiable-instruments-25",
+    "q": "All of the following are recognised by custom rather than by statute, EXCEPT",
+    "options": ["dividend warrants", "promissory note", "share warrants", "bearer debentures"],
+    "answer": 1,
+    "explain": "A promissory note is recognised by the statute itself. The other three are customary or quasi-negotiable instruments.",
+    "section": "kinds-of-instruments"
+  },
+  {
+    "id": "negotiable-instruments-26",
+    "q": "An instrument that is incomplete in some respects under the Negotiable Instruments Act is called a/an",
+    "options": ["foreign instrument", "inland instrument", "inchoate instrument", "fictitious instrument"],
+    "answer": 2,
+    "explain": "An inchoate instrument is one that is incomplete and can be completed later by the holder.",
+    "section": "kinds-of-instruments"
+  },
+  {
+    "id": "negotiable-instruments-27",
+    "q": "A hundi is a negotiable instrument written in",
+    "options": ["Latin only", "French only", "Binary code", "an oriental language"],
+    "answer": 3,
+    "explain": "A hundi is an indigenous negotiable instrument in an oriental language, whether in the form of a note or a bill.",
+    "section": "kinds-of-instruments"
+  },
+  {
+    "id": "negotiable-instruments-28",
+    "q": "A cheque is a bill of exchange with two more qualifications. Which pair is correct?",
+    "options": ["Drawn on a specified banker and payable on demand", "Payable after a fixed time and drawn on a company", "Always crossed and always post-dated", "Payable only to the bearer and only in cash"],
+    "answer": 0,
+    "explain": "A cheque is always drawn on a specified banker and always payable on demand.",
+    "section": "kinds-of-instruments"
+  },
+  {
+    "id": "negotiable-instruments-29",
+    "q": "Which of the following is NOT a classification of bills of exchange?",
+    "options": ["Inland and foreign bills", "Secured and unsecured bills", "Time and demand bills", "Trade and accommodation bills"],
+    "answer": 1,
+    "explain": "Bills are classified as inland and foreign, time and demand, and trade and accommodation bills.",
+    "section": "kinds-of-instruments"
+  },
+  {
+    "id": "negotiable-instruments-30",
+    "q": "Truncated cheques come under which Act?",
+    "options": ["Negotiable Instruments Act, 1901", "Negotiable Instruments Act, 1867", "Negotiable Instruments Act, 1881", "Negotiable Instruments Act, 1884"],
+    "answer": 2,
+    "explain": "Truncated cheques are covered by the Negotiable Instruments Act, 1881.",
+    "section": "kinds-of-instruments",
+    "exam": "RBI Grade-B 2018"
+  },
+  {
+    "id": "negotiable-instruments-31",
+    "q": "Which of the following Acts helps a bank in its day-to-day activities?",
+    "options": ["Competition Act", "Hindu Marriage Act", "Hindu Succession Act", "Negotiable Instruments Act"],
+    "answer": 3,
+    "explain": "Cheques, drafts and other instruments that banks handle daily are governed by the Negotiable Instruments Act.",
+    "section": "kinds-of-instruments",
+    "exam": "IBPS PO 2015"
+  },
+  {
+    "id": "negotiable-instruments-32",
+    "q": "A negotiable financial instrument issued by a bank to represent a foreign company’s publicly traded securities is a",
+    "options": ["depository receipt", "buyer’s credit", "treasury bill", "commercial paper"],
+    "answer": 0,
+    "explain": "A depository receipt represents shares of a foreign company and is issued by a bank. The other options do not represent securities.",
+    "section": "kinds-of-instruments",
+    "exam": "SBI PO Main 2017"
+  },
+  {
+    "id": "negotiable-instruments-33",
+    "q": "Section 131 of the Negotiable Instruments Act extends protection to the",
+    "options": ["paying banker only", "collecting banker", "issuing authority of cheques", "drawer of the cheque"],
+    "answer": 1,
+    "explain": "Section 131 protects the collecting banker who collects a cheque in good faith and without negligence.",
+    "section": "kinds-of-instruments"
+  },
+  {
+    "id": "negotiable-instruments-34",
+    "q": "Which of the following is NOT a negotiable instrument?",
+    "options": ["Promissory note", "Bill of exchange", "Share certificate", "Cheque"],
+    "answer": 2,
+    "explain": "A share certificate is only evidence of ownership and is not negotiable. A share warrant is the customary negotiable one.",
+    "section": "kinds-of-instruments"
+  },
+  {
+    "id": "negotiable-instruments-35",
+    "q": "The maker of a bill of exchange is called the",
+    "options": ["drawee", "payee", "acceptor", "drawer"],
+    "answer": 3,
+    "explain": "The drawer makes the bill. The drawee is directed to pay and the payee receives the money.",
+    "section": "parties"
+  },
+  {
+    "id": "negotiable-instruments-36",
+    "q": "A drawee who has signed his assent upon a bill and delivered it, or given notice of the signing, is called the",
+    "options": ["acceptor", "indorser", "indorsee", "payee"],
+    "answer": 0,
+    "explain": "Once the drawee signs his assent, he becomes the acceptor of the bill.",
+    "section": "parties"
+  },
+  {
+    "id": "negotiable-instruments-37",
+    "q": "A person named in the bill, in addition to the drawee, to be approached if the drawee refuses to accept is called a",
+    "options": ["holder in due course", "drawee in case of need", "acceptor for honour", "notary"],
+    "answer": 1,
+    "explain": "The holder must present the bill to the drawee in case of need, and the bill is dishonoured only if he also refuses.",
+    "section": "parties"
+  },
+  {
+    "id": "negotiable-instruments-38",
+    "q": "A person who is not liable on the bill and accepts it, with the holder’s consent, to honour a party liable on it is called",
+    "options": ["drawee in case of need", "holder", "acceptor for honour", "indorser"],
+    "answer": 2,
+    "explain": "An acceptor for honour steps in when the original drawee refuses to accept or give better security.",
+    "section": "parties"
+  },
+  {
+    "id": "negotiable-instruments-39",
+    "q": "In a promissory note, the maker is",
+    "options": ["the creditor", "the payee", "the banker", "the debtor"],
+    "answer": 3,
+    "explain": "The maker promises to pay and is the debtor; the payee is the creditor.",
+    "section": "parties"
+  },
+  {
+    "id": "negotiable-instruments-40",
+    "q": "The real beneficiary under a negotiable instrument, to whom or to whose order the money is directed to be paid, is the",
+    "options": ["payee", "drawee", "acceptor", "indorsee only"],
+    "answer": 0,
+    "explain": "The payee is the person named in the instrument and is its real beneficiary.",
+    "section": "parties"
+  },
+  {
+    "id": "negotiable-instruments-41",
+    "q": "Transfer of an instrument by signing on its back or face, or on a slip of paper attached to it, is known as",
+    "options": ["bill of lading", "endorsement", "promissory note", "protest"],
+    "answer": 1,
+    "explain": "Endorsement means writing one’s name on the instrument or on an attached paper with the intention of transferring the rights in it.",
+    "section": "endorsement"
+  },
+  {
+    "id": "negotiable-instruments-42",
+    "q": "How many classes of endorsement does the chapter list?",
+    "options": ["Three", "Four", "Five", "Seven"],
+    "answer": 2,
+    "explain": "They are blank or general, special or full, partial, restrictive and conditional.",
+    "section": "endorsement"
+  },
+  {
+    "id": "negotiable-instruments-43",
+    "q": "Which of the following is NOT a class of endorsement?",
+    "options": ["Blank", "Restrictive", "Partial", "Compulsory"],
+    "answer": 3,
+    "explain": "The classes are blank, special, partial, restrictive and conditional; there is no compulsory endorsement.",
+    "section": "endorsement"
+  },
+  {
+    "id": "negotiable-instruments-44",
+    "q": "Which of the following wordings of payment prohibits transfer and so is not suitable for a negotiable instrument?",
+    "options": ["Pay A only", "Pay A or order", "Pay to the order of A", "Pay bearer"],
+    "answer": 0,
+    "explain": "‘Pay A only’ restricts payment to A and prohibits further transfer. The other forms keep the instrument negotiable.",
+    "section": "endorsement"
+  },
+  {
+    "id": "negotiable-instruments-45",
+    "q": "When the holder of a bill or note loses it, the finder",
+    "options": ["gets a good title to it", "gets no title and cannot lawfully transfer it", "becomes the holder in due course", "can sue the drawer"],
+    "answer": 1,
+    "explain": "A finder acquires no title, and the person who lost the instrument can recover it from him.",
+    "section": "defective-title"
+  },
+  {
+    "id": "negotiable-instruments-46",
+    "q": "If a thief receives payment on a stolen instrument, the true owner",
+    "options": ["has no remedy", "must wait for maturity", "can sue him for recovery of the amount", "must pay the drawer"],
+    "answer": 2,
+    "explain": "A thief’s position is the same as a finder’s: he gets no title, and the owner can sue to recover the amount.",
+    "section": "defective-title"
+  },
+  {
+    "id": "negotiable-instruments-47",
+    "q": "A contract on a negotiable instrument where consent was obtained by fraud is",
+    "options": ["void from the beginning for everyone", "perfectly valid", "valid but unstamped", "voidable at the option of the person whose consent was so obtained"],
+    "answer": 3,
+    "explain": "Fraud makes the contract voidable at the defrauded party’s option, and the fraudster gets a defective title.",
+    "section": "defective-title"
+  },
+  {
+    "id": "negotiable-instruments-48",
+    "q": "An instrument given for an illegal consideration is",
+    "options": ["void and does not convey a valid title to the holder", "valid for the holder", "valid but voidable", "valid only if crossed"],
+    "answer": 0,
+    "explain": "The general rules on lawful consideration apply to negotiable instruments, so an illegal-consideration instrument is void.",
+    "section": "defective-title"
+  },
+  {
+    "id": "negotiable-instruments-49",
+    "q": "A forged instrument is treated as",
+    "options": ["a valid instrument", "a nullity, and the holder gets no title", "a voidable instrument", "a crossed instrument"],
+    "answer": 1,
+    "explain": "Forgery confers no title and a forged instrument is treated as a nullity.",
+    "section": "defective-title"
+  },
+  {
+    "id": "negotiable-instruments-50",
+    "q": "A cheque and a promissory note can be dishonoured only by",
+    "options": ["non-acceptance", "non-presentment", "non-payment", "non-endorsement"],
+    "answer": 2,
+    "explain": "Neither is presented for acceptance, so they can only be dishonoured by non-payment. A bill can be dishonoured by non-acceptance or non-payment.",
+    "section": "dishonour"
+  },
+  {
+    "id": "negotiable-instruments-51",
+    "q": "If a drawee does not accept a bill within what period from presentment for acceptance is it treated as dishonoured by non-acceptance?",
+    "options": ["12 hours", "24 hours", "72 hours", "48 hours"],
+    "answer": 3,
+    "explain": "A bill is dishonoured if the drawee does not accept it within 48 hours of presentment for acceptance.",
+    "section": "dishonour"
+  },
+  {
+    "id": "negotiable-instruments-52",
+    "q": "Dishonour by non-payment is dealt with in which section of the Negotiable Instruments Act?",
+    "options": ["Section 92", "Section 91", "Section 93", "Section 94"],
+    "answer": 0,
+    "explain": "Section 91 covers non-acceptance, Section 92 non-payment and Section 93 notice of dishonour.",
+    "section": "dishonour"
+  },
+  {
+    "id": "negotiable-instruments-53",
+    "q": "On dishonour, the holder must give notice of dishonour to",
+    "options": ["only the drawee", "all prior parties whom he wants to make liable", "the Reserve Bank of India", "only the payee"],
+    "answer": 1,
+    "explain": "Notice goes to all prior parties the holder wishes to hold liable; the agent of such a party may also be given notice.",
+    "section": "dishonour"
+  },
+  {
+    "id": "negotiable-instruments-54",
+    "q": "When a bill is drawn on several drawees who are partners and one of them accepts, the position is that",
+    "options": ["the bill is dishonoured", "the bill must be accepted again", "acceptance by one means acceptance by all", "the bill is void"],
+    "answer": 2,
+    "explain": "Ordinarily all drawees must accept, but where the drawees are partners, acceptance by one binds all of them.",
+    "section": "dishonour"
+  },
+  {
+    "id": "negotiable-instruments-55",
+    "q": "Which section of the Negotiable Instruments Act deals with notice of dishonour by the holder or a liable party to all prior parties?",
+    "options": ["Section 91", "Section 92", "Section 76", "Section 93"],
+    "answer": 3,
+    "explain": "Section 93 lays down who gives notice of dishonour and to whom.",
+    "section": "dishonour"
+  }
+]

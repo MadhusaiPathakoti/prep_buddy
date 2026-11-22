@@ -1,0 +1,561 @@
+{
+  "id": "insurance",
+  "sections": [
+    {
+      "id": "insurance-basics",
+      "title": "What insurance is and its two families",
+      "icon": "🛡️",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "**Insurance** is a contract in which an insurer promises to make good (indemnify) another party for losses caused by a specified risk or peril. Put differently, a company or the state guarantees compensation for a named loss, damage, illness or death, and in return the customer pays a fixed price called the **premium**."
+        },
+        {
+          "type": "keyvalue",
+          "title": "Core terms",
+          "rows": [
+            ["Insurer", "The company or corporation that takes on the risk and pays the claim."],
+            ["Policyholder / insured", "The person (or group) who buys the cover and pays the premium."],
+            ["Premium", "The price paid for the cover, as fixed by the policy terms."],
+            ["Indemnity", "Compensation that puts the insured back to the position before the loss."],
+            ["Contingency / peril", "The uncertain event (death, fire, accident, illness) that the policy protects against."]
+          ]
+        },
+        {
+          "type": "figure",
+          "kind": "flow",
+          "title": "How an insurance contract works",
+          "items": [
+            ["Policy bought", "Insurer and customer agree the terms"],
+            ["Premium paid", "Customer pays the agreed price"],
+            ["Peril occurs", "Death, fire, accident, illness..."],
+            ["Claim made", "Customer or nominee informs insurer"],
+            ["Compensation", "Insurer pays as per the policy"]
+          ]
+        },
+        {
+          "type": "text",
+          "text": "Insurance splits into two big families: **Life Insurance** and **Non-life (General) Insurance**. General insurance is then divided into many types such as health, travel, motor and property cover."
+        },
+        {
+          "type": "mnemonic",
+          "title": "Which came first: Life or General?",
+          "phrase": "Life before General, like L comes before G: LIC in 1956, GIC in 1972.",
+          "letters": [
+            ["L", "Life Insurance Corporation of India – set up 1956"],
+            ["G", "General Insurance Corporation of India – set up 1972"]
+          ],
+          "note": "Both were created by Acts of Parliament after nationalisation; the 16-year gap is 1956 to 1972."
+        }
+      ]
+    },
+    {
+      "id": "life-and-health",
+      "title": "Life insurance and health insurance",
+      "icon": "❤️",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "**Life insurance** is a financial cover for contingencies linked to human life: death, disability, accident, retirement and so on. Human life faces risks of death and disability from both natural and accidental causes. When a life is lost or a person is disabled, the household loses income, and life insurance acts as a hedge against that uncertain loss."
+        },
+        {
+          "type": "text",
+          "text": "**Health insurance** covers medical expenses. Like every policy it is a contract between an insurer and an individual or group: the insurer agrees to provide a specified health cover at a particular premium, subject to the terms and conditions of the policy."
+        },
+        {
+          "type": "callout",
+          "kind": "remember",
+          "title": "Where health sits",
+          "text": "In India, health cover is part of non-life (general) insurance. It is sold by general insurers and also by 6 standalone health insurers that do only health business (count as per the 2024-25 book)."
+        },
+        {
+          "type": "table",
+          "title": "Life versus health in one glance",
+          "headers": ["Feature", "Life insurance", "Health insurance"],
+          "rows": [
+            ["Protects against", "Death, disability, accident, retirement-linked needs", "Medical-aid and treatment expenses"],
+            ["Loss it hedges", "Loss of household income when a life is lost or disabled", "Unexpected hospital and medical costs"],
+            ["Nature of contract", "Contract between insurer and policyholder", "Contract between insurer and an individual or group"]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "general-insurance-types",
+      "title": "General insurance: travel, motor, property",
+      "icon": "🚗",
+      "blocks": [
+        {
+          "type": "table",
+          "title": "Main types of general insurance",
+          "headers": ["Type", "What it covers"],
+          "rows": [
+            ["Travel insurance", "Domestic, overseas or both; protects you and family against travel accidents, sudden medical costs abroad, baggage or passport loss, flight interruptions or delays and late baggage."],
+            ["Motor insurance", "Damage to the owner’s own vehicle plus third-party liability for injury or damage to another person’s life or property caused by the vehicle in a public place."],
+            ["Property insurance", "Buildings, machinery, stocks etc. against fire and allied perils, burglary and similar risks."],
+            ["Marine cargo", "Goods in transit by sea, air, rail, road or courier."],
+            ["Marine hull", "The hulls of ships and boats."],
+            ["Aviation insurance", "Aircraft: planes and helicopters."]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "Motor cover is compulsory",
+          "text": "Driving a motor vehicle in a public place without insurance is a punishable offence, so cover is needed for as long as you own the vehicle. The law makes the owner liable for third-party injury or property damage, which is why third-party cover is the mandatory minimum."
+        },
+        {
+          "type": "mnemonic",
+          "title": "Marine and aviation property covers",
+          "phrase": "CHA: Cargo = goods on the move, Hull = the boat itself, Aviation = the aircraft.",
+          "letters": [
+            ["C", "Marine Cargo – goods in transit by sea, air, rail, road, courier"],
+            ["H", "Marine Hull – hulls of ships and boats"],
+            ["A", "Aviation – planes and helicopters"]
+          ]
+        },
+        {
+          "type": "text",
+          "text": "Property insurance is a vast category of general insurance. The cover on offer depends entirely on the kind of property the customer wants to protect."
+        }
+      ]
+    },
+    {
+      "id": "lic",
+      "title": "Life Insurance Corporation of India (LIC)",
+      "icon": "🏢",
+      "blocks": [
+        {
+          "type": "keyvalue",
+          "title": "LIC at a glance",
+          "rows": [
+            ["Head office", "Mumbai"],
+            ["Chairman (as listed in the 2024-25 book)", "Siddhartha Mohunty"],
+            ["Managing Directors (as listed)", "M. Jagannath, Tabush Pandey, Satpal Bhanoo and R. Doraiswamy"],
+            ["Tagline", "“Yogaksheman Vahamyaham”"],
+            ["Status", "The only public sector company dealing in life insurance"],
+            ["Formed", "1 September 1956, by merging private life insurers (the book cites 243 companies) through an Act of Parliament (the LIC Act, 1956)"],
+            ["Governed by", "Insurance Act 1938, LIC Act 1956, LIC Regulations 1959 and the IRDAI"],
+            ["Overseas branches", "Fiji, Mauritius, Qatar, Kuwait, UAE, Nepal, Sri Lanka, Singapore and the United Kingdom"],
+            ["Stake in IDBI Bank", "49.24 % – the only insurer in India that owns a bank"]
+          ]
+        },
+        {
+          "type": "timeline",
+          "title": "LIC IPO (2022)",
+          "items": [
+            ["4 May 2022", "IPO opens for subscription."],
+            ["9 May 2022", "IPO closes; it was oversubscribed 2.95 times, with bids of about ₹45,000 crore."]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "remember",
+          "title": "LIC must-knows",
+          "text": "Sole public life insurer | Mumbai | formed 1 Sept 1956 | tagline Yogaksheman Vahamyaham | owns 49.24 % of IDBI Bank (the only insurer owning a bank) | IPO 4 to 9 May 2022, subscribed 2.95 times."
+        }
+      ]
+    },
+    {
+      "id": "gic-and-subsidiaries",
+      "title": "GIC Re and the four general insurers",
+      "icon": "🏛️",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "General insurance in India was **nationalised in 1972**. In all, 107 insurers were merged into four companies: National, New India, Oriental and United India. The **General Insurance Corporation of India (GIC)** was incorporated in 1972 and those four companies became its subsidiaries."
+        },
+        {
+          "type": "timeline",
+          "title": "GIC milestones",
+          "items": [
+            ["1972", "GIC incorporated; 107 insurers grouped into four companies, which become its subsidiaries."],
+            ["Nov 2000", "GIC notified as the Indian Reinsurer; its supervisory role over the subsidiaries ends."],
+            ["March 2003", "GIC stops being their holding company; ownership of the four insurers passes to the Government of India."]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "GIC facts",
+          "rows": [
+            ["Head office", "Mumbai"],
+            ["CMD (as listed)", "Rama Swamy Narayanam"],
+            ["Tagline", "“Aapatkale Rakshisyami”"],
+            ["Foreign subsidiaries", "2: GIC Re South Africa and GIC Re India Corporate Member Ltd. in the UK"],
+            ["Global rank", "16th among the top 40 global reinsurance groups (S&P ranking, per the book)"]
+          ]
+        },
+        {
+          "type": "table",
+          "title": "The four general insurers",
+          "headers": ["Company", "Head office", "Incorporated", "Tagline"],
+          "rows": [
+            ["National Insurance Co. Ltd.", "Kolkata", "1906", "“Trusted Since 1906”"],
+            ["The New India Assurance Co. Ltd.", "Mumbai", "1919 (founded by Sir Dorabji Tata, 23 July 1919)", "“India’s Premier General Insurance Company”"],
+            ["United India Insurance Co. Ltd. (UIIC)", "Chennai", "1938", "“Rest Assured With Us”"],
+            ["The Oriental Insurance Co. Ltd.", "New Delhi", "1947", "“Prithivi, Agni, Jal, Akash, Sab Ki Suraksha Hamare Pass”"]
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Who got merged into whom at nationalisation",
+          "headers": ["Company", "Details from the nationalisation merger"],
+          "rows": [
+            ["National Insurance", "Merged with 21 foreign and 11 Indian companies; nationalised along with the rest of the industry."],
+            ["New India Assurance", "Nationalised in 1973 with a merger of Indian companies; over 170 products today (as per the book)."],
+            ["United India Insurance", "Absorbed 12 Indian insurers, 4 cooperative insurance societies, Indian operations of 5 foreign insurers and LIC’s southern-region general business."],
+            ["Oriental Insurance", "In 2003 all its shares held by GIC moved to the Government of India."]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "Heads of the four (as listed in the 2024-25 book; they change often)",
+          "rows": [
+            ["National Insurance", "CMD Rajeshwari Singh Muni"],
+            ["New India Assurance", "CEO Neeraja Kapur"],
+            ["United India Insurance", "CMD Satyajit Tripathi"],
+            ["Oriental Insurance", "CMD R. R. Singh"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "fact",
+          "title": "Proposed merger",
+          "text": "The government has aimed to merge three state-owned general insurers: National, United India and Oriental. Their combined net worth was put at ₹9,243 crore, with roughly 44,000 employees across about 6,000 offices. New India Assurance was left out of this plan."
+        },
+        {
+          "type": "mnemonic",
+          "title": "The four general insurers and their cities",
+          "phrase": "NOUN: Kind Dogs Chase Mice.",
+          "letters": [
+            ["N", "National – Kolkata (K)"],
+            ["O", "Oriental – New Delhi (D)"],
+            ["U", "United India – Chennai (C)"],
+            ["N", "New India – Mumbai (M)"]
+          ],
+          "note": "Remember that only New India (and GIC and LIC) are headquartered in Mumbai."
+        },
+        {
+          "type": "mnemonic",
+          "title": "Order of incorporation years",
+          "phrase": "Nice New Uncles Overseas: National 1906, New India 1919, United 1938, Oriental 1947.",
+          "letters": [
+            ["Nice", "National – 1906"],
+            ["New", "New India – 1919"],
+            ["Uncles", "United India – 1938"],
+            ["Overseas", "Oriental – 1947"]
+          ],
+          "note": "The gaps between the years are 13, 19 and 9; the first letters spell N-N-U-O."
+        },
+        {
+          "type": "mnemonic",
+          "title": "Taglines decoded",
+          "phrase": "Oriental = elements (earth, fire, water, sky); National = year in the line; United = rest assured.",
+          "letters": [
+            ["Oriental", "Prithivi (earth), Agni (fire), Jal (water), Akash (sky)"],
+            ["National", "Trusted Since 1906"],
+            ["United India", "Rest Assured With Us"],
+            ["New India", "India’s Premier General Insurance Company"]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "irdai-ombudsman",
+      "title": "IRDAI and the Insurance Ombudsman",
+      "icon": "⚖️",
+      "blocks": [
+        {
+          "type": "keyvalue",
+          "title": "IRDAI at a glance",
+          "rows": [
+            ["Full form", "Insurance Regulatory and Development Authority of India"],
+            ["Head office", "Hyderabad"],
+            ["Chairman (as listed in the 2024-25 book)", "S. C. Khuntia"],
+            ["Tagline", "“Promoting Insurance Protecting Insured”"],
+            ["Role", "Regulator of the Indian insurance industry; protects policyholders’ interests and works for the orderly growth of the industry"],
+            ["Rule-making power", "Frames regulations under Section 114A of the Insurance Act, 1938"]
+          ]
+        },
+        {
+          "type": "text",
+          "text": "IRDAI closely monitors the insurance sector so that the industry grows in a healthy way and policyholders are protected. It is the regulator for all insurers, public or private, including the state-owned general insurers."
+        },
+        {
+          "type": "figure",
+          "kind": "layers",
+          "title": "Insurance regulation and redress",
+          "items": [
+            ["Insurance Act, 1938", "The parent law; Section 114A gives rule-making power"],
+            ["IRDAI (Hyderabad)", "Regulator and protector of policyholders"],
+            ["Insurers", "LIC, GIC Re, general, health and private insurers"],
+            ["Insurance Ombudsman", "Out-of-court redress for individual policyholders"]
+          ]
+        },
+        {
+          "type": "text",
+          "text": "The **Insurance Ombudsman scheme** was created by the Government of India so that individual policyholders can have complaints settled outside the courts in a cost-effective, efficient and impartial way. Any policyholder with a grievance against an insurer may complain to the Ombudsman for their location, either personally or through legal heirs, a nominee or an assignee."
+        },
+        {
+          "type": "callout",
+          "kind": "fact",
+          "title": "D-SIIs",
+          "text": "IRDAI has named three state-run insurers as Domestic Systemically Important Insurers (D-SIIs): LIC, GIC Re and New India Assurance. These are the insurers whose failure could shake the financial system."
+        },
+        {
+          "type": "mnemonic",
+          "title": "The three D-SIIs",
+          "phrase": "LGN – Life, General Re, New India: the big three that are too big to fail.",
+          "letters": [
+            ["L", "Life Insurance Corporation of India (LIC)"],
+            ["G", "General Insurance Corporation of India (GIC Re)"],
+            ["N", "New India Assurance"]
+          ],
+          "note": "HDFC Life and ICICI Prudential are not D-SIIs."
+        }
+      ]
+    },
+    {
+      "id": "industry-snapshot",
+      "title": "Industry numbers and market size",
+      "icon": "📊",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "At the time the book was written, **68 insurers** were operating in India. Counts change as licences are granted, so treat these as figures from the 2024-25 syllabus."
+        },
+        {
+          "type": "table",
+          "title": "Insurers in India by type (per the 2024-25 book)",
+          "headers": ["Category", "Total", "Public sector", "Private sector"],
+          "rows": [
+            ["Life insurers", "24", "1 (LIC)", "23"],
+            ["General insurers", "27", "6 (the 4 PSU general insurers plus ECGC and AIC)", "21"],
+            ["Standalone health insurers", "6", "0", "6"],
+            ["Re-insurers (incl. foreign branches and Lloyd’s India)", "11", "1 (GIC Re)", "10"],
+            ["All insurers", "68", "8", "60"]
+          ]
+        },
+        {
+          "type": "text",
+          "text": "The two specialised public insurers are **ECGC** (export credit) and **AIC** (agriculture insurance). Together with LIC, the four general insurers and GIC Re, they make up the 8 public sector insurers."
+        },
+        {
+          "type": "mnemonic",
+          "title": "Counting the insurers",
+          "phrase": "Total 68 = 24 life + 27 general + 6 health + 11 re. Public 8 = 1 + 4 + 1 + 2; private 60 = 23 + 21 + 6 + 10.",
+          "letters": [
+            ["68", "24 life, 27 general, 6 standalone health, 11 re-insurers"],
+            ["Public 8", "LIC (1), four PSU general insurers (4), GIC Re (1), ECGC and AIC (2)"],
+            ["Private 60", "23 life, 21 general, 6 health, 10 re-insurers"]
+          ],
+          "note": "Private general = 27 − 6 public = 21; private life = 24 − 1 = 23; private re = 11 − 1 = 10."
+        },
+        {
+          "type": "bullets",
+          "title": "Market size (FY20 data in the book)",
+          "items": [
+            "Government efforts to insure the uninsured have steadily lifted insurance penetration.",
+            "Gross direct premiums of non-life insurers reached US$ 20.33 billion in FY20 (up to December 2019).",
+            "Till February 2020 of FY20 they reached US$ 24.82 billion, a year-on-year growth of 14.03 %.",
+            "Overall insurance penetration (premiums as % of GDP) rose from 2.71 % in 2001 to 3.69 % in 2017.",
+            "In the same period private insurers grew premium collection by 17 %, against 9 % for state-owned non-life insurers.",
+            "Private sector share of the non-life market rose from 13.12 % in FY03 to 55.70 % in FY20."
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "tip",
+          "title": "Penetration, in plain words",
+          "text": "Insurance penetration is premium income as a percentage of GDP. It tells you how deeply insurance has spread; a rise from 2.71 % to 3.69 % means it grew over 2001 to 2017."
+        }
+      ]
+    },
+    {
+      "id": "reforms-developments",
+      "title": "Recent reforms and proposals",
+      "icon": "🚀",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "The following reforms and proposals were described as recent developments in the 2024-25 book. Several were proposals at the time, so check current status before relying on them in an exam on latest affairs."
+        },
+        {
+          "type": "table",
+          "title": "Reforms at a glance",
+          "headers": ["Reform", "Main idea"],
+          "rows": [
+            ["Invest up to 30 % of assets in BFSI", "Insurers may deploy up to 30 % of assets in the banking, financial services and insurance sector for better investment income."],
+            ["Lower minimum entry capital", "Proposal to reduce the ₹100 crore minimum capital for new insurers, enabling mono-line firms for motor, property, agri, SME, travel or consumer electronics."],
+            ["Use & File", "IRDAI extended the procedure so insurers can launch products faster, pilot them in small groups and customise cover."],
+            ["Bima Bharosa platform", "Proposed single window to track and file complaints, building trust between customers and insurers."],
+            ["Pay as you drive (motor)", "Lower premium based on kilometres driven, measured by a free telematics device."],
+            ["Bima Sugam", "Proposed regulator-supervised marketplace for standardisation, transparency, less mis-selling and fraud; supports OPD covers."],
+            ["Composite licence", "Proposed single licence to offer life, health and general cover under one roof."],
+            ["Higher tie-up limits (3x)", "A corporate agent (CA) can tie up with 9 insurers and an insurance marketing firm (IMF) with 6, for each of life, general and health."],
+            ["Regulatory sandbox", "Controlled testing of new products and technologies; maximum experimentation period of 36 months, with mid-way approval for faster go-live."]
+          ]
+        },
+        {
+          "type": "mnemonic",
+          "title": "Tie-up limits and sandbox numbers",
+          "phrase": "CA beats IMF, 9 to 6; sandbox is 3 years, 36 months.",
+          "letters": [
+            ["CA", "Corporate agent: up to 9 insurers per line of business"],
+            ["IMF", "Insurance marketing firm: up to 6 insurers per line of business"],
+            ["Sandbox", "36 months (3 years) maximum experimentation"],
+            ["BFSI", "Insurers may put up to 30 % of assets in the sector"]
+          ],
+          "note": "Old tie-up limit was a third of the new one, which is why it is called a 3x increase."
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "Platform names",
+          "text": "Bima Bharosa is the complaint-handling platform. Bima Sugam is the proposed one-stop marketplace for buying and servicing policies. Do not swap them in an exam."
+        }
+      ]
+    },
+    {
+      "id": "bancassurance",
+      "title": "Bancassurance",
+      "icon": "🏦",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "**Bancassurance** means selling insurance and banking products through the same channel, most commonly through bank branches. In practice it is distributing insurance and other financial products through banks."
+        },
+        {
+          "type": "steps",
+          "title": "How bancassurance works in India",
+          "items": [
+            "The RBI recognises bancassurance and lets a bank give physical space in selected branches to an insurer.",
+            "The insurer sells its products to the bank’s customers there, with adequate disclosure and transparency.",
+            "The bank earns referral fees, putting its existing resources and customer base to use."
+          ]
+        },
+        {
+          "type": "bullets",
+          "title": "RBI guidelines",
+          "items": [
+            "Banks may act as brokers and sell policies of several insurance companies.",
+            "They can act as corporate agents without prior RBI approval.",
+            "To raise insurance penetration, banks may act as brokers, set up their own insurance subsidiaries and make referrals for multiple companies."
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Old and new IRDAI norms",
+          "headers": ["Point", "Existing norm", "New proposal"],
+          "rows": [
+            ["Role of the bank", "Corporate agent", "Broker (can also continue as agent)"],
+            ["Insurers it may tie up with", "Only one life insurer and one non-life insurer", "Policies of different insurers"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "remember",
+          "title": "Bancassurance in one line",
+          "text": "Bancassurance = insurance sold through banks. Under the older rule a bank-agent could sell for just one life and one non-life insurer; the new approach lets banks broker policies of many insurers."
+        }
+      ]
+    },
+    {
+      "id": "para-banking-extras",
+      "title": "Para-banking and other insurance facts",
+      "icon": "📌",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "**Para-banking** means financial services that banks offer beyond core deposits and lending: insurance business, underwriting, equipment leasing, mutual funds, pension fund management and similar activities. Banks usually do these through subsidiaries, which they are allowed to form under Section 19(1) of the Banking Regulation Act, 1949."
+        },
+        {
+          "type": "keyvalue",
+          "title": "Extra facts that often come up",
+          "rows": [
+            ["Bank subsidiaries in para-banking", "Examples: SBI Pension Funds Pvt. Ltd, SBI Mutual Fund and ICICI Ventures."],
+            ["Banks in insurance", "A bank may set up a subsidiary or joint venture and also do insurance broking or agency."],
+            ["Pension fund management", "Banks may enter this business under the framework of the PFRDA Act, 2013."],
+            ["Life insurance in India", "In its modern form it came to India from England in 1818."],
+            ["Insurance Act, 1938 – Section 35", "Deals with amalgamation and transfer of insurance business."],
+            ["Postal Life Insurance (PLI)", "In operation since 1884; comes under the Ministry of Communications (Department of Posts)."],
+            ["Varishtha Pension Bima Yojana (VPBY) 2017", "Senior-citizen pension plan approved by the Union Cabinet on 24 January 2017, with an assured return of 8 % a year at launch."]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "tip",
+          "title": "Ordering the years",
+          "text": "1818 modern life insurance reaches India | 1884 Postal Life Insurance | 1938 Insurance Act | 1956 LIC | 1972 general insurance nationalised | 2022 LIC IPO."
+        },
+        {
+          "type": "mnemonic",
+          "title": "Insurance timeline in one sentence",
+          "phrase": "Eighteen-eighteen it began, eighty-four the post, thirty-eight the Act, fifty-six LIC, seventy-two GIC.",
+          "letters": [
+            ["1818", "Life insurance reaches India from England"],
+            ["1884", "Postal Life Insurance begins"],
+            ["1938", "Insurance Act"],
+            ["1956", "LIC formed"],
+            ["1972", "General insurance nationalised, GIC formed"]
+          ]
+        }
+      ]
+    }
+  ],
+  "revision": [
+    "Insurance is a contract: the insurer indemnifies the insured for a specified loss in return for a premium.",
+    "Insurance has two families: life and non-life (general); health, travel, motor and property are general types.",
+    "Driving without motor insurance in a public place is a punishable offence; third-party liability is the legal minimum.",
+    "Marine cargo covers goods in transit, marine hull covers ships and boats, aviation covers planes and helicopters.",
+    "LIC (Mumbai) was formed on 1 September 1956, is the only public life insurer, and holds 49.24 % of IDBI Bank.",
+    "LIC IPO ran 4 to 9 May 2022 and was subscribed 2.95 times.",
+    "General insurance was nationalised in 1972: 107 insurers merged into National, New India, Oriental and United India.",
+    "GIC was notified as the Indian Reinsurer in Nov 2000; ownership of its four subsidiaries moved to the Government in March 2003.",
+    "Head offices: National – Kolkata, Oriental – New Delhi, United India – Chennai, New India – Mumbai.",
+    "Incorporation: National 1906, New India 1919 (Dorabji Tata), United India 1938, Oriental 1947.",
+    "IRDAI (Hyderabad) regulates insurance and frames rules under Section 114A of the Insurance Act 1938.",
+    "D-SIIs are LIC, GIC Re and New India Assurance.",
+    "68 insurers: 24 life, 27 general, 6 standalone health, 11 re-insurers; 8 public and 60 private.",
+    "Tie-up limits per line of business: corporate agent 9 insurers, insurance marketing firm 6; sandbox lasts up to 36 months.",
+    "Bancassurance is selling insurance through banks; earlier a bank-agent could tie up with one life and one non-life insurer.",
+    "Insurance Ombudsman gives out-of-court, low-cost redress to individual policyholders."
+  ],
+  "mindmap": {
+    "center": "Insurance Industry",
+    "branches": [
+      {
+        "label": "Basics",
+        "children": ["Insurer indemnifies for premium", "Life vs non-life", "Health insurance", "Policyholder and nominee"]
+      },
+      {
+        "label": "General insurance types",
+        "children": ["Travel", "Motor (third-party mandatory)", "Property: fire, burglary", "Marine cargo and hull", "Aviation"]
+      },
+      {
+        "label": "LIC",
+        "children": ["Mumbai, formed 1 Sept 1956", "Sole public life insurer", "49.24% of IDBI Bank", "IPO May 2022", "Yogaksheman Vahamyaham"]
+      },
+      {
+        "label": "GIC and subsidiaries",
+        "children": ["Nationalised 1972, 107 insurers", "National – Kolkata, 1906", "New India – Mumbai, 1919", "United India – Chennai, 1938", "Oriental – New Delhi, 1947"]
+      },
+      {
+        "label": "Regulation",
+        "children": ["IRDAI, Hyderabad", "Section 114A, Insurance Act", "Insurance Ombudsman", "D-SIIs: LIC, GIC Re, NIA"]
+      },
+      {
+        "label": "Industry numbers",
+        "children": ["68 insurers", "8 public, 60 private", "ECGC and AIC", "Penetration 3.69% in 2017"]
+      },
+      {
+        "label": "Reforms",
+        "children": ["Use and File", "Bima Bharosa, Bima Sugam", "Composite licence", "Tie-up limit 9 and 6", "Sandbox 36 months"]
+      },
+      {
+        "label": "Bancassurance",
+        "children": ["Insurance sold via banks", "Referral fees", "Banks as brokers", "Para-banking, Section 19(1)"]
+      }
+    ]
+  }
+}

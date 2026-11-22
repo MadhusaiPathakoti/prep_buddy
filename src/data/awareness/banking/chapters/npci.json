@@ -1,0 +1,473 @@
+{
+  "id": "npci",
+  "sections": [
+    {
+      "id": "npci-overview",
+      "title": "What is NPCI?",
+      "icon": "🏛️",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "The **National Payments Corporation of India (NPCI)** is the **umbrella organisation for all retail payments** in India. It was set up with the guidance and support of the **Reserve Bank of India (RBI)** and the **Indian Banks' Association (IBA)**."
+        },
+        {
+          "type": "keyvalue",
+          "title": "Genesis",
+          "rows": [
+            ["Legal basis", "Created under the **Payment and Settlement Systems Act, 2007** to build a robust payment and settlement infrastructure."],
+            ["Company status", "Incorporated as a **'Not for Profit' company** under **Section 25 of the Companies Act 1956** (now **Section 8 of the Companies Act 2013**)."],
+            ["Aim", "Provide infrastructure for the whole banking system for physical and electronic payment and settlement, bring technology-led innovation to retail payments, and widen their reach."]
+          ]
+        },
+        {
+          "type": "figure",
+          "kind": "layers",
+          "title": "Where NPCI sits",
+          "items": [
+            ["RBI + IBA", "Guided and supported NPCI's creation"],
+            ["NPCI", "Not-for-profit umbrella body for retail payments"],
+            ["NPCI products", "UPI, RuPay, IMPS, BBPS, NACH, NFS, AePS"],
+            ["Banks and apps", "Reach customers and merchants"]
+          ]
+        },
+        {
+          "type": "bullets",
+          "title": "The 10 promoter banks",
+          "items": [
+            "State Bank of India",
+            "Punjab National Bank",
+            "Canara Bank",
+            "Bank of Baroda",
+            "Union Bank of India",
+            "Bank of India",
+            "ICICI Bank",
+            "HDFC Bank",
+            "Citibank",
+            "HSBC"
+          ]
+        },
+        {
+          "type": "mnemonic",
+          "title": "Promoter banks: 6-2-2",
+          "phrase": "Six public, two private, two foreign: SPCBUB, then IH, then CH.",
+          "letters": [
+            ["6 public", "SBI, PNB, Canara, Bank of Baroda, Union Bank, Bank of India"],
+            ["2 private", "ICICI Bank and HDFC Bank"],
+            ["2 foreign", "Citibank and HSBC"]
+          ],
+          "note": "The first letters S-P-C-B-U-B follow the public sector list in order."
+        },
+        {
+          "type": "callout",
+          "kind": "remember",
+          "title": "Section 25 became Section 8",
+          "text": "NPCI was a Section 25 company under the 1956 Act. The same 'not for profit' provision is **Section 8** of the Companies Act 2013."
+        }
+      ]
+    },
+    {
+      "id": "aeps-apbs",
+      "title": "AePS and APBS (Aadhaar-based)",
+      "icon": "🆔",
+      "blocks": [
+        {
+          "type": "keyvalue",
+          "rows": [
+            ["Aadhaar Enabled Payment System (AePS)", "A **bank-led model** that allows basic, interoperable banking transactions at a **PoS (Micro ATM)** through the **business correspondent of any bank**, using **Aadhaar authentication**. It is a network of Micro ATMs using Aadhaar authentication."],
+            ["Basic AePS services", "Balance enquiry, cash withdrawal, cash deposit and Aadhaar-to-Aadhaar fund transfer. A small overdraft facility is **not** one of them."],
+            ["Inputs for a customer", "Aadhaar number, fingerprint (biometric) and the Issuer Identification Number of the bank."],
+            ["Aadhaar Payment Bridge System (APBS)", "A payment service of NPCI that uses the **Aadhaar number issued by UIDAI**. Government departments and agencies use it to transfer benefits and subsidies under **Direct Benefit Transfer (DBT)** schemes."]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "AePS vs APBS",
+          "text": "**AePS** is for customer banking transactions at a Micro ATM through a business correspondent. **APBS** is the government's channel for **DBT subsidy payments**."
+        }
+      ]
+    },
+    {
+      "id": "bbps",
+      "title": "Bharat Bill Payment System (BBPS)",
+      "icon": "🧾",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "**BBPS** is an integrated, **interoperable** bill payment system conceptualised by the **RBI** and driven by the **NPCI**. It is a one-stop ecosystem offering 'Anytime Anywhere' bill payment with certainty, reliability and safety. Customers get instant confirmation by SMS or receipt, and a mechanism to handle complaints is in place."
+        },
+        {
+          "type": "timeline",
+          "title": "BBPS milestones",
+          "items": [
+            ["2013", "BBPS is conceptualised (the source says 'founded in 2013')."],
+            ["31 Aug 2016", "Launched by NPCI on the recommendation of the **G. Padmanabhan Committee** (RBI Executive Director)."]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "How it works",
+          "rows": [
+            ["Availability", "**24x7x365**, including all public holidays."],
+            ["Bill categories", "Electricity, telecom, DTH, gas, water and more through a single window. Possible additions: insurance premium, mutual funds, school and institution fees, credit cards, local taxes, invoice payments."],
+            ["Channels", "Internet, internet banking, mobile, mobile banking, mobile wallets, mPoS (mobile point of sale), kiosk, ATM, bank branch, agents and business correspondents."],
+            ["Payment modes", "Cards (credit, debit, prepaid), NEFT, internet banking, UPI, wallets, Aadhaar-based payments and cash (cheques also accepted)."]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "swift",
+      "title": "SWIFT",
+      "icon": "🌍",
+      "blocks": [
+        {
+          "type": "keyvalue",
+          "title": "Society for Worldwide Interbank Financial Telecommunication",
+          "rows": [
+            ["What it is", "A **Belgium-based** secure financial messaging service."],
+            ["Reach", "Used by over **11,000** banking and securities organisations in more than **200 countries**."],
+            ["Ownership", "A **bank-owned, non-profit cooperative society**."],
+            ["Started", "Became operational in **May 1977**."],
+            ["SWIFT transfer", "Also called an international money transfer: a secure and standardised way to send or receive money between banks anywhere in the world."],
+            ["Security rule", "Institutions must declare compliance with **16 basic security principles** laid down by SWIFT to secure their access points to the network."],
+            ["BIC code", "A standard format of Bank Identifier Code that identifies banks and financial institutions globally, generally 8 or 11 characters."]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "remember",
+          "text": "SWIFT is **Belgium-based**, started **May 1977**, owned by banks as a **non-profit cooperative**, and its code format is the **BIC**."
+        }
+      ]
+    },
+    {
+      "id": "rtgs-neft",
+      "title": "RTGS and NEFT",
+      "icon": "🔁",
+      "blocks": [
+        {
+          "type": "table",
+          "title": "RTGS vs NEFT",
+          "headers": ["Point", "RTGS", "NEFT"],
+          "rows": [
+            ["Full form", "Real Time Gross Settlement", "National Electronic Funds Transfer"],
+            ["Opened in India", "29 April 2004", "November 2005"],
+            ["Mechanism", "Funds move bank to bank on a **real-time** and **gross** basis", "Nation-wide system letting individuals, firms and corporates transfer funds from any bank branch to any other bank branch"],
+            ["Value", "Primarily for **large-value** transactions; limits vary from bank to bank, so check with the bank", "**No minimum or maximum** limit"],
+            ["24x7x365", "From **4 December 2020**", "From **December 2019**, including holidays"],
+            ["Non-bank access", "RBI extended it to non-bank payment operators such as Paytm, Visa, PhonePe and payments banks", "RBI extended it to non-bank operators such as Paytm, Airtel wallet and payments banks"]
+          ]
+        },
+        {
+          "type": "bullets",
+          "title": "NEFT charges",
+          "items": [
+            "NEFT initiated **online** through internet or mobile banking is **not chargeable**.",
+            "Through a banking channel (branch), a **maximum of ₹25** plus taxes is charged."
+          ]
+        },
+        {
+          "type": "mnemonic",
+          "title": "RTGS first, NEFT next",
+          "phrase": "Oh-four RTGS, Oh-five NEFT: Real-time came in 2004, Electronic transfer in 2005.",
+          "letters": [
+            ["2004", "RTGS opened on 29 April"],
+            ["2005", "NEFT introduced in November"],
+            ["2019", "NEFT goes 24x7 (December)"],
+            ["2020", "RTGS goes 24x7 (4 December)"]
+          ],
+          "note": "NEFT became 24x7 first (2019), RTGS followed a year later (2020)."
+        }
+      ]
+    },
+    {
+      "id": "nuup-ifsc-ecs",
+      "title": "*99#, IFSC and ECS",
+      "icon": "☎️",
+      "blocks": [
+        {
+          "type": "keyvalue",
+          "title": "National Unified USSD Platform (NUUP)",
+          "rows": [
+            ["What it is", "A **USSD-based mobile banking service** of NPCI, first launched in **November 2012**."],
+            ["Code", "The USSD code is *99#"],
+            ["Purpose", "Takes banking to every common person; a common technology platform that lets banks and telecom service providers (TSPs) integrate to provide banking over **basic as well as smart phones**."]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "IFSC (Indian Financial System Code)",
+          "rows": [
+            ["What it is", "An alphanumeric code that identifies a bank branch participating in NEFT."],
+            ["Format", "**11 characters**: first 4 alphabetic characters = bank, last 6 = branch."]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "Electronic Clearing Service (ECS)",
+          "rows": [
+            ["Introduced by", "The Reserve Bank of India; uses electronic payment instructions instead of paper instruments."],
+            ["ECS-Credit", "Lets companies pay interest or dividend to a large number of beneficiaries by direct credit to their bank accounts."],
+            ["ECS-Debit", "Collects charges for utilities such as electricity and telephone, insurance premiums and loan instalments directly from the customer's account."],
+            ["In short", "Bulk transfer of funds from one account to many, or from many to one."]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "upi",
+      "title": "Unified Payments Interface (UPI)",
+      "icon": "📲",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "**UPI** is a real-time **inter-bank payment system** for sending or requesting money. It was developed by NPCI. Any UPI client app can be used, and **multiple bank accounts can be linked to a single app**. UPI is built on the IMPS infrastructure."
+        },
+        {
+          "type": "keyvalue",
+          "title": "Ways to send or request money on UPI",
+          "rows": [
+            ["VPA / UPI ID", "Send or request money to or from the bank account mapped to a Virtual Payment Address."],
+            ["Mobile number", "Send or request money using the account mapped to a mobile number."],
+            ["Account number + IFSC", "Send money to the bank account (sending only)."],
+            ["Aadhaar", "Send money to the bank account mapped to an Aadhaar number."],
+            ["QR code", "Scan a QR that holds the VPA, account number and IFSC, or mobile number."]
+          ]
+        },
+        {
+          "type": "mnemonic",
+          "title": "Five UPI routes: V-M-A-A-Q",
+          "phrase": "Very Many Apps Are Quick: VPA, Mobile number, Account + IFSC, Aadhaar, QR code.",
+          "letters": [
+            ["V", "Virtual Payment Address (UPI ID)"],
+            ["M", "Mobile number"],
+            ["A", "Account number and IFSC"],
+            ["A", "Aadhaar number"],
+            ["Q", "QR code"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "fact",
+          "title": "UPI Autopay",
+          "text": "**UPI Autopay** was launched by NPCI in **August 2020**. It lets customers set up **recurring e-mandates** through any UPI app for mobile bills, EMI payments, OTT subscriptions, insurance and mutual funds."
+        }
+      ]
+    },
+    {
+      "id": "bharat-qr",
+      "title": "Bharat QR",
+      "icon": "🔳",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "**Bharat QR** enables digital payments and reduces the use of card-swiping machines. Several banks prepared for it before it was launched in **September 2016**, with the aim of moving India towards a **less-cash society**."
+        },
+        {
+          "type": "bullets",
+          "items": [
+            "Works mainly by **scanning QR codes**, but also allows payment through an **Aadhaar number, UPI payment address, or account number with IFSC**.",
+            "Reduces the need to pay by debit and credit cards, which the source calls less secure than Bharat QR.",
+            "Supports **dynamic QR code** generation, so the payer need not enter the amount.",
+            "Supports **RuPay, Mastercard, Visa, American Express** and other national banks' cards.",
+            "Multiple cards can be linked to a Bharat QR supported bank app and any one chosen for a payment.",
+            "Offers a faster, secure payment mode with IMPS; there is no need to share mobile number, account details or CVV."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "bhim",
+      "title": "BHIM app",
+      "icon": "🇮🇳",
+      "blocks": [
+        {
+          "type": "keyvalue",
+          "title": "Bharat Interface for Money",
+          "rows": [
+            ["What it is", "An Indian mobile payment app developed by NPCI, based on **UPI**."],
+            ["Name and launch", "Named after **B. R. Ambedkar**; launched on **30 December 2016**, as part of the push for cashless payments after the 2016 demonetisation."],
+            ["Banks", "Works with all Indian banks that use UPI; UPI itself is built over the **IMPS** infrastructure; usable on all mobile devices."],
+            ["What it can do", "Send or receive money to or from UPI payment addresses, or to non-UPI accounts by scanning a QR with account number and IFSC, or with an **MMID** (Mobile Money Identifier)."]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "BHIM is not a wallet",
+          "text": "Mobile wallets such as Paytm, MobiKwik, mPesa and Airtel Money **hold money**. BHIM only **moves money between bank accounts**."
+        },
+        {
+          "type": "mnemonic",
+          "title": "The 2016 trio",
+          "phrase": "2016 = Bills, QR, BHIM: BBPS 31 August, Bharat QR September, BHIM 30 December (Ambedkar).",
+          "letters": [
+            ["BBPS", "Launched 31 August 2016"],
+            ["Bharat QR", "Launched September 2016"],
+            ["BHIM", "Launched 30 December 2016"]
+          ],
+          "note": "All three arrived in the same year as demonetisation (2016)."
+        }
+      ]
+    },
+    {
+      "id": "cts-imps-nach",
+      "title": "CTS, IMPS and NACH",
+      "icon": "🖼️",
+      "blocks": [
+        {
+          "type": "keyvalue",
+          "title": "Cheque Truncation System (CTS)",
+          "rows": [
+            ["Meaning", "Stopping the flow of the physical cheque from the drawer's side to the drawee branch. An **electronic image** of the cheque is sent instead, along with MICR fields, date of presentation and presenting bank details."],
+            ["Benefit", "Removes the need to move physical cheques across branches, except in exceptional cases."]
+          ]
+        },
+        {
+          "type": "figure",
+          "kind": "flow",
+          "title": "How cheque truncation works",
+          "items": [
+            ["Cheque presented", "At the presenting bank"],
+            ["Physical cheque stops", "It is truncated en route"],
+            ["Image and data sent", "MICR fields, date, presenting bank"],
+            ["Drawee branch pays", "No paper movement needed"]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "Immediate Payment Service (IMPS)",
+          "rows": [
+            ["What it is", "An **instant inter-bank electronic funds transfer** service through mobile phones."],
+            ["Availability", "**24x7** throughout the year, including bank holidays, unlike RTGS."]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "National Automated Clearing House (NACH)",
+          "rows": [
+            ["What it is", "A **centralised clearing service** introduced by NPCI for inter-bank, **high-volume, low-value** transactions that are **repetitive and periodic**."],
+            ["Services", "Credit and debit services for corporates, banks and financial institutions."],
+            ["Aim", "Integrate all regional ECS systems into **one national payment system**; it is claimed to be better than its predecessor, ECS."]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "nfs",
+      "title": "National Financial Switch (NFS)",
+      "icon": "🏧",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "The **NFS** is the **largest domestic ATM network** in India and a leader in providing inter-bank ATM services to the maximum number of customers."
+        },
+        {
+          "type": "bullets",
+          "title": "Services on the NFS network",
+          "items": [
+            "Cash withdrawal",
+            "Balance enquiry",
+            "PIN change",
+            "Mini statement"
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "Card-to-card fund transfer (value-added service)",
+          "rows": [
+            ["How it works", "A cardholder of a participating NFS member bank sends funds to another cardholder of a participating member bank, using the **beneficiary's card number**, typed in by the remitter."],
+            ["Features", "Interoperable, instant, available 24/7, paperless, secure and better fund management."]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "rupay",
+      "title": "RuPay",
+      "icon": "💳",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "**RuPay** enables electronic payments at all Indian banks and financial institutions. It was conceived and launched by NPCI on **26 March 2012**. To help RuPay gain international acceptance, NPCI maintains ties with **Discover Financial** and **JCB**."
+        },
+        {
+          "type": "bullets",
+          "title": "Benefits of RuPay",
+          "items": [
+            "International transactions raise costs; processing **within the country** with RuPay reduces these costs.",
+            "Transactions are faster.",
+            "Processing fees are **considerably lower** than for regular debit or credit cards.",
+            "Users receive **alerts for every transaction**."
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "remember",
+          "text": "RuPay: launched by NPCI on 26 March 2012; international ties with **Discover Financial** and **JCB**; domestic processing keeps costs lower."
+        },
+        {
+          "type": "mnemonic",
+          "title": "Two 2012 launches",
+          "phrase": "2012: November *99# rings, March RuPay pays.",
+          "letters": [
+            ["*99#", "NUUP launched November 2012"],
+            ["RuPay", "Launched 26 March 2012"]
+          ],
+          "note": "Both NPCI products date from 2012; RuPay's tie-ups are Discover Financial and JCB."
+        }
+      ]
+    }
+  ],
+  "revision": [
+    "NPCI is the umbrella organisation for retail payments, set up with RBI and IBA support under the Payment and Settlement Systems Act, 2007.",
+    "NPCI is a not-for-profit company: Section 25 of Companies Act 1956, now Section 8 of Companies Act 2013.",
+    "10 promoter banks: SBI, PNB, Canara, Bank of Baroda, Union Bank, Bank of India, ICICI, HDFC, Citibank and HSBC.",
+    "AePS: bank-led, Aadhaar-authenticated transactions at Micro ATMs through business correspondents; APBS is used for DBT subsidies.",
+    "BBPS: RBI conceptualised, NPCI driven, launched 31 August 2016 on G. Padmanabhan Committee advice; 24x7x365.",
+    "SWIFT: Belgium-based, bank-owned non-profit cooperative society, operational since May 1977, used in 200+ countries.",
+    "RTGS opened 29 April 2004 (24x7 from 4 Dec 2020); NEFT introduced November 2005 (24x7 from Dec 2019, no limit).",
+    "NUUP (*99#) was launched in November 2012 as a USSD-based mobile banking service.",
+    "IFSC has 11 characters: 4 alphabetic for the bank and 6 for the branch.",
+    "UPI sends or requests money using VPA, mobile number, account plus IFSC, Aadhaar or QR; UPI Autopay began August 2020.",
+    "Bharat QR launched September 2016; supports RuPay, Mastercard, Visa and Amex.",
+    "BHIM: named after B. R. Ambedkar, launched 30 December 2016, built on UPI; it moves money between bank accounts and is not a wallet.",
+    "CTS sends a cheque image instead of the physical cheque; IMPS is 24x7 instant transfer via mobile.",
+    "NACH is a centralised clearing service for high-volume, low-value repetitive payments and replaces regional ECS.",
+    "NFS is the largest domestic ATM network; RuPay launched 26 March 2012 with Discover Financial and JCB ties."
+  ],
+  "mindmap": {
+    "center": "NPCI and its Products",
+    "branches": [
+      {
+        "label": "About NPCI",
+        "children": ["Umbrella body, retail payments", "PSS Act 2007", "Not for profit, Sec 8", "10 promoter banks"]
+      },
+      {
+        "label": "Aadhaar-based",
+        "children": ["AePS with Micro ATM", "APBS for DBT", "Aadhaar authentication"]
+      },
+      {
+        "label": "Bills and QR",
+        "children": ["BBPS (31 Aug 2016)", "Bharat QR (Sep 2016)", "24x7x365", "Padmanabhan Committee"]
+      },
+      {
+        "label": "Fund transfers",
+        "children": ["RTGS 2004", "NEFT 2005", "IMPS 24x7", "SWIFT 1977", "NACH and ECS"]
+      },
+      {
+        "label": "UPI family",
+        "children": ["UPI: VPA, mobile, QR", "UPI Autopay 2020", "BHIM 30 Dec 2016", "*99# (Nov 2012)"]
+      },
+      {
+        "label": "Cards and ATMs",
+        "children": ["RuPay 26 Mar 2012", "Discover and JCB ties", "NFS largest ATM network", "Card-to-card transfer"]
+      },
+      {
+        "label": "Codes and cheques",
+        "children": ["IFSC 11 characters", "BIC / SWIFT code", "Cheque Truncation System"]
+      }
+    ]
+  }
+}

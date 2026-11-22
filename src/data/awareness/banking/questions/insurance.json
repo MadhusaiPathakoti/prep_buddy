@@ -1,0 +1,722 @@
+[
+  {
+    "id": "insurance-01",
+    "q": "Which of the following best describes insurance?",
+    "options": [
+      "A loan given by a bank against future premiums",
+      "A contract in which the insurer indemnifies the insured against specified losses in return for a premium",
+      "A deposit scheme that guarantees a fixed interest rate",
+      "A government subsidy given to households after a disaster"
+    ],
+    "answer": 1,
+    "explain": "Insurance is a contract of indemnity: the insurer promises compensation for a specified peril and the customer pays a premium for it.",
+    "section": "insurance-basics"
+  },
+  {
+    "id": "insurance-02",
+    "q": "The amount a policyholder pays to the insurer for the cover is called the",
+    "options": [
+      "Indemnity",
+      "Claim",
+      "Premium",
+      "Surrender value"
+    ],
+    "answer": 2,
+    "explain": "The premium is the price of the cover. Indemnity and claim relate to what the insurer pays out, not what the customer pays in.",
+    "section": "insurance-basics"
+  },
+  {
+    "id": "insurance-03",
+    "q": "Which of the following is NOT a type of general (non-life) insurance?",
+    "options": [
+      "Motor insurance",
+      "Marine cargo insurance",
+      "Travel insurance",
+      "Term life insurance"
+    ],
+    "answer": 3,
+    "explain": "Insurance is divided into life and non-life. Term life cover protects human life and belongs to life insurance; motor, marine and travel are general insurance types.",
+    "section": "insurance-basics"
+  },
+  {
+    "id": "insurance-04",
+    "q": "Life insurance provides a hedge mainly against which kind of uncertain loss?",
+    "options": [
+      "Loss of household income when a life is lost or a person is disabled",
+      "Damage to a house from fire",
+      "Delay in the arrival of baggage during travel",
+      "Theft of goods in transit by road"
+    ],
+    "answer": 0,
+    "explain": "Life insurance covers contingencies linked to human life such as death, disability and retirement; the other options are general insurance perils.",
+    "section": "life-and-health"
+  },
+  {
+    "id": "insurance-05",
+    "q": "A health insurance policy is a contract between an insurer and an individual or group in which the insurer agrees to",
+    "options": [
+      "Provide a loan at a low rate to the group",
+      "Guarantee a fixed return on the premium paid",
+      "Provide specified health cover at a particular premium, subject to the policy’s terms and conditions",
+      "Pay all medical costs without any conditions"
+    ],
+    "answer": 2,
+    "explain": "Health insurance is a normal insurance contract: defined cover for a defined premium, subject to the policy’s terms. It is not unconditional.",
+    "section": "life-and-health"
+  },
+  {
+    "id": "insurance-06",
+    "q": "Which type of insurance covers goods in transit by sea, air, rail, road or courier?",
+    "options": [
+      "Marine hull insurance",
+      "Marine cargo insurance",
+      "Aviation insurance",
+      "Travel insurance"
+    ],
+    "answer": 1,
+    "explain": "Marine cargo insurance covers goods being transported. Marine hull covers the body of ships and boats, while aviation covers aircraft.",
+    "section": "general-insurance-types"
+  },
+  {
+    "id": "insurance-07",
+    "q": "The hulls of ships and boats can be insured under",
+    "options": [
+      "Marine hull insurance",
+      "Marine cargo insurance",
+      "Motor insurance",
+      "Fire and allied perils policy"
+    ],
+    "answer": 0,
+    "explain": "Hull insurance protects the vessel itself, whereas cargo insurance protects the goods it carries.",
+    "section": "general-insurance-types"
+  },
+  {
+    "id": "insurance-08",
+    "q": "Aviation insurance is a specialised policy meant for",
+    "options": [
+      "Passengers who lose baggage on a flight",
+      "Goods carried in cargo containers by sea",
+      "Pilots’ personal life cover only",
+      "Planes and helicopters"
+    ],
+    "answer": 3,
+    "explain": "Aviation insurance insures aircraft such as planes and helicopters. It is one of the specialised property covers within general insurance.",
+    "section": "general-insurance-types"
+  },
+  {
+    "id": "insurance-09",
+    "q": "Driving a motor vehicle in a public place without insurance is",
+    "options": [
+      "Allowed if the vehicle is new",
+      "A punishable offence",
+      "Allowed for two-wheelers only",
+      "A civil matter with no penalty"
+    ],
+    "answer": 1,
+    "explain": "Motor insurance covering third-party liability is compulsory; driving an uninsured vehicle in a public place is punishable under law.",
+    "section": "general-insurance-types"
+  },
+  {
+    "id": "insurance-10",
+    "q": "Motor insurance protects the owner against damage to the vehicle and also against",
+    "options": [
+      "Loss of driving licence",
+      "Fuel price rise",
+      "Third-party liability for injury or damage caused by the vehicle in a public place",
+      "Parking fines imposed by traffic police"
+    ],
+    "answer": 2,
+    "explain": "A motor policy covers own damage and the owner’s legal liability for injury to a third party’s life or property, which is the mandatory part.",
+    "section": "general-insurance-types"
+  },
+  {
+    "id": "insurance-11",
+    "q": "Which of the following is covered under travel insurance?",
+    "options": [
+      "Crop failure at home",
+      "Fire damage to the traveller’s office",
+      "Depreciation of the vehicle",
+      "Loss of passport or baggage and unexpected medical expenses during travel"
+    ],
+    "answer": 3,
+    "explain": "Travel insurance covers accidents, unexpected medical costs, baggage and passport loss, and flight interruptions or delays during travel.",
+    "section": "general-insurance-types"
+  },
+  {
+    "id": "insurance-12",
+    "q": "LIC of India was formed on",
+    "options": [
+      "1 September 1956",
+      "1 April 1972",
+      "15 August 1947",
+      "19 July 1969"
+    ],
+    "answer": 0,
+    "explain": "LIC came into being on 1 September 1956 through an Act of Parliament that merged private life insurers. 1972 is the year of general insurance nationalisation.",
+    "section": "lic"
+  },
+  {
+    "id": "insurance-13",
+    "q": "Where is the head office of the Life Insurance Corporation of India?",
+    "options": [
+      "New Delhi",
+      "Mumbai",
+      "Kolkata",
+      "Hyderabad"
+    ],
+    "answer": 1,
+    "explain": "LIC is headquartered in Mumbai. Hyderabad is the head office of the regulator IRDAI.",
+    "section": "lic"
+  },
+  {
+    "id": "insurance-14",
+    "q": "LIC holds about 49.24 % stake in which bank, making it the only insurer in India to own a bank?",
+    "options": [
+      "Axis Bank",
+      "Bandhan Bank",
+      "IDBI Bank",
+      "Federal Bank"
+    ],
+    "answer": 2,
+    "explain": "As per the 2024-25 book, LIC holds 49.24 % of IDBI Bank, a unique position among Indian insurers.",
+    "section": "lic"
+  },
+  {
+    "id": "insurance-15",
+    "q": "The LIC IPO of May 2022 was oversubscribed by about how many times?",
+    "options": [
+      "1.5 times",
+      "4.5 times",
+      "10 times",
+      "2.95 times"
+    ],
+    "answer": 3,
+    "explain": "The IPO, open from 4 to 9 May 2022, was subscribed roughly 2.95 times, with bids of about ₹45,000 crore.",
+    "section": "lic"
+  },
+  {
+    "id": "insurance-16",
+    "q": "Which of the following is the tagline of LIC?",
+    "options": [
+      "Yogaksheman Vahamyaham",
+      "Aapatkale Rakshisyami",
+      "Rest Assured With Us",
+      "Trusted Since 1906"
+    ],
+    "answer": 0,
+    "explain": "“Yogaksheman Vahamyaham” is LIC’s tagline. “Aapatkale Rakshisyami” is GIC’s; the other two belong to United India and National Insurance.",
+    "section": "lic"
+  },
+  {
+    "id": "insurance-17",
+    "q": "In which year was the general insurance industry in India nationalised and the General Insurance Corporation of India (GIC) incorporated?",
+    "options": [
+      "1956",
+      "1969",
+      "1972",
+      "1991"
+    ],
+    "answer": 2,
+    "explain": "General insurance was nationalised in 1972, and GIC was incorporated that year. LIC (life) dates from 1956.",
+    "section": "gic-and-subsidiaries"
+  },
+  {
+    "id": "insurance-18",
+    "q": "At nationalisation of general insurance, how many insurers were grouped and merged into four companies?",
+    "options": [
+      "21",
+      "62",
+      "243",
+      "107"
+    ],
+    "answer": 3,
+    "explain": "107 insurers were amalgamated into National, New India, Oriental and United India. The 243 figure in the book refers to the life insurers merged into LIC.",
+    "section": "gic-and-subsidiaries"
+  },
+  {
+    "id": "insurance-19",
+    "q": "Which of the following is NOT one of the four public sector general insurance companies?",
+    "options": [
+      "United India Insurance Co. Ltd.",
+      "The Oriental Insurance Co. Ltd.",
+      "The New India Assurance Co. Ltd.",
+      "ICICI Lombard General Insurance Co. Ltd."
+    ],
+    "answer": 3,
+    "explain": "The four public general insurers are National, New India, Oriental and United India. ICICI Lombard is a private insurer.",
+    "section": "gic-and-subsidiaries"
+  },
+  {
+    "id": "insurance-20",
+    "q": "GIC was notified as the Indian Reinsurer in which year, ending its supervisory role over its subsidiaries?",
+    "options": [
+      "2000",
+      "1972",
+      "2003",
+      "1999"
+    ],
+    "answer": 0,
+    "explain": "GIC became the Indian Reinsurer in November 2000. Ownership of the subsidiaries passed to the Government of India in March 2003.",
+    "section": "gic-and-subsidiaries"
+  },
+  {
+    "id": "insurance-21",
+    "q": "National Insurance Company Ltd. has its head office in",
+    "options": [
+      "Chennai",
+      "Kolkata",
+      "Mumbai",
+      "New Delhi"
+    ],
+    "answer": 1,
+    "explain": "National Insurance is headquartered in Kolkata. Chennai is the base of United India, Mumbai of New India and New Delhi of Oriental.",
+    "section": "gic-and-subsidiaries"
+  },
+  {
+    "id": "insurance-22",
+    "q": "United India Insurance Company Limited has its head office in which city?",
+    "options": [
+      "Kolkata",
+      "Mumbai",
+      "Chennai",
+      "New Delhi"
+    ],
+    "answer": 2,
+    "explain": "UIIC is headquartered in Chennai and was incorporated in 1938.",
+    "section": "gic-and-subsidiaries"
+  },
+  {
+    "id": "insurance-23",
+    "q": "Which of the four public sector general insurers has its head office in New Delhi?",
+    "options": [
+      "National Insurance",
+      "United India Insurance",
+      "The New India Assurance",
+      "The Oriental Insurance"
+    ],
+    "answer": 3,
+    "explain": "The Oriental Insurance Company, incorporated in 1947, is based in New Delhi.",
+    "section": "gic-and-subsidiaries"
+  },
+  {
+    "id": "insurance-24",
+    "q": "Which general insurer was founded by Sir Dorabji Tata on 23 July 1919?",
+    "options": [
+      "The New India Assurance Company",
+      "National Insurance Company",
+      "United India Insurance Company",
+      "The Oriental Insurance Company"
+    ],
+    "answer": 0,
+    "explain": "New India Assurance was founded by Sir Dorabji Tata in 1919, headquartered in Mumbai and nationalised in 1973.",
+    "section": "gic-and-subsidiaries"
+  },
+  {
+    "id": "insurance-25",
+    "q": "“Prithivi, Agni, Jal, Akash, Sab Ki Suraksha Hamare Pass” is the tagline of",
+    "options": [
+      "New India Assurance",
+      "Oriental Insurance",
+      "United India Insurance",
+      "National Insurance"
+    ],
+    "answer": 1,
+    "explain": "The line names the five elements and belongs to Oriental Insurance Company Ltd.",
+    "section": "gic-and-subsidiaries"
+  },
+  {
+    "id": "insurance-26",
+    "q": "Which general insurer was incorporated in 1906 and carries the tagline “Trusted Since 1906”?",
+    "options": [
+      "United India Insurance",
+      "Oriental Insurance",
+      "National Insurance",
+      "New India Assurance"
+    ],
+    "answer": 2,
+    "explain": "National Insurance Company (Kolkata) was incorporated in 1906; its tagline carries that year.",
+    "section": "gic-and-subsidiaries"
+  },
+  {
+    "id": "insurance-27",
+    "q": "At nationalisation, the general insurance operations of LIC’s southern region, along with 12 Indian insurers, 4 cooperative societies and Indian operations of 5 foreign insurers, were merged into",
+    "options": [
+      "National Insurance",
+      "New India Assurance",
+      "Oriental Insurance",
+      "United India Insurance"
+    ],
+    "answer": 3,
+    "explain": "This is the United India Insurance Company’s nationalisation merger; National Insurance merged 21 foreign and 11 Indian companies.",
+    "section": "gic-and-subsidiaries"
+  },
+  {
+    "id": "insurance-28",
+    "q": "Which of the following is the regulator of the insurance industry in India?",
+    "options": [
+      "IRDAI",
+      "SEBI",
+      "PFRDA",
+      "NABARD"
+    ],
+    "answer": 0,
+    "explain": "IRDAI regulates insurance. SEBI regulates securities markets and PFRDA regulates pensions.",
+    "section": "irdai-ombudsman",
+    "exam": "IBPS PO Mains 2023"
+  },
+  {
+    "id": "insurance-29",
+    "q": "Where is the head office of IRDAI located?",
+    "options": [
+      "Mumbai",
+      "Hyderabad",
+      "Chennai",
+      "New Delhi"
+    ],
+    "answer": 1,
+    "explain": "IRDAI is headquartered in Hyderabad, with the tagline “Promoting Insurance Protecting Insured”.",
+    "section": "irdai-ombudsman"
+  },
+  {
+    "id": "insurance-30",
+    "q": "IRDAI frames regulations for the insurance industry under which section of the Insurance Act, 1938?",
+    "options": [
+      "Section 35",
+      "Section 40",
+      "Section 114A",
+      "Section 64"
+    ],
+    "answer": 2,
+    "explain": "IRDAI’s regulation-making power comes from Section 114A of the Insurance Act, 1938. Section 35 deals with amalgamation and transfer of insurance business.",
+    "section": "irdai-ombudsman"
+  },
+  {
+    "id": "insurance-31",
+    "q": "Which set of insurers has been declared Domestic Systemically Important Insurers (D-SIIs)?",
+    "options": [
+      "LIC, HDFC Life and ICICI Prudential",
+      "LIC and GIC Re only",
+      "GIC Re, New India Assurance and United India",
+      "LIC, GIC Re and New India Assurance"
+    ],
+    "answer": 3,
+    "explain": "IRDAI designated the three state-run insurers LIC, GIC Re and New India Assurance as D-SIIs.",
+    "section": "irdai-ombudsman",
+    "exam": "SBI Clerk Mains 2023"
+  },
+  {
+    "id": "insurance-32",
+    "q": "The Insurance Ombudsman scheme exists mainly to",
+    "options": [
+      "Settle complaints of individual policyholders outside the courts in a cost-effective and impartial way",
+      "Fix the premium rates charged by insurers",
+      "Grant licences to new insurance companies",
+      "Invest the funds of public sector insurers"
+    ],
+    "answer": 0,
+    "explain": "The Ombudsman handles grievances of individual policyholders, who can complain personally or through legal heirs, a nominee or an assignee.",
+    "section": "irdai-ombudsman"
+  },
+  {
+    "id": "insurance-33",
+    "q": "As per the 2024-25 book, how many insurers operate in India in total (life, general, standalone health and re-insurers)?",
+    "options": [
+      "52",
+      "68",
+      "75",
+      "60"
+    ],
+    "answer": 1,
+    "explain": "There are 68 insurers: 24 life, 27 general, 6 standalone health and 11 re-insurers. Of these, 8 are public and 60 are private.",
+    "section": "industry-snapshot"
+  },
+  {
+    "id": "insurance-34",
+    "q": "Out of the 68 insurers in India, how many are in the public sector, according to the book?",
+    "options": [
+      "4",
+      "6",
+      "8",
+      "12"
+    ],
+    "answer": 2,
+    "explain": "Eight are public: LIC, the four PSU general insurers, GIC Re, and the two specialised insurers ECGC and AIC.",
+    "section": "industry-snapshot"
+  },
+  {
+    "id": "insurance-35",
+    "q": "Which two specialised insurers are in the public sector, besides LIC, GIC Re and the four general insurers?",
+    "options": [
+      "NABARD and SIDBI",
+      "ECGC and AIC",
+      "IRDAI and PFRDA",
+      "DICGC and NHB"
+    ],
+    "answer": 1,
+    "explain": "ECGC (export credit) and AIC (agriculture insurance) are the two specialised public sector insurers.",
+    "section": "industry-snapshot"
+  },
+  {
+    "id": "insurance-36",
+    "q": "Which statement about the number of insurers in India is correct, as per the 2024-25 book?",
+    "options": [
+      "There are 24 general insurers and 27 life insurers",
+      "There are 11 standalone health insurers and 6 re-insurers",
+      "There are 27 general insurers and 24 life insurers",
+      "All 6 standalone health insurers are in the public sector"
+    ],
+    "answer": 2,
+    "explain": "There are 24 life, 27 general, 6 standalone health and 11 re-insurers; all six standalone health insurers are private.",
+    "section": "industry-snapshot"
+  },
+  {
+    "id": "insurance-37",
+    "q": "The private sector’s share of the non-life insurance market rose from 13.12 % in FY03 to about what in FY20, per the book?",
+    "options": [
+      "35.10 %",
+      "45.50 %",
+      "65.20 %",
+      "55.70 %"
+    ],
+    "answer": 3,
+    "explain": "The book states that private players’ share of the non-life market rose from 13.12 % in FY03 to 55.70 % in FY20.",
+    "section": "industry-snapshot"
+  },
+  {
+    "id": "insurance-38",
+    "q": "Insurance penetration is best defined as",
+    "options": [
+      "Premiums as a percentage of GDP",
+      "Number of agents per lakh population",
+      "Claims paid as a percentage of premiums",
+      "Share of private insurers in total premiums"
+    ],
+    "answer": 0,
+    "explain": "Penetration measures premiums as a share of GDP. The book notes it rose from 2.71 % in 2001 to 3.69 % in 2017.",
+    "section": "industry-snapshot"
+  },
+  {
+    "id": "insurance-39",
+    "q": "Under the tie-up limits discussed in the book, a corporate agent can tie up with how many insurers for each line of business (life, general, health)?",
+    "options": [
+      "Three",
+      "Nine",
+      "Six",
+      "Two"
+    ],
+    "answer": 1,
+    "explain": "The new limit is nine insurers for a corporate agent and six for an insurance marketing firm (IMF) per line of business.",
+    "section": "reforms-developments"
+  },
+  {
+    "id": "insurance-40",
+    "q": "The regulatory sandbox for insurance companies allows testing of innovative products for a maximum of",
+    "options": [
+      "12 months",
+      "24 months",
+      "36 months",
+      "60 months"
+    ],
+    "answer": 2,
+    "explain": "The sandbox lets insurers test innovative products and technologies in a controlled setting for up to 36 months, with mid-way approvals for faster go-live.",
+    "section": "reforms-developments"
+  },
+  {
+    "id": "insurance-41",
+    "q": "Which proposed platform will act as a single source of information to track an existing complaint and file a new one against insurers?",
+    "options": [
+      "Bima Sugam",
+      "Bima Vistaar",
+      "Bima Setu",
+      "Bima Bharosa"
+    ],
+    "answer": 3,
+    "explain": "Bima Bharosa is the complaint-tracking platform. Bima Sugam is the proposed marketplace for standardised buying and servicing of policies.",
+    "section": "reforms-developments"
+  },
+  {
+    "id": "insurance-42",
+    "q": "Under a “pay as you drive” motor insurance amendment, the premium is lowered mainly on the basis of",
+    "options": [
+      "Kilometres driven, measured by a telematics device",
+      "The age of the vehicle’s paint",
+      "The number of seats in the car",
+      "The owner’s income"
+    ],
+    "answer": 0,
+    "explain": "Pay-as-you-drive links the premium to usage; a free telematics device measures kilometres and reports the car’s health.",
+    "section": "reforms-developments"
+  },
+  {
+    "id": "insurance-43",
+    "q": "The “Use & File” procedure allowed by IRDAI mainly helps insurers to",
+    "options": [
+      "Pay claims in cash only",
+      "Launch and customise products faster and pilot them in smaller groups",
+      "Avoid paying any taxes",
+      "Merge with banks"
+    ],
+    "answer": 1,
+    "explain": "Use & File offers more scope for product innovation, quicker go-to-market and small-scale pilots, which improves penetration.",
+    "section": "reforms-developments"
+  },
+  {
+    "id": "insurance-44",
+    "q": "Bancassurance means",
+    "options": [
+      "Banks promising to give loans",
+      "Banks promising to pay interest",
+      "Banks selling insurance products",
+      "Assurance given to repay loans"
+    ],
+    "answer": 2,
+    "explain": "Bancassurance is selling insurance and banking products through the same channel, usually bank branches.",
+    "section": "bancassurance"
+  },
+  {
+    "id": "insurance-45",
+    "q": "Under the earlier bancassurance guidelines, a bank acting as a corporate agent could sell policies of how many insurers?",
+    "options": [
+      "Any number of insurers",
+      "Three life and three non-life insurers",
+      "Only one life insurer",
+      "One life insurer and one non-life insurer"
+    ],
+    "answer": 3,
+    "explain": "The old norm allowed a bank-agent to tie up with only one life insurer and one non-life insurer. The new norms let banks act as brokers for many insurers.",
+    "section": "bancassurance"
+  },
+  {
+    "id": "insurance-46",
+    "q": "Which statement about RBI’s bancassurance guidelines is correct?",
+    "options": [
+      "Banks may act as corporate agents without seeking prior approval from the RBI",
+      "Banks cannot form their own insurance subsidiaries",
+      "Banks may sell policies of only one insurer at a time",
+      "Banks cannot receive referral fees from insurers"
+    ],
+    "answer": 0,
+    "explain": "Under the guidelines banks can be corporate agents without prior RBI approval, act as brokers, set up subsidiaries and earn referral fees.",
+    "section": "bancassurance"
+  },
+  {
+    "id": "insurance-47",
+    "q": "Banks that undertake financial services such as insurance business, underwriting and equipment leasing are said to be doing",
+    "options": [
+      "Traditional banking",
+      "Para-banking",
+      "CASA banking",
+      "Narrow banking"
+    ],
+    "answer": 1,
+    "explain": "Services beyond core deposits and lending, such as insurance, underwriting and leasing, are called para-banking.",
+    "section": "para-banking-extras"
+  },
+  {
+    "id": "insurance-48",
+    "q": "Banks are allowed to form subsidiaries for para-banking activities under which provision?",
+    "options": [
+      "Section 6 of the Pension Fund Act",
+      "The Subsidiary Banks General Regulations, 1959",
+      "SIDBI General Regulations, 1990",
+      "Section 19(1) of the Banking Regulation Act, 1949"
+    ],
+    "answer": 3,
+    "explain": "Section 19(1) of the Banking Regulation Act, 1949 allows banks to form subsidiaries for specified purposes.",
+    "section": "para-banking-extras"
+  },
+  {
+    "id": "insurance-49",
+    "q": "Life insurance in its modern form came to India from England in the year",
+    "options": [
+      "1818",
+      "1896",
+      "1905",
+      "1919"
+    ],
+    "answer": 0,
+    "explain": "Modern life insurance reached India from England in 1818. 1919 is when New India Assurance was founded.",
+    "section": "para-banking-extras"
+  },
+  {
+    "id": "insurance-50",
+    "q": "A bank gives a boat loan repayable in monthly instalments over 48 months. Which life insurance would protect the lender if the borrower dies before the loan is repaid?",
+    "options": [
+      "Level term",
+      "Enhanced whole life",
+      "Decreasing term",
+      "Modified premium life"
+    ],
+    "answer": 2,
+    "explain": "Decreasing term cover reduces over time just like the outstanding loan balance, so it suits loan protection.",
+    "section": "life-and-health",
+    "exam": "IBPS RRB Main 2017"
+  },
+  {
+    "id": "insurance-51",
+    "q": "Which section of the Insurance Act, 1938 deals with the amalgamation and transfer of insurance business?",
+    "options": [
+      "Section 23",
+      "Section 35",
+      "Section 40",
+      "Section 56"
+    ],
+    "answer": 1,
+    "explain": "Section 35 of the Insurance Act, 1938 covers amalgamation and transfer of insurance business.",
+    "section": "para-banking-extras",
+    "exam": "IBPS RRB PO Main 2018"
+  },
+  {
+    "id": "insurance-52",
+    "q": "Postal Life Insurance (PLI) is associated with which Union Ministry?",
+    "options": [
+      "Ministry of Health",
+      "Ministry of Labour",
+      "Ministry of Communications",
+      "Ministry of Education"
+    ],
+    "answer": 2,
+    "explain": "PLI, in operation since 1884, is run by the Department of Posts under the Ministry of Communications.",
+    "section": "para-banking-extras",
+    "exam": "RRB Officer Scale-I Mains 2023"
+  },
+  {
+    "id": "insurance-53",
+    "q": "What was the assured return under the Varishtha Pension Bima Yojana (VPBY) 2017, approved by the Union Cabinet on 24 January 2017?",
+    "options": [
+      "7.0 %",
+      "7.5 %",
+      "8.5 %",
+      "8 %"
+    ],
+    "answer": 3,
+    "explain": "VPBY, the senior-citizen pension plan approved on 24 January 2017, offered an assured 8 % return at launch.",
+    "section": "para-banking-extras"
+  },
+  {
+    "id": "insurance-54",
+    "q": "Which of the following is a subsidiary of a bank that offers para-banking services?",
+    "options": [
+      "SBI Mutual Fund",
+      "NABARD",
+      "National Housing Bank",
+      "SEBI"
+    ],
+    "answer": 0,
+    "explain": "SBI Mutual Fund (like SBI Pension Funds Pvt. Ltd and ICICI Ventures) is a bank-owned subsidiary doing para-banking. NABARD, NHB and SEBI are not bank subsidiaries.",
+    "section": "para-banking-extras"
+  },
+  {
+    "id": "insurance-55",
+    "q": "LIC is governed by which of the following sets of laws and bodies?",
+    "options": [
+      "Companies Act 2013 and SEBI only",
+      "Insurance Act 1938, LIC Act 1956, LIC Regulations 1959 and IRDAI",
+      "RBI Act 1934 and Banking Regulation Act 1949",
+      "Payment and Settlement Systems Act 2007 only"
+    ],
+    "answer": 1,
+    "explain": "LIC is governed by the Insurance Act 1938, the LIC Act 1956, the LIC Regulations 1959 and the IRDAI regulations.",
+    "section": "lic"
+  }
+]

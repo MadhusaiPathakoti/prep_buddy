@@ -1,0 +1,625 @@
+{
+  "id": "financial-organisations",
+  "sections": [
+    {
+      "id": "at-a-glance",
+      "title": "Development institutions at a glance",
+      "icon": "🏢",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "Besides the RBI and commercial banks, India has a family of **development finance institutions (DFIs)**, each built for one job: farms, industry, small business, exports, housing, infrastructure or small savers. Exams love asking *which institution does what*, *when it was set up* and *where it sits*, so keep this table handy."
+        },
+        {
+          "type": "table",
+          "title": "Who, when and what",
+          "headers": ["Institution", "Set up", "Key point"],
+          "rows": [
+            ["NABARD", "12 July 1982", "Apex bank for agriculture and rural development; HQ Mumbai; Shivaraman Committee"],
+            ["IFCI", "1948", "First DFI after independence; long-term finance for industry"],
+            ["IDBI", "1964", "Set up by an Act of Parliament; today a universal bank"],
+            ["UTI", "1964", "UTI Act passed 30 Dec 1963; mobilises small savings; HQ Mumbai"],
+            ["SIDBI", "2 April 1990", "Principal institution for the MSME sector; HQ Lucknow"],
+            ["EXIM Bank", "1982", "Premier export finance institution; EXIM Act 1981"],
+            ["ICICI", "1955", "Began as an industrial finance body; registered office Vadodara, corporate HQ Mumbai"],
+            ["NHB", "9 July 1988", "Apex institution for housing finance; HQ New Delhi"],
+            ["IIFCL", "2006", "Wholly government-owned; long-term loans for viable infrastructure"],
+            ["IWRFC", "29 March 2008", "Irrigation finance; merged with IIFCL in 2016"],
+            ["IIBI", "1971", "Industrial finance bank based in Kolkata; closed down in 2012"]
+          ]
+        },
+        {
+          "type": "figure",
+          "kind": "pyramid",
+          "title": "Who finances whom (focus area)",
+          "items": [
+            ["NABARD", "Agriculture and rural India"],
+            ["SIDBI", "Micro, small and medium enterprises"],
+            ["IFCI / IDBI", "Large and medium industry"],
+            ["EXIM Bank", "Exports and imports"],
+            ["NHB", "Housing finance"],
+            ["IIFCL / IWRFC", "Infrastructure and irrigation"]
+          ]
+        },
+        {
+          "type": "mnemonic",
+          "title": "Twin years you must not mix up",
+          "phrase": "Eighty-two twins: NABARD and EXIM. Sixty-four pair: IDBI and UTI. Eighty-eight is the NHB gate.",
+          "letters": [
+            ["1982", "NABARD (12 July) and EXIM Bank - both began in 1982"],
+            ["1964", "IDBI and UTI (UTI first set up on 1 February 1964)"],
+            ["1988", "NHB (9 July 1988)"],
+            ["1990", "SIDBI (2 April 1990)"]
+          ],
+          "note": "The Acts came a year earlier for the first two: NABARD Act 1981 and EXIM Bank Act 1981."
+        }
+      ]
+    },
+    {
+      "id": "nabard",
+      "title": "NABARD: history and capital",
+      "icon": "🌾",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "**NABARD** (National Bank for Agriculture and Rural Development) is India's specialised apex development bank for agriculture and rural development, with its headquarters in **Mumbai** and offices across the country. It was set up on **12 July 1982** on the recommendation of the **Shivaraman Committee**, whose task was to review the arrangements for institutional credit for agriculture and rural development. It implements the **NABARD Act, 1981**."
+        },
+        {
+          "type": "bullets",
+          "title": "Bodies NABARD replaced",
+          "items": [
+            "Agricultural Credit Department (ACD) of the RBI",
+            "Rural Planning and Credit Cell (RPCC) of the RBI",
+            "Agricultural Refinance and Development Corporation (ARDC)"
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Capital (figures from the 2024-25 study material)",
+          "headers": ["Point in time", "Paid-up capital", "Holding"],
+          "rows": [
+            ["At the start", "₹100 crore", "Initial capital"],
+            ["31 March 2013", "₹4,000 crore", "Government of India ₹3,980 crore (99.50%); RBI ₹20 crore (0.50%)"],
+            ["31 March 2014", "₹4,700 crore", "Paid-up capital rose further"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "remember",
+          "title": "NABARD in one line",
+          "text": "Shivaraman Committee, 12 July 1982, NABARD Act 1981, HQ Mumbai. It is the refinance (apex) bank of rural credit institutions, not a retail bank."
+        }
+      ]
+    },
+    {
+      "id": "nabard-roles-csr",
+      "title": "NABARD: roles and social work",
+      "icon": "🚜",
+      "blocks": [
+        {
+          "type": "bullets",
+          "title": "Main roles of NABARD",
+          "items": [
+            "Acts as the apex financing agency for institutions that give investment and production credit for rural development.",
+            "Builds institutions: improves the capacity of the rural credit delivery system through monitoring, rehabilitation schemes, restructuring of credit institutions and staff training.",
+            "Coordinates the rural financing work of all institutions at the field level and keeps liaison with the Government of India, state governments, the RBI and other national policy bodies.",
+            "Monitors and evaluates the projects it has refinanced.",
+            "Refinances the financial institutions that lend to the rural sector and helps develop the institutions that support the rural economy.",
+            "Keeps a check on its client institutions and supervises the institutions that finance the rural economy, including cooperative banks and Regional Rural Banks (RRBs); RRB recruitment exams run through IBPS CWE.",
+            "Provides training facilities to institutions working for rural upliftment.",
+            "Under RBI-NABARD guidelines of 2006-07, commercial banks, RRBs and cooperative banks report to the RBI their lending data, including loans to microfinance institutions."
+          ]
+        },
+        {
+          "type": "text",
+          "text": "**NABARD and CSR:** NABARD has partnered with about **4,000 partner organisations** to take social innovations to rural areas. Examples are the **SHG-bank linkage programme**, tree-based livelihoods for tribal communities, the watershed approach to soil and water conservation, the lead-crop initiative to raise crop productivity, and information sharing with farmers through **Farmer clubs**. It also pays large taxes (among the top 50 taxpayers) and ploughs its profits back into development spending."
+        },
+        {
+          "type": "keyvalue",
+          "title": "Term to know",
+          "rows": [
+            ["JLG", "**Joint Liability Group** - a NABARD-promoted group model in which members jointly guarantee each other's loans, unlocking the productive capacity of the rural population."],
+            ["SHG", "Self Help Group - small savings-and-credit group linked to banks under the SHG-bank linkage programme."]
+          ]
+        },
+        {
+          "type": "mnemonic",
+          "title": "NABARD is the bank of banks for villages",
+          "phrase": "Refinance, Train, Coordinate, Monitor - the RTCM of rural credit.",
+          "letters": [
+            ["R", "Refinance rural lending institutions"],
+            ["T", "Train staff of rural credit bodies"],
+            ["C", "Coordinate field-level rural financing and keep liaison with RBI and governments"],
+            ["M", "Monitor and evaluate refinanced projects"]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ifci",
+      "title": "IFCI: first DFI for industry",
+      "icon": "🏭",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "The **Industrial Finance Corporation of India (IFCI)** is a government-owned development bank that meets the **long-term finance needs of industry**. It was the **first Development Financial Institution** set up by the Government of India after independence (1948). In **1993** it was reconstituted as a **company** to give it greater operational flexibility, and it was allowed to approach the capital markets directly."
+        },
+        {
+          "type": "bullets",
+          "title": "Functions of IFCI",
+          "items": [
+            "Gives medium and long-term finance to large industrial undertakings, especially when ordinary bank accommodation does not suit them or the money cannot be raised profitably through the issue of shares.",
+            "Grants loans and advances to industrial concerns.",
+            "Grants loans in both rupees and foreign currencies.",
+            "Underwrites the issue of stocks, bonds, shares and similar securities.",
+            "Lends only to **public limited companies and cooperatives**, not to private limited companies or partnership firms.",
+            "Lends to any type of industry listed in the Government gazette."
+          ]
+        },
+        {
+          "type": "mnemonic",
+          "title": "Who can borrow from IFCI?",
+          "phrase": "IFCI faces the Public, not the Private: Public Ltd and Co-ops yes; Private Ltd and Partnerships no.",
+          "letters": [
+            ["Yes", "Public limited companies and cooperative societies"],
+            ["No", "Private limited companies"],
+            ["No", "Partnership firms"]
+          ],
+          "note": "Exam link: IFCI lends to joint stock companies and cooperatives engaged in manufacturing and processing of goods."
+        }
+      ]
+    },
+    {
+      "id": "idbi",
+      "title": "IDBI: from DFI to universal bank",
+      "icon": "🏦",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "The **Industrial Development Bank of India (IDBI)** was set up in **1964** by an **Act of Parliament** to provide credit and other financial facilities for the development of fledgling Indian industry. It operates today as a **universal bank** on a core banking IT platform, offering retail and corporate banking through branches and ATMs across India, with an **overseas branch at Dubai**."
+        },
+        {
+          "type": "keyvalue",
+          "title": "Reach (figures as given in the 2024-25 material, they change)",
+          "rows": [
+            ["Global rank", "Described as the 10th largest development bank in the world by reach"],
+            ["ATMs", "About 3,000"],
+            ["Branches", "1,746, including one overseas branch at Dubai"],
+            ["Centres", "1,285, including two overseas centres at Singapore and Beijing"]
+          ]
+        },
+        {
+          "type": "bullets",
+          "title": "Functions of IDBI",
+          "items": [
+            "Provide financial assistance to industrial enterprises.",
+            "Promote institutions engaged in industrial development.",
+            "Give technical and administrative assistance for the promotion, management or expansion of industry.",
+            "Undertake market and investment research and surveys connected with industrial development."
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "Do not confuse",
+          "text": "IDBI (1964, industry) is not SIDBI (1990, small industries). SIDBI began as a wholly owned subsidiary of IDBI but is a separate institution today."
+        }
+      ]
+    },
+    {
+      "id": "sidbi",
+      "title": "SIDBI: the MSME bank",
+      "icon": "🧰",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "The **Small Industries Development Bank of India (SIDBI)** is an independent financial institution created to aid the growth of **micro, small and medium enterprises (MSMEs)**. It was set up on **2 April 1990** through an Act of Parliament, first as a wholly owned subsidiary of IDBI. Ownership is now held by **33 Government of India owned or controlled institutions**. Its headquarters is in **Lucknow**. It is the **principal financial institution for promotion, financing and development of the MSME sector** and for coordinating the work of other institutions doing similar jobs."
+        },
+        {
+          "type": "bullets",
+          "title": "Functions",
+          "items": [
+            "Encourage technology up-gradation and modernisation of existing units.",
+            "Expand marketing channels for small-industry products in domestic and international markets.",
+            "Promote employment-oriented industries, especially in semi-urban areas, to create jobs and check migration to cities.",
+            "Support microfinance institutions with capacity building and on-lending; it opened seven Micro Finance branches aimed at loans up to ₹5 lakh."
+          ]
+        },
+        {
+          "type": "figure",
+          "kind": "flow",
+          "title": "How SIDBI money reaches small units",
+          "items": [
+            ["SIDBI", "Provides the financial assistance"],
+            ["Existing credit system", "Channels it to small-scale industry"],
+            ["State Financial Corporations", "One delivery channel"],
+            ["SIDCs", "State Industrial Development Corporations"],
+            ["Commercial banks and RRBs", "Last-mile lenders"],
+            ["Small-scale units", "End borrowers"]
+          ]
+        },
+        {
+          "type": "table",
+          "title": "1992-93 schemes",
+          "headers": ["Scheme", "Purpose"],
+          "rows": [
+            ["Equipment finance scheme", "Direct finance to well-run existing small units for technology up-gradation and modernisation"],
+            ["Refinance for resettlement", "For voluntarily retired workers of the National Textile Corporation (NTC)"],
+            ["Venture capital fund", "Exclusively for small-scale units; initial corpus ₹10 crore"]
+          ]
+        },
+        {
+          "type": "text",
+          "text": "SIDBI joined the OTC Exchange of India (OTCEI) as an institutional member and supports the **National Small Industries Corporation (NSIC)** in providing leasing, hire-purchase and marketing support to small-sector units."
+        }
+      ]
+    },
+    {
+      "id": "sidbi-milestones",
+      "title": "SIDBI: milestones, owners, new schemes",
+      "icon": "📅",
+      "blocks": [
+        {
+          "type": "timeline",
+          "title": "Historical journey of SIDBI",
+          "items": [
+            ["1994", "Foundation of microfinance laid"],
+            ["1995", "TBSE set up and converted into India SME Technology Services Ltd. (ISTSL)"],
+            ["1999", "SIDBI Venture Capital Limited"],
+            ["2000", "Credit Guarantee Fund Trust for Micro and Small Enterprises (CGTMSE)"],
+            ["2005", "SMERA Ratings Ltd."],
+            ["2008", "India SME Asset Reconstruction Company Ltd. (ISARC)"],
+            ["2015", "MUDRA"],
+            ["2016", "TReDS (www.udyamimitra.in)"],
+            ["2017", "Certified Credit Counsellor (CCC) launched"],
+            ["2018", "MSME Pulse and CriSidEx launched"],
+            ["2019", "Microfinance Pulse launched"],
+            ["2020", "Fintech Pulse and Industry Spotlight launched"],
+            ["2022", "DIY asset restructuring portal for MSMEs launched"]
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Major shareholders (as on 4 May 2022)",
+          "headers": ["Shareholder", "Holding"],
+          "rows": [
+            ["Government of India", "20.85%"],
+            ["State Bank of India", "15.65%"],
+            ["Life Insurance Corporation of India", "13.33%"],
+            ["NABARD", "9.36%"]
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Newer initiatives",
+          "headers": ["Initiative", "Year", "Aim"],
+          "rows": [
+            ["SMILE (SIDBI Make in India Soft Loan Fund for MSMEs)", "2015", "Finance for new manufacturing or service enterprises"],
+            ["India Aspiration Fund (IAF)", "2015", "Boost the start-up ecosystem"],
+            ["Fund of Funds (set up by the Government under SIDBI)", "2016", "Promote start-ups and entrepreneurship"],
+            ["SPEED (SIDBI Loan for Purchase of Equipment for Enterprise Development)", "2019", "Credit to MSMEs for buying machinery"],
+            ["Outreach programme", "2019", "Strengthen the MSME ecosystem in nine states"]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "Mahila Aajeevika Bond (Women's Livelihood Bond)",
+          "rows": [
+            ["Launched by", "The World Bank, SIDBI and UN Women, announced 19 February 2019"],
+            ["Type", "Social impact bond offering credit to rural women entrepreneurs"],
+            ["Annual coupon", "3%"],
+            ["Tenure", "Five years"]
+          ]
+        },
+        {
+          "type": "mnemonic",
+          "title": "SIDBI milestone years in order",
+          "phrase": "Many Indian Students Chase Scholarships In Metro Towns, Cities.",
+          "letters": [
+            ["M", "Microfinance foundation - 1994"],
+            ["I", "ISTSL - 1995"],
+            ["S", "SIDBI Venture Capital - 1999"],
+            ["C", "CGTMSE - 2000"],
+            ["S", "SMERA - 2005"],
+            ["I", "ISARC - 2008"],
+            ["M", "MUDRA - 2015"],
+            ["T", "TReDS - 2016"],
+            ["C", "Certified Credit Counsellor - 2017"]
+          ],
+          "note": "Gaps to notice: 1994-95-99-2000, then 2005, 2008, and the 2015-16-17 run."
+        },
+        {
+          "type": "mnemonic",
+          "title": "SIDBI shareholder ranking",
+          "phrase": "Good Sons Love Nests: Government, SBI, LIC, NABARD (high to low).",
+          "letters": [
+            ["G", "Government of India - 20.85%"],
+            ["S", "SBI - 15.65%"],
+            ["L", "LIC - 13.33%"],
+            ["N", "NABARD - 9.36%"]
+          ]
+        },
+        {
+          "type": "mnemonic",
+          "title": "Women's Livelihood Bond: 3-5-19",
+          "phrase": "Three per cent coupon, five-year tenure, announced 19 February 2019.",
+          "note": "Think of it as 3 (coupon), 5 (years), 19 (launch year)."
+        }
+      ]
+    },
+    {
+      "id": "exim",
+      "title": "EXIM Bank: export finance",
+      "icon": "🚢",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "The **Export-Import Bank of India (EXIM Bank)** is the **premier export finance institution** of India. It was set up in **1982** under the **Export-Import Bank of India Act, 1981**. It began as a provider of export credit like other export credit agencies worldwide and has grown into a partner of Indian industry, especially **small and medium enterprises**, offering products at every stage of the business cycle: import of technology, export product development, export production, export marketing, pre-shipment and post-shipment finance and overseas investment."
+        },
+        {
+          "type": "bullets",
+          "title": "Functions of EXIM Bank",
+          "items": [
+            "Take an integrated, coordinated approach to the allied problems faced by Indian exporters.",
+            "Pay special attention to exports of capital goods.",
+            "Support export projection.",
+            "Facilitate joint ventures and exports of technical services, and international and merchant banking.",
+            "Extend **buyers' credit** and **lines of credit**.",
+            "Tap domestic and foreign markets for resources for development and financial work in the export sector.",
+            "Plan, promote and develop exports and imports.",
+            "Provide technical, administrative and managerial help for promoting, managing and expanding the export sector.",
+            "Undertake market and investment surveys and techno-economic studies for developing exports of goods and services."
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "tip",
+          "title": "Quick pair",
+          "text": "NABARD (rural credit) and EXIM Bank (trade credit) both began in 1982, each under a 1981 Act."
+        }
+      ]
+    },
+    {
+      "id": "icici",
+      "title": "ICICI: industrial credit to banking group",
+      "icon": "🏛️",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "**ICICI** (Industrial Credit and Investment Corporation of India) is an Indian multinational banking and financial services company. Its **registered office is in Vadodara, Gujarat**, while its **corporate headquarters is in Mumbai**. Through many delivery channels and subsidiaries it serves corporate and retail customers in investment banking, life and non-life insurance, venture capital and asset management. Per the 2024-25 study material it is counted among the 'Big Four' banks of India with SBI, PNB and Bank of Baroda."
+        },
+        {
+          "type": "keyvalue",
+          "title": "International footprint",
+          "rows": [
+            ["Subsidiaries", "United Kingdom and Canada"],
+            ["Branches", "United States, Singapore, Bahrain, Hong Kong, Sri Lanka, Qatar, Oman, Dubai International Finance Centre and China"]
+          ]
+        },
+        {
+          "type": "bullets",
+          "title": "Objectives and functions",
+          "items": [
+            "Assist in the creation, expansion and modernisation of private-sector industrial units.",
+            "Encourage inflow and participation of foreign capital in private-sector industry.",
+            "Expand the investment market in India.",
+            "Sponsor and underwrite new issues.",
+            "Provide medium and long-term loans to private-sector industrial units.",
+            "Guarantee loans taken from other private sources.",
+            "Give managerial, technical and administrative advice to private-sector industrial units.",
+            "Make funds available for reinvestment.",
+            "Advance loans in foreign currency for the cost of imported capital equipment.",
+            "Extend guarantees for deferred payments.",
+            "Purchase shares and debentures of new companies."
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "fact",
+          "title": "D-SIBs",
+          "text": "When the RBI first named Domestic Systemically Important Banks (D-SIBs) in 2015, the two banks were **SBI and ICICI Bank**. HDFC Bank was added later."
+        }
+      ]
+    },
+    {
+      "id": "nhb",
+      "title": "NHB: apex housing finance bank",
+      "icon": "🏠",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "The **National Housing Bank (NHB)** is the apex institution for housing, envisaged by the **National Housing Policy, 1988**. It was set up on **9 July 1988** under **Section 6 of the National Housing Bank Act, 1987**, with its head office in **New Delhi**. It promotes private real estate acquisition, regulates and refinances social housing programmes and does research. Its vision is inclusive expansion with stability in the housing finance market. The affairs of NHB are managed by a Board of Directors."
+        },
+        {
+          "type": "timeline",
+          "title": "Ownership story",
+          "items": [
+            ["1987", "National Housing Bank Act passed"],
+            ["9 July 1988", "NHB set up; the RBI contributed the entire paid-up capital"],
+            ["2017-18", "Finance Act, 2018 amended the NHB Act, letting NHB's share capital move from the RBI to the Central Government"],
+            ["After that", "NHB became fully owned by the Government of India; an Affordable Housing Fund was announced in NHB"]
+          ]
+        },
+        {
+          "type": "bullets",
+          "title": "Objectives of NHB",
+          "items": [
+            "Promote and develop specialised housing finance institutions to mobilise resources and extend finance for housing.",
+            "Give refinance facilities to housing finance institutions and scheduled banks.",
+            "Provide guarantee and underwriting facilities to housing finance institutions."
+          ]
+        },
+        {
+          "type": "mnemonic",
+          "title": "NHB 1988 trail",
+          "phrase": "Policy 1988, Bank on 9 July 1988, Act of 1987, Delhi desk.",
+          "note": "Policy and set-up share 1988; the Act is a year earlier (1987); capital came wholly from the RBI at the start."
+        }
+      ]
+    },
+    {
+      "id": "infra-finance",
+      "title": "IIFCL and IWRFC: infrastructure and irrigation",
+      "icon": "🌉",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "The **India Infrastructure Finance Company Limited (IIFCL)** is a wholly owned Government of India company set up in **2006** to give **long-term financial assistance to viable infrastructure projects**. It works through the **Scheme for Financing Viable Infrastructure Projects**, carried out by a Special Purpose Vehicle (the study material refers to it broadly as SIFTI). As on **31 March 2017** its authorised capital was **₹6,000 crore** and paid-up capital **₹4,002 crore**."
+        },
+        {
+          "type": "bullets",
+          "title": "Sectors eligible for IIFCL assistance",
+          "items": [
+            "Transportation",
+            "Energy",
+            "Water and sanitation",
+            "Communication",
+            "Social and commercial infrastructure"
+          ]
+        },
+        {
+          "type": "text",
+          "text": "The **Irrigation and Water Resources Finance Corporation (IWRFC)** was formed on **29 March 2008** to meet the large investment needs of irrigation projects. Its head office is in **New Delhi**. In **2016** it was **amalgamated with IIFCL**. It is classified as a public unlisted union Government company."
+        },
+        {
+          "type": "mnemonic",
+          "title": "Two infrastructure firms, one merger",
+          "phrase": "IIFCL 2006 starts the road; IWRFC 2008 brings the water; 2016 water joins the road.",
+          "letters": [
+            ["2006", "IIFCL set up"],
+            ["2008", "IWRFC formed (29 March)"],
+            ["2016", "IWRFC merged into IIFCL"]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "uti-iibi",
+      "title": "UTI and IIBI",
+      "icon": "📈",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "The **Unit Trust of India (UTI)** is a statutory public sector investment institution created to **encourage and mobilise the savings of the community** and channel them into productive corporate investment. It was created by the **UTI Act passed by Parliament on 30 December 1963** and **first set up on 1 February 1964**. Its headquarters is in **Mumbai**. UTI Bank changed its name to **Axis Bank** in **2007**."
+        },
+        {
+          "type": "text",
+          "text": "The **Industrial Investment Bank of India (IIBI)** was established in **1971** to give long-term finance to Indian industry and was headquartered in **Kolkata**. It started as the **Industrial Reconstruction Corporation Limited (IRCL)** in 1971 and was renamed **Industrial Reconstruction Bank of India** with effect from **20 March 1985** under a 1984 Act. It was a 100% Government of India owned institution and was **closed down by the Government in 2012**."
+        },
+        {
+          "type": "figure",
+          "kind": "flow",
+          "title": "IIBI timeline",
+          "items": [
+            ["IRCL (1971)", "Industrial Reconstruction Corp. Ltd."],
+            ["IRBI (20 Mar 1985)", "Renamed as a bank under the 1984 Act"],
+            ["IIBI", "Industrial Investment Bank of India"],
+            ["Closed (2012)", "Wound up by the Government"]
+          ]
+        },
+        {
+          "type": "mnemonic",
+          "title": "UTI and IIBI dates",
+          "phrase": "UTI: Act in 63, born in 64, Axis in 07. IIBI: born in 71, bank in 85, gone in 12.",
+          "letters": [
+            ["1963", "UTI Act (30 December)"],
+            ["1964", "UTI first set up (1 February)"],
+            ["2007", "UTI Bank becomes Axis Bank"],
+            ["71-85-12", "IIBI: born as IRCL (1971) / became a bank (1985) / closed (2012)"]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "regulators-misc",
+      "title": "Regulators, firsts and other exam facts",
+      "icon": "🔎",
+      "blocks": [
+        {
+          "type": "keyvalue",
+          "title": "Frequently asked facts",
+          "rows": [
+            ["Board for Financial Supervision (BFS)", "Constituted by the RBI in **1994** for consolidated supervision of **commercial banks, financial institutions and NBFCs**."],
+            ["Mutual funds", "Come under the supervisory purview of **SEBI**."],
+            ["First small finance bank", "**Capital Small Finance Bank**, opened in **Jalandhar**; it was among the 10 entities given in-principle approval by the RBI."],
+            ["RXIL", "Receivables Exchange of India Ltd., incorporated **25 February 2016** as a joint venture of **SIDBI and NSE**."],
+            ["D-SIBs (2015)", "SBI and ICICI Bank were the first Domestic Systemically Important Banks named by the RBI."],
+            ["SEBI penalty on rating agencies", "SEBI raised the penalty on ICRA, CARE and India Ratings and Research to ₹1 crore each for lapses in rating non-convertible debentures of **IL&FS**, a systemically important non-deposit-accepting core investment company registered with the RBI."],
+            ["Serum Institute of India", "World's largest vaccine maker by doses produced; located in **Pune**."],
+            ["ICAO", "International Civil Aviation Organization, a **United Nations** agency that helps 193 countries cooperate in the skies."]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "Current-affairs style facts change",
+          "text": "Counts of branches, ATMs, shareholding percentages and lists of systemically important banks are snapshots. Learn the logic (who, why, which year) and expect the latest numbers to differ."
+        },
+        {
+          "type": "mnemonic",
+          "title": "BFS 1994 covers three groups",
+          "phrase": "BFS watches B-F-N: Banks, Financial institutions, NBFCs.",
+          "letters": [
+            ["B", "Commercial banks"],
+            ["F", "Financial institutions"],
+            ["N", "Non-banking finance companies"]
+          ]
+        }
+      ]
+    }
+  ],
+  "revision": [
+    "NABARD: 12 July 1982, Shivaraman Committee, NABARD Act 1981, HQ Mumbai; replaced ACD, RPCC of RBI and ARDC.",
+    "NABARD paid-up capital: ₹100 crore at start; ₹4,000 crore (GoI 99.5%, RBI 0.5%) on 31 March 2013; ₹4,700 crore in 2014.",
+    "NABARD CSR: about 4,000 partner organisations; SHG-bank linkage, watershed, Farmer clubs; JLG = Joint Liability Group.",
+    "IFCI: first DFI after independence; reconstituted as a company in 1993; lends to public limited companies and cooperatives only.",
+    "IDBI: set up in 1964 by an Act of Parliament; now a universal bank; overseas branch at Dubai.",
+    "SIDBI: 2 April 1990, HQ Lucknow; principal institution for MSMEs; first a subsidiary of IDBI; 33 government-owned owners.",
+    "SIDBI milestones: 1994 microfinance, 1995 ISTSL, 1999 SVCL, 2000 CGTMSE, 2005 SMERA, 2008 ISARC, 2015 MUDRA, 2016 TReDS, 2017 CCC.",
+    "SIDBI shareholders (May 2022): GoI 20.85%, SBI 15.65%, LIC 13.33%, NABARD 9.36%.",
+    "Mahila Aajeevika Bond: 19 Feb 2019, World Bank + SIDBI + UN Women, 3% coupon, five-year tenure.",
+    "EXIM Bank: 1982 under the EXIM Act 1981; premier export finance institution; gives buyers' credit and lines of credit.",
+    "ICICI: registered office Vadodara, corporate HQ Mumbai; with SBI it was a D-SIB in 2015.",
+    "NHB: 9 July 1988 under the NHB Act 1987; HQ New Delhi; wholly owned by the Government since the Finance Act 2018.",
+    "IIFCL set up 2006 for infrastructure loans; IWRFC formed 29 March 2008 and merged with IIFCL in 2016.",
+    "UTI: Act 30 Dec 1963, set up 1 Feb 1964, HQ Mumbai; UTI Bank became Axis Bank (2007). IIBI: 1971, Kolkata, closed in 2012.",
+    "BFS (1994) supervises banks, financial institutions and NBFCs; mutual funds are regulated by SEBI."
+  ],
+  "mindmap": {
+    "center": "Financial organisations of India",
+    "branches": [
+      {
+        "label": "NABARD",
+        "children": ["12 July 1982", "Shivaraman Committee", "Apex rural bank, Mumbai", "JLG and SHG linkage", "Refinance and supervision"]
+      },
+      {
+        "label": "Industry banks",
+        "children": ["IFCI 1948 first DFI", "IDBI 1964 Act of Parliament", "ICICI Vadodara and Mumbai", "IIBI 1971, closed 2012"]
+      },
+      {
+        "label": "SIDBI (MSME)",
+        "children": ["2 April 1990", "HQ Lucknow", "Milestones 1994-2022", "Shareholders GoI SBI LIC", "SMILE SPEED IAF"]
+      },
+      {
+        "label": "EXIM Bank",
+        "children": ["1982, EXIM Act 1981", "Export finance leader", "Buyers' credit", "Lines of credit"]
+      },
+      {
+        "label": "NHB (housing)",
+        "children": ["9 July 1988", "HQ New Delhi", "RBI capital then GoI", "Refinance housing lenders"]
+      },
+      {
+        "label": "Infrastructure bodies",
+        "children": ["IIFCL 2006", "IWRFC 2008", "Merged 2016", "Eligible infra sectors"]
+      },
+      {
+        "label": "UTI",
+        "children": ["Act 30 Dec 1963", "Set up 1 Feb 1964", "HQ Mumbai", "Became Axis Bank 2007"]
+      },
+      {
+        "label": "Regulators and facts",
+        "children": ["BFS 1994", "SEBI and mutual funds", "Capital SFB Jalandhar", "RXIL SIDBI and NSE"]
+      }
+    ]
+  }
+}

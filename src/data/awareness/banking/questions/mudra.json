@@ -1,0 +1,239 @@
+[
+  {
+    "id": "mudra-01",
+    "q": "MUDRA Bank initially functioned as a subsidiary of which institution?",
+    "options": ["NABARD", "SIDBI", "EXIM Bank", "HUDCO"],
+    "answer": 1,
+    "explain": "MUDRA began as a non-banking financial company and a subsidiary of the Small Industries Development Bank of India (SIDBI). It was later made a separate company.",
+    "section": "capital-structure"
+  },
+  {
+    "id": "mudra-02",
+    "q": "Which scheme provides collateral-free loans to small and micro business enterprises and individuals in the non-agricultural sector?",
+    "options": [
+      "Pradhan Mantri Jan Dhan Yojana",
+      "Pradhan Mantri Suraksha Bima Yojana",
+      "PM Kisan Samman Nidhi",
+      "Pradhan Mantri MUDRA Yojana"
+    ],
+    "answer": 3,
+    "explain": "PMMY is the scheme under which MUDRA works: collateral-free loans for non-farm micro and small units. PMJDY is for bank accounts, PMSBY for accident insurance and PM-KISAN for farmer income support.",
+    "section": "overview-formation"
+  },
+  {
+    "id": "mudra-03",
+    "q": "Which of the following institutions cannot grant loans under the MUDRA Yojana?",
+    "options": [
+      "Scheduled commercial banks",
+      "Non-banking finance companies",
+      "Payments banks",
+      "Micro finance institutions"
+    ],
+    "answer": 2,
+    "explain": "Commercial banks, NBFCs and MFIs lend under PMMY. Payments banks are not permitted to lend, so they cannot grant MUDRA loans.",
+    "section": "lenders-monitoring-card"
+  },
+  {
+    "id": "mudra-04",
+    "q": "Which of the following statements about MUDRA Yojana is correct?",
+    "options": [
+      "It has three products, Shishu, Kishor and Tarun, which show the stage of growth and funding need of the micro unit",
+      "MUDRA was set up in April 2016 as a wholly owned subsidiary of NABARD",
+      "Beneficiaries can get loans only above ₹5 lakh up to ₹50 lakh",
+      "Its loans are meant mainly for agricultural crop production"
+    ],
+    "answer": 0,
+    "explain": "The three-tier structure (Shishu, Kishor, Tarun) mirrors a business's growth stage. MUDRA was launched in April 2015, was initially linked to SIDBI, and PMMY loans go up to ₹10 lakh for non-farm units.",
+    "section": "loan-categories"
+  },
+  {
+    "id": "mudra-05",
+    "q": "What is the maximum loan limit under the Kishor category of MUDRA Yojana?",
+    "options": ["₹50,000", "₹1 lakh", "₹5 lakh", "₹10 lakh"],
+    "answer": 2,
+    "explain": "Kishor loans go up to ₹5 lakh. ₹50,000 is the Shishu ceiling and ₹10 lakh is the Tarun ceiling.",
+    "section": "loan-categories"
+  },
+  {
+    "id": "mudra-06",
+    "q": "What is the size of the Credit Guarantee Fund created for MUDRA loans (as per the 2024-25 syllabus)?",
+    "options": ["₹1,000 crore", "₹3,000 crore", "₹4,000 crore", "₹5,000 crore"],
+    "answer": 1,
+    "explain": "The Credit Guarantee Fund is ₹30 billion, which equals ₹3,000 crore. It reduces the credit risk of lenders financing micro units.",
+    "section": "capital-structure"
+  },
+  {
+    "id": "mudra-07",
+    "q": "Loans in the Kishor category of MUDRA Yojana start above which amount?",
+    "options": ["Above ₹10,000", "Above ₹25,000", "Above ₹1 lakh", "Above ₹50,000"],
+    "answer": 3,
+    "explain": "Shishu covers loans up to ₹50,000, so Kishor begins just above ₹50,000 and runs up to ₹5 lakh.",
+    "section": "loan-categories"
+  },
+  {
+    "id": "mudra-08",
+    "q": "What was the initial capital of MUDRA Bank?",
+    "options": ["₹200 billion", "₹100 billion", "₹300 billion", "₹500 billion"],
+    "answer": 0,
+    "explain": "MUDRA started with ₹200 billion (₹20,000 crore) of capital. The credit guarantee fund is a separate ₹30 billion (₹3,000 crore).",
+    "section": "capital-structure"
+  },
+  {
+    "id": "mudra-09",
+    "q": "What is the maximum loan limit under the Shishu category of MUDRA Yojana?",
+    "options": ["₹1 lakh", "₹25,000", "₹5 lakh", "₹50,000"],
+    "answer": 3,
+    "explain": "Shishu, the category for units just starting out, has a ceiling of ₹50,000.",
+    "section": "loan-categories"
+  },
+  {
+    "id": "mudra-10",
+    "q": "What is the maximum loan available under the Tarun category of PMMY?",
+    "options": ["₹2 lakh", "₹5 lakh", "₹10 lakh", "₹20 lakh"],
+    "answer": 2,
+    "explain": "Tarun is the highest tier, covering loans above ₹5 lakh and up to ₹10 lakh.",
+    "section": "loan-categories"
+  },
+  {
+    "id": "mudra-11",
+    "q": "What is the full form of MUDRA?",
+    "options": [
+      "Micro Units Development and Refinance Agency",
+      "Micro Units Deposit and Reserve Agency",
+      "Medium Units Development and Refinance Agency",
+      "Micro Unit Development and Re-lending Association"
+    ],
+    "answer": 0,
+    "explain": "MUDRA stands for Micro Units Development and Refinance Agency. It focuses on micro enterprises and on refinance, not deposits.",
+    "section": "overview-formation"
+  },
+  {
+    "id": "mudra-12",
+    "q": "On which date was MUDRA formally launched?",
+    "options": ["1 April 2015", "8 April 2015", "7 April 2015", "8 April 2016"],
+    "answer": 1,
+    "explain": "MUDRA was formally launched on 8 April 2015. The day before, 7 April 2015, it was registered with the RBI as a Non-Banking Finance Institution.",
+    "section": "overview-formation"
+  },
+  {
+    "id": "mudra-13",
+    "q": "Under which law was MUDRA registered as a company in March 2015?",
+    "options": [
+      "Reserve Bank of India Act, 1934",
+      "SIDBI Act, 1989",
+      "Companies Act, 2013",
+      "Banking Regulation Act, 1949"
+    ],
+    "answer": 2,
+    "explain": "MUDRA was registered as a company under the Companies Act, 2013. Its NBFI registration was then obtained from the RBI on 7 April 2015.",
+    "section": "overview-formation"
+  },
+  {
+    "id": "mudra-14",
+    "q": "About 5.77 crore small businesses were identified as MUDRA's target clients. Roughly what share of them were getting finance from regular banks?",
+    "options": ["40%", "14%", "24%", "4%"],
+    "answer": 3,
+    "explain": "Only about 4% of these businesses had access to formal bank finance, which is why MUDRA aims to fund the unfunded through last-mile agents.",
+    "section": "objectives-roles"
+  },
+  {
+    "id": "mudra-15",
+    "q": "Out of the additional ₹1 trillion fund planned for PMMY, which category receives the largest share (40%)?",
+    "options": ["Shishu", "Kishor", "Tarun", "All receive equal shares"],
+    "answer": 0,
+    "explain": "The split is Shishu 40%, Kishor 35% and Tarun 25%, so the smallest loans get the biggest share.",
+    "section": "loan-categories"
+  },
+  {
+    "id": "mudra-16",
+    "q": "What share of the additional PMMY fund of ₹1 trillion is allotted to the Kishor category?",
+    "options": ["25%", "35%", "40%", "50%"],
+    "answer": 1,
+    "explain": "Kishor gets 35%. Shishu receives 40% and Tarun 25%, adding up to 100%.",
+    "section": "loan-categories"
+  },
+  {
+    "id": "mudra-17",
+    "q": "Which of the following is NOT a loan category under PMMY?",
+    "options": ["Shishu", "Kishor", "Yuva", "Tarun"],
+    "answer": 2,
+    "explain": "The three categories are Shishu, Kishor and Tarun. 'Yuva' is not a PMMY category.",
+    "section": "loan-categories"
+  },
+  {
+    "id": "mudra-18",
+    "q": "What is a MUDRA Card?",
+    "options": [
+      "A prepaid gift card for MUDRA staff",
+      "A debit card issued against the MUDRA loan account for the working-capital portion",
+      "A credit card that is issued only to NBFC officials",
+      "A forex card meant for exporters"
+    ],
+    "answer": 1,
+    "explain": "The MUDRA Card is a debit card linked to the loan account's working-capital (overdraft) portion, allowing multiple withdrawals and credits.",
+    "section": "lenders-monitoring-card"
+  },
+  {
+    "id": "mudra-19",
+    "q": "For how many years is a MUDRA Card valid?",
+    "options": ["1 year", "3 years", "5 years", "10 years"],
+    "answer": 2,
+    "explain": "The card has a validity of 5 years, while the limit fixed on it is valid up to the due date of the overdraft limit.",
+    "section": "lenders-monitoring-card"
+  },
+  {
+    "id": "mudra-20",
+    "q": "How does MUDRA monitor lending under PMMY?",
+    "options": [
+      "Through quarterly physical inspection by SIDBI staff",
+      "By collecting data only from RBI returns",
+      "Through a ministry notice board",
+      "Through a web portal that captures lending data in a granular way"
+    ],
+    "answer": 3,
+    "explain": "MUDRA was given the job of monitoring PMMY and set up a monitoring portal that records lending data in detail.",
+    "section": "lenders-monitoring-card"
+  },
+  {
+    "id": "mudra-21",
+    "q": "Which of the following borrowers falls within the kind of units MUDRA aims to refinance?",
+    "options": [
+      "A large listed steel manufacturer",
+      "A fruit and vegetable vendor",
+      "A multinational software company",
+      "A public sector oil refinery"
+    ],
+    "answer": 1,
+    "explain": "MUDRA refinances loans to micro units such as small manufacturers, shopkeepers, fruit and vegetable vendors and artisans.",
+    "section": "loan-categories"
+  },
+  {
+    "id": "mudra-22",
+    "q": "With which regulator was MUDRA registered as a Non-Banking Finance Institution on 7 April 2015?",
+    "options": ["SEBI", "IRDAI", "NABARD", "RBI"],
+    "answer": 3,
+    "explain": "NBFC registration is done by the Reserve Bank of India, and MUDRA was registered with the RBI on 7 April 2015.",
+    "section": "overview-formation"
+  },
+  {
+    "id": "mudra-23",
+    "q": "In which Union Budget was the formation of MUDRA first announced?",
+    "options": ["2013-14", "2014-15", "2015-16", "2016-17"],
+    "answer": 2,
+    "explain": "The setting up of the agency was announced in the Union Budget for FY 2015-16, presented in February 2015.",
+    "section": "overview-formation"
+  },
+  {
+    "id": "mudra-24",
+    "q": "Which statement best describes MUDRA's role?",
+    "options": [
+      "It refinances banks, NBFCs and MFIs that lend to micro enterprises",
+      "It accepts savings deposits from individual small traders",
+      "It supervises all commercial banks on behalf of the RBI",
+      "It issues insurance policies to small shopkeepers"
+    ],
+    "answer": 0,
+    "explain": "MUDRA is a refinance agency: it supports lending institutions with low-cost funds rather than dealing directly with the public or acting as supervisor.",
+    "section": "objectives-roles"
+  }
+]

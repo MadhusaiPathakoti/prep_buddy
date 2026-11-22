@@ -1,0 +1,307 @@
+{
+  "id": "basel-norms",
+  "sections": [
+    {
+      "id": "bis-bcbs",
+      "title": "BIS, BCBS and the Basel accords",
+      "icon": "🧮",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "**Basel** is a city in **Switzerland** and the seat of the **Bank for International Settlements (BIS)** (older books call it the Bureau of International Settlement). The BIS fosters cooperation among central banks with the common goals of **financial stability** and common standards of banking regulation. The broad supervisory standards come from the **Basel Committee on Banking Supervision (BCBS)**, a group of central banks hosted by the BIS. The study material mentions 27 member nations in the committee; membership has grown over time."
+        },
+        {
+          "type": "keyvalue",
+          "title": "Key terms",
+          "rows": [
+            ["BCBS", "**Basel Committee on Banking Supervision** - the group of central banks that frames Basel guidelines."],
+            ["Basel accord", "The set of BCBS agreements, mainly about risks to banks and the financial system."],
+            ["Purpose", "Ensure banks hold **enough capital to meet obligations and absorb unexpected losses**."],
+            ["India", "India has accepted the Basel accords for its banking system; the RBI issues the guidelines."]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "fact",
+          "title": "Before the numbers",
+          "text": "The BCBS was set up in 1974 by central bank governors of the G10 countries. Its first Basel Concordat (1975) dealt with the division of supervisory responsibilities among national authorities, not with capital."
+        },
+        {
+          "type": "keyvalue",
+          "title": "The three risks banks face",
+          "rows": [
+            ["Credit risk", "A borrower fails to repay."],
+            ["Market risk", "Losses on on-balance sheet and off-balance sheet positions from movements in market prices."],
+            ["Operational risk", "Losses from failed processes, people, systems or external events."]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "basel-1",
+      "title": "Basel I (1988)",
+      "icon": "1️⃣",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "In **1988** the BCBS introduced a capital measurement system called the **Basel Capital Accord**, or **Basel I**. It focused almost entirely on **credit risk** and defined both **capital** and a **structure of risk weights** for banks. The idea is simple: if a bank's capital is adequate to cover the risks it has taken (for example by funding a power plant), the bank is safe."
+        },
+        {
+          "type": "keyvalue",
+          "title": "Core numbers and ideas",
+          "rows": [
+            ["Minimum capital", "**8% of Risk Weighted Assets (RWA)**."],
+            ["RWA", "Assets weighted by their risk. An asset backed by collateral is less risky than an unsecured personal loan, so it carries a lower weight."],
+            ["India", "According to the 2024-25 study material, India adopted Basel I guidelines in 1999."]
+          ]
+        },
+        {
+          "type": "mnemonic",
+          "title": "Basel I in one breath",
+          "phrase": "Eighty-eight, Eight, Credit: 1988, 8% of RWA, credit risk only.",
+          "letters": [
+            ["1988", "Year Basel I was introduced"],
+            ["8%", "Minimum capital against risk weighted assets"],
+            ["Credit", "The only major risk it covered"]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "basel-2",
+      "title": "Basel II (2004)",
+      "icon": "2️⃣",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "**Basel II**, published by the BCBS in **2004**, refined and reformed Basel I. It rests on three parameters, which are formally known as the **three pillars**."
+        },
+        {
+          "type": "table",
+          "title": "Three parameters (pillars) of Basel II",
+          "headers": ["Parameter", "Idea", "Pillar name"],
+          "rows": [
+            ["1. Minimum capital", "Banks keep at least 8% of risk assets as capital; in India this is the Capital Adequacy Ratio (CAR).", "Pillar 1: minimum capital requirement"],
+            ["2. Better risk management", "Banks use better techniques to monitor and manage credit, market and operational risks; supervisors review them.", "Pillar 2: supervisory review"],
+            ["3. Disclosure", "Banks must disclose their risk exposure to the central bank; more transparency raises trust of investors and depositors.", "Pillar 3: market discipline"]
+          ]
+        },
+        {
+          "type": "text",
+          "text": "The more **transparent** a bank is, the more stable it is considered. In India the RBI publishes a **Financial Stability Report** twice a year so the system's risks are visible. The study material says Basel II norms were yet to be fully implemented in India and overseas at the time of writing."
+        },
+        {
+          "type": "callout",
+          "kind": "tip",
+          "title": "Implementation in India",
+          "text": "RBI moved to Basel II in phases from 31 March 2008 (foreign banks and Indian banks operating abroad) and 31 March 2009 (other banks)."
+        },
+        {
+          "type": "mnemonic",
+          "title": "Three pillars of Basel II: C-S-M",
+          "phrase": "Capital first, Supervisors second, Market third - the CSM pillars.",
+          "letters": [
+            ["C", "Capital: minimum 8% of risk assets (CAR)"],
+            ["S", "Supervisory review of risk management"],
+            ["M", "Market discipline through disclosure"]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "basel-3",
+      "title": "Basel III (2010): capital, leverage and liquidity",
+      "icon": "3️⃣",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "**Basel III** guidelines were released in **2010** in response to the **financial crisis of 2008**. They tighten capital quality and quantity, cap leverage and introduce liquidity standards."
+        },
+        {
+          "type": "table",
+          "title": "RBI's Basel III capital rules (guidelines of 2 May 2012)",
+          "headers": ["Item", "Requirement", "Note"],
+          "rows": [
+            ["Tier 1 (core) capital", "At least 7% of risk weighted assets on an ongoing basis", "Includes Common Equity Tier 1 of at least 5.5% in India"],
+            ["Total capital (Tier 1 + Tier 2)", "At least 9% of risk weighted assets", "Banks disclose the capital ratio computed under existing guidelines from the year ending 31 March 2013"],
+            ["Common equity (global)", "Raised to 4.5% from 2% under Basel II", "Risk-weighted capital requirement more than doubled"],
+            ["Capital conservation buffer", "2.5% on top of the minimum", "Extra cushion built in good times"]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "Two more ideas",
+          "rows": [
+            ["Leverage", "Buying assets with borrowed money to multiply gains, hoping the asset earns more than the loan interest. It is risky, so Basel III **limits leverage**. Understand the concept; the numbers are less important."],
+            ["Funding and liquidity", "If all depositors demand money together, a bank can collapse, as happened with **Lehman Brothers** whose failure triggered the 2008 recession. So banks must hold liquid assets (easily convertible to cash) at all times. In India this correlates with maintaining **CRR and SLR**."]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "Liquidity standards in the framework",
+          "rows": [
+            ["LCR", "Liquidity Coverage Ratio - enough high-quality liquid assets to survive a **30-day** stress."],
+            ["NSFR", "Net Stable Funding Ratio - stable funding over a **one-year** horizon."]
+          ]
+        },
+        {
+          "type": "figure",
+          "kind": "layers",
+          "title": "Capital stack in India (top to bottom)",
+          "items": [
+            ["Total capital 9%", "Tier 1 plus Tier 2"],
+            ["Tier 1 capital 7%", "Core capital, ongoing basis"],
+            ["Common equity 5.5%", "Highest-quality capital in India"],
+            ["Buffer 2.5% extra", "Capital conservation buffer on top"]
+          ]
+        },
+        {
+          "type": "mnemonic",
+          "title": "Basel I, II, III: what each one added",
+          "phrase": "I = capital for credit, II = pillars for supervision and disclosure, III = liquidity and leverage after the crisis.",
+          "letters": [
+            ["I (1988)", "8% of RWA; credit risk"],
+            ["II (2004)", "Three pillars: capital, supervision, disclosure"],
+            ["III (2010)", "More and better capital; leverage; liquidity"]
+          ],
+          "note": "Years: 88, 04, 10 - eighty-eight, oh-four, ten."
+        },
+        {
+          "type": "mnemonic",
+          "title": "Basel III numbers for India",
+          "phrase": "Seven core, nine total, five and a half common equity, two and a half buffer.",
+          "letters": [
+            ["7%", "Tier 1 minimum"],
+            ["9%", "Total capital (Tier 1 + Tier 2) minimum"],
+            ["5.5%", "Common Equity Tier 1 minimum in India"],
+            ["2.5%", "Capital conservation buffer"]
+          ]
+        },
+        {
+          "type": "mnemonic",
+          "title": "LCR versus NSFR",
+          "phrase": "Liquidity Coverage is a month; Net Stable Funding is a year.",
+          "letters": [
+            ["LCR", "30 days (about a month)"],
+            ["NSFR", "1 year"]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "india-implementation",
+      "title": "Basel III in India: timeline and challenges",
+      "icon": "🇮🇳",
+      "blocks": [
+        {
+          "type": "timeline",
+          "title": "Key dates",
+          "items": [
+            ["2 May 2012", "RBI released Basel III capital regulation guidelines"],
+            ["1 April 2013", "RBI began implementing Basel III recommendations in India"],
+            ["2019", "Implementation of the norms postponed earlier to this year"],
+            ["2023", "Later pushed further; the study material says 'now till 2023'"]
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Challenges in implementing Basel III",
+          "headers": ["Challenge", "Why it hurts"],
+          "rows": [
+            ["Higher capital requirement", "Private banks can raise capital from markets, but public sector banks depend mostly on the Government. The Government decided to infuse ₹12,000 crore in PSBs, and more is needed later."],
+            ["More technology deployment", "Norms need more sophisticated technology and management styles; upgrading both is costly and hurts profitability."],
+            ["Liquidity crunch", "Banks must hold more liquid assets, which earn modest returns, lowering operating profit margin; it may also crowd out good private investment and slow growth."]
+          ]
+        },
+        {
+          "type": "mnemonic",
+          "title": "Three headaches: C-T-L",
+          "phrase": "Capital, Technology, Liquidity: the C-T-L headaches of Basel III.",
+          "letters": [
+            ["C", "Capital: more of it, especially for PSBs"],
+            ["T", "Technology: costly upgrades"],
+            ["L", "Liquidity crunch: lower returns, crowding out"]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "deferral",
+      "title": "Deferral of the final Basel III standards to 2023",
+      "icon": "⏳",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "In view of the **coronavirus pandemic**, the implementation of Basel III standards was **deferred by one year** from 1 January 2022 to **1 January 2023**. The decision was taken by the Basel Committee's oversight body, the **Group of Central Bank Governors and Heads of Supervision (GHOS)**."
+        },
+        {
+          "type": "table",
+          "title": "What moved by one year",
+          "headers": ["Item", "New date"],
+          "rows": [
+            ["Basel III standards finalised in December 2017", "1 January 2023"],
+            ["Transitional arrangements for the output floor", "1 January 2028"],
+            ["Revised market risk framework", "1 January 2023"],
+            ["Revised Pillar 3 disclosure requirements", "1 January 2023"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "remember",
+          "title": "Why these standards matter",
+          "text": "These later standards were finalised to complement the initial set of Basel III standards. The deferral came from the BCBS and its GHOS; dates in India may differ, so read the latest RBI notice."
+        }
+      ]
+    }
+  ],
+  "revision": [
+    "Basel is in Switzerland and hosts the BIS; the BCBS (Basel Committee on Banking Supervision) frames the norms.",
+    "Basel accords aim to make sure banks have enough capital to meet obligations and absorb unexpected losses.",
+    "First Basel Concordat (1975) was about division of supervisory responsibilities among national authorities.",
+    "Basel I (1988): 8% of risk weighted assets, focused on credit risk, defined capital and risk weights.",
+    "RWA means assets weighted by risk; collateral-backed assets carry lower risk than unsecured personal loans.",
+    "Basel II (2004): minimum capital 8% (CAR in India), better risk management, and disclosure.",
+    "Basel II pillars: minimum capital, supervisory review, market discipline.",
+    "Basel III (2010) came after the 2008 financial crisis; Lehman Brothers' collapse is the liquidity example.",
+    "RBI Basel III guidelines of 2 May 2012: Tier 1 at least 7%, total capital at least 9% of RWA.",
+    "Basel III raised common equity to 4.5% from 2% under Basel II; leverage is capped.",
+    "Liquid assets under Basel III correlate in India with CRR and SLR; LCR covers 30 days, NSFR one year.",
+    "RBI implemented Basel III from 1 April 2013; full implementation was postponed to 2019 and later.",
+    "Challenges: higher capital (PSBs lean on the Government), technology cost, and liquidity crunch.",
+    "Market risk is the risk of losses on on- and off-balance sheet positions due to market price movements.",
+    "Pandemic deferral by GHOS: Basel III standards of December 2017 moved to 1 January 2023; output floor to 1 January 2028."
+  ],
+  "mindmap": {
+    "center": "Basel norms",
+    "branches": [
+      {
+        "label": "BIS and BCBS",
+        "children": ["Basel, Switzerland", "BIS fosters cooperation", "Committee frames norms", "Concordat 1975"]
+      },
+      {
+        "label": "Basel I (1988)",
+        "children": ["8% of RWA", "Credit risk focus", "Risk weights defined", "India adopted per syllabus 1999"]
+      },
+      {
+        "label": "Basel II (2004)",
+        "children": ["Minimum capital 8%", "Risk management", "Disclosure", "Three pillars"]
+      },
+      {
+        "label": "Basel III (2010)",
+        "children": ["After 2008 crisis", "Tier 1 7%, total 9%", "Common equity 4.5%", "Leverage limit", "LCR 30 days, NSFR 1 year"]
+      },
+      {
+        "label": "India's rollout",
+        "children": ["RBI guidelines 2 May 2012", "Began 1 April 2013", "Postponed to 2019", "Further deferred"]
+      },
+      {
+        "label": "Challenges",
+        "children": ["Higher capital need", "PSBs depend on Government", "Technology costs", "Liquidity crunch"]
+      },
+      {
+        "label": "Deferral (pandemic)",
+        "children": ["GHOS decision", "Standards to 1 Jan 2023", "Output floor to 2028", "Market risk and Pillar 3"]
+      }
+    ]
+  }
+}

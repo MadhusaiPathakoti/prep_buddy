@@ -1,0 +1,256 @@
+{
+  "id": "indradhanush",
+  "sections": [
+    {
+      "id": "launch-mission",
+      "title": "Launch and mission",
+      "icon": "🌈",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "**Indradhanush** (Hindi for rainbow) is a **seven-pronged plan** launched in **August 2015** by the Finance Minister (**Arun Jaitley**) to **revamp the functioning of public sector banks (PSBs)**. Like a rainbow with seven colours, it has seven elements. It is also called **A2G** because the elements run alphabetically from A to G."
+        },
+        {
+          "type": "bullets",
+          "title": "Mission",
+          "items": [
+            "Revamp and improve the functioning of PSBs through **systemic changes** in state-run lenders.",
+            "A fresh look at **hiring** and appointments.",
+            "A comprehensive plan to **de-stress bloated lenders** (bad loans).",
+            "**Capital infusion** by the Government.",
+            "**Accountability** with incentives and higher rewards, including **stock options**.",
+            "**Cleaning up governance**."
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "remember",
+          "title": "Quick facts",
+          "text": "Launched **August 2015**, by the **Finance Minister**, with **seven** elements; also known as **A2G** for public sector banks."
+        },
+        {
+          "type": "mnemonic",
+          "title": "Rainbow = 7 = A to G",
+          "phrase": "A Big Cat Does Extra Fast Gymnastics – the seven Indradhanush points in alphabetical order.",
+          "letters": [
+            ["A", "Appointments"],
+            ["B", "Banks Board Bureau"],
+            ["C", "Capitalisation"],
+            ["D", "De-stressing"],
+            ["E", "Empowerment"],
+            ["F", "Framework of Accountability"],
+            ["G", "Governance Reforms"]
+          ],
+          "note": "The seven points already come in A to G order, which is why the plan is also called A2G."
+        }
+      ]
+    },
+    {
+      "id": "seven-elements",
+      "title": "The seven elements explained",
+      "icon": "7️⃣",
+      "blocks": [
+        {
+          "type": "figure",
+          "kind": "layers",
+          "title": "The seven prongs of Indradhanush",
+          "items": [
+            ["Appointments", "Private-sector executives; separate CMD posts"],
+            ["Banks Board Bureau", "Replaces the Appointments Board"],
+            ["Capitalisation", "Government capital infusion"],
+            ["De-stressing", "Tackle NPAs; strengthen ARCs"],
+            ["Empowerment", "Easier hiring; ESOPs"],
+            ["Framework of Accountability", "Key performance indicators"],
+            ["Governance Reforms", "Started with Gyan Sangam"]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "What each element means",
+          "rows": [
+            ["Appointments", "Executives from the **private sector** can be hired to run state-owned banks. The posts of **Chairman and Managing Director (CMD)** and **MD and CEO** are separated in PSBs, and private-sector candidates may also apply for MD and CEO."],
+            ["Banks Board Bureau", "Replaced the existing Appointments Board; an autonomous body of eminent professionals and officials."],
+            ["Capitalisation", "The Government infuses capital into PSBs so they meet capital norms."],
+            ["De-stressing", "Relieve banks of **non-performing assets (bad loans)**; **asset reconstruction companies** are strengthened to deal with bad loans."],
+            ["Empowerment", "Government makes it easier for PSBs to **hire**, and looks at **Employee Stock Ownership Plans (ESOPs)** for PSB managements."],
+            ["Framework of Accountability", "A new framework of **key performance indicators (KPIs)** for state-run lenders to boost efficiency, while assuring them **independence in purely commercial decisions**."],
+            ["Governance Reforms", "Process began with **Gyan Sangam**, a conclave of PSBs and financial institutions."]
+          ]
+        },
+        {
+          "type": "mnemonic",
+          "title": "Which element does what?",
+          "phrase": "Appoint people, Bureau picks, Capital pays, De-stress clears bad loans, Empower with ESOPs, Framework measures KPIs, Governance starts at Gyan Sangam.",
+          "letters": [
+            ["De-stress", "Bad loans (NPAs) and ARCs"],
+            ["Empower", "Hiring freedom and ESOPs"],
+            ["Framework", "KPIs for accountability"],
+            ["Governance", "Gyan Sangam, Chief Risk Officers"]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "capitalisation",
+      "title": "Capitalisation of PSBs",
+      "icon": "💰",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "Under the first capitalisation plan, **13 public sector banks** received capital of about **₹20,000 crore** in 2015-16, and the remaining part of the ₹25,000 crore provision for that year (about ₹5,000 crore) was allocated based on **efficiency criteria**. **State Bank of India** received the largest amount."
+        },
+        {
+          "type": "table",
+          "title": "Capital allocated to 13 PSBs (₹ crore) and capital adequacy ratio (%)",
+          "headers": ["Bank", "Capital (₹ crore)", "CAR (%)"],
+          "rows": [
+            ["State Bank of India", "5,531", "12"],
+            ["Bank of India", "2,455", "11.2"],
+            ["IDBI Bank", "2,229", "11.9"],
+            ["Indian Overseas Bank", "2,009", "10.1"],
+            ["Bank of Baroda", "1,786", "13.1"],
+            ["Punjab National Bank", "1,732", "12.9"],
+            ["Union Bank of India", "1,080", "10.2"],
+            ["Canara Bank", "947", "10.7"],
+            ["Corporation Bank", "857", "11.1"],
+            ["Dena Bank", "407", "10.9"],
+            ["Bank of Maharashtra", "394", "11.9"],
+            ["Andhra Bank", "378", "10.7"],
+            ["Allahabad Bank", "283", "10.4"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "fact",
+          "title": "Total",
+          "text": "The 13 allocations in the table add up to about **₹20,088 crore**. Several banks listed (Dena, Andhra, Corporation, Allahabad) no longer exist separately after the 2019-2020 mergers."
+        },
+        {
+          "type": "mnemonic",
+          "title": "Top six in order of capital",
+          "phrase": "Some Big Investors Own Big Property – SBI, BoI, IDBI, IOB, BoB, PNB (largest to smaller).",
+          "letters": [
+            ["S", "SBI – ₹5,531 crore (highest)"],
+            ["B", "Bank of India – ₹2,455 crore"],
+            ["I", "IDBI Bank – ₹2,229 crore"],
+            ["O", "Indian Overseas Bank – ₹2,009 crore"],
+            ["B", "Bank of Baroda – ₹1,786 crore"],
+            ["P", "Punjab National Bank – ₹1,732 crore"]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "governance-gyan-sangam",
+      "title": "Governance reforms and Gyan Sangam",
+      "icon": "🧑‍🤝‍🧑",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "**Gyan Sangam** was a **conclave (bankers' retreat)** of PSBs and financial institutions held at the beginning of **2015 in Pune**. It was attended by all stakeholders, including the **Prime Minister, Finance Minister, Minister of State for Finance, RBI Governor and the CMDs** of all PSBs and financial institutions."
+        },
+        {
+          "type": "bullets",
+          "title": "Outcomes",
+          "items": [
+            "Recommendations included **strengthening risk management practices**.",
+            "Each bank agreed to nominate a **senior officer as Chief Risk Officer (CRO)** of the bank.",
+            "It started the process of governance reforms, the seventh prong (G) of Indradhanush."
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "tip",
+          "title": "Gyan Sangam in one line",
+          "text": "'Gyan' = knowledge, 'Sangam' = meeting. A bankers' retreat in **Pune**, **early 2015**, that gave birth to governance reforms and **Chief Risk Officers**."
+        }
+      ]
+    },
+    {
+      "id": "indradhanush-2",
+      "title": "Funding plan and Indradhanush 2.0",
+      "icon": "🔁",
+      "blocks": [
+        {
+          "type": "keyvalue",
+          "title": "Funding roadmap announced in 2015",
+          "rows": [
+            ["Government infusion", "**₹70,000 crore** into state-run banks **over four years**."],
+            ["Raised from markets", "A further **₹1.1 lakh crore** to be raised by the banks themselves from the market."],
+            ["Purpose", "To meet capital needs under **Basel III**, the global risk norms."],
+            ["First year", "PSBs were given **₹25,000 crore in 2015-16**."]
+          ]
+        },
+        {
+          "type": "text",
+          "text": "In **2017** the Government came out with **Indradhanush 2.0**, a comprehensive plan for **recapitalisation** of public sector lenders so that they stay solvent and fully comply with **Basel III** capital adequacy norms. It was linked to the completion of the **Asset Quality Review (AQR)** by the Reserve Bank, and aimed at cleaning up PSB balance sheets after the AQR and a **revised capitalisation programme**."
+        },
+        {
+          "type": "mnemonic",
+          "title": "70 + 110 = 180",
+          "phrase": "Seven-oh from the Government, one-ten from the market: 70,000 + 1,10,000 crore, about ₹1.8 lakh crore in all.",
+          "letters": [
+            ["70,000", "Government capital over four years (crore)"],
+            ["1.1 lakh", "Market borrowing by PSBs (crore)"],
+            ["25,000", "Given in 2015-16 (crore)"]
+          ],
+          "note": "Indradhanush 1.0 = 2015; Indradhanush 2.0 = 2017, tied to Basel III and the RBI's AQR."
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "Do not confuse the years",
+          "text": "Launch of Indradhanush = **2015**. Indradhanush 2.0 = **2017**. Gyan Sangam = early **2015**. The Banks Board Bureau began working on **1 April 2016**."
+        }
+      ]
+    }
+  ],
+  "revision": [
+    "Indradhanush: seven-pronged plan to revamp public sector banks, launched in August 2015 by the Finance Minister.",
+    "Also known as A2G: Appointments, Banks Board Bureau, Capitalisation, De-stressing, Empowerment, Framework of Accountability, Governance Reforms.",
+    "Appointments: private-sector executives can be hired; posts of CMD and MD and CEO are separated in PSBs.",
+    "Banks Board Bureau replaced the Appointments Board.",
+    "13 PSBs were capitalised in 2015-16 with about ₹20,000 crore; SBI received the highest (₹5,531 crore).",
+    "De-stressing: tackle NPAs and strengthen asset reconstruction companies.",
+    "Empowerment: easier hiring and Employee Stock Ownership Plans (ESOPs) for PSB managements.",
+    "Framework of Accountability: key performance indicators for state-run lenders.",
+    "Governance reforms began with Gyan Sangam, a bankers' conclave in Pune in early 2015.",
+    "Gyan Sangam led each bank to nominate a senior officer as Chief Risk Officer.",
+    "Roadmap: ₹70,000 crore from the Government over four years plus ₹1.1 lakh crore raised from markets (Basel III).",
+    "PSBs were given ₹25,000 crore in 2015-16.",
+    "Indradhanush 2.0 (2017): recapitalisation to meet Basel III, linked to the RBI's Asset Quality Review."
+  ],
+  "mindmap": {
+    "center": "Indradhanush Strategy",
+    "branches": [
+      {
+        "label": "Launch",
+        "children": ["August 2015", "By Finance Minister", "Seven elements", "Also called A2G"]
+      },
+      {
+        "label": "People",
+        "children": ["Private-sector executives", "CMD and MD-CEO split", "Banks Board Bureau", "Easier hiring"]
+      },
+      {
+        "label": "Capital",
+        "children": ["13 banks funded", "SBI highest", "₹70,000 crore, 4 years", "₹1.1 lakh crore markets"]
+      },
+      {
+        "label": "Clean-up",
+        "children": ["De-stressing NPAs", "Strengthen ARCs", "Basel III compliance", "AQR by RBI"]
+      },
+      {
+        "label": "Incentives",
+        "children": ["Empowerment", "ESOPs", "KPIs framework", "Commercial independence"]
+      },
+      {
+        "label": "Governance",
+        "children": ["Gyan Sangam, Pune", "Early 2015", "Risk management", "Chief Risk Officers"]
+      },
+      {
+        "label": "Indradhanush 2.0",
+        "children": ["Year 2017", "Recapitalisation plan", "Post-AQR clean-up", "Revised capitalisation"]
+      }
+    ]
+  }
+}

@@ -1,0 +1,438 @@
+{
+  "id": "negotiable-instruments",
+  "sections": [
+    {
+      "id": "act-and-meaning",
+      "title": "The 1881 Act and What Negotiable Means",
+      "icon": "📜",
+      "blocks": [
+        {
+          "type": "timeline",
+          "title": "Background of the law",
+          "items": [
+            ["Before 1881", "The English Negotiable Instruments law applied in India"],
+            ["1881", "The Negotiable Instruments Act was enacted in India, based on the English Act with some modifications"],
+            ["1934", "RBI Act: the NI Act works subject to Sections 31 and 32 of the Reserve Bank of India Act, 1934"]
+          ]
+        },
+        {
+          "type": "text",
+          "text": "The Act extends to the whole of India. Under **Section 13(a)**, a negotiable instrument means a promissory note, bill of exchange or cheque payable either to order or to bearer, whether or not the words ‘order’ or ‘bearer’ actually appear on the instrument."
+        },
+        {
+          "type": "bullets",
+          "title": "Provisions about payable-to-bearer",
+          "items": [
+            "A promissory note can never be made payable to the bearer, whether it is payable on demand or after a fixed time.",
+            "A bill of exchange cannot be made payable to the bearer on demand, though it can be made payable to the bearer after a certain time.",
+            "A cheque, although it is a bill of exchange, can be drawn payable to bearer on demand on a person’s account with a banker."
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "Bearer rules differ by instrument",
+          "text": "Promissory note: never to bearer. Bill of exchange: not to bearer on demand (allowed after a time). Cheque: bearer on demand is allowed. The cheque is the exception because it is drawn on a banker."
+        }
+      ]
+    },
+    {
+      "id": "characteristics",
+      "title": "Characteristics of a Negotiable Instrument",
+      "icon": "🔑",
+      "blocks": [
+        {
+          "type": "keyvalue",
+          "title": "Five characteristics",
+          "rows": [
+            ["Property", "The possessor is presumed to be the owner of the property in it. The instrument gives not just possession but the right to the property."],
+            ["Title", "The transferee, called a holder in due course, is a bona fide transferee for value and is not affected by any defect in the title of the transferor or earlier holders."],
+            ["Rights", "The transferee can sue in his own name if the instrument is dishonoured. It can be transferred any number of times until maturity."],
+            ["Presumptions", "Certain presumptions apply to all instruments, such as that consideration has been paid; ‘for value received’ need not be written in a promissory note."],
+            ["Prompt payment", "The holder can expect prompt payment, because dishonour ruins the credit of every party to the instrument."]
+          ]
+        },
+        {
+          "type": "mnemonic",
+          "title": "Five traits of negotiability",
+          "phrase": "Please Take Real Pearls Promptly: Property, Title, Rights, Presumptions, Prompt payment.",
+          "letters": [
+            ["Please", "Property: possessor presumed owner"],
+            ["Take", "Title: holder in due course is protected"],
+            ["Real", "Rights: sue in own name"],
+            ["Pearls", "Presumptions: consideration etc. presumed"],
+            ["Promptly", "Prompt payment is expected"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "remember",
+          "title": "Holder in due course",
+          "text": "The transferee of a negotiable instrument who takes it in good faith and for value is called the holder in due course. He gets a clean title even if an earlier holder’s title was defective."
+        }
+      ]
+    },
+    {
+      "id": "presumptions",
+      "title": "Presumptions Under Sections 118 and 119",
+      "icon": "⚖️",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "Sections 118 and 119 list the presumptions a court makes about negotiable instruments. They need not be proved; they are assumed to exist until the contrary is proved."
+        },
+        {
+          "type": "table",
+          "title": "What the court presumes",
+          "headers": ["Presumption", "Meaning"],
+          "rows": [
+            ["Consideration", "Every instrument was made, drawn, accepted or endorsed for consideration"],
+            ["Date", "A dated instrument was made or drawn on that date"],
+            ["Time of acceptance", "An accepted bill was accepted within a reasonable time after issue and before maturity"],
+            ["Time of transfer", "Every transfer was made before maturity"],
+            ["Order of endorsement", "Endorsements appear in the order in which they were made"],
+            ["Stamp", "A lost promissory note, bill or cheque was duly stamped"],
+            ["Holder in due course", "The holder is a holder in due course who paid consideration in good faith"],
+            ["Proof of protest (Sec 119)", "On proof of protest, the court presumes the instrument was dishonoured"]
+          ]
+        },
+        {
+          "type": "mnemonic",
+          "title": "Seven presumptions of Section 118",
+          "phrase": "Can Dogs Taste Tasty Orange Sweets, Honey? Consideration, Date, Time of acceptance, Time of transfer, Order of endorsement, Stamp, Holder.",
+          "letters": [
+            ["Can", "Consideration"],
+            ["Dogs", "Date"],
+            ["Taste", "Time of acceptance"],
+            ["Tasty", "Time of transfer"],
+            ["Orange", "Order of endorsement"],
+            ["Sweets", "Stamp (lost instrument duly stamped)"],
+            ["Honey", "Holder in due course"]
+          ],
+          "note": "Section 119 adds the eighth: proof of protest leads to presumption of dishonour."
+        }
+      ]
+    },
+    {
+      "id": "kinds-of-instruments",
+      "title": "Kinds of Negotiable Instruments",
+      "icon": "🗂️",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "Section 13 says a negotiable instrument is a promissory note, bill of exchange or cheque payable to order or to bearer. These three are recognised by statute. Several others are recognised by usage or custom."
+        },
+        {
+          "type": "table",
+          "title": "Statutory instruments",
+          "headers": ["Instrument", "Section", "Meaning"],
+          "rows": [
+            ["Promissory note", "Section 4", "A written instrument (not a bank-note or currency note) with an unconditional undertaking signed by the maker to pay a certain sum to a certain person, his order, or the bearer"],
+            ["Bill of exchange", "Section 5", "A written instrument with an unconditional order, signed by the maker, directing a certain person to pay a certain sum only to, or to the order of, a certain person or the bearer"],
+            ["Cheque", "Section 6", "A bill of exchange drawn on a specified banker and not expressed to be payable otherwise than on demand"]
+          ]
+        },
+        {
+          "type": "mnemonic",
+          "title": "Sections 4, 5, 6",
+          "phrase": "Section 4 = a Promise, Section 5 = a Bill, Section 6 = a Cheque: Promise, Bill, Cheque in order.",
+          "letters": [
+            ["4", "Promissory note: a promise to pay"],
+            ["5", "Bill of exchange: an order to pay"],
+            ["6", "Cheque: a bill drawn on a banker, payable on demand"]
+          ]
+        },
+        {
+          "type": "bullets",
+          "title": "Instruments recognised by usage or custom",
+          "items": [
+            "Hundis",
+            "Share warrants",
+            "Dividend warrants",
+            "Banker’s draft",
+            "Circular notes",
+            "Bearer debentures",
+            "Debentures of Bombay Port Trust",
+            "Railway receipts",
+            "Delivery orders"
+          ]
+        },
+        {
+          "type": "mnemonic",
+          "title": "Nine customary instruments",
+          "phrase": "Hungry Sheep Drink Black Coffee; Bears Dance, Run Daily.",
+          "letters": [
+            ["Hungry", "Hundis"],
+            ["Sheep", "Share warrants"],
+            ["Drink", "Dividend warrants"],
+            ["Black", "Banker’s draft"],
+            ["Coffee", "Circular notes"],
+            ["Bears", "Bearer debentures"],
+            ["Dance", "Debentures of Bombay Port Trust"],
+            ["Run", "Railway receipts"],
+            ["Daily", "Delivery orders"]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "More to know",
+          "rows": [
+            ["Hundi", "A negotiable instrument written in an oriental language; the term covers all indigenous negotiable instruments, whether in the form of notes or bills."],
+            ["Cheque versus bill", "A cheque is a bill of exchange with two more qualifications: it is always drawn on a specified banker and always payable on demand."],
+            ["Classification of bills", "Inland and foreign bills; time and demand bills; trade and accommodation bills."],
+            ["Truncated cheques", "Covered by the Negotiable Instruments Act, 1881."],
+            ["Depository receipt", "A negotiable financial instrument issued by a bank to represent a foreign company’s publicly traded securities."],
+            ["Section 131", "Protects the collecting banker."]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "parties",
+      "title": "Parties to a Negotiable Instrument",
+      "icon": "👥",
+      "blocks": [
+        {
+          "type": "keyvalue",
+          "title": "Parties to a bill of exchange",
+          "rows": [
+            ["Drawer", "The maker of the bill."],
+            ["Drawee", "The person directed by the drawer to pay."],
+            ["Acceptor", "The drawee who has signed his assent on the bill and delivered it or given notice of the signing."],
+            ["Payee", "The person named in the instrument to whom, or to whose order, money is to be paid; the real beneficiary."],
+            ["Holder", "The person legally entitled to possess the instrument in his own name and to receive the amount; the payee or endorsee, or the bearer’s possessor."],
+            ["Indorser", "A holder who transfers the instrument to someone else."],
+            ["Indorsee", "The person to whom the bill is indorsed."],
+            ["Drawee in case of need", "A person named in addition to the drawee, to be approached if the drawee refuses; the holder must present the bill to him."],
+            ["Acceptor for honour", "A person not liable on the bill who, with the holder’s consent, accepts it to honour a party when the drawee refuses to accept or furnish better security."]
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Parties to a promissory note and a cheque",
+          "headers": ["Instrument", "Party", "Role"],
+          "rows": [
+            ["Promissory note", "Maker", "Promises to pay; the debtor"],
+            ["Promissory note", "Payee", "Person to whom payable; the creditor"],
+            ["Promissory note", "Holder", "The payee or the person to whom the note is indorsed"],
+            ["Cheque", "Drawer", "Draws the cheque; the depositor of money in the bank"],
+            ["Cheque", "Drawee", "The drawer’s banker on whom the cheque is drawn"],
+            ["Cheque", "Payee", "Entitled to receive payment of the cheque"]
+          ]
+        },
+        {
+          "type": "mnemonic",
+          "title": "Who is who on a bill",
+          "phrase": "The Drawer Draws, the Drawee gets Directed, once he signs he is the Acceptor, the Payee is Paid.",
+          "letters": [
+            ["Drawer", "Draws the bill (maker)"],
+            ["Drawee", "Directed to pay"],
+            ["Acceptor", "A drawee who has signed assent"],
+            ["Payee", "Paid: the real beneficiary"]
+          ],
+          "note": "A promissory note has only two main parties: maker and payee."
+        },
+        {
+          "type": "callout",
+          "kind": "remember",
+          "title": "Count the parties",
+          "text": "A promissory note has 2 parties (maker and payee), while a bill of exchange and a cheque each start with 3 (drawer, drawee, payee)."
+        }
+      ]
+    },
+    {
+      "id": "endorsement",
+      "title": "Endorsement",
+      "icon": "✍️",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "Literally, endorsement means writing on the back of an instrument. Under the Act it means writing one’s name on the back of the instrument, or on a paper attached to it, with the intention of transferring the rights in it. The person who endorses is the **endorser**; the person to whom it is transferred is the **endorsee**."
+        },
+        {
+          "type": "bullets",
+          "title": "Classes of endorsement",
+          "items": [
+            "Blank or general",
+            "Special or full",
+            "Partial",
+            "Restrictive",
+            "Conditional"
+          ]
+        },
+        {
+          "type": "mnemonic",
+          "title": "Five kinds of endorsement",
+          "phrase": "Big Sharks Prefer Red Crabs.",
+          "letters": [
+            ["Big", "Blank (general)"],
+            ["Sharks", "Special (full)"],
+            ["Prefer", "Partial"],
+            ["Red", "Restrictive"],
+            ["Crabs", "Conditional"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "tip",
+          "title": "Transfer by signing",
+          "text": "Transferring an instrument to another person by signing on its back or face, or on a slip of paper attached to it, is endorsement."
+        }
+      ]
+    },
+    {
+      "id": "defective-title",
+      "title": "Lost, Stolen, Fraudulent and Forged Instruments",
+      "icon": "🚫",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "A person cannot pass a better title than he himself has. A finder of lost goods, a thief, or someone who gets a thing by fraud or for an unlawful consideration gets no title to it. Negotiable instruments differ from ordinary goods in how title passes, but the basic rule stays for the following cases."
+        },
+        {
+          "type": "table",
+          "title": "Defective title cases",
+          "headers": ["Case", "Position"],
+          "rows": [
+            ["Lost instrument", "The finder gets no title and cannot lawfully transfer it; the loser can recover it from the finder"],
+            ["Stolen instrument", "The thief is in the same position as a finder; he gets no title, and if he receives payment the owner can sue him to recover the amount"],
+            ["Obtained by fraud", "Consent obtained by fraud makes the contract voidable at the option of the person defrauded; the fraudster gets a defective title"],
+            ["Unlawful consideration", "An instrument given for an illegal consideration is void and conveys no valid title to the holder"],
+            ["Forged instrument", "Forgery confers no title; a forged instrument is treated as a nullity"]
+          ]
+        },
+        {
+          "type": "bullets",
+          "title": "Forgery with intent to gain title includes",
+          "items": [
+            "Fraudulently writing the name of an existing person.",
+            "Signing the name of a fictitious person with the intention that it may pass as that of a real person.",
+            "Signing one’s own name intending it to pass as the signature of another person of the same name."
+          ]
+        },
+        {
+          "type": "mnemonic",
+          "title": "Five ways title goes wrong",
+          "phrase": "Lazy Thieves Find Unlawful Forgeries: Lost, Stolen, Fraud, Unlawful consideration, Forged.",
+          "letters": [
+            ["Lazy", "Lost instrument: finder has no title"],
+            ["Thieves", "Stolen instrument: thief has no title"],
+            ["Find", "Fraud: voidable, defective title"],
+            ["Unlawful", "Unlawful consideration: void"],
+            ["Forgeries", "Forged: a nullity"]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dishonour",
+      "title": "Dishonour of a Negotiable Instrument",
+      "icon": "❌",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "When an instrument is dishonoured, the holder must give notice of dishonour to the earlier parties he wants to make liable. An instrument can be dishonoured by **non-acceptance** or by **non-payment**. A cheque and a promissory note can be dishonoured only by non-payment, but a bill of exchange can be dishonoured either way."
+        },
+        {
+          "type": "table",
+          "title": "Sections to remember",
+          "headers": ["Section", "Topic"],
+          "rows": [
+            ["Section 91", "Dishonour by non-acceptance"],
+            ["Section 92", "Dishonour by non-payment"],
+            ["Section 93", "Notice of dishonour: who gives it to the prior parties"],
+            ["Section 76", "Instrument overdue and unpaid when presentment for payment is excused"]
+          ]
+        },
+        {
+          "type": "steps",
+          "title": "Dishonour of a bill by non-acceptance (Section 91)",
+          "items": [
+            "The drawee does not accept within 48 hours of presentment. If there are several drawees, one default means dishonour, unless they are partners (acceptance by one then binds all).",
+            "The drawee is a fictitious person or cannot be traced after reasonable search.",
+            "The drawee is incompetent to contract.",
+            "The bill is accepted with a qualified acceptance; the holder may treat it as dishonoured.",
+            "The drawee has become insolvent or is dead.",
+            "Presentment for acceptance is excused and the bill is not accepted. If a drawee in case of need is named, the bill is not dishonoured until he also refuses."
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "Non-payment, effect and notice",
+          "rows": [
+            ["Non-payment (Sec 92)", "An accepted bill must be presented for payment on its maturity date; if the acceptor fails to pay, it is dishonoured by non-payment."],
+            ["Effect of dishonour", "Other parties can be made liable; for example, if the acceptor dishonours, the holder may sue the drawer and the indorsers."],
+            ["Notice of dishonour", "Actual notification of dishonour by non-acceptance or non-payment, to be given immediately to the parties the holder wants to make liable."],
+            ["Notice by whom (Sec 93)", "The holder or a party liable on it gives notice to all prior parties he wants to hold liable; notice may also go to a party’s agent."]
+          ]
+        },
+        {
+          "type": "mnemonic",
+          "title": "Sections 91, 92, 93",
+          "phrase": "91 Acceptance, 92 Payment, 93 Notice: A-P-N in a row.",
+          "letters": [
+            ["91", "Non-Acceptance"],
+            ["92", "Non-Payment"],
+            ["93", "Notice of dishonour"]
+          ],
+          "note": "Cheque and note: only non-payment. Bill: both, so it has two doors to dishonour."
+        }
+      ]
+    }
+  ],
+  "revision": [
+    "The Negotiable Instruments Act was enacted in 1881 and is based on the English Act; it extends to the whole of India.",
+    "Section 13(a): a negotiable instrument is a promissory note, bill of exchange or cheque payable to order or bearer.",
+    "A promissory note can never be made payable to the bearer.",
+    "A bill of exchange cannot be payable to bearer on demand; a cheque payable to bearer on demand is allowed.",
+    "Section 4 defines a promissory note, Section 5 a bill of exchange and Section 6 a cheque.",
+    "Statutory instruments: promissory notes, bills of exchange and cheques; hundis, share warrants and others are recognised by custom.",
+    "A cheque is a bill of exchange drawn on a specified banker and payable on demand.",
+    "A holder in due course takes the instrument in good faith and for value and gets a clean title.",
+    "Sections 118 and 119 lay down presumptions such as consideration, date, order of endorsement and holder in due course.",
+    "A promissory note has two parties, the maker and the payee.",
+    "Endorsement is of five classes: blank, special, partial, restrictive and conditional.",
+    "A finder or thief gets no title to a negotiable instrument; a forged instrument is a nullity.",
+    "Cheques and promissory notes can be dishonoured only by non-payment; bills by non-acceptance or non-payment.",
+    "Section 91 deals with dishonour by non-acceptance, Section 92 non-payment and Section 93 notice of dishonour.",
+    "A drawee who does not accept within 48 hours of presentment has dishonoured the bill.",
+    "Section 131 protects the collecting banker."
+  ],
+  "mindmap": {
+    "center": "Negotiable Instruments",
+    "branches": [
+      {
+        "label": "The Act",
+        "children": ["Enacted in 1881", "Based on English Act", "Whole of India", "RBI Act Sec 31 and 32"]
+      },
+      {
+        "label": "Characteristics",
+        "children": ["Property", "Title: holder in due course", "Rights: sue in own name", "Presumptions", "Prompt payment"]
+      },
+      {
+        "label": "Presumptions",
+        "children": ["Sections 118 and 119", "Consideration and date", "Order of endorsement", "Proof of protest"]
+      },
+      {
+        "label": "Kinds of instruments",
+        "children": ["Promissory note (Sec 4)", "Bill of exchange (Sec 5)", "Cheque (Sec 6)", "Hundis, warrants, receipts"]
+      },
+      {
+        "label": "Parties",
+        "children": ["Drawer, drawee, acceptor", "Payee, holder", "Indorser, indorsee", "Drawee in case of need", "Acceptor for honour"]
+      },
+      {
+        "label": "Endorsement",
+        "children": ["Blank or general", "Special or full", "Partial", "Restrictive", "Conditional"]
+      },
+      {
+        "label": "Defective title",
+        "children": ["Lost instrument", "Stolen instrument", "Fraud: voidable", "Unlawful consideration: void", "Forged: nullity"]
+      },
+      {
+        "label": "Dishonour",
+        "children": ["Non-acceptance: Sec 91", "Non-payment: Sec 92", "Notice: Sec 93", "48 hours for acceptance"]
+      }
+    ]
+  }
+}

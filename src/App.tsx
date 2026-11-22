@@ -109,7 +109,8 @@ const MockTest = lazy(() => import('./pages/mocks/MockTest'))
 const MockResult = lazy(() => import('./pages/mocks/MockResult'))
 const MockHistory = lazy(() => import('./pages/mocks/MockHistory'))
 const GeneralAwareness = lazy(() => import('./pages/GeneralAwareness'))
-const ComputerHub = lazy(() => import('./pages/awareness/ComputerHub'))
+const BookGate = lazy(() => import('./pages/awareness/BookGate'))
+const BookHub = lazy(() => import('./pages/awareness/BookHub'))
 const BookIndex = lazy(() => import('./pages/awareness/BookIndex'))
 const ChapterPage = lazy(() => import('./pages/awareness/ChapterPage'))
 const QuestionBankPage = lazy(() => import('./pages/awareness/QuestionBankPage'))
@@ -229,11 +230,13 @@ export default function App() {
           <Route path="/english/grammar-rules/fresh" element={<FreshSentences />} />
           <Route path="/english/grammar-rules/map" element={<MasteryMap />} />
           <Route path="/general-awareness" element={<GeneralAwareness />} />
-          <Route path="/general-awareness/computer" element={<ComputerHub />} />
-          <Route path="/general-awareness/computer/book" element={<BookIndex />} />
-          <Route path="/general-awareness/computer/book/:chapterId" element={<ChapterPage />} />
-          <Route path="/general-awareness/computer/questions" element={<QuestionBankPage />} />
-          <Route path="/general-awareness/computer/quiz" element={<CaQuiz />} />
+          <Route path="/general-awareness/:book" element={<BookGate />}>
+            <Route index element={<BookHub />} />
+            <Route path="book" element={<BookIndex />} />
+            <Route path="book/:chapterId" element={<ChapterPage />} />
+            <Route path="questions" element={<QuestionBankPage />} />
+            <Route path="quiz" element={<CaQuiz />} />
+          </Route>
           <Route path="/daily" element={<DailyHome />} />
           <Route path="/daily/:section" element={<DailyQuiz />} />
           <Route path="/mocks" element={<MocksHome />} />

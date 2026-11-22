@@ -2,9 +2,10 @@ import { useEffect, useMemo, useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import FavoriteRecencyChips from '../../components/FavoriteRecencyChips'
 import CaQuizRunner from '../../components/awareness/CaQuizRunner'
-import { CA_BANK_KEY, loadAllQuestions, shuffle } from '../../lib/computerAwareness/data'
-import { CA_CHAPTERS } from '../../lib/computerAwareness/meta'
-import type { CaBankQuestion } from '../../lib/computerAwareness/types'
+import { basePath } from '../../lib/awareness/books'
+import { useBook } from '../../lib/awareness/bookContext'
+import { loadAllQuestions, shuffle } from '../../lib/awareness/data'
+import type { CaBankQuestion } from '../../lib/awareness/types'
 import { FAVORITE_RECENCY_DAYS, getFavorites, isFavoritedWithin } from '../../lib/favorites'
 
 const COUNTS = [10, 20, 30, 50, 0] // 0 = every matching question
@@ -12,13 +13,15 @@ const chip = (on: boolean) =>
   ['rounded-lg px-4 py-2 text-sm font-semibold transition disabled:cursor-not-allowed disabled:opacity-40', on ? 'bg-indigo-600 text-white' : 'bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-200'].join(' ')
 
 export default function CaQuiz() {
+  const book = useBook()
+  const base = basePath(book)
   const [params] = useSearchParams()
   const [all, setAll] = useState<CaBankQuestion[] | null>(null)
   const [error, setError] = useState(false)
 
   useEffect(() => {
     let cancelled = false
-    loadAllQuestions()
+    loadAllQuestions(book)
       .then((qs) => {
         if (!cancelled) setAll(qs)
       })
@@ -28,11 +31,11 @@ export default function CaQuiz() {
     return () => {
       cancelled = true
     }
-  }, [])
+  }, [book])
 
   const back = (
-    <Link to="/general-awareness/computer" className="text-sm text-slate-400 dark:text-slate-500 hover:text-slate-600">
-      ← Computer Awareness
+    <Link to={`${base}`} className="text-sm text-slate-400 dark:text-slate-500 hover:text-slate-600">
+      ← {book.name}
     </Link>
   )
   if (error || (all && all.length === 0)) {
@@ -56,8 +59,10 @@ export default function CaQuiz() {
 }
 
 function Setup({ all, back, initial }: { all: CaBankQuestion[]; back: React.ReactNode; initial: URLSearchParams }) {
+  const book = useBook()
+  const base = basePath(book)
   const withQuestions = useMemo(() => new Set(all.map((q) => q.chapterId)), [all])
-  const chaptersAvailable = CA_CHAPTERS.filter((c) => withQuestions.has(c.id))
+  const chaptersAvailable = book.chapters.filter((c) => withQuestions.has(c.id))
   const startChapter = initial.get('chapter')
   const startDays = Number(initial.get('days'))
 
@@ -68,7 +73,7 @@ function Setup({ all, back, initial }: { all: CaBankQuestion[]; back: React.Reac
   const [questions, setQuestions] = useState<CaBankQuestion[] | null>(null)
   const [sessionKey, setSessionKey] = useState(0)
 
-  const favorites = getFavorites(CA_BANK_KEY)
+  const favorites = getFavorites(book.bankKey)
   const hasFavorites = favorites.size > 0
   const pool = all.filter((q) => selected.has(q.chapterId) && (!favoritesOnly || isFavoritedWithin(favorites, q.id, recency)))
   const asked = count === 0 ? pool.length : Math.min(count, pool.length)
@@ -135,7 +140,7 @@ function Setup({ all, back, initial }: { all: CaBankQuestion[]; back: React.Reac
         </div>
         {favoritesOnly && !hasFavorites && (
           <p className="mt-3 rounded-lg bg-amber-50 px-4 py-3 text-sm text-amber-700 dark:bg-amber-500/10 dark:text-amber-300">
-            You haven't starred any questions yet. Open the <Link to="/general-awareness/computer/questions" className="font-semibold underline">question bank</Link> (or star them while you play) and tap ☆.
+            You haven't starred any questions yet. Open the <Link to={`${base}/questions`} className="font-semibold underline">question bank</Link> (or star them while you play) and tap ☆.
           </p>
         )}
         {favoritesOnly && hasFavorites && (

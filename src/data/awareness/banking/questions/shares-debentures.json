@@ -1,0 +1,301 @@
+[
+  {
+    "id": "shares-debentures-01",
+    "q": "Shareholders of a company are its:",
+    "options": ["Customers", "Creditors", "Owners", "Auditors"],
+    "answer": 2,
+    "explain": "Shareholders are part owners of the company in proportion to their holding; creditors are those who lend money, such as debenture holders.",
+    "section": "shares-basics"
+  },
+  {
+    "id": "shares-debentures-02",
+    "q": "Who are the real owners of a company?",
+    "options": ["Government", "Board of Directors", "Debenture holders", "Equity shareholders"],
+    "answer": 3,
+    "explain": "Equity shareholders own the company; directors manage it and debenture holders are creditors.",
+    "section": "shares-basics"
+  },
+  {
+    "id": "shares-debentures-03",
+    "q": "The capital of a company is divided into small units called:",
+    "options": ["Debentures", "Shares", "Bonds", "Stock options"],
+    "answer": 1,
+    "explain": "A company's capital is divided into units called shares.",
+    "section": "shares-basics"
+  },
+  {
+    "id": "shares-debentures-04",
+    "q": "If a company goes into liquidation, who is paid LAST?",
+    "options": ["Equity shareholders", "Banks that lent money", "Debenture holders", "Preference shareholders"],
+    "answer": 0,
+    "explain": "Creditors (banks and debenture holders) come first, then preference shareholders, and equity shareholders are paid last.",
+    "section": "shares-basics"
+  },
+  {
+    "id": "shares-debentures-05",
+    "q": "A holding of 50 per cent or more of a company's shares makes the shareholder:",
+    "options": ["Only a creditor", "A debenture holder", "The biggest owner of the company", "A non-voting member"],
+    "answer": 2,
+    "explain": "A shareholding of 50 per cent or more makes the holder the dominant owner; other shareholders hold smaller ownership stakes.",
+    "section": "shares-basics"
+  },
+  {
+    "id": "shares-debentures-06",
+    "q": "Dividends on shares can be paid only if the company:",
+    "options": ["Issues new debentures", "Is recording profits", "Increases authorised capital", "Is listed abroad"],
+    "answer": 1,
+    "explain": "Dividends come out of profits, unlike debenture interest, which is payable even in a loss.",
+    "section": "shares-basics"
+  },
+  {
+    "id": "shares-debentures-07",
+    "q": "Which type of share is also called an ordinary share and is traded on stock exchanges?",
+    "options": ["Preference share", "Equity share", "Bonus debenture", "Sweat share"],
+    "answer": 1,
+    "explain": "Equity shares are the ordinary shares, carrying voting rights and the most commonly traded type.",
+    "section": "types-of-shares"
+  },
+  {
+    "id": "shares-debentures-08",
+    "q": "To whom is dividend given at a fixed rate in a company?",
+    "options": ["Equity shareholders", "Debenture holders", "Promoters", "Preference shareholders"],
+    "answer": 3,
+    "explain": "Preference shareholders get a fixed dividend. Debenture holders get interest, not dividend.",
+    "section": "types-of-shares"
+  },
+  {
+    "id": "shares-debentures-09",
+    "q": "Which feature applies ONLY to preference shareholders, among equity and preference shareholders?",
+    "options": ["Risk of loss of investment", "Dividends usually at a set amount every year", "Usually have the right to vote", "Risk of no dividends in loss years"],
+    "answer": 1,
+    "explain": "Preference shares carry a fixed dividend, while equity dividends vary with profit. Voting rights usually belong to equity holders.",
+    "section": "types-of-shares"
+  },
+  {
+    "id": "shares-debentures-10",
+    "q": "A preference share that does not carry the right to share in surplus profits is called a:",
+    "options": ["Non-participating preference share", "Non-cumulative preference share", "Irredeemable preference share", "Non-convertible preference share"],
+    "answer": 0,
+    "explain": "Non-participating preference shares get only the fixed dividend and no share in surplus profits.",
+    "section": "types-of-shares"
+  },
+  {
+    "id": "shares-debentures-11",
+    "q": "Which shareholders have a right to receive arrears of dividend from future profits?",
+    "options": ["Redeemable preference shareholders", "Participating preference shareholders", "Non-cumulative preference shareholders", "Cumulative preference shareholders"],
+    "answer": 3,
+    "explain": "Cumulative preference shares let unpaid dividends accumulate and be claimed from future profits.",
+    "section": "types-of-shares"
+  },
+  {
+    "id": "shares-debentures-12",
+    "q": "Which of the following can a company NOT issue?",
+    "options": ["Redeemable preference shares", "Redeemable debentures", "Redeemable equity shares", "Fully convertible debentures"],
+    "answer": 2,
+    "explain": "A company cannot issue redeemable equity shares. The other three instruments are permitted.",
+    "section": "types-of-shares"
+  },
+  {
+    "id": "shares-debentures-13",
+    "q": "Shares issued by a company to employees or directors in return for intellectual property rights are called:",
+    "options": ["Right equity shares", "Private equity shares", "Bonus equity shares", "Sweat equity shares"],
+    "answer": 3,
+    "explain": "Sweat equity shares reward employees or directors for know-how or intellectual property contributions.",
+    "section": "types-of-shares"
+  },
+  {
+    "id": "shares-debentures-14",
+    "q": "Issue of shares at a price lower than their face value is called:",
+    "options": ["Issue at a loss", "Issue at a premium", "Issue at a discount", "Issue at a profit"],
+    "answer": 2,
+    "explain": "A price below face value is an issue at a discount; above face value is an issue at a premium.",
+    "section": "types-of-shares"
+  },
+  {
+    "id": "shares-debentures-15",
+    "q": "In a private placement of shares, how does the company raise capital?",
+    "options": ["Invites the public through a prospectus", "Does not invite the public", "Invites the public through advertisement", "Invites the public through the memorandum of association"],
+    "answer": 1,
+    "explain": "Private placement offers shares to select investors, without a public invitation.",
+    "section": "types-of-shares"
+  },
+  {
+    "id": "shares-debentures-16",
+    "q": "Preference shares generally do NOT carry which right?",
+    "options": ["Fixed dividend", "Priority over equity in liquidation", "Voting rights", "Dividend ahead of equity"],
+    "answer": 2,
+    "explain": "Preference shareholders usually have no vote, but they enjoy fixed dividend and priority over equity holders.",
+    "section": "types-of-shares"
+  },
+  {
+    "id": "shares-debentures-17",
+    "q": "Debentures are best described as:",
+    "options": ["Long-term debt instruments issued under the company's seal", "Equity capital of promoters", "Short-term bank overdrafts", "Government treasury bills"],
+    "answer": 0,
+    "explain": "Debentures are long-term debt instruments, i.e. borrowed capital repaid with interest.",
+    "section": "debentures"
+  },
+  {
+    "id": "shares-debentures-18",
+    "q": "Debenture holders are ________ of the company.",
+    "options": ["Owners", "Directors", "Creditors", "Promoters"],
+    "answer": 2,
+    "explain": "Debenture holders lend money to the company, so they are creditors with higher status than shareholders.",
+    "section": "debentures"
+  },
+  {
+    "id": "shares-debentures-19",
+    "q": "Which feature clearly separates debentures from shares?",
+    "options": ["Debenture holders have no voting rights", "Debentures are always traded on exchanges", "Debentures carry dividends", "Debentures have no face value"],
+    "answer": 0,
+    "explain": "Debenture holders get no voting rights, while shareholders can vote.",
+    "section": "debentures"
+  },
+  {
+    "id": "shares-debentures-20",
+    "q": "Debenture interest is payable:",
+    "options": ["Only when the company makes profit", "Even if the company has no profit", "Only to promoters", "Only after shareholders are paid"],
+    "answer": 1,
+    "explain": "Interest on debentures is a business expense and must be paid even in a loss, unlike dividends.",
+    "section": "debentures"
+  },
+  {
+    "id": "shares-debentures-21",
+    "q": "Which debentures can be converted into shares on pre-decided terms?",
+    "options": ["Bearer debentures", "Non-convertible debentures", "Convertible debentures", "Second debentures"],
+    "answer": 2,
+    "explain": "Convertible debentures can be converted into shares; non-convertible ones cannot.",
+    "section": "types-of-debentures"
+  },
+  {
+    "id": "shares-debentures-22",
+    "q": "Which debentures can be transferred by mere delivery?",
+    "options": ["Registered debentures", "Bearer debentures", "Secured debentures", "Redeemable debentures"],
+    "answer": 1,
+    "explain": "Bearer debentures have no record in company registers and pass by delivery; registered ones need a transfer deed.",
+    "section": "types-of-debentures"
+  },
+  {
+    "id": "shares-debentures-23",
+    "q": "Debentures that carry a charge on the company's assets are called:",
+    "options": ["Unsecured debentures", "Bearer debentures", "Secured debentures", "Non-redeemable debentures"],
+    "answer": 2,
+    "explain": "Secured debentures give holders a charge on the company's (mortgaged) assets for principal and unpaid interest.",
+    "section": "types-of-debentures"
+  },
+  {
+    "id": "shares-debentures-24",
+    "q": "Debentures repayable only on liquidation of the company are:",
+    "options": ["Redeemable debentures", "Non-redeemable debentures", "First debentures", "Convertible debentures"],
+    "answer": 1,
+    "explain": "Non-redeemable debentures cannot be paid back during the company's lifetime; redeemable ones are repaid at a fixed time.",
+    "section": "types-of-debentures"
+  },
+  {
+    "id": "shares-debentures-25",
+    "q": "First debentures differ from second debentures in that first debentures:",
+    "options": ["Carry voting rights", "Are repaid before other debentures", "Are always unsecured", "Cannot be transferred"],
+    "answer": 1,
+    "explain": "First debentures are repaid ahead of other debentures; second debentures are repaid thereafter.",
+    "section": "types-of-debentures"
+  },
+  {
+    "id": "shares-debentures-26",
+    "q": "Which statement about registered debentures is correct?",
+    "options": ["They have no record in the company registers", "They are transferred only by delivery", "They carry voting rights", "They are registered with the company and transferred by a transfer deed"],
+    "answer": 3,
+    "explain": "A registered debenture is recorded in the company's register and transferred by a transfer deed.",
+    "section": "types-of-debentures"
+  },
+  {
+    "id": "shares-debentures-27",
+    "q": "The maximum amount of capital that a company is authorised to issue is called:",
+    "options": ["Paid-up capital", "Subscribed capital", "Issued capital", "Authorised (nominal) share capital"],
+    "answer": 3,
+    "explain": "Authorised (nominal) capital is the ceiling and can be increased from time to time.",
+    "section": "share-capital"
+  },
+  {
+    "id": "shares-debentures-28",
+    "q": "That part of authorised capital which is offered to investors is called:",
+    "options": ["Issued capital", "Paid-up capital", "Reserve capital", "Subscribed capital"],
+    "answer": 0,
+    "explain": "Issued capital is the part of authorised capital offered to investors; subscribed capital is what they accept.",
+    "section": "share-capital"
+  },
+  {
+    "id": "shares-debentures-29",
+    "q": "The part of subscribed capital actually paid by investors is called:",
+    "options": ["Authorised capital", "Issued capital", "Paid-up capital", "Nominal capital"],
+    "answer": 2,
+    "explain": "Paid-up capital is the amount actually invested in the business.",
+    "section": "share-capital"
+  },
+  {
+    "id": "shares-debentures-30",
+    "q": "Which of the following is NOT shown under the heading 'Share Capital' in a balance sheet?",
+    "options": ["Subscribed capital", "Reserve capital", "Issued capital", "Authorised capital"],
+    "answer": 1,
+    "explain": "Reserve capital is not part of the share capital heading; authorised, issued and subscribed capital are.",
+    "section": "share-capital"
+  },
+  {
+    "id": "shares-debentures-31",
+    "q": "Which of these is correct for debentures when compared with shares?",
+    "options": ["Interest is allowed as a deduction from profit", "Holders have voting rights", "They represent owned funds", "They are repaid after shareholders"],
+    "answer": 0,
+    "explain": "Debenture interest is a business expense and a deduction from profit, while dividend is an appropriation of profit.",
+    "section": "shares-vs-debentures"
+  },
+  {
+    "id": "shares-debentures-32",
+    "q": "In terms of repayment, which statement is correct?",
+    "options": ["Shares are repaid before debentures", "Both are repaid together", "Debentures are repaid before shares", "Neither is ever repaid"],
+    "answer": 2,
+    "explain": "Debentures have priority over shares, so they are repaid before shares; shares are repaid after all liabilities.",
+    "section": "shares-vs-debentures"
+  },
+  {
+    "id": "shares-debentures-33",
+    "q": "Which statement correctly describes shares?",
+    "options": ["Shares are borrowed funds", "Shares are owned funds of the company", "Shareholders are creditors", "Shareholders have no voting rights"],
+    "answer": 1,
+    "explain": "Shares represent the company's capital, i.e. owned funds, held by owners.",
+    "section": "shares-vs-debentures"
+  },
+  {
+    "id": "shares-debentures-34",
+    "q": "What is the maturity period fixed for Bharat Bond ETF?",
+    "options": ["1 and 5 years", "2 and 7 years", "4 and 12 years", "3 and 10 years"],
+    "answer": 3,
+    "explain": "Bharat Bond ETF offers fixed maturity options of 3 years and 10 years.",
+    "section": "etf-and-terms",
+    "exam": "IBPS Clerk Main 2019"
+  },
+  {
+    "id": "shares-debentures-35",
+    "q": "Mutual fund units are bought and sold at the fund's:",
+    "options": ["Face value", "Net asset value (NAV)", "Book value of the AMC", "Sensex value"],
+    "answer": 1,
+    "explain": "NAV is calculated daily and is the price used for purchases and redemptions of mutual fund units.",
+    "section": "etf-and-terms",
+    "exam": "IBPS RRB Main 2017"
+  },
+  {
+    "id": "shares-debentures-36",
+    "q": "'Market share' of a company means:",
+    "options": ["Paid-up capital", "Shares held by employees", "Share of business volume compared with other companies", "Share price quoted in the market"],
+    "answer": 2,
+    "explain": "Market share is the proportion of total business volume a company holds relative to others.",
+    "section": "etf-and-terms",
+    "exam": "SBI Clerk 2015"
+  },
+  {
+    "id": "shares-debentures-37",
+    "q": "An Exchange-Traded Fund (ETF) combines which two features?",
+    "options": ["Diversification of mutual funds and ease of trading equities", "Fixed deposit safety and loan flexibility", "Insurance cover and pension income", "Voting rights and fixed interest"],
+    "answer": 0,
+    "explain": "ETFs hold a basket of securities like a mutual fund but trade on exchanges like shares, often at lower fees.",
+    "section": "etf-and-terms"
+  }
+]

@@ -1,0 +1,487 @@
+{
+  "id": "nationalisation",
+  "sections": [
+    {
+      "id": "why-nationalise",
+      "title": "Why banks were nationalised",
+      "icon": "🎯",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "By the 1960s the government wanted banking to serve social goals: welfare, credit for needy sectors such as **agriculture and small and village industries**, a check on private monopolies and a smaller gap between regions. The privately owned commercial banks were not helping to reach these goals, so the government took them over. The first step came on **19 July 1969**, when **14 major commercial banks** were nationalised. The test was size: every bank with deposits above **₹50 crore** was taken over."
+        },
+        {
+          "type": "bullets",
+          "title": "Objectives of nationalisation",
+          "items": [
+            "Steer bank credit to the **priority sector**: agriculture and allied activities, small-scale industries and small businesses.",
+            "Create a **new class of entrepreneurs** to build and speed up economic growth.",
+            "Give bank staff proper training and a reasonable term of service.",
+            "End the **concentration of economic power** in a few hands.",
+            "**Professionalise** bank management.",
+            "Build public confidence in the banking system.",
+            "Stop bank funds being used for anti-social activities.",
+            "Take banking to **unbanked rural areas**.",
+            "**Mobilise national savings** and channel them into productive uses."
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "Odd one out",
+          "text": "Nationalisation aimed at credit for agriculture, SMEs and exports, not at lending to **big industries only**. If an option says credit for big industry alone, it is the wrong one."
+        },
+        {
+          "type": "mnemonic",
+          "title": "Why nationalise: P-A-R-S-E-C",
+          "phrase": "A PARSEC is a huge distance, and banking had to travel just as far: Priority, Anti-social use stopped, Rural, Savings, Entrepreneurs, Concentration ended.",
+          "letters": [
+            ["P", "Priority sector credit (agriculture, small industry, small business)"],
+            ["A", "Anti-social use of funds prevented"],
+            ["R", "Rural, unbanked areas reached"],
+            ["S", "Savings of the nation mobilised"],
+            ["E", "Entrepreneurs, a new class created"],
+            ["C", "Concentration of economic power ended"]
+          ],
+          "note": "Professional management, staff training and public confidence were also objectives."
+        }
+      ]
+    },
+    {
+      "id": "first-phase-1969",
+      "title": "First phase: 1969",
+      "icon": "1️⃣",
+      "blocks": [
+        {
+          "type": "keyvalue",
+          "title": "Phase I at a glance",
+          "rows": [
+            ["Date", "**19 July 1969**"],
+            ["Banks nationalised", "**14** major commercial banks"],
+            ["Selection rule", "Deposits of more than **₹50 crore**"]
+          ]
+        },
+        {
+          "type": "table",
+          "title": "The 14 banks nationalised in 1969",
+          "headers": ["No.", "Bank", "No.", "Bank"],
+          "rows": [
+            ["1", "Central Bank of India", "8", "Indian Overseas Bank"],
+            ["2", "Bank of Maharashtra", "9", "Bank of Baroda"],
+            ["3", "Dena Bank", "10", "Union Bank of India"],
+            ["4", "Punjab National Bank", "11", "Allahabad Bank"],
+            ["5", "Syndicate Bank", "12", "United Bank of India"],
+            ["6", "Canara Bank", "13", "UCO Bank"],
+            ["7", "Indian Bank", "14", "Bank of India"]
+          ]
+        },
+        {
+          "type": "mnemonic",
+          "title": "Remember the 14 banks of 1969",
+          "phrase": "Cats Make Delicious Pies; Sheep Chew Indian Ice; Bears Undoubtedly Adore United UCO Bananas.",
+          "letters": [
+            ["C", "Central Bank of India"],
+            ["M", "Bank of Maharashtra"],
+            ["D", "Dena Bank"],
+            ["P", "Punjab National Bank"],
+            ["S", "Syndicate Bank"],
+            ["C", "Canara Bank"],
+            ["I", "Indian Bank"],
+            ["I", "Indian Overseas Bank"],
+            ["B", "Bank of Baroda"],
+            ["U", "Union Bank of India"],
+            ["A", "Allahabad Bank"],
+            ["U", "United Bank of India"],
+            ["U", "UCO Bank"],
+            ["B", "Bank of India"]
+          ],
+          "note": "Federal, HDFC, ICICI and other private banks were not in this list."
+        }
+      ]
+    },
+    {
+      "id": "second-phase-1980",
+      "title": "Second phase: 1980",
+      "icon": "2️⃣",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "The process was repeated in **1980**, when another **six banks** were nationalised under the **Banking Companies (Acquisition and Transfer of Undertakings) Act, 1980**. The stated reason was to give the government more control over **credit delivery**. After this second phase the government controlled about **91 per cent** of the banking business in India. The date usually quoted is **15 April 1980**."
+        },
+        {
+          "type": "table",
+          "title": "The 6 banks nationalised in 1980",
+          "headers": ["No.", "Bank", "Note"],
+          "rows": [
+            ["1", "Punjab & Sind Bank", "Still a separate public sector bank"],
+            ["2", "Oriental Bank of Commerce", "Later merged into Punjab National Bank (2020)"],
+            ["3", "New Bank of India", "Merged with Punjab National Bank in 1993"],
+            ["4", "Vijaya Bank", "Later merged into Bank of Baroda (2019)"],
+            ["5", "Andhra Bank", "Later merged into Union Bank of India (2020)"],
+            ["6", "Corporation Bank", "Later merged into Union Bank of India (2020)"]
+          ]
+        },
+        {
+          "type": "text",
+          "text": "In **1993** New Bank of India merged with **Punjab National Bank**, a bank with roots in Lahore. It became the **first nationalised bank to be merged** with another one, and the number of nationalised banks fell from 20 to **19**."
+        },
+        {
+          "type": "mnemonic",
+          "title": "The six banks of 1980",
+          "phrase": "A Clever New Owl Picks Violets.",
+          "letters": [
+            ["A", "Andhra Bank"],
+            ["C", "Corporation Bank"],
+            ["N", "New Bank of India"],
+            ["O", "Oriental Bank of Commerce"],
+            ["P", "Punjab & Sind Bank"],
+            ["V", "Vijaya Bank"]
+          ]
+        },
+        {
+          "type": "mnemonic",
+          "title": "Numbers of the two phases",
+          "phrase": "Sixty-nine: fourteen banks, nineteenth of July, fifty crore. Eighty: six banks, fifteenth of April. 14 + 6 = 20, minus New Bank of India = 19.",
+          "letters": [
+            ["1969", "14 banks, 19 July, deposits above ₹50 crore"],
+            ["1980", "6 banks, 15 April (91% of business under government control)"],
+            ["1993", "New Bank of India merged with PNB, leaving 19"]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sbi-and-associates",
+      "title": "SBI, its associates and the 2017 merger",
+      "icon": "🏦",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "Until the **Reserve Bank of India** was set up in 1935, the **Imperial Bank of India** (now SBI) also carried out some central banking functions along with commercial banking. Today SBI acts as the **agent of RBI** at places where RBI has no branch of its own."
+        },
+        {
+          "type": "timeline",
+          "title": "How SBI absorbed its associate banks",
+          "items": [
+            ["1959", "The **State Bank of India (Subsidiary Banks) Act** is passed. Under it, **8 subsidiaries** of SBI come into being."],
+            ["1963", "SBI merges State Bank of **Jaipur** (founded 1943) and State Bank of **Bikaner** (founded 1944) to form **State Bank of Bikaner and Jaipur**."],
+            ["2008", "**State Bank of Saurashtra** merges with SBI."],
+            ["2010", "**State Bank of Indore** (founded 1920) merges with SBI, leaving **5** associate banks."],
+            ["1 Apr 2017", "The remaining **five associate banks** and **Bharatiya Mahila Bank** merge with SBI."],
+            ["Aug 2017", "Lok Sabha passes the **State Banks (Repeal and Amendment) Bill, 2017**; the Act follows in **2018**."]
+          ]
+        },
+        {
+          "type": "figure",
+          "kind": "flow",
+          "title": "Shrinking number of SBI associates",
+          "items": [
+            ["1959: 8 associates", "Created under the Subsidiary Banks Act"],
+            ["1963: 7", "Bikaner and Jaipur join into one bank"],
+            ["2008: 6", "Saurashtra merges"],
+            ["2010: 5", "Indore merges"],
+            ["2017: none left", "Five associates and Mahila Bank merge"]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "The five associates merged in 2017",
+          "rows": [
+            ["State Bank of Bikaner and Jaipur", "Formed in 1963 by merging the Jaipur and Bikaner banks; constituted under the SBI (Subsidiary Banks) Act, 1959."],
+            ["State Bank of Mysore", "Constituted under the SBI (Subsidiary Banks) Act, 1959."],
+            ["State Bank of Patiala", "Constituted under the SBI (Subsidiary Banks) Act, 1959."],
+            ["State Bank of Travancore", "Constituted under the SBI (Subsidiary Banks) Act, 1959."],
+            ["State Bank of Hyderabad", "Began as Hyderabad State Bank and was renamed under the State Bank of Hyderabad Act, 1956."]
+          ]
+        },
+        {
+          "type": "text",
+          "text": "Once the subsidiaries ceased to exist, the government repealed the **SBI (Subsidiary Banks) Act, 1959** and the **State Bank of Hyderabad Act, 1956**, and removed provisions about subsidiaries from the **SBI Act, 1955**. The aim of the merger was to pool resources, cut costs, lower the cost of funds and improve productivity and customer service. SBI negotiated with the five banks with the Centre’s sanction and in consultation with RBI, and the schemes took effect from **1 April 2017**."
+        },
+        {
+          "type": "mnemonic",
+          "title": "Five associates left in 2017: H-M-P-T-B&J",
+          "phrase": "Hot Muffins Please, Tea and Biscuits with Jam.",
+          "letters": [
+            ["H", "Hyderabad"],
+            ["M", "Mysore"],
+            ["P", "Patiala"],
+            ["T", "Travancore"],
+            ["B&J", "Bikaner and Jaipur"]
+          ],
+          "note": "Saurashtra (2008) and Indore (2010) had already gone, so they are not in the 2017 group."
+        },
+        {
+          "type": "bullets",
+          "title": "SBI facts (as of March 2022, per the 2024-25 syllabus)",
+          "items": [
+            "**16 regional hubs** and **57 zonal offices** in important cities.",
+            "More than **24,000 branches** in India.",
+            "**190 overseas branches** in **36 countries**.",
+            "**1 July** is observed as **SBI Day**.",
+            "The signboard and logo changed on 1 April 2017: the name “State Bank of India” was replaced by “SBI” in the logo."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "impact-and-demerits",
+      "title": "Impact and demerits of nationalisation",
+      "icon": "⚖️",
+      "blocks": [
+        {
+          "type": "bullets",
+          "title": "Positive impact",
+          "items": [
+            "After the two phases, roughly **80 per cent** of the banking sector came under public sector ownership.",
+            "Big push to **branch expansion** in unbanked, rural and semi-urban areas.",
+            "Huge **deposit mobilisation**, which raised the economy’s savings rate.",
+            "More **lending to agriculture** and allied sectors.",
+            "As quoted in the syllabus, deposits grew by about **800 per cent** and advances by about **11,000 per cent**.",
+            "Government ownership gave the public **implicit faith** in the safety of public sector banks."
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "Limitations of nationalisation",
+          "rows": [
+            ["Inadequate banking facilities", "Large parts of the country, especially backward states such as Uttar Pradesh, Bihar, Madhya Pradesh, Chhattisgarh and the north-eastern states, stayed unbanked."],
+            ["Limited resources mobilised and allocated", "Funds raised were not enough for the economy’s needs, and allocation did not always match requirements."],
+            ["Lower efficiency and profits", "Political pressure and unprofessional working reduced efficiency and profitability."],
+            ["Increased expenditure", "Huge branch expansion, large staff, administrative costs and union struggles pushed expenses to dangerous levels."],
+            ["Political and administrative interference", "Seen in loan melas; it led to heavy non-performing assets (NPAs) and inefficiency."]
+          ]
+        },
+        {
+          "type": "text",
+          "text": "Other weaknesses included poor infrastructure and weak competitiveness. Lethargic working, lack of accountability and no profit motive turned many banks into loss-making units. After the **economic reforms of 1991** the industry entered a new phase of competition, efficiency and productivity."
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "80% or 91%?",
+          "text": "Two figures appear in study material: about **91 per cent of banking business** under government control after 1980, and about **80 per cent of the banking sector** in public ownership. Both come from the 2024-25 syllabus; for a question that quotes one, pick the matching option."
+        }
+      ]
+    },
+    {
+      "id": "pre-reform-regulation",
+      "title": "Steps before reforms: IDBI, RBI and BR Act",
+      "icon": "🧱",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "Commercial banks traditionally met the **short-term** needs of industry, trade and agriculture. Long-term finance was left to other agencies or the government, and the two sides did not coordinate. To supply long-term funds for industrial projects, the government set up the **Industrial Development Bank of India (IDBI)** in **1964**."
+        },
+        {
+          "type": "timeline",
+          "title": "Milestones in regulating banks",
+          "items": [
+            ["1935", "**Reserve Bank of India** established in April."],
+            ["1948", "**Industrial Policy Resolution** adopted; it envisaged a **mixed economy** and more state involvement in banking and finance."],
+            ["1 Jan 1949", "RBI nationalised under the **Reserve Bank of India (Transfer to Public Ownership) Act, 1948**."],
+            ["1949", "**Banking Regulation Act** gives RBI power to regulate, control and inspect banks."],
+            ["1964", "**IDBI** set up for long-term industrial finance."],
+            ["19 Jul 1969", "First nationalisation of 14 banks."],
+            ["1980", "Second nationalisation of 6 banks."]
+          ]
+        },
+        {
+          "type": "bullets",
+          "title": "What the Banking Regulation Act, 1949 provided",
+          "items": [
+            "RBI may **regulate, control and inspect** banks in India.",
+            "No new bank, and no new branch of an existing bank, without an **RBI licence**.",
+            "No two banks may have **common directors**."
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "remember",
+          "title": "RBI timeline",
+          "text": "RBI was **set up in 1935** but **nationalised on 1 January 1949**. The Banking Regulation Act (1949) came the same year."
+        }
+      ]
+    },
+    {
+      "id": "reform-era",
+      "title": "The 1990s reforms and new private banks",
+      "icon": "🚀",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "A key feature of the 1990s reforms was permission to open **new private sector banks**. The aim of reforms since 1991 is a vibrant, efficient, competitive financial sector that responds to the needs of the economy. The focus was on strengthening financial institutions and linking the domestic financial system with the global banking and economic system."
+        },
+        {
+          "type": "bullets",
+          "title": "Banks set up after the reforms (as listed in the syllabus)",
+          "items": [
+            "ICICI Bank and HDFC Bank",
+            "IDBI Bank and Development Credit Bank (DCB)",
+            "Kotak Mahindra Bank and IndusInd Bank",
+            "Yes Bank",
+            "UTI Bank, now **Axis Bank**",
+            "Bandhan Bank and RBL Bank (Ratnakar Bank Limited)"
+          ]
+        },
+        {
+          "type": "steps",
+          "title": "What reform policies aimed to give banks",
+          "items": [
+            "Greater **flexibility** in banking operations.",
+            "Greater **accountability to shareholders**.",
+            "Greater **control** over bank functions.",
+            "**Safety** through prudential norms and supervision."
+          ]
+        },
+        {
+          "type": "mnemonic",
+          "title": "Reform aims: F-A-C-S",
+          "phrase": "Reforms made banks FACS-ready: Flexibility, Accountability, Control, Safety.",
+          "letters": [
+            ["F", "Flexibility in operations"],
+            ["A", "Accountability to shareholders"],
+            ["C", "Control over bank functions"],
+            ["S", "Safety through prudential norms"]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "narasimham-committees",
+      "title": "Narasimham committees",
+      "icon": "📑",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "On **14 August 1991** the government set up a high-level **Committee on the Financial System (CFS)** to look at the structure, organisation, functions and procedures of the financial system. Based on its recommendations, a comprehensive reform of the banking system began in **1992-93**. In **December 1997** another committee on banking sector reforms was set up under **M. Narasimham**. It reviewed progress and charted a programme to make India’s financial system stronger and internationally competitive. This **Narasimham Committee-II** submitted its report in **April 1998**."
+        },
+        {
+          "type": "bullets",
+          "title": "Main suggestions of Narasimham Committee-II",
+          "items": [
+            "Stronger banks: **merge** strong PSBs and development financial institutions (DFIs); **close** weak, unviable ones.",
+            "A **3-tier banking structure** after mergers (see the pyramid below).",
+            "Higher **CRAR** (capital to risk-weighted assets ratio), raised to **10 per cent**.",
+            "**Budgetary recapitalisation** of PSBs is not viable and should be dropped.",
+            "Strengthen the legal framework for **loan recovery**; the government later passed the **SARFAESI Act, 2002**.",
+            "Cut **net NPAs** to about **3 per cent by 2002** (with an interim target for 2000).",
+            "**Rationalise** branches and staff of PSBs.",
+            "Continue **licensing new private banks**, domestic as well as foreign.",
+            "**Depoliticise** bank boards under RBI supervision."
+          ]
+        },
+        {
+          "type": "figure",
+          "kind": "pyramid",
+          "title": "Suggested 3-tier banking structure",
+          "items": [
+            ["Tier 1: 2-3 banks", "International orientation"],
+            ["Tier 2: 8-10 banks", "National orientation"],
+            ["Tier 3: many banks", "Local banks"]
+          ]
+        },
+        {
+          "type": "mnemonic",
+          "title": "Pyramid of banks: 3-10-Many",
+          "phrase": "Top: a few global giants; middle: ten national; base: loads of local banks. Think “2-3, 8-10, Many”.",
+          "letters": [
+            ["Tier 1", "2 to 3 banks, international"],
+            ["Tier 2", "8 to 10 banks, national"],
+            ["Tier 3", "A large number of local banks"]
+          ],
+          "note": "CFS was set up in August 1991; Narasimham Committee-II in December 1997 with its report in April 1998."
+        },
+        {
+          "type": "callout",
+          "kind": "tip",
+          "title": "Dates to hold on to",
+          "text": "CFS formed **14 Aug 1991**; reforms began **1992-93**; Narasimham Committee-II formed **Dec 1997**, report **Apr 1998**; SARFAESI Act **2002**."
+        }
+      ]
+    },
+    {
+      "id": "later-consolidation",
+      "title": "Later consolidation of public sector banks",
+      "icon": "🔗",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "The theory above ends with the 2017 SBI merger, but mergers continued. Several nationalised banks of 1969 and 1980 have since disappeared into larger public sector banks. The table lists the main later mergers; treat it as additional background that is widely taught for exams."
+        },
+        {
+          "type": "table",
+          "title": "PSB mergers of 2019 and 2020",
+          "headers": ["Effective date", "Merged bank(s)", "Anchor bank"],
+          "rows": [
+            ["1 April 2019", "Dena Bank and Vijaya Bank", "Bank of Baroda"],
+            ["1 April 2020", "Oriental Bank of Commerce and United Bank of India", "Punjab National Bank"],
+            ["1 April 2020", "Syndicate Bank", "Canara Bank"],
+            ["1 April 2020", "Andhra Bank and Corporation Bank", "Union Bank of India"],
+            ["1 April 2020", "Allahabad Bank", "Indian Bank"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "fact",
+          "title": "Why merge?",
+          "text": "Fewer, larger banks are stronger, cut costs and are better placed to lend. This follows the thinking of the Narasimham committees, which also suggested mergers of strong banks."
+        }
+      ]
+    }
+  ],
+  "revision": [
+    "Nationalisation of 14 major commercial banks took place on **19 July 1969**; the test was deposits above **₹50 crore**.",
+    "The second phase nationalised **6 banks** in **1980** (15 April) under the Banking Companies (Acquisition and Transfer of Undertakings) Act, 1980.",
+    "After 1980 the government controlled about **91%** of banking business.",
+    "1980 banks: Punjab & Sind, Oriental Bank of Commerce, New Bank of India, Vijaya, Andhra and Corporation Bank.",
+    "New Bank of India merged with Punjab National Bank in **1993**, the first nationalised bank to merge; total fell to **19**.",
+    "Objectives: priority sector credit, new entrepreneurs, end concentration of power, rural banking, mobilise savings.",
+    "Demerits: inadequate facilities, limited resources, lower efficiency, higher expenditure, political interference and NPAs.",
+    "SBI (Subsidiary Banks) Act **1959** created **8** subsidiaries; Saurashtra merged **2008**, Indore **2010**.",
+    "Five associates and Bharatiya Mahila Bank merged with SBI on **1 April 2017**; the Repeal and Amendment Act came in **2018**.",
+    "SBI Day is **1 July**; SBI acts as RBI’s agent where RBI has no branch.",
+    "RBI was set up in **1935**, nationalised on **1 Jan 1949**; the Banking Regulation Act was passed in **1949**.",
+    "**IDBI** was set up in **1964** for long-term industrial finance.",
+    "Committee on Financial System set up **14 Aug 1991**; reforms began **1992-93**.",
+    "Narasimham Committee-II (Dec 1997, report Apr 1998): CRAR 10%, 3-tier banks, depoliticised boards, strong loan recovery (SARFAESI 2002).",
+    "Proposed tiers: **2-3** international banks, **8-10** national banks and many local banks."
+  ],
+  "mindmap": {
+    "center": "Nationalisation of Banks",
+    "branches": [
+      {
+        "label": "Why nationalise",
+        "children": ["Social welfare goals", "Priority sector credit", "End concentration of power", "Reach rural areas", "Mobilise savings"]
+      },
+      {
+        "label": "Phase I: 1969",
+        "children": ["19 July 1969", "14 banks", "Deposits above ₹50 crore", "Central, PNB, Canara, BoB…"]
+      },
+      {
+        "label": "Phase II: 1980",
+        "children": ["15 April 1980", "6 banks", "91% of business with govt", "New Bank of India merged 1993"]
+      },
+      {
+        "label": "SBI and associates",
+        "children": ["1959 Subsidiary Banks Act", "8 subsidiaries", "Saurashtra 2008, Indore 2010", "5 associates + Mahila 2017", "SBI Day 1 July"]
+      },
+      {
+        "label": "Impact and demerits",
+        "children": ["Branch expansion", "Deposit mobilisation", "Lower efficiency", "Political interference", "NPAs"]
+      },
+      {
+        "label": "Regulation steps",
+        "children": ["RBI nationalised 1949", "Banking Regulation Act 1949", "IDBI 1964", "Mixed economy 1948"]
+      },
+      {
+        "label": "Reforms and committees",
+        "children": ["New private banks", "CFS 1991", "Narasimham II 1998", "3-tier structure", "CRAR 10%"]
+      },
+      {
+        "label": "Later mergers",
+        "children": ["2019: Dena, Vijaya to BoB", "2020: OBC, United to PNB", "Syndicate to Canara", "Andhra, Corp to Union"]
+      }
+    ]
+  }
+}

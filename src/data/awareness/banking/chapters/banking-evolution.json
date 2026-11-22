@@ -1,0 +1,512 @@
+{
+  "id": "banking-evolution",
+  "sections": [
+    {
+      "id": "ancient-india",
+      "title": "Origins and banking in ancient India",
+      "icon": "🏺",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "Banking is about 2,000 years old. In Mesopotamia and Babylonia, lenders gave grain loans to farmers and to traders who carried goods between cities. Later, ancient Greece and the Roman Empire added two big innovations: **accepting deposits** and **changing money**."
+        },
+        {
+          "type": "keyvalue",
+          "title": "Key terms",
+          "rows": [
+            ["Bank", "A financial institution that accepts different forms of deposits, lends them to borrowers, and lets depositors withdraw their money from their accounts by **cheque**."],
+            ["Usury", "Lending money at an excessive rate of interest. The **Vedas** are the earliest Indian texts to mention it."],
+            ["Rinapatra / Rinalekhya", "Loan-deed forms found in the Vedic literature. They recorded the names of debtor and creditor, loan amount, rate of interest, condition of repayment and time of repayment."],
+            ["Adesha", "An instrument of the **Mauryan era**: an order to a banker to pay the sum on the note to a third person. It matches the idea of a modern **bill of exchange**."],
+            ["Banco", "The Italian name under which the idea of the modern banking system was conceptualised."]
+          ]
+        },
+        {
+          "type": "timeline",
+          "title": "Early milestones in India",
+          "items": [
+            ["Vedic period (2000-1400 BCE)", "Debt, usury and loan deeds (rinapatra) are mentioned in the Vedas."],
+            ["Mauryan era (321-185 BCE)", "The **adesha**, a forerunner of the bill of exchange, is in use."],
+            ["Medieval period", "Loan deeds continue as dastawez; hundis and barattes appear (see the next sections)."]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "fact",
+          "title": "Scriptures talk about money",
+          "text": "Archaeological evidence suggests that banking practices and rules on debt were already referred to in India's scriptures and ancient texts, long before modern banks arrived."
+        }
+      ]
+    },
+    {
+      "id": "indigenous-banking",
+      "title": "Indigenous banking",
+      "icon": "🪙",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "**Indigenous bankers** lend money, act as money changers and finance India's internal trade through **hundis** (internal bills of exchange). This is one of the oldest banking systems and has worked for centuries. It started declining when the British came, yet it still holds a prominent place in the Indian money market today."
+        },
+        {
+          "type": "bullets",
+          "title": "Who are the indigenous bankers?",
+          "items": [
+            "Shroffs",
+            "Seths",
+            "Mahajans",
+            "Chettis, and similar local lenders"
+          ]
+        },
+        {
+          "type": "bullets",
+          "title": "Defects of indigenous banking",
+          "items": [
+            "It is **unorganised** and does not recognise the needs and working of the different sectors of the economy, including the banking sector.",
+            "It deals only with trade and commerce and works on a commission basis, which creates trade risk in their financial business.",
+            "It does not separate **short-term** and **long-term** finance.",
+            "Accounting follows local practice, so it cannot match modern financial accounting methods.",
+            "Many indigenous bankers charge a very high rate of interest."
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "Hundi vs adesha",
+          "text": "A **hundi** is the credit instrument of indigenous banking (and it lasted into the Mughal period). The **adesha** belongs to the Mauryan era. Both behave like a bill of exchange, so do not mix up their eras."
+        }
+      ]
+    },
+    {
+      "id": "medieval-era",
+      "title": "Banking in the medieval (Mughal) era",
+      "icon": "📜",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "Loan deeds carried on into the Mughal era under the name **dastawez**. Royal treasuries issued payment orders called **barattes**, and **hundis** (a type of credit instrument) evolved in this period and stayed in use."
+        },
+        {
+          "type": "table",
+          "title": "Two kinds of dastawez (loan deed)",
+          "headers": ["Type", "When payable"],
+          "rows": [
+            ["Dastawez-e-indultalab", "On demand"],
+            ["Dastawez-e-miadi", "After a stipulated (fixed) time"]
+          ]
+        },
+        {
+          "type": "mnemonic",
+          "title": "Old Indian credit instruments in era order",
+          "phrase": "Real Armies Deliver Big Hauls: Rinapatra, Adesha, Dastawez, Baratte, Hundi.",
+          "letters": [
+            ["R", "Rinapatra: Vedic loan deed"],
+            ["A", "Adesha: Mauryan order to pay (like a bill of exchange)"],
+            ["D", "Dastawez: Mughal loan deed (e-talab = on demand, e-miadi = after time)"],
+            ["B", "Baratte: payment orders of royal treasuries"],
+            ["H", "Hundi: internal bill of exchange of indigenous bankers"]
+          ],
+          "note": "Eras run Vedic, Mauryan, Mughal, so the first three letters R-A-D are also in time order."
+        }
+      ]
+    },
+    {
+      "id": "presidency-imperial",
+      "title": "The first modern banks: Hindustan, Presidency and Imperial",
+      "icon": "🏛️",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "The period from the coming of the Europeans (15th century) to Independence in 1947 laid the real foundation of modern banking in India. It saw a very large number of banks (more than 600). The first one was the **Bank of Hindustan**, set up in Calcutta (now Kolkata) in **1770** by M/s Alexander and Co. It ceased to operate in 1832."
+        },
+        {
+          "type": "text",
+          "text": "The British East India Company had trading posts and factories in India and needed funds for its administrative, economic and military ambitions. So it set up three **Presidency Banks** under charters from the Company."
+        },
+        {
+          "type": "table",
+          "title": "The three Presidency Banks",
+          "headers": ["Date", "Bank (place)", "Features"],
+          "rows": [
+            ["2 June 1806", "Bank of Bengal (Calcutta, now Kolkata)", "1st Presidency Bank, set up with the East India Company and the Government of Bengal. Total capital ₹50 lakh, of which ₹10 lakh came from the Company. Started as Bank of Calcutta and was renamed Bank of Bengal on 2 January 1809. In 1862, at Cawnpore, Dacca Bank (est. 1846) was amalgamated with it."],
+            ["15 April 1840", "Bank of Bombay (Bombay, now Mumbai)", "2nd Presidency Bank. It did all the normal activities expected of a commercial bank."],
+            ["1 July 1843", "Bank of Madras (Madras, now Chennai)", "3rd Presidency Bank. Formed by amalgamating several existing regional banks and headquartered in Madras."]
+          ]
+        },
+        {
+          "type": "figure",
+          "kind": "flow",
+          "title": "From Presidency Banks to SBI",
+          "items": [
+            ["Bank of Bengal", "1806, Calcutta"],
+            ["Bank of Bombay", "1840, Bombay"],
+            ["Bank of Madras", "1843, Madras"],
+            ["Imperial Bank of India", "27 Jan 1921, three merged"],
+            ["State Bank of India", "1955, nationalised"]
+          ]
+        },
+        {
+          "type": "text",
+          "text": "The **Imperial Bank of India** was formed on **27 January 1921** by amalgamating the Bank of Bengal, the Bank of Bombay and the Bank of Madras. It was a private entity till then. In **1955** it was nationalised and renamed **State Bank of India**, so SBI is the **oldest bank in India among the banks that exist today**."
+        },
+        {
+          "type": "mnemonic",
+          "title": "Presidency Banks: order and years",
+          "phrase": "Be Brave, Move! Bengal 1806, Bombay 1840, Madras 1843. From 1806 to 1840 is 34 years; then only 3 more.",
+          "letters": [
+            ["B", "Bengal: 1806 (first, Calcutta)"],
+            ["B", "Bombay: 1840 (second)"],
+            ["M", "Madras: 1843 (third)"]
+          ],
+          "note": "The gaps 34 and 3 help you fix the years: 1806 + 34 = 1840, then 1840 + 3 = 1843."
+        },
+        {
+          "type": "mnemonic",
+          "title": "Imperial Bank and SBI years",
+          "phrase": "19-21 three became one (Imperial); 19-55 the five-five: SBI Act 1955, and SBI later held 55% of its subsidiaries.",
+          "note": "Imperial Bank: 1921. SBI: 1955. The number 55 shows up again in the 55:45 holding of subsidiary banks."
+        }
+      ]
+    },
+    {
+      "id": "joint-stock-banks",
+      "title": "Joint stock banks and other notable banks",
+      "icon": "🏦",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "A bank that has many shareholders is a **joint stock bank**. Limited liability was introduced in India in **1860**, which led to the setting up of joint stock banks. Indian joint stock banks were generally undercapitalised and lacked the experience and maturity to compete with the Presidency Banks."
+        },
+        {
+          "type": "table",
+          "title": "Notable banks still operating",
+          "headers": ["Year", "Bank", "Highlights"],
+          "rows": [
+            ["24 April 1865", "Allahabad Bank", "Founded in Allahabad by a group of British. One of the oldest joint stock banks still working and one of the oldest public sector banks in India."],
+            ["1894", "Punjab National Bank", "Established in Lahore (Punjab province) by Lala Lajpat Rai, Babu Purshotam Lal Tandon, S. Dayal Singh and others. The first bank purely managed by Indians."],
+            ["1911", "Central Bank of India", "Set up by Indian nationalists; the first Indian commercial bank wholly owned and managed by Indians, called the first truly **Swadeshi** bank. Founder: Sir Sorabji Pochkhanawala; first Chairman: Sir Pherozeshah Mehta."],
+            ["1906 (private)", "Bank of India", "Started as a private entity in 1906. It was the first Indian bank to open a foreign branch (London, 1946)."]
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Notable banks that failed (now defunct)",
+          "headers": ["Year", "Bank", "What happened"],
+          "rows": [
+            ["1839", "Union Bank", "Set up by Indian merchants; failed within a decade."],
+            ["1863", "Bank of Upper India", "The oldest joint stock bank of India; it failed in 1913."],
+            ["1881", "Oudh Commercial Bank", "Set up at Faizabad. It was the first bank in India with limited liability managed by an Indian board. It failed in 1958, after Independence."]
+          ]
+        },
+        {
+          "type": "mnemonic",
+          "title": "Years of Indian joint stock banks",
+          "phrase": "Allahabad alive at 65, Oudh old at 81, PNB at 94, Central eleven (1911). Upper India was 63 and failed in 13.",
+          "letters": [
+            ["Allahabad", "1865 (still working)"],
+            ["Oudh", "1881 (failed 1958)"],
+            ["PNB", "1894 (Lahore)"],
+            ["Central", "1911 (Swadeshi bank)"],
+            ["Upper India", "1863 (failed 1913)"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "Many 'firsts', check the wording",
+          "text": "Oudh Commercial Bank = first with limited liability and an Indian board (1881). PNB = first bank purely managed by Indians (1894). Central Bank = first wholly Indian-owned and managed commercial bank (1911). Bank of Upper India = oldest joint stock bank (1863, defunct)."
+        }
+      ]
+    },
+    {
+      "id": "rbi-creation",
+      "title": "Birth of the Reserve Bank of India",
+      "icon": "🏛️",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "In **1926** the Royal Commission on Indian Currency and Finance, popularly the **Hilton-Young Commission**, submitted its report and recommended that the British Government of India create a **central bank**."
+        },
+        {
+          "type": "bullets",
+          "title": "Objectives set out",
+          "items": [
+            "To separate the control of **currency and credit** from the government.",
+            "To increase (augment) banking facilities throughout the country."
+          ]
+        },
+        {
+          "type": "figure",
+          "kind": "flow",
+          "title": "Path to the central bank",
+          "items": [
+            ["Hilton-Young report", "1926: recommends a central bank"],
+            ["RBI Act", "1934: law passed"],
+            ["RBI starts work", "1 April 1935"]
+          ]
+        },
+        {
+          "type": "text",
+          "text": "Finally, on **1 April 1935**, the Reserve Bank of India was established under the **RBI Act of 1934**, as the banker to the central government."
+        },
+        {
+          "type": "mnemonic",
+          "title": "Hilton-Young to RBI",
+          "phrase": "Twenty-six asks, thirty-four writes, thirty-five starts: 1926 report, 1934 Act, 1935 start.",
+          "letters": [
+            ["26", "1926: Hilton-Young Commission recommends a central bank"],
+            ["34", "1934: RBI Act passed"],
+            ["35", "1 April 1935: RBI begins operations"]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sbi-and-planning",
+      "title": "After Independence: planning and the birth of SBI",
+      "icon": "🇮🇳",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "After Independence, the RBI set up the **All India Rural Credit Survey Committee**. It recommended that the Imperial Bank of India be taken over and that the former state-owned and state-associated banks be merged or integrated with it."
+        },
+        {
+          "type": "text",
+          "text": "India adopted planned economic development, aiming at social ownership of the means of production. Yet commercial banks were then private and were seen as controlled by business houses. They failed to meet the credit needs of poorer sections such as cottage and village industry, farmers and craftsmen. In **1950-51** there were **430** commercial banks."
+        },
+        {
+          "type": "figure",
+          "kind": "flow",
+          "title": "Creating the State Bank group",
+          "items": [
+            ["Rural Credit Survey", "Recommends taking over Imperial Bank"],
+            ["State Bank of India Act", "1955: SBI constituted"],
+            ["SBI (Subsidiary Banks) Act", "1959: five subsidiaries"],
+            ["55 : 45 holding", "55% SBI, 45% old shareholders"]
+          ]
+        },
+        {
+          "type": "bullets",
+          "title": "The five subsidiary banks taken over in 1959 (as per the book)",
+          "items": [
+            "State Bank of Patiala",
+            "State Bank of Hyderabad",
+            "State Bank of Travancore",
+            "State Bank of Bikaner and Jaipur",
+            "State Bank of Mysore"
+          ]
+        },
+        {
+          "type": "text",
+          "text": "In the subsidiary arrangement, **55%** of the capital was owned by SBI and **45%** stayed with the old shareholders. The model also showed weaknesses: lower bank profitability, a weak capital base and a heavy burden of **bad loans** (unrecovered loans)."
+        },
+        {
+          "type": "mnemonic",
+          "title": "Five SBI subsidiaries (old associates)",
+          "phrase": "Put Hot Tea Before Me: Patiala, Hyderabad, Travancore, Bikaner and Jaipur, Mysore.",
+          "letters": [
+            ["P", "State Bank of Patiala"],
+            ["H", "State Bank of Hyderabad"],
+            ["T", "State Bank of Travancore"],
+            ["B", "State Bank of Bikaner and Jaipur"],
+            ["M", "State Bank of Mysore"]
+          ],
+          "note": "These five and Bharatiya Mahila Bank merged into SBI on 1 April 2017."
+        },
+        {
+          "type": "callout",
+          "kind": "remember",
+          "title": "Dates to fix",
+          "text": "First Five Year Plan: 1951. SBI Act: 1955 (SBI formed on 1 July 1955 from the Imperial Bank). Subsidiary Banks Act: 1959. Bank count in 1950-51: 430."
+        }
+      ]
+    },
+    {
+      "id": "policy-milestones",
+      "title": "Milestones from 1962 to 2006",
+      "icon": "🗓️",
+      "blocks": [
+        {
+          "type": "timeline",
+          "title": "Banking milestones after Independence",
+          "items": [
+            ["1951", "India implements its First Five Year Plan."],
+            ["1955", "SBI constituted under the State Bank of India Act, 1955."],
+            ["1959", "SBI (Subsidiary Banks) Act passed; SBI takes over five former state-associate banks."],
+            ["January 1962", "Deposit Insurance Corporation of India established (DIC Act 1961) to protect small depositors' deposits."],
+            ["1963", "Agricultural Refinance Corporation (ARC) formed to refinance central land mortgage banks, state cooperative banks and scheduled commercial banks."],
+            ["1966", "Cooperative banks brought under RBI regulation; the rupee is devalued for the first time."],
+            ["February 1968", "National Credit Council (NCC) set up to help the Government and RBI reallocate credit according to plan priorities."],
+            ["1969 (Lead Bank)", "Lead Bank Scheme introduced to mobilise deposits on a massive scale and to step up lending to weaker sections."],
+            ["1969 (Nationalisation)", "Fourteen banks with deposits of over ₹50 crore are nationalised."],
+            ["1972", "Differential Rate of Interest (DRI) scheme instituted for the weaker sections."],
+            ["1974 and 1978", "Priority Sector concept set up in Nov 1974 for public sector banks and in Nov 1978 for private sector banks."],
+            ["15 April 1980", "Six banks with demand and time liabilities above ₹200 crore (as on 14.03.1980) nationalised."],
+            ["1994", "Board for Financial Supervision (BFS) set up within RBI, exclusively for supervisory functions."],
+            ["1995", "Banking Ombudsman Scheme introduced under the Banking Regulation Act, 1949."],
+            ["2006", "BCSBI (Banking Codes and Standards Board of India) set up for voluntary registration of banks, committing to customer service as per agreed standards."]
+          ]
+        },
+        {
+          "type": "mnemonic",
+          "title": "Nationalisation numbers",
+          "phrase": "Sixty-nine = fourteen banks over ₹50 crore; Eighty = six banks over ₹200 crore. Total 14 + 6 = 20 banks; the limit rose 4 times.",
+          "letters": [
+            ["1969", "14 banks; deposits above ₹50 crore"],
+            ["1980", "6 banks (15 April); demand and time liabilities above ₹200 crore"]
+          ]
+        },
+        {
+          "type": "mnemonic",
+          "title": "Institutions of the 1960s and 70s in order",
+          "phrase": "Deposits Are Never Lost, Dear People: DIC 1962, ARC 1963, NCC 1968, Lead Bank 1969, DRI 1972, Priority Sector 1974.",
+          "letters": [
+            ["D", "Deposit Insurance Corporation: 1962"],
+            ["A", "Agricultural Refinance Corporation: 1963"],
+            ["N", "National Credit Council: 1968"],
+            ["L", "Lead Bank Scheme: 1969"],
+            ["D", "Differential Rate of Interest: 1972"],
+            ["P", "Priority Sector concept: 1974"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "Do not confuse the 1969 events",
+          "text": "Two different 1969 events: the **Lead Bank Scheme** (one bank for each district-type area, service area approach) and the **nationalisation of 14 banks**. Also, the Banking Ombudsman Scheme is 1995 while BCSBI is 2006."
+        }
+      ]
+    },
+    {
+      "id": "bank-mergers",
+      "title": "Mergers of banks (2017-2020)",
+      "icon": "🤝",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "In August 2019 the government announced the biggest consolidation of the banking space so far: **10 public sector banks merged into 4 bigger banks**, effective **1 April 2020**. Customers of the merging banks became customers of the banks they merged into. The number of public sector banks was to fall from **27 (in 2017) to 12**."
+        },
+        {
+          "type": "table",
+          "title": "Merger map",
+          "headers": ["Anchor bank", "Merged into it", "Note"],
+          "rows": [
+            ["State Bank of India", "SBBJ, SBH, SBM, SBP, SBT and Bharatiya Mahila Bank (BMB)", "Five associates and BMB merged with effect from 1 April 2017; SBI became the largest lender among the top 50 banks in the world, as per the book."],
+            ["Bank of Baroda", "Dena Bank and Vijaya Bank", "Proposed on 17 September 2018; approved by the Union Cabinet and the banks' boards on 2 January 2019; created the third-largest bank by loans."],
+            ["Punjab National Bank", "Oriental Bank of Commerce (OBC) and United Bank of India", "Together they form the 2nd largest public sector bank after SBI."],
+            ["Canara Bank", "Syndicate Bank", "Makes Canara the fourth-largest public sector lender."],
+            ["Union Bank of India", "Andhra Bank and Corporation Bank", "Part of the 10-into-4 plan from 1 April 2020."],
+            ["Indian Bank", "Allahabad Bank", "Part of the 10-into-4 plan from 1 April 2020."]
+          ]
+        },
+        {
+          "type": "figure",
+          "kind": "pyramid",
+          "title": "Size order after the mergers (per the book)",
+          "items": [
+            ["State Bank of India", "Largest"],
+            ["Punjab National Bank", "2nd largest PSB after the 2020 merger"],
+            ["Bank of Baroda", "3rd largest by loans"],
+            ["Canara Bank", "4th largest PSB lender"]
+          ]
+        },
+        {
+          "type": "table",
+          "title": "The 12 public sector banks (as per the book)",
+          "headers": ["Merged (anchor) banks: 6", "Independent banks: 6"],
+          "rows": [
+            ["State Bank of India", "Indian Overseas Bank"],
+            ["Bank of Baroda", "UCO Bank"],
+            ["Punjab National Bank", "Bank of Maharashtra"],
+            ["Canara Bank", "Punjab and Sind Bank"],
+            ["Union Bank of India", "Bank of India"],
+            ["Indian Bank", "Central Bank of India"]
+          ]
+        },
+        {
+          "type": "mnemonic",
+          "title": "Who ate whom in 2020 (10 into 4)",
+          "phrase": "PNB takes OUr (OBC + United); Canara takes Syn (Syndicate); Union takes Andhra and Corp; Indian takes Allah (Allahabad).",
+          "letters": [
+            ["PNB", "Oriental Bank of Commerce + United Bank of India"],
+            ["Canara", "Syndicate Bank"],
+            ["Union", "Andhra Bank + Corporation Bank"],
+            ["Indian", "Allahabad Bank"]
+          ],
+          "note": "Count: 2 + 1 + 2 + 1 = 6 banks merged into the anchors, plus the four anchors themselves make the 10 banks in the plan."
+        },
+        {
+          "type": "mnemonic",
+          "title": "The six independent public sector banks",
+          "phrase": "I Used My Purse Before Checking: Indian Overseas, UCO, Maharashtra, Punjab and Sind, Bank of India, Central.",
+          "letters": [
+            ["I", "Indian Overseas Bank"],
+            ["U", "UCO Bank"],
+            ["M", "Bank of Maharashtra"],
+            ["P", "Punjab and Sind Bank"],
+            ["B", "Bank of India"],
+            ["C", "Central Bank of India"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "remember",
+          "title": "Numbers that repeat in exams",
+          "text": "PSBs: 27 (2017) to 12 (2020). The plan: 10 banks into 4. Effective date: 1 April 2020. SBI group merger: 1 April 2017 (5 associates + BMB). Dena + Vijaya into Bank of Baroda: approved 2 January 2019. Bank counts change with time, so read the current figure in the question."
+        }
+      ]
+    }
+  ],
+  "revision": [
+    "The Vedas (2000-1400 BCE) mention usury and loan deeds called rinapatra; the Mauryan adesha resembles a bill of exchange.",
+    "Indigenous bankers (shroffs, seths, mahajans, chettis) use hundis; their system is unorganised and charges high interest.",
+    "Mughal-era loan deeds were dastawez: e-indultalab (on demand) and e-miadi (after a fixed time); royal treasuries used barattes.",
+    "Bank of Hindustan, Calcutta, 1770 (M/s Alexander and Co) was the first modern bank and ceased in 1832.",
+    "Presidency Banks: Bengal (2 June 1806), Bombay (15 April 1840), Madras (1 July 1843); Bank of Calcutta was renamed Bank of Bengal on 2 January 1809.",
+    "Imperial Bank of India formed 27 January 1921 from the three Presidency Banks; nationalised in 1955 as State Bank of India (the oldest existing bank).",
+    "Limited liability came in 1860; Allahabad Bank (1865), PNB (1894, Lahore) and Central Bank of India (1911) are early Indian joint stock banks.",
+    "Oudh Commercial Bank (1881, Faizabad) was the first limited-liability bank with an Indian board; it failed in 1958.",
+    "Bank of India (private, 1906) opened the first foreign branch of an Indian bank (London, 1946).",
+    "Hilton-Young Commission 1926 recommended a central bank; RBI Act 1934; RBI began on 1 April 1935.",
+    "SBI Act 1955; SBI (Subsidiary Banks) Act 1959; subsidiaries held 55% by SBI and 45% by old shareholders.",
+    "Lead Bank Scheme 1969; 14 banks nationalised in 1969 (deposits over 50 crore); 6 banks in 1980 (over 200 crore).",
+    "Banking Ombudsman Scheme 1995; BFS 1994; BCSBI 2006; DRI 1972; Priority Sector concept 1974 (public) and 1978 (private).",
+    "Public sector banks fell from 27 (2017) to 12 after the 10-into-4 merger effective 1 April 2020."
+  ],
+  "mindmap": {
+    "center": "Evolution of Banking in India",
+    "branches": [
+      {
+        "label": "Ancient and medieval",
+        "children": ["Vedas: rinapatra, usury", "Mauryan adesha", "Mughal dastawez", "Baratte and hundi"]
+      },
+      {
+        "label": "Indigenous banking",
+        "children": ["Shroffs, seths, chettis", "Hundis", "Unorganised", "High interest"]
+      },
+      {
+        "label": "First modern banks",
+        "children": ["Hindustan Bank 1770", "Bengal 1806", "Bombay 1840", "Madras 1843", "Imperial Bank 1921"]
+      },
+      {
+        "label": "Joint stock banks",
+        "children": ["Limited liability 1860", "Allahabad 1865", "PNB 1894", "Central Bank 1911", "Oudh Bank 1881"]
+      },
+      {
+        "label": "Birth of RBI",
+        "children": ["Hilton-Young 1926", "RBI Act 1934", "Started 1 April 1935"]
+      },
+      {
+        "label": "After Independence",
+        "children": ["SBI Act 1955", "Subsidiaries 1959", "Nationalisation 1969, 1980", "Lead Bank 1969", "Priority sector"]
+      },
+      {
+        "label": "Reforms and bodies",
+        "children": ["DIC 1962", "ARC 1963", "NCC 1968", "BFS 1994", "Ombudsman 1995", "BCSBI 2006"]
+      },
+      {
+        "label": "Mergers 2017-2020",
+        "children": ["SBI + 5 associates + BMB", "Dena, Vijaya into BoB", "10 into 4", "27 PSBs to 12"]
+      }
+    ]
+  }
+}

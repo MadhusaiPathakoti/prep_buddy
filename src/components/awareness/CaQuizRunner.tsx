@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { CA_BANK_KEY, CA_GAME_ID, shuffle } from '../../lib/computerAwareness/data'
-import type { CaBankQuestion } from '../../lib/computerAwareness/types'
+import { useBook } from '../../lib/awareness/bookContext'
+import { shuffle } from '../../lib/awareness/data'
+import type { CaBankQuestion } from '../../lib/awareness/types'
 import { formatTime } from '../../lib/format'
 import { getFavorites, toggleFavorite } from '../../lib/favorites'
 import { addSession } from '../../lib/storage'
@@ -27,6 +28,7 @@ interface Props {
 }
 
 export default function CaQuizRunner({ questions, onExit, onRestart }: Props) {
+  const book = useBook()
   const rounds = useMemo<Round[]>(
     () =>
       questions.map((q) => {
@@ -40,7 +42,7 @@ export default function CaQuizRunner({ questions, onExit, onRestart }: Props) {
   const [picked, setPicked] = useState<number | null>(null)
   const [results, setResults] = useState<Result[]>([])
   const [finished, setFinished] = useState(false)
-  const [favorites, setFavorites] = useState(() => getFavorites(CA_BANK_KEY))
+  const [favorites, setFavorites] = useState(() => getFavorites(book.bankKey))
   const [startTime] = useState(() => Date.now())
   const [elapsedMs, setElapsedMs] = useState(0)
   const savedRef = useRef(false)
@@ -59,7 +61,7 @@ export default function CaQuizRunner({ questions, onExit, onRestart }: Props) {
   useEffect(() => {
     if (finished && !savedRef.current) {
       savedRef.current = true
-      addSession(CA_GAME_ID, { date: new Date().toISOString(), correct: correctCount, wrongAttempts: results.length - correctCount, skipped: 0, total, timeMs: Date.now() - startTime })
+      addSession(book.gameId, { date: new Date().toISOString(), correct: correctCount, wrongAttempts: results.length - correctCount, skipped: 0, total, timeMs: Date.now() - startTime })
     }
   }, [finished, correctCount, results.length, total, startTime])
 
@@ -100,7 +102,7 @@ export default function CaQuizRunner({ questions, onExit, onRestart }: Props) {
     return () => window.removeEventListener('keydown', onKey)
   })
 
-  const star = (id: string) => setFavorites(toggleFavorite(CA_BANK_KEY, id, favorites))
+  const star = (id: string) => setFavorites(toggleFavorite(book.bankKey, id, favorites))
 
   if (finished) {
     const accuracy = total > 0 ? Math.round((correctCount / total) * 1000) / 10 : 0
@@ -132,6 +134,7 @@ export default function CaQuizRunner({ questions, onExit, onRestart }: Props) {
                   <div className="flex items-start justify-between gap-3">
                     <div className="text-xs font-semibold text-slate-500 dark:text-slate-400">
                       Q{i + 1} · {r.q.chapterTitle}
+                      {r.q.exam ? ` · ${r.q.exam}` : ''}
                     </div>
                     <StarButton on={favorites.has(r.q.id)} onToggle={() => star(r.q.id)} />
                   </div>
@@ -183,7 +186,10 @@ export default function CaQuizRunner({ questions, onExit, onRestart }: Props) {
 
       <div className="mt-5 rounded-3xl bg-white p-6 shadow-sm ring-1 ring-slate-200 dark:bg-slate-800 dark:ring-slate-700">
         <div className="flex items-start justify-between gap-3">
-          <span className="rounded-full bg-indigo-50 px-2.5 py-0.5 text-xs font-semibold text-indigo-700 dark:bg-indigo-500/15 dark:text-indigo-300">{round.q.chapterTitle}</span>
+          <div className="flex min-w-0 flex-wrap items-center gap-1.5">
+            <span className="rounded-full bg-indigo-50 px-2.5 py-0.5 text-xs font-semibold text-indigo-700 dark:bg-indigo-500/15 dark:text-indigo-300">{round.q.chapterTitle}</span>
+            {round.q.exam && <span className="rounded-full bg-amber-100 px-2.5 py-0.5 text-xs font-semibold text-amber-800 dark:bg-amber-500/15 dark:text-amber-300">📝 {round.q.exam}</span>}
+          </div>
           <StarButton on={favorites.has(round.q.id)} onToggle={() => star(round.q.id)} />
         </div>
         <h2 className="mt-4 text-lg font-bold leading-snug text-slate-900 dark:text-slate-100 sm:text-xl">{round.q.q}</h2>

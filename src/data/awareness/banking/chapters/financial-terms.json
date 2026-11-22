@@ -1,0 +1,601 @@
+{
+  "id": "financial-terms",
+  "sections": [
+    {
+      "id": "account-basics",
+      "title": "Money, Accounts & Everyday Terms",
+      "icon": "🏦",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "Banking exams love to check whether you know the plain-English meaning of everyday money words. This section covers what happens inside a bank account, how people earn and spend, and the compulsory payments they make."
+        },
+        {
+          "type": "keyvalue",
+          "title": "Working with an account",
+          "rows": [
+            ["Balance", "The money sitting in a savings or current account. It can also mean the amount still left to be repaid on a loan."],
+            ["Deposit", "Placing money into an account."],
+            ["Withdrawal", "Taking money out of an account."],
+            ["Overdraw", "Trying to take out more than the balance available in the account."],
+            ["Insufficient funds", "Situation where a cheque is written for more than the account holds. The bank may return the cheque and usually levies a penalty fee."],
+            ["Service charges", "Fees a financial institution levies on account holders for the upkeep and maintenance of their accounts."],
+            ["Money market account", "An account in which the investor earns interest on the balance but must maintain a minimum balance."],
+            ["Certificate of Deposit (CD)", "A fixed amount deposited for a fixed term to earn interest. Withdrawing early attracts a penalty."]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "Income, spending and tax",
+          "rows": [
+            ["Budget", "A written or electronic plan for managing your finances and saving money."],
+            ["Earned income", "Money received as wages for work done."],
+            ["Unearned income", "Money made without working for it, for example interest earned on savings."],
+            ["Expenses", "Money spent on needs and wants."],
+            ["Fixed expenses", "Payments that stay the same every month, such as a car instalment."],
+            ["Variable expenses", "Payments that change from month to month, such as groceries or utility bills."],
+            ["Taxes", "Compulsory fees a government charges its citizens to run the government."]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "Earned or unearned?",
+          "text": "Salary, wages and a freelancer's fees are earned income because you worked for them. Interest on a deposit is unearned income. A withdrawal is just your own money coming back, not income at all."
+        }
+      ]
+    },
+    {
+      "id": "loans-and-security",
+      "title": "Credit, Loans & Security",
+      "icon": "💳",
+      "blocks": [
+        {
+          "type": "keyvalue",
+          "title": "Borrowing basics",
+          "rows": [
+            ["Credit", "Money borrowed that the borrower must repay."],
+            ["Debt", "Money or goods owed to another person or entity."],
+            ["Loan", "A legal contract in which a lender gives money for the borrower to use. The borrower normally pays interest and must repay within a fixed time."],
+            ["Principal", "The amount borrowed, without interest. For an investor it is the amount invested."],
+            ["Interest", "The fee lenders charge, as a percentage of the loan amount, for lending the money."],
+            ["Interest rate", "The percentage charged as interest."],
+            ["Annual Percentage Rate (APR)", "Interest plus fees charged on a loan over one year, expressed as a percentage."],
+            ["Equated Monthly Installment (EMI)", "The equally divided monthly payment that clears an outstanding loan within the agreed time."],
+            ["Amortization", "Paying off a debt through a fixed schedule of equal payments of principal and interest until the end of the loan term."],
+            ["Minimum payment", "The smallest amount a loan or card account requires each period. Borrowers may always pay more."],
+            ["Points", "A percentage of the loan amount that a lender may add, payable as a one-time lump sum."]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "Credit cards and credit history",
+          "rows": [
+            ["Charge", "A purchase made on a revolving credit account. Interest applies unless the full amount is paid before the grace period ends."],
+            ["Finance charge", "Fee a lender charges for lending money. Paying the balance within the grace period avoids it."],
+            ["Grace period", "On revolving credit cards, the window in which paying the full balance means no interest or finance charges."],
+            ["Credit history", "The record of borrowing and repaying that a person builds. Lenders check it before giving future loans."],
+            ["Secured credit card", "Card for building credit: the customer first deposits money, then makes charges only up to that balance."]
+          ]
+        },
+        {
+          "type": "figure",
+          "kind": "flow",
+          "title": "How a loan runs from start to trouble",
+          "items": [
+            ["Loan agreed", "Principal, rate and term are fixed"],
+            ["Regular payments", "EMIs of principal plus interest"],
+            ["Payment missed", "This is a default"],
+            ["Lien or foreclosure", "Lender moves on the property"],
+            ["Bankruptcy", "Last resort when debt is hopeless"]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "Security, default and recovery",
+          "rows": [
+            ["Collateral", "Property pledged to assure repayment of a loan."],
+            ["Cosigner", "An additional party added to a loan contract who guarantees payment if the borrower defaults."],
+            ["Lien", "A lender's legal right over a property in connection with a debt, which it can enforce if the borrower defaults."],
+            ["Mortgage", "The loan taken to buy real estate."],
+            ["Default", "Failing to make a payment as the agreement requires."],
+            ["Foreclosure", "Legal proceedings in which the lender seizes the property behind a secured debt. A mortgage default can end in foreclosure and auction."],
+            ["Bankruptcy", "Legal protection from debts for a person or company that cannot repay them. It can involve selling assets to reduce the debt."],
+            ["Audit", "An in-depth examination of a person's or company's finances by an auditor."]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "remember",
+          "title": "Interest vs rate vs APR",
+          "text": "Interest is the money fee. Interest rate is the percentage. APR goes further and includes fees too, measured over one year. A lien is the right over property, and foreclosure is the act of actually seizing it."
+        }
+      ]
+    },
+    {
+      "id": "investing-terms",
+      "title": "Investing & Wealth Terms",
+      "icon": "📈",
+      "blocks": [
+        {
+          "type": "keyvalue",
+          "title": "Assets and investments",
+          "rows": [
+            ["Asset", "Something you own, such as property, money, or investments like stocks and bonds."],
+            ["Invest", "Using money to buy things or placing it in particular accounts in order to earn a profit."],
+            ["Appreciate", "An asset or investment rises in value."],
+            ["Depreciation", "An asset losing value over time through wear and tear."],
+            ["Annuity", "A series of equal payments made at regular intervals. Annuities include compound interest."],
+            ["Bond", "Debt instrument issued by a government or corporation. The issuer pays interest and the face value at the end of the term."],
+            ["Commodities", "Tangible goods such as gold or wheat in which people invest hoping prices will rise."],
+            ["Securities", "Paper or electronic instruments that prove ownership of stocks or bonds."]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "Ownership and returns",
+          "rows": [
+            ["Stock", "Issued by a company to certify that an investor owns part of it."],
+            ["Share", "One unit of ownership in a company."],
+            ["Dividend", "A company's payment to its stockholders to share profit."],
+            ["Mutual fund", "A pool of investors holding a collection of different assets together, which gives diversification."],
+            ["Diversify", "Spreading investment money across different kinds of investments to reduce risk."],
+            ["Profit", "What an investor gains after subtracting the principal and any extra costs from the final amount."],
+            ["Return", "The money coming back to an account holder from an investment."],
+            ["Risk", "The likelihood that the investor will lose money on the deal."],
+            ["Sole proprietor", "The single person who owns a business."]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "tip",
+          "title": "Stock vs share vs bond",
+          "text": "Stock and shares mean ownership, and dividends flow from profits. A bond means you are a lender, so you get interest and the face value back. Two different relationships with the issuer."
+        }
+      ]
+    },
+    {
+      "id": "payment-abbreviations",
+      "title": "Payments & Settlement Abbreviations",
+      "icon": "🔁",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "From here the chapter becomes a look-up list of abbreviations. Learn them in groups, the way they are used in real life. This first group covers how money and messages move between banks."
+        },
+        {
+          "type": "table",
+          "title": "Payment systems and channels",
+          "headers": ["Abbreviation", "Full form", "What to remember"],
+          "rows": [
+            ["RTGS", "Real Time Gross Settlement", "Funds settled one transaction at a time, in real time"],
+            ["EFT", "Electronic Funds Transfer", "Moving money electronically between accounts"],
+            ["DNSS", "Deferred Net Settlement System", "Dues netted off and settled later, not one by one"],
+            ["NFS", "National Financial Switch", "Largest network of shared ATMs in India"],
+            ["WLAO", "White Label ATM Operator", "A non-bank company operating ATMs"],
+            ["ICCW", "Interoperable Cardless Cash Withdrawal", "Cash from ATMs without a card; RBI announced it on 8 April 2022"],
+            ["BBPCU", "Bharat Bill Payment Central Unit", "Central unit of the bill payment system"],
+            ["MDR", "Merchant Discount Rate", "Charge on merchants for accepting card payments"],
+            ["MANI", "Mobile Aided Note Identifier", "RBI app that helps identify currency notes"],
+            ["IFSC", "Indian Financial System Code", "Code identifying a bank branch for electronic transfers"]
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Messaging and cheque clearing",
+          "headers": ["Abbreviation", "Full form", "What to remember"],
+          "rows": [
+            ["SFMS", "Structured Financial Messaging System", "Secure messaging system for banks"],
+            ["INFINET", "Indian Financial Network", "Network of the Indian banking sector"],
+            ["SWIFT", "Society for Worldwide Interbank Financial Telecommunications", "International bank-to-bank messaging"],
+            ["CTS", "Cheque Truncation System", "Cheque image moves instead of the paper cheque"],
+            ["CHI", "Clearing House Interface", "The I is Interface; used in CTS"],
+            ["PKI", "Public Key Infrastructure", "Ensures security, integrity and authenticity of CTS data and images"],
+            ["CCP", "Cheque Collection Policy", "The P is Policy"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "tip",
+          "title": "SFMS or SWIFT?",
+          "text": "SFMS has the word Structured and works inside India over INFINET, the Indian network. SWIFT has Worldwide in its name, so it is the international one."
+        }
+      ]
+    },
+    {
+      "id": "banking-abbreviations",
+      "title": "Banking, Lending & Rates Abbreviations",
+      "icon": "🏛️",
+      "blocks": [
+        {
+          "type": "table",
+          "title": "Rates, loans and ratios",
+          "headers": ["Abbreviation", "Full form"],
+          "rows": [
+            ["APR", "Annual Percentage Rate"],
+            ["AIR", "Assumed Interest Rate"],
+            ["ARM", "Adjustable Rate Mortgage"],
+            ["BPLR", "Benchmark Prime Lending Rate"],
+            ["MCLR", "Marginal Cost of Funds based Lending Rate"],
+            ["EMI", "Equated Monthly Installment"],
+            ["SLR", "Statutory Liquidity Ratio"],
+            ["LAF", "Liquidity Adjustment Facility"],
+            ["WMA", "Ways and Means Advance"],
+            ["WCDL", "Working Capital Demand Loan"],
+            ["ECB", "External Commercial Borrowing"],
+            ["CDR", "Corporate Debt Restructuring"],
+            ["ARC", "Asset Reconstruction Company"]
+          ]
+        },
+        {
+          "type": "mnemonic",
+          "title": "BPLR and MCLR",
+          "phrase": "Both end in Lending Rate. B comes before M in the alphabet, and BPLR (Benchmark) was the older system, MCLR (Marginal Cost) the newer one.",
+          "letters": [
+            ["BPLR", "Benchmark Prime Lending Rate"],
+            ["MCLR", "Marginal Cost of Funds based Lending Rate"],
+            ["APR", "Annual Percentage Rate (cost of a loan per year)"],
+            ["ARM", "Adjustable Rate Mortgage (rate can change)"],
+            ["EMI", "Equated Monthly Installment (equal monthly payment)"]
+          ],
+          "note": "Exam trap: the L in MCLR and BPLR is Lending, never Leading or Large."
+        },
+        {
+          "type": "table",
+          "title": "Institutions, deposits and balance sheet",
+          "headers": ["Abbreviation", "Full form"],
+          "rows": [
+            ["AIFI", "All India Financial Institutions"],
+            ["ALD", "Aggregate Liabilities to the Depositors"],
+            ["ALM", "Asset Liability Management"],
+            ["BIS", "Bank for International Settlements"],
+            ["NBFC", "Non-Banking Financial Company"],
+            ["SME", "Small and Medium Enterprise"],
+            ["CD", "Certificate of Deposit"],
+            ["CBLO", "Collateralized Borrowing and Lending Obligation"],
+            ["BSBDA", "Basic Savings Bank Deposit Account"],
+            ["FDIC", "Federal Deposit Insurance Corporation"],
+            ["NSF", "Net Satisfaction Factor in the source list; on cheques it usually means Non-Sufficient Funds"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "NSF and FRB have two readings",
+          "text": "In the source list NSF is given as Net Satisfaction Factor, but on a bounced cheque it stands for non-sufficient funds. Likewise FRB means Federal Reserve Board in the list, while an insurance question uses it for Foreign Reinsurance Branches. Read the context."
+        }
+      ]
+    },
+    {
+      "id": "market-abbreviations",
+      "title": "Stock Market & Investment Abbreviations",
+      "icon": "📊",
+      "blocks": [
+        {
+          "type": "table",
+          "title": "Exchanges, depositories and instruments",
+          "headers": ["Abbreviation", "Full form"],
+          "rows": [
+            ["BSE", "Bombay Stock Exchange"],
+            ["NSE", "National Stock Exchange"],
+            ["AMEX", "American Stock Exchange"],
+            ["NSDL", "National Securities Depository Ltd."],
+            ["DP", "Depository Participant"],
+            ["SEC", "Securities Exchange Commission (as written in the source list)"],
+            ["AMFI", "Association of Mutual Funds in India"],
+            ["IPO", "Initial Public Offering"],
+            ["GDR", "Global Depository Receipt"],
+            ["ETF", "Exchange Traded Funds"],
+            ["IDF", "Infrastructure Debt Fund"],
+            ["MMKT", "Money Market"],
+            ["WDM", "Wholesale Debt Market"],
+            ["SIV", "Structured Investment Vehicle"],
+            ["PFD", "Preferred stock"],
+            ["TSA", "Tax-Sheltered Annuity"],
+            ["PSP", "Profit Sharing Plan"]
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Returns, prices and performance measures",
+          "headers": ["Abbreviation", "Full form"],
+          "rows": [
+            ["NAV", "Net Asset Value"],
+            ["YTM", "Yield To Maturity"],
+            ["CAGR", "Compound Annual Growth Rate"],
+            ["EPS", "Earnings Per Share"],
+            ["P/E", "Price-to-earnings ratio"],
+            ["TSR", "Total Shareholder Return"],
+            ["VaR", "Value at Risk"],
+            ["ADTV", "Average Daily Trading Volume"],
+            ["CMP", "Current Market Price"],
+            ["CB", "Current Bid"],
+            ["QTE", "Quote"],
+            ["ROA", "Return on Assets"],
+            ["ROE", "Return on Equity"],
+            ["ROI", "Return on Investment"]
+          ]
+        },
+        {
+          "type": "mnemonic",
+          "title": "ROA, ROE, ROI",
+          "phrase": "A-E-I, the vowels in order: ROA for Assets, ROE for Equity, ROI for Investment.",
+          "letters": [
+            ["ROA", "Return on Assets"],
+            ["ROE", "Return on Equity"],
+            ["ROI", "Return on Investment"]
+          ],
+          "note": "Only the last letter changes, so tie A, E, I to Assets, Equity, Investment."
+        }
+      ]
+    },
+    {
+      "id": "economy-abbreviations",
+      "title": "Economy, Fiscal & Government Abbreviations",
+      "icon": "🌐",
+      "blocks": [
+        {
+          "type": "table",
+          "title": "Output, trade and prices",
+          "headers": ["Abbreviation", "Full form"],
+          "rows": [
+            ["GDP", "Gross Domestic Product"],
+            ["GNP", "Gross National Product"],
+            ["BoP", "Balance of Payments"],
+            ["GFCF", "Gross Fixed Capital Formation"],
+            ["FOREX", "Foreign Exchange"],
+            ["REER", "Real Effective Exchange Rate"],
+            ["WPI", "Wholesale Price Index"],
+            ["PMI", "Purchasing Managers' Index"],
+            ["MPC", "Monetary Policy Committee"],
+            ["MRTP", "Monopolies and Restrictive Trade Practices (Act)"]
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Fiscal, tax and schemes",
+          "headers": ["Abbreviation", "Full form"],
+          "rows": [
+            ["FRBM", "Fiscal Responsibility and Budget Management"],
+            ["GFD", "Gross Fiscal Deficit"],
+            ["GRF", "Guarantee Redemption Fund"],
+            ["GST", "Goods and Services Tax"],
+            ["VAT", "Value Added Tax"],
+            ["TIN", "Tax Information Network"],
+            ["SMP", "Statutory Minimum Price"],
+            ["MSP", "Minimum Support Price"],
+            ["APM", "Administered Price Mechanism"],
+            ["AMS", "Aggregate Measures of Support"],
+            ["AoA", "Agreement on Agriculture"],
+            ["APDRP", "Accelerated Power Development and Reform Programme"],
+            ["APL", "Above Poverty Line"],
+            ["BPL", "Below Poverty Line"],
+            ["FRL", "Full Reservoir Level"],
+            ["FRB", "Federal Reserve Board (source list)"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "remember",
+          "title": "Big-picture economy words",
+          "text": "GDP is the total market value of all final goods and services produced in a country in a year. GNP adds income earned by citizens abroad and leaves out foreigners' income at home. The PMI measures business activity in both manufacturing and services."
+        }
+      ]
+    },
+    {
+      "id": "business-abbreviations",
+      "title": "Business & Corporate Abbreviations",
+      "icon": "🏢",
+      "blocks": [
+        {
+          "type": "table",
+          "title": "Company and deal terms",
+          "headers": ["Abbreviation", "Full form"],
+          "rows": [
+            ["BPO", "Business Process Outsourcing"],
+            ["LLC", "Limited Liability Company"],
+            ["WOS", "Wholly Owned Subsidiaries"],
+            ["NDA", "Non-Disclosure Agreement"],
+            ["NCND", "Non-Circumvent and Non-Disclosure"],
+            ["LOI", "Letter Of Intent"],
+            ["COB", "Close of Business"],
+            ["CAPEX", "Capital Expenditures"],
+            ["P&L", "Profit and Loss"],
+            ["RPT", "Risk Profile Template"],
+            ["WC", "Working capital"],
+            ["WADR", "Weighted Average Discount Rate"]
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Time-based reporting periods",
+          "headers": ["Abbreviation", "Full form"],
+          "rows": [
+            ["MTD", "Month-to-Date"],
+            ["QTD", "Quarter-to-Date"],
+            ["YTD", "Year-to-date"]
+          ]
+        },
+        {
+          "type": "mnemonic",
+          "title": "The W-family",
+          "phrase": "Two Wholesale, two Working, one Ways, one Wholly, one Weighted: WPI and WDM, WC and WCDL, WMA, WOS, WADR.",
+          "letters": [
+            ["WPI", "Wholesale Price Index"],
+            ["WDM", "Wholesale Debt Market"],
+            ["WC", "Working capital"],
+            ["WCDL", "Working Capital Demand Loan"],
+            ["WMA", "Ways and Means Advance"],
+            ["WOS", "Wholly Owned Subsidiaries"],
+            ["WADR", "Weighted Average Discount Rate"]
+          ],
+          "note": "Odd-one-out questions often mix these: WPI measures prices, WDM is a market, WMA is an RBI advance to the government."
+        },
+        {
+          "type": "callout",
+          "kind": "tip",
+          "title": "Date-to-date order",
+          "text": "MTD, QTD and YTD get longer in the order Month, Quarter, Year. MTD covers the least time and YTD the most."
+        }
+      ]
+    },
+    {
+      "id": "exam-favourites",
+      "title": "Full Forms Asked in Exams",
+      "icon": "🎯",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "These abbreviations and terms have come up repeatedly in bank exam papers. Many are tricky because the wrong options look almost right, so learn the exact wording."
+        },
+        {
+          "type": "table",
+          "title": "Past-paper full forms",
+          "headers": ["Abbreviation", "Full form", "Quick note"],
+          "rows": [
+            ["PMI", "Purchasing Managers' Index", "Business activity in manufacturing and services"],
+            ["LAF", "Liquidity Adjustment Facility", "RBI changes rates and ratios under it"],
+            ["MRTP", "Monopolies and Restrictive Trade Practices", "The M is Monopolies; the Act no longer applies"],
+            ["GIFT", "Gujarat International Finance Tec-City", "A financial hub in Gujarat"],
+            ["IFSC", "Indian Financial System Code", "The F is Financial"],
+            ["ITR-1", "Income Tax Return form", "A form for filing an income tax return"],
+            ["MSP", "Minimum Support Price", "Not Maximum, not Market"],
+            ["IFA", "Independent Financial Adviser", "Recommends suitable products from the whole market"],
+            ["ESG", "Environmental, Social and Governance", "Framework to judge sustainability and ethical practice"],
+            ["D-SII", "Domestic Systemically Important Insurers", "Insurers whose failure would hurt the financial system"],
+            ["LEI", "Legal Entity Identifier", "Unique 20-character global code for a legal entity"],
+            ["UDGAM", "RBI portal for unclaimed deposits", "Helps the public find unclaimed deposits across banks"],
+            ["PMKSY", "Pradhan Mantri Kisan Sampada Yojana", "Food processing scheme of the Ministry of Food Processing Industries"],
+            ["NBFC", "Non-Banking Financial Company", "A financial company that is not a bank"],
+            ["BSBDA", "Basic Savings Bank Deposit Account", "A zero-balance no-frills account"],
+            ["ICCW", "Interoperable Cardless Cash Withdrawal", "Announced on 8 April 2022"],
+            ["EMI", "Equated Monthly Installment", "Not Equal, not Income"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "Look-alike options",
+          "text": "Exams change one word: Managers or Management (PMI), Lending or Leading (MCLR), Minimum or Maximum (MSP), Equated or Equal (EMI), Interoperable or Integrated (ICCW). Always read the whole phrase."
+        }
+      ]
+    },
+    {
+      "id": "facts-and-dates",
+      "title": "Schemes, Dates & Numbers to Know",
+      "icon": "🗓️",
+      "blocks": [
+        {
+          "type": "timeline",
+          "title": "Dates from the past-year questions",
+          "items": [
+            ["1968", "Public Provident Fund (PPF) introduced by the National Savings Institute of the Ministry of Finance."],
+            ["1992", "SEBI set up as a statutory body; the SEBI Act came into force on 30 January 1992."],
+            ["1999", "Foreign Exchange Management Act (FEMA) enacted."],
+            ["2002", "First Exchange Traded Fund in India launched by Nippon India Mutual Fund (formerly Benchmark) on the Nifty 50 Index."],
+            ["Nov 2005", "RBI advised banks to offer Basic Savings Bank Deposit (no-frills) accounts to promote financial inclusion."],
+            ["1 Jan 2013", "Direct Benefit Transfer (DBT) programme launched."],
+            ["8 Apr 2022", "RBI announced the Interoperable Cardless Cash Withdrawal facility."]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "Facts behind the abbreviations",
+          "rows": [
+            ["PPF rules (as per the 2024-25 book)", "Interest was 7.1 percent a year, set by the Ministry of Finance each year, compounded annually and paid on 31 March. The account matures after 15 years, and partial withdrawal is allowed after 6 years in special circumstances."],
+            ["DBT", "Transfers benefits straight into Aadhaar-linked bank accounts of beneficiaries under 34 central schemes. It removes diversion and duplicate payments."],
+            ["BSBDA", "Normal banking service for all with no minimum balance requirement (zero balance account)."],
+            ["Indian Trade Rupee", "Covered under FEMA 1999. Exports and imports can be invoiced and paid in rupees, with the exchange rate market determined."],
+            ["Soiled notes", "Notes that have become dirty and slightly cut. Rs 10 and higher notes in two pieces also count as soiled if the cut did not pass through the number panels."],
+            ["Foreign Reinsurance Branches", "Minimum capital requirement cut from Rs 100 crore to Rs 50 crore (as per the 2023 exam question)."],
+            ["D-SIIs", "LIC, GIC and New India Assurance named as Domestic Systemically Important Insurers by the insurance regulator. They face higher supervision."],
+            ["LEI", "Unique 20-character global identifier. SEBI introduced it for entities planning to list non-convertible securities, securitised debt instruments and security receipts."],
+            ["SDR", "The value of the IMF's Special Drawing Right is set by a basket of 5 currencies: US Dollar, Japanese Yen, British Pound, Chinese Yuan and Euro."]
+          ]
+        },
+        {
+          "type": "mnemonic",
+          "title": "Five currencies in the SDR basket",
+          "phrase": "Dad Eats Yummy Pie, Yes!",
+          "letters": [
+            ["D", "Dollar (US)"],
+            ["E", "Euro"],
+            ["Y", "Yen (Japan)"],
+            ["P", "Pound (British)"],
+            ["Y", "Yuan (Chinese)"]
+          ],
+          "note": "Five words, five currencies. If the question asks how many, the answer is 5."
+        },
+        {
+          "type": "mnemonic",
+          "title": "Years and numbers",
+          "phrase": "SEBI '92 and ETF '02 both end in 2. PPF: 15 to mature, 6 to peek. LEI is 20 characters, FRB capital halves from 100 to 50 crore.",
+          "letters": [
+            ["SEBI", "Established 1992"],
+            ["ETF", "First one in 2002"],
+            ["PPF", "1968; matures after 15 years; partial withdrawal after 6 years"],
+            ["DBT", "1 January 2013"],
+            ["LEI", "20 characters"],
+            ["FRB", "Capital Rs 100 crore to Rs 50 crore"]
+          ],
+          "note": "DBT started on New Year's Day 2013, so remember 1-1-2013."
+        }
+      ]
+    }
+  ],
+  "revision": [
+    "Unearned income is money made from interest; earned income is wages for work done.",
+    "Collateral is pledged property; a cosigner guarantees payment; a lien gives the lender a legal right over the property.",
+    "A default on a mortgage can lead to foreclosure, where the lender seizes and auctions the property.",
+    "APR is interest plus fees over one year; EMI is an Equated Monthly Installment.",
+    "A bond makes you a lender, while a stock or share makes you an owner.",
+    "BPLR is Benchmark Prime Lending Rate and MCLR is Marginal Cost of Funds based Lending Rate.",
+    "RTGS is Real Time Gross Settlement; SFMS runs on INFINET inside India, SWIFT works internationally.",
+    "CHI (Clearing House Interface), PKI (Public Key Infrastructure) and CCP (Cheque Collection Policy) belong to cheque clearing.",
+    "NFS is the National Financial Switch, the largest network of shared ATMs in India.",
+    "ROA, ROE and ROI are Return on Assets, Equity and Investment (A, E, I in order).",
+    "FRBM is Fiscal Responsibility and Budget Management; GFD is Gross Fiscal Deficit.",
+    "MSP is Minimum Support Price and PMI is Purchasing Managers' Index.",
+    "SEBI was set up in 1992 and the first ETF in India came in 2002.",
+    "SDR value is based on a basket of 5 currencies: Dollar, Euro, Yen, Pound and Yuan.",
+    "LEI is a 20-character identifier; D-SIIs named are LIC, GIC and New India Assurance.",
+    "DBT began on 1 January 2013; BSBDA is a zero-balance account."
+  ],
+  "mindmap": {
+    "center": "Financial Terms & Abbreviations",
+    "branches": [
+      {
+        "label": "Account basics",
+        "children": ["Balance, deposit, withdrawal", "Overdraw and insufficient funds", "Service charges", "Fixed vs variable expenses", "Earned vs unearned income"]
+      },
+      {
+        "label": "Credit, loans and security",
+        "children": ["Principal, interest, rate", "APR, finance charge, EMI", "Grace period, credit history", "Collateral, cosigner, lien", "Default and foreclosure", "Mortgage and bankruptcy"]
+      },
+      {
+        "label": "Investing terms",
+        "children": ["Stock, share, bond", "Mutual fund and diversify", "Dividend and annuity", "Risk, return, profit", "Appreciate vs depreciate"]
+      },
+      {
+        "label": "Payment abbreviations",
+        "children": ["RTGS, EFT, DNSS", "SFMS, INFINET, SWIFT", "CTS, CHI, PKI, CCP", "NFS, WLAO, ICCW", "MDR, MANI, IFSC"]
+      },
+      {
+        "label": "Banking abbreviations",
+        "children": ["BPLR, MCLR, APR, ARM", "LAF, SLR, WMA", "ALM, ALD, AIFI", "NBFC, BSBDA, FDIC", "CDR, ARC, ECB"]
+      },
+      {
+        "label": "Market abbreviations",
+        "children": ["BSE, NSE, NSDL, DP", "IPO, GDR, ETF", "NAV, YTM, CAGR", "ROA, ROE, ROI", "EPS, P/E, TSR"]
+      },
+      {
+        "label": "Economy and business",
+        "children": ["GDP, GNP, BoP", "FRBM, GFD, GFCF", "GST, VAT, WPI", "MPC, MSP, SMP", "BPO, LLC, NDA, LOI", "MTD, QTD, YTD"]
+      },
+      {
+        "label": "Facts and dates",
+        "children": ["PPF 1968, 15 years", "SEBI 1992, ETF 2002", "DBT 1 Jan 2013", "SDR basket of 5", "LEI 20 characters"]
+      }
+    ]
+  }
+}

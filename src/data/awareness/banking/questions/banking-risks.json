@@ -1,0 +1,536 @@
+[
+  {
+    "id": "banking-risks-01",
+    "q": "Why does a bank’s ability to manage risk matter to investors?",
+    "options": [
+      "Risk management has no effect on a bank’s profits",
+      "Even a bank with large revenues can see profits fall if loan losses are not controlled",
+      "Value investors prefer banks that take excessive risks",
+      "Governments forbid investment in banks that manage risk"
+    ],
+    "answer": 1,
+    "explain": "Weak risk management leads to losses on loans, which lowers profits despite high revenue. Value investors favour banks that earn profits without excessive risk of losing money.",
+    "section": "why-risks-matter"
+  },
+  {
+    "id": "banking-risks-02",
+    "q": "Besides events in the economy or financial markets, banking risks can also arise from",
+    "options": [
+      "staff oversight or mala fide intention that erodes asset values",
+      "only changes in the repo rate",
+      "only natural disasters",
+      "only the number of branches"
+    ],
+    "answer": 0,
+    "explain": "Mistakes or dishonest intent of staff can erode the value of assets and reduce the bank’s intrinsic value.",
+    "section": "why-risks-matter"
+  },
+  {
+    "id": "banking-risks-03",
+    "q": "Which of the following is NOT a component of a bank’s risk management system?",
+    "options": [
+      "An adequate internal controls system",
+      "An appropriate information system",
+      "Internal process of capital adequacy assessment",
+      "Fixing the repo rate for the economy"
+    ],
+    "answer": 3,
+    "explain": "The repo rate is set by the RBI’s monetary policy. A bank’s risk system consists of strategy, organisation, process, internal controls, information system and capital assessment.",
+    "section": "risk-management-system"
+  },
+  {
+    "id": "banking-risks-04",
+    "q": "Risk management strategy and policies of a bank must include procedures for",
+    "options": [
+      "opening new branches",
+      "recruiting clerical staff",
+      "risk identification and measurement",
+      "printing account statements"
+    ],
+    "answer": 2,
+    "explain": "Policies are paired with procedures to identify and measure risk, that is, for risk assessment and risk management.",
+    "section": "risk-management-system"
+  },
+  {
+    "id": "banking-risks-05",
+    "q": "The risk that a bank cannot meet its due liabilities because current sources of funding are withdrawn is called",
+    "options": [
+      "liquidity risk",
+      "credit risk",
+      "settlement risk",
+      "country risk"
+    ],
+    "answer": 0,
+    "explain": "Inability to meet due liabilities on time, caused by withdrawal of funding or inability to raise new funds, is liquidity risk.",
+    "section": "liquidity-risk"
+  },
+  {
+    "id": "banking-risks-06",
+    "q": "Funding liquidity risk refers to",
+    "options": [
+      "a loss caused by changes in exchange rates",
+      "the inability to raise new funds when existing sources of funding are withdrawn",
+      "a loss because a debtor defaults",
+      "the loss of public trust after a scam"
+    ],
+    "answer": 1,
+    "explain": "Funding liquidity risk is the inability to raise fresh funds when current funding sources dry up.",
+    "section": "liquidity-risk"
+  },
+  {
+    "id": "banking-risks-07",
+    "q": "Market liquidity risk arises when",
+    "options": [
+      "a borrower fails to repay a loan",
+      "interest rates rise suddenly",
+      "a bank breaks anti-money laundering rules",
+      "market disruption makes it hard to convert property into liquid assets"
+    ],
+    "answer": 3,
+    "explain": "In market liquidity risk, assets cannot be turned into cash easily because of disruption in the market.",
+    "section": "liquidity-risk"
+  },
+  {
+    "id": "banking-risks-08",
+    "q": "When rising NPAs make banks afraid of giving loans, the flow of money in the market falls. This results in",
+    "options": [
+      "more liquidity in the market",
+      "less liquidity in the market",
+      "no change in liquidity",
+      "a fall in the bank’s NPAs"
+    ],
+    "answer": 1,
+    "explain": "With banks lending less, less cash circulates and liquidity falls; genuine customers may then fail to get loans.",
+    "section": "liquidity-risk"
+  },
+  {
+    "id": "banking-risks-09",
+    "q": "Liquidity risk of a bank is a consequence of",
+    "options": [
+      "a rise in its deposits",
+      "a fall in the cost of funds",
+      "large credit loss and business loss on investments",
+      "an increase in its branches"
+    ],
+    "answer": 2,
+    "explain": "Big credit losses and losses on the bank’s investments weaken cash inflow and lead to liquidity risk.",
+    "section": "liquidity-risk"
+  },
+  {
+    "id": "banking-risks-10",
+    "q": "The risk of adverse effects on a bank’s financial result and capital because a debtor defaults on its obligations is",
+    "options": [
+      "credit risk",
+      "operational risk",
+      "strategic risk",
+      "interest rate risk"
+    ],
+    "answer": 0,
+    "explain": "A debtor’s failure to meet its obligations to the bank is credit risk.",
+    "section": "credit-risk-family"
+  },
+  {
+    "id": "banking-risks-11",
+    "q": "Which risk arises when credit risk mitigation techniques turn out less efficient than expected?",
+    "options": [
+      "Dilution risk",
+      "Country risk",
+      "Residual risk",
+      "Legal risk"
+    ],
+    "answer": 2,
+    "explain": "Residual risk is the loss that remains because safeguards such as collateral work less well than expected.",
+    "section": "credit-risk-family"
+  },
+  {
+    "id": "banking-risks-12",
+    "q": "A fall in the value of purchased receivables because of cash or non-cash liabilities of the former creditor to the borrower is called",
+    "options": [
+      "residual risk",
+      "concentration risk",
+      "country risk",
+      "dilution risk"
+    ],
+    "answer": 3,
+    "explain": "This is dilution risk: the purchased receivable is worth less because of the seller’s own liabilities towards the borrower.",
+    "section": "credit-risk-family"
+  },
+  {
+    "id": "banking-risks-13",
+    "q": "Unsettled transactions, or a counterparty’s failure to deliver in a free-delivery transaction on the due date, create",
+    "options": [
+      "reputational risk",
+      "settlement or delivery risk",
+      "strategic risk",
+      "legal risk"
+    ],
+    "answer": 1,
+    "explain": "Failure to settle or deliver on the due date is settlement or delivery risk.",
+    "section": "credit-risk-family"
+  },
+  {
+    "id": "banking-risks-14",
+    "q": "A counterparty failing to settle its liabilities in a transaction before the final settlement of cash flows is known as",
+    "options": [
+      "counterparty credit risk",
+      "market liquidity risk",
+      "interest rate risk",
+      "compliance risk"
+    ],
+    "answer": 0,
+    "explain": "Counterparty credit risk is the risk that the other side of a transaction fails to settle before final settlement.",
+    "section": "credit-risk-family"
+  },
+  {
+    "id": "banking-risks-15",
+    "q": "Which of the following is NOT a component of market risk?",
+    "options": [
+      "Foreign exchange risk",
+      "Commodity risk",
+      "Price risk on equity securities",
+      "Legal risk"
+    ],
+    "answer": 3,
+    "explain": "Market risk covers forex, price risk on debt and equity securities, and commodity risk. Legal risk belongs to the operational family.",
+    "section": "market-rate-fx-risk"
+  },
+  {
+    "id": "banking-risks-16",
+    "q": "The risk of adverse effects on banking book items because of changes in interest rates is called",
+    "options": [
+      "country risk",
+      "dilution risk",
+      "interest rate risk",
+      "strategic risk"
+    ],
+    "answer": 2,
+    "explain": "Interest rate risk relates to the effect of interest-rate changes on the bank’s banking book items, financial result and capital.",
+    "section": "market-rate-fx-risk"
+  },
+  {
+    "id": "banking-risks-17",
+    "q": "Currency risk, the risk of loss from fluctuating foreign exchange rates, is sometimes referred to as",
+    "options": [
+      "Monetary rate",
+      "Export rate",
+      "Trade rate",
+      "Exchange-rate risk"
+    ],
+    "answer": 3,
+    "explain": "Currency risk and exchange-rate risk mean the same thing: potential loss from foreign exchange movements.",
+    "section": "market-rate-fx-risk",
+    "exam": "SBI PO Main 2016"
+  },
+  {
+    "id": "banking-risks-18",
+    "q": "A bank holding assets in US dollars suffers a loss when the dollar weakens against the rupee. Which risk is this?",
+    "options": [
+      "Foreign exchange risk",
+      "Settlement risk",
+      "Legal risk",
+      "Strategic risk"
+    ],
+    "answer": 0,
+    "explain": "Losses caused by changes in foreign exchange rates are foreign exchange risk, which is part of market risk.",
+    "section": "market-rate-fx-risk"
+  },
+  {
+    "id": "banking-risks-19",
+    "q": "Risk that arises from a bank’s exposure to the same or similar source of risk, or the same or similar type of risk, is",
+    "options": [
+      "residual risk",
+      "concentration risk",
+      "reputational risk",
+      "legal risk"
+    ],
+    "answer": 1,
+    "explain": "Concentration risk comes from too much exposure to one source or type of risk.",
+    "section": "exposure-country-risk"
+  },
+  {
+    "id": "banking-risks-20",
+    "q": "Bank exposure risk comprises the risks of the bank’s exposure towards",
+    "options": [
+      "its own employees only",
+      "foreign currency only",
+      "a single person or a group of related persons",
+      "government securities only"
+    ],
+    "answer": 2,
+    "explain": "Exposure risk is about concentration of lending or exposure to one person or a group of related persons.",
+    "section": "exposure-country-risk"
+  },
+  {
+    "id": "banking-risks-21",
+    "q": "The risks of a bank’s investments in non-financial sector entities, fixed assets and investment property are called",
+    "options": [
+      "bank’s investment risk",
+      "dilution risk",
+      "settlement risk",
+      "compliance risk"
+    ],
+    "answer": 0,
+    "explain": "Investment risk relates to investments outside the financial sector and in fixed assets and investment property.",
+    "section": "exposure-country-risk"
+  },
+  {
+    "id": "banking-risks-22",
+    "q": "A bank cannot collect receivables from a borrower because of political, economic or social conditions in the borrower’s country. This is",
+    "options": [
+      "operational risk",
+      "interest rate risk",
+      "liquidity risk",
+      "country risk"
+    ],
+    "answer": 3,
+    "explain": "Country risk concerns the borrower’s country of origin and conditions there that block repayment.",
+    "section": "exposure-country-risk"
+  },
+  {
+    "id": "banking-risks-23",
+    "q": "Omissions in employees’ work, inadequate internal procedures, system failures and unforeseeable external events cause",
+    "options": [
+      "market risk",
+      "operational risk",
+      "country risk",
+      "residual risk"
+    ],
+    "answer": 1,
+    "explain": "These are the sources of operational risk, which also includes legal risk.",
+    "section": "operational-legal-compliance"
+  },
+  {
+    "id": "banking-risks-24",
+    "q": "Which of the following risks is included within operational risk?",
+    "options": [
+      "Legal risk",
+      "Interest rate risk",
+      "Country risk",
+      "Dilution risk"
+    ],
+    "answer": 0,
+    "explain": "Operational risk is defined to include legal risk. The others belong to market, exposure or credit families.",
+    "section": "operational-legal-compliance"
+  },
+  {
+    "id": "banking-risks-25",
+    "q": "The risk of loss from penalties and sanctions arising out of court disputes over breach of contractual and legal obligations is called",
+    "options": [
+      "liquidity risk",
+      "market risk",
+      "legal risk",
+      "strategic risk"
+    ],
+    "answer": 2,
+    "explain": "Legal risk covers penalties and sanctions from court disputes and sanctions pronounced by a regulatory body.",
+    "section": "operational-legal-compliance"
+  },
+  {
+    "id": "banking-risks-26",
+    "q": "Failure to follow laws, standards, and anti-money laundering and counter-terrorist financing procedures exposes a bank mainly to",
+    "options": [
+      "liquidity risk",
+      "residual risk",
+      "interest rate risk",
+      "compliance risk"
+    ],
+    "answer": 3,
+    "explain": "Compliance risk is the possibility of loss due to failure to comply with laws and procedures, including sanctions, financial losses and reputational damage.",
+    "section": "operational-legal-compliance"
+  },
+  {
+    "id": "banking-risks-27",
+    "q": "Possible losses due to adverse effects on a bank’s market positioning are called",
+    "options": [
+      "residual risk",
+      "reputational risk",
+      "dilution risk",
+      "settlement risk"
+    ],
+    "answer": 1,
+    "explain": "Reputational risk relates to damage to the bank’s image and positioning in the market.",
+    "section": "reputational-strategic"
+  },
+  {
+    "id": "banking-risks-28",
+    "q": "A bank loses public trust after a big fraud or scam and cannot control its operational risk. The resulting risk is mainly",
+    "options": [
+      "country risk",
+      "commodity risk",
+      "reputational risk",
+      "dilution risk"
+    ],
+    "answer": 2,
+    "explain": "Negative public opinion after fraud leads to unpaid loans, large debt and rising NPAs, damaging the bank’s reputation.",
+    "section": "reputational-strategic"
+  },
+  {
+    "id": "banking-risks-29",
+    "q": "Absence of appropriate policies and strategies, their poor implementation, or failure to respond to environmental changes leads to",
+    "options": [
+      "strategic risk",
+      "counterparty risk",
+      "currency risk",
+      "country risk"
+    ],
+    "answer": 0,
+    "explain": "This is strategic risk: the bank’s strategy or response to change is inadequate.",
+    "section": "reputational-strategic"
+  },
+  {
+    "id": "banking-risks-30",
+    "q": "As per the chapter, credit loss plus business loss results in",
+    "options": [
+      "liquidity gain for the bank",
+      "reputation loss for the bank",
+      "lower exchange-rate risk",
+      "higher capital adequacy"
+    ],
+    "answer": 1,
+    "explain": "Combined credit loss and business loss damages the bank’s reputation.",
+    "section": "reputational-strategic"
+  },
+  {
+    "id": "banking-risks-31",
+    "q": "Which Act was framed specially to help banks recover bad loans and deal with non-performing assets?",
+    "options": [
+      "Companies Act",
+      "Banking Regulation Act",
+      "Income Tax Act",
+      "SARFAESI Act"
+    ],
+    "answer": 3,
+    "explain": "The SARFAESI Act lets banks enforce security and recover NPAs without going through lengthy court processes.",
+    "section": "capital-and-bad-loans"
+  },
+  {
+    "id": "banking-risks-32",
+    "q": "Where is the headquarters of SIDBI located?",
+    "options": [
+      "Lucknow",
+      "Varanasi",
+      "Kolkata",
+      "New Delhi"
+    ],
+    "answer": 0,
+    "explain": "SIDBI, the Small Industries Development Bank of India, is headquartered at Lucknow.",
+    "section": "capital-and-bad-loans"
+  },
+  {
+    "id": "banking-risks-33",
+    "q": "Banking and financial services in India are regulated by which authority?",
+    "options": [
+      "SEBI",
+      "IRDA",
+      "Reserve Bank of India",
+      "Ministry of Finance alone"
+    ],
+    "answer": 2,
+    "explain": "The RBI is the monetary authority that regulates banking in India; SEBI handles securities and IRDA handles insurance.",
+    "section": "capital-and-bad-loans"
+  },
+  {
+    "id": "banking-risks-34",
+    "q": "Which of the following is a sign of stressed assets?",
+    "options": [
+      "Falling NPAs",
+      "Bounced cheques",
+      "Rising deposits",
+      "Higher profits"
+    ],
+    "answer": 1,
+    "explain": "Bounced cheques, stock shortages and deterioration in asset quality indicate stress in a loan account.",
+    "section": "capital-and-bad-loans"
+  },
+  {
+    "id": "banking-risks-35",
+    "q": "Assets that get an extended repayment period at a reduced interest rate are called",
+    "options": [
+      "tangible assets",
+      "substandard assets",
+      "fixed assets",
+      "restructured assets"
+    ],
+    "answer": 3,
+    "explain": "Loans whose terms are eased with longer tenure and lower interest are restructured assets.",
+    "section": "capital-and-bad-loans"
+  },
+  {
+    "id": "banking-risks-36",
+    "q": "Capital Adequacy Ratio (CAR) is the ratio of a bank’s capital to its",
+    "options": [
+      "total deposits",
+      "number of branches",
+      "risk-weighted assets",
+      "fixed assets"
+    ],
+    "answer": 2,
+    "explain": "CAR compares capital with risk-weighted assets and shows the bank’s cushion against losses.",
+    "section": "capital-and-bad-loans"
+  },
+  {
+    "id": "banking-risks-37",
+    "q": "Which of the following is NOT part of Tier-I capital?",
+    "options": [
+      "Paid-up capital",
+      "Statutory reserves",
+      "Capital reserves",
+      "Subordinated debt"
+    ],
+    "answer": 3,
+    "explain": "Subordinated debt forms part of Tier-II capital. Paid-up capital and reserves are Tier-I.",
+    "section": "capital-and-bad-loans"
+  },
+  {
+    "id": "banking-risks-38",
+    "q": "Subordinated debt forms part of which capital of a bank?",
+    "options": [
+      "Tier-II capital",
+      "Tier-I capital",
+      "Both Tier-I and Tier-II equally",
+      "Neither tier"
+    ],
+    "answer": 0,
+    "explain": "Subordinated debt is supplementary capital counted in Tier-II.",
+    "section": "capital-and-bad-loans"
+  },
+  {
+    "id": "banking-risks-39",
+    "q": "Risk-weighted assets are calculated by considering credit risk, market risk and which other risk?",
+    "options": [
+      "Reputational risk",
+      "Operational risk",
+      "Strategic risk",
+      "Country risk"
+    ],
+    "answer": 1,
+    "explain": "Risk-weighted assets take account of credit, market and operational risk.",
+    "section": "capital-and-bad-loans"
+  },
+  {
+    "id": "banking-risks-40",
+    "q": "As per the 2024-25 syllabus, the minimum CAR scheduled commercial banks in India are required to maintain is",
+    "options": [
+      "3%",
+      "6%",
+      "9%",
+      "15%"
+    ],
+    "answer": 2,
+    "explain": "The figure given in the syllabus is 9%; regulatory norms can be revised by the RBI.",
+    "section": "capital-and-bad-loans"
+  },
+  {
+    "id": "banking-risks-41",
+    "q": "Which of the following creates a need for a higher level of capital adequacy for banks?",
+    "options": [
+      "Basel III capital norms",
+      "A rise in the number of ATMs",
+      "A fall in the repo rate",
+      "Opening of more branches"
+    ],
+    "answer": 0,
+    "explain": "Basel III capital norms require banks to hold more and better quality capital.",
+    "section": "capital-and-bad-loans"
+  }
+]

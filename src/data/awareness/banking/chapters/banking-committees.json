@@ -1,0 +1,660 @@
+{
+  "id": "banking-committees",
+  "sections": [
+    {
+      "id": "narasimham-committees",
+      "title": "The two Narasimham Committees (1991 and 1998)",
+      "icon": "🏛️",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "India’s banking reforms were shaped largely by two committees that carry the same name, Narasimham. The **first (1991)** was about freeing banks from heavy controls; the **second (1998)** was about making the freed system stronger and safer."
+        },
+        {
+          "type": "timeline",
+          "title": "How the Narasimham panels unfolded",
+          "items": [
+            ["Aug 1991", "**Narasimham Committee I** is set up to study the problems of the Indian financial system and suggest ways to raise the efficiency and productivity of financial institutions."],
+            ["26 Dec 1997", "**Narasimham Committee II** is set up."],
+            ["Apr 1998", "Committee II hands its report to the government."]
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Narasimham I (1991) vs Narasimham II (1998)",
+          "headers": ["Point", "Narasimham I, 1991", "Narasimham II, 1998"],
+          "rows": [
+            ["Set up", "August 1991", "26 December 1997 (report April 1998)"],
+            ["Liquidity ratios", "Gradually cut **SLR to 25%** and **CRR to 3.5%**", "Not the main theme"],
+            ["Structure", "Reduce the actual number of public sector banks", "Strong banking system seen in the context of **Current Account Convertibility (CAC)**"],
+            ["Special idea", "Regional Rural Banks (RRBs) should focus on agriculture and rural financing", "**Narrow Banking**: weak banks may place funds only in short-term, risk-free assets"],
+            ["Capital and law", "Capital adequacy ratio to go up, not down", "Government should **raise the prescribed capital adequacy norms** and urgently review and amend the main banking-sector laws"]
+          ]
+        },
+        {
+          "type": "bullets",
+          "title": "Other Narasimham I ideas that are asked in exams",
+          "items": [
+            "Income recognition and asset classification norms for banks.",
+            "Setting up special tribunals (Debt Recovery Tribunals) so that recovery cases are settled faster.",
+            "Phasing out directed credit programmes, more autonomy to public sector banks, and a higher capital adequacy ratio (not a lower one)."
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "Do not mix the two",
+          "text": "SLR 25% and CRR 3.5% belong to Narasimham **I** (1991). Narrow Banking and Current Account Convertibility belong to Narasimham **II** (1998). Also remember that Narasimham I wanted capital adequacy to go up, not down."
+        },
+        {
+          "type": "mnemonic",
+          "title": "Narasimham I: the two numbers",
+          "phrase": "“Two-five and three-and-a-half”: SLR comes down to 25, CRR comes down to 3.5, in the year of liberalisation, 1991.",
+          "letters": [
+            ["SLR", "Statutory Liquidity Ratio, to be reduced gradually to 25%"],
+            ["CRR", "Cash Reserve Ratio, to be reduced gradually to 3.5%"],
+            ["1991", "Year of Committee I (August 1991)"]
+          ],
+          "note": "Think of SLR as the bigger bucket (25) and CRR as the smaller bucket (3.5)."
+        },
+        {
+          "type": "mnemonic",
+          "title": "Narasimham II: what is ‘narrow’?",
+          "phrase": "Weak bank, Narrow path: a weak bank walks only on a narrow, safe path, short-term and risk-free assets, while the whole system prepares for CAC.",
+          "letters": [
+            ["N", "Narrow Banking for weak banks"],
+            ["C", "Current Account Convertibility context"],
+            ["C", "Capital adequacy norms to be raised"],
+            ["L", "Laws of banking to be reviewed and amended"]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "committees-2011-trio",
+      "title": "Damodaran, Usha Thorat and M V Nair (2011)",
+      "icon": "📋",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "Three RBI-linked committees of 2011 are exam favourites. Each looked at a different corner of the system: **customers**, **NBFCs** and **priority sector lending**."
+        },
+        {
+          "type": "keyvalue",
+          "title": "Damodaran Committee, 2011",
+          "rows": [
+            ["Headed by", "M. Damodaran, former Chairman of SEBI."],
+            ["Set up by", "The central bank (RBI)."],
+            ["Task", "Look into customer service issues and evaluate the existing grievance redressal mechanism in banks."],
+            ["No-frill account", "Banks should offer **No Frill Savings Accounts** with basic facilities such as a cheque book and an ATM card, **without any minimum balance**."],
+            ["Customer liability", "**No liability on the customer** for losses in ATM and online transactions."]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "Usha Thorat Committee, 2011",
+          "rows": [
+            ["Headed by", "Usha Thorat, Director of the Centre for Advanced Financial Research and Learning (CAFRAL)."],
+            ["Date and size", "Presented its suggestions on **29 August 2011**; an **8-member** panel."],
+            ["Subject", "Non-Banking Finance Companies (NBFCs); it also examined issues related to offshore rupee markets and recommended policy measures."],
+            ["Capital norm", "A higher capital norm of **12%** for NBFCs, with asset classification and provisioning on the lines of banks."],
+            ["Registration", "Minimum asset size of over **₹50 crore** to register a new NBFC."],
+            ["Exemption", "NBFCs that do not access public funds and have assets below **₹1,000 crore** are exempt from registration."]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "M V Nair Committee, 2011",
+          "rows": [
+            ["Constituted", "By the Reserve Bank on **25 August 2011**, following an announcement in the Monetary Policy Statement 2011-12."],
+            ["Task", "Re-examine the existing classification and suggest revised guidelines on **priority sector lending** and related issues."]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "remember",
+          "title": "One line each",
+          "text": "Damodaran = customer service and grievances. Usha Thorat = NBFCs (12% capital, ₹50 crore, ₹1,000 crore). M V Nair = priority sector lending classification."
+        },
+        {
+          "type": "mnemonic",
+          "title": "The 2011 trio: D-T-N",
+          "phrase": "Dam the complaints (Damodaran), Thorat’s NBFC Throne, Nair needs Priority.",
+          "letters": [
+            ["D", "Damodaran: customer service and grievance redressal, no-frill accounts"],
+            ["T", "Thorat: NBFCs, 12% capital, ₹50 crore minimum asset size"],
+            ["N", "Nair: priority sector lending guidelines"]
+          ],
+          "note": "A dam holds back a flood of complaints, which is how Damodaran helps customers."
+        }
+      ]
+    },
+    {
+      "id": "nachiket-mor",
+      "title": "Nachiket Mor Committee (2013)",
+      "icon": "🧭",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "The RBI appointed a committee on **comprehensive financial services for small businesses and low-income households** in **September 2013**, under Nachiket Mor, a member of RBI’s Central Board of Directors."
+        },
+        {
+          "type": "bullets",
+          "title": "Main recommendations",
+          "items": [
+            "Every adult (above 18 years) should have a bank account by **1 January 2016**. This account would be called the **Universal Electronic Bank Account (UEBA)**.",
+            "A bank should itself issue an account to every resident at the time the person receives an **Aadhaar number** (UIDAI).",
+            "Set up **payments banks**.",
+            "Abolish the **Statutory Liquidity Ratio (SLR)** gradually and introduce the **Liquidity Coverage Ratio (LCR)** under **Basel III** norms."
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "fact",
+          "title": "Niche banks too",
+          "text": "In an exam-style item, the external advisory committee that reported to the RBI on the first-ever niche banking licences was also headed by Nachiket Mor. Payments banks and small finance banks are the niche banks."
+        },
+        {
+          "type": "mnemonic",
+          "title": "Mor = MORE accounts",
+          "phrase": "MOR means MORE accounts: every adult gets one by 1-1-2016, a UEBA, handed over along with Aadhaar.",
+          "letters": [
+            ["M", "Millions of adults: all above 18 years"],
+            ["O", "One account each, the Universal Electronic Bank Account (UEBA)"],
+            ["R", "Resident gets it when Aadhaar is issued"],
+            ["E", "Easy payments: payments banks recommended"]
+          ],
+          "note": "Date check: 1 January 2016. Liquidity check: SLR out slowly, LCR in (Basel III)."
+        }
+      ]
+    },
+    {
+      "id": "sinha-and-kyc",
+      "title": "U K Sinha Committee, Video KYC and KYC rules",
+      "icon": "🪪",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "The **Upendra Kumar Sinha Committee (2019)** was an expert committee on **MSMEs**, headed by U K Sinha, a former Chairman of SEBI. It recommended that the RBI introduce **video KYC** in place of the current KYC methods."
+        },
+        {
+          "type": "steps",
+          "title": "How video KYC works",
+          "items": [
+            "The customer opens or updates the account without visiting a branch.",
+            "A bank officer joins through a video call.",
+            "The customer’s KYC documents are verified during the call.",
+            "The customer’s signature is recorded on video.",
+            "The whole process can be done within a few minutes."
+          ]
+        },
+        {
+          "type": "table",
+          "title": "How often must KYC be refreshed? (guidelines issued 23 July 2013)",
+          "headers": ["Customer risk level", "KYC to be completed"],
+          "rows": [
+            ["High risk", "Once in **2 years**"],
+            ["Medium risk", "Once in **8 years**"],
+            ["Low risk", "Once in **10 years**"]
+          ]
+        },
+        {
+          "type": "timeline",
+          "title": "KYC milestones",
+          "items": [
+            ["23 Jul 2013", "RBI issues the revised guidelines with risk-based KYC timelines."],
+            ["2019", "U K Sinha Committee recommends video KYC."],
+            ["5 May 2021", "Because of the COVID-19 pandemic, RBI rationalises some KYC norms: limited KYC accounts can be converted into full KYC accounts, and video KYC is allowed for customers in small businesses and legal entities."]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "tip",
+          "title": "Check what changes with risk",
+          "text": "The riskier the customer, the shorter the gap: 2 years for high risk, 8 for medium, 10 for low. Exams may swap the numbers, so recall the order high to low risk as 2, 8, 10."
+        },
+        {
+          "type": "mnemonic",
+          "title": "KYC gaps: 2-8-10",
+          "phrase": "High risk, Hurry: 2. Medium risk, Mid-way: 8. Low risk, Long wait: 10. The gaps grow as the risk falls.",
+          "letters": [
+            ["High", "Every 2 years"],
+            ["Medium", "Every 8 years"],
+            ["Low", "Every 10 years"]
+          ],
+          "note": "Numbers rise as risk falls: 2, 8, 10."
+        }
+      ]
+    },
+    {
+      "id": "exam-favourite-committees",
+      "title": "Exam favourites: who headed what",
+      "icon": "⭐",
+      "blocks": [
+        {
+          "type": "table",
+          "title": "Committee and what it is known for",
+          "headers": ["Committee / head", "Known for"],
+          "rows": [
+            ["R H Khan Committee", "Its recommendations led to **Universal Banking** being implemented in India."],
+            ["Nachiket Mor (external advisory committee)", "Reported to the RBI on the first niche banking licences; also the 2013 financial-inclusion committee."],
+            ["FSLRC (Financial Sector Legislative Reforms Commission)", "Reviews, simplifies and rewrites the laws affecting financial markets; evolves common governance principles for financial regulators; streamlines the regulatory architecture. It was formed in **2011**, not 2013."],
+            ["U K Sinha Committee", "RBI-linked panel on **MSME** reforms (also video KYC)."],
+            ["Tapan Ray Committee", "Reviewed the regulatory and supervisory framework for **Core Investment Companies (CICs)**."],
+            ["Ratan P Watal Committee", "11-member committee headed by a former Finance Secretary, on **incentivising transactions through cards and digital** means."],
+            ["Tarun Ramadorai Committee", "Studied **household finance** in India, including households’ demand for assets such as pensions and for liabilities."],
+            ["Deepak Mohanty Committee", "Suggested initiatives on the **medium-term path for financial inclusion**."],
+            ["C Rangarajan Committee", "Committee on **Financial Inclusion**, set up in **2006**."],
+            ["Khan (2004)", "Set up in **2004** to prepare a report on financial inclusion."],
+            ["Shivaraman Committee", "On its recommendations **NABARD** was established."],
+            ["P J Nayak Committee", "Review of the **governance of boards** of banks in India."],
+            ["Narasimham Committee", "Income recognition and asset classification norms; Debt Recovery Tribunals and special tribunals for faster settlement of cases."]
+          ]
+        },
+        {
+          "type": "figure",
+          "kind": "flow",
+          "title": "Financial inclusion committees in order",
+          "items": [
+            ["Khan, 2004", "Report on financial inclusion"],
+            ["Rangarajan, 2006", "Committee on Financial Inclusion"],
+            ["Nachiket Mor, 2013", "UEBA for every adult by 1-1-2016"],
+            ["Deepak Mohanty", "Medium-term path for inclusion"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "Two Khans and two Sinhas",
+          "text": "R H Khan = Universal Banking. Khan (2004) = financial inclusion report. U K Sinha = MSME panel and video KYC. Pulak Kumar Sinha = feasibility of Aadhaar as an additional factor of authentication."
+        },
+        {
+          "type": "mnemonic",
+          "title": "Who is linked to which banking word?",
+          "phrase": "Khan is Universal, Mor is Niche, Sinha is MSME, Ray is CICs, Watal is Digital.",
+          "letters": [
+            ["Khan", "Universal Banking"],
+            ["Mor", "Niche banks, financial inclusion, UEBA"],
+            ["Sinha (U K)", "MSMEs and video KYC"],
+            ["Ray (Tapan)", "Core Investment Companies"],
+            ["Watal", "Cards and digital payments"]
+          ],
+          "note": "Say it in a sing-song: Khan-U, Mor-N, Sinha-M, Ray-C, Watal-D."
+        },
+        {
+          "type": "mnemonic",
+          "title": "Nayak = board, Shivaraman = NABARD",
+          "phrase": "Nayak is the hero of the Board; Shivaraman’s ‘Shiva’ gives birth to NABARD.",
+          "letters": [
+            ["Nayak", "Governance of bank boards (hero of the board)"],
+            ["Shivaraman", "Led to the creation of NABARD"]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "committees-rural-inclusion",
+      "title": "Rural, agriculture, RRBs and inclusion committees",
+      "icon": "🌾",
+      "blocks": [
+        {
+          "type": "table",
+          "title": "Agriculture, rural credit and RRBs",
+          "headers": ["Committee", "Objective"],
+          "rows": [
+            ["S S Johl Committee", "Assistance to distressed farmers"],
+            ["B Sivaraman Committee", "Institutional credit for agricultural and rural development"],
+            ["D R Gadgil Committee", "Agricultural finance"],
+            ["Godwala Committee", "Rural finance"],
+            ["Khusro Committee", "Agricultural credit"],
+            ["M L Dantwala Committee", "Regional Rural Banks"],
+            ["Thingalaya Committee", "Restructuring of RRBs"],
+            ["Bhandari Committee", "Reconstruction of RRBs"],
+            ["U K Sharma Committee", "NABARD’s role in RRBs"],
+            ["Vyas Committee", "Rural credit"]
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Weaker sections, poverty, jobs and co-operatives",
+          "headers": ["Committee", "Objective"],
+          "rows": [
+            ["R K Hajara Committee", "Differential Interest Rates (DIR) scheme"],
+            ["Thakkar Committee", "Credit schemes for the self-employed"],
+            ["Nachiket Mor Committee", "Comprehensive financial services for small businesses and low-income households"],
+            ["C Rangarajan Committee", "Poverty scale estimates in the country"],
+            ["Lakdawala Committee", "Poverty line"],
+            ["M S Ahluwalia Committee", "Employment opportunities"],
+            ["K Madhav Das Committee", "Urban Co-operative Banks"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "tip",
+          "title": "Spot the rural ones fast",
+          "text": "If the objective mentions farmers, agriculture, rural, or RRBs, the head is usually one of Johl, Sivaraman, Gadgil, Godwala, Khusro, Dantwala, Thingalaya, Bhandari, U K Sharma or Vyas."
+        },
+        {
+          "type": "mnemonic",
+          "title": "Rural committees by sound",
+          "phrase": "Johl helps farmers in distress; Gadgil = Agri finance; Godwala = Gaon (rural) finance; Khusro = Kheti (agri) credit.",
+          "letters": [
+            ["Johl", "Distressed farmers"],
+            ["Gadgil", "Agricultural finance"],
+            ["Godwala", "Rural finance"],
+            ["Khusro", "Agricultural credit"]
+          ],
+          "note": "RRB-linked trio: Dantwala (RRBs), Thingalaya (restructuring), Bhandari (reconstruction), plus U K Sharma (NABARD’s role)."
+        }
+      ]
+    },
+    {
+      "id": "committees-industry-credit",
+      "title": "Industry, MSME and bank-credit committees",
+      "icon": "🏭",
+      "blocks": [
+        {
+          "type": "table",
+          "title": "Small industry, MSME, infrastructure and credit",
+          "headers": ["Committee", "Objective"],
+          "rows": [
+            ["Abid Hussain Committee", "Small scale industries"],
+            ["Karve Committee", "Small scale industry"],
+            ["Tambe Committee", "Term loans to SSI"],
+            ["K V Kamath Panel", "Financial architecture for MSMEs"],
+            ["R S Gujral Committee", "Measures to boost MSME exports"],
+            ["K C Chakrabarthy Committee", "Rehabilitation of sick industries"],
+            ["A K Bhuchar Committee", "Coordination between term-lending institutions and commercial banks"],
+            ["Bhide Committee", "Coordination between commercial banks and State Financial Corporations (SFCs)"],
+            ["I T Vaz Committee", "Working capital finance in banks"],
+            ["Tandon Committee", "Follow-up for bank credit"],
+            ["Rashid Jilani Committee", "Cash credit system"],
+            ["Deepak Parekh Committee", "Financing the infrastructure sector"],
+            ["D K Mittal Committee", "Improving the financial condition of Railways"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "remember",
+          "title": "Tandon and the cash credit pair",
+          "text": "Tandon is the name to link with follow-up of bank credit; Rashid Jilani is linked with the cash credit system; I T Vaz with working capital finance."
+        },
+        {
+          "type": "mnemonic",
+          "title": "Small industry names",
+          "phrase": "Abid, Karve and Tambe all work for the Small: Abid and Karve for small industries, Tambe for SSI term loans.",
+          "letters": [
+            ["Abid Hussain", "Small scale industries"],
+            ["Karve", "Small scale industry"],
+            ["Tambe", "Term loans to SSI"],
+            ["Gujral", "MSME exports"]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "committees-banks-supervision",
+      "title": "Public sector banks, licences, NPAs and supervision",
+      "icon": "🏦",
+      "blocks": [
+        {
+          "type": "table",
+          "title": "Public sector banks, HR and restructuring",
+          "headers": ["Committee", "Objective"],
+          "rows": [
+            ["Narasimham Committee (I and II)", "Banking sector reforms"],
+            ["A K Khandelwal Committee", "HR issues of public sector banks"],
+            ["Khandelwal Committee", "HR issues of public sector banks"],
+            ["James Raj Committee", "Functioning of public sector banks"],
+            ["Pillai Committee", "Pay scales of bank officers"],
+            ["P J Nayak Committee", "Governance of boards of banks in India"],
+            ["S P Talwar Committee", "Restructuring of weak public sector banks"],
+            ["S N Verma Committee", "Restructuring of commercial banks"],
+            ["S S Nadkarni Committee", "Trading in public sector banks"]
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Licensing, capital, NPAs, fraud and customers",
+          "headers": ["Committee", "Objective"],
+          "rows": [
+            ["Bimal Jalan Committee", "Scrutinise applications for new bank licences"],
+            ["Marathe Committee", "Licensing of new banks"],
+            ["M B N Rao Committee", "Blueprint of India’s first women’s bank"],
+            ["Cook Committee", "Capital adequacy of banks"],
+            ["Paneer Selvam Committee", "Non-Performing Assets (NPA)"],
+            ["P Selvam Committee", "Non-Performing Assets (NPA)"],
+            ["B Mahapatra Committee", "Restructuring of advances"],
+            ["R Jilani Committee", "Inspection system in banks"],
+            ["R H Khan Committee", "Harmonisation of the role of financial institutions in banks"],
+            ["Vipin Malik Committee", "Consolidated accounting by banks"],
+            ["Janakiraman Committee", "Investigating the security transactions of banks"],
+            ["A Ghosh Committee", "Frauds and malpractices in India"],
+            ["Aditya Puri Committee", "Dissemination of credit information"],
+            ["Naresh Chandra Committee", "14-member task force on security issues"],
+            ["Damodaran Committee", "Improvement of customer services in banks"],
+            ["Suma Verma Committee", "Update and revise the Banking Ombudsman Scheme, 2006"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "Two Selvams, two Khandelwals",
+          "text": "Both Paneer Selvam and P Selvam are listed with NPAs, and both A K Khandelwal and Khandelwal with HR issues in public sector banks. If only one of them is in the options, it is the answer."
+        },
+        {
+          "type": "mnemonic",
+          "title": "Licence names",
+          "phrase": "Jalan scrutinises the Applications, Marathe Measures the new Licences, Rao draws a Woman’s Bank blueprint.",
+          "letters": [
+            ["Jalan", "Scrutinised new bank licence applications"],
+            ["Marathe", "Licensing of new banks"],
+            ["M B N Rao", "Blueprint of first women’s bank"]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "committees-law-markets-tax",
+      "title": "Law, markets, money, foreign investment and tax committees",
+      "icon": "⚖️",
+      "blocks": [
+        {
+          "type": "table",
+          "title": "Law, markets and monetary matters",
+          "headers": ["Committee", "Objective"],
+          "rows": [
+            ["Balakrishna Eradi Committee", "Insolvency law"],
+            ["Raghuram Rajan Committee", "Financial sector reforms"],
+            ["Vaghul Committee", "Money market in India"],
+            ["Sukhamoy Chakravarty Committee", "Monetary policy"],
+            ["Urjit Patel Committee", "Examine the current monetary policy framework"],
+            ["M J Ferwani Committee", "Stock exchange"],
+            ["B D Shah Committee", "Stock lending scheme"],
+            ["K U B Rao Committee", "Setting up a Bullion Corporation of India"],
+            ["Sodhani Committee", "Foreign exchange markets and NRI investment in India"],
+            ["K M Chandrasekhar Committee", "Rationalisation of foreign investment norms"],
+            ["Arvind Mayaram Committee", "Clear definitions of FDI and FII"],
+            ["Hathi Committee", "Soiled bank notes"],
+            ["Deepak Mohanty Committee", "Data and information management in the RBI"]
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Taxation and fiscal committees",
+          "headers": ["Committee", "Objective"],
+          "rows": [
+            ["Chelliah Committee", "Tax reforms"],
+            ["Chesi Committee", "Direct taxes"],
+            ["Kelkar Committee", "Tax structure reforms"],
+            ["L K Jha Committee", "Indirect taxation enquiry"],
+            ["Rekhi Committee", "Indirect taxes"],
+            ["Wanchoo Committee", "Direct taxes enquiry"],
+            ["R V Easwar Committee", "Simplify the Income Tax Act, 1961"],
+            ["N Rangachary Committee", "Taxation policies for the IT sector"],
+            ["Parthasarathi Shome Committee", "Guidelines for General Anti Avoidance Rules (GAAR)"],
+            ["Justice M B Shah Committee", "Commission on black money"],
+            ["N K Singh Committee", "Review the Fiscal Responsibility and Budget Management (FRBM) Act"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "remember",
+          "title": "Monetary policy names",
+          "text": "Sukhamoy Chakravarty is linked with monetary policy (the classic review); Urjit Patel with examining the current monetary policy framework; Vaghul with the money market."
+        },
+        {
+          "type": "mnemonic",
+          "title": "Direct vs indirect tax committees",
+          "phrase": "Direct: WAnchoo and CHesi (two ‘ch’ sounds, direct hit). Indirect: JHA and REKHI (J and R, round-about route).",
+          "letters": [
+            ["Wanchoo", "Direct taxes enquiry"],
+            ["Chesi", "Direct taxes"],
+            ["L K Jha", "Indirect taxation enquiry"],
+            ["Rekhi", "Indirect taxes"]
+          ],
+          "note": "Easwar simplifies the Income Tax Act 1961; Shome handles GAAR; Kelkar looks at the tax structure."
+        }
+      ]
+    },
+    {
+      "id": "committees-payments-tech",
+      "title": "Payments, technology and digital banking committees",
+      "icon": "💳",
+      "blocks": [
+        {
+          "type": "table",
+          "title": "Technology and payments",
+          "headers": ["Committee", "Objective"],
+          "rows": [
+            ["B Sambamurthy Committee", "Mobile banking"],
+            ["Y B Damle Committee", "Introducing MICR/OCR technology for cheque processing"],
+            ["K S Shere Committee", "Proposing legislation on electronic funds transfer (EFT) and other electronic payments"],
+            ["Ratan P Watal Committee", "Boosting the digital payment system in India"],
+            ["W S Saraf Committee", "Technology issues in the banking industry"],
+            ["Sudarshan Sen Committee", "Regulatory issues relating to financial technology and digital banking"],
+            ["Dinesh Sharma Committee", "New regulation related to digital/virtual currencies"],
+            ["Nandan Nilekani Committee", "Measures to strengthen the safety and security of digital payments"],
+            ["V G Kannan Committee", "ATM charges and improving rural penetration of teller machines"],
+            ["Pulak Kumar Sinha Committee", "Feasibility of Aadhaar as an additional factor"],
+            ["U K Sinha Committee", "MSME reforms; video KYC"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "tip",
+          "title": "Digital cluster",
+          "text": "Watal = digital payments boost, Nilekani = safety of digital payments, Sen = fintech and digital banking, Dinesh Sharma = virtual currencies, Kannan = ATM charges."
+        },
+        {
+          "type": "mnemonic",
+          "title": "Digital detectives",
+          "phrase": "Watal Watches payments, Nilekani Nurses their safety, Sen Sees fintech, Sharma Sorts virtual money, Kannan Knocks ATM charges.",
+          "letters": [
+            ["Watal", "Boost digital payments"],
+            ["Nilekani", "Safety and security of digital payments"],
+            ["Sen", "Fintech and digital banking"],
+            ["Sharma", "Digital/virtual currencies"],
+            ["Kannan", "ATM charges and rural ATMs"]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "committees-insurance-savings",
+      "title": "Insurance, pension and small savings committees",
+      "icon": "🛡️",
+      "blocks": [
+        {
+          "type": "table",
+          "title": "Insurance, pension, small savings and other committees",
+          "headers": ["Committee", "Objective"],
+          "rows": [
+            ["Amitabh Chaudhry Committee", "Analysing the framework of IRDA-linked and non-linked insurance product regulations"],
+            ["J Reddy Committee", "Reforms in the insurance sector"],
+            ["R N Malhotra Committee", "Reforms in the insurance sector"],
+            ["A R Dave Committee", "Reforms in the pension sector"],
+            ["Dave Committee", "Pension scheme for the unorganised sector"],
+            ["Shyamala Gopinath Committee", "Post office small saving schemes"],
+            ["R V Gupta Committee", "Small savings"],
+            ["Y V Reddy Committee", "Reforms in small savings"],
+            ["H R Khan Committee", "Evaluate unclaimed PPP and post office savings"],
+            ["Ajay Shankar Committee", "Review the functioning of the PPP cell"],
+            ["Usha Thorat Committee", "Financial sector plan for the North Eastern Region (NER)"],
+            ["A C Shah Committee", "Non-Banking Financial Companies (NBFC) reforms"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "fact",
+          "title": "Two committees, same topic",
+          "text": "Usha Thorat headed both the 2011 NBFC panel and the financial sector plan for the North Eastern Region, so one name can appear against two different objectives. A C Shah is the committee listed against NBFC reforms."
+        },
+        {
+          "type": "mnemonic",
+          "title": "Insurance and savings cluster",
+          "phrase": "Malhotra and Reddy (J) reform Insurance; two Daves look after Pensions; Gopinath, Gupta and Y V Reddy guard Small savings.",
+          "letters": [
+            ["Malhotra", "Insurance sector reforms"],
+            ["J Reddy", "Insurance sector reforms"],
+            ["Dave", "Pension sector and pension for the unorganised sector"],
+            ["Savings","Small savings (Gopinath, Gupta, Y V Reddy)"]
+          ]
+        }
+      ]
+    }
+  ],
+  "revision": [
+    "Narasimham I (Aug 1991): reduce SLR gradually to 25% and CRR to 3.5%; fewer PSBs; RRBs to focus on agriculture and rural finance.",
+    "Narasimham II was set up on 26 Dec 1997 and reported in April 1998: Narrow Banking, Current Account Convertibility, higher capital adequacy norms.",
+    "Damodaran Committee (2011): customer service and grievances; no-frill account without minimum balance; no customer liability for ATM or online losses.",
+    "Usha Thorat Committee (29 Aug 2011): 12% capital for NBFCs; minimum asset size over ₹50 crore; exemption below ₹1,000 crore without public funds.",
+    "M V Nair Committee (25 Aug 2011): classification and guidelines on priority sector lending.",
+    "Nachiket Mor (Sept 2013): every adult above 18 to have an account by 1 Jan 2016 (UEBA); payments banks; abolish SLR, adopt LCR under Basel III.",
+    "U K Sinha Committee (2019, MSMEs): recommended video KYC in place of present KYC methods.",
+    "KYC refresh: high risk every 2 years, medium risk every 8 years, low risk every 10 years (guidelines of 23 July 2013).",
+    "On 5 May 2021, because of COVID-19, RBI allowed conversion of limited KYC to full KYC and video KYC for small businesses and legal entities.",
+    "R H Khan Committee led to Universal Banking in India; Tapan Ray looked at Core Investment Companies; Ratan P Watal at digital payments.",
+    "FSLRC reviews and rewrites financial laws and was formed in 2011 (not 2013); Shivaraman Committee led to the creation of NABARD.",
+    "Financial inclusion committees: Khan (2004), C Rangarajan (2006), Nachiket Mor (2013), Deepak Mohanty (medium-term path).",
+    "P J Nayak examined governance of bank boards; Tarun Ramadorai studied household finance in India.",
+    "Wanchoo and Chesi dealt with direct taxes; L K Jha and Rekhi with indirect taxes; Urjit Patel with the monetary policy framework."
+  ],
+  "mindmap": {
+    "center": "Banking committees",
+    "branches": [
+      {
+        "label": "Narasimham I and II",
+        "children": ["1991: SLR 25%, CRR 3.5%", "Fewer PSBs", "1998: Narrow Banking", "Current Account Convertibility", "Higher capital adequacy"]
+      },
+      {
+        "label": "The 2011 trio",
+        "children": ["Damodaran: customer service", "Usha Thorat: NBFCs", "M V Nair: priority sector", "No-frill accounts", "12% NBFC capital"]
+      },
+      {
+        "label": "Nachiket Mor 2013",
+        "children": ["Account for every adult", "UEBA by 1 Jan 2016", "Payments banks", "Abolish SLR, adopt LCR"]
+      },
+      {
+        "label": "KYC and U K Sinha",
+        "children": ["Video KYC", "High risk: 2 years", "Medium risk: 8 years", "Low risk: 10 years", "5 May 2021 relaxations"]
+      },
+      {
+        "label": "Exam favourites",
+        "children": ["R H Khan: Universal Banking", "Tapan Ray: CICs", "Watal: digital payments", "Shivaraman: NABARD", "P J Nayak: bank boards"]
+      },
+      {
+        "label": "Rural and MSME committees",
+        "children": ["Johl, Gadgil, Khusro", "RRB panels", "Abid Hussain, Karve, Tambe", "Tandon: bank credit"]
+      },
+      {
+        "label": "Banks, law and tax",
+        "children": ["Jalan: new licences", "NPA: Selvam panels", "Eradi: insolvency law", "Wanchoo, Chesi: direct tax", "Jha, Rekhi: indirect tax"]
+      },
+      {
+        "label": "Payments and technology",
+        "children": ["Sambamurthy: mobile banking", "Nilekani: digital safety", "Sen: fintech", "Kannan: ATM charges", "Dinesh Sharma: virtual money"]
+      }
+    ]
+  }
+}

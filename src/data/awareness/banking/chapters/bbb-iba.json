@@ -1,0 +1,261 @@
+{
+  "id": "bbb-iba",
+  "sections": [
+    {
+      "id": "bbb-genesis",
+      "title": "Banks Board Bureau: how it began",
+      "icon": "🏛️",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "The **Banks Board Bureau (BBB)** is an **autonomous body of eminent professionals and officials** created for **public sector banks (PSBs)**. It was meant to bring professional, arm's-length selection and governance advice to the boards of government-owned banks instead of leaving everything to ministry decisions."
+        },
+        {
+          "type": "timeline",
+          "title": "Path to the Bureau",
+          "items": [
+            ["May 2014", "The **Committee to Review Governance of Boards of Banks in India** (the **P J Nayak Committee**) gives the recommendations from which the BBB comes."],
+            ["Aug 2015", "Union Government announces the BBB as part of the **seven-point Indradhanush mission** to revamp PSBs."],
+            ["28 Feb 2016", "Government announces the **constitution and composition** of the Bureau."],
+            ["1 Apr 2016", "BBB **starts functioning** as an autonomous **recommendatory** body."]
+          ]
+        },
+        {
+          "type": "bullets",
+          "title": "Key facts",
+          "items": [
+            "It **replaced the Appointments Board** of the Government.",
+            "It is **housed in the central office of the RBI in Mumbai**, Maharashtra.",
+            "It is seen as the **first step towards a Bank Investment Company**, an idea recommended by the P J Nayak Committee.",
+            "It is **recommendatory**: it advises the Government, it does not itself issue appointment orders.",
+            "Its first Chairman was Vinod Rai, a former Comptroller and Auditor General (CAG)."
+          ]
+        },
+        {
+          "type": "mnemonic",
+          "title": "BBB timeline: 14, 15, 16",
+          "phrase": "Nayak 2014 → Indradhanush 2015 → Bureau 2016. Each year adds one step: idea, announcement, action.",
+          "letters": [
+            ["2014", "May 2014: P J Nayak committee recommends"],
+            ["2015", "August 2015: announced under Indradhanush"],
+            ["2016", "28 Feb constituted; 1 April 2016 starts work"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "remember",
+          "title": "Do not mix the dates",
+          "text": "**28 February 2016** = Government announces constitution and composition. **1 April 2016** = Bureau actually starts functioning. A question on 'from which date did it start working' wants **1 April 2016**."
+        }
+      ]
+    },
+    {
+      "id": "bbb-functions-roles",
+      "title": "Functions and roles of the BBB",
+      "icon": "🧭",
+      "blocks": [
+        {
+          "type": "bullets",
+          "title": "Functions",
+          "items": [
+            "**Recommend** the appointment of **full-time Directors** and **non-executive Chairmen** of PSBs.",
+            "**Advise** PSBs on developing **differentiated strategies** for raising funds through innovative financial methods and instruments, and on dealing with **stressed assets**.",
+            "**Guide** banks on **mergers and consolidations** and on **governance issues** to tackle the bad-loan problem, among other matters."
+          ]
+        },
+        {
+          "type": "mnemonic",
+          "title": "The three jobs: R-A-G",
+          "phrase": "The Bureau is not a bank – it just gives 'RAG': Recommend, Advise, Guide.",
+          "letters": [
+            ["R", "Recommend appointments of directors and chairmen"],
+            ["A", "Advise on fund-raising strategy and stressed assets"],
+            ["G", "Guide on mergers, consolidation and governance"]
+          ],
+          "note": "Approving corporate loan proposals is NOT a function of the BBB; that is a bank's own job."
+        },
+        {
+          "type": "text",
+          "text": "Under its wider mandate the Bureau engages with stakeholders so that public sector banks can **face competition**, **manage and price risk** across business cycles, build **resilience to generate internal capital** and be able to raise **external capital**, avoiding the moral hazard of always counting on scarce taxpayer money from the budget."
+        },
+        {
+          "type": "bullets",
+          "title": "Other aims",
+          "items": [
+            "Help PSBs build the capacity to **attract, retain and nurture talent and technology**, the two key differentiators of business competence in the future.",
+            "Work towards a **fully empowered board** in every PSB.",
+            "Attract the best persons to boards; the boards themselves should drive the bank's overall strategy within its risk capacity and act as **custodians** who reconcile the interests of different stakeholders."
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "What the BBB does not do",
+          "text": "It does not approve corporate credit proposals, run branches or supervise banks. Supervision stays with the **RBI**; the BBB works on **people, governance and strategy** of PSBs."
+        }
+      ]
+    },
+    {
+      "id": "bbb-composition",
+      "title": "Composition and examples of work",
+      "icon": "👥",
+      "blocks": [
+        {
+          "type": "table",
+          "title": "Members of the Bureau (in addition to the Chairman)",
+          "headers": ["Type of member", "Number", "Remark"],
+          "rows": [
+            ["Ex-officio members", "3", "Drawn from the Government"],
+            ["Expert members", "3", "Two of them from the private sector"],
+            ["Total besides the Chairman", "6", "Chairman heads the Bureau"]
+          ]
+        },
+        {
+          "type": "mnemonic",
+          "title": "3 + 3 = 6 (plus the boss)",
+          "phrase": "Three from the Government, three experts – six members, and the Chairman on top.",
+          "letters": [
+            ["3 ex-officio", "Government representatives"],
+            ["3 expert", "Of whom 2 from the private sector"],
+            ["+ Chairman", "Makes the Bureau seven in all"]
+          ]
+        },
+        {
+          "type": "bullets",
+          "title": "Recommendations quoted at the time of writing (2023-24)",
+          "items": [
+            "A new **MD and CEO for Central Bank of India** and for **Indian Overseas Bank** (Ajay Kumar Srivastava as MD and CEO of IOB).",
+            "A new **Managing Director for State Bank of India**: **Vinay M. Tonse**.",
+            "Such names change often, so treat them as dated examples."
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "fact",
+          "title": "Later development",
+          "text": "In 2022 the Government replaced the BBB with a new body, the **Financial Services Institutions Bureau (FSIB)**, which selects heads of public sector banks and financial institutions. Exams based on the older syllabus still ask about the BBB."
+        }
+      ]
+    },
+    {
+      "id": "iba",
+      "title": "Indian Banks’ Association (IBA)",
+      "icon": "🤝",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "The **Indian Banks’ Association (IBA)** is an association of **Indian banks and financial institutions**. It is a representative body of the management of banking in India and exists for the **development, coordination and strengthening of Indian banking**, helping members to adopt new systems and common standards."
+        },
+        {
+          "type": "keyvalue",
+          "title": "IBA at a glance",
+          "rows": [
+            ["Formed on", "**26 September 1946**"],
+            ["Place", "**Mumbai**"],
+            ["Initial membership", "**22 banks** (1946)"],
+            ["Present membership", "**246** banking companies operating in India (as per the 2024-25 book)"],
+            ["Nature", "Representative body of bank managements; members include public sector, private sector and other banks"],
+            ["Chairman (2023-24 term)", "**M. V. Rao**, as per the book at the time of writing; the post rotates"]
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Managing committee of the IBA",
+          "headers": ["Post", "Number"],
+          "rows": [
+            ["Chairman", "1"],
+            ["Deputy Chairmen", "3"],
+            ["Honorary Secretary", "1"],
+            ["Members", "26"]
+          ]
+        },
+        {
+          "type": "mnemonic",
+          "title": "IBA numbers: 46, 22, 1-3-1-26",
+          "phrase": "Born in '46 with 22 banks, run by a committee of '1-3-1-26'. The date is 26 September; the committee ends in 26 too.",
+          "letters": [
+            ["1946", "Year of formation, 26 September, Mumbai"],
+            ["22", "Banks that started it"],
+            ["1-3-1-26", "Chairman, Deputy Chairmen, Hon. Secretary, Members"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "remember",
+          "title": "BBB versus IBA",
+          "text": "**BBB** (2016, RBI office, Mumbai) advises the Government on **PSB appointments and governance**. **IBA** (1946, Mumbai) is a **banks' own association** that represents bank managements and coordinates the industry."
+        }
+      ]
+    },
+    {
+      "id": "related-bodies",
+      "title": "Related bodies often asked with these",
+      "icon": "🔗",
+      "blocks": [
+        {
+          "type": "keyvalue",
+          "title": "Quick facts that appear in the same papers",
+          "rows": [
+            ["SEBI", "Regulator of the **securities market**. **Ajay Tyagi** served as Chairman from 2017 to 2022."],
+            ["NPCI", "National Payments Corporation of India, the umbrella organisation for retail payments, was set up with the **guidance and support of the RBI** (and IBA)."],
+            ["NCLT", "National Company Law Tribunal: a **quasi-judicial body** that adjudicates issues relating to **Indian companies**."],
+            ["FSIB", "Financial Services Institutions Bureau, the 2022 successor of the Banks Board Bureau."]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "tip",
+          "title": "Link to remember",
+          "text": "RBI backs NPCI; the Government backs BBB inside the RBI building; the IBA belongs to the banks themselves."
+        }
+      ]
+    }
+  ],
+  "revision": [
+    "Banks Board Bureau (BBB): autonomous body of eminent professionals and officials for public sector banks.",
+    "BBB comes from the May 2014 Committee to Review Governance of Boards of Banks (P J Nayak Committee).",
+    "Announced in August 2015 as part of the seven-point Indradhanush mission.",
+    "Constitution and composition announced on 28 February 2016; started functioning on 1 April 2016.",
+    "BBB replaced the Appointments Board and is housed in the RBI's central office in Mumbai.",
+    "BBB is the first step towards a Bank Investment Company (P J Nayak Committee idea).",
+    "Functions: recommend heads of PSBs, advise on fund-raising and stressed assets, guide on mergers and governance.",
+    "Composition: 3 ex-officio members and 3 expert members (2 from the private sector), in addition to the Chairman.",
+    "Approving corporate credit proposals is not a function of the BBB.",
+    "IBA was formed on 26 September 1946 in Mumbai with 22 banks; it now represents 246 banking companies (per the book).",
+    "IBA managing committee: 1 Chairman, 3 Deputy Chairmen, 1 Honorary Secretary and 26 members.",
+    "NPCI was set up with the guidance and support of the RBI; NCLT deals with matters of Indian companies."
+  ],
+  "mindmap": {
+    "center": "BBB and IBA",
+    "branches": [
+      {
+        "label": "BBB origin",
+        "children": ["P J Nayak Committee 2014", "Announced Aug 2015", "Constituted 28 Feb 2016", "Started 1 Apr 2016"]
+      },
+      {
+        "label": "BBB status",
+        "children": ["Autonomous", "Recommendatory", "Replaced Appointments Board", "RBI office, Mumbai"]
+      },
+      {
+        "label": "BBB functions",
+        "children": ["Recommend directors", "Advise on fund-raising", "Stressed assets", "Mergers and governance"]
+      },
+      {
+        "label": "BBB composition",
+        "children": ["3 ex-officio", "3 experts", "2 from private sector", "Plus a Chairman"]
+      },
+      {
+        "label": "IBA basics",
+        "children": ["26 Sept 1946", "Mumbai", "22 banks at start", "246 banks now"]
+      },
+      {
+        "label": "IBA committee",
+        "children": ["1 Chairman", "3 Deputy Chairmen", "1 Hon. Secretary", "26 members"]
+      },
+      {
+        "label": "Related bodies",
+        "children": ["SEBI", "NPCI backed by RBI", "NCLT", "FSIB (2022)"]
+      }
+    ]
+  }
+}

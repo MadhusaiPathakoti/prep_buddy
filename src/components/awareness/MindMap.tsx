@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react'
-import { THEMES } from '../../lib/computerAwareness/theme'
-import type { CaMindmap, CaTheme } from '../../lib/computerAwareness/types'
+import { THEMES } from '../../lib/awareness/theme'
+import type { CaMindmap, CaTheme } from '../../lib/awareness/types'
 
 /** Branch colours: each branch of the map (and its leaves) gets one, cycling if there are more branches than colours. */
 const BRANCH_COLORS = ['#6366f1', '#f59e0b', '#10b981', '#ec4899', '#0ea5e9', '#8b5cf6', '#f97316', '#14b8a6']

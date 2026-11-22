@@ -1,0 +1,794 @@
+[
+ {
+  "id": "govt-schemes-01",
+  "q": "What is the core aim of the Pradhan Mantri Jan Dhan Yojana (PMJDY)?",
+  "options": [
+   "Universal access to banking, with at least one basic bank account for every household",
+   "Cash subsidy to farmers for buying seeds",
+   "Encouraging households to invest in gold",
+   "Providing funds to join the mutual fund market"
+  ],
+  "answer": 0,
+  "explain": "PMJDY is the National Mission on Financial Inclusion: a basic account per household plus financial literacy, credit, insurance and pension access.",
+  "section": "pmjdy"
+ },
+ {
+  "id": "govt-schemes-02",
+  "q": "Which of the following is the tagline of the PMJDY?",
+  "options": [
+   "Hamara Khata Hamara Swabhiman",
+   "Mera Khata Bhagya Vidhata",
+   "Khata Kholo, Paisa Bachao",
+   "Hamara Khata Bhagya Vidhata"
+  ],
+  "answer": 1,
+  "explain": "The tagline of Jan Dhan Yojana is Mera Khata Bhagya Vidhata; the other lines are look-alike distractors.",
+  "section": "pmjdy"
+ },
+ {
+  "id": "govt-schemes-03",
+  "q": "On which date did the Prime Minister announce PMJDY as the National Mission on Financial Inclusion in his Independence Day address?",
+  "options": [
+   "26 January 2015",
+   "9 May 2015",
+   "15 August 2014",
+   "2 October 2014"
+  ],
+  "answer": 2,
+  "explain": "The announcement was made in the Independence Day speech of 15 August 2014. The three social security schemes followed on 9 May 2015.",
+  "section": "pmjdy"
+ },
+ {
+  "id": "govt-schemes-04",
+  "q": "Approximately how many PMJDY accounts were opened on the day of launch?",
+  "options": [
+   "2.5 crore",
+   "3.5 crore",
+   "4.5 crore",
+   "1.5 crore"
+  ],
+  "answer": 3,
+  "explain": "About 1.5 crore accounts were opened on the launch day, a record for a single day.",
+  "section": "pmjdy"
+ },
+ {
+  "id": "govt-schemes-05",
+  "q": "Under PMJDY, which type of debit card is issued to every account holder?",
+  "options": [
+   "RuPay debit card",
+   "Visa International debit card",
+   "MasterCard debit card",
+   "Maestro debit card"
+  ],
+  "answer": 0,
+  "explain": "PMJDY account holders get a RuPay debit card, which carries an inbuilt accident insurance cover.",
+  "section": "pmjdy"
+ },
+ {
+  "id": "govt-schemes-06",
+  "q": "As per the scheme as described in the 2024-25 study material, the RuPay card of a PMJDY account carries an inbuilt accident insurance cover of",
+  "options": [
+   "Rs 50,000",
+   "Rs 2 lakh",
+   "Rs 1 lakh",
+   "Rs 5 lakh"
+  ],
+  "answer": 1,
+  "explain": "The RuPay card of a PMJDY account carries an inbuilt accident cover of Rs 2 lakh (the cover was Rs 1 lakh for older accounts).",
+  "section": "pmjdy"
+ },
+ {
+  "id": "govt-schemes-07",
+  "q": "After how many months of satisfactory operation does a PMJDY account holder become eligible for an overdraft facility?",
+  "options": [
+   "Three months",
+   "Nine months",
+   "Six months",
+   "Twelve months"
+  ],
+  "answer": 2,
+  "explain": "Overdraft is available after six months of satisfactory operation of the account or credit history.",
+  "section": "pmjdy"
+ },
+ {
+  "id": "govt-schemes-08",
+  "q": "What is the revised overdraft limit under the Pradhan Mantri Jan Dhan Yojana?",
+  "options": [
+   "Rs 5,000",
+   "Rs 20,000",
+   "Rs 2,000",
+   "Rs 10,000"
+  ],
+  "answer": 3,
+  "explain": "To make PMJDY more attractive, the overdraft facility was doubled from Rs 5,000 to Rs 10,000.",
+  "section": "pmjdy",
+  "exam": "IBPS RRB Asst. Main 2020"
+ },
+ {
+  "id": "govt-schemes-09",
+  "q": "Under PMJDY, each Sub Service Area (SSA) typically comprises how many households?",
+  "options": [
+   "1,000 to 1,500",
+   "500 to 800",
+   "2,000 to 2,500",
+   "3,000 to 4,000"
+  ],
+  "answer": 0,
+  "explain": "Over 6 lakh villages were mapped into 1.59 lakh SSAs, each typically with 1,000 to 1,500 households.",
+  "section": "pmjdy"
+ },
+ {
+  "id": "govt-schemes-10",
+  "q": "In how many branchless Sub Service Areas were Bank Mitras deployed under PMJDY?",
+  "options": [
+   "0.33 lakh",
+   "1.26 lakh",
+   "1.59 lakh",
+   "6 lakh"
+  ],
+  "answer": 1,
+  "explain": "1.59 lakh is the total number of SSAs; 1.26 lakh of them had no bank branch and got Bank Mitras.",
+  "section": "pmjdy"
+ },
+ {
+  "id": "govt-schemes-11",
+  "q": "On 26 March 2020, the Finance Minister announced how much per month for three months to women Jan Dhan account holders during Covid-19?",
+  "options": [
+   "Rs 1,000",
+   "Rs 1,500",
+   "Rs 500",
+   "Rs 2,000"
+  ],
+  "answer": 2,
+  "explain": "Rs 500 per month for the next three months was announced for every woman Jan Dhan account holder on 26 March 2020.",
+  "section": "pmjdy"
+ },
+ {
+  "id": "govt-schemes-12",
+  "q": "Which of the following schemes was NOT launched on 9 May 2015?",
+  "options": [
+   "Pradhan Mantri Jeevan Jyoti Bima Yojana",
+   "Pradhan Mantri Suraksha Bima Yojana",
+   "Atal Pension Yojana",
+   "Pradhan Mantri Mudra Yojana"
+  ],
+  "answer": 3,
+  "explain": "PMJJBY, PMSBY and APY were launched together on 9 May 2015; PMMY (Mudra) was launched on 8 April 2015.",
+  "section": "jan-suraksha-trio"
+ },
+ {
+  "id": "govt-schemes-13",
+  "q": "What is the age group for enrolling in the Pradhan Mantri Jeevan Jyoti Bima Yojana (PMJJBY)?",
+  "options": [
+   "18 to 50 years",
+   "18 to 70 years",
+   "18 to 40 years",
+   "21 to 60 years"
+  ],
+  "answer": 0,
+  "explain": "PMJJBY is for ages 18-50. 18-70 belongs to PMSBY and 18-40 to APY.",
+  "section": "jan-suraksha-trio"
+ },
+ {
+  "id": "govt-schemes-14",
+  "q": "What is the maximum age limit for enrolling under the Pradhan Mantri Suraksha Bima Yojana (PMSBY)?",
+  "options": [
+   "50 years",
+   "70 years",
+   "60 years",
+   "80 years"
+  ],
+  "answer": 1,
+  "explain": "PMSBY covers people aged 18 to 70 who hold a bank account.",
+  "section": "jan-suraksha-trio"
+ },
+ {
+  "id": "govt-schemes-15",
+  "q": "What was the annual premium of PMSBY at launch (as given in the study material)?",
+  "options": [
+   "Rs 330",
+   "Rs 18",
+   "Rs 12",
+   "Rs 365"
+  ],
+  "answer": 2,
+  "explain": "PMSBY premium is Rs 12 a year; Rs 330 was the PMJJBY premium in the same material.",
+  "section": "jan-suraksha-trio"
+ },
+ {
+  "id": "govt-schemes-16",
+  "q": "What is the coverage period of PMSBY and PMJJBY in a year?",
+  "options": [
+   "1 January to 31 December",
+   "1 April to 31 March",
+   "1 July to 30 June",
+   "1 June to 31 May"
+  ],
+  "answer": 3,
+  "explain": "Cover runs from 1 June to 31 May and renews annually; auto-debit consent is due on or before 31 May.",
+  "section": "jan-suraksha-trio"
+ },
+ {
+  "id": "govt-schemes-17",
+  "q": "What is the annual premium of the Pradhan Mantri Jeevan Jyoti Bima Yojana (PMJJBY) as given in the study material?",
+  "options": [
+   "Rs 330",
+   "Rs 12",
+   "Rs 240",
+   "Rs 561"
+  ],
+  "answer": 0,
+  "explain": "PMJJBY gives Rs 2 lakh life cover for an annual premium of Rs 330 (as per the source; premiums were revised later).",
+  "section": "jan-suraksha-trio"
+ },
+ {
+  "id": "govt-schemes-18",
+  "q": "Which of these schemes is offered by public sector general insurance companies through tie-ups with banks?",
+  "options": [
+   "Pradhan Mantri Jeevan Jyoti Bima Yojana",
+   "Pradhan Mantri Suraksha Bima Yojana",
+   "Atal Pension Yojana",
+   "Pradhan Mantri Vaya Vandana Yojana"
+  ],
+  "answer": 1,
+  "explain": "PMSBY is an accident cover sold by general insurers; PMJJBY and PMVVY are LIC products, and APY runs through banks and post offices.",
+  "section": "jan-suraksha-trio"
+ },
+ {
+  "id": "govt-schemes-19",
+  "q": "Which of the following correctly describes the Pradhan Mantri Suraksha Bima Yojana (PMSBY)?",
+  "options": [
+   "A life insurance scheme for death due to any cause",
+   "A pension guarantee scheme",
+   "An accidental death and disability insurance scheme",
+   "A crop insurance scheme"
+  ],
+  "answer": 2,
+  "explain": "PMSBY pays Rs 2 lakh on accidental death or full disability and Rs 1 lakh on partial disability.",
+  "section": "jan-suraksha-trio"
+ },
+ {
+  "id": "govt-schemes-20",
+  "q": "What is the age group for joining the Atal Pension Yojana (APY)?",
+  "options": [
+   "18 to 50 years",
+   "18 to 60 years",
+   "21 to 45 years",
+   "18 to 40 years"
+  ],
+  "answer": 3,
+  "explain": "APY is open to savings bank or post office savings account holders aged 18 to 40.",
+  "section": "atal-pension-yojana"
+ },
+ {
+  "id": "govt-schemes-21",
+  "q": "Under APY, the guaranteed monthly pension options are",
+  "options": [
+   "Rs 1,000 to Rs 5,000 in steps of Rs 1,000",
+   "Rs 500 to Rs 2,500 in steps of Rs 500",
+   "Rs 2,000 to Rs 10,000 in steps of Rs 2,000",
+   "Rs 1,000 to Rs 10,000 in steps of Rs 1,000"
+  ],
+  "answer": 0,
+  "explain": "The pension options are Rs 1,000, 2,000, 3,000, 4,000 or 5,000 a month, payable from age 60.",
+  "section": "atal-pension-yojana"
+ },
+ {
+  "id": "govt-schemes-22",
+  "q": "Under APY, after the death of both the subscriber and the spouse, the accumulated pension corpus is returned to",
+  "options": [
+   "The Central Government",
+   "The nominee of the subscriber",
+   "The bank that holds the account",
+   "The Pension Fund Regulator"
+  ],
+  "answer": 1,
+  "explain": "Pension goes to the subscriber, then the spouse; the corpus built up to age 60 is returned to the nominee.",
+  "section": "atal-pension-yojana"
+ },
+ {
+  "id": "govt-schemes-23",
+  "q": "If APY contributions earn less than the estimated return, who funds the shortfall in the guaranteed pension?",
+  "options": [
+   "The subscriber's nominee",
+   "The service-provider bank",
+   "Central Government",
+   "State Government"
+  ],
+  "answer": 2,
+  "explain": "The minimum pension is guaranteed by the Government of India; if returns are higher, subscribers get enhanced benefits.",
+  "section": "atal-pension-yojana"
+ },
+ {
+  "id": "govt-schemes-24",
+  "q": "Which of the following is NOT listed among the APY service providers?",
+  "options": [
+   "Regional Rural Banks",
+   "Department of Posts",
+   "Cooperative banks",
+   "Stock brokerage firms"
+  ],
+  "answer": 3,
+  "explain": "APY runs through public and private sector banks, RRBs, cooperative banks and the Department of Posts.",
+  "section": "atal-pension-yojana"
+ },
+ {
+  "id": "govt-schemes-25",
+  "q": "On which date was the Atal Pension Yojana launched?",
+  "options": [
+   "9 May 2015",
+   "15 August 2014",
+   "8 April 2015",
+   "1 January 2013"
+  ],
+  "answer": 0,
+  "explain": "APY was launched by the Prime Minister on 9 May 2015 along with PMJJBY and PMSBY.",
+  "section": "atal-pension-yojana"
+ },
+ {
+  "id": "govt-schemes-26",
+  "q": "When was the Pradhan Mantri Mudra Yojana (PMMY) launched?",
+  "options": [
+   "9 May 2015",
+   "8 April 2015",
+   "5 April 2016",
+   "16 January 2016"
+  ],
+  "answer": 1,
+  "explain": "Mudra was launched on 8 April 2015; Stand Up India followed on 5 April 2016.",
+  "section": "mudra-standup"
+ },
+ {
+  "id": "govt-schemes-27",
+  "q": "Under the Mudra sub-scheme 'Kishore', loans are given in the range of",
+  "options": [
+   "Up to Rs 50,000",
+   "Rs 5 lakh to Rs 10 lakh",
+   "Rs 50,000 to Rs 5 lakh",
+   "Rs 10 lakh to Rs 1 crore"
+  ],
+  "answer": 2,
+  "explain": "Shishu is up to Rs 50,000, Kishore Rs 50,000-5 lakh and Tarun Rs 5-10 lakh.",
+  "section": "mudra-standup"
+ },
+ {
+  "id": "govt-schemes-28",
+  "q": "Stand Up India scheme promotes entrepreneurship among which groups?",
+  "options": [
+   "Minorities and senior citizens",
+   "Ex-servicemen only",
+   "Farmers and fishermen",
+   "Scheduled Castes/Scheduled Tribes and women"
+  ],
+  "answer": 3,
+  "explain": "Stand Up India helps SC/ST and women borrowers, who face hurdles of mentorship and credit, set up new ventures.",
+  "section": "mudra-standup"
+ },
+ {
+  "id": "govt-schemes-29",
+  "q": "Stand Up India facilitates bank loans of what size per borrower?",
+  "options": [
+   "Rs 10 lakh to Rs 1 crore",
+   "Rs 50,000 to Rs 5 lakh",
+   "Rs 5 lakh to Rs 10 lakh",
+   "Rs 1 crore to Rs 5 crore"
+  ],
+  "answer": 0,
+  "explain": "The loans are between Rs 10 lakh and Rs 1 crore for greenfield enterprises.",
+  "section": "mudra-standup"
+ },
+ {
+  "id": "govt-schemes-30",
+  "q": "Which fund provides collateral-free coverage to loans under Stand Up India?",
+  "options": [
+   "Credit Risk Guarantee Fund Trust for Micro and Small Enterprises",
+   "Credit Guarantee Fund for Stand Up India (CGFSI)",
+   "Rural Infrastructure Development Fund",
+   "Financial Inclusion Fund"
+  ],
+  "answer": 1,
+  "explain": "CGFSI was set up by the Government to give collateral-free cover under Stand Up India.",
+  "section": "mudra-standup"
+ },
+ {
+  "id": "govt-schemes-31",
+  "q": "The Pradhan Mantri Vaya Vandana Yojana (PMVVY) is meant for persons aged",
+  "options": [
+   "50 years and above",
+   "55 years and above",
+   "60 years and above",
+   "65 years and above"
+  ],
+  "answer": 2,
+  "explain": "PMVVY protects elderly persons aged 60 and above against a fall in interest income.",
+  "section": "senior-citizen-schemes"
+ },
+ {
+  "id": "govt-schemes-32",
+  "q": "What is the assured rate of return under PMVVY?",
+  "options": [
+   "4% per annum for 5 years",
+   "5% per annum for 10 years",
+   "10% per annum for 8 years",
+   "8% per annum for 10 years"
+  ],
+  "answer": 3,
+  "explain": "PMVVY gives an assured 8% a year for 10 years, with pension monthly, quarterly, half-yearly or yearly.",
+  "section": "senior-citizen-schemes"
+ },
+ {
+  "id": "govt-schemes-33",
+  "q": "The maximum deposit limit under the Senior Citizens Savings Scheme (SCSS) was raised from Rs 15 lakh to Rs 30 lakh effective from",
+  "options": [
+   "1 April 2023",
+   "8 April 2023",
+   "9 June 2023",
+   "1 December 2023"
+  ],
+  "answer": 0,
+  "explain": "The increase aligns with the Budget 2023 announcement and took effect on 1 April 2023.",
+  "section": "senior-citizen-schemes",
+  "exam": "SBI PO Mains 2023"
+ },
+ {
+  "id": "govt-schemes-34",
+  "q": "On which date were the Gold Monetization Scheme, Sovereign Gold Bond Scheme and Indian Gold Coin launched?",
+  "options": [
+   "9 May 2015",
+   "5 November 2015",
+   "16 January 2016",
+   "1 January 2013"
+  ],
+  "answer": 1,
+  "explain": "All three gold schemes were announced in Budget 2015-16 and launched by the Prime Minister on 5 November 2015.",
+  "section": "gold-and-bonds"
+ },
+ {
+  "id": "govt-schemes-35",
+  "q": "What is the main aim of the Sovereign Gold Bond Scheme?",
+  "options": [
+   "Mint gold coins in India",
+   "Collect gold jewellery from temples only",
+   "Provide a financial investment instrument and reduce the demand for physical gold",
+   "Fund MSMEs with gold loans"
+  ],
+  "answer": 2,
+  "explain": "SGBs reduce physical gold demand and, in the long run, gold imports.",
+  "section": "gold-and-bonds"
+ },
+ {
+  "id": "govt-schemes-36",
+  "q": "The first tranche of Sovereign Gold Bonds was open for subscription during",
+  "options": [
+   "1 to 15 December 2015",
+   "5 to 30 October 2015",
+   "9 May to 9 June 2015",
+   "6 to 30 November 2015"
+  ],
+  "answer": 3,
+  "explain": "The first tranche ran from 6 November to 30 November 2015 and drew about Rs 250 crore.",
+  "section": "gold-and-bonds"
+ },
+ {
+  "id": "govt-schemes-37",
+  "q": "Tax-free bonds of how much were allowed to be issued by CPSEs in Financial Year 2015-16?",
+  "options": [
+   "Rs 40,000 crore",
+   "Rs 10,000 crore",
+   "Rs 20,000 crore",
+   "Rs 60,000 crore"
+  ],
+  "answer": 0,
+  "explain": "Government allowed Rs 40,000 crore of tax-free bonds in 2015-16, with tenures of 10, 15 or 20 years.",
+  "section": "gold-and-bonds"
+ },
+ {
+  "id": "govt-schemes-38",
+  "q": "Which of the following is NOT named as an issuer of tax-free bonds in the study material?",
+  "options": [
+   "National Highways Authority of India",
+   "State Bank of India",
+   "Indian Railways Finance Corporation",
+   "HUDCO"
+  ],
+  "answer": 1,
+  "explain": "The named issuers are CPSEs such as NHAI, IRFC, HUDCO, IREDA, PFC, REC and NTPC; SBI is a bank.",
+  "section": "gold-and-bonds"
+ },
+ {
+  "id": "govt-schemes-39",
+  "q": "On which date was Startup India launched?",
+  "options": [
+   "5 April 2016",
+   "8 April 2015",
+   "16 January 2016",
+   "9 May 2015"
+  ],
+  "answer": 2,
+  "explain": "Startup India was launched on 16 January 2016; its team reports to DPIIT.",
+  "section": "startup-green"
+ },
+ {
+  "id": "govt-schemes-40",
+  "q": "How big a corpus fund does the 19-Point Startup India Action Plan envisage?",
+  "options": [
+   "Rs 1,000 crore",
+   "Rs 5,000 crore",
+   "Rs 40,000 crore",
+   "Rs 10,000 crore"
+  ],
+  "answer": 3,
+  "explain": "The action plan includes incubation centres, easier patent filing, tax exemptions and a Rs 10,000 crore corpus fund.",
+  "section": "startup-green"
+ },
+ {
+  "id": "govt-schemes-41",
+  "q": "The Sustainable Finance Scheme for funding green MSME projects was introduced by",
+  "options": [
+   "SIDBI",
+   "NABARD",
+   "NHB",
+   "EXIM Bank"
+  ],
+  "answer": 0,
+  "explain": "SIDBI introduced it for energy efficiency and cleaner production projects; NABARD runs JIVA.",
+  "section": "startup-green"
+ },
+ {
+  "id": "govt-schemes-42",
+  "q": "NABARD launched the JIVA programme to promote",
+  "options": [
+   "Solar pumps in 5 states",
+   "Natural farming in 11 states",
+   "Cold storage chains nationwide",
+   "Crop insurance for tenant farmers"
+  ],
+  "answer": 1,
+  "explain": "JIVA is an agro-ecology programme under watershed and wadi programmes, launched on 9 February 2022.",
+  "section": "startup-green"
+ },
+ {
+  "id": "govt-schemes-43",
+  "q": "How many ministries are brought together on the digital platform of PM Gati Shakti?",
+  "options": [
+   "8",
+   "12",
+   "16",
+   "24"
+  ],
+  "answer": 2,
+  "explain": "The platform links 16 ministries including rail and roadways for integrated infrastructure planning.",
+  "section": "infra-relief"
+ },
+ {
+  "id": "govt-schemes-44",
+  "q": "The Atmanirbhar Bharat Abhiyan was announced in May 2020 as a package of about",
+  "options": [
+   "Rs 2 lakh crore",
+   "Rs 10 lakh crore",
+   "Rs 40 lakh crore",
+   "Rs 20 lakh crore"
+  ],
+  "answer": 3,
+  "explain": "The package was announced in four tranches by the Finance Minister.",
+  "section": "infra-relief"
+ },
+ {
+  "id": "govt-schemes-45",
+  "q": "The Ujala Yojana is implemented by which agency under the Ministry of Power?",
+  "options": [
+   "Energy Efficiency Services Limited (EESL)",
+   "Power Finance Corporation",
+   "Bureau of Energy Efficiency",
+   "NTPC Limited"
+  ],
+  "answer": 0,
+  "explain": "EESL, a joint venture of PSUs, implements Ujala to promote energy efficiency.",
+  "section": "infra-relief"
+ },
+ {
+  "id": "govt-schemes-46",
+  "q": "On which date was Direct Benefit Transfer (DBT) launched?",
+  "options": [
+   "15 August 2014",
+   "1 January 2013",
+   "2 October 2009",
+   "9 May 2015"
+  ],
+  "answer": 1,
+  "explain": "DBT sends subsidies directly to beneficiaries' bank accounts, using Aadhaar linkage.",
+  "section": "dbt-mgnregs"
+ },
+ {
+  "id": "govt-schemes-47",
+  "q": "In the DBT system, funds move to Aadhaar-enabled accounts through which bridge?",
+  "options": [
+   "Aadhaar Payment Network",
+   "Unified Payments Bridge",
+   "Aadhaar Payment Bridge (APB)",
+   "National Aadhaar Clearing"
+  ],
+  "answer": 2,
+  "explain": "The Aadhaar Payment Bridge transfers funds on the basis of the Aadhaar number.",
+  "section": "dbt-mgnregs"
+ },
+ {
+  "id": "govt-schemes-48",
+  "q": "On which date was NREGA renamed the Mahatma Gandhi National Rural Employment Guarantee Scheme?",
+  "options": [
+   "15 August 2005",
+   "1 January 2013",
+   "26 January 2008",
+   "2 October 2009"
+  ],
+  "answer": 3,
+  "explain": "NREGA was enacted in 2005 and renamed on Gandhi Jayanti, 2 October 2009.",
+  "section": "dbt-mgnregs"
+ },
+ {
+  "id": "govt-schemes-49",
+  "q": "How much income support does the PM-KISAN scheme provide to eligible farmer families per year?",
+  "options": [
+   "Rs 6,000",
+   "Rs 3,000",
+   "Rs 8,000",
+   "Rs 12,000"
+  ],
+  "answer": 0,
+  "explain": "PM-KISAN pays Rs 6,000 a year in three 4-monthly instalments of Rs 2,000.",
+  "section": "farmers-fishers"
+ },
+ {
+  "id": "govt-schemes-50",
+  "q": "What amount was allocated to PM-KISAN in the Union Budget 2022-23?",
+  "options": [
+   "Rs 60,000 crore",
+   "Rs 68,000 crore",
+   "Rs 62,000 crore",
+   "Rs 65,000 crore"
+  ],
+  "answer": 1,
+  "explain": "Rs 68,000 crore was allocated, against Rs 65,000 crore Budget Estimate of 2021-22.",
+  "section": "farmers-fishers",
+  "exam": "RBI Grade B Prelim 2023"
+ },
+ {
+  "id": "govt-schemes-51",
+  "q": "Which statement about the Pradhan Mantri Fasal Bima Yojana is correct?",
+  "options": [
+   "It treats the whole village as the unit of insurance",
+   "It covers only rabi crops",
+   "It treats the individual farmer as the unit of insurance and has the lowest-ever premium",
+   "Farmers pay a flat 10% premium on every crop"
+  ],
+  "answer": 2,
+  "explain": "PMFBY uses the individual farmer as the unit, with premiums of 2% (kharif), 1.5% (rabi) and 5% (commercial and horticultural).",
+  "section": "farmers-fishers",
+  "exam": "RRB Officer Scale-I Mains 2023"
+ },
+ {
+  "id": "govt-schemes-52",
+  "q": "Which facilities are provided to fishermen under the Pradhan Mantri Matsya Sampada Yojana (PMMSY)?",
+  "options": [
+   "Only a cash prize for the biggest catch",
+   "Only subsidised diesel",
+   "Only insurance cover",
+   "Insurance cover, financial assistance and Kisan Credit Card facility"
+  ],
+  "answer": 3,
+  "explain": "PMMSY, part of Atmanirbhar Bharat with Rs 20,050 crore, gives fishermen insurance, financial aid and KCC.",
+  "section": "farmers-fishers",
+  "exam": "RBI Grade B Prelim 2023"
+ },
+ {
+  "id": "govt-schemes-53",
+  "q": "Mukhyamantri Ladli Behna Yojana was launched by which state government?",
+  "options": [
+   "Madhya Pradesh",
+   "Uttar Pradesh",
+   "Telangana",
+   "Rajasthan"
+  ],
+  "answer": 0,
+  "explain": "The Madhya Pradesh scheme gives women Rs 1,000 a month.",
+  "section": "exam-updates",
+  "exam": "SBI PO Mains 2023"
+ },
+ {
+  "id": "govt-schemes-54",
+  "q": "Which state government launched the Namo Shetkari Mahasanman Yojana?",
+  "options": [
+   "Andhra Pradesh",
+   "Maharashtra",
+   "Madhya Pradesh",
+   "Karnataka"
+  ],
+  "answer": 1,
+  "explain": "It is on the lines of PM-Kisan; Maharashtra tops up Rs 6,000 to Rs 12,000 a year.",
+  "section": "exam-updates",
+  "exam": "IBPS RRB Office Asst. Mains 2023"
+ },
+ {
+  "id": "govt-schemes-55",
+  "q": "Which Union Ministry announced the creation of the 'Integrated Pensioners' Portal'?",
+  "options": [
+   "Ministry of Defence",
+   "Ministry of Finance",
+   "Ministry of Personnel",
+   "Ministry of Labour and Employment"
+  ],
+  "answer": 2,
+  "explain": "The Department of Pension and Pensioners' Welfare, under the Ministry of Personnel, will combine all pension portals.",
+  "section": "exam-updates",
+  "exam": "SBI PO Mains 2023"
+ },
+ {
+  "id": "govt-schemes-56",
+  "q": "Which Union Ministry launched the 'Vivad se Vishwas II (Contractual Disputes)' scheme?",
+  "options": [
+   "Ministry of MSME",
+   "Ministry of Commerce and Industry",
+   "Ministry of Corporate Affairs",
+   "Ministry of Finance"
+  ],
+  "answer": 3,
+  "explain": "It is a settlement scheme for contractual disputes with government vendors, announced in the Union Budget.",
+  "section": "exam-updates",
+  "exam": "IBPS RRB Office Asst. Mains 2023"
+ },
+ {
+  "id": "govt-schemes-57",
+  "q": "The transaction limit for UPI payments for Retail Direct Scheme and IPO subscriptions was raised in December 2021 to",
+  "options": [
+   "Rs 5 lakh",
+   "Rs 1 lakh",
+   "Rs 2 lakh",
+   "Rs 4 lakh"
+  ],
+  "answer": 0,
+  "explain": "The limit was increased to Rs 5 lakh in December 2021.",
+  "section": "exam-updates",
+  "exam": "SBI Clerk Mains 2023"
+ },
+ {
+  "id": "govt-schemes-58",
+  "q": "Which statement is true about the e-Rupee (digital rupee) of the RBI?",
+  "options": [
+   "It is a private cryptocurrency not backed by RBI",
+   "It is interchangeable one-to-one with fiat currency and held in a digital wallet",
+   "It can only be used for gold purchases",
+   "It is not legal tender and trades at a variable price"
+  ],
+  "answer": 1,
+  "explain": "The retail e-Rupee pilot began on 1 December 2022; it is a sovereign currency at par with notes and coins.",
+  "section": "exam-updates",
+  "exam": "RBI Assistant Mains 2022"
+ },
+ {
+  "id": "govt-schemes-59",
+  "q": "Kisan Vikas Patra (KVP) has a minimum investment of Rs 1,000. What is the maximum investment limit?",
+  "options": [
+   "Rs 20,000",
+   "Rs 50,000",
+   "No maximum limit",
+   "Rs 1,00,000"
+  ],
+  "answer": 2,
+  "explain": "KVP has no upper limit on investment and a lock-in of 30 months.",
+  "section": "exam-updates",
+  "exam": "IBPS PO Main 2015"
+ },
+ {
+  "id": "govt-schemes-60",
+  "q": "Which tool did the Economic Survey 2016-17 recommend as an alternative to subsidy-focused welfare schemes?",
+  "options": [
+   "Employment Status",
+   "Universal Monthly Income",
+   "Negative Income Tax",
+   "Universal Basic Income"
+  ],
+  "answer": 3,
+  "explain": "The Survey recommended exploring a Universal Basic Income instead of many subsidy-based schemes.",
+  "section": "exam-updates"
+ }
+]

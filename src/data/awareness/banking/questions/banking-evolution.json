@@ -1,0 +1,786 @@
+[
+ {
+  "id": "banking-evolution-01",
+  "q": "Rinapatra, the loan-deed forms recording debtor, creditor, amount and rate of interest, are found in which body of ancient literature?",
+  "options": [
+   "Mughal court records",
+   "Vedic literature",
+   "British East India Company charters",
+   "Presidency Bank ledgers"
+  ],
+  "answer": 1,
+  "explain": "Rinapatra (rinalekhya) loan deeds appear in the Vedic literature (Vedas, 2000-1400 BCE), the earliest Indian texts to mention usury.",
+  "section": "ancient-india"
+ },
+ {
+  "id": "banking-evolution-02",
+  "q": "What does the term usury mean?",
+  "options": [
+   "Accepting deposits without paying interest",
+   "Exchanging one currency for another",
+   "Lending money only against gold",
+   "Lending money at an excessive rate of interest"
+  ],
+  "answer": 3,
+  "explain": "Usury is the practice of charging an excessive rate of interest on loans; the Vedas are the earliest Indian texts to mention it.",
+  "section": "ancient-india"
+ },
+ {
+  "id": "banking-evolution-03",
+  "q": "The adesha, an order to a banker to pay a sum to a third person, resembles a modern bill of exchange. It belongs to which era?",
+  "options": [
+   "Mauryan era",
+   "Vedic era",
+   "Mughal era",
+   "British era"
+  ],
+  "answer": 0,
+  "explain": "The adesha was an instrument of the Mauryan period (321-185 BCE). The Mughal-era credit instrument was the hundi (and the dastawez loan deed).",
+  "section": "ancient-india"
+ },
+ {
+  "id": "banking-evolution-04",
+  "q": "The concept of the modern banking system was first conceptualised by the people of Italy under which name?",
+  "options": [
+   "Hundi",
+   "Adesha",
+   "Banco",
+   "Baratte"
+  ],
+  "answer": 2,
+  "explain": "The word bank traces to the Italian Banco, under which the modern banking system was conceptualised. Hundi, adesha and baratte are Indian instruments.",
+  "section": "ancient-india"
+ },
+ {
+  "id": "banking-evolution-05",
+  "q": "Which two important innovations did ancient Greece and the Roman Empire add to banking?",
+  "options": [
+   "Issuing paper notes and cheques",
+   "Granting credit cards and overdrafts",
+   "Insuring deposits and fixing interest rates",
+   "Accepting deposits and changing money"
+  ],
+  "answer": 3,
+  "explain": "Greece and Rome added acceptance of deposits and money changing. The earlier Mesopotamian banking involved grain loans.",
+  "section": "ancient-india"
+ },
+ {
+  "id": "banking-evolution-06",
+  "q": "Which of the following is NOT counted among the indigenous bankers of India?",
+  "options": [
+   "Shroffs",
+   "Presidency Banks",
+   "Mahajans",
+   "Chettis"
+  ],
+  "answer": 1,
+  "explain": "Indigenous bankers include shroffs, seths, mahajans and chettis. Presidency Banks were modern banks set up under East India Company charters.",
+  "section": "indigenous-banking"
+ },
+ {
+  "id": "banking-evolution-07",
+  "q": "Which of the following is NOT a defect of indigenous banking?",
+  "options": [
+   "They are unorganised",
+   "They charge very high rates of interest",
+   "They follow modern methods of financial accounting",
+   "They do not distinguish between short-term and long-term finance"
+  ],
+  "answer": 2,
+  "explain": "Indigenous bankers used local accounting practices that could not match modern financial accounting, so following modern methods is not one of their defects.",
+  "section": "indigenous-banking"
+ },
+ {
+  "id": "banking-evolution-08",
+  "q": "Loan deeds of the Mughal era were called:",
+  "options": [
+   "Dastawez",
+   "Rinapatra",
+   "Adesha",
+   "Hundi"
+  ],
+  "answer": 0,
+  "explain": "Rinapatra was Vedic and adesha Mauryan. In the Mughal era loan deeds were dastawez; hundi is a credit instrument that evolved alongside.",
+  "section": "medieval-era"
+ },
+ {
+  "id": "banking-evolution-09",
+  "q": "Dastawez-e-miadi was a loan deed payable:",
+  "options": [
+   "On demand",
+   "After a stipulated time",
+   "Only on the death of the debtor",
+   "Only after the harvest"
+  ],
+  "answer": 1,
+  "explain": "Dastawez-e-miadi was payable after a fixed time, whereas dastawez-e-indultalab was payable on demand.",
+  "section": "medieval-era"
+ },
+ {
+  "id": "banking-evolution-10",
+  "q": "Payment orders issued by royal treasuries in the medieval period were known as:",
+  "options": [
+   "Dastawez",
+   "Rinapatras",
+   "Adesha",
+   "Barattes"
+  ],
+  "answer": 3,
+  "explain": "Barattes were payment orders used by royal treasuries; dastawez were loan deeds.",
+  "section": "medieval-era"
+ },
+ {
+  "id": "banking-evolution-11",
+  "q": "The Bank of Hindustan, regarded as the first bank of modern banking in India, was set up in which year?",
+  "options": [
+   "1770",
+   "1786",
+   "1806",
+   "1840"
+  ],
+  "answer": 0,
+  "explain": "The Bank of Hindustan was founded in Calcutta in 1770 by M/s Alexander and Co and ceased to operate in 1832. 1806 is the year of the first Presidency Bank.",
+  "section": "presidency-imperial"
+ },
+ {
+  "id": "banking-evolution-12",
+  "q": "The Bank of Hindustan, Calcutta, ceased to operate in:",
+  "options": [
+   "1809",
+   "1862",
+   "1832",
+   "1921"
+  ],
+  "answer": 2,
+  "explain": "It was founded in 1770 and wound up in 1832.",
+  "section": "presidency-imperial"
+ },
+ {
+  "id": "banking-evolution-13",
+  "q": "The first Presidency Bank was originally established under which name?",
+  "options": [
+   "Bank of Hindustan",
+   "Bank of Upper India",
+   "Bank of Bombay",
+   "Bank of Calcutta"
+  ],
+  "answer": 3,
+  "explain": "The Bank of Calcutta (1806) was renamed Bank of Bengal on 2 January 1809.",
+  "section": "presidency-imperial"
+ },
+ {
+  "id": "banking-evolution-14",
+  "q": "How much of the total capital of the Bank of Bengal (₹50 lakh) was the share of the East India Company?",
+  "options": [
+   "₹5 lakh",
+   "₹10 lakh",
+   "₹25 lakh",
+   "₹50 lakh"
+  ],
+  "answer": 1,
+  "explain": "The Bank of Bengal had a total capital of ₹50 lakh, of which ₹10 lakh was subscribed by the East India Company.",
+  "section": "presidency-imperial"
+ },
+ {
+  "id": "banking-evolution-15",
+  "q": "Which Presidency Bank was formed by amalgamating several existing regional banks and headquartered in Madras?",
+  "options": [
+   "Bank of Bengal",
+   "Bank of Bombay",
+   "Bank of Madras",
+   "Bank of Hindustan"
+  ],
+  "answer": 2,
+  "explain": "The Bank of Madras (1 July 1843), the third Presidency Bank, came from the amalgamation of several regional banks.",
+  "section": "presidency-imperial"
+ },
+ {
+  "id": "banking-evolution-16",
+  "q": "Which Presidency Bank was started on 15 April 1840?",
+  "options": [
+   "Bank of Bombay",
+   "Bank of Bengal",
+   "Bank of Madras",
+   "Bank of Calcutta"
+  ],
+  "answer": 0,
+  "explain": "Bengal came in 1806, Bombay on 15 April 1840 and Madras on 1 July 1843.",
+  "section": "presidency-imperial"
+ },
+ {
+  "id": "banking-evolution-17",
+  "q": "The Imperial Bank of India was formed on 27 January:",
+  "options": [
+   "1935",
+   "1921",
+   "1955",
+   "1806"
+  ],
+  "answer": 1,
+  "explain": "The Imperial Bank of India (1921) was created by amalgamating the three Presidency Banks and later became SBI in 1955.",
+  "section": "presidency-imperial"
+ },
+ {
+  "id": "banking-evolution-18",
+  "q": "Which of the following banks was NOT amalgamated to form the Imperial Bank of India?",
+  "options": [
+   "Bank of Bengal",
+   "Bank of Bombay",
+   "Bank of Madras",
+   "Bank of Hindustan"
+  ],
+  "answer": 3,
+  "explain": "Imperial Bank combined the three Presidency Banks. The Bank of Hindustan had ceased in 1832.",
+  "section": "presidency-imperial"
+ },
+ {
+  "id": "banking-evolution-19",
+  "q": "Which bank became the State Bank of India in 1955?",
+  "options": [
+   "Imperial Bank of India",
+   "Bank of Hindustan",
+   "General Bank of India",
+   "Federal Bank of India"
+  ],
+  "answer": 0,
+  "explain": "The Imperial Bank of India was nationalised in 1955 and renamed State Bank of India.",
+  "section": "presidency-imperial"
+ },
+ {
+  "id": "banking-evolution-20",
+  "q": "When was the State Bank of India established?",
+  "options": [
+   "1 April 1935",
+   "19 July 1969",
+   "1 July 1955",
+   "5 May 1955"
+  ],
+  "answer": 2,
+  "explain": "SBI came into being on 1 July 1955 under the SBI Act 1955. 1 April 1935 is the date RBI began working.",
+  "section": "presidency-imperial"
+ },
+ {
+  "id": "banking-evolution-21",
+  "q": "Among the banks that exist today, which is the oldest bank of India?",
+  "options": [
+   "Punjab National Bank",
+   "Reserve Bank of India",
+   "Central Bank of India",
+   "State Bank of India"
+  ],
+  "answer": 3,
+  "explain": "SBI traces its origins to the Bank of Calcutta (1806) through the Imperial Bank, so it is the oldest existing bank.",
+  "section": "presidency-imperial"
+ },
+ {
+  "id": "banking-evolution-22",
+  "q": "In which year was the concept of limited liability introduced in India, leading to joint stock banks?",
+  "options": [
+   "1835",
+   "1860",
+   "1865",
+   "1894"
+  ],
+  "answer": 1,
+  "explain": "Limited liability came in 1860; joint stock banks followed, though many were undercapitalised.",
+  "section": "joint-stock-banks"
+ },
+ {
+  "id": "banking-evolution-23",
+  "q": "The Bank of Upper India, the oldest joint stock bank of India, was established in:",
+  "options": [
+   "1865",
+   "1866",
+   "1863",
+   "1867"
+  ],
+  "answer": 2,
+  "explain": "The Bank of Upper India was set up in 1863 and failed in 1913. Allahabad Bank followed in 1865.",
+  "section": "joint-stock-banks"
+ },
+ {
+  "id": "banking-evolution-24",
+  "q": "Which is considered one of the oldest joint stock banks that still works and also one of the oldest public sector banks?",
+  "options": [
+   "Allahabad Bank",
+   "Bank of Upper India",
+   "Union Bank (1839)",
+   "Oudh Commercial Bank"
+  ],
+  "answer": 0,
+  "explain": "Allahabad Bank, founded by British on 24 April 1865, was merged with Indian Bank in 2020. The other three banks failed.",
+  "section": "joint-stock-banks"
+ },
+ {
+  "id": "banking-evolution-25",
+  "q": "Which bank, set up in Lahore in 1894, was the first bank purely managed by Indians?",
+  "options": [
+   "Central Bank of India",
+   "Punjab National Bank",
+   "Allahabad Bank",
+   "Bank of India"
+  ],
+  "answer": 1,
+  "explain": "PNB was founded in Lahore in 1894 by Lala Lajpat Rai and others. Central Bank (1911) was the first wholly Indian-owned commercial bank.",
+  "section": "joint-stock-banks"
+ },
+ {
+  "id": "banking-evolution-26",
+  "q": "Who among these was one of the founders of Punjab National Bank in Lahore?",
+  "options": [
+   "Sir Pherozeshah Mehta",
+   "Sir Sorabji Pochkhanawala",
+   "Dadabhai Naoroji",
+   "Lala Lajpat Rai"
+  ],
+  "answer": 3,
+  "explain": "Lala Lajpat Rai, Babu Purshotam Lal Tandon and S. Dayal Singh were among PNB's founders. Mehta and Pochkhanawala are linked with the Central Bank of India.",
+  "section": "joint-stock-banks"
+ },
+ {
+  "id": "banking-evolution-27",
+  "q": "In India, the first limited-liability bank managed by an Indian board, founded in 1881, was:",
+  "options": [
+   "Oudh Commercial Bank",
+   "Hindustan Commercial Bank",
+   "Punjab National Bank",
+   "Punjab and Sind Bank"
+  ],
+  "answer": 0,
+  "explain": "The Oudh Commercial Bank, set up at Faizabad in 1881, was the first limited-liability bank with an Indian board; it failed in 1958.",
+  "section": "joint-stock-banks"
+ },
+ {
+  "id": "banking-evolution-28",
+  "q": "Which bank is known as the first truly Swadeshi bank of India?",
+  "options": [
+   "Punjab National Bank",
+   "Allahabad Bank",
+   "Central Bank of India",
+   "Bank of Baroda"
+  ],
+  "answer": 2,
+  "explain": "Central Bank of India (1911), founded by Sir Sorabji Pochkhanawala, was the first commercial bank wholly owned and managed by Indians.",
+  "section": "joint-stock-banks"
+ },
+ {
+  "id": "banking-evolution-29",
+  "q": "Who was the first Chairman of the Central Bank of India?",
+  "options": [
+   "Sir Sorabji Pochkhanawala",
+   "Lala Lajpat Rai",
+   "S. Dayal Singh",
+   "Sir Pherozeshah Mehta"
+  ],
+  "answer": 3,
+  "explain": "Sir Sorabji Pochkhanawala founded Central Bank of India and Sir Pherozeshah Mehta was its first Chairman.",
+  "section": "joint-stock-banks"
+ },
+ {
+  "id": "banking-evolution-30",
+  "q": "Which was the first Indian bank to open a branch abroad (London, 1946)?",
+  "options": [
+   "Bank of Baroda",
+   "Bank of India",
+   "Central Bank of India",
+   "Punjab National Bank"
+  ],
+  "answer": 1,
+  "explain": "Bank of India, founded as a private entity in 1906, opened the first foreign branch in London in 1946.",
+  "section": "joint-stock-banks"
+ },
+ {
+  "id": "banking-evolution-31",
+  "q": "Which public sector bank completed 100 years of its establishment on 21 December 2011?",
+  "options": [
+   "State Bank of India",
+   "Punjab National Bank",
+   "Central Bank of India",
+   "Bank of Baroda"
+  ],
+  "answer": 2,
+  "explain": "Central Bank of India was founded in 1911, so it completed a century in December 2011.",
+  "section": "joint-stock-banks"
+ },
+ {
+  "id": "banking-evolution-32",
+  "q": "In which year did the Hilton-Young Commission submit its report recommending a central bank?",
+  "options": [
+   "1926",
+   "1920",
+   "1934",
+   "1935"
+  ],
+  "answer": 0,
+  "explain": "The Hilton-Young Commission reported in 1926; the RBI Act followed in 1934 and RBI began on 1 April 1935.",
+  "section": "rbi-creation"
+ },
+ {
+  "id": "banking-evolution-33",
+  "q": "Which objective was set out in the recommendations of the Hilton-Young Commission for a central bank?",
+  "options": [
+   "To nationalise all commercial banks",
+   "To separate the control of currency and credit from the government",
+   "To fix the price of gold",
+   "To start the Five Year Plans"
+  ],
+  "answer": 1,
+  "explain": "The Commission wanted currency and credit control separated from the government, and banking facilities widened across the country.",
+  "section": "rbi-creation"
+ },
+ {
+  "id": "banking-evolution-34",
+  "q": "The Reserve Bank of India began functioning on:",
+  "options": [
+   "1 April 1934",
+   "1 July 1955",
+   "1 April 1949",
+   "1 April 1935"
+  ],
+  "answer": 3,
+  "explain": "RBI was created by the RBI Act of 1934 and began operations on 1 April 1935 as banker to the central government.",
+  "section": "rbi-creation"
+ },
+ {
+  "id": "banking-evolution-35",
+  "q": "Which committee, set up by RBI after Independence, recommended taking over the Imperial Bank of India?",
+  "options": [
+   "All India Rural Credit Survey Committee",
+   "Narasimham Working Group",
+   "Hilton-Young Commission",
+   "Tarapore Committee"
+  ],
+  "answer": 0,
+  "explain": "The All India Rural Credit Survey Committee proposed taking over the Imperial Bank and integrating former state-associated banks with it, leading to SBI.",
+  "section": "sbi-and-planning"
+ },
+ {
+  "id": "banking-evolution-36",
+  "q": "How many commercial banks were there in India in 1950-51?",
+  "options": [
+   "330",
+   "600",
+   "430",
+   "250"
+  ],
+  "answer": 2,
+  "explain": "The book gives 430 commercial banks in 1950-51. The figure 600 refers to the larger number of banks in the pre-Independence modern era.",
+  "section": "sbi-and-planning"
+ },
+ {
+  "id": "banking-evolution-37",
+  "q": "The SBI (Subsidiary Banks) Act that let SBI take over five former state-associate banks was passed in:",
+  "options": [
+   "1955",
+   "1962",
+   "1969",
+   "1959"
+  ],
+  "answer": 3,
+  "explain": "The State Bank of India Act was passed in 1955, and the Subsidiary Banks Act in 1959.",
+  "section": "sbi-and-planning"
+ },
+ {
+  "id": "banking-evolution-38",
+  "q": "Which of the following was NOT one of the five subsidiary banks listed as taken over by SBI under the 1959 Act?",
+  "options": [
+   "State Bank of Patiala",
+   "Bharatiya Mahila Bank",
+   "State Bank of Mysore",
+   "State Bank of Travancore"
+  ],
+  "answer": 1,
+  "explain": "The five were Patiala, Hyderabad, Travancore, Bikaner and Jaipur, and Mysore. Bharatiya Mahila Bank was a much later bank that merged with SBI in 2017.",
+  "section": "sbi-and-planning"
+ },
+ {
+  "id": "banking-evolution-39",
+  "q": "In the subsidiary-bank arrangement of 1959, what share of capital was held by SBI?",
+  "options": [
+   "45 per cent",
+   "51 per cent",
+   "55 per cent",
+   "75 per cent"
+  ],
+  "answer": 2,
+  "explain": "SBI owned 55 per cent and the old shareholders kept 45 per cent.",
+  "section": "sbi-and-planning"
+ },
+ {
+  "id": "banking-evolution-40",
+  "q": "The Deposit Insurance Corporation of India (Deposit Insurance Corporation Act, 1961) was established in:",
+  "options": [
+   "January 1962",
+   "January 1955",
+   "January 1969",
+   "January 1972"
+  ],
+  "answer": 0,
+  "explain": "The DIC was set up in January 1962 to protect the deposits of small depositors.",
+  "section": "policy-milestones"
+ },
+ {
+  "id": "banking-evolution-41",
+  "q": "The National Credit Council (NCC), set up in February 1968, was meant to:",
+  "options": [
+   "Insure small depositors' savings",
+   "Help the Government and RBI reallocate credit according to plan priorities",
+   "Supervise all commercial banks exclusively",
+   "Hear complaints of bank customers"
+  ],
+  "answer": 1,
+  "explain": "NCC assisted the Government and RBI in reallocating credit in line with plan priorities.",
+  "section": "policy-milestones"
+ },
+ {
+  "id": "banking-evolution-42",
+  "q": "Cooperative banks were brought within the regulations of the RBI in:",
+  "options": [
+   "1949",
+   "1969",
+   "1980",
+   "1966"
+  ],
+  "answer": 3,
+  "explain": "Cooperative banks came under RBI regulation in 1966, the year in which the rupee was devalued for the first time.",
+  "section": "policy-milestones"
+ },
+ {
+  "id": "banking-evolution-43",
+  "q": "The Lead Bank Scheme aims to provide adequate banking and credit in rural areas through which approach?",
+  "options": [
+   "A service area approach, with one bank assigned to one area",
+   "A uniform interest-rate approach for all banks",
+   "A branch-licensing approach through RBI",
+   "A deposit-insurance approach for each village"
+  ],
+  "answer": 0,
+  "explain": "The Lead Bank Scheme (introduced 1969) assigns one bank to one area under a service area approach.",
+  "section": "policy-milestones",
+  "exam": "SBI PO Main 2022"
+ },
+ {
+  "id": "banking-evolution-44",
+  "q": "How many banks were nationalised in 1969, each with deposits of over ₹50 crore?",
+  "options": [
+   "Six",
+   "Twenty",
+   "Fourteen",
+   "Twelve"
+  ],
+  "answer": 2,
+  "explain": "Fourteen banks were nationalised in 1969. Six more (liabilities above ₹200 crore) followed on 15 April 1980.",
+  "section": "policy-milestones"
+ },
+ {
+  "id": "banking-evolution-45",
+  "q": "Six banks were nationalised on 15 April 1980. What criterion applied?",
+  "options": [
+   "Deposits above ₹50 crore",
+   "Capital above ₹500 crore",
+   "Branches above 2,000",
+   "Demand and time liabilities above ₹200 crore"
+  ],
+  "answer": 3,
+  "explain": "The 1980 criterion was demand and time liabilities greater than ₹200 crore (as on 14.03.1980); in 1969 it was deposits above ₹50 crore.",
+  "section": "policy-milestones"
+ },
+ {
+  "id": "banking-evolution-46",
+  "q": "The Differential Rate of Interest (DRI) scheme was introduced in 1972 for:",
+  "options": [
+   "Large industrial houses",
+   "The weaker sections of society",
+   "Foreign banks in India",
+   "Stock exchanges"
+  ],
+  "answer": 1,
+  "explain": "DRI offered loans at concessional interest to cater to the weaker sections and their upliftment.",
+  "section": "policy-milestones"
+ },
+ {
+  "id": "banking-evolution-47",
+  "q": "The Priority Sector concept was set up for private sector banks in:",
+  "options": [
+   "November 1974",
+   "November 1969",
+   "November 1978",
+   "November 1980"
+  ],
+  "answer": 2,
+  "explain": "The concept applied to public sector banks in November 1974 and to private sector banks in November 1978.",
+  "section": "policy-milestones"
+ },
+ {
+  "id": "banking-evolution-48",
+  "q": "The Board for Financial Supervision (BFS) was set up within RBI in 1994 to:",
+  "options": [
+   "Attend exclusively to supervisory functions",
+   "Issue currency notes",
+   "Fix the repo rate",
+   "Manage government debt"
+  ],
+  "answer": 0,
+  "explain": "The BFS was created inside RBI exclusively for supervision of banks and related entities.",
+  "section": "policy-milestones"
+ },
+ {
+  "id": "banking-evolution-49",
+  "q": "The Banking Ombudsman is a quasi-judicial authority created to resolve complaints of:",
+  "options": [
+   "Banking staff",
+   "Customers of banks",
+   "Farmers only",
+   "Labour unions"
+  ],
+  "answer": 1,
+  "explain": "The Ombudsman was created to enable resolution of complaints by bank customers.",
+  "section": "policy-milestones",
+  "exam": "SBI Clerk Main 2022"
+ },
+ {
+  "id": "banking-evolution-50",
+  "q": "Which body, set up in 2006, takes voluntary registration of banks that commit to customer service as per agreed standards?",
+  "options": [
+   "Board for Financial Supervision",
+   "National Credit Council",
+   "Deposit Insurance Corporation",
+   "Banking Codes and Standards Board of India (BCSBI)"
+  ],
+  "answer": 3,
+  "explain": "BCSBI was set up in 2006 for voluntary registration of banks committed to agreed customer service standards.",
+  "section": "policy-milestones"
+ },
+ {
+  "id": "banking-evolution-51",
+  "q": "The IFSC is an 11-character code. The fifth character is the digit zero, reserved for:",
+  "options": [
+   "Future use",
+   "Account information",
+   "Cash withdrawal limit",
+   "Interest rate"
+  ],
+  "answer": 0,
+  "explain": "The first four letters are the bank name, the fifth is 0 reserved for future use, and the last six identify the branch.",
+  "section": "policy-milestones",
+  "exam": "SBI PO Main 2019"
+ },
+ {
+  "id": "banking-evolution-52",
+  "q": "The merger of 10 public sector banks into 4 came into effect from:",
+  "options": [
+   "1 April 2017",
+   "1 April 2019",
+   "1 April 2020",
+   "1 January 2021"
+  ],
+  "answer": 2,
+  "explain": "The plan announced in August 2019 took effect on 1 April 2020.",
+  "section": "bank-mergers"
+ },
+ {
+  "id": "banking-evolution-53",
+  "q": "Which bank merged into Canara Bank in the 2020 consolidation?",
+  "options": [
+   "Allahabad Bank",
+   "Corporation Bank",
+   "Dena Bank",
+   "Syndicate Bank"
+  ],
+  "answer": 3,
+  "explain": "Syndicate Bank merged into Canara Bank. Allahabad merged with Indian Bank; Corporation with Union Bank; Dena with Bank of Baroda.",
+  "section": "bank-mergers"
+ },
+ {
+  "id": "banking-evolution-54",
+  "q": "Indian Bank was merged with which bank in the 2020 consolidation?",
+  "options": [
+   "Andhra Bank",
+   "Allahabad Bank",
+   "United Bank of India",
+   "Vijaya Bank"
+  ],
+  "answer": 1,
+  "explain": "Allahabad Bank merged into Indian Bank. Andhra went to Union Bank and United Bank to PNB.",
+  "section": "bank-mergers"
+ },
+ {
+  "id": "banking-evolution-55",
+  "q": "Union Bank of India absorbed which pair of banks in 2020?",
+  "options": [
+   "Oriental Bank of Commerce and United Bank",
+   "Dena Bank and Vijaya Bank",
+   "Andhra Bank and Corporation Bank",
+   "Syndicate Bank and Allahabad Bank"
+  ],
+  "answer": 2,
+  "explain": "Union Bank merged with Andhra Bank and Corporation Bank. OBC and United went to PNB.",
+  "section": "bank-mergers"
+ },
+ {
+  "id": "banking-evolution-56",
+  "q": "Oriental Bank of Commerce and United Bank of India were merged into which bank?",
+  "options": [
+   "Punjab National Bank",
+   "Canara Bank",
+   "Union Bank of India",
+   "Bank of Baroda"
+  ],
+  "answer": 0,
+  "explain": "With OBC and United Bank merged in, PNB became the second largest public sector bank after SBI.",
+  "section": "bank-mergers"
+ },
+ {
+  "id": "banking-evolution-57",
+  "q": "Dena Bank and Vijaya Bank were merged with which bank, creating the third-largest bank by loans?",
+  "options": [
+   "Bank of India",
+   "Bank of Baroda",
+   "Canara Bank",
+   "Punjab National Bank"
+  ],
+  "answer": 1,
+  "explain": "The Dena-Vijaya merger into Bank of Baroda was proposed on 17 September 2018 and approved on 2 January 2019.",
+  "section": "bank-mergers"
+ },
+ {
+  "id": "banking-evolution-58",
+  "q": "The five associate banks of SBI and Bharatiya Mahila Bank merged with SBI with effect from:",
+  "options": [
+   "1 April 2020",
+   "1 July 1955",
+   "1 April 2019",
+   "1 April 2017"
+  ],
+  "answer": 3,
+  "explain": "The SBI group merger took effect on 1 April 2017, making SBI the country's largest lender.",
+  "section": "bank-mergers"
+ },
+ {
+  "id": "banking-evolution-59",
+  "q": "How many public sector banks remained after the 2020 merger, as per the list in the book?",
+  "options": [
+   "12",
+   "14",
+   "10",
+   "27"
+  ],
+  "answer": 0,
+  "explain": "After the 10-into-4 consolidation, 12 PSBs remained: six anchor banks and six independent banks. In 2017 there were 27.",
+  "section": "bank-mergers",
+  "exam": "SBI Clerk Main 2022"
+ },
+ {
+  "id": "banking-evolution-60",
+  "q": "Which of the following was among the six independent public sector banks, not merged in 2020?",
+  "options": [
+   "Syndicate Bank",
+   "Andhra Bank",
+   "UCO Bank",
+   "Oriental Bank of Commerce"
+  ],
+  "answer": 2,
+  "explain": "The independents were Indian Overseas Bank, UCO Bank, Bank of Maharashtra, Punjab and Sind Bank, Bank of India and Central Bank of India.",
+  "section": "bank-mergers"
+ }
+]

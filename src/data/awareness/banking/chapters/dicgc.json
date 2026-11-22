@@ -1,0 +1,407 @@
+{
+  "id": "dicgc",
+  "sections": [
+    {
+      "id": "what-is-dicgc",
+      "title": "What is DICGC?",
+      "icon": "🔒",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "The **Deposit Insurance and Credit Guarantee Corporation (DICGC)** is a **wholly owned subsidiary of the Reserve Bank of India**. It was set up on **15 July 1978** under the **DICGC Act, 1961**. Its two jobs: insure the deposits that customers keep with banks, and guarantee credit facilities given by banks."
+        },
+        {
+          "type": "keyvalue",
+          "title": "Key identity facts",
+          "rows": [
+            ["Full form", "Deposit Insurance and Credit Guarantee Corporation"],
+            ["Owner", "Reserve Bank of India (wholly owned subsidiary)"],
+            ["Established", "15 July 1978"],
+            ["Governing law", "DICGC Act, 1961, plus the DICGC General Regulations, 1961 framed by the RBI under sub-section (3) of Section 50 of the Act"],
+            ["Head office", "Mumbai"],
+            ["Role 1", "Insures bank deposits of customers"],
+            ["Role 2", "Guarantees credit facilities (loans) given to borrowers"]
+          ]
+        },
+        {
+          "type": "figure",
+          "kind": "flow",
+          "title": "How DICGC came into being",
+          "items": [
+            ["DIC", "Deposit Insurance Corporation (Act of 1961)"],
+            ["CGCI", "Credit Guarantee Corporation of India Ltd. (1971)"],
+            ["Merger", "Merged to integrate both functions"],
+            ["DICGC", "Formed on 15 July 1978"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "remember",
+          "title": "Title of the Act changed",
+          "text": "When DIC and CGCI merged in 1978, the Deposit Insurance Act, 1961 was renamed the Deposit Insurance and Credit Guarantee Corporation Act, 1961, even though the year 1961 stayed."
+        },
+        {
+          "type": "mnemonic",
+          "title": "DICGC: what the letters hold",
+          "phrase": "Deposit Insurance + Credit Guarantee: D-I protects your Deposit, C-G Guards your Credit (loan).",
+          "letters": [
+            ["D", "Deposit"],
+            ["I", "Insurance"],
+            ["C", "Credit"],
+            ["G", "Guarantee"],
+            ["C", "Corporation"]
+          ],
+          "note": "Act year is 1961; DICGC itself dates from 1978. Keep ‘61 for the Act and ‘78 for the Corporation."
+        }
+      ]
+    },
+    {
+      "id": "dicgc-history",
+      "title": "History: from Bengal crisis to DICGC",
+      "icon": "📜",
+      "blocks": [
+        {
+          "type": "timeline",
+          "title": "How deposit insurance developed in India",
+          "items": [
+            ["1948", "The idea of insuring bank deposits gets attention for the first time, after the banking crises in Bengal."],
+            ["1949", "The idea is reconsidered but kept in abeyance until the RBI makes adequate arrangements for inspection of banks."],
+            ["1950", "The Rural Banking Enquiry Committee supports deposit insurance."],
+            ["1960", "The failure of the Palai Central Bank Ltd. and the Laxmi Bank Ltd. makes the RBI and the Government think seriously about it."],
+            ["21 Aug 1961", "The Deposit Insurance Corporation (DIC) Bill is introduced in Parliament."],
+            ["7 Dec 1961", "The Bill receives the President’s assent."],
+            ["1 Jan 1962", "The Deposit Insurance Act, 1961 comes into force."],
+            ["14 Jan 1971", "RBI promotes the Credit Guarantee Corporation of India Ltd. (CGCI), a public limited company."],
+            ["15 Jul 1978", "DIC and CGCI are merged into the present DICGC."]
+          ]
+        },
+        {
+          "type": "bullets",
+          "title": "Early scope of the scheme",
+          "items": [
+            "Deposit insurance was first extended only to functioning **commercial banks**, including the State Bank of India and its subsidiaries, other commercial banks and branches of foreign banks operating in India.",
+            "The CGCI’s credit guarantee schemes aimed to encourage commercial banks to lend to neglected sectors, particularly weaker sections engaged in non-industrial activities, by guaranteeing loans to small and needy priority sector borrowers."
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "fact",
+          "title": "Where did the idea start?",
+          "text": "Deposit insurance was first discussed in 1948 after the banking crisis in **Bengal**. The Rural Banking Enquiry Committee backed it in 1950. Remember Bengal, not Kerala or Maharashtra."
+        },
+        {
+          "type": "mnemonic",
+          "title": "Dates to know: 48, 50, 60, 61, 71, 78",
+          "phrase": "Bengal’s crash in ’48, Rural panel ’50, Palai & Laxmi crash ’60, Act ’61, CGCI ’71, DICGC ’78.",
+          "letters": [
+            ["1948", "Bengal banking crisis; idea of deposit insurance"],
+            ["1950", "Rural Banking Enquiry Committee supports it"],
+            ["1960", "Palai Central Bank and Laxmi Bank fail"],
+            ["1961", "DIC Act (in force 1 Jan 1962)"],
+            ["1971", "CGCI promoted (14 January)"],
+            ["1978", "DICGC formed (15 July)"]
+          ],
+          "note": "The Act year is 1961 but it came into force on 1 January 1962."
+        }
+      ]
+    },
+    {
+      "id": "insurance-limit",
+      "title": "Insurance cover and how it grew",
+      "icon": "💰",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "Under Section 16(1) of the DICGC Act, the insurance cover originally stood at just **₹1,500** per depositor for deposits held in the **same right and same capacity** in all branches of a bank taken together. The Act lets the Corporation raise the limit with the prior approval of the Central Government, and it has done so several times."
+        },
+        {
+          "type": "table",
+          "title": "Deposit insurance limit over the years",
+          "headers": ["Effective from", "Limit per depositor"],
+          "rows": [
+            ["Start (Section 16(1))", "₹1,500"],
+            ["1 January 1968", "₹5,000"],
+            ["1 April 1970", "₹10,000"],
+            ["1 January 1976", "₹20,000"],
+            ["1 July 1980", "₹30,000"],
+            ["1 May 1993", "₹1,00,000 (₹1 lakh)"],
+            ["4 February 2020", "₹5,00,000 (₹5 lakh)"]
+          ]
+        },
+        {
+          "type": "bullets",
+          "title": "The ₹5 lakh cover",
+          "items": [
+            "The limit of ₹1 lakh had lasted from May 1993; the Damodaran Committee on Customer Services in Banks (2011) had recommended a five-time increase to ₹5 lakh because incomes and individual deposits were rising.",
+            "In February 2020, as per the budget provision, DICGC raised the cover from ₹1 lakh to ₹5 lakh per depositor.",
+            "The ₹5 lakh cap includes both **principal and interest**.",
+            "If a bank goes into liquidation, depositors get insurance money according to their deposits, up to a maximum of ₹5 lakh.",
+            "The demand for a higher cover grew stronger after the collapse of the Punjab and Maharashtra Co-operative (PMC) Bank."
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "Same right, same capacity",
+          "text": "The cover is per depositor per bank for deposits held in the same right and capacity, taken across all branches of that bank together. A depositor with accounts in different banks gets cover from each bank separately."
+        },
+        {
+          "type": "callout",
+          "kind": "fact",
+          "title": "Later update",
+          "text": "After the period covered here, a 2021 amendment to the DICGC Act allowed the insured amount (up to the limit) to be paid to depositors within 90 days of a bank being placed under restrictions. Always check the latest rules before an exam."
+        },
+        {
+          "type": "mnemonic",
+          "title": "Limit ladder: 1.5-5-10-20-30 then 1 and 5",
+          "phrase": "Years 68, 70, 76, 80 give 5, 10, 20, 30 thousand; 1993 gives 1 lakh; 2020 gives 5 lakh.",
+          "letters": [
+            ["1968", "₹5,000"],
+            ["1970", "₹10,000"],
+            ["1976", "₹20,000"],
+            ["1980", "₹30,000"],
+            ["1993", "₹1 lakh"],
+            ["2020", "₹5 lakh"]
+          ],
+          "note": "Start: ₹1,500. Thousands first (5, 10, 20, 30), then lakhs (1, 5)."
+        },
+        {
+          "type": "mnemonic",
+          "title": "Five lakh story",
+          "phrase": "PMC crash made people shout; Damodaran asked for 5 times, the budget gave 5 lakh in February 2020.",
+          "letters": [
+            ["P", "PMC Bank collapse raised the demand"],
+            ["D", "Damodaran Committee recommended a five-time increase"],
+            ["5", "₹5 lakh from 4 February 2020"]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dicgc-coverage",
+      "title": "Banks and deposits covered",
+      "icon": "🛡️",
+      "blocks": [
+        {
+          "type": "bullets",
+          "title": "Banks covered by the Deposit Insurance Scheme",
+          "items": [
+            "All **commercial banks**, including branches of foreign banks functioning in India, **Local Area Banks** and **Regional Rural Banks**.",
+            "All eligible **co-operative banks** as defined in Section 2(gg) of the DICGC Act: State, Central and Primary co-operative banks in States and Union Territories that have amended their Co-operative Societies Act as the DICGC Act requires. At the time of writing, all co-operative banks are covered.",
+            "Primary co-operative **societies** are not insured by DICGC."
+          ]
+        },
+        {
+          "type": "text",
+          "text": "Banks, including regional rural banks, local area banks, foreign banks with branches in India and co-operative banks, are **mandated** to take deposit insurance cover from DICGC. The Union Territories of Lakshadweep and Dadra and Nagar Haveli do not have co-operative banks."
+        },
+        {
+          "type": "keyvalue",
+          "title": "Deposits that ARE covered",
+          "rows": [
+            ["Savings", "Savings deposits"],
+            ["Fixed", "Fixed deposits"],
+            ["Current", "Current deposits"],
+            ["Recurring", "Recurring deposits"]
+          ]
+        },
+        {
+          "type": "bullets",
+          "title": "Deposits that are NOT covered",
+          "items": [
+            "Deposits of foreign Governments.",
+            "Deposits of Central and State Governments.",
+            "Inter-bank deposits.",
+            "Deposits of State Land Development Banks with the State co-operative banks.",
+            "Any amount due on account of, and deposits received, outside India.",
+            "Any amount specifically exempted by the Corporation with the previous approval of the RBI."
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "remember",
+          "title": "Principal plus interest",
+          "text": "Insurance covers both the principal and the interest on deposits, but the total payout for a depositor in one bank is capped at ₹5 lakh."
+        },
+        {
+          "type": "mnemonic",
+          "title": "Covered deposits: SFCR",
+          "phrase": "SFCR: Savings, Fixed, Current, Recurring all get covered.",
+          "letters": [
+            ["S", "Savings"],
+            ["F", "Fixed"],
+            ["C", "Current"],
+            ["R", "Recurring"]
+          ]
+        },
+        {
+          "type": "mnemonic",
+          "title": "Excluded deposits: FIG LOE",
+          "phrase": "A FIG LOE (low) is not insured: Foreign govt, Inter-bank, Government (Centre/State), Land development banks, Overseas, Exempted.",
+          "letters": [
+            ["F", "Foreign governments’ deposits"],
+            ["I", "Inter-bank deposits"],
+            ["G", "Central and State Government deposits"],
+            ["L", "State Land Development Banks’ deposits with State co-operative banks"],
+            ["O", "Deposits received outside India (Overseas)"],
+            ["E", "Amounts Exempted by the Corporation with RBI approval"]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "premium-registration",
+      "title": "Premium and registration of insured banks",
+      "icon": "🧾",
+      "blocks": [
+        {
+          "type": "bullets",
+          "title": "Premium rules",
+          "items": [
+            "As per the book, DICGC charges **10 paise per ₹100** of deposits held by a bank. This rate has been revised upwards since, so check the current rate before an exam.",
+            "The premium is paid by the **insured bank**, not the customer, and the bank may not pass it on to depositors.",
+            "So the benefit of deposit insurance reaches depositors **free of cost**.",
+            "The insured bank has to remit the premium half-yearly, by the end of May and the end of November each year."
+          ]
+        },
+        {
+          "type": "steps",
+          "title": "Registration of an insured bank",
+          "items": [
+            "A bank that fails to pay the premium for **three consecutive half-year periods** can have its registration cancelled by the Corporation.",
+            "The bank may later ask for its registration to be restored.",
+            "The Corporation can restore it if the bank pays all premium due from the date of default, together with interest."
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "Who pays the premium?",
+          "text": "Not the customer, not the RBI, not the nominee. The **insured bank** pays the premium to DICGC."
+        },
+        {
+          "type": "mnemonic",
+          "title": "Premium in a nutshell",
+          "phrase": "Bank pays, depositor stays free; May and November are the dates; three missed half-years and you are out.",
+          "letters": [
+            ["Bank", "Pays the premium, cannot pass it on"],
+            ["May/Nov", "Half-yearly due dates"],
+            ["3", "Consecutive half-years of default before cancellation"]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dicgc-management",
+      "title": "Management, funds and administration",
+      "icon": "🏛️",
+      "blocks": [
+        {
+          "type": "keyvalue",
+          "title": "Management of DICGC",
+          "rows": [
+            ["Authorised capital", "₹50 crore, fully issued and subscribed by the Reserve Bank of India"],
+            ["Board of Directors", "Manages the Corporation; a Deputy Governor of the RBI is the Chairman"],
+            ["Head office", "Mumbai"],
+            ["Executive Director", "In overall charge of day-to-day operations"],
+            ["Departments", "Four: Accounts, Deposit Insurance, Credit Guarantee and Administration"]
+          ]
+        },
+        {
+          "type": "table",
+          "title": "The three funds",
+          "headers": ["Fund", "Fed by", "Used for"],
+          "rows": [
+            ["Deposit Insurance Fund", "Insurance premium received", "Settling deposit insurance claims"],
+            ["Credit Guarantee Fund", "Guarantee fees received", "Settling credit guarantee claims"],
+            ["General Fund", "Corporation’s general resources", "Establishment and administrative expenses"]
+          ]
+        },
+        {
+          "type": "text",
+          "text": "The Administration Department looks after staff and establishment matters. Employees of the Corporation are RBI employees, and DICGC is treated as an independent salary-drawing unit."
+        },
+        {
+          "type": "callout",
+          "kind": "remember",
+          "title": "Two numbers",
+          "text": "Authorised capital: ₹50 crore, all subscribed by the RBI. Board chairman: a Deputy Governor of the RBI."
+        },
+        {
+          "type": "mnemonic",
+          "title": "Four departments: A-D-C-A",
+          "phrase": "A DC A: Accounts, Deposit Insurance, Credit Guarantee, Administration.",
+          "letters": [
+            ["A", "Accounts"],
+            ["D", "Deposit Insurance"],
+            ["C", "Credit Guarantee"],
+            ["A", "Administration"]
+          ]
+        },
+        {
+          "type": "mnemonic",
+          "title": "Three funds: DCG",
+          "phrase": "DCG: Deposit Insurance Fund, Credit Guarantee Fund, General Fund. The first two are fed by premium and fees; the General Fund pays the bills.",
+          "letters": [
+            ["D", "Deposit Insurance Fund (premium)"],
+            ["C", "Credit Guarantee Fund (guarantee fees)"],
+            ["G", "General Fund (administrative expenses)"]
+          ]
+        }
+      ]
+    }
+  ],
+  "revision": [
+    "DICGC is a wholly owned subsidiary of the RBI, set up on 15 July 1978 under the DICGC Act, 1961; head office in Mumbai.",
+    "DICGC was formed by merging the Deposit Insurance Corporation (DIC) and the Credit Guarantee Corporation of India Ltd. (CGCI, promoted 14 January 1971).",
+    "The idea of deposit insurance first arose in 1948 after the Bengal banking crisis; the Rural Banking Enquiry Committee supported it in 1950.",
+    "The crash of the Palai Central Bank and Laxmi Bank in 1960 pushed the Government towards deposit insurance.",
+    "The Deposit Insurance Act, 1961 came into force on 1 January 1962 and the Bill was introduced on 21 August 1961.",
+    "Insurance limit history: ₹1,500, ₹5,000 (1968), ₹10,000 (1970), ₹20,000 (1976), ₹30,000 (1980), ₹1 lakh (1993), ₹5 lakh (4 February 2020).",
+    "The ₹5 lakh cap covers principal plus interest per depositor in one bank, in the same right and capacity.",
+    "The demand for a higher cover grew after the PMC Bank collapse; the Damodaran Committee (2011) had asked for a five-time increase.",
+    "Covered deposits: savings, fixed, current and recurring. Not covered: foreign governments, Central and State Governments, inter-bank and deposits received outside India.",
+    "Commercial banks, local area banks, RRBs, foreign bank branches and co-operative banks are covered; primary co-operative societies are not.",
+    "The premium is paid by the insured bank, not the depositor; the book gives the rate as 10 paise per ₹100 of deposits.",
+    "Registration can be cancelled if premium is unpaid for three consecutive half-years, and restored on payment of dues with interest.",
+    "Authorised capital is ₹50 crore, fully subscribed by the RBI; a Deputy Governor of the RBI chairs the Board.",
+    "Four departments: Accounts, Deposit Insurance, Credit Guarantee and Administration; funds: Deposit Insurance, Credit Guarantee and General."
+  ],
+  "mindmap": {
+    "center": "DICGC",
+    "branches": [
+      {
+        "label": "Identity",
+        "children": ["RBI subsidiary", "15 July 1978", "DICGC Act, 1961", "Head office: Mumbai"]
+      },
+      {
+        "label": "History",
+        "children": ["1948 Bengal crisis", "1960 Palai and Laxmi fail", "DIC Act 1961", "CGCI 1971", "Merger 1978"]
+      },
+      {
+        "label": "Insurance limit",
+        "children": ["₹1,500 at start", "₹30,000 in 1980", "₹1 lakh in 1993", "₹5 lakh in 2020", "Principal plus interest"]
+      },
+      {
+        "label": "Banks covered",
+        "children": ["Commercial banks", "Foreign bank branches", "RRBs and LABs", "Co-operative banks"]
+      },
+      {
+        "label": "Deposits covered",
+        "children": ["Savings", "Fixed", "Current", "Recurring"]
+      },
+      {
+        "label": "Excluded deposits",
+        "children": ["Foreign governments", "Central/State governments", "Inter-bank deposits", "Outside India"]
+      },
+      {
+        "label": "Premium",
+        "children": ["Paid by insured bank", "10 paise per ₹100 (book)", "Due May and November", "3 half-years default"]
+      },
+      {
+        "label": "Management",
+        "children": ["₹50 crore capital", "RBI Deputy Governor chairs", "Four departments", "Three funds"]
+      }
+    ]
+  }
+}

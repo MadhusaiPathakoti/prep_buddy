@@ -1,0 +1,287 @@
+{
+  "id": "nbfc",
+  "sections": [
+    {
+      "id": "what-is-nbfc",
+      "title": "What is an NBFC and how is one registered?",
+      "icon": "🏪",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "A **Non-Banking Financial Company (NBFC)** lends and invests like a bank but is **not a bank**. It is regulated and supervised by the **RBI**. Its business includes loans and advances, buying bonds, debentures and other marketable securities (including those issued by the Government or a local authority), **leasing**, **hire-purchase**, **insurance business** and **chit business**."
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "Who is NOT an NBFC",
+          "text": "An institution whose principal business is agriculture, industrial activity, buying or selling goods, providing services, or buying and selling immovable property is not an NBFC, even if it also lends."
+        },
+        {
+          "type": "keyvalue",
+          "title": "Requirements for registration",
+          "rows": [
+            ["Legal form", "Must be a company registered under the Companies Act (the study material cites the 1956 Act; the 2013 Act has replaced it)."],
+            ["Intent", "Wants to start the business of a non-banking financial institution as defined in Section 45-I(a) of the RBI Act, 1934."],
+            ["Minimum Net Owned Fund (NOF)", "₹200 lakh (that is ₹2 crore)."]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "fact",
+          "title": "Regulator and foreign investment",
+          "text": "The RBI regulates and supervises NBFCs, not the Finance Ministry, SEBI or state governments. As per the 2024-25 exam material, up to 100% foreign investment is allowed in NBFCs for permitted activities."
+        }
+      ]
+    },
+    {
+      "id": "features",
+      "title": "Features of NBFCs",
+      "icon": "🔍",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "NBFCs are generally **small in size and scope**, with a simple structure and **low management cost**. A few, such as provident funds and pension funds, are large. Their typical features are listed below."
+        },
+        {
+          "type": "keyvalue",
+          "title": "Key features",
+          "rows": [
+            ["Low capital intensity", "Very little owned capital. They collect larger sums from the public by offering attractive returns because they find it hard to gather deposits."],
+            ["Easy availability of loans", "Borrowers turned down by commercial banks and development banks come to NBFCs, which lend easily with few documents."],
+            ["Unsecured loans", "Loans are given with little or inadequate security, so they are riskier and harder to recover."],
+            ["Rescheduling of loans", "Unrecovered short and medium-term loans are converted into long-term loans, which raises the amount, term and rate of interest."],
+            ["Support for economic needs", "Credit for agriculture, industry, trade and services, and household finance for consumption, education, home construction, vehicles and health."]
+          ]
+        },
+        {
+          "type": "mnemonic",
+          "title": "Five features: L-E-U-R-S",
+          "phrase": "Lenders Easily Use Risky Schemes: Low capital, Easy loans, Unsecured, Rescheduling, Support for needs.",
+          "letters": [
+            ["L", "Low capital intensity"],
+            ["E", "Easy availability of loans"],
+            ["U", "Unsecured loans"],
+            ["R", "Rescheduling of loans"],
+            ["S", "Support for economic needs"]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "banks-vs-nbfcs",
+      "title": "Banks versus NBFCs",
+      "icon": "⚖️",
+      "blocks": [
+        {
+          "type": "table",
+          "title": "What an NBFC cannot do",
+          "headers": ["Point", "Bank", "NBFC"],
+          "rows": [
+            ["Demand deposits", "Can accept", "Cannot accept"],
+            ["Payment and settlement system", "Part of it; issues cheques drawn on itself", "Not part of it; cannot issue cheques drawn on itself"],
+            ["Deposit insurance (DICGC)", "Available to depositors", "Not available to depositors"],
+            ["RBI guarantee on deposits", "Insured up to the DICGC limit", "RBI does not guarantee repayment of NBFC deposits"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "Ombudsman note",
+          "text": "Older study notes say there is no Ombudsman for NBFC complaints, apart from credit card complaints against a bank-owned NBFC, which can go to the Banking Ombudsman if the NBFC does not reply satisfactorily within 30 days. The RBI later introduced an Ombudsman Scheme for NBFCs (2018), where the appellate authority is the RBI Deputy Governor in charge."
+        },
+        {
+          "type": "mnemonic",
+          "title": "Three things an NBFC lacks: D-C-I",
+          "phrase": "NBFCs have no DCI: Demand deposits, Cheques on itself, Insurance of deposits (DICGC).",
+          "letters": [
+            ["D", "Demand deposits cannot be accepted"],
+            ["C", "Cannot issue cheques drawn on itself or join the payment system"],
+            ["I", "No deposit insurance by DICGC"]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "types",
+      "title": "Types of NBFCs",
+      "icon": "🗂️",
+      "blocks": [
+        {
+          "type": "table",
+          "title": "Ten categories and the numbers that define them",
+          "headers": ["Type", "What it does", "Key limit"],
+          "rows": [
+            ["Asset Finance Company (AFC)", "Finances physical assets that support productive or economic activity", "Financing of such assets and income from it at least 60% of total assets and total income"],
+            ["Investment Company (IC)", "Principal business is acquiring securities", "No numeric limit given"],
+            ["Loan Company (LC)", "Provides finance by loans or advances for activities other than its own; does not include an AFC", "No numeric limit given"],
+            ["Infrastructure Finance Company (IFC)", "Lends to infrastructure", "At least 75% of assets in infrastructure loans; NOF ₹300 crore; credit rating A or equivalent; CRAR 15%"],
+            ["Systemically Important Core Investment Company (CIC)", "Holds shares and securities of group companies, takes public funds", "Asset size ₹100 crore or more; at least 90% of assets in group-company investments; at least 60% in equity shares of group companies"],
+            ["Infrastructure Debt Fund (IDF-NBFC)", "Channels long-term debt into infrastructure projects through rupee or dollar bonds", "Bonds of minimum 5-year maturity; sponsored through Infrastructure Finance Companies"],
+            ["NBFC-MFI", "Non-deposit NBFC for microfinance", "At least 85% of assets are qualifying assets; loan up to ₹50,000 in the first cycle and ₹1,00,000 in later cycles"],
+            ["NBFC-Factors", "Non-deposit NBFC whose principal business is factoring", "Factoring assets at least 50% of total assets"],
+            ["Mortgage Guarantee Company (MGC)", "Gives mortgage guarantees", "At least 90% of turnover or gross income from mortgage guarantee business; NOF ₹100 crore"],
+            ["NBFC-NOFHC", "Financial institution through which promoters can set up a new bank", "Holding-company route for a bank"]
+          ]
+        },
+        {
+          "type": "text",
+          "text": "A **Core Investment Company** does not trade in its group-company shares, debt or loans except through block sales for dilution or disinvestment, and it does not carry on other financial activities beyond permitted ones such as holding bank deposits, money market instruments, government securities, and loans to or guarantees for group companies."
+        },
+        {
+          "type": "mnemonic",
+          "title": "Ten NBFC types in order",
+          "phrase": "All Industrious Learners Improve Concepts, Investigating Many Factors, Making Notes.",
+          "letters": [
+            ["A", "Asset Finance Company"],
+            ["I", "Investment Company"],
+            ["L", "Loan Company"],
+            ["I", "Infrastructure Finance Company"],
+            ["C", "(Systemically Important) Core Investment Company"],
+            ["I", "Infrastructure Debt Fund"],
+            ["M", "Microfinance Institution (NBFC-MFI)"],
+            ["F", "Factors"],
+            ["M", "Mortgage Guarantee Company"],
+            ["N", "NOFHC"]
+          ]
+        },
+        {
+          "type": "mnemonic",
+          "title": "Percentages that matter",
+          "phrase": "Sixty asset, seventy-five infra, eighty-five micro, ninety core and mortgage, fifty factors.",
+          "letters": [
+            ["60%", "Asset Finance Company: assets and income from financing physical assets"],
+            ["75%", "Infrastructure Finance Company: assets in infrastructure loans"],
+            ["85%", "NBFC-MFI: qualifying assets"],
+            ["90%", "Core Investment Company (group assets) and Mortgage Guarantee (turnover or income)"],
+            ["50%", "NBFC-Factors: factoring assets in total assets"]
+          ],
+          "note": "A CIC also needs at least 60% of assets in group-company equity."
+        },
+        {
+          "type": "figure",
+          "kind": "pyramid",
+          "title": "Money flow for infrastructure",
+          "items": [
+            ["Infrastructure projects", "End use of long-term debt"],
+            ["Infrastructure Debt Fund", "Raises 5-year-plus bonds"],
+            ["Infrastructure Finance Co.", "Sponsors the IDF"],
+            ["RBI regulation", "NOF, rating and CRAR rules"]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "deposit-rules",
+      "title": "Rules on accepting public deposits",
+      "icon": "💰",
+      "blocks": [
+        {
+          "type": "bullets",
+          "title": "Important regulations",
+          "items": [
+            "NBFCs may accept or renew public deposits for a minimum of **12 months** and a maximum of **60 months**.",
+            "They cannot accept deposits repayable on demand.",
+            "The interest rate is prescribed by the RBI from time to time; the ceiling then was **12.5% per annum**, paid or compounded at rests not shorter than monthly.",
+            "NBFCs cannot offer gifts, incentives or any other additional benefit to depositors.",
+            "They must have a minimum investment grade credit rating.",
+            "Deposits with NBFCs are **not insured**, and repayment is **not guaranteed by the RBI**."
+          ]
+        },
+        {
+          "type": "mnemonic",
+          "title": "Deposit window: 12 to 60",
+          "phrase": "A year to five years, no demand, no gifts, rate capped at twelve and a half.",
+          "letters": [
+            ["12", "Minimum tenure in months"],
+            ["60", "Maximum tenure in months (5 years)"],
+            ["12.5%", "Ceiling on interest rate per annum (study material)"],
+            ["0", "Zero insurance and zero RBI guarantee"]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "related-notes",
+      "title": "Chit funds, CIS, Ponzi schemes and CIBIL",
+      "icon": "📌",
+      "blocks": [
+        {
+          "type": "keyvalue",
+          "title": "Who regulates what",
+          "rows": [
+            ["Collective Investment Schemes (CIS)", "Regulated by **SEBI**."],
+            ["Chit funds", "Governed by the **Chit Funds Act, 1982**, a Central Act administered by state governments."]
+          ]
+        },
+        {
+          "type": "text",
+          "text": "**Money circulation, multi-level or chain marketing and Ponzi schemes** promise easy or quick money for enrolling members. Their income does not come mainly from selling products but from **enrolling more and more members** and charging heavy subscription fees. They collapse when new recruits dry up."
+        },
+        {
+          "type": "keyvalue",
+          "title": "Peer-to-peer (P2P) and credit score facts",
+          "rows": [
+            ["NBFC-P2P Directions, 2017", "RBI capped a single lender's total exposure across all P2P platforms and a single borrower's total loans across all platforms at ₹10 lakh each (limits may have been revised since)."],
+            ["CIBIL score", "Used by banks and NBFCs to judge creditworthiness; it is a **3-digit number**."]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "tip",
+          "title": "Takeover norm",
+          "text": "The RBI said that buying a stake of 26% or more in an NBFC, or a change of more than 30% of its directors, needs prior RBI permission."
+        }
+      ]
+    }
+  ],
+  "revision": [
+    "NBFCs lend, invest, lease, do hire-purchase, insurance and chit business; they are regulated by the RBI and are not banks.",
+    "Minimum NOF for NBFC registration: ₹200 lakh; company must fall under Section 45-I(a) of the RBI Act, 1934.",
+    "NBFC features: low capital, easy loans, unsecured lending, rescheduling of loans, support for economic needs.",
+    "NBFCs cannot accept demand deposits, issue cheques on themselves or give DICGC deposit insurance.",
+    "NBFC deposits: minimum 12 months, maximum 60 months; ceiling 12.5% p.a.; no gifts; not insured; no RBI guarantee.",
+    "Asset Finance Company: at least 60% of assets and income from financing physical assets.",
+    "Infrastructure Finance Company: 75% infra assets, NOF ₹300 crore, rating A, CRAR 15%.",
+    "Systemically Important CIC: assets of ₹100 crore or more, 90% in group companies, 60% in group equity.",
+    "NBFC-MFI: 85% qualifying assets; loans up to ₹50,000 first cycle and ₹1,00,000 later cycles.",
+    "NBFC-Factors: factoring assets at least 50% of total assets.",
+    "Mortgage Guarantee Company: 90% of turnover or income from guarantees; NOF ₹100 crore.",
+    "Infrastructure Debt Fund: bonds of minimum 5-year maturity, sponsored through IFCs; NOFHC is the route to set up a bank.",
+    "SEBI regulates CIS; chit funds come under the Chit Funds Act, 1982 administered by states.",
+    "Ponzi and multi-level schemes earn from enrolling members, not from selling products.",
+    "CIBIL score is a 3-digit number used by banks and NBFCs; P2P limit under the 2017 directions was ₹10 lakh each."
+  ],
+  "mindmap": {
+    "center": "NBFCs in India",
+    "branches": [
+      {
+        "label": "Meaning and registration",
+        "children": ["RBI-regulated lender", "Company with NOF ₹200 lakh", "Section 45-I(a) RBI Act", "Not agri or trade firms"]
+      },
+      {
+        "label": "Features",
+        "children": ["Low capital", "Easy and unsecured loans", "Rescheduling of loans", "Wide economic support"]
+      },
+      {
+        "label": "Banks vs NBFCs",
+        "children": ["No demand deposits", "No cheques on itself", "No DICGC insurance", "Ombudsman note"]
+      },
+      {
+        "label": "Types (10)",
+        "children": ["AFC 60%", "IFC 75% and NOF ₹300 cr", "CIC 90% and 60%", "MFI 85%", "Factors 50%", "MGC 90% and ₹100 cr"]
+      },
+      {
+        "label": "Deposit rules",
+        "children": ["12 to 60 months", "Ceiling 12.5% p.a.", "No gifts", "Not insured or guaranteed"]
+      },
+      {
+        "label": "Related schemes",
+        "children": ["SEBI and CIS", "Chit Funds Act 1982", "Ponzi schemes", "P2P limits ₹10 lakh"]
+      },
+      {
+        "label": "Other exam points",
+        "children": ["CIBIL 3-digit score", "100% FDI allowed", "26% stake needs RBI nod", "IDF and NOFHC"]
+      }
+    ]
+  }
+}

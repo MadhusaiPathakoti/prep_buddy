@@ -1,0 +1,391 @@
+[
+  {
+    "id": "nationalisation-01",
+    "q": "How many commercial banks were nationalised in the first phase of nationalisation?",
+    "options": ["10", "12", "14", "16"],
+    "answer": 2,
+    "explain": "Fourteen major commercial banks were nationalised in the first phase, on 19 July 1969.",
+    "section": "first-phase-1969"
+  },
+  {
+    "id": "nationalisation-02",
+    "q": "On which date were 14 major commercial banks first nationalised in India?",
+    "options": ["19 July 1969", "19 June 1969", "15 April 1980", "19 July 1967"],
+    "answer": 0,
+    "explain": "The first nationalisation took place on 19 July 1969. 15 April 1980 is the date of the second phase.",
+    "section": "first-phase-1969"
+  },
+  {
+    "id": "nationalisation-03",
+    "q": "Which deposit criterion was used to pick the 14 banks nationalised on 19 July 1969?",
+    "options": ["Deposits above ₹10 crore", "Deposits above ₹50 crore", "Deposits above ₹100 crore", "Deposits above ₹500 crore"],
+    "answer": 1,
+    "explain": "All commercial banks with a deposit base of more than ₹50 crore were nationalised in 1969.",
+    "section": "first-phase-1969"
+  },
+  {
+    "id": "nationalisation-04",
+    "q": "How many banks were nationalised in the second phase of nationalisation?",
+    "options": ["4", "5", "7", "6"],
+    "answer": 3,
+    "explain": "Six banks were nationalised in 1980 under the Banking Companies (Acquisition and Transfer of Undertakings) Act, 1980.",
+    "section": "second-phase-1980"
+  },
+  {
+    "id": "nationalisation-05",
+    "q": "When was the second phase of bank nationalisation carried out?",
+    "options": ["9 July 1969", "10 July 1968", "16 August 1985", "15 April 1980"],
+    "answer": 3,
+    "explain": "Six more banks were nationalised on 15 April 1980. The first phase was in July 1969.",
+    "section": "second-phase-1980"
+  },
+  {
+    "id": "nationalisation-06",
+    "q": "Which of the following Indian banks was never a nationalised bank?",
+    "options": ["Corporation Bank", "Federal Bank", "Vijaya Bank", "Oriental Bank of Commerce"],
+    "answer": 1,
+    "explain": "Federal Bank is a private sector bank. Corporation, Vijaya and Oriental Bank of Commerce were nationalised in 1980.",
+    "section": "second-phase-1980"
+  },
+  {
+    "id": "nationalisation-07",
+    "q": "Nationalisation of banks aimed at all of the following EXCEPT:",
+    "options": [
+      "Removal of control by a few capitalists",
+      "Provision of credit to big industries only",
+      "Access of banking to the masses",
+      "Encouragement of a new class of entrepreneurs"
+    ],
+    "answer": 1,
+    "explain": "The aim was wider credit for agriculture, SMEs and exports, not credit for big industries alone.",
+    "section": "why-nationalise",
+    "exam": "IBPS PO 2015"
+  },
+  {
+    "id": "nationalisation-08",
+    "q": "Which of the following banks was nationalised in 1980 and NOT in 1969?",
+    "options": ["Canara Bank", "Union Bank of India", "Andhra Bank", "Indian Bank"],
+    "answer": 2,
+    "explain": "Andhra Bank was among the six banks of 1980. Canara, Union and Indian Bank were nationalised in 1969.",
+    "section": "second-phase-1980"
+  },
+  {
+    "id": "nationalisation-09",
+    "q": "Which of these banks was NOT among the 14 banks nationalised in 1969?",
+    "options": ["Dena Bank", "Syndicate Bank", "UCO Bank", "Corporation Bank"],
+    "answer": 3,
+    "explain": "Corporation Bank came in the 1980 list. Dena, Syndicate and UCO Bank were nationalised in 1969.",
+    "section": "first-phase-1969"
+  },
+  {
+    "id": "nationalisation-10",
+    "q": "Under which Act were six banks nationalised in 1980?",
+    "options": [
+      "Banking Companies (Acquisition and Transfer of Undertakings) Act, 1980",
+      "State Bank of India Act, 1955",
+      "Banking Regulation Act, 1949",
+      "Reserve Bank of India (Transfer to Public Ownership) Act, 1948"
+    ],
+    "answer": 0,
+    "explain": "The 1980 nationalisation was carried out under the Banking Companies (Acquisition and Transfer of Undertakings) Act, 1980. The 1948 Act nationalised RBI itself.",
+    "section": "second-phase-1980"
+  },
+  {
+    "id": "nationalisation-11",
+    "q": "What was the stated reason for the second phase of nationalisation in 1980?",
+    "options": [
+      "To give the government more control over credit delivery",
+      "To open branches abroad",
+      "To start the Reserve Bank of India",
+      "To merge SBI with its associates"
+    ],
+    "answer": 0,
+    "explain": "The government wanted tighter control over credit delivery. After this phase it controlled about 91 per cent of banking business.",
+    "section": "second-phase-1980"
+  },
+  {
+    "id": "nationalisation-12",
+    "q": "After the second phase of nationalisation, the government controlled around what share of banking business in India, according to the syllabus?",
+    "options": ["71%", "81%", "91%", "100%"],
+    "answer": 2,
+    "explain": "After the 1980 phase, about 91 per cent of banking business was under government control.",
+    "section": "second-phase-1980"
+  },
+  {
+    "id": "nationalisation-13",
+    "q": "In 1993, which nationalised bank became the first to be merged with another bank?",
+    "options": ["Vijaya Bank", "New Bank of India", "Dena Bank", "Corporation Bank"],
+    "answer": 1,
+    "explain": "New Bank of India merged with Punjab National Bank in 1993, the first merger of a nationalised bank.",
+    "section": "second-phase-1980"
+  },
+  {
+    "id": "nationalisation-14",
+    "q": "New Bank of India was merged in 1993 with which bank, which traced its roots to Lahore?",
+    "options": ["Bank of Baroda", "Canara Bank", "Punjab National Bank", "Indian Bank"],
+    "answer": 2,
+    "explain": "Punjab National Bank, whose roots lie in Lahore, absorbed New Bank of India in 1993.",
+    "section": "second-phase-1980"
+  },
+  {
+    "id": "nationalisation-15",
+    "q": "After New Bank of India merged with PNB in 1993, how many nationalised banks remained from the 1969 and 1980 lists?",
+    "options": ["18", "20", "19", "17"],
+    "answer": 2,
+    "explain": "14 (1969) plus 6 (1980) gave 20; after the 1993 merger the figure was 19.",
+    "section": "second-phase-1980"
+  },
+  {
+    "id": "nationalisation-16",
+    "q": "Which of the following was NOT an objective of bank nationalisation?",
+    "options": [
+      "Mobilising national savings for productive use",
+      "Extending banking facilities to unbanked rural areas",
+      "Professionalising bank management",
+      "Maximising dividends for private shareholders"
+    ],
+    "answer": 3,
+    "explain": "Nationalisation aimed at social goals such as rural banking and mobilising savings, not at higher private dividends.",
+    "section": "why-nationalise"
+  },
+  {
+    "id": "nationalisation-17",
+    "q": "Which of the following is NOT a limitation of bank nationalisation in India?",
+    "options": [
+      "Inadequate banking facilities in backward states",
+      "Lower efficiency and profits",
+      "Increased expenditure of banks",
+      "A shrinking rural branch network"
+    ],
+    "answer": 3,
+    "explain": "Nationalisation expanded branches in rural and semi-urban areas. The real limitations were inadequate facilities, lower efficiency and higher costs.",
+    "section": "impact-and-demerits"
+  },
+  {
+    "id": "nationalisation-18",
+    "q": "Which Act of 1959 led to the creation of eight subsidiaries of the State Bank of India?",
+    "options": [
+      "State Bank of India (Subsidiary Banks) Act",
+      "Banking Regulation Act",
+      "State Bank of Hyderabad Act",
+      "Reserve Bank of India Act"
+    ],
+    "answer": 0,
+    "explain": "Eight subsidiaries were made under the State Bank of India (Subsidiary Banks) Act, 1959.",
+    "section": "sbi-and-associates"
+  },
+  {
+    "id": "nationalisation-19",
+    "q": "How many subsidiaries of SBI were made under the SBI (Subsidiary Banks) Act of 1959?",
+    "options": ["5", "6", "7", "8"],
+    "answer": 3,
+    "explain": "The 1959 Act created eight subsidiaries. The number later fell to five after mergers in 1963, 2008 and 2010.",
+    "section": "sbi-and-associates"
+  },
+  {
+    "id": "nationalisation-20",
+    "q": "In 1963, SBI merged State Bank of Jaipur and State Bank of Bikaner to form which bank?",
+    "options": [
+      "State Bank of Bikaner and Jaipur",
+      "State Bank of Rajasthan",
+      "State Bank of Saurashtra",
+      "State Bank of Indore"
+    ],
+    "answer": 0,
+    "explain": "The Jaipur (founded 1943) and Bikaner (founded 1944) banks were merged into the State Bank of Bikaner and Jaipur.",
+    "section": "sbi-and-associates"
+  },
+  {
+    "id": "nationalisation-21",
+    "q": "In which year did State Bank of Saurashtra merge with SBI?",
+    "options": ["2005", "2008", "2010", "2012"],
+    "answer": 1,
+    "explain": "State Bank of Saurashtra merged in 2008. State Bank of Indore followed in 2010, leaving five associates.",
+    "section": "sbi-and-associates"
+  },
+  {
+    "id": "nationalisation-22",
+    "q": "After the merger of State Bank of Indore with SBI in 2010, how many associate banks of SBI remained?",
+    "options": ["4", "6", "3", "5"],
+    "answer": 3,
+    "explain": "With Saurashtra gone in 2008 and Indore in 2010, five associates were left: Hyderabad, Mysore, Patiala, Travancore and Bikaner and Jaipur.",
+    "section": "sbi-and-associates"
+  },
+  {
+    "id": "nationalisation-23",
+    "q": "Along with the five associate banks, which other bank merged with SBI on 1 April 2017?",
+    "options": ["Bharatiya Mahila Bank", "Federal Bank", "Dena Bank", "IDBI Bank"],
+    "answer": 0,
+    "explain": "Bharatiya Mahila Bank and SBI's five associates merged with SBI on 1 April 2017.",
+    "section": "sbi-and-associates"
+  },
+  {
+    "id": "nationalisation-24",
+    "q": "Which of the following was NOT an associate bank of SBI merged in 2017?",
+    "options": ["State Bank of Mysore", "Bank of Baroda", "State Bank of Patiala", "State Bank of Travancore"],
+    "answer": 1,
+    "explain": "Bank of Baroda is a separate nationalised bank. Mysore, Patiala and Travancore were SBI associates.",
+    "section": "sbi-and-associates"
+  },
+  {
+    "id": "nationalisation-25",
+    "q": "Which date is observed as SBI Day?",
+    "options": ["1 January", "1 April", "1 July", "19 July"],
+    "answer": 2,
+    "explain": "1 July is observed as SBI Day. 1 April 2017 was the date of the associate-bank merger and logo change.",
+    "section": "sbi-and-associates"
+  },
+  {
+    "id": "nationalisation-26",
+    "q": "Until the Reserve Bank of India was established in 1935, which bank performed some central banking functions?",
+    "options": ["Bank of Hindustan", "Imperial Bank of India", "Punjab National Bank", "Bank of Bengal only"],
+    "answer": 1,
+    "explain": "The Imperial Bank of India, now SBI, performed certain central banking functions as well as commercial banking.",
+    "section": "sbi-and-associates"
+  },
+  {
+    "id": "nationalisation-27",
+    "q": "SBI acts as the agent of RBI in:",
+    "options": [
+      "Places where RBI has no branch of its own",
+      "All metropolitan cities only",
+      "Foreign countries only",
+      "Places where cooperative banks are absent"
+    ],
+    "answer": 0,
+    "explain": "SBI acts as RBI's agent wherever RBI does not have its own branches.",
+    "section": "sbi-and-associates"
+  },
+  {
+    "id": "nationalisation-28",
+    "q": "Which statement about Reserve Bank of India is correct?",
+    "options": [
+      "It was set up in 1935 and nationalised on 1 January 1949",
+      "It was set up in 1949 and nationalised in 1969",
+      "It was set up in 1935 and nationalised in 1980",
+      "It was set up in 1955 and nationalised in 1969"
+    ],
+    "answer": 0,
+    "explain": "RBI began in April 1935 and was nationalised on 1 January 1949 under the RBI (Transfer to Public Ownership) Act, 1948.",
+    "section": "pre-reform-regulation"
+  },
+  {
+    "id": "nationalisation-29",
+    "q": "Which of the following did the Banking Regulation Act, 1949 provide?",
+    "options": [
+      "No new bank or branch could open without an RBI licence",
+      "Banks could freely share directors",
+      "SBI would handle all government banking",
+      "Private banks were banned"
+    ],
+    "answer": 0,
+    "explain": "The Act required an RBI licence for new banks and branches and barred two banks from having common directors.",
+    "section": "pre-reform-regulation"
+  },
+  {
+    "id": "nationalisation-30",
+    "q": "The Industrial Development Bank of India (IDBI) was established in which year to provide long-term finance to industry?",
+    "options": ["1949", "1955", "1969", "1964"],
+    "answer": 3,
+    "explain": "IDBI was set up in 1964 because commercial banks mainly offered short-term finance.",
+    "section": "pre-reform-regulation"
+  },
+  {
+    "id": "nationalisation-31",
+    "q": "The Industrial Policy Resolution of 1948 envisaged which kind of economy?",
+    "options": ["Mixed economy", "Pure market economy", "Fully planned economy", "Closed economy"],
+    "answer": 0,
+    "explain": "The resolution envisaged a mixed economy, with greater state involvement in sectors including banking and finance.",
+    "section": "pre-reform-regulation"
+  },
+  {
+    "id": "nationalisation-32",
+    "q": "Which of the following banks was set up after the reforms and was earlier named UTI Bank?",
+    "options": ["Kotak Mahindra Bank", "Axis Bank", "Yes Bank", "IndusInd Bank"],
+    "answer": 1,
+    "explain": "UTI Bank is now known as Axis Bank.",
+    "section": "reform-era"
+  },
+  {
+    "id": "nationalisation-33",
+    "q": "On which date was the high-level Committee on the Financial System (CFS) set up?",
+    "options": ["14 August 1991", "14 August 1969", "1 April 1992", "19 July 1991"],
+    "answer": 0,
+    "explain": "The CFS was set up on 14 August 1991; its recommendations led to comprehensive reform from 1992-93.",
+    "section": "narasimham-committees"
+  },
+  {
+    "id": "nationalisation-34",
+    "q": "The Narasimham Committee-II on banking sector reforms was set up in December of which year?",
+    "options": ["1991", "1995", "1997", "2002"],
+    "answer": 2,
+    "explain": "It was set up in December 1997 and handed over its report in April 1998.",
+    "section": "narasimham-committees"
+  },
+  {
+    "id": "nationalisation-35",
+    "q": "Under the 3-tier banking structure suggested after mergers, Tier 1 was to have:",
+    "options": [
+      "2 to 3 banks with international orientation",
+      "8 to 10 banks with national orientation",
+      "A large number of local banks",
+      "Only foreign banks"
+    ],
+    "answer": 0,
+    "explain": "Tier 1 would have 2 to 3 international banks, Tier 2 would have 8 to 10 national banks and Tier 3 many local banks.",
+    "section": "narasimham-committees"
+  },
+  {
+    "id": "nationalisation-36",
+    "q": "How many banks of national orientation were proposed for Tier 2 of the suggested banking structure?",
+    "options": ["2 to 3", "3 to 5", "50 to 100", "8 to 10"],
+    "answer": 3,
+    "explain": "Tier 2 was to have 8 to 10 banks of national orientation.",
+    "section": "narasimham-committees"
+  },
+  {
+    "id": "nationalisation-37",
+    "q": "To what level did Narasimham Committee-II suggest raising the capital to risk-weighted assets ratio (CRAR)?",
+    "options": ["8 per cent", "9.5 per cent", "12 per cent", "10 per cent"],
+    "answer": 3,
+    "explain": "The committee suggested a higher CRAR, raised to 10 per cent.",
+    "section": "narasimham-committees"
+  },
+  {
+    "id": "nationalisation-38",
+    "q": "Which of the following was NOT a suggestion of Narasimham Committee-II?",
+    "options": [
+      "Depoliticise bank boards under RBI supervision",
+      "Strengthen the legal framework for loan recovery",
+      "Continue licensing new private banks",
+      "Increase budgetary recapitalisation of public sector banks"
+    ],
+    "answer": 3,
+    "explain": "The committee said budgetary recapitalisation of PSBs was not viable and should be dropped.",
+    "section": "narasimham-committees"
+  },
+  {
+    "id": "nationalisation-39",
+    "q": "Which Act, passed in 2002, strengthened loan recovery in line with a Narasimham Committee-II suggestion?",
+    "options": ["SARFAESI Act", "Banking Regulation Act", "FEMA", "Companies Act"],
+    "answer": 0,
+    "explain": "The government passed the SARFAESI Act in 2002 to strengthen the legal framework for loan recovery.",
+    "section": "narasimham-committees"
+  },
+  {
+    "id": "nationalisation-40",
+    "q": "Dena Bank and Vijaya Bank were merged into which bank with effect from 1 April 2019?",
+    "options": ["Punjab National Bank", "Bank of Baroda", "Canara Bank", "Union Bank of India"],
+    "answer": 1,
+    "explain": "Dena Bank and Vijaya Bank merged into Bank of Baroda on 1 April 2019.",
+    "section": "later-consolidation"
+  },
+  {
+    "id": "nationalisation-41",
+    "q": "Which nationalised bank merged into Canara Bank in the 2020 round of public sector bank mergers?",
+    "options": ["Allahabad Bank", "Andhra Bank", "Syndicate Bank", "Corporation Bank"],
+    "answer": 2,
+    "explain": "Syndicate Bank merged with Canara Bank on 1 April 2020. Allahabad merged into Indian Bank; Andhra and Corporation into Union Bank.",
+    "section": "later-consolidation"
+  }
+]

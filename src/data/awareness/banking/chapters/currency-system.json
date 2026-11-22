@@ -1,0 +1,454 @@
+{
+  "id": "currency-system",
+  "sections": [
+    {
+      "id": "coins-and-notes",
+      "title": "Coins, banknotes and the rupee",
+      "icon": "🪙",
+      "blocks": [
+        {
+          "type": "keyvalue",
+          "title": "Present denominations (as per the 2024-25 syllabus)",
+          "rows": [
+            ["Coins", "Issued in **₹1, ₹2, ₹5 and ₹10**."],
+            ["Banknotes", "**₹10, ₹20, ₹50, ₹100, ₹200, ₹500 and ₹2000** (the ₹2000 note was announced for withdrawal from circulation in May 2023 but remains legal tender)."],
+            ["Withdrawn coins", "1, 2, 3, 5, 10, 20 and 25 paise were withdrawn from **30 June 2011** and are no longer legal tender."],
+            ["₹2 and ₹5 notes", "Printing was **discontinued** because these denominations are now coins."],
+            ["Banknote paper", "Made of **cotton and cotton rag**."]
+          ]
+        },
+        {
+          "type": "text",
+          "text": "The currency of India is the **Indian Rupee (INR)** and one rupee has **100 paise**. The rupee symbol ₹ combines the Devanagari letter 'Ra' and the Latin capital 'R', with a **double horizontal line** at the top. Notes are called **banknotes** because they are issued by the **Reserve Bank of India (RBI)**."
+        },
+        {
+          "type": "callout",
+          "kind": "remember",
+          "title": "Mahatma Gandhi Series",
+          "text": "By **Notification no. 2652 dated 8 November 2016**, the Government withdrew the legal tender status of **₹500 and ₹1,000** notes of the Mahatma Gandhi Series issued till that date. All currency notes carry the Governor's signature except the **₹1 note**, which is issued by the Government and signed by the Finance Secretary."
+        },
+        {
+          "type": "mnemonic",
+          "title": "Coins and notes in a line",
+          "phrase": "Coins: 1-2-5-10 ('One Two Five Ten'). Notes: 10-20-50-100-200-500-2000 – every note starts at ten, ₹2 and ₹5 became coins.",
+          "letters": [
+            ["Coins", "₹1, ₹2, ₹5, ₹10"],
+            ["Notes", "₹10, 20, 50, 100, 200, 500, 2000"],
+            ["30 June 2011", "Paise coins up to 25 paise lose legal tender"]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "roles-rbi-government",
+      "title": "Who does what: RBI and Government",
+      "icon": "⚖️",
+      "blocks": [
+        {
+          "type": "table",
+          "title": "RBI versus Government of India",
+          "headers": ["Matter", "Authority", "Legal basis"],
+          "rows": [
+            ["Management of banknotes", "Reserve Bank of India", "RBI Act, 1934"],
+            ["Approval of banknote design", "Central Government, on recommendation of the RBI Central Board", "Section 25, RBI Act, 1934"],
+            ["Denominations of notes", "Government, on the advice of the RBI", "RBI Act, 1934"],
+            ["Coinage, design and minting of coins", "Government of India", "Coinage Act, 2011"],
+            ["Liability on banknotes", "RBI, payable on demand", "Section 26, RBI Act, 1934"]
+          ]
+        },
+        {
+          "type": "bullets",
+          "title": "What the RBI does in currency management",
+          "items": [
+            "Derives its currency role from the **RBI Act, 1934**.",
+            "Coordinates with the Government on **banknote design and security features**.",
+            "Estimates denomination-wise requirement and places an **indent** with printing presses.",
+            "Aims to give the public **good quality notes**: notes returned from circulation are examined, fit ones are reissued, soiled and mutilated ones are destroyed.",
+            "Acts as the agent of the Government of India for distribution and administration of currency."
+          ]
+        },
+        {
+          "type": "mnemonic",
+          "title": "Notes = RBI, Coins = Government",
+          "phrase": "'N-R, C-G': Notes by RBI (Section 25 and 26 of the 1934 Act), Coins by Government (Coinage Act 2011).",
+          "letters": [
+            ["N-R", "Notes: RBI Act 1934; design approved by Centre under Section 25"],
+            ["C-G", "Coins: Government of India, Coinage Act 2011"],
+            ["Sec 26", "Liability to pay on demand; the promise clause"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "Who decides the design",
+          "text": "The RBI does not alone decide the design of a note. The **Central Government** approves it on the recommendation of the RBI Central Board, in consultation with the RBI."
+        }
+      ]
+    },
+    {
+      "id": "note-rules",
+      "title": "Limits, languages and the promise clause",
+      "icon": "📜",
+      "blocks": [
+        {
+          "type": "keyvalue",
+          "title": "Rules under the Acts",
+          "rows": [
+            ["Highest note", "The RBI Act allows notes of ₹5,000 and ₹10,000 or any other denomination the Centre specifies, but **never above ₹10,000**."],
+            ["Highest coin", "Coins can be issued up to **₹1,000** under the Coinage Act, 2011."],
+            ["Languages on a note", "**Hindi** at the centre, **English** on the reverse and **fifteen other languages** in the language panel."],
+            ["Promise clause", "'I promise to pay the bearer the sum of rupees …' under **Section 26**; the RBI's liability arises from **statute**, not contract."]
+          ]
+        },
+        {
+          "type": "text",
+          "text": "The promissory clause means the banknote is a **legal tender for the stated amount**. The RBI's obligation is to **exchange** the note for notes of lower value or for coins that are legal tender under the Coinage Act, 2011, of equal value."
+        },
+        {
+          "type": "mnemonic",
+          "title": "10:1 rule for the highest value",
+          "phrase": "Notes up to ₹10,000, coins up to ₹1,000 – one-tenth for coins.",
+          "letters": [
+            ["₹10,000", "Highest note under RBI Act 1934"],
+            ["₹1,000", "Highest coin under Coinage Act 2011"],
+            ["15 + 2", "15 panel languages plus Hindi and English"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "fact",
+          "title": "High-value notes of the past",
+          "text": "The highest denomination ever printed by the RBI was the **₹10,000 note**, first in **1938** and again in **1954**. High-value notes were demonetised in **1946** and again in **1978**."
+        }
+      ]
+    },
+    {
+      "id": "distribution",
+      "title": "How currency reaches the public",
+      "icon": "🚚",
+      "blocks": [
+        {
+          "type": "figure",
+          "kind": "flow",
+          "title": "Currency flow",
+          "items": [
+            ["Printing presses / mints", "Notes printed, coins minted"],
+            ["RBI Issue Offices", "Receive notes and coins"],
+            ["Currency chests", "Stock notes and rupee coins"],
+            ["Bank branches", "Draw cash as per demand"],
+            ["Public", "Receive notes and coins"]
+          ]
+        },
+        {
+          "type": "bullets",
+          "title": "Issue offices and chests",
+          "items": [
+            "The RBI manages currency operations through its **Issue Offices** at Ahmedabad, Bengaluru, Belapur, Bhopal, Bhubaneswar, Chandigarh, Chennai, Guwahati, Hyderabad, Jaipur, Jammu, Kanpur, Kolkata, Lucknow, Mumbai, Nagpur, New Delhi, Patna and Thiruvananthapuram, plus a currency chest at Kochi.",
+            "**Mint-linked offices** at **Hyderabad, Kolkata, Mumbai and New Delhi** first receive coins from the mints and pass them to other RBI offices.",
+            "Banknotes and rupee coins are stocked at **currency chests**; small coins at **small coin depots**.",
+            "The RBI has over **4,075 currency chests**, and around **3,746 bank branches** act as small coin depots (as per the 2024-25 book)."
+          ]
+        },
+        {
+          "type": "bullets",
+          "title": "Movement of currency",
+          "items": [
+            "Chests distribute currency to branches depending on **specific demand**; branches demand based on **business volume**.",
+            "Specially built **trucks** serve short distances (journey finished within the day) and **railways** serve long distances, guarded by police; remittances to chests are accompanied by RBI officials.",
+            "Movement from a chest to a branch is the **responsibility of the bank** concerned.",
+            "Banks replenish ATMs based on **daily withdrawal propensity**; many outsource off-site ATM replenishment."
+          ]
+        },
+        {
+          "type": "mnemonic",
+          "title": "The mint-linked four",
+          "phrase": "'HKMD' – Hyderabad, Kolkata, Mumbai, Delhi receive coins first from the mints.",
+          "letters": [
+            ["H", "Hyderabad"],
+            ["K", "Kolkata"],
+            ["M", "Mumbai"],
+            ["D", "New Delhi"]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "returned-notes",
+      "title": "When notes and coins come back",
+      "icon": "♻️",
+      "blocks": [
+        {
+          "type": "figure",
+          "kind": "flow",
+          "title": "Life of a returned banknote",
+          "items": [
+            ["Deposited at Issue Office", "Banknotes returned from circulation"],
+            ["Processed and authenticated", "Checked for genuineness"],
+            ["Segregated", "Fit for reissue or unfit"],
+            ["Reissued or shredded", "Unfit notes are destroyed by shredding"]
+          ]
+        },
+        {
+          "type": "text",
+          "text": "Notes that are **fit for reissue** go back into circulation, while the **unfit** ones are **destroyed by shredding** after examination. **Coins do not come back** from circulation, except those that are withdrawn."
+        },
+        {
+          "type": "callout",
+          "kind": "remember",
+          "title": "Where processing happens",
+          "text": "Returned banknotes are deposited at **RBI Issue Offices**, where they are authenticated and sorted into fit and unfit lots."
+        }
+      ]
+    },
+    {
+      "id": "soiled-mutilated",
+      "title": "Soiled, mutilated and imperfect notes",
+      "icon": "🧾",
+      "blocks": [
+        {
+          "type": "table",
+          "title": "Types of damaged notes",
+          "headers": ["Type", "Meaning", "Where to exchange"],
+          "rows": [
+            ["Soiled", "Dirty and slightly cut; notes of ₹10 and above in **two pieces** (numbers on both ends) also count", "Any public sector bank branch, currency chest branch of a private bank or RBI Issue Office; **no form** needed"],
+            ["Mutilated", "A **missing portion** or composed of **more than two pieces**; refund as per RBI (Note Refund) Rules", "Same places as soiled notes, **without filling any form**"],
+            ["Imperfect", "Wholly or partly **obliterated, shrunk, washed, altered or indecipherable** (but not a mutilated note)", "As per RBI rules"],
+            ["Excessively soiled, brittle or burnt", "Badly damaged, fragile or burnt notes", "**Only at an RBI Issue Office**, Claims Section of the Issue Department"]
+          ]
+        },
+        {
+          "type": "bullets",
+          "title": "Essential portions of a note",
+          "items": [
+            "Name of the **issuing authority**",
+            "The **guarantee** and **promise clause**",
+            "The **signature**",
+            "**Ashoka Pillar emblem** or **portrait of Mahatma Gandhi**",
+            "The **watermark**"
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "TLR facility",
+          "rows": [
+            ["TLR", "**Triple Lock Receptacle**: the public takes a TLR cover from the RBI Enquiry Counter, fills in name, address and denominations, closes it and drops it in the receptacle against a **paper token**."]
+          ]
+        },
+        {
+          "type": "mnemonic",
+          "title": "S-M-I: three kinds of damaged note",
+          "phrase": "Soiled = Slightly cut and Stained; Mutilated = Missing or More than two pieces; Imperfect = Illegible, washed or altered.",
+          "letters": [
+            ["Soiled", "Dirty, slightly cut, or two pieces with both numbers"],
+            ["Mutilated", "Missing portion or more than two pieces"],
+            ["Imperfect", "Obliterated, shrunk, washed, altered"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "Number of pieces",
+          "text": "**Two pieces** (with numbers on both ends) = **soiled**. **More than two pieces** or a missing part = **mutilated**."
+        }
+      ]
+    },
+    {
+      "id": "printing-presses-mints",
+      "title": "Printing presses and mints",
+      "icon": "🏭",
+      "blocks": [
+        {
+          "type": "table",
+          "title": "Where Indian currency is produced",
+          "headers": ["Item", "Place", "Owner"],
+          "rows": [
+            ["Banknote presses", "Nashik (Maharashtra) and Dewas (Madhya Pradesh)", "Security Printing and Minting Corporation of India (SPMCIL)"],
+            ["Banknote presses", "Mysuru (Karnataka) and Salboni (West Bengal)", "RBI, through its subsidiary BRBNMPL"],
+            ["Mints (coins)", "Mumbai, Hyderabad, Kolkata and Noida", "Government of India"]
+          ]
+        },
+        {
+          "type": "mnemonic",
+          "title": "Four presses, four mints",
+          "phrase": "Presses: 'Nashik-Dewas for SPMCIL, Mysuru-Salboni for RBI'. Mints: 'My Home Kolkata Noida' = Mumbai, Hyderabad, Kolkata, Noida.",
+          "letters": [
+            ["Nashik-Dewas", "SPMCIL presses"],
+            ["Mysuru-Salb.", "RBI’s BRBNMPL presses (Mysuru, Salboni)"],
+            ["M-H-K-N", "Mumbai, Hyderabad, Kolkata, Noida mints"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "tip",
+          "title": "Karnataka and Bengal",
+          "text": "RBI's own note presses are in **Mysuru (Karnataka)** and **Salboni (West Bengal)**; the SPMCIL presses are in **Nashik** and **Dewas**."
+        }
+      ]
+    },
+    {
+      "id": "clean-note-policy",
+      "title": "Clean Note Policy",
+      "icon": "🧼",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "The RBI continuously works to provide **good quality banknotes** to the public. The **Clean Note Policy** contains initiatives and instructions to keep currency notes clean, and the public is asked to help the RBI and the banking system."
+        },
+        {
+          "type": "bullets",
+          "title": "What the public should do",
+          "items": [
+            "**Do not staple** banknotes.",
+            "**Do not write on or rubber-stamp** banknotes or put any other mark on them.",
+            "**Store notes safely** to prevent damage."
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "tip",
+          "title": "Three don'ts",
+          "text": "No stapling, no stamping or writing, no careless storage: this is the Clean Note Policy in one line."
+        }
+      ]
+    },
+    {
+      "id": "demonetisation",
+      "title": "Demonetisation of high-value notes",
+      "icon": "🚫",
+      "blocks": [
+        {
+          "type": "keyvalue",
+          "title": "Objectives",
+          "rows": [
+            ["Objective 1", "Stop the **funding of militancy and terrorism** from across the border; counterfeit notes had been found in large numbers in terror-affected states."],
+            ["Objective 2", "Fight **corruption** and black money."]
+          ]
+        },
+        {
+          "type": "bullets",
+          "title": "Likely implications (mixed results)",
+          "items": [
+            "Builds the confidence of the international community that India is serious about fighting corruption, helping its **ease of doing business** and corruption rankings.",
+            "Short-term **cash shortage** could reduce agricultural output, as it came near the sowing season, and spill over into industry and services.",
+            "Consumption and business investment, which depend more on overall climate and interest rates, may not be affected by a short liquidity squeeze.",
+            "People may fear depositing money in banks and may shift to **gold and real estate**.",
+            "Cash-based sectors such as transport, local markets and rural shops are hit; low business volumes in rural areas make card-reading equipment costly to install."
+          ]
+        },
+        {
+          "type": "timeline",
+          "title": "Demonetisation episodes",
+          "items": [
+            ["1946", "High-value notes (including ₹10,000) demonetised."],
+            ["1978", "High-value notes of ₹1,000, ₹5,000 and ₹10,000 demonetised again."],
+            ["8 Nov 2016", "₹500 and ₹1,000 notes of the Mahatma Gandhi Series lose legal tender status."]
+          ]
+        },
+        {
+          "type": "mnemonic",
+          "title": "Demonetisation dates",
+          "phrase": "'46, '78, '16 – every time with a big note: Britain-era 1946, Janata-era 1978, and 8 November 2016.",
+          "letters": [
+            ["1946", "First demonetisation of high-value notes"],
+            ["1978", "Second, ₹1,000 / 5,000 / 10,000"],
+            ["2016", "8 November: ₹500 and ₹1,000"]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "history-gk",
+      "title": "History and general knowledge",
+      "icon": "📚",
+      "blocks": [
+        {
+          "type": "timeline",
+          "title": "Milestones of Indian currency",
+          "items": [
+            ["1861", "Paper currency introduced by the British government (Paper Currency Act)."],
+            ["1934", "RBI Act passed; it later governs RBI’s role in issuing banknotes."],
+            ["1938", "First ₹10,000 note printed (and again in 1954)."],
+            ["1 Apr 1957", "**Decimal coinage** introduced (Indian Coinage (Amendment) Act, 1955); rupee = 100 paise."],
+            ["30 Jun 2011", "Coins up to 25 paise withdrawn from circulation."],
+            ["2011", "Coinage Act, 2011 governs coins."],
+            ["8 Nov 2016", "₹500 and ₹1,000 notes demonetised."]
+          ]
+        },
+        {
+          "type": "bullets",
+          "title": "Odd facts that get asked",
+          "items": [
+            "The ₹2000 note carries an image of **Mangalyaan** (Mars Orbiter Mission) on the reverse.",
+            "The **Kuwaiti Dinar (KWD)** is the highest-valued currency against the Indian rupee, widely called the world's strongest currency (about ₹267 per dinar at the time of writing).",
+            "The Banking Companies Act was amended in 1949 and renamed the **Banking Regulation Act, 1949**."
+          ]
+        },
+        {
+          "type": "mnemonic",
+          "title": "Years to fix in memory",
+          "phrase": "Paper 1861, Big note 1938, Decimal 1957: 'Paper Bags Dance' = 61, 38, 57.",
+          "letters": [
+            ["Paper", "1861: paper currency"],
+            ["Big", "1938: ₹10,000 note"],
+            ["Dance", "1 April 1957: decimal coinage (Decimal)"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "1955 versus 1957",
+          "text": "The decimal coinage **Act** is of **1955**, but decimal coins began on **1 April 1957**. Questions can ask for either year."
+        }
+      ]
+    }
+  ],
+  "revision": [
+    "Coins now issued: ₹1, ₹2, ₹5, ₹10; paise coins up to 25 paise withdrawn from 30 June 2011.",
+    "Banknotes: ₹10, 20, 50, 100, 200, 500, 2000; ₹2 and ₹5 notes are no longer printed because they became coins.",
+    "RBI's role comes from the RBI Act, 1934; Section 25 needs Centre's approval of note design; Section 26 gives the promise clause.",
+    "Coinage and minting are Government of India's responsibility under the Coinage Act, 2011.",
+    "Notes cannot be above ₹10,000 under the RBI Act; coins can be issued up to ₹1,000.",
+    "Language panel shows fifteen languages, with Hindi at the centre and English on the reverse.",
+    "Currency flow: printing presses → RBI offices → currency chests → bank branches → public.",
+    "Mint-linked RBI offices: Hyderabad, Kolkata, Mumbai and New Delhi.",
+    "Soiled: dirty or slightly cut; mutilated: missing portion or more than two pieces; exchange without any form.",
+    "Excessively soiled, brittle or burnt notes are exchanged only at RBI Issue Offices; TLR covers help for mutilated notes.",
+    "Note presses: Nashik, Dewas (SPMCIL) and Mysuru, Salboni (RBI); mints: Mumbai, Hyderabad, Kolkata, Noida.",
+    "Clean Note Policy: do not staple, write on or stamp notes.",
+    "Highest note ever printed: ₹10,000 in 1938 and 1954; high-value notes demonetised in 1946 and 1978.",
+    "Decimal coinage began on 1 April 1957; paper currency began in 1861; 8 November 2016 demonetised ₹500 and ₹1,000."
+  ],
+  "mindmap": {
+    "center": "Currency System in India",
+    "branches": [
+      {
+        "label": "Coins and notes",
+        "children": ["Coins ₹1, 2, 5, 10", "Notes ₹10 to ₹2000", "Paise withdrawn 2011", "Cotton paper"]
+      },
+      {
+        "label": "Authorities",
+        "children": ["RBI Act 1934", "Section 25 design", "Section 26 promise", "Coinage Act 2011"]
+      },
+      {
+        "label": "Limits",
+        "children": ["Notes up to ₹10,000", "Coins up to ₹1,000", "15 languages panel", "Hindi centre, English back"]
+      },
+      {
+        "label": "Distribution",
+        "children": ["Issue Offices", "Currency chests", "Small coin depots", "Mint-linked offices"]
+      },
+      {
+        "label": "Damaged notes",
+        "children": ["Soiled", "Mutilated", "Imperfect", "TLR covers"]
+      },
+      {
+        "label": "Production",
+        "children": ["Nashik, Dewas", "Mysuru, Salboni", "Four mints", "SPMCIL and BRBNMPL"]
+      },
+      {
+        "label": "Policy and history",
+        "children": ["Clean Note Policy", "Demonetisation 2016", "1946 and 1978", "Decimal coinage 1957"]
+      }
+    ]
+  }
+}

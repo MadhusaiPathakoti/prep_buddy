@@ -1,0 +1,438 @@
+{
+  "id": "ombudsman",
+  "sections": [
+    {
+      "id": "ombudsman-basics",
+      "title": "What is the Banking Ombudsman?",
+      "icon": "⚖️",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "The **Banking Ombudsman** is a senior official appointed by the **Reserve Bank of India (RBI)** to settle customer complaints about deficiency in certain banking services. A complaint is entertained only if it falls under the grounds listed in **Clause 8** of the **Banking Ombudsman Scheme 2006** (as amended up to **1 July 2017**)."
+        },
+        {
+          "type": "keyvalue",
+          "title": "The scheme at a glance",
+          "rows": [
+            ["Purpose", "A quick and inexpensive forum where bank customers can get complaints about certain bank services resolved."],
+            ["Legal basis", "Introduced by the RBI under **Section 35A** of the **Banking Regulation Act, 1949**."],
+            ["First introduced", "With effect from **1995**."],
+            ["Version in operation (as per the source)", "Banking Ombudsman Scheme **2006**, as amended up to 1 July 2017."],
+            ["Appointed by", "The **RBI** (not the Government of India, not any bank)."],
+            ["Offices", "At the time of writing, **20** Banking Ombudsmen had been appointed, with offices mostly in state capitals."]
+          ]
+        },
+        {
+          "type": "bullets",
+          "title": "Banks covered by the 2006 scheme",
+          "items": [
+            "All **Scheduled Commercial Banks**",
+            "**Regional Rural Banks (RRBs)**",
+            "**Scheduled Primary Co-operative Banks**"
+          ]
+        },
+        {
+          "type": "mnemonic",
+          "title": "Scheme years in order",
+          "phrase": "95 begins, 06 rules, 17 amends, 18 adds NBFCs, 21 unites all.",
+          "letters": [
+            ["1995", "First Banking Ombudsman Scheme (Section 35A, BR Act 1949)"],
+            ["2006", "The scheme that stayed in operation for years; Clause 8 lists the grounds"],
+            ["2017", "Last amendment of the 2006 scheme (1 July 2017)"],
+            ["2018", "Separate Ombudsman Scheme for NBFCs (23 February 2018)"],
+            ["2021", "Integrated Ombudsman Scheme joins the separate schemes together"]
+          ],
+          "note": "Sequence to remember: 1995 - 2006 - 2017 - 2018 - 2021."
+        },
+        {
+          "type": "callout",
+          "kind": "remember",
+          "title": "Must-know",
+          "text": "The Ombudsman is appointed by the **RBI**. The scheme rests on **Section 35A** of the **Banking Regulation Act, 1949**, began in **1995**, and the 2006 version was the one in force (amended up to 2017) before the 2021 integration."
+        }
+      ]
+    },
+    {
+      "id": "bo-grounds",
+      "title": "Grounds of complaint to the Banking Ombudsman",
+      "icon": "📋",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "The grounds fall in two groups: service deficiencies **other than loans and advances**, and deficiencies connected with **loans and advances**. The Ombudsman may also take up any other matter that the RBI specifies from time to time."
+        },
+        {
+          "type": "bullets",
+          "title": "Deposits, accounts, charges and facilities",
+          "items": [
+            "Failure or delay in issuing **drafts, pay orders or bankers’ cheques**",
+            "Not following the **prescribed working hours**",
+            "Refusing to **open a deposit account** without a valid reason",
+            "**Levying charges** without adequate prior notice to the customer",
+            "Failure or delay in providing a banking facility (other than loans and advances)",
+            "**Refusal to close**, or delay in closing, an account",
+            "Not following the **fair practices code** adopted by the bank",
+            "**Forced closure** of deposit accounts without due notice or sufficient reason",
+            "Not following RBI guidelines on the use of **recovery agents** by banks"
+          ]
+        },
+        {
+          "type": "bullets",
+          "title": "NRIs, cards, digital banking, pension, taxes and other products",
+          "items": [
+            "Complaints from **NRIs** with accounts in India about remittances from abroad, deposits and other bank matters",
+            "Not following RBI instructions on **ATM / debit card and prepaid card** operations",
+            "Not following RBI instructions on **credit card** operations (by the bank or its subsidiaries)",
+            "Not following RBI instructions on **mobile banking / electronic banking** services",
+            "**Non-disbursement or delay** in disbursing **pension**",
+            "Refusing or delaying to accept **payment towards taxes**",
+            "Not following RBI guidelines on selling **insurance, mutual fund or other third-party** investment products",
+            "Any other violation of RBI directives on banking or other services"
+          ]
+        },
+        {
+          "type": "bullets",
+          "title": "Grounds related to loans and advances",
+          "items": [
+            "Not following RBI directives on **interest rates**",
+            "**Delay** in sanction or disbursement, or ignoring the prescribed time schedule for disposing of loan applications",
+            "**Refusing a loan application** without giving valid reasons to the applicant",
+            "Not following the **fair practices code for lenders** (or the code of the bank’s commitment to customers)",
+            "Not following any other RBI direction or instruction specified for this purpose"
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "Do not confuse",
+          "text": "Complaints against a customer’s behaviour, or decisions on CRR, SLR or MSF, are **not** the Ombudsman’s work. The Ombudsman handles **customers’ complaints about deficiency in bank services**, not monetary policy and not bank-versus-customer disputes."
+        }
+      ]
+    },
+    {
+      "id": "bo-process",
+      "title": "How a complaint reaches the Ombudsman",
+      "icon": "🧭",
+      "blocks": [
+        {
+          "type": "steps",
+          "title": "Steps for the customer",
+          "items": [
+            "First complain to the **bank concerned** and keep a record of it.",
+            "Wait for the bank’s reply for **one month** from the date the bank receives the complaint.",
+            "Approach the Banking Ombudsman if the bank sends **no reply within one month**, or **rejects** the complaint, or the customer is **not satisfied** with the reply.",
+            "The Ombudsman examines the matter and the customer gets the outcome."
+          ]
+        },
+        {
+          "type": "figure",
+          "kind": "flow",
+          "title": "Journey of a bank complaint",
+          "items": [
+            ["Complaint to the bank", "Always the first step"],
+            ["Wait one month", "Bank must reply within this time"],
+            ["No reply / rejection", "Or customer is unhappy with the reply"],
+            ["Banking Ombudsman", "Appointed by the RBI"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "tip",
+          "title": "Exam angle",
+          "text": "The key period is **one month** of waiting. The customer cannot skip the bank: the Ombudsman is the **next step**, not the first."
+        }
+      ]
+    },
+    {
+      "id": "nbfc-scheme",
+      "title": "NBFC Ombudsman Scheme, 2018",
+      "icon": "🏢",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "Besides the Banking Ombudsman, the RBI introduced an **Ombudsman Scheme for Non-Banking Financial Companies, 2018**. It is a free, quick **apex-level mechanism** for settling complaints of NBFC customers about certain services. The **NBFC Ombudsman** is a senior official appointed by the RBI, and complaints are tested against **Clause 8** of the scheme."
+        },
+        {
+          "type": "keyvalue",
+          "title": "Key facts",
+          "rows": [
+            ["Legal basis", "**Section 45L** of the Reserve Bank of India Act, 1934."],
+            ["In force from", "**23 February 2018**."],
+            ["Covered NBFCs", "NBFCs (as defined in Section 45-I(f) and registered under Section 45-IA of the RBI Act) that either accept deposits, or have a customer interface with assets of **₹100 crore (one billion rupees)** or more as per the last audited balance sheet, or any size the RBI prescribes."],
+            ["Coverage in the beginning", "NBFCs **authorised to accept deposits**; the scheme was to be extended gradually to other identified NBFCs."],
+            ["Appointed by", "The **Reserve Bank of India**."]
+          ]
+        },
+        {
+          "type": "bullets",
+          "title": "Offices of the NBFC Ombudsman",
+          "items": ["Chennai", "Kolkata", "New Delhi", "Mumbai"]
+        },
+        {
+          "type": "table",
+          "title": "Banking Ombudsman versus NBFC Ombudsman",
+          "headers": ["Feature", "Banking Ombudsman Scheme", "NBFC Ombudsman Scheme"],
+          "rows": [
+            ["Version in force (per source)", "2006, amended up to 1 July 2017 (first scheme 1995)", "2018 (from 23 February 2018)"],
+            ["Legal basis", "Section 35A, Banking Regulation Act, 1949", "Section 45L, RBI Act, 1934"],
+            ["Who is covered", "Scheduled commercial banks, RRBs, scheduled primary co-operative banks", "NBFCs accepting deposits, or with customer interface and assets of ₹100 crore or more"],
+            ["Offices", "About 20, mostly in state capitals", "Four: Chennai, Kolkata, New Delhi, Mumbai"],
+            ["Appointed by", "RBI", "RBI"],
+            ["Waiting time before approaching", "One month for the bank’s reply", "One month for the NBFC’s reply"]
+          ]
+        },
+        {
+          "type": "mnemonic",
+          "title": "Which section for which scheme?",
+          "phrase": "Banks live at 35A in the BR Act; NBFCs live at 45L in the RBI Act.",
+          "letters": [
+            ["BR 35A", "Banking Ombudsman: Section 35A of the Banking Regulation Act, 1949"],
+            ["RBI 45L", "NBFC Ombudsman: Section 45L of the Reserve Bank of India Act, 1934"]
+          ],
+          "note": "Both numbers go up (35 to 45) because the NBFC scheme is the newer one, and the act with the older year (1934) holds the number 45."
+        },
+        {
+          "type": "mnemonic",
+          "title": "NBFC Ombudsman offices: CKDM",
+          "phrase": "The four metros: Chennai, Kolkata, Delhi, Mumbai.",
+          "letters": [
+            ["C", "Chennai"],
+            ["K", "Kolkata"],
+            ["D", "New Delhi"],
+            ["M", "Mumbai"]
+          ],
+          "note": "Think CKDM = the four metro cities. Banking Ombudsman offices are many (state capitals); the NBFC ones are only these four."
+        }
+      ]
+    },
+    {
+      "id": "nbfc-grounds",
+      "title": "NBFC grounds, compensation and procedure",
+      "icon": "💰",
+      "blocks": [
+        {
+          "type": "bullets",
+          "title": "Grounds of complaint (Clause 8 of the NBFC scheme)",
+          "items": [
+            "**Non-payment or inordinate delay** in paying interest on deposits",
+            "Not following RBI directives on the **rate of interest on deposits**",
+            "**Non-repayment or delay** in repaying deposits",
+            "**Non-presentation or delay** in presenting **post-dated cheques** given by the customer",
+            "Failure to tell the borrower **in writing** the loan amount, terms, annualised interest rate and how it is applied",
+            "Failure to give the sanction letter and terms in a **vernacular language** the borrower understands",
+            "Failure to give adequate notice of **changes** in sanctioned terms, in a language the borrower understands",
+            "Failure or delay in **releasing securities or documents** after all dues are repaid",
+            "**Levying charges** without adequate prior notice",
+            "Failure to include a legally enforceable **repossession clause** in the loan agreement",
+            "Lack of transparency in the agreement on **notice before taking possession**, when notice can be waived, the possession procedure, a **final chance** before sale or auction, how possession is returned, and the sale or auction procedure",
+            "Not following **RBI directions** to NBFCs",
+            "Not following other provisions of the RBI **Fair Practices Code for NBFCs**"
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "Compensation limits (NBFC scheme)",
+          "rows": [
+            ["For loss suffered", "Limited to the amount arising **directly** from the NBFC’s act or omission, or **₹10 lakh (one million)**, whichever is **lower**."],
+            ["For mental agony and harassment", "Up to **₹1 lakh (0.1 million)** extra."]
+          ]
+        },
+        {
+          "type": "steps",
+          "title": "Procedure",
+          "items": [
+            "The complainant must **first approach the NBFC**.",
+            "If the NBFC does **not reply within one month**, **rejects** the complaint, or the complainant is **not satisfied**, the complaint can go to the Ombudsman.",
+            "File it with the NBFC Ombudsman in whose **jurisdiction** the NBFC’s **branch or registered office** falls."
+          ]
+        },
+        {
+          "type": "mnemonic",
+          "title": "Compensation: 10 for the loss, 1 for the pain",
+          "phrase": "Ten lakh for the pocket, one lakh for the pain.",
+          "letters": [
+            ["₹10 lakh", "= 1 million: cap on compensation for loss (or the direct loss, if lower)"],
+            ["₹1 lakh", "= 0.1 million: extra cap for mental agony and harassment"]
+          ],
+          "note": "Conversion help: 1 million = 10 lakh, so 0.1 million = 1 lakh."
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "Words to watch",
+          "text": "The loss cap is the amount arising directly from the NBFC’s act **or** ₹10 lakh, **whichever is lower**. Do not read it as a flat ₹10 lakh payout."
+        }
+      ]
+    },
+    {
+      "id": "nbfc-appeal",
+      "title": "Appellate Authority under the NBFC scheme",
+      "icon": "🧑‍⚖️",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "A complainant who is unhappy with the **award** of the NBFC Ombudsman, or with the **rejection** of the complaint, can go to the **Appellate Authority**. The time limit is **30 days** from receiving the communication of the award or rejection."
+        },
+        {
+          "type": "bullets",
+          "title": "What the Appellate Authority can do",
+          "items": [
+            "**Dismiss** the appeal",
+            "**Allow** the appeal and **set aside** the award",
+            "**Send the matter back** to the NBFC Ombudsman for fresh disposal, following the directions it considers necessary",
+            "**Modify** the award and give directions to put the modified award into effect",
+            "Pass **any other order** it thinks fit"
+          ]
+        },
+        {
+          "type": "text",
+          "text": "If the applicant shows sufficient cause for missing the 30-day limit, the Appellate Authority may allow **a further period not exceeding 30 days**."
+        },
+        {
+          "type": "mnemonic",
+          "title": "The 1-30-30 clock",
+          "phrase": "One month to reply, thirty days to appeal, thirty more if you have a reason.",
+          "letters": [
+            ["1 month", "Time the NBFC (or bank) gets to reply before you go to the Ombudsman"],
+            ["30 days", "Time to appeal against the award or rejection"],
+            ["+30 days", "Maximum extra time for appeal if sufficient cause is shown"]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "nbfc-basics",
+      "title": "NBFCs: what they are and what they cannot do",
+      "icon": "🏦",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "A **Non-Banking Financial Company (NBFC)** is a company registered under the **Companies Act, 1956** that works in loans and advances, and in acquiring shares, stock, bonds, debentures and other marketable securities (including those issued by the government or a local authority). It may also do **leasing, hire-purchase, insurance business or chit business**."
+        },
+        {
+          "type": "table",
+          "title": "NBFC versus bank",
+          "headers": ["Point", "What it means for an NBFC"],
+          "rows": [
+            ["Is it a bank?", "No. It finances but does not function as a bank."],
+            ["Deposits", "May take deposits in forms like fixed deposits; **cannot** accept demand deposits such as savings accounts."],
+            ["Savings accounts", "Not allowed to open savings bank accounts."],
+            ["Clearing house", "Not a member of the clearing houses."],
+            ["Government securities", "Can acquire securities issued by the government or local authorities (it is part of the business)."]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "remember",
+          "title": "IFC-NBFC rule",
+          "text": "An **Infrastructure Finance Company (IFC) NBFC** must deploy at least **75%** of its total assets in **infrastructure loans**."
+        },
+        {
+          "type": "figure",
+          "kind": "layers",
+          "title": "Scale-based layers of NBFCs (top to bottom)",
+          "items": [
+            ["Top layer", "Kept empty unless RBI sees extreme risk"],
+            ["Upper layer (NBFC-UL)", "Largest NBFCs and others the RBI identifies"],
+            ["Middle layer (NBFC-ML)", "Deposit-takers and those with larger assets"],
+            ["Base layer (NBFC-BL)", "Smaller and specialised NBFCs"]
+          ]
+        },
+        {
+          "type": "text",
+          "text": "At the time of the 2022 exam, the RBI’s Upper Layer list had **16** NBFCs, including names such as Bajaj Finance, LIC Housing Finance, Tata Sons, L&T Finance, Muthoot Finance, Shriram Transport, Cholamandalam Investment and Aditya Birla Finance. The list is revised periodically, so treat the count as dated."
+        }
+      ]
+    },
+    {
+      "id": "integrated-scheme",
+      "title": "Integrated Ombudsman Scheme, 2021",
+      "icon": "🧩",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "From **12 November 2021** the RBI brought in the **Reserve Bank – Integrated Ombudsman Scheme (RB-IOS)**, following a **One Nation, One Ombudsman** approach. It replaced the earlier separate schemes so that a customer need not figure out which ombudsman to approach."
+        },
+        {
+          "type": "bullets",
+          "title": "Schemes merged into the integrated scheme",
+          "items": [
+            "Banking Ombudsman Scheme, **2006**",
+            "Ombudsman Scheme for NBFCs, **2018**",
+            "Ombudsman Scheme for Digital Transactions, **2019**"
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "Main features (as per the 2021 scheme)",
+          "rows": [
+            ["Ground of complaint", "**Deficiency in service** in general, instead of a fixed list of grounds."],
+            ["Filing", "Complaints can be filed online, by email or in writing, and are handled through the **Centralised Receipt and Processing Centre (CRPC)** at **Chandigarh**."],
+            ["Reply time", "The regulated entity (bank, NBFC or payment participant) has **30 days** to reply before the customer can escalate."],
+            ["Compensation", "Up to **₹20 lakh** for direct loss, plus up to **₹1 lakh** for loss of time, expenses, harassment and mental agony."],
+            ["Appeal", "Against the Ombudsman’s decision, to the Appellate Authority within **30 days**."]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "fact",
+          "title": "Keep the timeline straight",
+          "text": "The older scheme details above (1995, 2006, 2018) are still asked in exams, but the **integrated scheme of 2021** now covers banks, NBFCs and payment system participants together. Check the latest RBI circulars for any changes after 2021."
+        }
+      ]
+    }
+  ],
+  "revision": [
+    "Banking Ombudsman is appointed by the **RBI** to settle complaints about deficiency in certain banking services.",
+    "Banking Ombudsman Scheme: **Section 35A**, Banking Regulation Act **1949**; started **1995**; 2006 version amended up to **1 July 2017**.",
+    "The 2006 scheme covers scheduled commercial banks, RRBs and scheduled primary co-operative banks.",
+    "At the time of writing, **20** Banking Ombudsmen with offices mostly in state capitals.",
+    "Customer must first complain to the bank, and may approach the Ombudsman after **one month** without a reply, or on rejection or dissatisfaction.",
+    "NBFC Ombudsman Scheme: **Section 45L**, RBI Act 1934; in force from **23 February 2018**.",
+    "NBFC scheme covers deposit-taking NBFCs, and those with customer interface and assets of **₹100 crore** or more.",
+    "NBFC Ombudsman offices: **Chennai, Kolkata, New Delhi, Mumbai**.",
+    "NBFC compensation: direct loss or **₹10 lakh**, whichever is lower; up to **₹1 lakh** for mental agony.",
+    "Appeal against NBFC Ombudsman award: within **30 days**, extendable by up to **30 days**.",
+    "NBFCs cannot accept demand deposits, open savings accounts or join clearing houses.",
+    "An **IFC-NBFC** must keep at least **75%** of assets in infrastructure loans.",
+    "**Integrated Ombudsman Scheme** of **12 November 2021** merged the Banking (2006), NBFC (2018) and Digital Transactions (2019) schemes.",
+    "Under the 2021 scheme: ground is deficiency in service; compensation up to **₹20 lakh** plus **₹1 lakh**; CRPC at **Chandigarh**."
+  ],
+  "mindmap": {
+    "center": "Banking & NBFC Ombudsman",
+    "branches": [
+      {
+        "label": "Banking Ombudsman",
+        "children": ["Appointed by RBI", "Scheme 2006 (amended 2017)", "Section 35A, BR Act 1949", "Started in 1995", "About 20 offices"]
+      },
+      {
+        "label": "Banks covered",
+        "children": ["Scheduled commercial banks", "Regional Rural Banks", "Scheduled primary co-op banks"]
+      },
+      {
+        "label": "Complaint grounds (banks)",
+        "children": ["Charges without notice", "ATM, debit, credit card rules", "NRI remittances", "Pension and tax payments", "Loan delay or refusal"]
+      },
+      {
+        "label": "Complaint route",
+        "children": ["Complain to bank first", "Wait for one month", "Go to Ombudsman", "Appeal if needed"]
+      },
+      {
+        "label": "NBFC Ombudsman 2018",
+        "children": ["Section 45L, RBI Act 1934", "In force 23 Feb 2018", "Chennai, Kolkata, Delhi, Mumbai", "Free apex mechanism"]
+      },
+      {
+        "label": "NBFC award and appeal",
+        "children": ["Loss cap ₹10 lakh", "Mental agony ₹1 lakh", "Appeal within 30 days", "Extra 30 days if cause"]
+      },
+      {
+        "label": "NBFC basics",
+        "children": ["Not a bank", "No savings accounts", "IFC-NBFC 75% rule", "Scale-based layers"]
+      },
+      {
+        "label": "Integrated Scheme 2021",
+        "children": ["Three schemes merged", "Deficiency in service", "₹20 lakh plus ₹1 lakh", "CRPC at Chandigarh"]
+      }
+    ]
+  }
+}

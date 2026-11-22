@@ -1,0 +1,749 @@
+[
+  {
+    "id": "banking-committees-01",
+    "q": "The concept of ‘Universal Banking’ was implemented in India on the recommendations of which committee?",
+    "options": [
+      "Abid Hussain Committee",
+      "R H Khan Committee",
+      "S Padmanabhan Committee",
+      "Y H Malegam Committee"
+    ],
+    "answer": 1,
+    "explain": "Universal Banking came to India following the R H Khan Committee recommendations.",
+    "section": "exam-favourite-committees",
+    "exam": "SBI PO Main 2015"
+  },
+  {
+    "id": "banking-committees-02",
+    "q": "The external advisory committee that reported to the RBI on the first-ever niche banking licence award process was headed by:",
+    "options": [
+      "R Gandhi",
+      "Bimal Jalan",
+      "Urjit Patel",
+      "Nachiket Mor"
+    ],
+    "answer": 3,
+    "explain": "The advisory committee on niche banks (payments banks and small finance banks) was headed by Nachiket Mor.",
+    "section": "exam-favourite-committees",
+    "exam": "SBI PO Main 2017"
+  },
+  {
+    "id": "banking-committees-03",
+    "q": "Which of the following statements about the FSLRC is NOT correct?",
+    "options": [
+      "It was formed in 2013",
+      "It reviews, simplifies and rewrites the laws affecting financial markets in India",
+      "It evolves a common set of principles for governance of financial sector regulatory institutions",
+      "It streamlines the regulatory architecture of financial markets"
+    ],
+    "answer": 0,
+    "explain": "The Financial Sector Legislative Reforms Commission was formed in 2011, not 2013. The other three statements describe its work correctly.",
+    "section": "exam-favourite-committees",
+    "exam": "IBPS RRB Main 2017"
+  },
+  {
+    "id": "banking-committees-04",
+    "q": "The U K Sinha Committee was constituted for which area?",
+    "options": [
+      "RBI panel on NPA reforms",
+      "RBI panel on Rural Banks reforms",
+      "RBI panel on MSME reforms",
+      "RBI panel on Payment Banks reforms"
+    ],
+    "answer": 2,
+    "explain": "Upendra Kumar Sinha headed the expert committee on MSMEs; it also recommended video KYC.",
+    "section": "exam-favourite-committees",
+    "exam": "IBPS RRB Clerk Main 2019"
+  },
+  {
+    "id": "banking-committees-05",
+    "q": "RBI formed a committee to review the regulatory and supervisory framework for Core Investment Companies (CICs). Who headed it?",
+    "options": [
+      "Bimal Jalan",
+      "Usha Thorat",
+      "T N Manoharan",
+      "Tapan Ray"
+    ],
+    "answer": 3,
+    "explain": "The CIC review committee was headed by Tapan Ray, as per the answer key of the SBI Clerk Main 2019 paper.",
+    "section": "exam-favourite-committees",
+    "exam": "SBI Clerk Main 2019"
+  },
+  {
+    "id": "banking-committees-06",
+    "q": "The 11-member committee headed by former Finance Secretary Ratan P Watal was related to which subject?",
+    "options": [
+      "Incentivising transactions through cards and digital means",
+      "One Rank One Pension",
+      "Indo-Pakistani war and the Simla Agreement",
+      "Financial inclusion"
+    ],
+    "answer": 0,
+    "explain": "The Watal Committee dealt with boosting digital payments by incentivising card and digital transactions.",
+    "section": "exam-favourite-committees",
+    "exam": "SBI PO Main 2016"
+  },
+  {
+    "id": "banking-committees-07",
+    "q": "Which of the following is NOT a recommendation of the Narasimham Committee, 1991?",
+    "options": [
+      "Reduction of CRR and SLR",
+      "Phasing out directed credit programmes",
+      "Reduction of the capital adequacy ratio",
+      "Autonomy to public sector banks"
+    ],
+    "answer": 2,
+    "explain": "Narasimham I wanted capital adequacy to be strengthened, not reduced. The other three are among its recommendations.",
+    "section": "narasimham-committees"
+  },
+  {
+    "id": "banking-committees-08",
+    "q": "Which committee recommended the formation of Debt Recovery Tribunals?",
+    "options": [
+      "A C Shah Committee",
+      "Narasimham Committee",
+      "Abid Hussain Committee",
+      "Adhyarjina Committee"
+    ],
+    "answer": 1,
+    "explain": "Debt Recovery Tribunals (special tribunals to cut the time taken to settle recovery cases) came from the Narasimham Committee.",
+    "section": "narasimham-committees"
+  },
+  {
+    "id": "banking-committees-09",
+    "q": "Which committee recommended Income Recognition and Asset Classification norms for banks?",
+    "options": [
+      "Narasimham Committee",
+      "Rangarajan Committee",
+      "Goiporia Committee",
+      "Janakiraman Committee"
+    ],
+    "answer": 0,
+    "explain": "Income recognition and asset classification norms trace back to the Narasimham Committee on the financial system.",
+    "section": "narasimham-committees"
+  },
+  {
+    "id": "banking-committees-10",
+    "q": "The Khan Commission, set up in 2004, was meant to:",
+    "options": [
+      "Review monetary policy",
+      "Introduce loan schemes",
+      "Prepare a report on financial inclusion",
+      "Review the financial status of public sector banks"
+    ],
+    "answer": 2,
+    "explain": "The Khan panel of 2004 looked at financial inclusion, the same theme later taken up by Rangarajan (2006) and Nachiket Mor (2013).",
+    "section": "exam-favourite-committees"
+  },
+  {
+    "id": "banking-committees-11",
+    "q": "The Committee on Financial Inclusion headed by Dr C Rangarajan was set up in:",
+    "options": [
+      "2004",
+      "2006",
+      "2009",
+      "2002"
+    ],
+    "answer": 1,
+    "explain": "Rangarajan’s Committee on Financial Inclusion was set up in 2006, two years after the 2004 Khan report.",
+    "section": "exam-favourite-committees"
+  },
+  {
+    "id": "banking-committees-12",
+    "q": "Which committee suggested initiatives on the ‘Medium-term Path on Financial Inclusion’?",
+    "options": [
+      "R Gandhi Committee",
+      "Usha Thorat Committee",
+      "Nachiket Mor Committee",
+      "Deepak Mohanty Committee"
+    ],
+    "answer": 3,
+    "explain": "The medium-term path on financial inclusion is linked to the Deepak Mohanty Committee.",
+    "section": "exam-favourite-committees"
+  },
+  {
+    "id": "banking-committees-13",
+    "q": "According to the Nachiket Mor Committee, every adult should have a bank account by:",
+    "options": [
+      "2017",
+      "2018",
+      "2016",
+      "2020"
+    ],
+    "answer": 2,
+    "explain": "Mor recommended that every adult (above 18 years) get an account, the Universal Electronic Bank Account, by 1 January 2016.",
+    "section": "nachiket-mor"
+  },
+  {
+    "id": "banking-committees-14",
+    "q": "On whose recommendations was NABARD established?",
+    "options": [
+      "Shivaraman Committee",
+      "Malhotra Committee",
+      "Kumarmangalam Committee",
+      "Narasimham Committee"
+    ],
+    "answer": 0,
+    "explain": "The Shivaraman Committee recommended a dedicated agricultural and rural development bank, leading to NABARD.",
+    "section": "exam-favourite-committees"
+  },
+  {
+    "id": "banking-committees-15",
+    "q": "Statement I: The Tarun Ramadorai Committee was set up to study various facets of household finance in India. Statement II: It evaluates households’ demand in financial markets for assets such as pensions as well as liabilities. Which is correct?",
+    "options": [
+      "Only Statement I",
+      "Only Statement II",
+      "Neither statement",
+      "Both Statement I and Statement II"
+    ],
+    "answer": 3,
+    "explain": "Both statements describe the Ramadorai Committee’s remit on household finance.",
+    "section": "exam-favourite-committees"
+  },
+  {
+    "id": "banking-committees-16",
+    "q": "Which committee was formed to review the governance of boards of banks in India?",
+    "options": [
+      "A Ghosh Committee",
+      "P J Nayak Committee",
+      "B Eradi Committee",
+      "Abid Hussain Committee"
+    ],
+    "answer": 1,
+    "explain": "The Nayak Committee examined the governance of boards of banks. Ghosh dealt with frauds and Eradi with insolvency law.",
+    "section": "exam-favourite-committees"
+  },
+  {
+    "id": "banking-committees-17",
+    "q": "The Narasimham Committee I recommended a gradual reduction of the Statutory Liquidity Ratio (SLR) to:",
+    "options": [
+      "20%",
+      "25%",
+      "30%",
+      "35%"
+    ],
+    "answer": 1,
+    "explain": "SLR was to be reduced gradually to 25%, and CRR to 3.5%.",
+    "section": "narasimham-committees"
+  },
+  {
+    "id": "banking-committees-18",
+    "q": "Narasimham Committee I suggested bringing the Cash Reserve Ratio (CRR) down gradually to:",
+    "options": [
+      "2.5%",
+      "3%",
+      "4%",
+      "3.5%"
+    ],
+    "answer": 3,
+    "explain": "The first committee suggested CRR of 3.5% and SLR of 25%.",
+    "section": "narasimham-committees"
+  },
+  {
+    "id": "banking-committees-19",
+    "q": "Narasimham Committee I was set up in:",
+    "options": [
+      "August 1991",
+      "December 1997",
+      "April 1998",
+      "March 1992"
+    ],
+    "answer": 0,
+    "explain": "The first committee began in August 1991, the year of economic liberalisation.",
+    "section": "narasimham-committees"
+  },
+  {
+    "id": "banking-committees-20",
+    "q": "When was the Narasimham Committee II set up?",
+    "options": [
+      "15 August 1997",
+      "1 April 1998",
+      "26 December 1997",
+      "26 December 1998"
+    ],
+    "answer": 2,
+    "explain": "Committee II was set up on 26 December 1997 and submitted its report in April 1998.",
+    "section": "narasimham-committees"
+  },
+  {
+    "id": "banking-committees-21",
+    "q": "Which concept, recommended by the Narasimham Committee II, lets weak banks place their funds only in short-term, risk-free assets?",
+    "options": [
+      "Universal Banking",
+      "Niche Banking",
+      "Mixed Banking",
+      "Narrow Banking"
+    ],
+    "answer": 3,
+    "explain": "Narrow Banking was the 1998 committee’s idea for weak banks.",
+    "section": "narasimham-committees"
+  },
+  {
+    "id": "banking-committees-22",
+    "q": "The Narasimham Committee II looked at a stronger banking system in the context of which convertibility?",
+    "options": [
+      "Current Account Convertibility",
+      "Capital Account Convertibility",
+      "Full rupee convertibility",
+      "Gold convertibility"
+    ],
+    "answer": 0,
+    "explain": "The committee linked the banking system’s strength with Current Account Convertibility (CAC). Capital account convertibility is the tempting but wrong choice.",
+    "section": "narasimham-committees"
+  },
+  {
+    "id": "banking-committees-23",
+    "q": "Which of these was recommended by the Narasimham Committee II (1998)?",
+    "options": [
+      "Lowering capital adequacy norms",
+      "Increasing the number of public sector banks",
+      "Raising the prescribed capital adequacy norms",
+      "Abolishing Regional Rural Banks"
+    ],
+    "answer": 2,
+    "explain": "The 1998 committee wanted capital adequacy norms raised and an urgent review of banking-sector laws.",
+    "section": "narasimham-committees"
+  },
+  {
+    "id": "banking-committees-24",
+    "q": "According to the Narasimham Committee I, Regional Rural Banks should focus on:",
+    "options": [
+      "Corporate lending",
+      "Agriculture and rural financing",
+      "Urban housing finance",
+      "Foreign exchange business"
+    ],
+    "answer": 1,
+    "explain": "The committee said RRBs should concentrate on agriculture and rural financing.",
+    "section": "narasimham-committees"
+  },
+  {
+    "id": "banking-committees-25",
+    "q": "The Damodaran Committee of 2011 was headed by a former chairman of which body?",
+    "options": [
+      "SEBI",
+      "RBI",
+      "IRDAI",
+      "NABARD"
+    ],
+    "answer": 0,
+    "explain": "M. Damodaran, a former SEBI Chairman, headed the committee set up by the RBI.",
+    "section": "committees-2011-trio"
+  },
+  {
+    "id": "banking-committees-26",
+    "q": "What was the Damodaran Committee asked to study?",
+    "options": [
+      "Regulation of NBFCs",
+      "Priority sector lending",
+      "Customer services and the grievance redressal mechanism in banks",
+      "Digital payments"
+    ],
+    "answer": 2,
+    "explain": "Its task was customer service and evaluating banks’ grievance redressal systems.",
+    "section": "committees-2011-trio"
+  },
+  {
+    "id": "banking-committees-27",
+    "q": "Which committee recommended No Frill Savings Accounts without any minimum balance?",
+    "options": [
+      "M V Nair Committee",
+      "Damodaran Committee",
+      "Usha Thorat Committee",
+      "Nachiket Mor Committee"
+    ],
+    "answer": 1,
+    "explain": "The Damodaran Committee asked banks to offer no-frill accounts with a cheque book and ATM card and no minimum balance.",
+    "section": "committees-2011-trio"
+  },
+  {
+    "id": "banking-committees-28",
+    "q": "Under the Damodaran Committee’s recommendation, the customer’s liability for losses in ATM and online transactions should be:",
+    "options": [
+      "50% of the loss",
+      "The full loss",
+      "Limited to the first transaction",
+      "Nil"
+    ],
+    "answer": 3,
+    "explain": "The committee recommended that customers bear no liability for such losses.",
+    "section": "committees-2011-trio"
+  },
+  {
+    "id": "banking-committees-29",
+    "q": "The Usha Thorat Committee (2011) recommended a higher capital norm for NBFCs of:",
+    "options": [
+      "8%",
+      "10%",
+      "12%",
+      "15%"
+    ],
+    "answer": 2,
+    "explain": "A 12% capital norm, plus asset classification and provisioning like banks, was proposed for NBFCs.",
+    "section": "committees-2011-trio"
+  },
+  {
+    "id": "banking-committees-30",
+    "q": "As per the Usha Thorat Committee, the minimum asset size to register a new NBFC is over:",
+    "options": [
+      "₹50 crore",
+      "₹25 crore",
+      "₹100 crore",
+      "₹1,000 crore"
+    ],
+    "answer": 0,
+    "explain": "The committee suggested a minimum asset size of over ₹50 crore to register a new NBFC. The ₹1,000 crore figure is the exemption limit.",
+    "section": "committees-2011-trio"
+  },
+  {
+    "id": "banking-committees-31",
+    "q": "The Usha Thorat Committee exempted NBFCs not accessing public funds and having assets below:",
+    "options": [
+      "₹500 crore",
+      "₹100 crore",
+      "₹5,000 crore",
+      "₹1,000 crore"
+    ],
+    "answer": 3,
+    "explain": "NBFCs that do not access public funds and hold assets below ₹1,000 crore were to be exempt from registration.",
+    "section": "committees-2011-trio"
+  },
+  {
+    "id": "banking-committees-32",
+    "q": "The M V Nair Committee of 2011 was set up to re-examine guidelines on:",
+    "options": [
+      "Capital adequacy of banks",
+      "Priority sector lending",
+      "NBFC regulation",
+      "Customer grievances"
+    ],
+    "answer": 1,
+    "explain": "The Nair Committee revised the classification and guidelines for priority sector lending.",
+    "section": "committees-2011-trio"
+  },
+  {
+    "id": "banking-committees-33",
+    "q": "The M V Nair Committee was constituted following an announcement in which document?",
+    "options": [
+      "Union Budget 2011-12",
+      "Monetary Policy Statement 2011-12",
+      "Economic Survey 2010-11",
+      "RBI Annual Report 2010-11"
+    ],
+    "answer": 1,
+    "explain": "The committee was set up on 25 August 2011 pursuant to an announcement in the Monetary Policy Statement 2011-12.",
+    "section": "committees-2011-trio"
+  },
+  {
+    "id": "banking-committees-34",
+    "q": "What is the full form of UEBA, recommended by the Nachiket Mor Committee?",
+    "options": [
+      "Unified Electronic Banking Account",
+      "Universal Equal Bank Access",
+      "United Employee Bank Account",
+      "Universal Electronic Bank Account"
+    ],
+    "answer": 3,
+    "explain": "UEBA stands for Universal Electronic Bank Account, proposed for every adult above 18 years.",
+    "section": "nachiket-mor"
+  },
+  {
+    "id": "banking-committees-35",
+    "q": "The Nachiket Mor Committee suggested abolishing which ratio gradually and bringing in the Liquidity Coverage Ratio?",
+    "options": [
+      "Statutory Liquidity Ratio (SLR)",
+      "Cash Reserve Ratio (CRR)",
+      "Capital Adequacy Ratio (CRAR)",
+      "Credit-Deposit Ratio"
+    ],
+    "answer": 0,
+    "explain": "Mor proposed phasing out SLR and introducing LCR under Basel III norms.",
+    "section": "nachiket-mor"
+  },
+  {
+    "id": "banking-committees-36",
+    "q": "Which kind of bank did the Nachiket Mor Committee recommend setting up?",
+    "options": [
+      "Land development banks",
+      "Industrial banks",
+      "Payments banks",
+      "Regional rural banks"
+    ],
+    "answer": 2,
+    "explain": "The 2013 committee recommended payments banks among its measures for inclusion.",
+    "section": "nachiket-mor"
+  },
+  {
+    "id": "banking-committees-37",
+    "q": "The Nachiket Mor Committee suggested that a bank issue an account to every resident at the time the person receives:",
+    "options": [
+      "A PAN card",
+      "A passport",
+      "A voter ID",
+      "An Aadhaar number"
+    ],
+    "answer": 3,
+    "explain": "The report linked account opening to the issue of the Aadhaar number (UIDAI).",
+    "section": "nachiket-mor"
+  },
+  {
+    "id": "banking-committees-38",
+    "q": "Which committee recommended replacing the current KYC methods with video KYC?",
+    "options": [
+      "Upendra Kumar Sinha Committee",
+      "Nandan Nilekani Committee",
+      "Usha Thorat Committee",
+      "Damodaran Committee"
+    ],
+    "answer": 0,
+    "explain": "The expert MSME committee headed by U K Sinha recommended video KYC.",
+    "section": "sinha-and-kyc"
+  },
+  {
+    "id": "banking-committees-39",
+    "q": "As per the RBI’s KYC guidelines, how often must KYC be completed for high-risk customers?",
+    "options": [
+      "Once a year",
+      "Once in 5 years",
+      "Once in 2 years",
+      "Once in 8 years"
+    ],
+    "answer": 2,
+    "explain": "High risk: 2 years; medium risk: 8 years; low risk: 10 years.",
+    "section": "sinha-and-kyc"
+  },
+  {
+    "id": "banking-committees-40",
+    "q": "Under the RBI KYC guidelines, how often must KYC be refreshed for low-risk customers?",
+    "options": [
+      "Once in 5 years",
+      "Once in 10 years",
+      "Once in 8 years",
+      "Once in 12 years"
+    ],
+    "answer": 1,
+    "explain": "Low-risk customers need KYC only once in 10 years.",
+    "section": "sinha-and-kyc"
+  },
+  {
+    "id": "banking-committees-41",
+    "q": "Which pairing of customer risk level and KYC refresh interval is correct?",
+    "options": [
+      "Medium risk with 8 years",
+      "High risk with 10 years",
+      "Low risk with 2 years",
+      "Medium risk with 10 years"
+    ],
+    "answer": 0,
+    "explain": "The gaps are 2 years (high), 8 years (medium) and 10 years (low).",
+    "section": "sinha-and-kyc"
+  },
+  {
+    "id": "banking-committees-42",
+    "q": "Which statement about video KYC is correct?",
+    "options": [
+      "It requires a physical visit to the branch",
+      "It can only be done at an ATM",
+      "Documents are verified and the signature recorded during a video call with a bank officer",
+      "It is available only to NRIs"
+    ],
+    "answer": 2,
+    "explain": "Video KYC removes the need to visit a branch; it is completed in minutes over a video call.",
+    "section": "sinha-and-kyc"
+  },
+  {
+    "id": "banking-committees-43",
+    "q": "On 5 May 2021, because of the COVID-19 pandemic, the RBI allowed:",
+    "options": [
+      "Abolition of KYC for all accounts",
+      "Conversion of limited KYC accounts to full KYC accounts",
+      "KYC once in 20 years",
+      "Only physical KYC for small businesses"
+    ],
+    "answer": 1,
+    "explain": "RBI relaxed KYC norms: limited KYC accounts could be converted to full KYC, and video KYC was allowed for small businesses and legal entities.",
+    "section": "sinha-and-kyc"
+  },
+  {
+    "id": "banking-committees-44",
+    "q": "The V G Kannan Committee was constituted for:",
+    "options": [
+      "Frauds and malpractices",
+      "Tax reforms",
+      "NBFC reforms",
+      "ATM charges and rural penetration of teller machines"
+    ],
+    "answer": 3,
+    "explain": "Kannan looked at ATM charges and improving rural penetration of ATMs.",
+    "section": "committees-payments-tech"
+  },
+  {
+    "id": "banking-committees-45",
+    "q": "The Nandan Nilekani Committee was set up for:",
+    "options": [
+      "Reforms in the pension sector",
+      "Rehabilitation of sick industries",
+      "Strengthening the safety and security of digital payments",
+      "Restructuring of advances"
+    ],
+    "answer": 2,
+    "explain": "The Nilekani panel’s objective was the safety and security of digital payments.",
+    "section": "committees-payments-tech"
+  },
+  {
+    "id": "banking-committees-46",
+    "q": "The A Ghosh Committee dealt with:",
+    "options": [
+      "Frauds and malpractices in India",
+      "ATM charges",
+      "Urban co-operative banks",
+      "Foreign investment norms"
+    ],
+    "answer": 0,
+    "explain": "Ghosh’s committee examined frauds and malpractices.",
+    "section": "committees-banks-supervision"
+  },
+  {
+    "id": "banking-committees-47",
+    "q": "The R V Easwar Committee was formed to:",
+    "options": [
+      "Evaluate unclaimed PPP savings",
+      "Set up a Bullion Corporation",
+      "Review the FRBM Act",
+      "Simplify the Income Tax Act, 1961"
+    ],
+    "answer": 3,
+    "explain": "Easwar’s task was simplifying the Income Tax Act, 1961.",
+    "section": "committees-law-markets-tax"
+  },
+  {
+    "id": "banking-committees-48",
+    "q": "The Parthasarathi Shome Committee gave guidelines on:",
+    "options": [
+      "Mobile banking",
+      "General Anti Avoidance Rules (GAAR)",
+      "Pay scales of bank officers",
+      "Cash credit system"
+    ],
+    "answer": 1,
+    "explain": "Shome’s committee dealt with the General Anti Avoidance Rules (GAAR).",
+    "section": "committees-law-markets-tax"
+  },
+  {
+    "id": "banking-committees-49",
+    "q": "The Bimal Jalan Committee was constituted to:",
+    "options": [
+      "Examine the cash credit system",
+      "Scrutinise applications for new bank licences",
+      "Revise the Banking Ombudsman Scheme",
+      "Study fintech regulation"
+    ],
+    "answer": 1,
+    "explain": "Jalan’s panel scrutinised applications for new bank licences.",
+    "section": "committees-banks-supervision"
+  },
+  {
+    "id": "banking-committees-50",
+    "q": "Which committee examined the current monetary policy framework?",
+    "options": [
+      "Vaghul Committee",
+      "Chelliah Committee",
+      "Hathi Committee",
+      "Urjit Patel Committee"
+    ],
+    "answer": 3,
+    "explain": "Urjit Patel reviewed the monetary policy framework; Vaghul dealt with the money market.",
+    "section": "committees-law-markets-tax"
+  },
+  {
+    "id": "banking-committees-51",
+    "q": "The Balakrishna Eradi Committee is associated with:",
+    "options": [
+      "Insolvency law",
+      "Soiled bank notes",
+      "Bullion Corporation of India",
+      "Urban co-operative banks"
+    ],
+    "answer": 0,
+    "explain": "Eradi’s panel looked at insolvency law.",
+    "section": "committees-law-markets-tax"
+  },
+  {
+    "id": "banking-committees-52",
+    "q": "The Wanchoo Committee examined:",
+    "options": [
+      "Indirect taxes",
+      "Customs reforms",
+      "Direct taxes",
+      "GST structure"
+    ],
+    "answer": 2,
+    "explain": "Wanchoo is listed with direct taxes enquiry; L K Jha and Rekhi with indirect taxes.",
+    "section": "committees-law-markets-tax"
+  },
+  {
+    "id": "banking-committees-53",
+    "q": "Which committee dealt with the ‘follow-up of bank credit’?",
+    "options": [
+      "I T Vaz Committee",
+      "Vaghul Committee",
+      "Karve Committee",
+      "Tandon Committee"
+    ],
+    "answer": 3,
+    "explain": "Tandon is linked with the follow-up of bank credit; I T Vaz with working capital finance.",
+    "section": "committees-industry-credit"
+  },
+  {
+    "id": "banking-committees-54",
+    "q": "The R N Malhotra Committee recommended reforms in:",
+    "options": [
+      "The insurance sector",
+      "The pension sector",
+      "The money market",
+      "Rural credit"
+    ],
+    "answer": 0,
+    "explain": "Malhotra is associated with insurance sector reforms.",
+    "section": "committees-insurance-savings"
+  },
+  {
+    "id": "banking-committees-55",
+    "q": "The Shyamala Gopinath Committee made suggestions on:",
+    "options": [
+      "Cheque truncation",
+      "Fintech regulation",
+      "Post office small saving schemes",
+      "Agricultural credit"
+    ],
+    "answer": 2,
+    "explain": "Gopinath is linked with post office small saving schemes.",
+    "section": "committees-insurance-savings"
+  },
+  {
+    "id": "banking-committees-56",
+    "q": "The Khusro Committee looked into:",
+    "options": [
+      "Direct taxes",
+      "Agricultural credit",
+      "Poverty line",
+      "Stock exchanges"
+    ],
+    "answer": 1,
+    "explain": "Khusro’s panel dealt with agricultural credit; Lakdawala handled the poverty line.",
+    "section": "committees-rural-inclusion"
+  },
+  {
+    "id": "banking-committees-57",
+    "q": "The Vaghul Committee recommended steps for the:",
+    "options": [
+      "Money market in India",
+      "Insolvency law",
+      "Capital adequacy of banks",
+      "Mobile banking"
+    ],
+    "answer": 0,
+    "explain": "Vaghul is associated with the money market.",
+    "section": "committees-law-markets-tax"
+  }
+]

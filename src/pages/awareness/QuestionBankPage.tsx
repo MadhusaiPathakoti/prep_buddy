@@ -2,20 +2,23 @@ import { useEffect, useMemo, useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import FavoriteRecencyChips from '../../components/FavoriteRecencyChips'
 import StarButton from '../../components/awareness/StarButton'
-import { CA_BANK_KEY, loadAllQuestions } from '../../lib/computerAwareness/data'
-import { CA_CHAPTERS } from '../../lib/computerAwareness/meta'
-import { THEMES } from '../../lib/computerAwareness/theme'
-import type { CaBankQuestion } from '../../lib/computerAwareness/types'
+import { basePath } from '../../lib/awareness/books'
+import { useBook } from '../../lib/awareness/bookContext'
+import { loadAllQuestions } from '../../lib/awareness/data'
+import { THEMES } from '../../lib/awareness/theme'
+import type { CaBankQuestion } from '../../lib/awareness/types'
 import { formatFavoritedDate, getFavorites, isFavoritedWithin, toggleFavorite } from '../../lib/favorites'
 
 const PAGE = 25
 const LETTERS = ['A', 'B', 'C', 'D']
 
 export default function QuestionBankPage() {
+  const book = useBook()
+  const base = basePath(book)
   const [params, setParams] = useSearchParams()
   const [all, setAll] = useState<CaBankQuestion[] | null>(null)
   const [error, setError] = useState(false)
-  const [favorites, setFavorites] = useState(() => getFavorites(CA_BANK_KEY))
+  const [favorites, setFavorites] = useState(() => getFavorites(book.bankKey))
   const [search, setSearch] = useState('')
   const [recency, setRecency] = useState<number | null>(null)
   const [showAnswers, setShowAnswers] = useState(false)
@@ -27,7 +30,7 @@ export default function QuestionBankPage() {
 
   useEffect(() => {
     let cancelled = false
-    loadAllQuestions()
+    loadAllQuestions(book)
       .then((qs) => {
         if (!cancelled) setAll(qs)
       })
@@ -37,7 +40,7 @@ export default function QuestionBankPage() {
     return () => {
       cancelled = true
     }
-  }, [])
+  }, [book])
 
   function setParam(key: string, value: string | null) {
     const next = new URLSearchParams(params)
@@ -59,8 +62,8 @@ export default function QuestionBankPage() {
   }, [all, chapterId, favOnly, favorites, recency, search])
 
   const back = (
-    <Link to="/general-awareness/computer" className="text-sm text-slate-400 dark:text-slate-500 hover:text-slate-600">
-      ← Computer Awareness
+    <Link to={`${base}`} className="text-sm text-slate-400 dark:text-slate-500 hover:text-slate-600">
+      ← {book.name}
     </Link>
   )
 
@@ -103,7 +106,7 @@ export default function QuestionBankPage() {
             className="min-w-0 flex-1 rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm text-slate-800 dark:border-slate-600 dark:bg-slate-900 dark:text-slate-100"
           >
             <option value="">All chapters</option>
-            {CA_CHAPTERS.map((c) => (
+            {book.chapters.map((c) => (
               <option key={c.id} value={c.id}>
                 {c.number}. {c.title}
               </option>
@@ -129,7 +132,7 @@ export default function QuestionBankPage() {
         {filtered.length > 0 && (
           <>
             {' · '}
-            <Link to={`/general-awareness/computer/quiz?${new URLSearchParams({ ...(chapterId ? { chapter: chapterId } : {}), ...(favOnly ? { fav: '1' } : {}), ...(favOnly && recency ? { days: String(recency) } : {}) })}`} className="font-semibold text-indigo-600 underline-offset-2 hover:underline dark:text-indigo-400">
+            <Link to={`${base}/quiz?${new URLSearchParams({ ...(chapterId ? { chapter: chapterId } : {}), ...(favOnly ? { fav: '1' } : {}), ...(favOnly && recency ? { days: String(recency) } : {}) })}`} className="font-semibold text-indigo-600 underline-offset-2 hover:underline dark:text-indigo-400">
               Play these →
             </Link>
           </>
@@ -145,12 +148,15 @@ export default function QuestionBankPage() {
           const starred = favorites.has(q.id)
           const open = showAnswers || revealed.has(q.id)
           const when = favorites.get(q.id)
-          const t = THEMES[CA_CHAPTERS.find((c) => c.id === q.chapterId)?.theme ?? 'indigo']
+          const t = THEMES[book.chapters.find((c) => c.id === q.chapterId)?.theme ?? 'indigo']
           return (
             <article key={q.id} className="rounded-3xl bg-white p-5 shadow-sm ring-1 ring-slate-200 dark:bg-slate-800 dark:ring-slate-700">
               <div className="flex items-start justify-between gap-3">
-                <span className={`rounded-full px-2.5 py-0.5 text-xs font-semibold ${t.soft} ${t.text}`}>{q.chapterTitle}</span>
-                <StarButton on={starred} onToggle={() => setFavorites(toggleFavorite(CA_BANK_KEY, q.id, favorites))} />
+                <div className="flex min-w-0 flex-wrap items-center gap-1.5">
+                  <span className={`rounded-full px-2.5 py-0.5 text-xs font-semibold ${t.soft} ${t.text}`}>{q.chapterTitle}</span>
+                  {q.exam && <span className="rounded-full bg-amber-100 px-2.5 py-0.5 text-xs font-semibold text-amber-800 dark:bg-amber-500/15 dark:text-amber-300">📝 {q.exam}</span>}
+                </div>
+                <StarButton on={starred} onToggle={() => setFavorites(toggleFavorite(book.bankKey, q.id, favorites))} />
               </div>
               <h2 className="mt-3 font-semibold leading-snug text-slate-900 dark:text-slate-100">{q.q}</h2>
               <ol className="mt-3 space-y-1.5">

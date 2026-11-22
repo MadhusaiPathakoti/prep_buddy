@@ -1,0 +1,971 @@
+[
+ {
+  "id": "banking-terms-01",
+  "q": "The lock-in period in the case of a term deposit means that",
+  "options": [
+   "premature withdrawal is not possible",
+   "locker service is not available",
+   "another account cannot be opened",
+   "no further investment is possible"
+  ],
+  "answer": 0,
+  "explain": "Lock-in is the period during which the deposit cannot be withdrawn early; it has nothing to do with lockers or other accounts.",
+  "section": "accounts-deposits",
+  "exam": "SBI PO Main 2016"
+ },
+ {
+  "id": "banking-terms-02",
+  "q": "A deposit that can be withdrawn without any advance notice is called a",
+  "options": [
+   "time deposit",
+   "fixed deposit",
+   "recurring deposit",
+   "demand deposit"
+  ],
+  "answer": 3,
+  "explain": "Demand deposits can be withdrawn at any time; time deposits are locked for a fixed period.",
+  "section": "accounts-deposits"
+ },
+ {
+  "id": "banking-terms-03",
+  "q": "Which type of account has no minimum or average balance requirement?",
+  "options": [
+   "Fixed deposit account",
+   "Current account with overdraft",
+   "Zero-balance account",
+   "Safekeeping account"
+  ],
+  "answer": 2,
+  "explain": "A zero-balance account does not require the holder to keep a minimum or average balance.",
+  "section": "accounts-deposits"
+ },
+ {
+  "id": "banking-terms-04",
+  "q": "A negotiable instrument issued by a bank in exchange for funds deposited with it, usually bearing interest, is a",
+  "options": [
+   "Letter of Credit",
+   "Certificate of Deposit",
+   "Official cheque",
+   "Line of credit"
+  ],
+  "answer": 1,
+  "explain": "A CD is a negotiable instrument issued against deposited funds for a fixed period.",
+  "section": "accounts-deposits"
+ },
+ {
+  "id": "banking-terms-05",
+  "q": "From a banking perspective, a contract that guarantees income or returns in exchange for a large lump sum or periodic payments is a(n)",
+  "options": [
+   "mortgage",
+   "annuity",
+   "overdraft",
+   "revolving credit"
+  ],
+  "answer": 1,
+  "explain": "Annuities are contracts that promise income or returns against money deposited as a lump sum or in periodic payments.",
+  "section": "accounts-deposits"
+ },
+ {
+  "id": "banking-terms-06",
+  "q": "A card signed by each depositor, used as a means of identification and representing a contract between bank and depositor, is called a",
+  "options": [
+   "signature card",
+   "deposit slip",
+   "debit card",
+   "PIN card"
+  ],
+  "answer": 0,
+  "explain": "The signature card is the specimen-signature record that forms a contract between bank and depositor.",
+  "section": "accounts-deposits"
+ },
+ {
+  "id": "banking-terms-07",
+  "q": "The bank service in which securities and valuables are protected in the bank's vaults is called",
+  "options": [
+   "foreclosure",
+   "setoff",
+   "direct deposit",
+   "safekeeping"
+  ],
+  "answer": 3,
+  "explain": "Safekeeping means the bank holds securities and valuables securely for its customers.",
+  "section": "accounts-deposits"
+ },
+ {
+  "id": "banking-terms-08",
+  "q": "A payment that is electronically deposited into an individual's account is known as",
+  "options": [
+   "deposit slip",
+   "stop payment",
+   "direct deposit",
+   "deferred payment"
+  ],
+  "answer": 2,
+  "explain": "Salary and benefit credits sent electronically are direct deposits.",
+  "section": "accounts-deposits"
+ },
+ {
+  "id": "banking-terms-09",
+  "q": "The balance of an account after subtracting holds, uncollected funds and restrictions is the",
+  "options": [
+   "minimum balance",
+   "opening balance",
+   "available balance",
+   "credit limit"
+  ],
+  "answer": 2,
+  "explain": "Available balance is what the customer can actually withdraw.",
+  "section": "funds-availability"
+ },
+ {
+  "id": "banking-terms-10",
+  "q": "After the bank's cut-off time, a deposit is considered received",
+  "options": [
+   "on the same day",
+   "on the next banking day",
+   "after one week",
+   "only after the cheque is cleared by the RBI"
+  ],
+  "answer": 1,
+  "explain": "A deposit made after the cut-off time is treated as received on the next banking day.",
+  "section": "funds-availability"
+ },
+ {
+  "id": "banking-terms-11",
+  "q": "Available credit on a credit card account is",
+  "options": [
+   "the credit limit minus the present balance",
+   "the present balance minus the credit limit",
+   "the minimum payment due",
+   "the total of all past payments"
+  ],
+  "answer": 0,
+  "explain": "Available credit is the headroom left under the limit.",
+  "section": "funds-availability"
+ },
+ {
+  "id": "banking-terms-12",
+  "q": "Cash deposits, or cheques for which payment has been received, are known as",
+  "options": [
+   "outstanding funds",
+   "available credit",
+   "held funds",
+   "collected funds"
+  ],
+  "answer": 3,
+  "explain": "Collected funds are those for which payment has actually been received.",
+  "section": "funds-availability"
+ },
+ {
+  "id": "banking-terms-13",
+  "q": "A cheque that a bank refuses to pay because of insufficient funds or a signature mismatch is called a",
+  "options": [
+   "stale-dated cheque",
+   "official cheque",
+   "outstanding cheque",
+   "bounced cheque"
+  ],
+  "answer": 3,
+  "explain": "A bounced (dishonoured) cheque is one the bank refuses to pay for a valid reason.",
+  "section": "cheques-clearing"
+ },
+ {
+  "id": "banking-terms-14",
+  "q": "A cheque written by a depositor that has not yet been presented for payment is called a(n)",
+  "options": [
+   "stale-dated cheque",
+   "forged cheque",
+   "outstanding cheque",
+   "official cheque"
+  ],
+  "answer": 2,
+  "explain": "Outstanding cheques are issued but yet to be presented or paid.",
+  "section": "cheques-clearing"
+ },
+ {
+  "id": "banking-terms-15",
+  "q": "A cheque drawn on a bank and signed by an authorised bank official is also known as a",
+  "options": [
+   "bearer cheque",
+   "cashier's cheque",
+   "post-dated cheque",
+   "crossed cheque"
+  ],
+  "answer": 1,
+  "explain": "An official cheque is the same as a cashier's cheque.",
+  "section": "cheques-clearing"
+ },
+ {
+  "id": "banking-terms-16",
+  "q": "An order not to pay a cheque that has been issued but not yet cashed is called",
+  "options": [
+   "stop payment",
+   "stale payment",
+   "preauthorised payment",
+   "deferred payment"
+  ],
+  "answer": 0,
+  "explain": "A stop payment instruction prevents the bank from paying the cheque; banks usually charge a fee.",
+  "section": "cheques-clearing"
+ },
+ {
+  "id": "banking-terms-17",
+  "q": "According to the study material, a stale-dated cheque is one presented",
+  "options": [
+   "180 days (6 months) or more after the issue date",
+   "30 days after the issue date",
+   "on the same day as issue",
+   "within 15 days of issue"
+  ],
+  "answer": 0,
+  "explain": "Stale-dated cheques are presented too long after issue and can be returned unpaid.",
+  "section": "cheques-clearing"
+ },
+ {
+  "id": "banking-terms-18",
+  "q": "Fraudulent signing or alteration of another person's name on an instrument such as a cheque is called",
+  "options": [
+   "foreclosure",
+   "overdraft",
+   "encoding",
+   "forgery"
+  ],
+  "answer": 3,
+  "explain": "Forgery means signing or altering an instrument to deceive or defraud.",
+  "section": "cheques-clearing"
+ },
+ {
+  "id": "banking-terms-19",
+  "q": "In cheque clearing, the amount is",
+  "options": [
+   "credited to the issuer and debited from the beneficiary",
+   "debited from both accounts",
+   "debited from the issuer's account and credited to the beneficiary's account",
+   "held by the clearing house permanently"
+  ],
+  "answer": 2,
+  "explain": "The clearing house settles the cheque by debiting the issuer and crediting the beneficiary.",
+  "section": "cheques-clearing"
+ },
+ {
+  "id": "banking-terms-20",
+  "q": "Which process uses the cheque number, account number and bank identifier from a cheque to make a one-time electronic payment?",
+  "options": [
+   "Stop payment",
+   "Electronic cheque conversion",
+   "Encoding",
+   "Preauthorised payment"
+  ],
+  "answer": 1,
+  "explain": "In electronic cheque conversion, the cheque itself is not the method of payment; its details trigger an electronic transfer.",
+  "section": "cheques-clearing"
+ },
+ {
+  "id": "banking-terms-21",
+  "q": "Assets offered to secure a loan, which can be seized on default, are called",
+  "options": [
+   "annuity",
+   "collateral",
+   "premium",
+   "equity"
+  ],
+  "answer": 1,
+  "explain": "Collateral secures a loan; on default it becomes subject to seizure.",
+  "section": "loans-credit"
+ },
+ {
+  "id": "banking-terms-22",
+  "q": "An agency that collects individuals' credit information and sells it to creditors is a",
+  "options": [
+   "credit bureau",
+   "clearing house",
+   "merchant bank",
+   "asset management company"
+  ],
+  "answer": 0,
+  "explain": "Credit bureaus supply credit reports to banks and other lenders.",
+  "section": "loans-credit"
+ },
+ {
+  "id": "banking-terms-23",
+  "q": "A pre-approved loan authorisation with a borrowing limit based on creditworthiness, allowing several loans without reapplying, is a",
+  "options": [
+   "fixed rate loan",
+   "mortgage loan",
+   "annuity",
+   "line of credit"
+  ],
+  "answer": 3,
+  "explain": "Within the limit, a borrower can draw repeatedly without a new application.",
+  "section": "loans-credit"
+ },
+ {
+  "id": "banking-terms-24",
+  "q": "The ratio of the loan principal to the appraised value of the asset is called the",
+  "options": [
+   "Debt-to-Income ratio",
+   "Cash Reserve Ratio",
+   "Loan-to-Value ratio",
+   "Capital Adequacy Ratio"
+  ],
+  "answer": 2,
+  "explain": "LTV compares the amount borrowed with the appraised value of the asset.",
+  "section": "loans-credit"
+ },
+ {
+  "id": "banking-terms-25",
+  "q": "A debt that was not paid when due is termed",
+  "options": [
+   "deferred payment",
+   "payoff",
+   "delinquency",
+   "prepayment"
+  ],
+  "answer": 2,
+  "explain": "Delinquency is a missed due payment; a deferred payment is postponed by agreement.",
+  "section": "loans-credit"
+ },
+ {
+  "id": "banking-terms-26",
+  "q": "A penalty charged to a borrower for repaying a loan before its due date is a",
+  "options": [
+   "late charge",
+   "prepayment penalty",
+   "loan fee",
+   "service charge"
+  ],
+  "answer": 1,
+  "explain": "Prepayment penalty applies to early repayment; a late charge applies to delayed repayment.",
+  "section": "loans-credit"
+ },
+ {
+  "id": "banking-terms-27",
+  "q": "A credit agreement, typically a credit card, that lets a customer borrow against a pre-approved limit and be billed only for the amount borrowed is",
+  "options": [
+   "revolving credit",
+   "fixed rate loan",
+   "mortgage loan",
+   "bridge loan"
+  ],
+  "answer": 0,
+  "explain": "Revolving credit is also called open-end credit or a charge account.",
+  "section": "loans-credit"
+ },
+ {
+  "id": "banking-terms-28",
+  "q": "Which of the following is a number roughly between 300 and 800 that measures a person's creditworthiness, as per the study material?",
+  "options": [
+   "Credit report",
+   "Credit limit",
+   "Credit application",
+   "Credit score"
+  ],
+  "answer": 3,
+  "explain": "The score summarises a credit report into a single number.",
+  "section": "loans-credit"
+ },
+ {
+  "id": "banking-terms-29",
+  "q": "In a mortgage, the borrower is called the",
+  "options": [
+   "mortgagee",
+   "guarantor",
+   "co-signer",
+   "mortgagor"
+  ],
+  "answer": 3,
+  "explain": "Mortgagor = borrower; mortgagee = lender.",
+  "section": "mortgages-overdraft"
+ },
+ {
+  "id": "banking-terms-30",
+  "q": "In a mortgage, the lender is called the",
+  "options": [
+   "mortgagor",
+   "co-maker",
+   "mortgagee",
+   "drawer"
+  ],
+  "answer": 2,
+  "explain": "The mortgagee is the lender who holds the property as security.",
+  "section": "mortgages-overdraft"
+ },
+ {
+  "id": "banking-terms-31",
+  "q": "A legal process by which property that secures a defaulted loan may be sold to repay the loan is called",
+  "options": [
+   "forgery",
+   "foreclosure",
+   "encoding",
+   "setoff"
+  ],
+  "answer": 1,
+  "explain": "Foreclosure lets the lender sell the collateral property after default.",
+  "section": "mortgages-overdraft"
+ },
+ {
+  "id": "banking-terms-32",
+  "q": "A bank's legal right to seize funds a debtor or guarantor holds on deposit to cover a loan in default is the right of",
+  "options": [
+   "offset (setoff)",
+   "foreclosure",
+   "encoding",
+   "stop payment"
+  ],
+  "answer": 0,
+  "explain": "Right of offset lets a bank adjust a defaulted loan against the borrower's deposits.",
+  "section": "mortgages-overdraft"
+ },
+ {
+  "id": "banking-terms-33",
+  "q": "When more money is withdrawn from an account than is available in it, the excess is called",
+  "options": [
+   "an overdraft",
+   "a line of credit",
+   "an annuity",
+   "accrued interest"
+  ],
+  "answer": 0,
+  "explain": "The account is then said to be overdrawn.",
+  "section": "mortgages-overdraft"
+ },
+ {
+  "id": "banking-terms-34",
+  "q": "A home equity loan is a loan against",
+  "options": [
+   "the entire market value of the home",
+   "the borrower's salary",
+   "the bank's own deposits",
+   "the difference between the home's selling value and the amount still owed"
+  ],
+  "answer": 3,
+  "explain": "It lets homeowners tap the equity built up in their home; it is often called a second mortgage.",
+  "section": "mortgages-overdraft"
+ },
+ {
+  "id": "banking-terms-35",
+  "q": "The rate at which the RBI lends funds to commercial banks, usually a long-term loan, is the",
+  "options": [
+   "Repo Rate",
+   "Reverse Repo Rate",
+   "Bank Rate",
+   "Base Rate"
+  ],
+  "answer": 2,
+  "explain": "The Bank Rate is the RBI's long-term lending rate; the repo rate is for short-term borrowing against securities.",
+  "section": "interest-and-rates"
+ },
+ {
+  "id": "banking-terms-36",
+  "q": "The rate at which a bank borrows money from the RBI by pledging government securities is the",
+  "options": [
+   "Reverse Repo Rate",
+   "Repo Rate",
+   "Bank Rate",
+   "Base Rate"
+  ],
+  "answer": 1,
+  "explain": "Repo = repurchase rate: banks sell or pledge securities to the RBI.",
+  "section": "interest-and-rates"
+ },
+ {
+  "id": "banking-terms-37",
+  "q": "The rate offered by the RBI when banks deposit surplus funds with it for short periods is the",
+  "options": [
+   "Repo Rate",
+   "Reverse Repo Rate",
+   "Bank Rate",
+   "Base Rate"
+  ],
+  "answer": 1,
+  "explain": "Reverse repo absorbs liquidity from banks.",
+  "section": "interest-and-rates"
+ },
+ {
+  "id": "banking-terms-38",
+  "q": "The minimum interest rate of a bank below which it cannot lend (except in RBI-allowed cases) is the",
+  "options": [
+   "Base Rate",
+   "Bank Rate",
+   "Repo Rate",
+   "Reverse Repo Rate"
+  ],
+  "answer": 0,
+  "explain": "The Base Rate is each bank's own floor rate; exceptions include DRI advances and loans to staff.",
+  "section": "interest-and-rates"
+ },
+ {
+  "id": "banking-terms-39",
+  "q": "BPLR stands for",
+  "options": [
+   "Basic Primary Lending Rate",
+   "Bank Prime Loan Return",
+   "Benchmark Public Lending Rate",
+   "Benchmark Prime Lending Rate"
+  ],
+  "answer": 3,
+  "explain": "BPLR mainly applied to loans sanctioned before the Base Rate system began in July 2010.",
+  "section": "interest-and-rates"
+ },
+ {
+  "id": "banking-terms-40",
+  "q": "Interest that has been earned or accumulated but not yet paid is called",
+  "options": [
+   "periodic rate",
+   "variable rate",
+   "accrued interest",
+   "loan fee"
+  ],
+  "answer": 2,
+  "explain": "Accrued interest is also termed interest receivable.",
+  "section": "interest-and-rates"
+ },
+ {
+  "id": "banking-terms-41",
+  "q": "Banks borrow money from the RBI at which of the following rates?",
+  "options": [
+   "Reverse repo rate",
+   "SLR",
+   "Repo rate",
+   "CRR"
+  ],
+  "answer": 2,
+  "explain": "Banks borrow at the repo rate and park surplus at the reverse repo rate. SLR and CRR are ratios, not rates.",
+  "section": "interest-and-rates"
+ },
+ {
+  "id": "banking-terms-42",
+  "q": "Reverse repo means",
+  "options": [
+   "injecting liquidity into the market by buying government securities",
+   "absorption of liquidity from the market by sale of government securities",
+   "lending money to commercial banks at the bank rate",
+   "increasing the SLR of banks"
+  ],
+  "answer": 1,
+  "explain": "In a reverse repo the RBI takes funds from banks, absorbing liquidity.",
+  "section": "interest-and-rates"
+ },
+ {
+  "id": "banking-terms-43",
+  "q": "The time interval between the dates on which regular periodic statements are issued is the",
+  "options": [
+   "billing cycle",
+   "billing date",
+   "payment due date",
+   "availability date"
+  ],
+  "answer": 0,
+  "explain": "The billing cycle is the gap between two statement dates.",
+  "section": "cards-billing"
+ },
+ {
+  "id": "banking-terms-44",
+  "q": "A four-character secret number given to cardholders to prevent unauthorised use is called a",
+  "options": [
+   "POS",
+   "MICR",
+   "IFSC",
+   "PIN"
+  ],
+  "answer": 3,
+  "explain": "PIN stands for Personal Identification Number.",
+  "section": "cards-billing"
+ },
+ {
+  "id": "banking-terms-45",
+  "q": "The location where a transaction takes place, including systems that transfer funds at retail outlets, is called",
+  "options": [
+   "Point of Settlement",
+   "Primary Office",
+   "Payment Order Slip",
+   "Point of Sale"
+  ],
+  "answer": 3,
+  "explain": "POS stands for Point of Sale.",
+  "section": "cards-billing"
+ },
+ {
+  "id": "banking-terms-46",
+  "q": "The full form of ACH in banking is",
+  "options": [
+   "Automatic Cheque Handling",
+   "Authorised Credit House",
+   "Automated Clearing House",
+   "Automated Cash Hub"
+  ],
+  "answer": 2,
+  "explain": "ACH is an electronic clearing facility for credits and debits between banks.",
+  "section": "electronic-banking"
+ },
+ {
+  "id": "banking-terms-47",
+  "q": "A bank's commitment, issued on behalf of a buyer, to pay a seller a specific amount on meeting stated conditions is a",
+  "options": [
+   "Certificate of Deposit",
+   "Letter of Credit",
+   "Power of attorney",
+   "Line of credit"
+  ],
+  "answer": 1,
+  "explain": "LoCs are widely used in international trade, where the seller must submit required documents.",
+  "section": "electronic-banking"
+ },
+ {
+  "id": "banking-terms-48",
+  "q": "IFSC is a code of how many characters?",
+  "options": [
+   "11",
+   "9",
+   "8",
+   "16"
+  ],
+  "answer": 0,
+  "explain": "IFSC (Indian Financial System Code) has 11 characters and identifies branches for NEFT and RTGS.",
+  "section": "bank-codes"
+ },
+ {
+  "id": "banking-terms-49",
+  "q": "The MICR code that identifies a bank branch is a",
+  "options": [
+   "9-digit numeric code",
+   "11-character alphanumeric code",
+   "8-character alphabetic code",
+   "16-digit numeric code"
+  ],
+  "answer": 0,
+  "explain": "MICR (Magnetic Ink Character Recognition) is a 9-digit code printed on cheques.",
+  "section": "bank-codes"
+ },
+ {
+  "id": "banking-terms-50",
+  "q": "SWIFT stands for",
+  "options": [
+   "Standard Worldwide Interbank Fund Transfer",
+   "System for Wire Interbank Financial Transactions",
+   "Society for World Investment and Finance Trade",
+   "Society for Worldwide Interbank Financial Telecommunication"
+  ],
+  "answer": 3,
+  "explain": "SWIFT codes support international bank-to-bank transfers.",
+  "section": "bank-codes"
+ },
+ {
+  "id": "banking-terms-51",
+  "q": "A SWIFT code is made up of",
+  "options": [
+   "9 digits only",
+   "11 digits only",
+   "8 or 11 characters",
+   "6 or 9 characters"
+  ],
+  "answer": 2,
+  "explain": "The structure is 4 (bank) + 2 (country) + 2 (location) + optional 3 (branch).",
+  "section": "bank-codes"
+ },
+ {
+  "id": "banking-terms-52",
+  "q": "In an 11-character SWIFT code, the last three characters represent the",
+  "options": [
+   "bank code",
+   "branch code",
+   "country code",
+   "location code"
+  ],
+  "answer": 1,
+  "explain": "The optional branch code is the last 3 characters; an 8-character code refers to the primary office.",
+  "section": "bank-codes"
+ },
+ {
+  "id": "banking-terms-53",
+  "q": "India was which nation to join the SWIFT network?",
+  "options": [
+   "54th",
+   "74th",
+   "64th",
+   "84th"
+  ],
+  "answer": 1,
+  "explain": "India was the 74th nation to join SWIFT.",
+  "section": "bank-codes"
+ },
+ {
+  "id": "banking-terms-54",
+  "q": "Underwriting new issues, accepting trade bills and advising on mergers and acquisitions together are known as",
+  "options": [
+   "merchant banking",
+   "wholesale banking",
+   "retail banking",
+   "safekeeping"
+  ],
+  "answer": 0,
+  "explain": "Merchant banking is a bundle of financial services for customers.",
+  "section": "banking-services"
+ },
+ {
+  "id": "banking-terms-55",
+  "q": "Banking services provided to corporate entities, large institutions and other financial institutions are called",
+  "options": [
+   "merchant banking",
+   "retail banking",
+   "direct banking",
+   "wholesale banking"
+  ],
+  "answer": 3,
+  "explain": "Wholesale banking caters to big institutional clients.",
+  "section": "banking-services"
+ },
+ {
+  "id": "banking-terms-56",
+  "q": "A company that invests its clients' pooled funds into securities matching its declared objectives, earning through service fees, is",
+  "options": [
+   "a stock exchange",
+   "a depository",
+   "an asset management company",
+   "a credit bureau"
+  ],
+  "answer": 2,
+  "explain": "Mutual funds, hedge funds and pension plans are run by asset management companies.",
+  "section": "banking-services"
+ },
+ {
+  "id": "banking-terms-57",
+  "q": "A company which pools money from investors and invests in stocks, bonds and shares is called a",
+  "options": [
+   "bank",
+   "insurance company",
+   "mutual fund",
+   "bank assurance"
+  ],
+  "answer": 2,
+  "explain": "A mutual fund collects money from many investors and invests it in securities.",
+  "section": "banking-services"
+ },
+ {
+  "id": "banking-terms-58",
+  "q": "The Association of National Exchange Members of India (ANMI) is a body of",
+  "options": [
+   "bankers and SEBI",
+   "brokers operating in the national exchanges",
+   "SEBI and IBA",
+   "bankers, SEBI, IBA and RBI"
+  ],
+  "answer": 1,
+  "explain": "ANMI represents brokers of the national stock exchanges.",
+  "section": "banking-services"
+ },
+ {
+  "id": "banking-terms-59",
+  "q": "Creating the appearance that money obtained from serious crimes such as drug trafficking came from a legitimate source is called",
+  "options": [
+   "money laundering",
+   "tax avoidance",
+   "forgery",
+   "foreclosure"
+  ],
+  "answer": 0,
+  "explain": "Money laundering disguises illegal proceeds as legitimate funds.",
+  "section": "regulation-compliance"
+ },
+ {
+  "id": "banking-terms-60",
+  "q": "GAAR stands for",
+  "options": [
+   "General Asset Accounting Rules",
+   "Government Anti-Arrears Regulations",
+   "Gross Annual Assessment Rate",
+   "General Anti-Avoidance Rules"
+  ],
+  "answer": 3,
+  "explain": "GAAR is a set of rules to check tax avoidance.",
+  "section": "regulation-compliance"
+ },
+ {
+  "id": "banking-terms-61",
+  "q": "The RBI introduced Know Your Customer (KYC) guidelines for all banks in",
+  "options": [
+   "1991",
+   "1999",
+   "2008",
+   "2002"
+  ],
+  "answer": 3,
+  "explain": "KYC was introduced in 2002; banks had to be fully compliant by 31 December 2005.",
+  "section": "regulation-compliance"
+ },
+ {
+  "id": "banking-terms-62",
+  "q": "Which of the following is NOT one of the four key elements of a bank's KYC policy?",
+  "options": [
+   "Customer Acceptance Policy",
+   "Monitoring of Transactions",
+   "Customer Credit Rating",
+   "Risk Management"
+  ],
+  "answer": 2,
+  "explain": "The four elements are acceptance policy, identification procedures, transaction monitoring and risk management.",
+  "section": "regulation-compliance"
+ },
+ {
+  "id": "banking-terms-63",
+  "q": "When was the Pension Fund Regulatory and Development Authority of India (PFRDA) established?",
+  "options": [
+   "2000",
+   "2003",
+   "2001",
+   "2005"
+  ],
+  "answer": 1,
+  "explain": "PFRDA was set up on 23 August 2003 and is headquartered in New Delhi.",
+  "section": "regulation-compliance",
+  "exam": "SBI Clerk Mains 2023"
+ },
+ {
+  "id": "banking-terms-64",
+  "q": "PFRDA regulates the National Pension System and also administers which scheme?",
+  "options": [
+   "Atal Pension Yojana",
+   "Pradhan Mantri Jan Dhan Yojana",
+   "Sukanya Samriddhi Yojana",
+   "Pradhan Mantri Mudra Yojana"
+  ],
+  "answer": 0,
+  "explain": "PFRDA administers the Atal Pension Yojana (APY).",
+  "section": "regulation-compliance"
+ },
+ {
+  "id": "banking-terms-65",
+  "q": "Consider the statements about Non-Fungible Tokens. 1: They can digitally represent physical assets. 2: They are unique cryptographic tokens on a blockchain. 3: They can be exchanged at equivalency and so serve as a medium of commercial transactions. Which are correct?",
+  "options": [
+   "1 and 2 only",
+   "2 and 3 only",
+   "1 and 3 only",
+   "3 only"
+  ],
+  "answer": 0,
+  "explain": "NFTs are unique, so they are not exchanged at equivalency and cannot serve as a common medium of exchange; statement 3 is wrong.",
+  "section": "regulation-compliance",
+  "exam": "SBI PO Mains 2023"
+ },
+ {
+  "id": "banking-terms-66",
+  "q": "What term is used for the maximum capital that a company can raise in its lifetime?",
+  "options": [
+   "Paid-up capital",
+   "Subscribed capital",
+   "Issued capital",
+   "Authorised capital"
+  ],
+  "answer": 3,
+  "explain": "Authorised (registered or nominal) capital is the ceiling set in the company's documents.",
+  "section": "inflation-terms",
+  "exam": "IBPS PO Main 2015"
+ },
+ {
+  "id": "banking-terms-67",
+  "q": "Zero-based budgeting (ZBB) means that",
+  "options": [
+   "the budget is a fixed percentage of sales",
+   "only marketing costs are budgeted",
+   "each year, budgeting starts from scratch",
+   "the budget is always kept at zero"
+  ],
+  "answer": 2,
+  "explain": "ZBB requires every item to be justified afresh rather than carried over from last year.",
+  "section": "inflation-terms",
+  "exam": "SBI PO Main 2015"
+ },
+ {
+  "id": "banking-terms-68",
+  "q": "For buying and selling precious metals such as gold and silver, the market is called the",
+  "options": [
+   "capital market",
+   "bullion market",
+   "money market",
+   "wholesale cash market"
+  ],
+  "answer": 1,
+  "explain": "Bullion refers to precious metals traded in bulk.",
+  "section": "inflation-terms",
+  "exam": "IBPS PO Main 2016"
+ },
+ {
+  "id": "banking-terms-69",
+  "q": "Which measure of fiscal reform has the Government of India adopted?",
+  "options": [
+   "Fixing a higher rate of growth",
+   "Bringing down the fiscal deficit to a particular level by an Act of law",
+   "Allocating more funds to job-oriented schemes",
+   "Allocating more funds for education of 6-14 year olds"
+  ],
+  "answer": 1,
+  "explain": "Fiscal deficit targets are set by law (the FRBM framework), which is a fiscal reform measure.",
+  "section": "inflation-terms",
+  "exam": "IBPS PO/MT 2015"
+ },
+ {
+  "id": "banking-terms-70",
+  "q": "Which of the following is NOT listed as a type of inflation?",
+  "options": [
+   "Deflationary inflation",
+   "Cost-push inflation",
+   "Hyper-inflation",
+   "Sectoral inflation"
+  ],
+  "answer": 0,
+  "explain": "Deflationary inflation does not exist; the listed types include wage, price power, cost-push, sectoral, stagflation, mild and hyper.",
+  "section": "inflation-terms"
+ },
+ {
+  "id": "banking-terms-71",
+  "q": "Which of the following is a negative effect of inflation?",
+  "options": [
+   "It increases the real value of money",
+   "It reduces shortage of goods",
+   "It raises the real burden of debt",
+   "It discourages investment and savings"
+  ],
+  "answer": 3,
+  "explain": "Inflation lowers the real value of money and discourages savings.",
+  "section": "inflation-terms"
+ },
+ {
+  "id": "banking-terms-72",
+  "q": "Liquidity means",
+  "options": [
+   "how cash is converted into gold",
+   "how uncertain money market conditions are",
+   "how easily and quickly an asset can be converted into other assets",
+   "how cash is converted into SDRs"
+  ],
+  "answer": 2,
+  "explain": "Liquidity is the ease and speed of conversion.",
+  "section": "inflation-terms"
+ },
+ {
+  "id": "banking-terms-73",
+  "q": "The liquidity risk of a firm tells about its",
+  "options": [
+   "historical growth rates",
+   "profitability",
+   "ability to satisfy all future obligations",
+   "market share"
+  ],
+  "answer": 2,
+  "explain": "Liquidity risk concerns whether the firm can meet its obligations when due.",
+  "section": "inflation-terms"
+ },
+ {
+  "id": "banking-terms-74",
+  "q": "If the cash reserve ratio is lowered by the RBI, its impact on credit creation will be to",
+  "options": [
+   "decrease it",
+   "increase it",
+   "leave it unchanged",
+   "make it constant"
+  ],
+  "answer": 1,
+  "explain": "A lower CRR leaves banks with more lendable funds, so credit creation rises.",
+  "section": "regulation-compliance"
+ }
+]

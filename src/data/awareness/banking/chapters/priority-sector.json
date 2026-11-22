@@ -1,0 +1,491 @@
+{
+  "id": "priority-sector",
+  "sections": [
+    {
+      "id": "psl-basics",
+      "title": "What is priority sector lending?",
+      "icon": "🎯",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "**Priority Sector Lending (PSL)** means lending to important sectors of the economy, such as agriculture and allied activities, that might not get timely and adequate credit without a special push. The **RBI** gives banks the job of lending a specified share of their credit to such sectors: agriculture and allied activities, micro and small enterprises, poor people for housing, students for education, and other low-income groups and weaker sections. The purpose is all-round development of the economy."
+        },
+        {
+          "type": "figure",
+          "kind": "flow",
+          "title": "How the PSL system works",
+          "items": [
+            ["RBI sets the targets", "Share of Adjusted Net Bank Credit"],
+            ["Banks lend to priority areas", "Agriculture, MSME, education, housing and more"],
+            ["Shortfall or surplus", "Measured at the reporting date"],
+            ["PSLCs or NABARD deposits", "Shortfalls can be covered by buying PSLCs or RIDF deposits"]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "The eight categories of priority sector",
+          "rows": [
+            ["1. Agriculture", "Farm credit, agriculture infrastructure and ancillary activities"],
+            ["2. Micro, Small and Medium Enterprises", "Manufacturing and service MSMEs"],
+            ["3. Export Credit", "Incremental export credit, subject to limits"],
+            ["4. Education", "Loans to individuals for education, including vocational courses"],
+            ["5. Housing", "Loans for a dwelling unit within the cost and loan limits"],
+            ["6. Social Infrastructure", "Schools, health care, drinking water and sanitation"],
+            ["7. Renewable Energy", "Solar, biomass, wind, micro-hydel and similar projects"],
+            ["8. Others", "The remaining eligible categories"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "text": "PSL is about the **purpose** of the loan. A car loan, a loan for consumer durables or a loan to buy gold for a daughter's wedding is a normal retail loan and does **not** count. A tractor loan, an education loan and a housing loan within limits **do** count."
+        },
+        {
+          "type": "mnemonic",
+          "title": "The eight PSL categories",
+          "phrase": "A Mighty Elephant Eats Huge Stacks of Rich Oats.",
+          "letters": [
+            ["A", "Agriculture"],
+            ["M", "MSMEs (Micro, Small and Medium Enterprises)"],
+            ["E", "Export credit"],
+            ["E", "Education"],
+            ["H", "Housing"],
+            ["S", "Social infrastructure"],
+            ["R", "Renewable energy"],
+            ["O", "Others"]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "psl-targets",
+      "title": "Targets and sub-targets",
+      "icon": "📊",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "Targets are set as a percentage of **Adjusted Net Bank Credit (ANBC)**. For banks with off-balance sheet exposure the base is ANBC or the **Credit Equivalent Amount of Off-Balance Sheet Exposure (CEOBE)**, whichever is higher. The study material lists the targets below under the heading of small finance banks; they are the standard targets quoted for banks in exams."
+        },
+        {
+          "type": "table",
+          "title": "PSL targets (share of ANBC)",
+          "headers": ["Category", "Target"],
+          "rows": [
+            ["Total priority sector", "40% of ANBC"],
+            ["Agriculture", "18% of ANBC"],
+            ["Small and marginal farmers (inside the agriculture target)", "8% of ANBC"],
+            ["Micro enterprises", "7.5% of ANBC"],
+            ["Advances to weaker sections", "10% of ANBC"]
+          ]
+        },
+        {
+          "type": "bullets",
+          "title": "Update for foreign banks with 20 or more branches (from FY 2018-19)",
+          "items": [
+            "Sub-target of **8%** of ANBC or CEOBE (whichever is higher) for lending to small and marginal farmers now applies to them.",
+            "Sub-target of **7.5%** of ANBC or CEOBE (whichever is higher) for lending to micro enterprises also applies to them."
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "fact",
+          "text": "Small finance banks have their own, higher overall PSL target (75% of ANBC) under RBI norms, so read exam stems carefully for which type of bank is being asked about."
+        },
+        {
+          "type": "mnemonic",
+          "title": "The PSL target numbers",
+          "phrase": "Forty is the total; Eighteen for fields, Eight inside for small farmers; Seven-and-a-half for micro; Ten for the weak.",
+          "letters": [
+            ["40%", "Total priority sector"],
+            ["18%", "Agriculture"],
+            ["8%", "Small and marginal farmers (within the 18%)"],
+            ["7.5%", "Micro enterprises"],
+            ["10%", "Weaker sections"]
+          ],
+          "note": "Only the 8% sits inside another target (agriculture's 18%)."
+        }
+      ]
+    },
+    {
+      "id": "msme-limits",
+      "title": "MSME classification and loans",
+      "icon": "🏭",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "Manufacturing enterprises are defined by investment in **plant and machinery**; service enterprises by investment in **equipment**, under the MSMED Act 2006. The investment limits notified by the Ministry of Micro, Small and Medium Enterprises, as given in the study material, are below."
+        },
+        {
+          "type": "table",
+          "title": "Manufacturing sector (investment in plant and machinery)",
+          "headers": ["Enterprise", "Investment limit"],
+          "rows": [
+            ["Micro", "Does not exceed Rs 25 lakh"],
+            ["Small", "More than Rs 25 lakh but not more than Rs 5 crore"],
+            ["Medium", "More than Rs 5 crore but not more than Rs 10 crore"]
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Service sector (investment in equipment)",
+          "headers": ["Enterprise", "Investment limit"],
+          "rows": [
+            ["Micro", "Does not exceed Rs 10 lakh"],
+            ["Small", "More than Rs 10 lakh but not more than Rs 2 crore"],
+            ["Medium", "More than Rs 2 crore but not more than Rs 5 crore"]
+          ]
+        },
+        {
+          "type": "bullets",
+          "title": "Important points on MSME lending",
+          "items": [
+            "No loan limit applies for classification of loans to MSMEs engaged in manufacture or production of goods under any industry listed in the first schedule to the Industries (Development and Regulation) Act, 1951.",
+            "Loans to service MSMEs qualify as priority sector **irrespective of loan limits**, with effect from **1 March 2018**.",
+            "The earlier loan caps of Rs 5 crore (micro) and Rs 10 crore (small and medium) for service enterprises were removed; all bank loans to service MSMEs now qualify without any credit cap."
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "tip",
+          "text": "The investment limits above are the older MSMED Act 2006 figures given in the source. The MSME definition was later revised (from 2020, it uses both investment and turnover), so a recent exam may quote newer thresholds; learn which version the question uses."
+        },
+        {
+          "type": "mnemonic",
+          "title": "MSME investment limits",
+          "phrase": "Manufacturing counts 25 lakh, 5 crore, 10 crore; Service shrinks to 10 lakh, 2 crore, 5 crore.",
+          "letters": [
+            ["Mfg micro", "Up to Rs 25 lakh"],
+            ["Mfg small", "Up to Rs 5 crore"],
+            ["Mfg medium", "Up to Rs 10 crore"],
+            ["Svc micro", "Up to Rs 10 lakh"],
+            ["Svc small", "Up to Rs 2 crore"],
+            ["Svc medium", "Up to Rs 5 crore"]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "agri-farm-credit",
+      "title": "Agriculture: farm credit",
+      "icon": "🌾",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "Agriculture lending has three sub-categories: **farm credit** (short-term crop loans and medium or long-term credit to farmers), **agriculture infrastructure** and **ancillary activities**. Farm credit covers loans to individual farmers (including Self Help Groups and Joint Liability Groups, provided banks keep separate data) and proprietorship firms of farmers directly engaged in agriculture and allied activities such as dairy, fishery, animal husbandry, poultry, bee-keeping and sericulture."
+        },
+        {
+          "type": "bullets",
+          "title": "Eligible farm credit",
+          "items": [
+            "Crop loans, including traditional and non-traditional plantations, horticulture and allied activities.",
+            "Medium and long-term loans for agricultural implements and machinery, irrigation and other development on the farm.",
+            "Loans for pre- and post-harvest activities: spraying, weeding, harvesting, sorting, grading and transporting the farmer's own produce.",
+            "Loans up to **Rs 50 lakh** against pledge or hypothecation of agricultural produce (including warehouse receipts) for a period not exceeding **12 months**.",
+            "Loans to distressed farmers indebted to non-institutional lenders.",
+            "Loans under the Kisan Credit Card Scheme.",
+            "Loans to small and marginal farmers for **purchase of land** for agricultural purposes.",
+            "Loans to corporate farmers, farmers' producer organisations and companies of individual farmers, partnership firms and cooperatives of farmers engaged in agriculture and allied activities, up to an aggregate limit of **Rs 2 crore** per borrower."
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "remember",
+          "text": "Land purchase is eligible only for **small and marginal farmers**, and the warehouse-receipt style loan is limited to **Rs 50 lakh for up to 12 months**."
+        },
+        {
+          "type": "mnemonic",
+          "title": "Farm credit limits",
+          "phrase": "Farmer pledge 50 lakh, Company farmers 2 crore - Fifty for the Farmer, Two for the Firm.",
+          "letters": [
+            ["Rs 50 lakh", "Loan against agricultural produce for up to 12 months"],
+            ["Rs 2 crore", "Corporate farmers, FPOs and groups engaged in agriculture"]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "agri-infra-ancillary",
+      "title": "Agriculture: infrastructure and ancillary activities",
+      "icon": "🚜",
+      "blocks": [
+        {
+          "type": "bullets",
+          "title": "Agriculture infrastructure",
+          "items": [
+            "Construction of storage facilities (warehouses, market yards, godowns and silos), including cold storage units and chains, irrespective of their location.",
+            "Soil conservation and watershed development.",
+            "Plant tissue culture and agri-biotechnology, seed production, production of bio-pesticides, bio-fertiliser and vermi composting.",
+            "For all of the above, an aggregate sanctioned limit of **Rs 100 crore** per borrower from the banking system applies."
+          ]
+        },
+        {
+          "type": "bullets",
+          "title": "Ancillary activities",
+          "items": [
+            "Loans up to **Rs 5 crore** to cooperative societies of farmers for disposing of the produce of their members.",
+            "Loans for setting up Agriclinics and Agribusiness Centres.",
+            "Loans for food and agro-processing up to an aggregate sanctioned limit of **Rs 100 crore** per borrower.",
+            "Loans to Custom Service Units managed by individuals, institutions or organisations that keep a fleet of tractors, bulldozers, well-boring equipment, threshers or combines and do farm work for farmers on contract.",
+            "Outstanding deposits under RIDF and other eligible funds with **NABARD** on account of priority sector shortfall."
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Agriculture limits at a glance",
+          "headers": ["Item", "Limit"],
+          "rows": [
+            ["Loan against agricultural produce (up to 12 months)", "Rs 50 lakh"],
+            ["Corporate farmers, FPOs and similar bodies", "Rs 2 crore per borrower"],
+            ["Agriculture infrastructure", "Rs 100 crore per borrower"],
+            ["Food and agro-processing", "Rs 100 crore per borrower"],
+            ["Cooperative societies of farmers (disposal of produce)", "Rs 5 crore"]
+          ]
+        },
+        {
+          "type": "mnemonic",
+          "title": "Infra and ancillary limits",
+          "phrase": "Cold chains and Curry mills (food processing) go to 100 crore; Co-ops get 5 crore.",
+          "letters": [
+            ["Cold chain", "Agriculture infrastructure - Rs 100 crore"],
+            ["Curry mills", "Food and agro-processing - Rs 100 crore"],
+            ["Co-ops", "Cooperative societies of farmers - Rs 5 crore"]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "export-credit",
+      "title": "Export credit",
+      "icon": "🚢",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "Export credit counts as priority sector in a limited way. Only the **incremental** export credit (over the figure on the corresponding date of the previous year) qualifies, and the ceilings depend on the type of bank."
+        },
+        {
+          "type": "table",
+          "title": "Export credit as priority sector",
+          "headers": ["Type of bank", "What qualifies"],
+          "rows": [
+            ["Domestic banks, wholly owned subsidiaries of foreign banks, small finance banks and urban cooperative banks", "Incremental export credit up to 2% of ANBC or CEOBE (whichever is higher), with a sanctioned limit up to Rs 40 crore per borrower"],
+            ["Foreign banks with 20 branches and above", "Incremental export credit up to 2% of ANBC or CEOBE (whichever is higher), effective 1 April 2017"],
+            ["Foreign banks with fewer than 20 branches", "Export credit up to 32% of ANBC or CEOBE (whichever is higher)"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "text": "The figures **2%** and **32%** are easy to swap. Small foreign banks (fewer than 20 branches) get the large 32% allowance; domestic banks and larger foreign banks get 2% of the incremental credit."
+        },
+        {
+          "type": "mnemonic",
+          "title": "Export credit numbers",
+          "phrase": "Big banks, small allowance: 2%; small foreign banks, big allowance: 32%. Rs 40 crore is the borrower cap for domestic banks.",
+          "letters": [
+            ["2%", "Domestic banks and foreign banks with 20+ branches"],
+            ["32%", "Foreign banks with fewer than 20 branches"],
+            ["Rs 40 cr", "Per-borrower cap for domestic banks"]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "social-energy",
+      "title": "Social infrastructure and renewable energy",
+      "icon": "💡",
+      "blocks": [
+        {
+          "type": "bullets",
+          "title": "Social infrastructure",
+          "items": [
+            "Loans up to Rs 50 million (**Rs 5 crore**) per borrower for schools, health care facilities, drinking water facilities and sanitation facilities (including toilets and water improvement in a household).",
+            "This applies to projects in **Tier II to Tier VI** centres.",
+            "Bank credit to Micro Finance Institutions for on-lending to individuals, SHG or JLG members for water and sanitation facilities also qualifies, subject to certain criteria."
+          ]
+        },
+        {
+          "type": "bullets",
+          "title": "Renewable energy",
+          "items": [
+            "Loans up to Rs 150 million (**Rs 15 crore**) per borrower for solar-based and biomass-based power generators, wind mills, micro-hydel plants and non-conventional energy-based public utilities such as street lighting and remote village electrification.",
+            "For individual households the limit is Rs 1 million (**Rs 10 lakh**) per borrower."
+          ]
+        },
+        {
+          "type": "mnemonic",
+          "title": "The million trick",
+          "phrase": "Think in millions: 50 million for Social, 150 million for Energy, 1 million for a green home - 5 crore, 15 crore, 10 lakh.",
+          "letters": [
+            ["50 million", "Social infrastructure = Rs 5 crore"],
+            ["150 million", "Renewable energy = Rs 15 crore"],
+            ["1 million", "Household renewable energy = Rs 10 lakh"]
+          ],
+          "note": "1 million = 10 lakh and 10 million = 1 crore."
+        }
+      ]
+    },
+    {
+      "id": "education-housing",
+      "title": "Education and housing loans",
+      "icon": "🏠",
+      "blocks": [
+        {
+          "type": "keyvalue",
+          "title": "Education",
+          "rows": [
+            ["Eligible loans", "Loans to individuals for educational purposes, including vocational courses"],
+            ["Limit", "Up to Rs 20 lakh (Rs 2 million), irrespective of the sanctioned amount"]
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Housing loans (per family, for a dwelling unit)",
+          "headers": ["Centre", "Maximum loan", "Overall cost of dwelling unit must not exceed"],
+          "rows": [
+            ["Metropolitan centres (population of ten lakh and above)", "Rs 35 lakh (Rs 3.5 million)", "Rs 45 lakh (Rs 4.5 million)"],
+            ["Other centres", "Rs 25 lakh (Rs 2.5 million)", "Rs 30 lakh (Rs 3 million)"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "text": "Housing loans to a **bank's own employees** are NOT eligible for priority sector classification, even if they meet the cost and loan limits."
+        },
+        {
+          "type": "mnemonic",
+          "title": "Housing limits",
+          "phrase": "Metro: cost 45, loan 35 (gap of 10). Town: cost 30, loan 25 (gap of 5).",
+          "letters": [
+            ["Metro loan", "Rs 35 lakh"],
+            ["Metro cost", "Rs 45 lakh"],
+            ["Others loan", "Rs 25 lakh"],
+            ["Others cost", "Rs 30 lakh"]
+          ],
+          "note": "Education is Rs 20 lakh regardless of the amount sanctioned."
+        }
+      ]
+    },
+    {
+      "id": "pslc",
+      "title": "Priority Sector Lending Certificates (PSLCs)",
+      "icon": "📜",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "**PSLCs** are a mechanism that lets banks meet their priority sector target and sub-targets by **buying** these instruments when they fall short. Banks that have lent more than required can **sell** their surplus, which encourages more lending to priority categories. In a PSLC trade the seller sells the fulfilment of the priority sector obligation and the buyer buys that obligation, with **no transfer of risk or loan assets**. PSLCs are traded by banks on the RBI's **e-Kuber** portal."
+        },
+        {
+          "type": "steps",
+          "title": "How a PSLC deal works",
+          "items": [
+            "A bank with a surplus over its PSL target offers the extra achievement for sale.",
+            "A bank with a shortfall buys certificates to meet its target or sub-target.",
+            "Only the obligation changes hands; the loans and their risk stay with the lending bank."
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "remember",
+          "text": "PSLC trading moves the **obligation**, not the **loan**. The seller keeps the loan assets and the credit risk."
+        },
+        {
+          "type": "mnemonic",
+          "title": "PSLC in one line",
+          "phrase": "Short? Buy. Surplus? Sell. Loans stay put - only the duty travels.",
+          "letters": [
+            ["Short", "Buy PSLCs to meet the target"],
+            ["Surplus", "Sell the excess achievement"],
+            ["Loans", "Not transferred, nor is the risk"]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "lending-terms",
+      "title": "Related lending terms",
+      "icon": "🧠",
+      "blocks": [
+        {
+          "type": "keyvalue",
+          "title": "Terms asked alongside PSL",
+          "rows": [
+            ["Sub-prime lending", "Lending to borrowers with less-than-ideal credit history, or who do not meet normal credit appraisal standards"],
+            ["Prime Lending Rate (PLR)", "The rate of interest a bank charges its major and prime customers"],
+            ["Inter-corporate deposit (ICD)", "An unsecured loan given by one corporate to another"],
+            ["Unsecured loan", "A loan not backed by collateral; a personal loan is a common example"],
+            ["Loan policy", "A bank's document setting rating standards, lending procedures and financial covenants"],
+            ["Interest subvention", "A government scheme that reduces the interest cost of borrowers in selected sectors such as agriculture"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "tip",
+          "text": "Remember **sub-prime = sub-par credit**: borrowers below the usual credit standard, not a lower interest rate."
+        },
+        {
+          "type": "mnemonic",
+          "title": "Which loan is which",
+          "phrase": "Prime = Premium customers, Sub-prime = Shaky credit, ICD = Corporates lending to Corporates.",
+          "letters": [
+            ["PLR", "Prime customers' rate"],
+            ["Sub-prime", "Borrowers with weak credit standing"],
+            ["ICD", "Unsecured corporate-to-corporate loan"]
+          ]
+        }
+      ]
+    }
+  ],
+  "revision": [
+    "Priority Sector Lending is the RBI-assigned obligation for banks to lend a set share to sectors like agriculture and MSMEs.",
+    "There are eight PSL categories: agriculture, MSME, export credit, education, housing, social infrastructure, renewable energy, others.",
+    "Targets: total 40% of ANBC, agriculture 18%, small and marginal farmers 8%, micro enterprises 7.5%, weaker sections 10%.",
+    "ANBC is Adjusted Net Bank Credit; CEOBE is Credit Equivalent Amount of Off-Balance Sheet Exposure (the higher of the two is used).",
+    "Manufacturing MSME limits (plant and machinery): Rs 25 lakh, Rs 5 crore, Rs 10 crore; service (equipment): Rs 10 lakh, Rs 2 crore, Rs 5 crore.",
+    "Service MSME loans qualify without a credit cap from 1 March 2018.",
+    "Loan against agricultural produce: up to Rs 50 lakh for up to 12 months; corporate farmers: Rs 2 crore per borrower.",
+    "Agriculture infrastructure and food and agro-processing: Rs 100 crore per borrower; cooperative societies of farmers: Rs 5 crore.",
+    "Export credit: incremental, 2% of ANBC/CEOBE for domestic banks (Rs 40 crore per borrower cap); 32% for foreign banks with under 20 branches.",
+    "Social infrastructure up to Rs 5 crore (Tier II-VI); renewable energy up to Rs 15 crore, Rs 10 lakh for households.",
+    "Education loans up to Rs 20 lakh qualify irrespective of the sanctioned amount.",
+    "Housing: loan Rs 35 lakh (cost Rs 45 lakh) in metros, Rs 25 lakh (cost Rs 30 lakh) elsewhere; own-employee housing loans excluded.",
+    "PSLCs let banks buy or sell priority sector fulfilment with no transfer of risk or loan assets; traded on e-Kuber.",
+    "Car loans, consumer durables and gold for a daughter's marriage do not qualify as priority sector."
+  ],
+  "mindmap": {
+    "center": "Priority Sector Lending",
+    "branches": [
+      {
+        "label": "Basics",
+        "children": ["RBI-assigned lending duty", "Purpose: all-round development", "Eight categories", "Weaker sections focus"]
+      },
+      {
+        "label": "Targets",
+        "children": ["Total 40% of ANBC", "Agriculture 18%", "Small and marginal farmers 8%", "Micro enterprises 7.5%", "Weaker sections 10%"]
+      },
+      {
+        "label": "MSME",
+        "children": ["Manufacturing: plant and machinery", "Services: equipment", "Limits under MSMED Act 2006", "No cap for services from 2018"]
+      },
+      {
+        "label": "Agriculture",
+        "children": ["Farm credit", "Infrastructure Rs 100 crore", "Ancillary activities", "Rs 50 lakh against produce", "Corporate farmers Rs 2 crore"]
+      },
+      {
+        "label": "Export credit",
+        "children": ["Incremental credit only", "2% for domestic banks", "Rs 40 crore per borrower", "32% for small foreign banks"]
+      },
+      {
+        "label": "Social and green",
+        "children": ["Social infra Rs 5 crore", "Tier II to Tier VI centres", "Renewable energy Rs 15 crore", "Households Rs 10 lakh"]
+      },
+      {
+        "label": "Education and housing",
+        "children": ["Education up to Rs 20 lakh", "Metro housing loan Rs 35 lakh", "Other centres Rs 25 lakh", "Own-employee loans excluded"]
+      },
+      {
+        "label": "PSLCs and terms",
+        "children": ["PSLC: buy or sell obligation", "Traded on e-Kuber", "Sub-prime lending", "Prime Lending Rate", "Inter-corporate deposit"]
+      }
+    ]
+  }
+}

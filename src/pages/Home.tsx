@@ -40,10 +40,10 @@ const modules: { id: string; title: string; description: string; to: string; gam
   {
     id: 'general-awareness',
     title: 'General Awareness',
-    description: 'Computer Awareness as an illustrated book with chapter mind maps, a big MCQ question bank, a play-quiz and starred favourites.',
+    description: 'Computer and Banking Awareness as illustrated books with mnemonics and chapter mind maps, big MCQ question banks, play-quizzes and starred favourites.',
     to: '/general-awareness',
     gameCount: 0,
-    meta: 'Computer Awareness',
+    meta: 'Computer · Banking',
     icon: '🌍',
   },
   {

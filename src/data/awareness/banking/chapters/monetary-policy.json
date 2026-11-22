@@ -1,0 +1,411 @@
+{
+  "id": "monetary-policy",
+  "sections": [
+    {
+      "id": "what-is-monetary-policy",
+      "title": "What monetary policy is and who runs it",
+      "icon": "🎚️",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "**Monetary policy** is the way a central bank uses the tools it controls (interest rates, reserve ratios, liquidity operations) to reach the goals laid down in its law. In India the **Reserve Bank of India (RBI)** is given this job, and the duty is written into the **RBI Act, 1934**. Money and credit are steered by the central bank, while taxes and spending (fiscal policy) belong to the Government."
+        },
+        {
+          "type": "keyvalue",
+          "title": "Core ideas",
+          "rows": [
+            ["Who conducts it", "The Reserve Bank of India, under a mandate in the RBI Act, 1934."],
+            ["Primary objective", "Maintain **price stability** while keeping the objective of growth in mind."],
+            ["Why price stability matters", "It is a necessary precondition for sustainable growth."],
+            ["Instruments", "A mix of **direct** and **indirect** tools: policy rates, reserve ratios, liquidity operations."]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "Coins versus notes",
+          "text": "Do not credit the RBI with everything about currency. Coins of all denominations are minted by the **Government of India**; the RBI handles the issue of notes and conducts monetary policy."
+        }
+      ]
+    },
+    {
+      "id": "policy-rates",
+      "title": "Repo, reverse repo, MSF and Bank Rate",
+      "icon": "📈",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "These four rates are the RBI's price signals to banks. Three of them sit inside the **Liquidity Adjustment Facility (LAF)** and the fourth is a penal borrowing window. Think of them as a ladder: banks borrow from the RBI at the upper rungs and park spare money with the RBI at the bottom."
+        },
+        {
+          "type": "keyvalue",
+          "title": "The policy rates",
+          "rows": [
+            ["Repo rate", "The **fixed** interest rate at which the RBI gives overnight money to banks against the collateral of government and other approved securities, under the LAF."],
+            ["Reverse repo rate", "The **fixed** interest rate at which the RBI absorbs surplus money from banks overnight against eligible government securities, under the LAF. The RBI also holds variable-rate reverse repo auctions when market conditions need them."],
+            ["Marginal Standing Facility (MSF)", "Scheduled commercial banks can borrow **extra** overnight money from the RBI by dipping into their SLR portfolio, up to a limit, at a **penal** rate. It is a safety valve against sudden liquidity shocks."],
+            ["Corridor", "The MSF rate and the reverse repo rate form the corridor within which the weighted average call money rate moves day to day."],
+            ["Bank Rate", "The rate at which the RBI is ready to buy or rediscount bills of exchange and other commercial paper. It is published under **Section 49** of the RBI Act, 1934, and is aligned to the MSF rate, so it moves automatically when the MSF rate moves with the repo rate."]
+          ]
+        },
+        {
+          "type": "figure",
+          "kind": "layers",
+          "title": "The rate corridor (high to low)",
+          "items": [
+            ["MSF rate = Bank Rate", "Penal window; top of the corridor"],
+            ["Policy repo rate", "RBI lends overnight against securities"],
+            ["Reverse repo rate", "RBI absorbs liquidity; bottom of corridor"]
+          ]
+        },
+        {
+          "type": "mnemonic",
+          "title": "Repo or reverse repo?",
+          "phrase": "REPO: banks REnt money from RBI. REVERSE repo: banks REturn (park) money with RBI.",
+          "letters": [
+            ["Repo", "RBI lends -> liquidity goes INTO the banking system -> banks pay the repo rate"],
+            ["Reverse", "RBI borrows -> liquidity is SUCKED OUT of the system -> banks earn the reverse repo rate"]
+          ],
+          "note": "Always read it from the RBI's side: in a reverse repo the central bank is the borrower."
+        },
+        {
+          "type": "mnemonic",
+          "title": "Order of the rates",
+          "phrase": "Penal pair on the roof, Repo on the middle floor, Reverse repo in the basement.",
+          "letters": [
+            ["Roof", "MSF rate and Bank Rate (highest, penal)"],
+            ["Middle", "Policy repo rate"],
+            ["Basement", "Reverse repo rate (lowest)"]
+          ],
+          "note": "MSF and Bank Rate are aligned; the corridor is bounded by MSF above and reverse repo below."
+        }
+      ]
+    },
+    {
+      "id": "crr-slr",
+      "title": "Cash Reserve Ratio and Statutory Liquidity Ratio",
+      "icon": "🏦",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "Both ratios are fixed as a percentage of a bank's **Net Demand and Time Liabilities (NDTL)**, which is roughly its deposits and similar liabilities. They decide how much of the money a bank collects is locked away and how much is left to lend."
+        },
+        {
+          "type": "table",
+          "title": "CRR versus SLR",
+          "headers": ["Point", "CRR", "SLR"],
+          "rows": [
+            ["Full form", "Cash Reserve Ratio", "Statutory Liquidity Ratio"],
+            ["What is kept", "Average daily **balance** in cash", "Safe and liquid assets: unencumbered government securities, cash and gold"],
+            ["Where it is kept", "**With the RBI**", "**With the bank itself**"],
+            ["Base", "A per cent of NDTL notified by the RBI from time to time in the Gazette of India", "A share of NDTL"],
+            ["Effect of a change", "Changes how much cash banks can use for lending", "Changes the resources available for lending to the private sector"]
+          ]
+        },
+        {
+          "type": "mnemonic",
+          "title": "CRR or SLR?",
+          "phrase": "C for Cash and RBI. S for Securities and Self (the bank itself).",
+          "letters": [
+            ["CRR", "Cash Reserve Ratio: cash balance kept with the RBI"],
+            ["SLR", "Statutory Liquidity Ratio: liquid assets (G-secs, cash, gold) kept by the bank itself"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "remember",
+          "title": "Cut and effect",
+          "text": "If the RBI **lowers** the CRR, banks have more money to lend and credit creation **increases**. If it raises the CRR, lending capacity shrinks. The same logic applies to the SLR."
+        }
+      ]
+    },
+    {
+      "id": "liquidity-tools",
+      "title": "LAF, OMO and MSS: managing liquidity",
+      "icon": "💧",
+      "blocks": [
+        {
+          "type": "keyvalue",
+          "title": "Liquidity operations",
+          "rows": [
+            ["Liquidity Adjustment Facility (LAF)", "Made up of overnight and **term repo auctions**. The RBI has progressively increased the share of liquidity injected through fine-tuning variable-rate repo auctions of different tenors."],
+            ["Aim of term repo", "To help develop the inter-bank term money market, which can then set market-based benchmarks for pricing loans and deposits and so improve the transmission of monetary policy."],
+            ["Open Market Operations (OMOs)", "Outright **purchase and sale of government securities**: a purchase injects durable liquidity and a sale absorbs it."],
+            ["Market Stabilisation Scheme (MSS)", "Introduced in **2004**. Surplus liquidity of a lasting nature (from large capital inflows) is absorbed by selling short-dated government securities and treasury bills."]
+          ]
+        },
+        {
+          "type": "figure",
+          "kind": "flow",
+          "title": "How the MSS mops up surplus cash",
+          "items": [
+            ["Large capital inflows", "Surplus, lasting liquidity builds up"],
+            ["RBI sells T-bills / G-secs", "Short-dated government paper"],
+            ["Banks pay cash", "Liquidity is absorbed"],
+            ["Separate govt account", "Cash held with the RBI"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "tip",
+          "title": "Durable or daily?",
+          "text": "LAF (repo and reverse repo) handles **day-to-day** liquidity. OMOs and MSS handle **durable or enduring** liquidity. Link: OMO = buy or sell G-secs; MSS = sell short-dated G-secs and T-bills."
+        }
+      ]
+    },
+    {
+      "id": "instrument-types",
+      "title": "Quantitative and qualitative instruments",
+      "icon": "🧰",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "Central bank tools are usually grouped by what they act on. **Quantitative (general) tools** change the total amount or cost of credit in the whole economy. **Qualitative (selective) tools** steer credit toward or away from particular uses. Exams usually ask you to spot which group a tool belongs to."
+        },
+        {
+          "type": "table",
+          "title": "Two families of tools",
+          "headers": ["Family", "Acts on", "Examples"],
+          "rows": [
+            ["Quantitative (general)", "Overall volume and cost of credit", "Bank Rate, repo and reverse repo, CRR, SLR, open market operations"],
+            ["Qualitative (selective)", "Direction of credit to specific uses", "Margin requirements, credit rationing, moral suasion, direct action, regulation of consumer credit"]
+          ]
+        },
+        {
+          "type": "bullets",
+          "title": "What raising or cutting does",
+          "items": [
+            "Higher repo rate or CRR: credit becomes costlier or scarcer, which helps cool demand and inflation.",
+            "Lower repo rate or CRR: money becomes cheaper and more plentiful, which supports growth.",
+            "Market-determined variables such as the inflation rate are outcomes, not tools; the RBI does not fix them."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "inflation-targeting",
+      "title": "Flexible inflation targeting",
+      "icon": "🎯",
+      "blocks": [
+        {
+          "type": "timeline",
+          "title": "How the framework arrived",
+          "items": [
+            ["20 Feb 2015", "Government and RBI sign an **Agreement on Monetary Policy Framework** that starts flexible inflation targeting."],
+            ["May 2016", "The **RBI Act, 1934 is amended** to give inflation targeting a statutory basis."],
+            ["5 Aug 2016", "The first target period begins: **4 per cent CPI inflation**."],
+            ["31 Mar 2021", "End of the first target period (5 Aug 2016 to 31 Mar 2021)."]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "The target and its limits",
+          "rows": [
+            ["Who sets the target", "The **Government of India**, in consultation with the RBI, **once every five years**."],
+            ["Target measure", "**Consumer Price Index (CPI)** inflation, notified at **4 per cent** for the first period."],
+            ["Tolerance band", "Upper limit **6 per cent**, lower limit **2 per cent**."],
+            ["Failure to meet target", "Average inflation stays **above the upper limit** or **below the lower limit** for **three consecutive quarters**."],
+            ["Operating target", "The weighted average call rate (WACR), kept at or around the policy repo rate through daily liquidity management."]
+          ]
+        },
+        {
+          "type": "figure",
+          "kind": "flow",
+          "title": "How a repo rate change reaches inflation",
+          "items": [
+            ["Repo rate decision", "MPC sets the policy rate"],
+            ["Money-market rates", "Anchored at or near the repo rate"],
+            ["Bank loan and deposit rates","Pass-through to the wider system"],
+            ["Aggregate demand", "Key driver of inflation and growth"],
+            ["Inflation and growth", "Outcome the framework aims at"]
+          ]
+        },
+        {
+          "type": "mnemonic",
+          "title": "The 4-plus-or-minus-2 band",
+          "phrase": "Four is the aim, two and six are the fence; three quarters outside the fence means the target has failed.",
+          "letters": [
+            ["4", "CPI inflation target (per cent)"],
+            ["2 and 6", "Lower and upper tolerance limits (4 minus 2, 4 plus 2)"],
+            ["3", "Consecutive quarters outside the band = failure"],
+            ["5", "Years between target reviews by the Government"]
+          ],
+          "note": "As per the 2024-25 syllabus. The Government reviews the target every five years, so check the latest notification for the current period."
+        },
+        {
+          "type": "text",
+          "text": "Before the 2016 amendment the framework rested only on the 2015 Agreement. The amended Act gives the RBI an explicit **legislative mandate** to run the framework: set the policy repo rate after assessing the present and expected macro situation, and adjust liquidity to keep money-market rates close to it."
+        }
+      ]
+    },
+    {
+      "id": "mpc-structure",
+      "title": "Monetary Policy Committee: composition",
+      "icon": "👥",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "The **Monetary Policy Committee (MPC)** decides the policy interest rate needed to achieve the inflation target. **Section 45ZB** of the amended RBI Act provides for an empowered **six-member** committee, which the **Central Government** constitutes by notification in the Official Gazette."
+        },
+        {
+          "type": "table",
+          "title": "Who sits on the MPC",
+          "headers": ["Seat", "Who", "Status"],
+          "rows": [
+            ["1", "Governor of the RBI", "Chairperson, ex officio"],
+            ["2", "Deputy Governor in charge of Monetary Policy", "Member, ex officio"],
+            ["3", "One RBI officer nominated by the RBI Central Board", "Member, ex officio"],
+            ["4 to 6", "Three other members", "Appointed by the Central Government; hold office for **four years** or until further orders, whichever is earlier"]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "Members named in the book (at the time of writing)",
+          "rows": [
+            ["Chairperson", "Shaktikanta Das (Governor)"],
+            ["Deputy Governor", "Michael Debabrata Patra"],
+            ["RBI officer (Executive Director)", "M K Saggar"],
+            ["External members", "Ashima Goyal, Shashanka Bhide and Jayanth Varma"]
+          ]
+        },
+        {
+          "type": "mnemonic",
+          "title": "Inside three, outside three",
+          "phrase": "Three RBI insiders (Governor, Deputy Governor, one officer) plus three outsiders make six; outsiders serve four years.",
+          "letters": [
+            ["3 inside", "Governor, Deputy Governor for monetary policy, one RBI officer (all ex officio)"],
+            ["3 outside", "Members 4, 5 and 6 appointed by the Central Government"],
+            ["6", "Total members under Section 45ZB"]
+          ],
+          "note": "Names change as terms end, so learn the structure rather than the people."
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "Six, not nine",
+          "text": "The MPC is a **six-member** committee. A statement calling it a nine-member committee is wrong. The Central Government, not the RBI, constitutes it."
+        }
+      ]
+    },
+    {
+      "id": "mpc-process",
+      "title": "How the MPC works",
+      "icon": "🗳️",
+      "blocks": [
+        {
+          "type": "steps",
+          "title": "From analysis to announcement",
+          "items": [
+            "The RBI's **Monetary Policy Department (MPD)** assists the MPC; stakeholder views and the RBI's analytical work feed the repo rate decision.",
+            "The MPC meets **at least four times a year**; the **quorum is four** members.",
+            "Each member has **one vote**. If votes are tied, the **Governor has a second (casting) vote**.",
+            "After every meeting the **resolution** is published, as required by Chapter III F of the RBI Act, 1934.",
+            "On the **14th day** the **minutes** are published: the resolution, each member's vote and each member's statement.",
+            "The **Financial Markets Operations Department** carries out the policy through daily liquidity operations, and the **Financial Markets Committee** meets daily to keep the operating target close to the repo rate."
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "Supporting bodies and documents",
+          "rows": [
+            ["Monetary Policy Department (MPD)", "Assists the MPC in formulating monetary policy."],
+            ["Financial Markets Operations Department", "Operationalises policy mainly through day-to-day liquidity management."],
+            ["Financial Markets Committee (FMC)", "Meets daily to review liquidity conditions so that the operating target stays near the policy repo rate."],
+            ["Monetary Policy Report", "Published **once every six months**; explains the sources of inflation and gives a **6 to 18 month** inflation forecast."],
+            ["Technical Advisory Committee (TAC)", "Older advisory panel of experts (monetary economics, central banking, markets, public finance); its role was only advisory and it **ceased to exist** once the MPC was formed."]
+          ]
+        },
+        {
+          "type": "mnemonic",
+          "title": "The numbers of the MPC",
+          "phrase": "Six members, four meetings, four for quorum, four-year terms; minutes on day 14; report every six months.",
+          "letters": [
+            ["6", "Members of the MPC"],
+            ["4", "Minimum meetings a year; also the quorum; also the term of external members in years"],
+            ["14", "Day on which the minutes are published"],
+            ["6 months", "Gap between Monetary Policy Reports (forecast 6 to 18 months ahead)"]
+          ],
+          "note": "In practice the RBI holds about six policy meetings a year, but the law only requires a minimum of four."
+        }
+      ]
+    },
+    {
+      "id": "snapshot-and-traps",
+      "title": "Rate snapshot and common traps",
+      "icon": "🧭",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "At the time the source was written (April 2023), after six consecutive increases the MPC decided to **pause** the rate-hike cycle amid concerns over global financial stability and kept the **policy repo rate unchanged at 6.5 per cent**. Rates move often, so treat this as a dated reference and check the latest policy before an exam."
+        },
+        {
+          "type": "bullets",
+          "title": "Frequent confusions",
+          "items": [
+            "Repo means the RBI **lends** to banks; reverse repo means the RBI **absorbs** money from banks.",
+            "CRR is held **with the RBI** in cash; SLR is held **by the bank itself** in safe assets such as G-secs and gold.",
+            "Bank Rate is linked to the **MSF** rate, not to the reverse repo rate.",
+            "Inflation rate is **not** a tool; it is a market outcome the policy tries to influence.",
+            "The MPC has **six** members and the Governor has only a **casting** vote in a tie."
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "fact",
+          "title": "Dated numbers",
+          "text": "Repo rate level, membership of the MPC and the inflation target period are taken as per the 2024-25 book. They change with time; the structure and rules stay the same."
+        }
+      ]
+    }
+  ],
+  "revision": [
+    "RBI conducts monetary policy under the RBI Act, 1934; the primary objective is price stability keeping growth in mind.",
+    "Coins are minted by the Government of India; the RBI conducts monetary policy.",
+    "Repo rate: fixed rate at which RBI lends overnight to banks against government and approved securities under LAF.",
+    "Reverse repo rate: fixed rate at which RBI absorbs liquidity from banks overnight.",
+    "MSF: extra overnight borrowing by dipping into SLR at a penal rate; MSF rate and reverse repo rate form the corridor.",
+    "Bank Rate: rediscount rate for bills, published under Section 49 of the RBI Act and aligned to the MSF rate.",
+    "CRR is the share of NDTL kept as cash with the RBI; SLR is the share of NDTL kept in safe liquid assets by the bank itself.",
+    "Lowering CRR increases credit creation; raising it reduces lending capacity.",
+    "OMOs are outright purchase or sale of G-secs; MSS (2004) absorbs durable surplus liquidity through T-bills and short G-secs.",
+    "Inflation target: 4 per cent CPI with a band of 2 to 6 per cent; set by the Government with the RBI every five years.",
+    "Target fails if inflation is outside the band for three consecutive quarters.",
+    "Flexible inflation targeting got a statutory basis through the May 2016 amendment; earlier it rested on the Feb 2015 Agreement.",
+    "MPC (Section 45ZB): six members, constituted by the Central Government; Governor chairs and has a casting vote.",
+    "MPC meets at least four times a year, quorum four; minutes come on the 14th day; Monetary Policy Report every six months.",
+    "April 2023: MPC paused after six hikes and kept the repo rate at 6.5 per cent (dated figure)."
+  ],
+  "mindmap": {
+    "center": "Monetary Policy & MPC",
+    "branches": [
+      {
+        "label": "Basics",
+        "children": ["RBI Act, 1934", "Price stability first", "Growth in mind", "Direct and indirect tools"]
+      },
+      {
+        "label": "Policy rates",
+        "children": ["Repo rate", "Reverse repo rate", "MSF and corridor", "Bank Rate (Sec 49)"]
+      },
+      {
+        "label": "Reserve ratios",
+        "children": ["CRR: cash with RBI", "SLR: assets with bank", "NDTL base", "Cut raises lending"]
+      },
+      {
+        "label": "Liquidity tools",
+        "children": ["LAF and term repo", "OMOs", "MSS (2004)", "Separate govt account"]
+      },
+      {
+        "label": "Inflation targeting",
+        "children": ["4 per cent CPI", "Band 2 to 6", "Three-quarter failure", "May 2016 amendment", "Feb 2015 Agreement"]
+      },
+      {
+        "label": "MPC structure",
+        "children": ["Section 45ZB", "Six members", "Governor chairs", "3 inside, 3 outside", "Four-year terms"]
+      },
+      {
+        "label": "MPC process",
+        "children": ["Four meetings minimum", "Quorum four", "Casting vote", "Minutes on day 14", "Report every six months"]
+      }
+    ]
+  }
+}

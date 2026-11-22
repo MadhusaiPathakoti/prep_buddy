@@ -25,6 +25,8 @@ export type CaBlock =
   | { type: 'timeline'; title?: string; items: [string, string][] }
   | { type: 'callout'; kind: CalloutKind; title?: string; text: string }
   | { type: 'figure'; kind: FigureKind; title: string; items: [string, string?][] }
+  /** A memory aid: `phrase` is the mnemonic; `letters` spell out what each letter / part stands for. */
+  | { type: 'mnemonic'; title: string; phrase: string; letters?: [string, string][]; note?: string }
 
 export interface CaSection {
   id: string
@@ -57,6 +59,8 @@ export interface CaQuestion {
   explain: string
   /** Id of the book section this question comes from. */
   section: string
+  /** Exam and year it was asked in, when known (e.g. "SBI PO 2019"). */
+  exam?: string
 }
 
 /** A question with its chapter attached, as the bank and the quiz use it. */

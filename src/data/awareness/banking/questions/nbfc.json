@@ -1,0 +1,484 @@
+[
+  {
+    "id": "nbfc-01",
+    "q": "Which agency regulates and supervises NBFCs in India?",
+    "options": [
+      "Finance Ministry",
+      "SEBI",
+      "Reserve Bank of India",
+      "Respective state governments"
+    ],
+    "answer": 2,
+    "explain": "The RBI regulates and supervises NBFCs. SEBI regulates, for example, collective investment schemes and mutual funds.",
+    "section": "what-is-nbfc"
+  },
+  {
+    "id": "nbfc-02",
+    "q": "What is the minimum Net Owned Fund required for registration as an NBFC, as per the study material?",
+    "options": [
+      "₹200 lakh",
+      "₹25 lakh",
+      "₹100 lakh",
+      "₹300 crore"
+    ],
+    "answer": 0,
+    "explain": "An NBFC needs a minimum NOF of ₹200 lakh (₹2 crore). ₹300 crore is the NOF of an Infrastructure Finance Company.",
+    "section": "what-is-nbfc"
+  },
+  {
+    "id": "nbfc-03",
+    "q": "An NBFC is defined as a non-banking financial institution under which provision?",
+    "options": [
+      "Section 6 of the NHB Act, 1987",
+      "Section 19 of the Banking Regulation Act, 1949",
+      "Section 7 of the Chit Funds Act, 1982",
+      "Section 45-I(a) of the RBI Act, 1934"
+    ],
+    "answer": 3,
+    "explain": "The RBI Act, 1934 (Section 45-I(a)) defines a non-banking financial institution.",
+    "section": "what-is-nbfc"
+  },
+  {
+    "id": "nbfc-04",
+    "q": "Which of these institutions is NOT treated as an NBFC because of its principal business?",
+    "options": [
+      "A company mainly engaged in hire-purchase",
+      "A company mainly engaged in agricultural activity",
+      "A company mainly engaged in leasing",
+      "A company mainly engaged in chit business"
+    ],
+    "answer": 1,
+    "explain": "Institutions whose principal business is agriculture, industry, trade in goods or services, or property transactions are excluded from NBFCs.",
+    "section": "what-is-nbfc"
+  },
+  {
+    "id": "nbfc-05",
+    "q": "What is the correct description of foreign investment allowed in NBFCs, as per the exam material?",
+    "options": [
+      "Up to 25%",
+      "Up to 100% for permitted activities",
+      "Up to 49%",
+      "Not allowed at all"
+    ],
+    "answer": 1,
+    "explain": "The study material treats up to 100% foreign investment as allowed in NBFCs for permitted activities.",
+    "section": "what-is-nbfc"
+  },
+  {
+    "id": "nbfc-06",
+    "q": "Which of these is a feature of NBFCs?",
+    "options": [
+      "Authority to issue currency notes",
+      "Ability to accept demand deposits",
+      "Compulsory insurance of every deposit",
+      "Very low amount of owned capital"
+    ],
+    "answer": 3,
+    "explain": "NBFCs have little owned capital and rely on funds collected by offering attractive returns.",
+    "section": "features"
+  },
+  {
+    "id": "nbfc-07",
+    "q": "Why do borrowers rejected by commercial banks often approach NBFCs?",
+    "options": [
+      "NBFCs lend easily with few document requirements",
+      "NBFCs charge no interest",
+      "NBFCs lend only against gold",
+      "NBFCs are owned by the RBI"
+    ],
+    "answer": 0,
+    "explain": "NBFCs make loans readily available with minimal paperwork, though this adds credit risk.",
+    "section": "features"
+  },
+  {
+    "id": "nbfc-08",
+    "q": "What do NBFCs typically do when short and medium-term loans are not recovered?",
+    "options": [
+      "Write them off immediately",
+      "Hand them to the RBI",
+      "Convert them into long-term loans (rescheduling)",
+      "Convert them into government bonds"
+    ],
+    "answer": 2,
+    "explain": "Rescheduling raises the loan amount, term and interest rate, which is a recognised NBFC feature.",
+    "section": "features"
+  },
+  {
+    "id": "nbfc-09",
+    "q": "Why are NBFC loans described as riskier than bank loans?",
+    "options": [
+      "They are always guaranteed by the RBI",
+      "They are given only to the government",
+      "They are often given without adequate security",
+      "They carry no interest"
+    ],
+    "answer": 2,
+    "explain": "Unsecured lending makes recovery harder and raises the risk.",
+    "section": "features"
+  },
+  {
+    "id": "nbfc-10",
+    "q": "Which of these can an NBFC NOT do, unlike a bank?",
+    "options": [
+      "Accept demand deposits",
+      "Give loans and advances",
+      "Do hire-purchase business",
+      "Invest in marketable securities"
+    ],
+    "answer": 0,
+    "explain": "NBFCs cannot accept demand deposits; lending, hire-purchase and investing are their core activities.",
+    "section": "banks-vs-nbfcs"
+  },
+  {
+    "id": "nbfc-11",
+    "q": "Which statement about NBFCs and the payment system is correct?",
+    "options": [
+      "They issue cheques drawn on themselves",
+      "They run the RTGS system",
+      "They issue currency notes through the RBI",
+      "They are not part of the payment and settlement system and cannot issue cheques drawn on themselves"
+    ],
+    "answer": 3,
+    "explain": "NBFCs sit outside the payment and settlement system.",
+    "section": "banks-vs-nbfcs"
+  },
+  {
+    "id": "nbfc-12",
+    "q": "Deposits with NBFCs differ from bank deposits because",
+    "options": [
+      "They are insured up to ₹5 lakh",
+      "DICGC deposit insurance is not available for them",
+      "They are guaranteed by the RBI",
+      "They are always repaid on demand"
+    ],
+    "answer": 1,
+    "explain": "Depositors of NBFCs do not get DICGC cover, and the RBI does not guarantee repayment.",
+    "section": "banks-vs-nbfcs"
+  },
+  {
+    "id": "nbfc-13",
+    "q": "A bank-owned NBFC does not reply satisfactorily to a credit card complaint within how many days before the customer may approach the Banking Ombudsman, as per the older note?",
+    "options": [
+      "7 days",
+      "30 days",
+      "15 days",
+      "60 days"
+    ],
+    "answer": 1,
+    "explain": "The customer may approach the Banking Ombudsman if the NBFC does not respond satisfactorily within 30 days of the complaint.",
+    "section": "banks-vs-nbfcs"
+  },
+  {
+    "id": "nbfc-14",
+    "q": "Which type of NBFC finances physical assets supporting productive or economic activity?",
+    "options": [
+      "Investment Company",
+      "Loan Company",
+      "Core Investment Company",
+      "Asset Finance Company"
+    ],
+    "answer": 3,
+    "explain": "An Asset Finance Company’s principal business is financing physical assets that support economic activity.",
+    "section": "types"
+  },
+  {
+    "id": "nbfc-15",
+    "q": "Which NBFC type has acquiring securities as its principal business?",
+    "options": [
+      "Investment Company",
+      "Asset Finance Company",
+      "NBFC-Factors",
+      "Mortgage Guarantee Company"
+    ],
+    "answer": 0,
+    "explain": "An Investment Company mainly acquires securities.",
+    "section": "types"
+  },
+  {
+    "id": "nbfc-16",
+    "q": "A Loan Company is an NBFC whose principal business is providing finance for activities other than its own. Which type does it exclude?",
+    "options": [
+      "Investment Company",
+      "Core Investment Company",
+      "Asset Finance Company",
+      "NBFC-MFI"
+    ],
+    "answer": 2,
+    "explain": "By definition a Loan Company does not include an Asset Finance Company.",
+    "section": "types"
+  },
+  {
+    "id": "nbfc-17",
+    "q": "What share of total assets and income must an Asset Finance Company get from financing physical assets?",
+    "options": [
+      "At least 50%",
+      "At least 75%",
+      "At least 60%",
+      "At least 90%"
+    ],
+    "answer": 2,
+    "explain": "The 60% test applies to both total assets and total income. Do not confuse it with the 75% test for infrastructure finance.",
+    "section": "types"
+  },
+  {
+    "id": "nbfc-18",
+    "q": "An Infrastructure Finance Company must deploy at least what share of its total assets in infrastructure loans?",
+    "options": [
+      "75%",
+      "60%",
+      "85%",
+      "90%"
+    ],
+    "answer": 0,
+    "explain": "IFCs need 75% of assets in infrastructure loans, NOF of ₹300 crore, rating A or equivalent and CRAR of 15%.",
+    "section": "types"
+  },
+  {
+    "id": "nbfc-19",
+    "q": "What is the minimum Net Owned Fund for an NBFC to qualify as an Infrastructure Finance Company?",
+    "options": [
+      "₹100 crore",
+      "₹200 crore",
+      "₹500 crore",
+      "₹300 crore"
+    ],
+    "answer": 3,
+    "explain": "An IFC needs NOF of ₹300 crore along with a minimum credit rating of A and a CRAR of 15%.",
+    "section": "types"
+  },
+  {
+    "id": "nbfc-20",
+    "q": "What is the minimum CRAR required of an Infrastructure Finance Company?",
+    "options": [
+      "9%",
+      "15%",
+      "12%",
+      "20%"
+    ],
+    "answer": 1,
+    "explain": "IFCs must maintain a CRAR of 15% in addition to the NOF and rating requirements.",
+    "section": "types"
+  },
+  {
+    "id": "nbfc-21",
+    "q": "A Systemically Important Core Investment Company must have an asset size of at least",
+    "options": [
+      "₹10 crore",
+      "₹100 crore",
+      "₹50 crore",
+      "₹300 crore"
+    ],
+    "answer": 1,
+    "explain": "A systemically important CIC has assets of ₹100 crore or more, accepts public funds, and holds 90% of assets in group-company investments.",
+    "section": "types"
+  },
+  {
+    "id": "nbfc-22",
+    "q": "A Core Investment Company must hold at least what share of its total assets in equity shares of group companies?",
+    "options": [
+      "25%",
+      "50%",
+      "85%",
+      "60%"
+    ],
+    "answer": 3,
+    "explain": "At least 60% of assets must be group-company equity (including long-term compulsorily convertible instruments), within the overall 90% group investment requirement.",
+    "section": "types"
+  },
+  {
+    "id": "nbfc-23",
+    "q": "The Infrastructure Debt Fund NBFC raises resources by issuing bonds of what minimum maturity?",
+    "options": [
+      "5 years",
+      "1 year",
+      "3 years",
+      "10 years"
+    ],
+    "answer": 0,
+    "explain": "IDF-NBFCs issue rupee or dollar bonds of minimum 5-year maturity and are sponsored through Infrastructure Finance Companies.",
+    "section": "types"
+  },
+  {
+    "id": "nbfc-24",
+    "q": "What is the minimum share of qualifying assets in an NBFC-MFI?",
+    "options": [
+      "50%",
+      "60%",
+      "85%",
+      "90%"
+    ],
+    "answer": 2,
+    "explain": "NBFC-MFIs are non-deposit NBFCs with at least 85% of assets in qualifying assets.",
+    "section": "types"
+  },
+  {
+    "id": "nbfc-25",
+    "q": "What is the loan size limit for an NBFC-MFI borrower in the first cycle?",
+    "options": [
+      "₹10,000",
+      "₹1,00,000",
+      "₹50,000",
+      "₹5 lakh"
+    ],
+    "answer": 2,
+    "explain": "The first-cycle loan cannot exceed ₹50,000; in later cycles it can go up to ₹1,00,000.",
+    "section": "types"
+  },
+  {
+    "id": "nbfc-26",
+    "q": "The financial assets in the NBFC-Factors business should constitute at least what percent of total assets?",
+    "options": [
+      "50%",
+      "15%",
+      "20%",
+      "75%"
+    ],
+    "answer": 0,
+    "explain": "NBFC-Factors are non-deposit NBFCs whose factoring assets must be at least 50% of their total assets.",
+    "section": "types"
+  },
+  {
+    "id": "nbfc-27",
+    "q": "A Mortgage Guarantee Company must derive at least what share of turnover or gross income from mortgage guarantee business?",
+    "options": [
+      "50%",
+      "60%",
+      "75%",
+      "90%"
+    ],
+    "answer": 3,
+    "explain": "The test is 90% of turnover or gross income, along with a Net Owned Fund of ₹100 crore.",
+    "section": "types"
+  },
+  {
+    "id": "nbfc-28",
+    "q": "The NBFC-NOFHC is the financial institution through which",
+    "options": [
+      "Farmers can get crop loans",
+      "Promoters can set up a new bank",
+      "Exporters can get buyers credit",
+      "Depositors can claim insurance"
+    ],
+    "answer": 1,
+    "explain": "NOFHC stands for Non-Operative Financial Holding Company, used by promoters to set up a bank.",
+    "section": "types"
+  },
+  {
+    "id": "nbfc-29",
+    "q": "For what period can NBFCs accept or renew public deposits?",
+    "options": [
+      "Minimum 1 month and maximum 12 months",
+      "Minimum 12 months and maximum 60 months",
+      "Minimum 6 months and maximum 36 months",
+      "Minimum 24 months and maximum 120 months"
+    ],
+    "answer": 1,
+    "explain": "NBFC public deposits run from 12 to 60 months; demand deposits are not allowed.",
+    "section": "deposit-rules"
+  },
+  {
+    "id": "nbfc-30",
+    "q": "What was the ceiling on interest on NBFC public deposits in the study material?",
+    "options": [
+      "7.5% per annum",
+      "9% per annum",
+      "15% per annum",
+      "12.5% per annum"
+    ],
+    "answer": 3,
+    "explain": "The RBI prescribes the ceiling from time to time; the book quotes 12.5% per annum, paid or compounded at rests not shorter than monthly.",
+    "section": "deposit-rules"
+  },
+  {
+    "id": "nbfc-31",
+    "q": "Which of these is prohibited for NBFCs when accepting deposits?",
+    "options": [
+      "Offering gifts or incentives to depositors",
+      "Paying interest at monthly rests",
+      "Having an investment grade credit rating",
+      "Accepting deposits for 24 months"
+    ],
+    "answer": 0,
+    "explain": "NBFCs cannot offer gifts, incentives or other additional benefits to depositors.",
+    "section": "deposit-rules"
+  },
+  {
+    "id": "nbfc-32",
+    "q": "Who regulates Collective Investment Schemes (CIS)?",
+    "options": [
+      "RBI",
+      "IRDAI",
+      "SEBI",
+      "NABARD"
+    ],
+    "answer": 2,
+    "explain": "SEBI is the regulator of collective investment schemes.",
+    "section": "related-notes"
+  },
+  {
+    "id": "nbfc-33",
+    "q": "Chit funds in India are governed by which law?",
+    "options": [
+      "Banking Regulation Act, 1949 administered by the RBI",
+      "SEBI Act, 1992 administered by SEBI",
+      "Chit Funds Act, 1982, administered by state governments",
+      "NABARD Act, 1981 administered by NABARD"
+    ],
+    "answer": 2,
+    "explain": "The Chit Funds Act, 1982 is a Central Act administered by state governments.",
+    "section": "related-notes"
+  },
+  {
+    "id": "nbfc-34",
+    "q": "In a multi-level marketing or Ponzi scheme, where does most income come from?",
+    "options": [
+      "Fees from enrolling more and more members",
+      "Sale of the products offered",
+      "Interest on government securities",
+      "Dividends from listed companies"
+    ],
+    "answer": 0,
+    "explain": "These schemes earn mainly by recruiting members and collecting heavy subscription fees.",
+    "section": "related-notes"
+  },
+  {
+    "id": "nbfc-35",
+    "q": "The CIBIL score used by banks and NBFCs to judge creditworthiness is a",
+    "options": [
+      "1-digit number",
+      "2-digit number",
+      "5-digit number",
+      "3-digit number"
+    ],
+    "answer": 3,
+    "explain": "CIBIL scores are 3-digit numbers (commonly from 300 to 900).",
+    "section": "related-notes",
+    "exam": "IBPS PO Main 2019"
+  },
+  {
+    "id": "nbfc-36",
+    "q": "Under the RBI’s 2017 NBFC-P2P Directions, what was the cap on the aggregate exposure of a single lender across all P2P platforms?",
+    "options": [
+      "₹1 lakh",
+      "₹10 lakh",
+      "₹2 lakh",
+      "₹15 lakh"
+    ],
+    "answer": 1,
+    "explain": "The 2017 directions capped a lender’s total exposure across all P2Ps at ₹10 lakh; limits may have been revised later.",
+    "section": "related-notes"
+  },
+  {
+    "id": "nbfc-37",
+    "q": "Under the RBI’s 2017 NBFC-P2P Directions, what was the aggregate loan limit of a single borrower across all P2P platforms?",
+    "options": [
+      "₹5 lakh",
+      "₹10 lakh",
+      "₹20 lakh",
+      "₹50 lakh"
+    ],
+    "answer": 1,
+    "explain": "A borrower’s total loans across all P2Ps were capped at ₹10 lakh under the 2017 directions.",
+    "section": "related-notes"
+  }
+]

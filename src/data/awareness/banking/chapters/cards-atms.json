@@ -1,0 +1,571 @@
+{
+  "id": "cards-atms",
+  "sections": [
+    {
+      "id": "atm-basics",
+      "title": "ATM basics and services",
+      "icon": "🏧",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "Technology has reshaped banking, and computerisation of bank business has become a top priority. As per the 2024-25 syllabus material, Indian banking institutions have already crossed the **70% level of computerisation** of their business."
+        },
+        {
+          "type": "keyvalue",
+          "title": "Automated Teller Machine (ATM)",
+          "rows": [
+            ["What it is", "A computerised machine that lets a bank customer reach their account, withdraw cash and do other financial and non-financial transactions **without visiting the branch**."],
+            ["Services offered", "Cash deposit, cash withdrawal, mini statement, balance enquiry, money transfer, bill payment and more."]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "remember",
+          "title": "Plastic money",
+          "text": "Credit cards are popularly called **plastic money**. Smart, debit, prepaid and credit cards are all non-cash (cashless) payment products."
+        }
+      ]
+    },
+    {
+      "id": "atm-types",
+      "title": "Types of ATMs",
+      "icon": "🏷️",
+      "blocks": [
+        {
+          "type": "keyvalue",
+          "title": "ATM varieties by location and ownership",
+          "rows": [
+            ["Onsite ATM", "Inside the branch premises or very close to the branch."],
+            ["Offsite ATM", "Away from the branch, in places such as malls, petrol pumps and railway stations."],
+            ["Worksite ATM", "Inside an organisation's premises, generally only for its employees."],
+            ["White Label ATM (WLA)", "Set up, owned and operated by **non-bank entities**. They are authorised by the RBI under the **Payment and Settlement Systems Act, 2007**. Cash deposit is **not permitted** at a WLA."],
+            ["Brown Label ATM", "Hardware is owned and maintained by a service provider, but **cash management and connectivity** to the banking network come from a sponsor bank whose brand the ATM carries."],
+            ["Biometric ATM", "Has an ATM-type interface plus at least one biometric capture device (fingerprint scanner, iris camera, palm or finger-vein scanner, face-recognition camera). Also called multi-biometric or wall-mount biometric ATMs."],
+            ["Mobile ATM", "An ATM mounted on a vehicle that moves between locations."]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "fact",
+          "title": "First White Label ATM",
+          "text": "India's first white label ATM was launched by **Tata** under the brand name **IndiCash**."
+        },
+        {
+          "type": "mnemonic",
+          "title": "White vs Brown label ATM",
+          "phrase": "White = Without a bank (owner is a non-bank). Brown = Borrowed bank brand and cash.",
+          "letters": [
+            ["White", "Owned and run by a non-bank company; no cash deposits allowed"],
+            ["Brown", "Service provider owns the machine; sponsor bank supplies cash, network and brand"],
+            ["Location", "Onsite = near the branch; Offsite = malls, pumps, stations; Worksite = staff only"]
+          ],
+          "note": "If a question says 'non-bank entity owns and operates', the answer is always White Label."
+        }
+      ]
+    },
+    {
+      "id": "atm-cash-network",
+      "title": "Cash cassettes and ATM networks",
+      "icon": "💵",
+      "blocks": [
+        {
+          "type": "bullets",
+          "title": "How an ATM hands out notes",
+          "items": [
+            "An ATM holds **cassettes**, each configured for one note denomination (the source lists ₹2,000, ₹500, ₹200 and ₹100).",
+            "Each cassette has an electronic setting at the back end, so when it is docked the machine knows which denomination it carries.",
+            "A software setting then decides the mix of notes. For a ₹3,000 withdrawal the machine may pick one ₹2,000 note and the rest in ₹500, ₹200 or ₹100 notes, depending on the logic the bank builds in.",
+            "Banks usually decide this dispensing logic."
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "ATM numbers (as per the 2024-25 book; these change)",
+          "rows": [
+            ["Total ATMs", "Over 2,00,000 ATMs across the country at the time of writing."],
+            ["Leading ATM maker", "**NCR Corporation India** with a **47% market share** and almost 1 lakh machines."],
+            ["Largest bank ATM network", "**SBI**, about **65,468** machines (as per March 2022)."],
+            ["Others quoted", "ICICI Bank 16,544; Axis Bank 16,400; HDFC Bank 18,522 (as per March 2022)."]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "tip",
+          "title": "Dated numbers",
+          "text": "Machine counts keep changing. Exams usually ask only who is **largest** (SBI), not the exact figure. Note too that ₹2,000 notes were withdrawn from circulation by the RBI in 2023, so cassettes now mainly carry the other denominations."
+        }
+      ]
+    },
+    {
+      "id": "credit-debit-cards",
+      "title": "Credit and debit cards",
+      "icon": "💳",
+      "blocks": [
+        {
+          "type": "table",
+          "title": "Credit card vs debit card",
+          "headers": ["Feature", "Credit card", "Debit card"],
+          "rows": [
+            ["Idea", "Plastic card issued by a bank so you can pay a merchant, promising to repay the issuer the amount plus agreed charges", "Does not allow credit"],
+            ["Account effect", "Money is borrowed; you repay later", "Account is debited immediately or on the same day the card is used"],
+            ["Credit period", "Available", "None"]
+          ]
+        },
+        {
+          "type": "bullets",
+          "title": "Rules for banks issuing credit cards",
+          "items": [
+            "**Central Bank of India** was the first public sector bank to introduce a credit card.",
+            "A bank can run credit card business **departmentally** or through a **subsidiary** company set up for the purpose.",
+            "It can also enter a **tie-up** with another bank that already issues credit cards (for domestic business).",
+            "**Prior RBI approval is not needed**; the bank's own Board approval is enough.",
+            "Only banks with a **net worth of ₹100 crore or more** should undertake credit card business."
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "Do not mix up the two",
+          "text": "In a **debit card** the money leaves your own account at once, so there is no credit period. In a **credit card** you spend the bank's money first and pay later."
+        }
+      ]
+    },
+    {
+      "id": "other-cards",
+      "title": "Prepaid, smart and co-branded cards",
+      "icon": "🪪",
+      "blocks": [
+        {
+          "type": "keyvalue",
+          "title": "Other card types",
+          "rows": [
+            ["Prepaid card", "Works like a gift card: you load money and can spend only up to that amount. Used by travellers for holiday money and by people without a normal bank account, such as kids, teens or people with poor credit ratings."],
+            ["Smart card", "Holds an electronic **chip that stores cash**; ideal for small payments such as bus fares and coffee bills. No identification, signature or authorisation is needed, the exact amount is deducted by a card-reading machine, and **no change** is given."],
+            ["Co-branded card", "A credit card issued by a card company that has tied up with a popular brand for exclusive benefits. Example: the **Citi-Times** card gives Citibank card benefits plus discounts on Times Music items and free entry to Times Music events."]
+          ]
+        },
+        {
+          "type": "mnemonic",
+          "title": "Which card does what",
+          "phrase": "Credit = Climb now, pay later. Debit = Deduct now. Prepaid = Preloaded. Smart = chip Stores cash.",
+          "letters": [
+            ["Credit", "Borrow first, repay later with charges"],
+            ["Debit", "Account is deducted immediately; no credit period"],
+            ["Prepaid", "Pre-loaded amount like a gift card"],
+            ["Smart", "Chip stores cash for small payments; no change returned"]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "rupay-card",
+      "title": "RuPay card network",
+      "icon": "🇮🇳",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "**RuPay** is the Indian version of a card network, started by the **National Payments Corporation of India (NPCI) on 26 March 2012**. The name is a blend of **Rupee** and **Payment**. It mainly provides **debit cards** and also issues **Kisan Credit Cards** for farmers."
+        },
+        {
+          "type": "bullets",
+          "items": [
+            "RuPay competes with **MasterCard, Visa and Amex** in India.",
+            "As per the 2024-25 book, RuPay held over **36%** of the Indian card payment market, behind **Visa** which had over **50%**.",
+            "India is the **sixth country** in the world with a domestic payment gateway system; the other five are the **US, Japan, China, Singapore and Brazil**."
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "remember",
+          "title": "RuPay in one line",
+          "text": "RuPay = Rupee + Payment, launched by NPCI on 26 March 2012, mainly debit cards, and India was the sixth country with a domestic card scheme."
+        }
+      ]
+    },
+    {
+      "id": "kisan-credit-card",
+      "title": "Kisan Credit Card (KCC)",
+      "icon": "🌾",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "The **Kisan Credit Card** was introduced by the NDA Government in **August 1998** as a hassle-free, timely way to meet the production credit needs of farmers. It was first announced in the **Budget 1998-99** by then Finance Minister **Yashwant Sinha**. **NABARD** later prepared a Model KCC Scheme with the major banks, based on the recommendations of the **R V Gupta Committee**."
+        },
+        {
+          "type": "table",
+          "title": "KCC at a glance",
+          "headers": ["Point", "Detail"],
+          "rows": [
+            ["Validity", "Five years, subject to annual renewals"],
+            ["Type of credit", "Cash Credit and Term Credit"],
+            ["Term credit use", "Allied activities such as pump sets, land development, plantation, drip irrigation"],
+            ["Cash credit repayment", "Crop loans and working capital given as a revolving cash credit limit, repayable in 12 months"],
+            ["Term loan repayment", "Within a maximum of 5 years, depending on activity, investment and repayment capacity"],
+            ["Who implements", "Commercial banks, RRBs and cooperatives across the country"]
+          ]
+        },
+        {
+          "type": "mnemonic",
+          "title": "KCC facts: the 98 Sinha Gupta trick",
+          "phrase": "1998: Sinha announced it, Gupta shaped it, NABARD wrote the model.",
+          "letters": [
+            ["1998", "Budget 1998-99 proposal; launched August 1998"],
+            ["Sinha", "Yashwant Sinha, Finance Minister"],
+            ["Gupta", "R V Gupta Committee recommendations"],
+            ["NABARD", "Prepared the Model KCC Scheme with banks"]
+          ],
+          "note": "Validity is 5 years; cash credit repayable in 12 months; term loan within 5 years."
+        }
+      ]
+    },
+    {
+      "id": "pos-eftpos",
+      "title": "POS and EFTPOS",
+      "icon": "🧾",
+      "blocks": [
+        {
+          "type": "keyvalue",
+          "rows": [
+            ["Point of Sale (POS) terminal", "A computerised replacement for a cash register that can process credit and debit cards. The customer enters the card **PIN** to complete the transaction. Cards are swiped at this terminal in a merchant's store."],
+            ["EFTPOS", "**Electronic Funds Transfer at Point of Sale**: an electronic payment system built on payment cards (**debit or credit**) used at payment terminals located at points of sale."]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "tip",
+          "text": "EFTPOS covers **both** debit and credit cards, so an answer saying 'only debit cards' is wrong."
+        }
+      ]
+    },
+    {
+      "id": "atm-extras",
+      "title": "ATM insurance, cardless cash and CDM",
+      "icon": "📲",
+      "blocks": [
+        {
+          "type": "bullets",
+          "title": "ATM insurance policy",
+          "items": [
+            "ATM cardholders of both public and private sector banks are eligible for **accidental hospitalisation cover** and **accidental death cover** from the card issuing bank.",
+            "The cover ranges from **₹50,000 to ₹20 lakh**.",
+            "It cannot be claimed on an **inoperative account**.",
+            "It is claimed that a bank account holder using an ATM card gets accidental insurance **without any fee**, and that if someone dies within **45 days** of using the card the family can claim the amount."
+          ]
+        },
+        {
+          "type": "bullets",
+          "title": "Cardless cash ('Cash-on-Mobile')",
+          "items": [
+            "Lets you withdraw cash from an ATM **without an ATM or debit card**, through a newly launched mobile banking application.",
+            "The service is **free of cost**.",
+            "The app also enables intra-bank mobile-to-mobile and mobile-to-account transfers and NEFT; **IMPS** is part of it.",
+            "Withdrawal limit through Cash-on-Mobile: up to **₹5,000 per day**."
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "Cash Deposit Machine (CDM)",
+          "rows": [
+            ["What it does", "An ATM-like machine that lets customers deposit cash straight into their account using the ATM-cum-debit card; credit is instant and the receipt shows the updated balance."],
+            ["Per transaction limit", "**₹49,900**"],
+            ["Notes per transaction", "Up to **200 notes**"],
+            ["Denominations accepted", "₹100, ₹200, ₹500 and ₹2,000"],
+            ["Other services", "PIN change, balance enquiry and mini statement"]
+          ]
+        },
+        {
+          "type": "timeline",
+          "title": "New banking services through ATMs",
+          "items": [
+            ["Before 14 Jan 2016", "Banks could offer only RBI-approved services: deposits and withdrawals, PIN change, cheque book request, statement, balance enquiry, fund transfer, bill payments, railway tickets, and products such as loans, insurance and credit cards."],
+            ["14 Jan 2016", "RBI allowed banks to offer **all their banking products and services** through ATMs, provided their technology supports it."]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "atm-charges",
+      "title": "Free ATM transactions and charges",
+      "icon": "🆓",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "With effect from **1 November 2014**, banks must give savings bank account holders a minimum number of free ATM transactions every month, as shown below (the figures are as per the book; RBI has revised the rules since)."
+        },
+        {
+          "type": "table",
+          "title": "Minimum free transactions per month",
+          "headers": ["Where", "Free transactions"],
+          "rows": [
+            ["Own bank's ATMs, any location", "5"],
+            ["Other banks' ATMs in the six metros (Mumbai, New Delhi, Chennai, Kolkata, Bengaluru, Hyderabad)", "3"],
+            ["Other banks' ATMs in non-metro locations", "5"]
+          ]
+        },
+        {
+          "type": "bullets",
+          "items": [
+            "Beyond the free limit a customer can be charged a maximum of **₹20 per transaction** (plus service tax, if any) in the book's version of the rule.",
+            "For a **failed ATM transaction**, RBI rules require the bank to re-credit the money within 7 working days; beyond that the bank must pay **₹100 per day** as compensation to the customer."
+          ]
+        },
+        {
+          "type": "mnemonic",
+          "title": "Free ATM trips: 5 - 3 - 5",
+          "phrase": "Own bank 5, Metro other bank 3, Non-metro other bank 5. Only the metro slot is 3.",
+          "letters": [
+            ["5", "Own bank ATMs, anywhere"],
+            ["3", "Other banks' ATMs in the six metros"],
+            ["5", "Other banks' ATMs outside the metros"]
+          ],
+          "note": "Six metros: Mumbai, New Delhi, Chennai, Kolkata, Bengaluru, Hyderabad."
+        }
+      ]
+    },
+    {
+      "id": "bank-codes",
+      "title": "MICR, IFSC and SWIFT codes",
+      "icon": "🔢",
+      "blocks": [
+        {
+          "type": "keyvalue",
+          "title": "MICR (Magnetic Ink Character Recognition)",
+          "rows": [
+            ["Purpose", "Technology that lets machines read and process cheques, handling thousands of cheques in a short time."],
+            ["Length", "Usually a **9-digit** code."],
+            ["Structure", "First 3 digits = **city** code, next 3 = **bank** code, last 3 = **branch** code."]
+          ]
+        },
+        {
+          "type": "figure",
+          "kind": "flow",
+          "title": "Reading MICR 110211001 (Axis Bank, Delhi)",
+          "items": [
+            ["110", "City code: New Delhi"],
+            ["211", "Bank code: Axis Bank"],
+            ["001", "Branch code: Parliament Street"]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "IFSC (Indian Financial System Code)",
+          "rows": [
+            ["Developed by", "The **Reserve Bank of India**."],
+            ["Used in", "NEFT, RTGS and the Centralised Funds Management System (CFMS)."],
+            ["Length", "**11 characters**."],
+            ["Structure", "First 4 characters = the bank/entity; fifth character is a **0 (zero)** kept for future use; last 6 characters = the branch."],
+            ["Example", "UTIB0000117 (Axis Bank, Parliament Street, Delhi)."]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "SWIFT code",
+          "rows": [
+            ["What it is", "A unique identification code for financial and non-financial institutions, approved by the **International Organization for Standardization (ISO)**; registration is handled by **SWIFT Standards**, a division of the Society for Worldwide Interbank Financial Telecommunication."],
+            ["Used for", "Moving money between banks, especially **international wire transfers**, and exchanging other messages between banks."],
+            ["Also called", "**Bank Identifier Code (BIC)**."],
+            ["Length", "Generally **8 or 11 characters**."]
+          ]
+        },
+        {
+          "type": "mnemonic",
+          "title": "Code lengths: 9, 11, 8-or-11",
+          "phrase": "MICR is a Nine-digit cheque code, IFSC is Eleven with a Zero in the middle, SWIFT is Eight or Eleven for the world.",
+          "letters": [
+            ["MICR", "9 digits = 3 city + 3 bank + 3 branch (C-B-B)"],
+            ["IFSC", "11 characters = 4 bank letters + 0 + 6 branch"],
+            ["SWIFT/BIC", "8 or 11 characters, used internationally"]
+          ],
+          "note": "Domestic transfer (NEFT/RTGS) = IFSC. International wire transfer = SWIFT. Cheque clearing = MICR."
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "Which code for which job",
+          "text": "IFSC is for **NEFT, RTGS and CFMS**, SWIFT is for **international wire transfers**, and MICR is for **cheque processing**. Questions love swapping them."
+        }
+      ]
+    },
+    {
+      "id": "electronic-transfers",
+      "title": "ECS, RTGS, NEFT and IMPS",
+      "icon": "🔁",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "**Electronic Clearing Service (ECS)** is offered by the RBI for faster payments and collections. It suits transactions that are **repetitive and periodic**, meaning they recur after a fixed interval. Institutions use it for **bulk payments** or **bulk collections**, and they can start the process without visiting a branch again and again."
+        },
+        {
+          "type": "table",
+          "title": "Bulk payment vs bulk collection under ECS",
+          "headers": ["Bulk payment (ECS credit)", "Bulk collection (ECS debit)"],
+          "rows": [
+            ["Interest, dividend", "Telephone bills, electricity bills"],
+            ["Salary", "Water bills, cess and tax collections"],
+            ["Pension", "Loan instalment repayments, periodic mutual fund investments, insurance premium"]
+          ]
+        },
+        {
+          "type": "table",
+          "title": "RTGS vs NEFT vs IMPS",
+          "headers": ["System", "How it settles", "Amount rule"],
+          "rows": [
+            ["RTGS (Real Time Gross Settlement)", "**Gross** settlement, instruction by instruction, in real time", "Minimum ₹2 lakh; the source also quotes a ₹10 lakh maximum, but RBI has no upper ceiling and banks may set their own limit"],
+            ["NEFT (National Electronic Funds Transfer)", "**Deferred Net Settlement (DNS)**: transactions settled in **batches**", "No minimum or maximum limit"],
+            ["IMPS (Immediate Payment Service)", "Instant transfer using the mobile phone", "Limits are set by each bank; for example SBI allowed only one beneficiary per calendar day"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "remember",
+          "title": "Gross vs Net",
+          "text": "RTGS = **gross** (each instruction settled individually, real time, large value). NEFT = **net** (batch based, deferred). Real time gross settlement benefits customers and banks alike."
+        },
+        {
+          "type": "mnemonic",
+          "title": "RTGS or NEFT?",
+          "phrase": "RTGS = Rich and Rapid (big amounts, one by one). NEFT = Net and Neat batches (no limits).",
+          "letters": [
+            ["R", "RTGS: real time, gross, large value (min ₹2 lakh)"],
+            ["N", "NEFT: net settlement in batches, no minimum or maximum"],
+            ["I", "IMPS: immediate, through mobile phones"]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mobile-internet-banking",
+      "title": "Mobile and internet banking",
+      "icon": "📱",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "**Mobile banking (M-banking)** goes a step beyond internet and tele-banking: you can transact without even making a phone call, making it truly **'Any Time, Any Where' banking**. It works through text messages and offers two broad kinds of service."
+        },
+        {
+          "type": "keyvalue",
+          "title": "Types of mobile banking service",
+          "rows": [
+            ["Alert services", "Help the customer keep track of activity on their accounts."],
+            ["Request services", "Let the customer ask for information about their accounts and transactions."]
+          ]
+        },
+        {
+          "type": "bullets",
+          "title": "Internet banking (net banking)",
+          "items": [
+            "Lets a customer do many banking activities online, anywhere in the world with internet access.",
+            "**Fund transfers** can be made between accounts, across branches and cities, even to an account in any other bank. The customer only needs to submit a **signed declaration** to use this facility.",
+            "Utility bills (telephone, mobile, electricity) can be paid online. Some banks restrict requests for new fixed deposits or demand drafts to regular banking hours; a request made after hours is executed on the **next working day**."
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "fact",
+          "title": "Related ideas",
+          "text": "**Tele-banking** is based on **voice banking**. **Mobile banking** is seen as the best branch-alternative for **financial inclusion**. Having **100% CBS** means all branches run on **core banking solutions**."
+        }
+      ]
+    },
+    {
+      "id": "virtual-currency",
+      "title": "Virtual currency, crypto and Bitcoin",
+      "icon": "₿",
+      "blocks": [
+        {
+          "type": "keyvalue",
+          "title": "Key terms",
+          "rows": [
+            ["Virtual currency", "A digital representation of value that works as a medium of exchange, a unit of account and/or a store of value, but **does not have legal tender status** in any jurisdiction."],
+            ["Cryptocurrency", "A type of virtual currency that uses **cryptography** to validate and secure transactions recorded on a **distributed ledger** such as a **blockchain**."],
+            ["Convertible virtual currency", "Virtual currency with an equivalent value in real currency, or one that acts as a substitute for real currency."],
+            ["Bitcoin", "An example of a convertible virtual currency; it can be traded between users and bought for, or exchanged into, US dollars, euros and other real or virtual currencies."]
+          ]
+        },
+        {
+          "type": "figure",
+          "kind": "flow",
+          "title": "A Bitcoin transaction (Rob pays Laura)",
+          "items": [
+            ["Rob opens his wallet", "Scans Laura's address"],
+            ["Enter amount and fee", "Then send the payment"],
+            ["Wallet signs it", "Uses Rob's private key"],
+            ["Network validates", "Nodes propagate and check it"],
+            ["Miners add to a block", "Mining = computing a certain hash"],
+            ["Proof of Work solved", "Miner broadcasts the new block"],
+            ["Nodes verify the block", "And pass it on"],
+            ["Laura sees confirmations", "More appear with each new block"]
+          ]
+        },
+        {
+          "type": "timeline",
+          "title": "Virtual currencies in India",
+          "items": [
+            ["Nov 2017", "A high-level **Inter-Ministerial Committee** was constituted to study virtual currency issues and propose action."],
+            ["28 Feb 2019", "The Committee submitted its report: it recommended that **all private cryptocurrencies be banned** (except any issued by the State) and that related activity be criminalised through a law. It also suggested a **Standing Committee** to revisit the issues as technology evolves."]
+          ]
+        },
+        {
+          "type": "mnemonic",
+          "title": "Crypto in India: 17-19",
+          "phrase": "Committee formed in Seventeen, report in Nineteen: 'ban private crypto, keep State-issued'.",
+          "letters": [
+            ["2017 Nov", "Inter-Ministerial Committee set up"],
+            ["2019 Feb", "Report submitted"],
+            ["Verdict", "Ban private cryptocurrencies, except any issued by the State"]
+          ]
+        }
+      ]
+    }
+  ],
+  "revision": [
+    "ATM = machine for cash withdrawal and other transactions without visiting the branch; computerisation of banks has crossed 70% as per the book.",
+    "White Label ATMs are set up, owned and run by non-banks under the Payment and Settlement Systems Act, 2007; cash deposit is not allowed. First WLA: Tata's IndiCash.",
+    "Brown label = provider owns machine, sponsor bank provides cash and connectivity; Onsite/Offsite/Worksite depend on location.",
+    "NCR Corporation India is the leading ATM player (47% share); SBI has the largest bank ATM network.",
+    "Central Bank of India was the first public bank to introduce a credit card; banks need no RBI approval but need a net worth of ₹100 crore or more.",
+    "Debit card: account debited immediately, no credit period. Smart card: chip stores cash, no change given. Citi-Times is a co-branded card.",
+    "RuPay (Rupee + Payment) was launched by NPCI on 26 March 2012; India is the sixth country with a domestic payment gateway.",
+    "Kisan Credit Card: August 1998, Yashwant Sinha, R V Gupta Committee; valid 5 years; cash credit repayable in 12 months, term loan within 5 years.",
+    "ATM insurance ranges from ₹50,000 to ₹20 lakh; Cash-on-Mobile lets you withdraw up to ₹5,000 a day without a card.",
+    "CDM: ₹49,900 per transaction, up to 200 notes; on 14 January 2016 RBI allowed all banking services through ATMs.",
+    "Free ATM transactions: 5 at own bank, 3 at other banks in six metros, 5 at other banks elsewhere; excess charge capped at ₹20 in the book.",
+    "MICR = 9 digits (city, bank, branch); IFSC = 11 characters (4 bank + 0 + 6 branch); SWIFT/BIC = 8 or 11 characters.",
+    "ECS is for repetitive, periodic bulk payments (salary, pension, interest) and bulk collections (bills, EMIs, premiums).",
+    "RTGS: gross, real-time, minimum ₹2 lakh. NEFT: deferred net batches, no limit. IMPS: instant via mobile.",
+    "Virtual currency has no legal tender status; the 2017-19 Inter-Ministerial Committee recommended banning private cryptocurrencies."
+  ],
+  "mindmap": {
+    "center": "Cards, ATMs & e-Payments",
+    "branches": [
+      {
+        "label": "ATM types",
+        "children": ["Onsite / Offsite / Worksite", "White Label (non-bank)", "Brown Label", "Biometric and Mobile ATMs"]
+      },
+      {
+        "label": "ATM facts",
+        "children": ["NCR 47% share", "SBI largest network", "CDM limit ₹49,900", "Cash-on-Mobile ₹5,000/day", "Insurance ₹50,000-20 lakh"]
+      },
+      {
+        "label": "Card types",
+        "children": ["Credit and debit", "Prepaid and smart", "Co-branded (Citi-Times)", "RuPay (NPCI, 2012)", "POS and EFTPOS"]
+      },
+      {
+        "label": "Kisan Credit Card",
+        "children": ["August 1998", "Yashwant Sinha", "R V Gupta Committee", "Cash and term credit", "Valid 5 years"]
+      },
+      {
+        "label": "Bank codes",
+        "children": ["MICR 9 digits", "IFSC 11 characters", "SWIFT/BIC 8 or 11", "Free ATM trips 5-3-5"]
+      },
+      {
+        "label": "Electronic transfers",
+        "children": ["ECS bulk pay/collect", "RTGS real time gross", "NEFT batch DNS", "IMPS via mobile"]
+      },
+      {
+        "label": "Digital banking",
+        "children": ["Mobile: alerts and requests", "Internet banking", "Tele-banking = voice", "Virtual currency and Bitcoin"]
+      }
+    ]
+  }
+}

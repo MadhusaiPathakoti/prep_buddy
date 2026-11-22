@@ -1,0 +1,432 @@
+[
+  {
+    "id": "currency-system-01",
+    "q": "On which date was the decimal coinage system introduced in India?",
+    "options": ["26 January 1949", "15 August 1957", "1 April 1957", "1 January 1950"],
+    "answer": 2,
+    "explain": "Decimal coinage, with the rupee divided into 100 paise, began on 1 April 1957 under the Indian Coinage (Amendment) Act, 1955.",
+    "section": "history-gk",
+    "exam": "IBPS RRB Main 2017"
+  },
+  {
+    "id": "currency-system-02",
+    "q": "The highest denomination note ever printed by the RBI was the ₹10,000 note. It was first printed in which year?",
+    "options": ["1938", "1946", "1919", "1912"],
+    "answer": 0,
+    "explain": "The ₹10,000 note was first printed in 1938 and again in 1954. It was demonetised in 1946 and again in 1978.",
+    "section": "note-rules",
+    "exam": "SBI PO Main 2016"
+  },
+  {
+    "id": "currency-system-03",
+    "q": "Which of the following is the highest-valued currency in comparison to the Indian rupee?",
+    "options": ["Pound sterling", "US dollar", "Swiss franc", "Kuwaiti dinar"],
+    "answer": 3,
+    "explain": "The Kuwaiti dinar (KWD) is widely called the world's strongest currency; one dinar was worth roughly ₹267 at the time of writing, more than the pound or dollar.",
+    "section": "history-gk",
+    "exam": "RRB Officer Scale-I Mains 2023"
+  },
+  {
+    "id": "currency-system-04",
+    "q": "The Indian currency system was converted to a decimal system by which law, in force from 1 April 1957?",
+    "options": [
+      "Banking Companies Act, 1946",
+      "Indian Coinage (Amendment) Act, 1955",
+      "Coinage Act, 1956",
+      "Banking Regulation Act, 1949"
+    ],
+    "answer": 1,
+    "explain": "The Indian Coinage (Amendment) Act, 1955 brought in decimal coinage, effective 1 April 1957. The Acts of 1946 and 1949 deal with banking.",
+    "section": "history-gk"
+  },
+  {
+    "id": "currency-system-05",
+    "q": "The ₹500 and ₹1,000 notes that lost legal tender status on 8 November 2016 belonged to which series?",
+    "options": ["British Series", "Indian Currency Series", "Ambedkar Series", "Mahatma Gandhi Series"],
+    "answer": 3,
+    "explain": "Government Notification no. 2652 withdrew the legal tender status of ₹500 and ₹1,000 notes of the Mahatma Gandhi Series issued up to 8 November 2016.",
+    "section": "coins-and-notes"
+  },
+  {
+    "id": "currency-system-06",
+    "q": "All Indian currency notes bear the Governor of the RBI's signature except which one?",
+    "options": ["₹1 note", "₹10 note", "₹100 note", "₹500 note"],
+    "answer": 0,
+    "explain": "The ₹1 note is issued by the Government of India and carries the signature of the Finance Secretary, not the RBI Governor.",
+    "section": "coins-and-notes"
+  },
+  {
+    "id": "currency-system-07",
+    "q": "Distribution and administration of currency in India is done by which institution as an agent of the Government of India?",
+    "options": ["World Bank", "State Bank of India", "Reserve Bank of India", "NITI Aayog"],
+    "answer": 2,
+    "explain": "The RBI manages currency under the RBI Act, 1934, acting as the agent of the Government for issue and distribution.",
+    "section": "roles-rbi-government"
+  },
+  {
+    "id": "currency-system-08",
+    "q": "In which year was paper currency introduced in India by the British government?",
+    "options": ["1819", "1861", "1890", "1920"],
+    "answer": 1,
+    "explain": "Paper currency was introduced in 1861 through the Paper Currency Act. The RBI itself came much later, in 1935.",
+    "section": "history-gk"
+  },
+  {
+    "id": "currency-system-09",
+    "q": "Which term refers to withdrawing a currency from circulation to curb black money and unaccounted cash?",
+    "options": ["Devaluation", "Demonetisation", "Decentralisation", "Denomination"],
+    "answer": 1,
+    "explain": "Demonetisation means stripping a currency note of legal tender status. Devaluation is a fall in a currency's official exchange value.",
+    "section": "demonetisation"
+  },
+  {
+    "id": "currency-system-10",
+    "q": "In which year, before 2016, were high-value currency notes demonetised in India?",
+    "options": ["1976", "1977", "1979", "1978"],
+    "answer": 3,
+    "explain": "High-value notes of ₹1,000, ₹5,000 and ₹10,000 were demonetised in 1978. An earlier demonetisation took place in 1946.",
+    "section": "demonetisation"
+  },
+  {
+    "id": "currency-system-11",
+    "q": "Up to what denomination can coins be issued under the Coinage Act, 2011?",
+    "options": ["₹1,000", "₹100", "₹500", "₹200"],
+    "answer": 0,
+    "explain": "Coins can be issued up to ₹1,000, while notes can go up to ₹10,000 under the RBI Act.",
+    "section": "note-rules"
+  },
+  {
+    "id": "currency-system-12",
+    "q": "The ₹2000 banknote of 2016 carries the image of which of the following on its reverse?",
+    "options": ["INS Vikramaditya", "Red Fort", "Mangalyaan", "Thiruvalluvar"],
+    "answer": 2,
+    "explain": "The reverse of the ₹2000 note shows Mangalyaan, the Mars Orbiter Mission. The Red Fort appears on the ₹500 note.",
+    "section": "history-gk"
+  },
+  {
+    "id": "currency-system-13",
+    "q": "In which Karnataka city is an RBI banknote press located?",
+    "options": ["Mangaluru", "Kalaburagi", "Mysuru", "Dharwad"],
+    "answer": 2,
+    "explain": "The RBI's subsidiary BRBNMPL runs presses at Mysuru (Karnataka) and Salboni (West Bengal).",
+    "section": "printing-presses-mints"
+  },
+  {
+    "id": "currency-system-14",
+    "q": "From which law does the Reserve Bank of India derive its role in currency management?",
+    "options": [
+      "Reserve Bank of India Act, 1934",
+      "Negotiable Instruments Act, 1881",
+      "Banking Regulation Act, 1949",
+      "Coinage Act, 2011"
+    ],
+    "answer": 0,
+    "explain": "The RBI Act, 1934 gives the RBI its role in managing banknotes. The Coinage Act, 2011 deals with coins, which are the Government's responsibility.",
+    "section": "roles-rbi-government"
+  },
+  {
+    "id": "currency-system-15",
+    "q": "Who is responsible for the designing and minting of coins in India?",
+    "options": ["Reserve Bank of India", "Government of India", "SIDBI", "State Bank of India"],
+    "answer": 1,
+    "explain": "Coinage vests with the Government of India under the Coinage Act, 2011. The RBI only handles distribution of coins.",
+    "section": "roles-rbi-government"
+  },
+  {
+    "id": "currency-system-16",
+    "q": "Under Section 25 of the RBI Act, 1934, who approves the design of banknotes?",
+    "options": [
+      "Parliament directly",
+      "The RBI Governor alone",
+      "SEBI",
+      "The Central Government on the recommendation of the RBI Central Board"
+    ],
+    "answer": 3,
+    "explain": "The design must be approved by the Central Government on the recommendation of the Central Board of the RBI.",
+    "section": "roles-rbi-government"
+  },
+  {
+    "id": "currency-system-17",
+    "q": "The RBI's liability to pay the value of a banknote, shown by the 'I promise to pay' clause, arises from what?",
+    "options": [
+      "A contract between holder and the RBI",
+      "The Banking Regulation Act, 1949",
+      "Trade custom",
+      "Statutory provisions, Section 26 of the RBI Act"
+    ],
+    "answer": 3,
+    "explain": "Section 26 of the RBI Act makes the Bank liable to pay the value of the note on demand. The obligation is statutory, not contractual.",
+    "section": "note-rules"
+  },
+  {
+    "id": "currency-system-18",
+    "q": "What is the highest denomination of banknote that the RBI Act, 1934 permits?",
+    "options": ["₹1,000", "₹5,000", "₹10,000", "₹20,000"],
+    "answer": 2,
+    "explain": "Notes of ₹5,000 and ₹10,000 or other denominations notified by the Centre are allowed, but none above ₹10,000.",
+    "section": "note-rules"
+  },
+  {
+    "id": "currency-system-19",
+    "q": "Besides Hindi at the centre and English on the reverse, how many languages appear in the language panel of an Indian banknote?",
+    "options": ["15", "12", "17", "22"],
+    "answer": 0,
+    "explain": "Fifteen languages appear in the panel, in addition to Hindi and English.",
+    "section": "note-rules"
+  },
+  {
+    "id": "currency-system-20",
+    "q": "From which date were 1, 2, 3, 5, 10, 20 and 25 paise coins withdrawn from circulation and ceased to be legal tender?",
+    "options": ["31 March 2011", "30 June 2011", "1 April 2012", "30 June 2010"],
+    "answer": 1,
+    "explain": "These small coins were withdrawn with effect from 30 June 2011.",
+    "section": "coins-and-notes"
+  },
+  {
+    "id": "currency-system-21",
+    "q": "Why was the printing of ₹2 and ₹5 banknotes discontinued?",
+    "options": [
+      "Counterfeiting was too high",
+      "These denominations are now issued as coins",
+      "Paper was in short supply",
+      "Parliament abolished them by an Act"
+    ],
+    "answer": 1,
+    "explain": "Because ₹2 and ₹5 are now available as coins, there was no need to print notes of those values.",
+    "section": "coins-and-notes"
+  },
+  {
+    "id": "currency-system-22",
+    "q": "Government Notification no. 2652 of 8 November 2016 withdrew the legal tender status of which banknotes?",
+    "options": ["₹100 and ₹500", "₹500 and ₹2000", "₹500 and ₹1,000", "₹1,000 and ₹2000"],
+    "answer": 2,
+    "explain": "The notification withdrew ₹500 and ₹1,000 notes of the Mahatma Gandhi Series. The new ₹2000 note was introduced afterwards.",
+    "section": "coins-and-notes"
+  },
+  {
+    "id": "currency-system-23",
+    "q": "Indian banknote paper is made from which material?",
+    "options": ["Wood pulp", "Synthetic polymer", "Jute fibre", "Cotton and cotton rag"],
+    "answer": 3,
+    "explain": "Currency paper in India is composed of cotton and cotton rag.",
+    "section": "coins-and-notes"
+  },
+  {
+    "id": "currency-system-24",
+    "q": "Which of the following describes a soiled banknote?",
+    "options": [
+      "A note that is dirty and slightly cut",
+      "A note with a missing portion",
+      "A note that has been washed or altered",
+      "A note that has been burnt"
+    ],
+    "answer": 0,
+    "explain": "Soiled notes are dirty and slightly cut. Missing portions make a note mutilated, washing or alteration makes it imperfect, and burnt notes need special handling at an Issue Office.",
+    "section": "soiled-mutilated"
+  },
+  {
+    "id": "currency-system-25",
+    "q": "A banknote that has a missing portion or consists of more than two pieces is called",
+    "options": ["Mutilated", "Soiled", "Imperfect", "Obliterated"],
+    "answer": 0,
+    "explain": "A mutilated note has a missing portion or is in more than two pieces; its refund value is paid under the RBI (Note Refund) Rules.",
+    "section": "soiled-mutilated"
+  },
+  {
+    "id": "currency-system-26",
+    "q": "Where can excessively soiled, brittle or burnt notes be exchanged?",
+    "options": [
+      "At any public sector bank branch",
+      "At any private sector bank branch",
+      "At any post office",
+      "Only at an RBI Issue Office"
+    ],
+    "answer": 3,
+    "explain": "Such notes are exchanged only at an RBI Issue Office, through the Claims Section of the Issue Department.",
+    "section": "soiled-mutilated"
+  },
+  {
+    "id": "currency-system-27",
+    "q": "To exchange a soiled note at the counter of a public sector bank branch, what is the requirement?",
+    "options": [
+      "A prescribed form with an affidavit",
+      "No form needs to be filled",
+      "A fee of 10% of the note value",
+      "Prior permission from the RBI"
+    ],
+    "answer": 1,
+    "explain": "Soiled and mutilated notes can be exchanged at counters of public sector banks, currency chest branches of private banks and RBI Issue Offices without filling any form.",
+    "section": "soiled-mutilated"
+  },
+  {
+    "id": "currency-system-28",
+    "q": "In the context of exchanging mutilated notes, what does TLR stand for?",
+    "options": [
+      "Total Loss Receipt",
+      "Treasury Lock Register",
+      "Triple Lock Receptacle",
+      "Tamper-proof Logged Receipt"
+    ],
+    "answer": 2,
+    "explain": "A Triple Lock Receptacle is a box at the RBI where the public can deposit mutilated notes in a TLR cover against a paper token.",
+    "section": "soiled-mutilated"
+  },
+  {
+    "id": "currency-system-29",
+    "q": "A note of ₹10 or more in two pieces, with the number on both pieces, is treated as",
+    "options": ["Mutilated", "Imperfect", "Soiled", "Counterfeit"],
+    "answer": 2,
+    "explain": "Two pieces with the numbers on both ends make the note soiled. More than two pieces, or a missing portion, makes it mutilated.",
+    "section": "soiled-mutilated"
+  },
+  {
+    "id": "currency-system-30",
+    "q": "Which of the following is an imperfect banknote?",
+    "options": [
+      "A note with a missing corner",
+      "A note that is wholly or partly obliterated, shrunk, washed or altered",
+      "A note of a withdrawn series",
+      "A note with a different language panel"
+    ],
+    "answer": 1,
+    "explain": "Imperfect notes are obliterated, shrunk, washed, altered or indecipherable; the definition excludes mutilated notes.",
+    "section": "soiled-mutilated"
+  },
+  {
+    "id": "currency-system-31",
+    "q": "The banknote presses at Nashik and Dewas are owned by which organisation?",
+    "options": [
+      "Security Printing and Minting Corporation of India",
+      "Reserve Bank of India directly",
+      "NABARD",
+      "Ministry of Home Affairs"
+    ],
+    "answer": 0,
+    "explain": "SPMCIL owns the Nashik and Dewas presses, while the RBI's subsidiary BRBNMPL owns those at Mysuru and Salboni.",
+    "section": "printing-presses-mints"
+  },
+  {
+    "id": "currency-system-32",
+    "q": "In which state is the RBI-owned note press at Salboni located?",
+    "options": ["Maharashtra", "Madhya Pradesh", "Karnataka", "West Bengal"],
+    "answer": 3,
+    "explain": "Salboni is in West Bengal. Nashik is in Maharashtra, Dewas in Madhya Pradesh and Mysuru in Karnataka.",
+    "section": "printing-presses-mints"
+  },
+  {
+    "id": "currency-system-33",
+    "q": "Which of the following cities does NOT have a government mint producing coins?",
+    "options": ["Mumbai", "Hyderabad", "Kolkata", "Nagpur"],
+    "answer": 3,
+    "explain": "Coins are minted at Mumbai, Hyderabad, Kolkata and Noida. Nagpur has an RBI issue office but no mint.",
+    "section": "printing-presses-mints"
+  },
+  {
+    "id": "currency-system-34",
+    "q": "Which of the following RBI offices initially receives coins from the mints?",
+    "options": ["Hyderabad", "Bhopal", "Patna", "Jaipur"],
+    "answer": 0,
+    "explain": "The mint-linked offices are Hyderabad, Kolkata, Mumbai and New Delhi; they pass coins on to other RBI offices.",
+    "section": "distribution"
+  },
+  {
+    "id": "currency-system-35",
+    "q": "Which sequence shows the correct flow of currency to the public?",
+    "options": [
+      "Mints → bank branches → currency chests → public",
+      "Bank branches → RBI offices → printing presses → public",
+      "Printing presses → RBI offices → currency chests → bank branches → public",
+      "Currency chests → printing presses → RBI offices → public"
+    ],
+    "answer": 2,
+    "explain": "Notes come from presses to RBI offices, then to currency chests, then to bank branches and finally the public.",
+    "section": "distribution"
+  },
+  {
+    "id": "currency-system-36",
+    "q": "Where are small coins stocked before reaching bank branches?",
+    "options": ["Currency chests", "Small coin depots", "ATMs", "Treasury strong rooms"],
+    "answer": 1,
+    "explain": "Notes and rupee coins are stocked at currency chests, while small coins are stored at small coin depots.",
+    "section": "distribution"
+  },
+  {
+    "id": "currency-system-37",
+    "q": "Who is responsible for moving currency from a currency chest to a bank branch?",
+    "options": ["The RBI", "The bank concerned", "The state police", "The Finance Ministry"],
+    "answer": 1,
+    "explain": "RBI officials accompany remittances to chests, but movement from chest to branch is done by the bank concerned.",
+    "section": "distribution"
+  },
+  {
+    "id": "currency-system-38",
+    "q": "Which of the following goes against the RBI's Clean Note Policy?",
+    "options": [
+      "Storing notes safely",
+      "Keeping notes flat in a wallet",
+      "Handing over notes without any marks",
+      "Stapling bundles of notes together"
+    ],
+    "answer": 3,
+    "explain": "The public is asked not to staple notes, not to write on or stamp them, and to store them safely.",
+    "section": "clean-note-policy"
+  },
+  {
+    "id": "currency-system-39",
+    "q": "Which was an objective of the demonetisation of high-value notes?",
+    "options": [
+      "Stopping the funding of terrorism through counterfeit notes and fighting corruption",
+      "Raising the repo rate",
+      "Boosting exports",
+      "Doubling GST collections"
+    ],
+    "answer": 0,
+    "explain": "The two stated aims were to stop the funding of militancy and terrorism (counterfeit notes) and to fight corruption.",
+    "section": "demonetisation"
+  },
+  {
+    "id": "currency-system-40",
+    "q": "₹10,000 notes were demonetised in 1946 and again in which year?",
+    "options": ["1954", "1965", "1978", "1991"],
+    "answer": 2,
+    "explain": "The ₹10,000 note was printed in 1938 and 1954 and demonetised in 1946 and then in 1978.",
+    "section": "demonetisation"
+  },
+  {
+    "id": "currency-system-41",
+    "q": "In 1949 the Banking Companies Act was amended and renamed as which Act?",
+    "options": ["Banking Laws Act", "Banking Transfer Act", "Banking Regulation Act", "Reserve Bank of India Act"],
+    "answer": 2,
+    "explain": "The Banking Companies Act, 1949 was amended and renamed the Banking Regulation Act, 1949.",
+    "section": "history-gk"
+  },
+  {
+    "id": "currency-system-42",
+    "q": "When a member of the public drops mutilated notes in a Triple Lock Receptacle, what do they get at the time?",
+    "options": ["A paper token", "Cash immediately", "A bank draft", "A replacement note"],
+    "answer": 0,
+    "explain": "The notes are put in a TLR cover with particulars filled in and deposited against a paper token.",
+    "section": "soiled-mutilated"
+  },
+  {
+    "id": "currency-system-43",
+    "q": "One Indian rupee consists of how many paise?",
+    "options": ["10", "50", "25", "100"],
+    "answer": 3,
+    "explain": "One rupee equals 100 paise.",
+    "section": "coins-and-notes"
+  },
+  {
+    "id": "currency-system-44",
+    "q": "What feature of the rupee symbol ₹ is correct?",
+    "options": [
+      "A single horizontal line below the letter",
+      "A double horizontal line at the top, resembling the Devanagari 'Ra' and Latin 'R'",
+      "A circle around the letter R",
+      "A dot above the letter"
+    ],
+    "answer": 1,
+    "explain": "The symbol blends the Devanagari letter Ra and the Latin capital R, with a double horizontal line at the top.",
+    "section": "coins-and-notes"
+  }
+]

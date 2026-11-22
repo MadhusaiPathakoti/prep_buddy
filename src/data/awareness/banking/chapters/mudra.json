@@ -1,0 +1,275 @@
+{
+  "id": "mudra",
+  "sections": [
+    {
+      "id": "overview-formation",
+      "title": "What MUDRA is and how it was formed",
+      "icon": "🌱",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "**MUDRA** stands for **Micro Units Development and Refinance Agency**. Despite the word 'Bank' in its popular name, it is a **public sector financial institution** that does not lend directly to small shopkeepers. It provides low-cost refinance to **micro-finance institutions (MFIs)** and **non-banking financial companies (NBFCs)**, which then pass credit on to micro and small enterprises (MSMEs)."
+        },
+        {
+          "type": "timeline",
+          "title": "Formation of MUDRA (2015)",
+          "items": [
+            ["Feb 2015", "Setting up of the agency is announced in the **Union Budget for FY 2015-16**."],
+            ["Mar 2015", "MUDRA is registered as a company under the **Companies Act, 2013**."],
+            ["7 Apr 2015", "Registered with the **RBI** as a **Non-Banking Finance Institution**."],
+            ["8 Apr 2015", "MUDRA is **formally launched**; the Pradhan Mantri MUDRA Yojana (PMMY) begins alongside it."]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "Key terms",
+          "rows": [
+            ["MUDRA", "Micro Units Development and Refinance Agency, set up to develop the micro-enterprise sector."],
+            ["PMMY", "Pradhan Mantri MUDRA Yojana, the scheme under which collateral-free loans are given to non-agricultural micro and small businesses."],
+            ["Refinance", "Money MUDRA lends to banks, NBFCs and MFIs so that they can lend further to small units."],
+            ["Funding the unfunded", "The motto of MUDRA: reach small businesses that regular banks usually do not finance."]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "remember",
+          "title": "Two dates, one day apart",
+          "text": "**7 April 2015** = registered with RBI as an NBFI. **8 April 2015** = formal launch. Examiners like to use the wrong day as a distractor."
+        },
+        {
+          "type": "mnemonic",
+          "title": "Order of the 2015 milestones",
+          "phrase": "Budget Feb, Company Mar, RBI 7th, Launch 8th – 'B-C-R-L' (Big Companies Raise Loans).",
+          "letters": [
+            ["B", "Budget announcement in February 2015"],
+            ["C", "Company registered in March 2015 (Companies Act 2013)"],
+            ["R", "RBI registration as NBFI on 7 April 2015"],
+            ["L", "Launch on 8 April 2015"]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "objectives-roles",
+      "title": "Objectives, roles and functions",
+      "icon": "🎯",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "MUDRA's main objective is to **develop the micro-enterprise sector** by giving various supports, most importantly financial support in the form of **refinance**, so that the goal of 'funding the unfunded' is achieved. The Government of India later added more tasks to its list."
+        },
+        {
+          "type": "bullets",
+          "title": "Roles assigned to MUDRA",
+          "items": [
+            "Provide **refinance support** to lending institutions.",
+            "**Monitor PMMY data** by managing a web portal that captures lending in detail.",
+            "**Facilitate guarantees** for loans granted under PMMY.",
+            "Take up other activities that the Government assigns from time to time."
+          ]
+        },
+        {
+          "type": "bullets",
+          "title": "How it works on the ground",
+          "items": [
+            "It serves small entrepreneurs **outside the reach of regular banks**, using **last-mile agents**.",
+            "The target group is about **5.77 crore (57.6 million)** small businesses identified through the **NSSO survey**.",
+            "Only about **4%** of these businesses were getting finance from regular banks.",
+            "MUDRA aims to ensure that its clients **do not fall into indebtedness** and are lent to responsibly.",
+            "It is also meant to oversee and support the micro-finance institutions that lend to such units."
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "Not a retail bank",
+          "text": "MUDRA does **not** open accounts or give loans to the public directly. Borrowers apply to banks, NBFCs or MFIs; MUDRA refinances those lenders."
+        }
+      ]
+    },
+    {
+      "id": "capital-structure",
+      "title": "Capital, guarantee fund and parent",
+      "icon": "💰",
+      "blocks": [
+        {
+          "type": "table",
+          "title": "Financial structure (as per the 2024-25 syllabus)",
+          "headers": ["Item", "Amount", "Same in rupees"],
+          "rows": [
+            ["Initial capital", "₹200 billion", "₹20,000 crore"],
+            ["Credit Guarantee Fund (CGF)", "₹30 billion", "₹3,000 crore"]
+          ]
+        },
+        {
+          "type": "text",
+          "text": "At the start MUDRA functioned as a **non-banking financial company** and a **subsidiary of SIDBI** (Small Industries Development Bank of India). It was later made into a **separate company**. The Credit Guarantee Fund reduces the credit risk for banks and other lenders that finance micro units."
+        },
+        {
+          "type": "figure",
+          "kind": "flow",
+          "title": "How credit reaches a micro unit",
+          "items": [
+            ["MUDRA", "Gives refinance at low cost"],
+            ["Banks / NBFCs / MFIs", "Receive the refinance"],
+            ["Last-mile agents", "Reach units outside banking"],
+            ["Micro entrepreneur", "Gets a PMMY loan"]
+          ]
+        },
+        {
+          "type": "mnemonic",
+          "title": "Remember the two big numbers",
+          "phrase": "'20 and 3' – capital ₹20,000 crore, guarantee fund ₹3,000 crore. Convert billions by dividing by 10 to get thousands of crore.",
+          "letters": [
+            ["200 bn", "Initial capital = ₹20,000 crore"],
+            ["30 bn", "Credit Guarantee Fund = ₹3,000 crore"]
+          ],
+          "note": "₹10 billion = ₹1,000 crore, so 200 billion = 20,000 crore and 30 billion = 3,000 crore."
+        }
+      ]
+    },
+    {
+      "id": "loan-categories",
+      "title": "Shishu, Kishor and Tarun loans",
+      "icon": "📈",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "MUDRA classifies its clients into **three categories** that signal the **stage of growth and funding need** of the micro unit. The maximum loan allowed depends on the category."
+        },
+        {
+          "type": "table",
+          "title": "PMMY categories",
+          "headers": ["Category", "Maximum loan", "Share of the additional ₹1 trillion fund"],
+          "rows": [
+            ["Shishu", "Up to ₹50,000", "40%"],
+            ["Kishor", "Above ₹50,000 and up to ₹5 lakh", "35%"],
+            ["Tarun", "Above ₹5 lakh and up to ₹10 lakh", "25%"]
+          ]
+        },
+        {
+          "type": "figure",
+          "kind": "pyramid",
+          "title": "Loan size grows with the business",
+          "items": [
+            ["Tarun", "Up to ₹10 lakh – established unit"],
+            ["Kishor", "Up to ₹5 lakh – growing unit"],
+            ["Shishu", "Up to ₹50,000 – just starting"]
+          ]
+        },
+        {
+          "type": "mnemonic",
+          "title": "Baby, Teen, Adult",
+          "phrase": "Shishu = Baby (₹50K), Kishor = Teenager (₹5 lakh), Tarun = Young adult (₹10 lakh). Loan doubles roughly with each life stage.",
+          "letters": [
+            ["Shishu", "Infant stage: up to ₹50,000"],
+            ["Kishor", "Adolescent stage: up to ₹5 lakh"],
+            ["Tarun", "Youth stage: up to ₹10 lakh"]
+          ],
+          "note": "Allocation of the extra fund goes 40-35-25: the smaller the loan, the bigger the share."
+        },
+        {
+          "type": "bullets",
+          "title": "MUDRA refinances loans to units such as",
+          "items": [
+            "Small manufacturing units",
+            "Shopkeepers",
+            "Fruit and vegetable vendors",
+            "Artisans"
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "fact",
+          "title": "Spelling",
+          "text": "'Kishor' is also written 'Kishore' in many papers. Both refer to the middle category with the ₹5 lakh ceiling."
+        }
+      ]
+    },
+    {
+      "id": "lenders-monitoring-card",
+      "title": "Who lends, monitoring and the MUDRA Card",
+      "icon": "💳",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "PMMY was launched together with MUDRA, and the Government issued detailed guidelines to all **banks and microfinance institutions**. Loans under PMMY are given by scheduled commercial banks, NBFCs and MFIs. A **payments bank** cannot lend, so it is not among the PMMY lenders."
+        },
+        {
+          "type": "keyvalue",
+          "title": "Monitoring and the card",
+          "rows": [
+            ["PMMY monitoring portal", "MUDRA was made responsible for monitoring the programme by collecting information regularly. Its web portal captures lending data under PMMY in a granular way."],
+            ["MUDRA Card", "A **debit card** issued against the MUDRA loan account for the **working-capital portion** of the loan."],
+            ["Card limit", "Valid up to the due date of the **overdraft (OD) limit**."],
+            ["Card validity", "**5 years**."],
+            ["Use", "Allows multiple withdrawals and credits so the borrower can manage working capital efficiently."]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "tip",
+          "title": "Payments bank odd one out",
+          "text": "If a question asks which institution CANNOT give MUDRA loans, think: commercial banks, NBFCs and MFIs can lend; **payments banks** accept deposits only and cannot extend loans."
+        },
+        {
+          "type": "mnemonic",
+          "title": "Who may lend under PMMY",
+          "phrase": "'B-N-M' – Banks, NBFCs, MFIs lend; Payments banks can't (they only pay).",
+          "letters": [
+            ["B", "Scheduled commercial Banks"],
+            ["N", "Non-Banking Finance Companies"],
+            ["M", "Micro Finance Institutions"]
+          ]
+        }
+      ]
+    }
+  ],
+  "revision": [
+    "MUDRA = Micro Units Development and Refinance Agency; a public sector financial institution giving refinance, not retail loans.",
+    "Announced in the Union Budget FY 2015-16 (Feb 2015); registered as a company in March 2015 under the Companies Act 2013.",
+    "Registered with RBI as an NBFI on 7 April 2015 and formally launched on 8 April 2015.",
+    "Main goal: 'funding the unfunded' micro enterprises; set up under the Pradhan Mantri MUDRA Yojana (PMMY).",
+    "Initial capital ₹200 billion (₹20,000 crore); Credit Guarantee Fund ₹30 billion (₹3,000 crore).",
+    "Began as an NBFC and subsidiary of SIDBI, later made a separate company.",
+    "About 5.77 crore small businesses targeted (NSSO survey); only about 4% had access to regular bank finance.",
+    "Shishu: up to ₹50,000 (40% of extra fund); Kishor: up to ₹5 lakh (35%); Tarun: up to ₹10 lakh (25%).",
+    "PMMY loans are collateral-free for non-agricultural micro and small businesses.",
+    "Lenders: scheduled commercial banks, NBFCs and MFIs; payments banks cannot lend.",
+    "MUDRA monitors PMMY through a web portal and can facilitate guarantees for PMMY loans.",
+    "MUDRA Card: debit card on the loan account for the working-capital portion; valid 5 years; limit valid up to OD due date."
+  ],
+  "mindmap": {
+    "center": "MUDRA Bank",
+    "branches": [
+      {
+        "label": "Formation (2015)",
+        "children": ["Budget Feb 2015", "Company Mar 2015", "NBFI with RBI 7 Apr", "Launched 8 Apr 2015"]
+      },
+      {
+        "label": "Objective and roles",
+        "children": ["Funding the unfunded", "Refinance support", "Monitor PMMY portal", "Facilitate guarantees"]
+      },
+      {
+        "label": "Finance",
+        "children": ["Capital ₹20,000 crore", "CGF ₹3,000 crore", "SIDBI subsidiary at start", "Later separate company"]
+      },
+      {
+        "label": "PMMY categories",
+        "children": ["Shishu up to ₹50,000", "Kishor up to ₹5 lakh", "Tarun up to ₹10 lakh", "Split 40-35-25"]
+      },
+      {
+        "label": "Target clients",
+        "children": ["5.77 crore units", "Only 4% bank-financed", "Shopkeepers, vendors", "Artisans, small makers"]
+      },
+      {
+        "label": "Lenders",
+        "children": ["Commercial banks", "NBFCs", "MFIs", "Payments banks cannot"]
+      },
+      {
+        "label": "MUDRA Card",
+        "children": ["Debit card on loan a/c", "Working-capital portion", "Valid 5 years", "Limit up to OD due date"]
+      }
+    ]
+  }
+}

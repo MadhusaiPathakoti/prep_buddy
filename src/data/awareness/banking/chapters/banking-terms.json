@@ -1,0 +1,589 @@
+{
+  "id": "banking-terms",
+  "sections": [
+    {
+      "id": "accounts-deposits",
+      "title": "Accounts and Deposits",
+      "icon": "🏦",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "A **bank account** lets the holder deposit and safeguard money, earn interest and make payments by cheque. The terms below describe the main kinds of deposit and the paperwork around them."
+        },
+        {
+          "type": "keyvalue",
+          "title": "Deposit terms",
+          "rows": [
+            ["Bank account", "An arrangement that lets the account holder deposit and safeguard money, earn interest and pay by cheque."],
+            ["Demand deposit", "Money that can be withdrawn at any time without advance notice."],
+            ["Time deposit", "A deposit from which the investor cannot withdraw before a fixed period has elapsed. The lock-in period of a term deposit means premature withdrawal is not possible."],
+            ["Zero-balance account", "An account that has no minimum or average balance requirement, unlike most ordinary accounts."],
+            ["Minimum balance", "The amount that must stay in an account to qualify for special services or to avoid a service charge."],
+            ["Certificate of Deposit (CD)", "A negotiable instrument issued by a bank in return for funds deposited with it, usually carrying interest."],
+            ["Annuity", "From a banking view, a contract that guarantees income or returns in exchange for a large sum paid either as a lump sum or through periodic payments."],
+            ["Insured deposits", "Deposits protected against loss from a bank failure by a deposit insurance body (in the US it is the FDIC; in India the equivalent is the DICGC)."],
+            ["Deposit slip", "An itemised note of the cash and other funds a customer hands over to the bank for credit to his or her account."],
+            ["Direct deposit", "A payment deposited electronically into a person's account at a depository institution."],
+            ["Signature card", "A card signed by each depositor, used as a means of identification. It represents a contract between the bank and the depositor."],
+            ["Safekeeping", "A bank service in which securities and valuables are kept protected in the bank's vaults for customers."]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "remember",
+          "title": "Lock-in means no premature withdrawal",
+          "text": "In a term (time) deposit, the **lock-in period** is the span during which you cannot withdraw early. It does not mean that lockers are unavailable or that you cannot open another account."
+        },
+        {
+          "type": "mnemonic",
+          "title": "Demand vs Time deposits",
+          "phrase": "Demand = 'Dip in any time'; Time = 'Tied until the time is up'.",
+          "letters": [
+            ["Demand", "Withdraw whenever you ask, no notice"],
+            ["Time", "Locked until the fixed term ends"],
+            ["Zero-balance", "No minimum balance needed"]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "funds-availability",
+      "title": "Balances and Availability of Funds",
+      "icon": "💰",
+      "blocks": [
+        {
+          "type": "keyvalue",
+          "title": "Balance and clearing terms",
+          "rows": [
+            ["Availability date", "The bank's policy on when funds deposited into an account can be withdrawn."],
+            ["Available balance", "The account balance after subtracting holds, uncollected funds and any restrictions on the account."],
+            ["Collected funds", "Cash deposits, or cheques that were presented for payment and for which payment has been received."],
+            ["Hold", "A restriction that stops a certain part of a customer's balance from being withdrawn until an item has been collected or a specific cheque or debit has been posted."],
+            ["Cut-off time", "The time of day fixed by a bank for receiving deposits. A deposit made after this time is treated as received on the next banking day."],
+            ["Available credit", "The credit limit given to a cardholder account minus the account's present balance."],
+            ["Minimum balance", "Money that has to remain in the account to qualify for special services or to waive a service charge."]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "Balance is not always available balance",
+          "text": "The **ledger balance** may look high, but the **available balance** is lower once holds and uncollected funds (cheques not yet cleared) are removed. Only collected funds are really yours to withdraw."
+        }
+      ]
+    },
+    {
+      "id": "cheques-clearing",
+      "title": "Cheques and Clearing",
+      "icon": "🧾",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "A **cheque** is a negotiable instrument: a written order to the bank to pay a certain sum from the issuer's account to the receiver. A negotiable instrument is a document containing a promise to pay a stated amount to the intended beneficiary."
+        },
+        {
+          "type": "keyvalue",
+          "title": "Cheque terms",
+          "rows": [
+            ["Clearing", "The clearing house processes the cheque; the amount is debited from the issuer's account and credited to the beneficiary's account."],
+            ["Bounced cheque", "A normal cheque that the bank refuses to pay, because of insufficient funds, signature mismatch or another valid reason."],
+            ["Insufficient funds", "The state when a depositor's account balance is too small to pay a cheque presented for payment."],
+            ["Outstanding cheque", "A cheque written by a depositor that has not yet been presented to, or paid by, the depositor's bank."],
+            ["Forged cheque", "A cheque on which the drawer's signature has been forged."],
+            ["Forgery", "Fraudulent signing or alteration of someone else's name on an instrument such as a deed, mortgage or cheque, meant to deceive or defraud."],
+            ["Stale-dated cheque", "A cheque presented to the paying bank 180 days (6 months) or more after its issue date; the bank may return it unpaid. The maker can discourage late presentment by writing 'not good after X days' on the back."],
+            ["Stop payment", "An order not to pay a cheque that has been issued but not yet cashed. If given in time, the cheque is not debited. Most banks charge a fee for this."],
+            ["Official cheque", "A cheque drawn on a bank and signed by an authorised bank official, also called a cashier's cheque."],
+            ["Electronic cheque conversion", "A process in which the cheque number, account number and bank identifier are captured and used for a one-time electronic fund transfer. The cheque itself is not the method of payment."],
+            ["Encoding", "Imprinting MICR characters on cheques, deposits and similar items. An error in the encoded amount is an encoding error."]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "Stale-dated cheque period",
+          "text": "The printed material gives 180 days (6 months) for a stale-dated cheque. In India, the validity period of a cheque is now 3 months from its date, so read the question for the figure it expects."
+        },
+        {
+          "type": "mnemonic",
+          "title": "Cheque in trouble: four words",
+          "phrase": "Bounced = refused; Forged = fake signature; Outstanding = not yet presented; Stale = too old.",
+          "letters": [
+            ["Bounced", "Bank refuses to pay (no funds, signature mismatch)"],
+            ["Forged", "Drawer's signature faked"],
+            ["Outstanding", "Written but not yet presented or paid"],
+            ["Stale", "Presented 180 days or more after issue (as per the book)"]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "loans-credit",
+      "title": "Loans, Credit and Credit Reporting",
+      "icon": "💳",
+      "blocks": [
+        {
+          "type": "keyvalue",
+          "title": "Loan and credit terms",
+          "rows": [
+            ["Collateral", "Assets offered to secure a loan. If the loan is not repaid, the collateral can be seized. For a real estate mortgage, the collateral is usually the house."],
+            ["Co-signer (co-maker)", "A person who signs another person's note to support that person's credit and becomes responsible for the obligation."],
+            ["Guarantor", "A person who takes responsibility for the repayment of a loan. Usually the guarantor is not liable for repayment, but in some cases the responsibility does lie with the guarantor."],
+            ["Credit application", "A form completed by an applicant giving details such as residence, employment, income and existing debt so that creditworthiness can be judged. An application fee may be charged."],
+            ["Credit bureau (credit reporting agency)", "An agency that collects individuals' credit information and sells it to creditors such as banks, mortgage lenders and credit card companies so they can decide on granting loans."],
+            ["Credit report", "A detailed report of a person's credit history prepared by a credit bureau and used by lenders to judge a loan applicant."],
+            ["Credit score", "A number, roughly between 300 and 800 as per the book, that measures a person's creditworthiness. Banks use it to decide whether you qualify for a card, loan or service."],
+            ["Line of credit", "A pre-approved loan authorisation with a borrowing limit set by creditworthiness. The borrower can take several loans without reapplying as long as the total stays within the limit."],
+            ["Revolving credit", "A credit agreement, typically a credit card, allowing borrowing against a pre-approved limit. Only the amount actually borrowed plus interest is billed. Also called open-end credit or charge account."],
+            ["Fixed rate loan", "A loan where the interest rate and payment stay the same throughout; equal monthly payments of principal and interest continue until the debt is paid."],
+            ["Loan fee", "A fee a lender charges for making the loan, in addition to interest."],
+            ["Loan-to-Value ratio (LTV)", "The ratio of the loan principal (amount borrowed) to the appraised value (selling price) of the asset."],
+            ["Delinquency", "A debt that was not paid when due."],
+            ["Late charge", "A fee for delinquent payment on an instalment loan, usually stated as a percentage of the balance or of the payment."],
+            ["Deferred payment", "A payment postponed to a future date."],
+            ["Payoff", "Complete repayment of a loan, including principal, interest and other dues, either over the full term or through prepayments."],
+            ["Prepayment penalty", "A penalty on a borrower for repaying the loan before its due date."]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "tip",
+          "title": "Guarantor vs co-signer",
+          "text": "A co-signer signs the note and becomes responsible for the obligation from the start. A guarantor usually is not liable unless the terms say so, though in some cases the repayment responsibility lies with the guarantor."
+        },
+        {
+          "type": "mnemonic",
+          "title": "Credit score range",
+          "phrase": "Three-hundred to eight-hundred: from 'barely' to 'brilliant'.",
+          "letters": [
+            ["300", "Low end of the score range"],
+            ["800", "High end of the score range"]
+          ],
+          "note": "As per the book the range is roughly 300 to 800; the CIBIL scale used in India runs from 300 to 900."
+        }
+      ]
+    },
+    {
+      "id": "mortgages-overdraft",
+      "title": "Mortgages, Overdraft and Set-off",
+      "icon": "🏠",
+      "blocks": [
+        {
+          "type": "keyvalue",
+          "title": "Mortgage family",
+          "rows": [
+            ["Mortgage", "A real estate related legal agreement between lender and borrower where the borrower's property serves as collateral. If installments stop, the lender has the right to take possession."],
+            ["Mortgage loan", "A loan made by a lender to a borrower to finance real property."],
+            ["Mortgagee", "The lender in a mortgage."],
+            ["Mortgagor", "The borrower in a mortgage; the property is used as collateral."],
+            ["Conventional fixed rate mortgage", "A mortgage with a set interest rate and payments that do not change over the term of the loan."],
+            ["Fixed rate mortgage", "A mortgage whose payments stay the same throughout because the interest rate and other terms are fixed."],
+            ["Home equity loan", "A loan against the built-up equity in a home, i.e. the difference between its selling value and what is still owed. Often called a second mortgage; on default the bank may foreclose."],
+            ["Foreclosure", "A legal process in which property that secures a loan in default can be sold to repay the loan."]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "Overdraft and related terms",
+          "rows": [
+            ["Overdraft", "The excess when more money is withdrawn than is available in the account; the account is then said to be overdrawn. Some banks allow certain customers to overdraw up to a set limit."],
+            ["Overdraw", "To write a cheque for more than the amount lying in the account."],
+            ["Over limit", "An open-end credit account whose assigned limit has been exceeded."],
+            ["Right of offset (setoff)", "A bank's legal right to seize funds that a guarantor or debtor has on deposit in order to cover a loan in default."]
+          ]
+        },
+        {
+          "type": "mnemonic",
+          "title": "Mortgagor vs Mortgagee",
+          "phrase": "The mortgagOR is the One who Owes (borrower); the mortgagEE is the Eager lender who gets the security.",
+          "letters": [
+            ["Mortgagor", "Borrower: pledges the property"],
+            ["Mortgagee", "Lender: holds the claim on the property"]
+          ],
+          "note": "Same pattern as employer and employee: the -or acts, the -ee receives."
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "Overdraft vs overdraw",
+          "text": "**Overdraw** is the act of writing a cheque for more than your balance. **Overdraft** is the resulting excess amount (the account is overdrawn). **Over limit** applies to a credit account that has crossed its limit."
+        }
+      ]
+    },
+    {
+      "id": "interest-and-rates",
+      "title": "Interest and Rates",
+      "icon": "📈",
+      "blocks": [
+        {
+          "type": "keyvalue",
+          "title": "Interest terms",
+          "rows": [
+            ["Interest", "The cost of using money, a right, share or title in property."],
+            ["Interest rate", "The amount paid by a borrower to a lender for using the lender's money for a period. It is paid on loans or debt instruments either at regular intervals or as a lump sum at maturity."],
+            ["Accrued interest", "Interest earned or accumulated on an investment but not yet paid; also called interest receivable."],
+            ["Periodic rate", "An interest rate tied to a specific time period, such as a monthly or daily periodic rate (cost of credit per month or per day)."],
+            ["Variable rate", "Any interest rate or dividend that changes periodically."],
+            ["Fixed rate", "A rate that stays unchanged for the life of the loan."]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "Rates linked to the RBI and banks",
+          "rows": [
+            ["Bank rate", "The rate at which the RBI lends funds to commercial banks, usually a long-term loan governed by the RBI's long-term monetary policy."],
+            ["Repo rate (repurchase rate)", "The rate at which a bank borrows money from the RBI by pledging or selling government securities to it."],
+            ["Reverse repo rate", "The rate the RBI offers when banks with surplus funds deposit them with it for short periods."],
+            ["Base Rate", "The minimum interest rate of a bank below which it cannot lend, except in cases allowed by the RBI (DRI advances, loans to the bank's own employees, and loans to depositors against their own deposits)."],
+            ["BPLR", "Benchmark Prime Lending Rate. It applied normally only to loans sanctioned before the Base Rate was introduced (July 2010)."]
+          ]
+        },
+        {
+          "type": "mnemonic",
+          "title": "Repo vs Reverse Repo",
+          "phrase": "REPO: banks REceive money from the RBI (RBI lends). REVERSE repo: the RBI is on the receiving end (banks park surplus).",
+          "letters": [
+            ["Repo", "Bank borrows from the RBI against government securities"],
+            ["Reverse repo", "Bank deposits surplus funds with the RBI"],
+            ["Bank rate", "RBI's long-term lending rate to banks"],
+            ["Base Rate", "Bank's floor below which it cannot lend (with exceptions)"]
+          ],
+          "note": "Banks borrow from the RBI at repo; they lend to the RBI at reverse repo."
+        },
+        {
+          "type": "callout",
+          "kind": "remember",
+          "title": "Base Rate exceptions",
+          "text": "A bank cannot lend below its Base Rate except for DRI advances, loans to its own employees and loans to its depositors against their own deposits. BPLR was the earlier benchmark, replaced by the Base Rate in July 2010."
+        }
+      ]
+    },
+    {
+      "id": "cards-billing",
+      "title": "Cards, PIN and Billing Terms",
+      "icon": "🪪",
+      "blocks": [
+        {
+          "type": "keyvalue",
+          "title": "Card and billing terms",
+          "rows": [
+            ["Debit", "An account entry showing money you owe a lender, or money taken out of your deposit account."],
+            ["Debit card", "A card that gives electronic access to the account holder's funds. It can be used at ATMs for cash or at point-of-sale terminals; the account is debited and the payee credited immediately."],
+            ["PIN (Personal Identification Number)", "Generally a four-character secret number or word given to credit or debit cardholders to access their accounts. It is assigned randomly by the bank or chosen by the customer to prevent unauthorised use."],
+            ["Point of Sale (POS)", "The location where a transaction takes place, including the systems that let customers move funds from their deposit accounts at retail establishments."],
+            ["Billing cycle", "The time interval between the dates on which regular periodic statements are issued."],
+            ["Billing date", "The date on which a periodic or monthly statement is generated, after calculating finance charges, minimum payment due and the new balance."],
+            ["Periodic statement", "The billing summary produced at specified intervals, usually monthly."],
+            ["Payment due date", "The date by which an instalment or loan payment is due; payments after it are late and may attract fees and penalties."],
+            ["Service charge", "A charge made by a bank for processing transactions and maintaining accounts."],
+            ["Foreign transaction fee", "A fee charged by your bank for making a transaction at another bank's ATM."]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "fact",
+          "title": "Billing date vs due date",
+          "text": "The **billing date** is when the statement is generated; the **payment due date** is later and is the last day to pay without a late fee. The gap between two billing dates is the **billing cycle**."
+        }
+      ]
+    },
+    {
+      "id": "electronic-banking",
+      "title": "Electronic Banking and Payments",
+      "icon": "💻",
+      "blocks": [
+        {
+          "type": "keyvalue",
+          "title": "Electronic banking terms",
+          "rows": [
+            ["ATM (Automated Teller Machine)", "A machine that carries out transactions and bank services electronically using an ATM or debit card."],
+            ["Online / internet banking (e-banking)", "A service that lets an account holder get account information and carry out certain transactions through a computer using the bank's website on the Internet."],
+            ["Electronic Funds Transfer (EFT)", "Transfer of money between accounts through electronic systems such as ATMs and electronic bill payment, rather than by cheque or cash. Wire transfers, cheques and drafts are not in this category."],
+            ["Preauthorised EFT", "An EFT authorised in advance to recur at substantially regular intervals."],
+            ["Preauthorised payment", "A written arrangement authorising the bank to debit the customer's account to pay bills or loan instalments."],
+            ["Automated Clearing House (ACH)", "A computerised, nation-wide electronic clearing facility used to combine, sort and distribute inter-bank credits and debits. It processes direct deposits of salaries and government benefits and preauthorised transfers, and cuts manual work."],
+            ["Letter of Credit (LoC)", "A bank's commitment, issued on behalf of a buyer or importer, to pay a seller or exporter a stated amount. The seller must meet the LoC's conditions and submit the required documents. Used mostly in large international trade deals."]
+          ]
+        },
+        {
+          "type": "steps",
+          "title": "How a Letter of Credit works",
+          "items": [
+            "The buyer or importer asks its bank to issue a Letter of Credit.",
+            "The bank promises to pay the seller or exporter a stated amount.",
+            "The seller ships the goods and meets the conditions written in the LoC.",
+            "The seller submits the required documents.",
+            "On compliance, the payment is made."
+          ]
+        },
+        {
+          "type": "mnemonic",
+          "title": "E-banking synonyms",
+          "phrase": "Internet banking = online banking = e-banking: one idea, three names.",
+          "letters": [
+            ["Internet", "Account access via the internet"],
+            ["Online", "Same service"],
+            ["E-banking", "Electronic banking: same service"]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "bank-codes",
+      "title": "IFSC, MICR and SWIFT Codes",
+      "icon": "🔢",
+      "blocks": [
+        {
+          "type": "table",
+          "title": "Three identity codes of banking",
+          "headers": ["Code", "Full form", "Length", "Purpose"],
+          "rows": [
+            ["IFSC", "Indian Financial System Code", "11 characters", "Identifies the individual bank branches that take part in online transfers such as NEFT and RTGS; printed on cheque leaves."],
+            ["MICR", "Magnetic Ink Character Recognition", "9 digits", "A numeric code that uniquely identifies a bank branch in the ECS credit scheme; printed on MICR cheques."],
+            ["SWIFT", "Society for Worldwide Interbank Financial Telecommunication", "8 or 11 characters", "A standard bank identifier code used mainly for international money transfers between banks."]
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Structure of a SWIFT code",
+          "headers": ["Part", "Length", "Meaning"],
+          "rows": [
+            ["Bank code", "4", "Identifies the bank"],
+            ["Country code", "2", "Identifies the country"],
+            ["Location code", "2", "Identifies the location"],
+            ["Branch code", "3 (optional)", "Identifies the branch; an 8-character code refers to the primary office"]
+          ]
+        },
+        {
+          "type": "mnemonic",
+          "title": "SWIFT: 4-2-2-3",
+          "phrase": "Big Cats Live Beyond: Bank, Country, Location, Branch.",
+          "letters": [
+            ["B (4)", "Bank code, 4 characters"],
+            ["C (2)", "Country code, 2 characters"],
+            ["L (2)", "Location code, 2 characters"],
+            ["B (3)", "Branch code, 3 characters, optional"]
+          ],
+          "note": "4 + 2 + 2 = 8 (primary office); adding the optional 3 gives 11."
+        },
+        {
+          "type": "mnemonic",
+          "title": "Code lengths: IFSC 11, MICR 9",
+          "phrase": "IFSC has 11 characters, MICR has 9 digits: 'I-F-S-C' travels online (11), 'M-I-C-R' lives on the cheque (9).",
+          "letters": [
+            ["IFSC", "11 characters; NEFT and RTGS"],
+            ["MICR", "9 digits; printed on cheques"],
+            ["SWIFT", "8 or 11 characters; international"]
+          ],
+          "note": "IFSC and the long SWIFT code are both 11 characters long: do not mix them up with the 9-digit MICR."
+        },
+        {
+          "type": "callout",
+          "kind": "fact",
+          "title": "India and SWIFT",
+          "text": "India was the 74th nation to join the SWIFT network. IFSC works for domestic transfers (NEFT/RTGS); SWIFT is for cross-border transfers."
+        }
+      ]
+    },
+    {
+      "id": "banking-services",
+      "title": "Banking Services and Business Models",
+      "icon": "🏢",
+      "blocks": [
+        {
+          "type": "keyvalue",
+          "title": "Service terms",
+          "rows": [
+            ["Merchant banking", "Financial services a bank offers customers: accepting bills arising from trade, arranging and providing underwriting, managing new issues, advising on starting a business, acquisitions, mergers and foreign exchange."],
+            ["Wholesale banking", "Banking services offered to corporate entities, large institutions and other financial institutions."],
+            ["Asset management company", "A company that invests its clients' pooled funds into securities matching a declared financial objective, earning income through service fees. It gives investors more diversification and options. Mutual funds, hedge funds and pension plans are run by such companies."],
+            ["Power of attorney", "A written instrument authorising one person to act as another's agent or attorney, for a specific act or in general. If no expiry is stated, it usually ends when the person granting it dies."]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "remember",
+          "title": "Wholesale vs retail",
+          "text": "**Wholesale banking** deals with corporates, large institutions and other financial institutions. **Merchant banking** covers underwriting, issue management, mergers and advisory work."
+        }
+      ]
+    },
+    {
+      "id": "regulation-compliance",
+      "title": "Regulation, KYC and Financial Crime",
+      "icon": "🛡️",
+      "blocks": [
+        {
+          "type": "keyvalue",
+          "title": "Compliance terms",
+          "rows": [
+            ["Money laundering", "Creating the appearance that large sums obtained from serious crimes, such as drug trafficking or terrorist activity, came from a legitimate source."],
+            ["GAAR", "General Anti-Avoidance Rules: a set of general rules enacted to check tax avoidance, which is a concern worldwide."],
+            ["PFRDA", "Pension Fund Regulatory and Development Authority: India's pension regulator, headquartered in New Delhi, established by the Government of India on 23 August 2003. It promotes old-age income security by regulating pension funds, regulates the National Pension System (NPS) and administers the Atal Pension Yojana (APY)."],
+            ["Digital Public Infrastructure (DPI)", "Blocks or platforms such as digital identification, payment infrastructure and data exchange solutions that help countries deliver essential services and promote digital inclusion."],
+            ["NFT (non-fungible token)", "A unique cryptographic token that exists on a blockchain. It can digitally represent physical assets such as artwork or real estate."]
+          ]
+        },
+        {
+          "type": "timeline",
+          "title": "KYC in India",
+          "items": [
+            ["2002", "RBI introduced Know Your Customer (KYC) guidelines for all banks."],
+            ["2004", "RBI directed that banks be fully compliant with KYC provisions."],
+            ["31 Dec 2005", "Deadline for banks to comply fully."]
+          ]
+        },
+        {
+          "type": "bullets",
+          "title": "Four key elements of a bank's KYC policy",
+          "items": [
+            "Customer Acceptance Policy.",
+            "Customer Identification Procedures.",
+            "Monitoring of Transactions.",
+            "Risk Management.",
+            "Main aim: prevent money laundering, terrorist financing and theft.",
+            "KYC checks include ID, face, document (for example a utility bill as address proof) and biometric verification."
+          ]
+        },
+        {
+          "type": "mnemonic",
+          "title": "KYC's four elements: AIM-R",
+          "phrase": "KYC lets banks AIM Right: Acceptance, Identification, Monitoring, Risk.",
+          "letters": [
+            ["A", "Customer Acceptance Policy"],
+            ["I", "Customer Identification Procedures"],
+            ["M", "Monitoring of Transactions"],
+            ["R", "Risk Management"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "remember",
+          "title": "Years to remember",
+          "text": "KYC guidelines: **2002**. Compliance deadline: **31 December 2005**. PFRDA: **23 August 2003**, headquartered in New Delhi."
+        }
+      ]
+    },
+    {
+      "id": "inflation-terms",
+      "title": "Inflation and Related Economic Terms",
+      "icon": "🔥",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "**Inflation** is a rise in the prices of goods and services in an economy over a period of time. It lowers the real value of money, so the same rupee buys less."
+        },
+        {
+          "type": "bullets",
+          "title": "Types of inflation (as listed)",
+          "items": [
+            "Wage inflation",
+            "Price power inflation",
+            "Cost-push inflation",
+            "Sectoral inflation",
+            "Stagflation",
+            "Mild inflation",
+            "Hyper-inflation"
+          ]
+        },
+        {
+          "type": "bullets",
+          "title": "Effects of inflation",
+          "items": [
+            "Decreases the real value of money.",
+            "Discourages investment and savings.",
+            "Leads to a shortage of goods.",
+            "Seen as a way to ease economic recessions (a mild-inflation view).",
+            "Reduces the real level of debt (a borrower's gain)."
+          ]
+        },
+        {
+          "type": "mnemonic",
+          "title": "Seven types of inflation",
+          "phrase": "Wise Pandas Count Silver Stars, Munching Honey.",
+          "letters": [
+            ["W", "Wage inflation"],
+            ["P", "Price power inflation"],
+            ["C", "Cost-push inflation"],
+            ["S", "Sectoral inflation"],
+            ["S", "Stagflation"],
+            ["M", "Mild inflation"],
+            ["H", "Hyper-inflation"]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "Other terms that appear in this chapter",
+          "rows": [
+            ["Zero-based budgeting (ZBB)", "A budgeting method where each year's budget starts from scratch rather than from last year's figures."],
+            ["Authorised capital", "The maximum capital a company can raise during its lifetime; also called registered or nominal capital."],
+            ["Bullion market", "The market for buying and selling precious metals such as gold and silver."],
+            ["Liquidity", "How easily and quickly an asset can be converted into other assets."],
+            ["Liquidity risk", "A measure of a firm's ability to meet all its future obligations."],
+            ["Fiscal reform measure", "Bringing the fiscal deficit down to a particular level by an Act of law is a measure of fiscal reform."]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "Authorised vs paid-up capital",
+          "text": "**Authorised (registered/nominal) capital** is the ceiling a company may raise in its life. **Paid-up capital** is only what shareholders have actually paid. Do not treat them as the same."
+        }
+      ]
+    }
+  ],
+  "revision": [
+    "Time deposit: no withdrawal before the fixed period ends; demand deposit can be withdrawn anytime.",
+    "Zero-balance account needs no minimum or average balance.",
+    "Available balance = balance minus holds, uncollected funds and restrictions.",
+    "A bounced cheque is refused for insufficient funds, signature mismatch or other valid reasons.",
+    "Stale-dated cheque as per the book: presented 180 days (6 months) or more after issue; in India validity is 3 months.",
+    "Mortgagor is the borrower; mortgagee is the lender.",
+    "Overdraft is the excess of withdrawal over the balance; right of offset lets a bank seize deposits to cover a defaulted loan.",
+    "Repo: bank borrows from the RBI against securities; reverse repo: RBI takes banks' surplus; bank rate: RBI's long-term loan rate.",
+    "Base Rate is the floor for bank lending (with RBI-allowed exceptions); BPLR applied to loans before July 2010.",
+    "IFSC has 11 characters (NEFT/RTGS); MICR has 9 digits; SWIFT has 8 or 11 characters.",
+    "SWIFT structure: 4 bank + 2 country + 2 location + optional 3 branch; India was the 74th nation to join.",
+    "KYC began in 2002; compliance deadline 31 December 2005; four elements are acceptance, identification, monitoring and risk management.",
+    "PFRDA was established on 23 August 2003, is based in New Delhi, regulates NPS and administers APY.",
+    "GAAR is General Anti-Avoidance Rules, meant to check tax avoidance.",
+    "Seven types of inflation include wage, price power, cost-push, sectoral, stagflation, mild and hyper."
+  ],
+  "mindmap": {
+    "center": "Miscellaneous Banking Terms",
+    "branches": [
+      {
+        "label": "Accounts and deposits",
+        "children": ["Demand deposit", "Time deposit", "Zero-balance account", "Certificate of Deposit", "Safekeeping"]
+      },
+      {
+        "label": "Cheques",
+        "children": ["Bounced cheque", "Stale-dated cheque", "Stop payment", "Official cheque", "Forgery"]
+      },
+      {
+        "label": "Loans and credit",
+        "children": ["Collateral", "Co-signer and guarantor", "Credit score", "Line of credit", "LTV ratio"]
+      },
+      {
+        "label": "Mortgage and overdraft",
+        "children": ["Mortgagor and mortgagee", "Foreclosure", "Overdraft", "Right of offset"]
+      },
+      {
+        "label": "Interest and rates",
+        "children": ["Bank rate", "Repo and reverse repo", "Base Rate", "BPLR", "Accrued interest"]
+      },
+      {
+        "label": "E-banking and codes",
+        "children": ["ATM, POS, PIN", "EFT and ACH", "IFSC 11", "MICR 9", "SWIFT 8 or 11"]
+      },
+      {
+        "label": "Regulation and crime",
+        "children": ["KYC 2002", "Money laundering", "GAAR", "PFRDA 2003"]
+      },
+      {
+        "label": "Inflation",
+        "children": ["Seven types", "Stagflation", "Effects on savings", "Real value of money"]
+      }
+    ]
+  }
+}

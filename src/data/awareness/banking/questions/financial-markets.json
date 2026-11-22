@@ -1,0 +1,479 @@
+[
+  {
+    "id": "financial-markets-01",
+    "q": "What is the minimum period for which a fixed deposit can be opened in India?",
+    "options": ["3 days", "7 days", "15 days", "30 days"],
+    "answer": 1,
+    "explain": "Banks accept fixed deposits for a minimum period of 7 days.",
+    "section": "banking-pension-insurance",
+    "exam": "IBPS Clerk 2013"
+  },
+  {
+    "id": "financial-markets-02",
+    "q": "Which of the following is NOT a part of the money market?",
+    "options": ["Treasury Bill", "Commercial Papers", "Certificate of Deposits", "Mutual Funds"],
+    "answer": 3,
+    "explain": "T-bills, commercial papers and certificates of deposit are money market securities. A general mutual fund is not a money market instrument.",
+    "section": "money-market",
+    "exam": "SBI PO Main 2015"
+  },
+  {
+    "id": "financial-markets-03",
+    "q": "Which term describes the difference in value between a country's imports and exports?",
+    "options": ["Balance of Payment", "Balance of power", "Balance of Trade", "Credit Balance"],
+    "answer": 2,
+    "explain": "Balance of trade is the difference between the value of exports and imports. Balance of payments is a wider record of all transactions.",
+    "section": "derivatives-trade-terms",
+    "exam": "IBPS PO Main 2016"
+  },
+  {
+    "id": "financial-markets-04",
+    "q": "If the rupee depreciates, how are exporters affected?",
+    "options": ["They are unaffected", "They are in loss", "They get a credit crunch", "They are in profit"],
+    "answer": 3,
+    "explain": "A weaker rupee converts each dollar of export earnings into more rupees, so exporters gain.",
+    "section": "derivatives-trade-terms",
+    "exam": "IBPS PO Main 2016"
+  },
+  {
+    "id": "financial-markets-05",
+    "q": "Which derivative contract gives the holder the right, but not the obligation, to buy or sell the underlying asset at a predetermined price within or at the end of a specified period?",
+    "options": ["Option contract", "Future contract", "Swap contract", "Forward contract"],
+    "answer": 0,
+    "explain": "An option is a right, not an obligation. Futures and forwards oblige both parties to complete the deal.",
+    "section": "derivatives-trade-terms",
+    "exam": "IBPS RRB Main 2017"
+  },
+  {
+    "id": "financial-markets-06",
+    "q": "The market for buying and selling precious metals such as gold and silver is termed:",
+    "options": ["Capital Market", "Money Market", "Wholesale cash market", "Bullion Market"],
+    "answer": 3,
+    "explain": "Trading in gold and silver takes place in the bullion market.",
+    "section": "commodity-market",
+    "exam": "IBPS PO Main 2016"
+  },
+  {
+    "id": "financial-markets-07",
+    "q": "Which of the following types of issues are made in the primary market?",
+    "options": ["Public, rights and bonus issues", "Bonus, benefit and bounty", "Public, bonus and fund", "Benefit, bounty and dividend"],
+    "answer": 0,
+    "explain": "Primary market activities include public issues (IPO, FPO), private placement, preferential issue, QIP, rights issue and bonus issue.",
+    "section": "capital-market",
+    "exam": "IBPS PO Main 2023"
+  },
+  {
+    "id": "financial-markets-08",
+    "q": "Which of the following statements is NOT correct?",
+    "options": [
+      "NASDAQ is an American stock exchange",
+      "Nikkei is the stock market index of the Tokyo Stock Exchange",
+      "S&P CNX Nifty is the index of 50 large companies on the Bombay Stock Exchange",
+      "Hang Seng records daily changes of the largest companies of the Hong Kong stock market"
+    ],
+    "answer": 2,
+    "explain": "Nifty is the 50-company index of the National Stock Exchange, not the Bombay Stock Exchange.",
+    "section": "stock-exchanges-indices"
+  },
+  {
+    "id": "financial-markets-09",
+    "q": "What is the gilt-edged market?",
+    "options": [
+      "The gold and silver market",
+      "The industrial securities market",
+      "The market for software technology services",
+      "The market for safe securities such as government securities"
+    ],
+    "answer": 3,
+    "explain": "Gilt-edged means very safe. Government securities carry practically no default risk, so their market is the gilt-edged market.",
+    "section": "government-securities"
+  },
+  {
+    "id": "financial-markets-10",
+    "q": "A rise in the Sensex means:",
+    "options": [
+      "A rise in prices of shares of all companies registered with the BSE",
+      "An overall rise in prices of shares of all companies on the NSE",
+      "An overall rise in prices of shares of a group of companies registered with the BSE",
+      "A rise in the price of one company's shares"
+    ],
+    "answer": 2,
+    "explain": "The Sensex tracks a basket of 30 large companies listed on the BSE; it does not cover every listed company.",
+    "section": "stock-exchanges-indices"
+  },
+  {
+    "id": "financial-markets-11",
+    "q": "In which year was the Bombay Stock Exchange (BSE) established?",
+    "options": ["1860", "1875", "1912", "1950"],
+    "answer": 1,
+    "explain": "BSE was established in 1875, making it Asia's oldest stock exchange.",
+    "section": "stock-exchanges-indices"
+  },
+  {
+    "id": "financial-markets-12",
+    "q": "Consider these statements. Statement 1: Nifty is based on 50 companies. Statement 2: Nifty is governed and regulated by the Reserve Bank of India. Which is correct?",
+    "options": [
+      "Only statement 1",
+      "Only statement 2",
+      "Both statements",
+      "Neither statement"
+    ],
+    "answer": 0,
+    "explain": "Nifty tracks 50 companies of the NSE. Stock exchanges are regulated by SEBI, not RBI.",
+    "section": "stock-exchanges-indices"
+  },
+  {
+    "id": "financial-markets-13",
+    "q": "Consider these statements about India INX. Statement 1: It is India's first international exchange. Statement 2: It is a wholly owned subsidiary of the Bombay Stock Exchange. Which is correct?",
+    "options": ["Only statement 1", "Only statement 2", "Neither statement", "Both statements"],
+    "answer": 3,
+    "explain": "India INX, located in the IFSC at GIFT City, is India's first international exchange and a subsidiary of BSE.",
+    "section": "stock-exchanges-indices"
+  },
+  {
+    "id": "financial-markets-14",
+    "q": "Which statement best distinguishes the primary and secondary markets?",
+    "options": [
+      "Primary markets help capital formation, while secondary markets provide liquidity to investors",
+      "IPOs are undertaken in the secondary market only",
+      "Stock exchanges are examples of the primary market",
+      "Secondary markets issue securities for the first time"
+    ],
+    "answer": 0,
+    "explain": "Companies raise money in the primary market (IPOs); the secondary market, the stock exchange, lets investors sell and exit.",
+    "section": "capital-market"
+  },
+  {
+    "id": "financial-markets-15",
+    "q": "In which year did the World Bank issue its first green bond?",
+    "options": ["2000", "2008", "2012", "2018"],
+    "answer": 1,
+    "explain": "The World Bank issued its first green bond in 2008 to fund climate-friendly projects.",
+    "section": "stock-exchanges-indices"
+  },
+  {
+    "id": "financial-markets-16",
+    "q": "Which of the following correctly describes the objectives of the Financial Stability and Development Council (FSDC)?",
+    "options": [
+      "Only to fix repo rates",
+      "To act as an apex forum for financial stability and improve inter-regulatory coordination",
+      "To issue currency notes",
+      "To regulate only the stock market"
+    ],
+    "answer": 1,
+    "explain": "FSDC is an apex-level forum to strengthen financial stability and promote coordination between regulators and financial sector development.",
+    "section": "stock-exchanges-indices"
+  },
+  {
+    "id": "financial-markets-17",
+    "q": "Money market securities have a maturity of:",
+    "options": ["More than 10 years", "More than 5 years", "Less than one year", "Exactly 3 years"],
+    "answer": 2,
+    "explain": "The money market deals in short-term securities with maturity of less than one year.",
+    "section": "money-market"
+  },
+  {
+    "id": "financial-markets-18",
+    "q": "Why is the yield on money market securities generally low?",
+    "options": [
+      "They are illiquid and risky",
+      "Their short maturity and low risk of loss make them liquid and safe",
+      "They have no maturity",
+      "They are issued only by private firms"
+    ],
+    "answer": 1,
+    "explain": "Short maturity gives high liquidity and low volatility. Safer and more liquid instruments pay a lower return.",
+    "section": "money-market"
+  },
+  {
+    "id": "financial-markets-19",
+    "q": "How does a common person usually invest in the money market?",
+    "options": ["Through money market mutual funds", "By buying IPOs", "By trading futures", "By buying commodity contracts"],
+    "answer": 0,
+    "explain": "Ordinary investors generally reach the money market through money market mutual funds.",
+    "section": "money-market"
+  },
+  {
+    "id": "financial-markets-20",
+    "q": "When did the Securities Transaction Tax (STT) come into effect?",
+    "options": ["1 April 2001", "1 April 2004", "1 January 2005", "1 October 2004"],
+    "answer": 3,
+    "explain": "The Securities Transaction Tax Rules were notified in 2004 and STT took effect on 1 October 2004.",
+    "section": "money-market"
+  },
+  {
+    "id": "financial-markets-21",
+    "q": "Securities Transaction Tax (STT) is levied on:",
+    "options": [
+      "Transactions done on stock exchanges",
+      "All bank deposits",
+      "Salary income only",
+      "Gold imports"
+    ],
+    "answer": 0,
+    "explain": "STT is charged on transactions on stock exchanges at rates fixed by the Central Government from time to time.",
+    "section": "money-market"
+  },
+  {
+    "id": "financial-markets-22",
+    "q": "Which of the following is another name for the primary market?",
+    "options": ["Stock exchange", "Money market", "New issue market", "Bullion market"],
+    "answer": 2,
+    "explain": "The primary market, where companies issue securities for the first time, is also called the new issue market.",
+    "section": "capital-market"
+  },
+  {
+    "id": "financial-markets-23",
+    "q": "When people say \"stock exchange\", which market do they actually refer to?",
+    "options": ["Primary market", "Secondary market", "Money market", "Forex market"],
+    "answer": 1,
+    "explain": "A stock exchange is where already issued securities are traded, so it is the secondary market.",
+    "section": "capital-market"
+  },
+  {
+    "id": "financial-markets-24",
+    "q": "In which market must a company carry out a buyback of its own shares?",
+    "options": ["Primary market", "Money market", "Forex market", "Secondary market"],
+    "answer": 3,
+    "explain": "Already issued shares trade in the secondary market, so a buyback has to be done there.",
+    "section": "capital-market"
+  },
+  {
+    "id": "financial-markets-25",
+    "q": "Which of the following is NOT a type of primary market issue?",
+    "options": ["Rights issue", "Qualified institutional placement", "Preferential issue", "Repo"],
+    "answer": 3,
+    "explain": "A repo is a short-term money market instrument. Rights, QIP and preferential issues are primary market activities.",
+    "section": "capital-market"
+  },
+  {
+    "id": "financial-markets-26",
+    "q": "What do the letters FPO stand for in the context of the primary market?",
+    "options": ["Foreign Portfolio Order", "Financial Paper Offer", "First Private Offer", "Further Public Offer"],
+    "answer": 3,
+    "explain": "FPO means Further Public Offer or Follow-on Public Offer, a later issue by an already listed company.",
+    "section": "capital-market"
+  },
+  {
+    "id": "financial-markets-27",
+    "q": "Who are the intermediaries in a financial market?",
+    "options": [
+      "Only the government",
+      "Agencies such as banks, brokers, custodians and depositories that connect lenders and borrowers",
+      "Only households",
+      "Only foreign investors"
+    ],
+    "answer": 1,
+    "explain": "Intermediaries collect funds from lenders, pass capital to borrowers and handle securities for both sides.",
+    "section": "players-and-need"
+  },
+  {
+    "id": "financial-markets-28",
+    "q": "In a financial market, borrowers are those who:",
+    "options": ["Have surplus funds", "Only buy bonds", "Are in need of funds or in capital deficit", "Regulate the market"],
+    "answer": 2,
+    "explain": "Borrowers have a capital deficit and obtain funds through the market and its intermediaries.",
+    "section": "players-and-need"
+  },
+  {
+    "id": "financial-markets-29",
+    "q": "Why would an economy without a financial market be inefficient?",
+    "options": [
+      "Lenders and borrowers must find each other by self-search",
+      "Interest rates would always be zero",
+      "Banks would hold all shares",
+      "Governments could not collect taxes"
+    ],
+    "answer": 0,
+    "explain": "Without a market, each lender and borrower has to search alone, so many miss the chance to invest or borrow.",
+    "section": "players-and-need"
+  },
+  {
+    "id": "financial-markets-30",
+    "q": "Which of the following pairs of retirement products covers government and private employees?",
+    "options": ["Only PPF", "NPS, EPF or PPF", "Only gold bonds", "Fixed deposits"],
+    "answer": 1,
+    "explain": "Employees of government and private companies are covered under NPS, EPF or PPF; many self-employed people are not covered.",
+    "section": "banking-pension-insurance"
+  },
+  {
+    "id": "financial-markets-31",
+    "q": "Which of the following is a general insurance product?",
+    "options": ["Term plan", "Endowment policy", "Motor insurance", "Whole life plan"],
+    "answer": 2,
+    "explain": "Motor, health, fire and personal accident covers are general insurance. Term, endowment and whole life plans are life insurance.",
+    "section": "banking-pension-insurance"
+  },
+  {
+    "id": "financial-markets-32",
+    "q": "In India, forex trading is permitted only in:",
+    "options": ["Physical currency notes", "Currency derivatives", "Gold coins", "Commodity futures"],
+    "answer": 1,
+    "explain": "Indian law permits forex trading only through currency derivatives, under RBI and SEBI control.",
+    "section": "forex-market"
+  },
+  {
+    "id": "financial-markets-33",
+    "q": "Which of the following is NOT a currency pair available for derivative trading in India?",
+    "options": ["USD-INR", "EUR-INR", "GBP-INR", "AUD-INR"],
+    "answer": 3,
+    "explain": "The pairs listed for derivative trading are USD-INR, EUR-INR, GBP-INR and JPY-INR.",
+    "section": "forex-market"
+  },
+  {
+    "id": "financial-markets-34",
+    "q": "Which market is considered the most liquid of all financial markets?",
+    "options": ["Foreign exchange market", "Commodity market", "Pension market", "Insurance market"],
+    "answer": 0,
+    "explain": "Because it deals in currencies, the forex market is the most liquid, which is why traders and speculators like it.",
+    "section": "forex-market"
+  },
+  {
+    "id": "financial-markets-35",
+    "q": "Which of the following is a commodity exchange of India?",
+    "options": ["NSDL", "NCDEX", "CIBIL", "IRDAI"],
+    "answer": 1,
+    "explain": "NCDEX is the National Commodity and Derivatives Exchange. The other options are a depository, a credit bureau and the insurance regulator.",
+    "section": "commodity-market"
+  },
+  {
+    "id": "financial-markets-36",
+    "q": "What does MCX stand for?",
+    "options": ["Money Capital Exchange", "Mutual Commodity Exchange", "Multi Commodity Exchange", "Metal Currency Exchange"],
+    "answer": 2,
+    "explain": "MCX is the Multi Commodity Exchange, trading bullion, metals, energy, spices and more.",
+    "section": "commodity-market"
+  },
+  {
+    "id": "financial-markets-37",
+    "q": "Which authority has regulated commodity derivatives in India since the Forward Markets Commission was merged with it in 2015?",
+    "options": ["RBI", "IRDAI", "PFRDA", "SEBI"],
+    "answer": 3,
+    "explain": "FMC was merged into SEBI in 2015, so SEBI regulates commodity derivatives. FMC was the answer in older exam papers.",
+    "section": "commodity-market"
+  },
+  {
+    "id": "financial-markets-38",
+    "q": "G-Secs are called gilt-edged instruments because they:",
+    "options": [
+      "Are issued only in gold",
+      "Carry practically no risk of default",
+      "Offer the highest return",
+      "Are issued only by banks"
+    ],
+    "answer": 1,
+    "explain": "A government security acknowledges the government's debt and has practically no default risk, hence risk-free and gilt-edged.",
+    "section": "government-securities"
+  },
+  {
+    "id": "financial-markets-39",
+    "q": "State Governments in India issue which of the following G-Secs?",
+    "options": [
+      "Treasury bills only",
+      "Both treasury bills and dated securities",
+      "Only dated securities, called State Development Loans",
+      "Only zero coupon bonds"
+    ],
+    "answer": 2,
+    "explain": "Only the Centre issues both T-bills and bonds. States issue dated securities called SDLs.",
+    "section": "government-securities"
+  },
+  {
+    "id": "financial-markets-40",
+    "q": "Treasury bills are G-Secs with an original maturity of:",
+    "options": ["More than 5 years", "10 years or more", "Exactly one year", "Less than one year"],
+    "answer": 3,
+    "explain": "T-bills are short-term securities under one year. Dated securities have an original maturity of one year or more.",
+    "section": "government-securities"
+  },
+  {
+    "id": "financial-markets-41",
+    "q": "Floating Rate Bonds (FRBs) were first issued in India in:",
+    "options": ["September 1995", "January 1991", "June 2012", "August 2005"],
+    "answer": 0,
+    "explain": "FRBs, which have no fixed coupon rate, were first issued in India in September 1995.",
+    "section": "government-securities"
+  },
+  {
+    "id": "financial-markets-42",
+    "q": "Which G-Sec protects both the coupon and the principal against inflation?",
+    "options": ["Zero coupon bonds", "Fixed rate bonds", "Capital indexed bonds", "Inflation indexed bonds"],
+    "answer": 3,
+    "explain": "Inflation indexed bonds protect both coupon and principal, using WPI or CPI. Capital indexed bonds protect only the principal.",
+    "section": "government-securities"
+  },
+  {
+    "id": "financial-markets-43",
+    "q": "What does STRIPS stand for?",
+    "options": [
+      "Separate Trading of Registered Interest and Principal of Securities",
+      "Secured Trading of Regular Interest and Premium of Shares",
+      "Standard Treasury Rates in Public Securities",
+      "Separate Taxation of Registered Income and Profit of Stocks"
+    ],
+    "answer": 0,
+    "explain": "STRIPS separate each coupon and the final principal of a regular G-Sec into individual securities, essentially zero coupon bonds.",
+    "section": "government-securities"
+  },
+  {
+    "id": "financial-markets-44",
+    "q": "Which bonds have their principal linked to an accepted index of inflation, to protect the investor's principal?",
+    "options": ["Capital indexed bonds", "Zero coupon bonds", "Floating rate bonds", "Fixed rate bonds"],
+    "answer": 0,
+    "explain": "In capital indexed bonds the principal moves with an inflation index. Only the principal is protected.",
+    "section": "government-securities"
+  },
+  {
+    "id": "financial-markets-45",
+    "q": "Which RBI-introduced system lets participants trade G-Secs anonymously through an order-matching screen?",
+    "options": ["OTC telephone market", "NDS-OM", "FIMMDA", "STT"],
+    "answer": 1,
+    "explain": "NDS-OM (Negotiated Dealing System, Order Matching) is an anonymous, order-driven electronic system introduced in August 2005.",
+    "section": "trading-in-gsecs"
+  },
+  {
+    "id": "financial-markets-46",
+    "q": "NDS-OM-Web was launched by RBI to allow direct participation of which group on NDS-OM?",
+    "options": ["Primary dealers", "Foreign banks only", "Gilt account holders", "Stock brokers"],
+    "answer": 2,
+    "explain": "NDS-OM-Web, launched on 29 June 2012, lets gilt account holders participate through their primary members.",
+    "section": "trading-in-gsecs"
+  },
+  {
+    "id": "financial-markets-47",
+    "q": "Which of the following is the main regulator of India's primary and secondary securities markets?",
+    "options": ["IRDAI", "SEBI", "PFRDA", "FIMMDA"],
+    "answer": 1,
+    "explain": "SEBI regulates the primary and secondary markets (stock exchanges). IRDAI covers insurance and PFRDA pensions.",
+    "section": "regulators-fimmda"
+  },
+  {
+    "id": "financial-markets-48",
+    "q": "Which regulator designed the structure of pension products such as the NPS?",
+    "options": ["PFRDA", "SEBI", "IRDAI", "RBI"],
+    "answer": 0,
+    "explain": "PFRDA regulates the pension sector and decided the constituents of the National Pension System.",
+    "section": "regulators-fimmda"
+  },
+  {
+    "id": "financial-markets-49",
+    "q": "FIMMDA was incorporated as a company under the Companies Act, 1956 on:",
+    "options": ["1 April 1991", "3 June 1998", "14 August 1991", "29 June 2012"],
+    "answer": 1,
+    "explain": "FIMMDA was incorporated on 3 June 1998 as a voluntary market body for the bond, money and derivatives markets.",
+    "section": "regulators-fimmda"
+  },
+  {
+    "id": "financial-markets-50",
+    "q": "FIMMDA is best described as:",
+    "options": [
+      "A statutory regulator of banks",
+      "A voluntary market body for the bond, money and derivatives markets",
+      "A stock exchange for commodities",
+      "A government pension fund"
+    ],
+    "answer": 1,
+    "explain": "FIMMDA is a voluntary association of banks, financial institutions, primary dealers and insurers. It introduces benchmark rates and links members to regulators.",
+    "section": "regulators-fimmda"
+  }
+]

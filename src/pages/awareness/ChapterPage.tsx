@@ -4,36 +4,34 @@ import BlockView from '../../components/awareness/BlockView'
 import ChapterHero from '../../components/awareness/ChapterHero'
 import MindMap from '../../components/awareness/MindMap'
 import Rich from '../../components/awareness/Rich'
-import { availableChapterIds, getReadChapters, loadChapter, setChapterRead } from '../../lib/computerAwareness/data'
-import { CA_CHAPTERS, chapterMeta } from '../../lib/computerAwareness/meta'
-import { THEMES } from '../../lib/computerAwareness/theme'
-import type { CaChapter } from '../../lib/computerAwareness/types'
+import { basePath, chapterOf } from '../../lib/awareness/books'
+import { useBook } from '../../lib/awareness/bookContext'
+import { availableChapterIds, getReadChapters, loadChapter, setChapterRead } from '../../lib/awareness/data'
+import { THEMES } from '../../lib/awareness/theme'
+import type { CaChapter } from '../../lib/awareness/types'
 import NotFound from '../NotFound'
 
-const BACK = (
-  <Link to="/general-awareness/computer/book" className="text-sm text-slate-400 dark:text-slate-500 hover:text-slate-600">
-    ← All chapters
-  </Link>
-)
-
 export default function ChapterPage() {
+  const book = useBook()
   const { chapterId = '' } = useParams()
-  const meta = chapterMeta(chapterId)
+  const meta = chapterOf(book, chapterId)
   if (!meta) return <NotFound />
   // keyed so moving to the next chapter starts from a clean state
   return <Chapter key={meta.id} id={meta.id} />
 }
 
 function Chapter({ id }: { id: string }) {
-  const meta = chapterMeta(id)!
+  const book = useBook()
+  const base = basePath(book)
+  const meta = chapterOf(book, id)!
   const [chapter, setChapter] = useState<CaChapter | null>(null)
   const [failed, setFailed] = useState(false)
-  const [isRead, setIsRead] = useState(() => getReadChapters().has(id))
+  const [isRead, setIsRead] = useState(() => getReadChapters(book).has(id))
 
   useEffect(() => {
     window.scrollTo(0, 0)
     let cancelled = false
-    loadChapter(id)
+    loadChapter(book, id)
       .then((c) => {
         if (!cancelled) setChapter(c)
       })
@@ -43,13 +41,13 @@ function Chapter({ id }: { id: string }) {
     return () => {
       cancelled = true
     }
-  }, [id])
+  }, [book, id])
 
   const t = THEMES[meta.theme]
-  const available = availableChapterIds()
-  const at = CA_CHAPTERS.findIndex((c) => c.id === id)
-  const prev = CA_CHAPTERS.slice(0, at).reverse().find((c) => available.has(c.id))
-  const next = CA_CHAPTERS.slice(at + 1).find((c) => available.has(c.id))
+  const available = availableChapterIds(book)
+  const at = book.chapters.findIndex((c) => c.id === id)
+  const prev = book.chapters.slice(0, at).reverse().find((c) => available.has(c.id))
+  const next = book.chapters.slice(at + 1).find((c) => available.has(c.id))
 
   function jumpTo(sectionId: string) {
     document.getElementById(`sec-${sectionId}`)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
@@ -57,7 +55,9 @@ function Chapter({ id }: { id: string }) {
 
   return (
     <div className="mx-auto max-w-3xl px-4 py-10">
-      {BACK}
+      <Link to={`${base}/book`} className="text-sm text-slate-400 dark:text-slate-500 hover:text-slate-600">
+        ← All chapters
+      </Link>
       <div className="mt-2">
         <ChapterHero chapter={meta} />
       </div>
@@ -140,16 +140,16 @@ function Chapter({ id }: { id: string }) {
             <h2 className="text-lg font-bold text-slate-900 dark:text-slate-100">Finished this chapter?</h2>
             <div className="mt-4 flex flex-col gap-3 sm:flex-row">
               <button
-                onClick={() => setIsRead(setChapterRead(id, !isRead).has(id))}
+                onClick={() => setIsRead(setChapterRead(book, id, !isRead).has(id))}
                 aria-pressed={isRead}
                 className={['rounded-xl px-4 py-3 font-semibold transition active:scale-[0.99]', isRead ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-500/15 dark:text-emerald-300' : 'bg-slate-100 text-slate-700 hover:bg-slate-200 dark:bg-slate-700 dark:text-slate-300'].join(' ')}
               >
                 {isRead ? '✓ Marked as read' : 'Mark as read'}
               </button>
-              <Link to={`/general-awareness/computer/quiz?chapter=${id}`} className="rounded-xl bg-indigo-600 px-4 py-3 text-center font-semibold text-white shadow-sm transition hover:bg-indigo-500">
+              <Link to={`${base}/quiz?chapter=${id}`} className="rounded-xl bg-indigo-600 px-4 py-3 text-center font-semibold text-white shadow-sm transition hover:bg-indigo-500">
                 🎯 Quiz this chapter
               </Link>
-              <Link to={`/general-awareness/computer/questions?chapter=${id}`} className="rounded-xl bg-slate-100 px-4 py-3 text-center font-semibold text-slate-700 transition hover:bg-slate-200 dark:bg-slate-700 dark:text-slate-300">
+              <Link to={`${base}/questions?chapter=${id}`} className="rounded-xl bg-slate-100 px-4 py-3 text-center font-semibold text-slate-700 transition hover:bg-slate-200 dark:bg-slate-700 dark:text-slate-300">
                 🗂️ Its questions
               </Link>
             </div>
@@ -157,7 +157,7 @@ function Chapter({ id }: { id: string }) {
 
           <div className="mt-6 grid gap-3 sm:grid-cols-2">
             {prev ? (
-              <Link to={`/general-awareness/computer/book/${prev.id}`} className="rounded-2xl bg-white p-4 shadow-sm ring-1 ring-slate-200 transition hover:-translate-y-0.5 dark:bg-slate-800 dark:ring-slate-700">
+              <Link to={`${base}/book/${prev.id}`} className="rounded-2xl bg-white p-4 shadow-sm ring-1 ring-slate-200 transition hover:-translate-y-0.5 dark:bg-slate-800 dark:ring-slate-700">
                 <div className="text-xs font-semibold text-slate-400 dark:text-slate-500">← Previous</div>
                 <div className="mt-0.5 font-bold text-slate-900 dark:text-slate-100">
                   {prev.icon} {prev.title}
@@ -167,7 +167,7 @@ function Chapter({ id }: { id: string }) {
               <span />
             )}
             {next && (
-              <Link to={`/general-awareness/computer/book/${next.id}`} className="rounded-2xl bg-white p-4 text-right shadow-sm ring-1 ring-slate-200 transition hover:-translate-y-0.5 dark:bg-slate-800 dark:ring-slate-700">
+              <Link to={`${base}/book/${next.id}`} className="rounded-2xl bg-white p-4 text-right shadow-sm ring-1 ring-slate-200 transition hover:-translate-y-0.5 dark:bg-slate-800 dark:ring-slate-700">
                 <div className="text-xs font-semibold text-slate-400 dark:text-slate-500">Next →</div>
                 <div className="mt-0.5 font-bold text-slate-900 dark:text-slate-100">
                   {next.icon} {next.title}

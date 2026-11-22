@@ -1,0 +1,318 @@
+{
+  "id": "mutual-funds",
+  "sections": [
+    {
+      "id": "mf-basics",
+      "title": "What is a mutual fund?",
+      "icon": "🧺",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "A **mutual fund** is an investment vehicle in which many investors **pool their money** to earn returns over a period. The pooled money (the **corpus**) is managed by an investment professional called the **fund manager** or **portfolio manager**, who invests it in bonds, stocks, gold and other assets. Gains (or losses) are **shared by the investors in proportion to their contribution**."
+        },
+        {
+          "type": "keyvalue",
+          "title": "Key points",
+          "rows": [
+            ["Who manages it", "A fund manager of an **Asset Management Company (AMC)**."],
+            ["Who regulates it", "**SEBI** (Securities and Exchange Board of India)."],
+            ["Industry body", "AMFI, the Association of Mutual Funds in India, is a self-regulatory body."],
+            ["Where money goes", "Securities such as shares, bonds, government securities, money market instruments, and gold."],
+            ["First mutual fund in India", "The **Unit Trust of India (UTI)**, set up in **1963**."],
+            ["Fees", "Investors pay fees for professional management, much like paying a driver for chauffeuring."]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "remember",
+          "title": "Must-know",
+          "text": "Mutual funds are **regulated by SEBI** (not the RBI or IRDAI). The fund is a **collective investment scheme** managed by an **AMC**. Returns are **not assured** and capital is **not protected**."
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "Not a depository",
+          "text": "A mutual fund is **not** a depository financial intermediary like a bank. It does not accept deposits with a promised return, and it is regulated and sold to the general public as a market-linked scheme."
+        }
+      ]
+    },
+    {
+      "id": "mf-benefits",
+      "title": "Benefits of investing in mutual funds",
+      "icon": "🎁",
+      "blocks": [
+        {
+          "type": "table",
+          "title": "Four main benefits",
+          "headers": ["Benefit", "What it means"],
+          "rows": [
+            ["Professional expertise", "A fund manager does the research on the economy, sectors and company financials, so investors who lack the skill or time can still invest."],
+            ["Returns", "Can earn **potentially higher returns** than traditional assured-return options, because returns are linked to the market. But a poor market hurts the investment and there is **no capital protection**."],
+            ["Diversification", "Spreads risk instantly. Building a stock portfolio on your own needs at least **ten stocks** from different sectors; a fund tracking the **BSE Sensex** gives access to as many as **30 stocks** in one fund."],
+            ["Tax benefits", "Deduction up to **₹1.5 lakh** by investing in **ELSS** under **Section 80C** of the Income Tax Act; ELSS has a **3-year lock-in**."]
+          ]
+        },
+        {
+          "type": "text",
+          "text": "The source also describes an **indexation benefit** on debt funds, where only returns above the inflation rate (through the **Cost Inflation Index, CII**) were taxed, unlike ordinary interest which is fully taxable. Tax rules on debt funds have changed in recent years, so do not treat indexation as a current rule without checking the latest Income Tax provisions."
+        },
+        {
+          "type": "mnemonic",
+          "title": "Four benefits: PRDT",
+          "phrase": "Pros Rarely Disappoint Taxpayers.",
+          "letters": [
+            ["P", "Professional expertise"],
+            ["R", "Returns (market-linked, not assured)"],
+            ["D", "Diversification"],
+            ["T", "Tax benefits (ELSS, Section 80C)"]
+          ]
+        },
+        {
+          "type": "mnemonic",
+          "title": "ELSS in one line: 3 - 1.5 - 80C",
+          "phrase": "Three-year lock, one-and-a-half lakh limit, Section eighty-C.",
+          "letters": [
+            ["3", "Years of lock-in; money can be withdrawn only afterwards"],
+            ["1.5", "Lakh rupees: maximum yearly deduction"],
+            ["80C", "Income Tax Act section that gives the deduction"]
+          ],
+          "note": "ELSS = Equity Linked Savings Scheme, an example of a tax saving fund."
+        }
+      ]
+    },
+    {
+      "id": "mf-by-asset",
+      "title": "Types by asset class",
+      "icon": "📚",
+      "blocks": [
+        {
+          "type": "table",
+          "title": "Debt, equity and hybrid funds",
+          "headers": ["Type", "Invests in", "Risk and suitability"],
+          "rows": [
+            ["Debt funds (fixed income funds)", "Government securities and corporate bonds", "Relatively less risky; suit those wanting steady income and averse to risk"],
+            ["Equity funds", "Stocks", "Higher risk because returns follow stock markets; capital appreciation is the aim; good for long-term goals like retirement or buying a house, as risk reduces over time"],
+            ["Hybrid funds", "A mix of equity and fixed income", "Sub-categories depend on the asset allocation between equity and debt"]
+          ]
+        },
+        {
+          "type": "mnemonic",
+          "title": "Debt, Equity, Hybrid",
+          "phrase": "Debt = Dependable, Equity = Exciting (and risky), Hybrid = Half and half.",
+          "letters": [
+            ["Debt", "Dependable: bonds and G-secs, lower risk"],
+            ["Equity", "Exciting: stocks, higher risk and higher potential"],
+            ["Hybrid", "Half-half: equity plus debt mix"]
+          ]
+        },
+        {
+          "type": "bullets",
+          "title": "Risks facing a debt fund",
+          "items": [
+            "**Credit risk**: the issuer may default on interest or principal",
+            "**Price fluctuation** of the debt securities",
+            "**Interest rate volatility**: bond prices move opposite to rates, so falling rates help debt funds",
+            "Share price movements do **not** directly affect a pure debt fund"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mf-by-structure",
+      "title": "Types by structure: open-ended and close-ended",
+      "icon": "🚪",
+      "blocks": [
+        {
+          "type": "table",
+          "title": "Open-ended versus close-ended",
+          "headers": ["Feature", "Open-ended fund", "Close-ended fund"],
+          "rows": [
+            ["Entry", "Invest on **any business day**", "Only when the fund is **launched**"],
+            ["Exit", "Redeem units on any business day at NAV", "Only at **maturity** (a pre-defined period)"],
+            ["Price", "Bought and sold at the **Net Asset Value (NAV)**", "Units are **listed** on the stock market like shares"],
+            ["Liquidity", "Highly liquid", "Not very liquid because trading volumes are low"]
+          ]
+        },
+        {
+          "type": "mnemonic",
+          "title": "Open door, closed door",
+          "phrase": "Open-ended = open door, walk in or out any business day at NAV. Close-ended = closed door till maturity; exit only by selling on the exchange.",
+          "letters": [
+            ["Open", "Any business day, at NAV, very liquid"],
+            ["Close", "Launch-time entry, maturity exit, listed, thinly traded"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "fact",
+          "title": "Capital Protection Oriented Schemes",
+          "text": "**Capital Protection Oriented Schemes** are always **close-ended**, since the capital protection depends on the fund running to its fixed maturity."
+        }
+      ]
+    },
+    {
+      "id": "mf-by-objective",
+      "title": "Types by investment objective",
+      "icon": "🎯",
+      "blocks": [
+        {
+          "type": "keyvalue",
+          "title": "Objective-based funds",
+          "rows": [
+            ["Growth funds", "Aim for **capital appreciation**; put a big share into stocks; riskier, best held for the **long term**, and better avoided when you are close to your goal."],
+            ["Income funds", "Aim for a **stable income**; debt funds investing mostly in bonds, government securities and certificates of deposit; suit lower-risk appetite."],
+            ["Liquid funds", "Invest in **short-term money market instruments** such as treasury bills, CDs, term deposits and commercial papers; used to **park surplus money** for days to months or build an emergency fund."],
+            ["Tax saving funds", "Give tax benefits under **Section 80C** (deduction up to ₹1.5 lakh a year); **ELSS** is the example."]
+          ]
+        },
+        {
+          "type": "mnemonic",
+          "title": "Objective funds: GILT",
+          "phrase": "Pick GILT-edged goals: Growth, Income, Liquid, Tax-saving.",
+          "letters": [
+            ["G", "Growth funds: capital appreciation, long term"],
+            ["I", "Income funds: stable income, debt-based"],
+            ["L", "Liquid funds: short-term money market parking"],
+            ["T", "Tax saving funds: Section 80C, ELSS"]
+          ],
+          "note": "GILT here is only a memory trick; a separate type called Gilt funds invests in government securities."
+        },
+        {
+          "type": "callout",
+          "kind": "tip",
+          "title": "Matching investor and fund",
+          "text": "A young investor needing growth should hold more **equity growth funds**; someone wanting safety of principal, such as in a **money market fund**, picks liquid or debt options."
+        }
+      ]
+    },
+    {
+      "id": "mf-terms",
+      "title": "NAV, SIP, SWP and other terms",
+      "icon": "🧮",
+      "blocks": [
+        {
+          "type": "keyvalue",
+          "title": "Key terms",
+          "rows": [
+            ["NAV (Net Asset Value)", "Value of one unit of the fund: (total assets minus liabilities) divided by the number of units outstanding. Open-ended funds are bought and sold at NAV."],
+            ["Unit", "The share of a mutual fund scheme an investor holds; subscriptions are accounted for as **unit capital**."],
+            ["SIP (Systematic Investment Plan)", "Invest a fixed amount at regular intervals; a standard example of **rupee cost averaging**."],
+            ["SWP (Systematic Withdrawal Plan)", "Lets an investor withdraw from a scheme at regular intervals, for example every month on set dates."],
+            ["STP (Systematic Transfer Plan)", "Moves money from one scheme to another at regular intervals."],
+            ["ELSS", "Equity Linked Savings Scheme: tax saving, 3-year lock-in."],
+            ["Offer document", "The document that lays down the **rights of investors** in a scheme."]
+          ]
+        },
+        {
+          "type": "mnemonic",
+          "title": "NAV formula: A minus L over U",
+          "phrase": "NAV = (Assets minus Liabilities) divided by Units.",
+          "letters": [
+            ["A", "Assets: market value of the fund’s holdings plus cash"],
+            ["L", "Liabilities: expenses and dues of the fund"],
+            ["U", "Units outstanding with investors"]
+          ]
+        },
+        {
+          "type": "mnemonic",
+          "title": "SIP in, SWP out, STP across",
+          "phrase": "SIP sips money in, SWP sips money out, STP switches it across.",
+          "letters": [
+            ["SIP", "Systematic Investment Plan: regular investing"],
+            ["SWP", "Systematic Withdrawal Plan: regular withdrawals"],
+            ["STP", "Systematic Transfer Plan: transfers between schemes"]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mf-rules",
+      "title": "Rules, limits and good practice",
+      "icon": "📏",
+      "blocks": [
+        {
+          "type": "keyvalue",
+          "title": "Facts from the exam point of view",
+          "rows": [
+            ["Digital wallets", "As per a SEBI norm (2018), investors may buy mutual funds worth up to **₹50,000** through digital wallets."],
+            ["Agents", "Mutual fund agents and distributors are paid **commissions**."],
+            ["Debt funds and liquidity", "Debt mutual funds must keep a minimum of **10%** of assets in liquid holdings such as G-secs, cash, treasury bills and repo."],
+            ["Overseas investment (dated)", "At the time of the source, domestic mutual funds could invest up to **USD 7 billion** in overseas stocks and an extra **USD 1 billion** in ETFs. Such limits change."],
+            ["Certificates of Deposit", "Issued by scheduled commercial banks."],
+            ["Ways to invest", "Cheque or demand draft, remittance, and ASBA (for new offers)."]
+          ]
+        },
+        {
+          "type": "figure",
+          "kind": "flow",
+          "title": "How a mutual fund works",
+          "items": [
+            ["Investors pool money", "Each gets units"],
+            ["AMC and fund manager", "Choose securities"],
+            ["Invest in assets", "Bonds, stocks, gold, money market"],
+            ["Gains shared", "In proportion to contribution"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "Not a benefit",
+          "text": "Mutual fund investors do **not** hold physical custody of the securities in which the fund invests. Diversification, professional management and cost savings **are** benefits."
+        }
+      ]
+    }
+  ],
+  "revision": [
+    "A mutual fund **pools money** of many investors, managed by a fund manager of an **AMC**.",
+    "Mutual funds are regulated by **SEBI**; returns are market-linked and **not assured**.",
+    "Gains and losses are shared **in proportion to contribution**.",
+    "Four benefits: professional expertise, returns, diversification, tax benefits.",
+    "A fund tracking the **BSE Sensex** gives access to as many as **30 stocks**.",
+    "**ELSS**: deduction up to **₹1.5 lakh** under **Section 80C**; **3-year lock-in**.",
+    "By asset class: **debt**, **equity** and **hybrid** funds.",
+    "**Open-ended** funds: buy or redeem any business day at **NAV**; **close-ended** funds have a maturity and are listed.",
+    "By objective: **growth**, **income**, **liquid** and **tax saving** funds.",
+    "**Liquid funds** invest in treasury bills, CDs, commercial papers; park surplus money for days to months.",
+    "**NAV** = (assets minus liabilities) divided by units outstanding.",
+    "**SIP** is rupee cost averaging; **SWP** is regular withdrawal; **STP** transfers between schemes.",
+    "Debt funds must hold a minimum of **10%** in liquid holdings; **Capital Protection Oriented Schemes** are close-ended.",
+    "SEBI norm of 2018: purchases up to **₹50,000** through digital wallets."
+  ],
+  "mindmap": {
+    "center": "Mutual Funds",
+    "branches": [
+      {
+        "label": "Basics",
+        "children": ["Pooled investor money", "Fund manager and AMC", "Regulated by SEBI", "Gains shared pro rata"]
+      },
+      {
+        "label": "Benefits",
+        "children": ["Professional expertise", "Market-linked returns", "Diversification (30 stocks)", "Tax benefit via ELSS"]
+      },
+      {
+        "label": "ELSS",
+        "children": ["Section 80C", "Up to ₹1.5 lakh", "3-year lock-in"]
+      },
+      {
+        "label": "By asset class",
+        "children": ["Debt funds", "Equity funds", "Hybrid funds"]
+      },
+      {
+        "label": "By structure",
+        "children": ["Open-ended: any day at NAV", "Close-ended: fixed maturity", "Close-ended units are listed", "Capital protection is close-ended"]
+      },
+      {
+        "label": "By objective",
+        "children": ["Growth funds", "Income funds", "Liquid funds", "Tax saving funds"]
+      },
+      {
+        "label": "Terms",
+        "children": ["NAV formula", "SIP: rupee cost averaging", "SWP: withdraw regularly", "STP: transfer schemes", "Offer document"]
+      },
+      {
+        "label": "Rules and limits",
+        "children": ["Wallet limit ₹50,000", "Debt funds 10% liquid", "Agents earn commission", "Debt fund risks"]
+      }
+    ]
+  }
+}

@@ -1,0 +1,596 @@
+{
+  "id": "financial-inclusion",
+  "sections": [
+    {
+      "id": "fi-meaning",
+      "title": "Meaning and importance of financial inclusion",
+      "icon": "🤲",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "**Financial inclusion** means delivering banking services at an affordable cost (through ‘no-frills’ accounts) to the vast sections of disadvantaged and low-income groups. Because banking is in the nature of a public good, the prime public-policy objective is that banking and payment services reach the entire population without discrimination."
+        },
+        {
+          "type": "bullets",
+          "title": "Three pressing needs behind the push for inclusion",
+          "items": [
+            "**Habit of saving** – low-income households live under constant financial stress because they have no savings. Bank products give them a tool to save, and capital formation rises as people move away from parking savings in land, buildings and bullion.",
+            "**Formal credit** – the unbanked depend on family, friends and moneylenders. Adequate and transparent bank credit lets the entrepreneurial spirit of the masses raise output and prosperity in the countryside.",
+            "**Plugging leaks in subsidies and welfare** – a large part of the money meant for the poorest never reaches them. The government therefore pushes direct cash transfers into bank accounts instead of subsidising products or making cash payments."
+          ]
+        },
+        {
+          "type": "figure",
+          "kind": "cycle",
+          "title": "The inclusion cycle",
+          "items": [
+            ["Basic bank account", "No-frills / zero-balance account"],
+            ["Savings habit", "Money moves from cash and gold to banks"],
+            ["Formal credit", "Cheaper than moneylenders"],
+            ["Higher income", "Output and prosperity rise"],
+            ["Direct transfers", "Subsidies reach the account, fewer leaks"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "remember",
+          "title": "Definition keywords",
+          "text": "Affordable cost + no-frills accounts + disadvantaged and low-income groups + no discrimination. Inclusion is about access to services, not just the number of accounts opened."
+        },
+        {
+          "type": "mnemonic",
+          "title": "Three needs: S-C-L",
+          "phrase": "Save, Credit, Leaks: Smart Citizens Learn to keep money safe, borrow formally and stop subsidy leaks.",
+          "letters": [
+            ["S", "Saving habit and capital formation"],
+            ["C", "Credit from formal sources, not moneylenders"],
+            ["L", "Leaks in subsidies and welfare plugged via direct transfers"]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "access-channels",
+      "title": "Reaching people: BCs, no-frills accounts, Swabhiman, DBT",
+      "icon": "🚲",
+      "blocks": [
+        {
+          "type": "table",
+          "title": "Steps taken to support financial inclusion (access)",
+          "headers": ["Step", "What it is"],
+          "rows": [
+            ["Business correspondents (BCs)", "Banks use BCs where opening a brick-and-mortar branch is too costly. Armed with technology, BCs take the bank to the doorstep of rural households. The book cites 110,000 BCs and a goal to give banking access to all 74,414 villages with population over 2,000."],
+            ["No-frills accounts", "Basic deposit and withdrawal facilities without costly extras; a low-cost way to access a bank account. RBI also eased KYC norms for opening them."],
+            ["Swabhiman", "Opening bank accounts in habitations through the BC model with cash services. Covers habitations with population above 2,000 in plain areas and above 1,000 in north-eastern and hilly states (2011 Census)."],
+            ["Direct Benefit Transfer (DBT)", "Cash transfer through the Aadhaar Payment Bridge, which needs bank accounts and so promotes inclusion."]
+          ]
+        },
+        {
+          "type": "bullets",
+          "title": "What a business correspondent does",
+          "items": [
+            "Takes cash deposits and withdrawals in villages.",
+            "Disburses small credit.",
+            "Helps in recovery of loans and in remittances.",
+            "Works as an agent of the bank, using handheld technology."
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "BC is not only a lender",
+          "text": "The BC model covers deposits, withdrawals, small credit and recovery. An answer that says BCs only disburse small credit is wrong."
+        },
+        {
+          "type": "mnemonic",
+          "title": "Population cut-offs for Swabhiman",
+          "phrase": "Two thousand on the plains, one thousand in hills: 2000 plain, 1000 North-East and hilly states.",
+          "letters": [
+            ["Plain", "More than 2,000 population"],
+            ["NE / hilly", "More than 1,000 population"],
+            ["Census", "2011"]
+          ],
+          "note": "Hills are harder to reach, so the threshold is halved."
+        }
+      ]
+    },
+    {
+      "id": "credit-lead-bank",
+      "title": "KCC, Lead Bank Scheme, Local Area Banks, RMK",
+      "icon": "🌾",
+      "blocks": [
+        {
+          "type": "keyvalue",
+          "title": "Credit-side schemes",
+          "rows": [
+            ["Kisan Credit Card (KCC)", "Introduced by NABARD from 1998-99 to meet production credit and short-term needs of farmers in a timely, hassle-free way, mainly for crop production."],
+            ["Lead Bank Scheme (1969)", "Coordinated approach to banking in districts. Every district except the metropolitan cities of Mumbai, Kolkata, Chennai and certain Union Territories was allotted to a public sector or a few private sector banks, which act as consortium leaders for the district."],
+            ["Lead Bank Officer (LBO)", "Appointed in 1979 to prepare District Credit Plans and monitor them; now designated Lead District Manager."],
+            ["Local Area Banks (1996)", "Small banks for rural and semi-urban areas; limited area of operation but may perform all functions of a scheduled commercial bank. Licences go to under-banked or unbanked areas and some may grow into full banks."],
+            ["Rashtriya Mahila Kosh (RMK)", "Facilitates credit support to poor women for socio-economic upliftment."],
+            ["Mahila Samriddhi Yojana", "Programme aimed at promoting savings among rural women."]
+          ]
+        },
+        {
+          "type": "text",
+          "text": "Local Area Banks are expected to carry a capital adequacy ratio (CAR) higher than 15 % to offset the higher risk of being geographically focused. The book states that scheduled commercial banks are required to maintain a CAR of 12 %, where CAR is the ratio of capital fund to risk-weighted assets, expressed as a percentage."
+        },
+        {
+          "type": "timeline",
+          "title": "Dates to remember",
+          "items": [
+            ["1969", "Lead Bank Scheme introduced."],
+            ["1979", "Lead Bank Officer (now Lead District Manager) appointed."],
+            ["1996", "Local Area Banks set up."],
+            ["1998-99", "Kisan Credit Card introduced by NABARD."]
+          ]
+        },
+        {
+          "type": "mnemonic",
+          "title": "Order of the four rural credit milestones",
+          "phrase": "Lead 69, Officer 79, Local 96, Kisan 98: ‘Leaders Often Look Keen’.",
+          "letters": [
+            ["Lead", "Lead Bank Scheme – 1969"],
+            ["Officer", "Lead Bank Officer appointed – 1979"],
+            ["Local", "Local Area Banks – 1996"],
+            ["Kisan", "Kisan Credit Card – 1998-99"]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "subvention-psl",
+      "title": "Interest subvention, DRI and priority sector lending",
+      "icon": "💸",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "**Interest subvention** gives cheaper bank credit indirectly: the government pays part of the interest as a subsidy to certain sectors such as textiles and farming. Other sectors pay the full rate."
+        },
+        {
+          "type": "table",
+          "title": "Worked example of interest subvention",
+          "headers": ["Sector", "Bank rate", "Government subvention", "Net cost to borrower"],
+          "rows": [
+            ["Textile company", "10 %", "2 %", "8 %"],
+            ["Agriculture / farm", "10 %", "4 %", "6 %"],
+            ["Other sectors", "10 %", "None", "10 %"]
+          ]
+        },
+        {
+          "type": "text",
+          "text": "Some sectors are covered by the **Differential Rate of Interest (DRI)** system, where the lending rate is less than the base rate. Examples listed are educational loans, export credit, agriculture and credit to weaker sections."
+        },
+        {
+          "type": "keyvalue",
+          "title": "Priority Sector Lending (PSL)",
+          "rows": [
+            ["Idea", "RBI makes banks lend a specified portion of their lending to specific sectors such as agriculture and allied activities, micro and small enterprises, housing for the poor, students and weaker sections."],
+            ["Aim", "All-round development of the economy, not just the financial sector."],
+            ["Broad categories (all scheduled commercial banks)", "(a) Agriculture and allied; (b) small-scale industries (direct and indirect finance); (c) small business / service enterprises; (d) micro credit; (e) education loans; (f) housing loans."]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "tip",
+          "title": "Subvention versus DRI",
+          "text": "Subvention = government pays part of the interest. DRI = bank itself charges a lower-than-base-rate rate to weaker or priority groups. Both make credit cheaper, but the money comes from different places."
+        },
+        {
+          "type": "mnemonic",
+          "title": "Six broad PSL categories",
+          "phrase": "A-S-S-M-E-H: Agriculture, Small industry, Small business, Micro credit, Education, Housing.",
+          "letters": [
+            ["A", "Agriculture and allied activities"],
+            ["S", "Small-scale industries"],
+            ["S", "Small business / service enterprises"],
+            ["M", "Micro credit"],
+            ["E", "Education loans"],
+            ["H", "Housing loans"]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pmjdy",
+      "title": "Pradhan Mantri Jan Dhan Yojana (PMJDY)",
+      "icon": "🇮🇳",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "**PMJDY** is India’s National Mission for Financial Inclusion. It aims to provide access to financial services, namely banking, savings and deposit accounts, remittance, credit, insurance and pension, in an affordable manner. It is run by the **Department of Financial Services, Ministry of Finance**. Till 28 February 2018, over 31 crore accounts were opened and almost ₹755 billion was deposited."
+        },
+        {
+          "type": "steps",
+          "title": "What the scheme gives",
+          "items": [
+            "Bank account with no minimum balance.",
+            "RuPay debit card.",
+            "Accidental insurance cover of ₹1 lakh (as per the book).",
+            "Overdraft of ₹5,000 after six months of opening the account.",
+            "Funds transfer and balance check through a normal phone (not just smartphones), using technology introduced with NPCI.",
+            "Mobile banking for the poor through the National Unified USSD Platform (NUUP), on which all banks and mobile companies came together."
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "Full forms",
+          "rows": [
+            ["PMJDY", "Pradhan Mantri Jan Dhan Yojana"],
+            ["NUUP", "National Unified USSD Platform"],
+            ["USSD", "Unstructured Supplementary Service Data (works on basic phones)"],
+            ["NPCI", "National Payments Corporation of India"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "Do not mix the numbers",
+          "text": "In the book, PMJDY accident cover is ₹1 lakh and the overdraft is ₹5,000 after six months. The ₹3 lakh figure seen in some option lists is wrong for this scheme."
+        },
+        {
+          "type": "mnemonic",
+          "title": "PMJDY package: ZRAO",
+          "phrase": "Zero balance, RuPay card, Accident cover ₹1 lakh, Overdraft ₹5,000 after 6 months.",
+          "letters": [
+            ["Z", "Zero minimum balance account"],
+            ["R", "RuPay debit card"],
+            ["A", "Accidental insurance ₹1 lakh"],
+            ["O", "Overdraft ₹5,000 after 6 months"]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "bsbda",
+      "title": "Basic Savings Bank Deposit Account (BSBDA)",
+      "icon": "🏧",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "The **BSBDA** is RBI’s account for furthering financial inclusion with a **zero minimum balance**. All existing ‘no-frills’ accounts were converted into BSBDA under RBI’s 2012 guidelines, and every fresh account opened under that circular is treated as a BSBDA. It is a normal banking service meant for all customers, including the poor and weaker sections, offered through branches, and applies to all scheduled commercial banks including foreign banks with branches in India."
+        },
+        {
+          "type": "keyvalue",
+          "title": "Features and rules",
+          "rows": [
+            ["Services", "Deposit and withdrawal of cash at the branch, free ATM-cum-debit card, receipt of money through electronic channels, and deposit or collection of cheques drawn by Central and State Government agencies."],
+            ["Deposits", "No limit on the number of deposits in a month."],
+            ["Withdrawals", "Maximum four in a month, including ATM withdrawals."],
+            ["Inoperative account", "No charge is levied for non-operation or activation of an inoperative account."],
+            ["One per bank", "The holder cannot open any other savings account in that bank; an existing one must be closed within 30 days of opening a BSBDA."],
+            ["Other deposits", "The holder may still have term (fixed) deposits, recurring deposits etc. in the same bank."]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "remember",
+          "title": "BSBDA numbers",
+          "text": "Zero minimum balance | 4 withdrawals a month | unlimited deposits | one BSBDA per person per bank | close other savings account within 30 days | 2012 RBI guidelines."
+        },
+        {
+          "type": "mnemonic",
+          "title": "BSBDA numbers: 0-4-1-30",
+          "phrase": "Zero balance, Four withdrawals, One account, Thirty days to close the rest.",
+          "letters": [
+            ["0", "Zero minimum balance"],
+            ["4", "Maximum withdrawals per month (ATM included)"],
+            ["1", "Only one BSBDA per bank; no other savings account there"],
+            ["30", "Days to close an existing savings account"]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "payments-sfb-literacy",
+      "title": "Payments banks, small finance banks, financial literacy",
+      "icon": "📱",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "On the recommendation of the **Nachiket Mor Committee**, two special kinds of banks were introduced to deepen inclusion: payments banks and small finance banks."
+        },
+        {
+          "type": "table",
+          "title": "Payments banks versus small finance banks",
+          "headers": ["Feature", "Payments bank", "Small finance bank"],
+          "rows": [
+            ["Deposits", "Accepts deposits from the public", "Accepts deposits"],
+            ["Lending", "Does not lend loans", "Can lend (basic banking service of deposits and lending)"],
+            ["Target customers", "Small businesses and low-income households", "Niche segments underserved by large banks"],
+            ["Main service", "Payment services and deposit products", "Basic banking: deposit acceptance and lending"]
+          ]
+        },
+        {
+          "type": "bullets",
+          "title": "Payments banks (as per the book)",
+          "items": [
+            "11 licences had been granted; four banks were functional: Paytm, Airtel, India Post Payments Bank and Fino Payments Bank.",
+            "These counts date quickly, so treat them as figures at the time of writing."
+          ]
+        },
+        {
+          "type": "text",
+          "text": "**Financial Literacy Programme:** at RBI’s request, commercial banks started Financial Literacy Centres to educate the public about financial products. RBI’s policy is that financial inclusion must go hand in hand with financial literacy, and it supports Financial Literacy and Credit Counselling Centres (FLCCs)."
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "Who lends?",
+          "text": "A payments bank only takes deposits and offers payment services; it does not lend. A small finance bank does both deposits and lending."
+        }
+      ]
+    },
+    {
+      "id": "khan-rangarajan",
+      "title": "Khan Commission, Rangarajan Committee and NRFIP",
+      "icon": "📜",
+      "blocks": [
+        {
+          "type": "timeline",
+          "title": "Early committees on inclusion",
+          "items": [
+            ["2004", "RBI sets up the Khan Commission to look into financial inclusion."],
+            ["2005-06", "Its recommendations are built into the mid-term review of the policy."],
+            ["2006", "Government constitutes the Committee on Financial Inclusion headed by Dr C. Rangarajan, then Chairman of the Economic Advisory Council to the Prime Minister."]
+          ]
+        },
+        {
+          "type": "text",
+          "text": "**Khan Commission:** urged banks to review their practices to match the objective of inclusion and stressed making a basic ‘no-frills’ account available with nil or very low minimum balances and charges, so vast sections of people could use it."
+        },
+        {
+          "type": "bullets",
+          "title": "Rangarajan Committee: key ideas",
+          "items": [
+            "Financial inclusion should run in mission mode: a **National Mission on Financial Inclusion (NaMFI)** with representatives of all stakeholders, to aim at universal inclusion in a specific time frame and to suggest policy changes.",
+            "NaMFI should also support public, private and NGO players in promotional initiatives.",
+            "Urban and peri-urban poor should be organised into Neighbourhood Groups (NHGs), like the rural poor; NABARD’s mandate should go beyond rural areas.",
+            "Shift emphasis from a large, bank-led, public-sector-dominated, branch-expansion strategy towards micro banks."
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "National Rural Financial Inclusion Plan (NRFIP)",
+          "rows": [
+            ["Target", "Give access to comprehensive financial services, including credit, to at least 50 % of financially excluded households (about 55.77 million) by 2012."],
+            ["Remaining households", "To be covered by 2015."],
+            ["Delivery", "Through rural and semi-urban branches of commercial banks and Regional Rural Banks."],
+            ["Branch target", "Each such branch may aim to cover 250 new cultivator and non-cultivator households per year, focusing on marginal farmers and poor non-cultivator households."]
+          ]
+        },
+        {
+          "type": "bullets",
+          "title": "Four major reasons for lack of financial inclusion",
+          "items": [
+            "Inability to provide collateral security",
+            "Poor credit absorption capacity",
+            "Inadequate reach of institutions",
+            "Weak community network"
+          ]
+        },
+        {
+          "type": "mnemonic",
+          "title": "Four reasons for exclusion: CCRC",
+          "phrase": "Cheap Cars Reach Cities, but villagers lack Collateral, Credit capacity, Reach and Community.",
+          "letters": [
+            ["C", "Collateral security cannot be given"],
+            ["C", "Credit absorption capacity is poor"],
+            ["R", "Reach of institutions is inadequate"],
+            ["C", "Community network is weak"]
+          ]
+        },
+        {
+          "type": "mnemonic",
+          "title": "Committees in order of year",
+          "phrase": "Kind Rulers Make Money: Khan 2004, Rangarajan 2006, Mor 2013, Mohanty 2015.",
+          "letters": [
+            ["Kind", "Khan Commission – 2004"],
+            ["Rulers", "Rangarajan Committee – 2006"],
+            ["Make", "Nachiket Mor – September 2013"],
+            ["Money", "Deepak Mohanty – 15 July 2015"]
+          ],
+          "note": "The gaps are 2, 7 and 2 years."
+        }
+      ]
+    },
+    {
+      "id": "nachiket-mor",
+      "title": "Nachiket Mor Committee (2013)",
+      "icon": "🧭",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "The RBI set up the **Committee on Comprehensive Financial Services for Small Businesses and Low Income Households** in September 2013, chaired by Nachiket Mor, an RBI board member."
+        },
+        {
+          "type": "steps",
+          "title": "Key recommendations",
+          "items": [
+            "A universal bank account for every Indian above 18 years by 1 January 2016.",
+            "A vertically differentiated banking system: payments banks for deposits and payments, and wholesale banks for credit outreach.",
+            "Wholesale banks need ₹50 crore of capital, a tenth of what applies to new full banks.",
+            "Aadhaar to be the prime driver for rapid growth in bank accounts.",
+            "District-level monitoring of deposits and advances as a percentage of GDP.",
+            "Raise the priority sector lending mandate from 40 % to 50 %, adjusted for sectors and regions by difficulty in lending, and free banks from pricing and other restrictions.",
+            "Three new licence categories: payments, wholesale investment and wholesale consumer; regulations for NBFCs to be streamlined."
+          ]
+        },
+        {
+          "type": "text",
+          "text": "The committee suggested two district-level metrics to track **meaningful financial inclusion**: the **credit-to-GDP ratio** and the **life cover-to-GDP ratio**. This is a departure from simply counting accounts. The book also notes that business viability of the new bank types would be the biggest problem, citing Regional Rural Banks as a differentiated licence that started with great promise but broke down."
+        },
+        {
+          "type": "mnemonic",
+          "title": "Mor recommendations: UWAP",
+          "phrase": "UWAP: Universal account, Wholesale and payments banks, Aadhaar, PSL 50 %.",
+          "letters": [
+            ["U", "Universal bank account for all above 18 by 1 Jan 2016"],
+            ["W", "Wholesale banks for credit (₹50 crore capital)"],
+            ["A", "Aadhaar as the prime driver of accounts"],
+            ["P", "Priority sector lending target to 50 %, adjusted"]
+          ],
+          "note": "Payments banks and small finance banks both grew out of this report."
+        },
+        {
+          "type": "callout",
+          "kind": "remember",
+          "title": "Mor in one line",
+          "text": "Set up by RBI in Sept 2013 | head: Nachiket Mor | universal account by 1 Jan 2016 | payments and wholesale banks | PSL target 40 % to 50 % | credit-GDP and life cover-GDP ratios."
+        }
+      ]
+    },
+    {
+      "id": "deepak-mohanty",
+      "title": "Deepak Mohanty Committee (2015)",
+      "icon": "🗂️",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "RBI constituted this committee on **15 July 2015** to prepare a five-year (medium-term) action plan for financial inclusion. The 14-member panel was headed by RBI Executive Director **Deepak Mohanty**. Its tasks were to spread financial services to the unbanked population and to review existing inclusion policy, including payment systems and customer protection, in the light of earlier committees’ recommendations."
+        },
+        {
+          "type": "steps",
+          "title": "Key recommendations",
+          "items": [
+            "Raise the share of government cash transfers to lift the disposable income of the poor.",
+            "Banks to make special efforts to open accounts for low-income women, as a welfare measure.",
+            "Rely more on mobile technology for last-mile connectivity.",
+            "Link Aadhaar to every account as a unique biometric identifier.",
+            "Encourage corporates to nurture Self Help Groups (SHGs) under their CSR initiatives.",
+            "Phase out the agricultural interest subvention scheme and replace agricultural input subsidies on fertilisers, irrigation and power by a direct income transfer scheme, as a second-generation reform."
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Committees compared",
+          "headers": ["Committee", "Year", "Set up by", "Headline idea"],
+          "rows": [
+            ["Khan Commission", "2004", "RBI", "Basic no-frills account with nil or minimal balance"],
+            ["Rangarajan", "2006", "Government of India", "National Mission (NaMFI), NHGs, micro banks"],
+            ["Nachiket Mor", "Sept 2013", "RBI", "Universal account by 1 Jan 2016, payments and wholesale banks"],
+            ["Deepak Mohanty", "15 July 2015", "RBI", "Medium-term action plan, Aadhaar, mobile, DBT"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "Who set up whom",
+          "text": "The Rangarajan Committee was constituted by the Government of India. The Khan Commission, Nachiket Mor Committee and Deepak Mohanty Committee were all set up by the RBI."
+        },
+        {
+          "type": "mnemonic",
+          "title": "Mohanty’s medium-term plan: five-year, 14 members",
+          "phrase": "Mohanty = Medium-term, Mobile, Money transfers, Mahila (women) accounts.",
+          "letters": [
+            ["Medium", "Five-year action plan, 14-member panel"],
+            ["Mobile", "Rely on mobile technology for last mile"],
+            ["Money", "Higher government cash transfers"],
+            ["Mahila", "Special push for women’s accounts"]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "microfinance-related",
+      "title": "Microfinance, MUDRA, Jan Samarth and watchdog boards",
+      "icon": "🧾",
+      "blocks": [
+        {
+          "type": "keyvalue",
+          "title": "Related concepts and bodies",
+          "rows": [
+            ["Micro credit", "Loans of very small amounts to low-income groups."],
+            ["Microfinance principles", "Lack of physical collateral, peer monitoring, focus on women borrowers and small loan amounts. A large loan amount is not a basic principle."],
+            ["Self Help Group (SHG)", "Small group of poor people (mostly women) who save together and borrow from banks as a group."],
+            ["Jan Samarth Portal", "A Ministry of Finance portal that links over a dozen government credit schemes to lenders, so beneficiaries can check eligibility, apply and get digital approval online."],
+            ["Banking Codes and Standards Board of India (BCSBI)", "Set up by RBI to encourage transparency in lending and fair pricing."],
+            ["Banks Board Bureau (BBB)", "Monitors the appointment of top bank personnel."],
+            ["Financial Inclusion Fund", "Initial contribution came from the Government of India, NABARD and RBI."]
+          ]
+        },
+        {
+          "type": "table",
+          "title": "MUDRA loan categories",
+          "headers": ["Category", "Loan size", "Stage of business"],
+          "rows": [
+            ["Shishu", "Up to ₹50,000", "Starting out"],
+            ["Kishore", "₹50,000 to ₹5 lakh", "Growing"],
+            ["Tarun", "₹5 lakh to ₹10 lakh", "Established, expanding"]
+          ]
+        },
+        {
+          "type": "mnemonic",
+          "title": "MUDRA ladder: Baby, Teen, Adult",
+          "phrase": "Shishu = infant (50K), Kishore = teen (5L), Tarun = youth (10L): the loan grows as the child grows.",
+          "letters": [
+            ["Shishu", "Up to ₹50,000"],
+            ["Kishore", "Above ₹50,000 up to ₹5 lakh"],
+            ["Tarun", "Above ₹5 lakh up to ₹10 lakh (maximum)"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "fact",
+          "title": "Maximum MUDRA limit",
+          "text": "The highest MUDRA loan limit is ₹10 lakh, which falls under the Tarun category."
+        }
+      ]
+    }
+  ],
+  "revision": [
+    "Financial inclusion = delivering banking services at affordable cost to disadvantaged and low-income groups, through no-frills accounts.",
+    "Three needs: savings habit, formal credit instead of moneylenders, and plugging leaks in subsidies via direct transfers.",
+    "Business correspondents take banking to villages where branches are too costly; the book cites 110,000 BCs and 74,414 villages above 2,000 population.",
+    "Swabhiman covers habitations above 2,000 population in plains and above 1,000 in north-eastern and hilly states.",
+    "KCC was introduced by NABARD in 1998-99; Lead Bank Scheme 1969; Lead Bank Officer 1979; Local Area Banks 1996.",
+    "Interest subvention example: textile 10 % minus 2 % = 8 %; agriculture 10 % minus 4 % = 6 %.",
+    "PMJDY (Dept of Financial Services): zero balance, RuPay card, ₹1 lakh accident cover, ₹5,000 overdraft after 6 months.",
+    "BSBDA: zero minimum balance, max 4 withdrawals a month, one per bank, close other savings account within 30 days.",
+    "Payments banks accept deposits but do not lend; small finance banks do both; both stem from the Nachiket Mor Committee.",
+    "Khan Commission 2004 (RBI); Rangarajan Committee 2006 (Government); Nachiket Mor Sept 2013 (RBI); Deepak Mohanty 15 July 2015 (RBI).",
+    "Four causes of exclusion: collateral, poor credit absorption, inadequate reach of institutions, weak community network.",
+    "NRFIP targeted 50 % of excluded households (55.77 million) by 2012 and the rest by 2015.",
+    "Mor Committee: universal account for adults by 1 Jan 2016, wholesale and payments banks, PSL target raised from 40 % to 50 %.",
+    "Meaningful inclusion is tracked by credit-to-GDP and life cover-to-GDP ratios at district level.",
+    "Mohanty Committee: Aadhaar-linked accounts, more mobile banking, corporate CSR for SHGs, replace farm subsidies by direct income transfer.",
+    "MUDRA categories: Shishu up to ₹50,000, Kishore up to ₹5 lakh, Tarun up to ₹10 lakh."
+  ],
+  "mindmap": {
+    "center": "Financial Inclusion",
+    "branches": [
+      {
+        "label": "Meaning and need",
+        "children": ["Affordable banking for poor", "Savings habit", "Formal credit", "Plug subsidy leaks"]
+      },
+      {
+        "label": "Access steps",
+        "children": ["Business correspondents", "No-frills accounts", "Swabhiman", "DBT, Aadhaar bridge"]
+      },
+      {
+        "label": "Credit schemes",
+        "children": ["KCC (NABARD, 1998-99)", "Lead Bank Scheme 1969", "Local Area Banks 1996", "Rashtriya Mahila Kosh", "Interest subvention, DRI"]
+      },
+      {
+        "label": "PMJDY",
+        "children": ["Zero balance", "RuPay card", "Accident cover ₹1 lakh", "Overdraft ₹5,000", "NUUP mobile banking"]
+      },
+      {
+        "label": "BSBDA",
+        "children": ["Zero minimum balance", "Four withdrawals a month", "One account per bank", "Replaced no-frills accounts"]
+      },
+      {
+        "label": "Special banks",
+        "children": ["Payments banks", "Small finance banks", "Financial literacy centres", "FLCCs"]
+      },
+      {
+        "label": "Committees",
+        "children": ["Khan 2004", "Rangarajan 2006", "Nachiket Mor 2013", "Deepak Mohanty 2015"]
+      },
+      {
+        "label": "Related items",
+        "children": ["Priority sector lending", "Microfinance principles", "MUDRA categories", "Jan Samarth Portal", "BCSBI and BBB"]
+      }
+    ]
+  }
+}

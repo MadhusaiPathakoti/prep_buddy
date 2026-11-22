@@ -1,0 +1,303 @@
+[
+  {
+    "id": "cheques-01",
+    "q": "As per the Negotiable Instruments Act, a cheque is a bill of exchange drawn on a specified banker and ______.",
+    "options": ["payable after a fixed period", "payable only on demand", "payable only to the bearer", "payable only after crossing"],
+    "answer": 1,
+    "explain": "A cheque is always drawn on a specified banker and is payable only on demand; these two features separate it from other bills of exchange.",
+    "section": "cheque-basics"
+  },
+  {
+    "id": "cheques-02",
+    "q": "The person who writes and signs a cheque, ordering his bank to pay a sum of money, is called the",
+    "options": ["Drawee", "Payee", "Drawer", "Endorsee"],
+    "answer": 2,
+    "explain": "The drawer is the account holder who draws the cheque. The drawee is his bank and the payee is the person to be paid.",
+    "section": "cheque-basics"
+  },
+  {
+    "id": "cheques-03",
+    "q": "In a cheque transaction, the drawee is",
+    "options": ["the drawer’s banker on whom the cheque is drawn", "the person to whom the amount is payable", "the person who signs and issues the cheque", "the person who endorses it to another party"],
+    "answer": 0,
+    "explain": "The drawee of a cheque is the drawer’s bank, which is directed to pay. The person to be paid is the payee.",
+    "section": "cheque-basics"
+  },
+  {
+    "id": "cheques-04",
+    "q": "A written, signed and unconditional promise by a debtor to pay a certain sum of money to a creditor is called a",
+    "options": ["Bill of exchange", "Cheque", "Banker’s draft", "Promissory note"],
+    "answer": 3,
+    "explain": "A promissory note is an unconditional undertaking by the maker (debtor) to pay. A bill of exchange and a cheque are orders to pay, not promises.",
+    "section": "cheque-basics"
+  },
+  {
+    "id": "cheques-05",
+    "q": "Which of the following is a primary function of a bank?",
+    "options": ["Acting as trustee or executor of customers’ property", "Keeping customers’ securities in safe custody", "Accepting deposits from the public", "Collecting cheques and rent on behalf of customers"],
+    "answer": 2,
+    "explain": "Accepting deposits (and lending) are primary functions. The other three are agency or utility services offered to customers.",
+    "section": "cheque-basics"
+  },
+  {
+    "id": "cheques-06",
+    "q": "When the signature of the drawer on a cheque is not genuine, the cheque is called a",
+    "options": ["Crossed cheque", "Stale cheque", "Forged cheque", "Post-dated cheque"],
+    "answer": 2,
+    "explain": "A cheque bearing a fake signature of the drawer is a forged cheque; crossing, staleness and post-dating relate to other features.",
+    "section": "cheque-basics",
+    "exam": "SBI PO Main 2017"
+  },
+  {
+    "id": "cheques-07",
+    "q": "A bearer cheque can be transferred from one person to another by",
+    "options": ["endorsement and delivery", "mere delivery of the cheque", "an order of the court", "a special crossing"],
+    "answer": 1,
+    "explain": "A bearer cheque passes by mere delivery. Endorsement plus delivery is the method for an order cheque.",
+    "section": "bearer-order"
+  },
+  {
+    "id": "cheques-08",
+    "q": "A cheque in which the words ‘or order’ appear after the name of the payee is called a/an",
+    "options": ["Bearer cheque", "Stale cheque", "Antedated cheque", "Order cheque"],
+    "answer": 3,
+    "explain": "The words ‘or order’ after the payee’s name make it an order cheque, payable to the payee or to the person he orders.",
+    "section": "bearer-order"
+  },
+  {
+    "id": "cheques-09",
+    "q": "Which of the following statements about cheques is correct?",
+    "options": ["A bearer cheque needs the endorsement of each holder", "An order cheque passes by mere delivery", "No endorsement can make a bearer cheque payable otherwise than to the bearer", "A bearer cheque can only be paid into a bank account"],
+    "answer": 2,
+    "explain": "A bearer cheque always remains payable to the bearer, whatever endorsement is put on it. Only order cheques need endorsement to transfer.",
+    "section": "bearer-order"
+  },
+  {
+    "id": "cheques-10",
+    "q": "In the case of an order cheque, the drawee banker is bound to pay",
+    "options": ["only the payee or the person ordered by him", "any person who holds the cheque", "only the drawer of the cheque", "only another banker"],
+    "answer": 0,
+    "explain": "An order cheque is payable to the named payee or his order. The banker is discharged by payment in due course to that person.",
+    "section": "bearer-order"
+  },
+  {
+    "id": "cheques-11",
+    "q": "Which of the following cheques can be collected by the payee over the counter of the bank?",
+    "options": ["Crossed cheque", "Account payee cheque", "Open cheque", "Specially crossed cheque"],
+    "answer": 2,
+    "explain": "An open cheque carries no crossing and can be encashed across the counter. All crossed cheques must be paid through a bank account.",
+    "section": "open-crossed"
+  },
+  {
+    "id": "cheques-12",
+    "q": "If two parallel lines are drawn on the front part of a cheque, it is called a",
+    "options": ["Open cheque", "Crossed cheque", "Stale cheque", "Traveller’s cheque"],
+    "answer": 1,
+    "explain": "Two parallel lines on the face make it a crossed cheque, which cannot be encashed in cash across the counter.",
+    "section": "open-crossed",
+    "exam": "IBPS RRB Asst. Main 2020"
+  },
+  {
+    "id": "cheques-13",
+    "q": "What is the effect of crossing a cheque?",
+    "options": ["The payee can obtain payment only through a bank account", "The payee is compelled to open a new account", "The payee must endorse the cheque to the bank", "The cheque cannot be issued again by the drawer"],
+    "answer": 0,
+    "explain": "A crossed cheque is paid only through a bank, so the payee must have a bank account to collect it. He is not forced to open a fresh one for this purpose.",
+    "section": "open-crossed"
+  },
+  {
+    "id": "cheques-14",
+    "q": "Which kind of cheque is considered safer than the others if it is lost or stolen?",
+    "options": ["Open cheque", "Bearer cheque", "Crossed cheque", "Cheque without a date"],
+    "answer": 2,
+    "explain": "Crossing ensures that money goes only into a bank account, so the receiver can be traced. Open and bearer cheques can be encashed over the counter.",
+    "section": "open-crossed"
+  },
+  {
+    "id": "cheques-15",
+    "q": "A cheque carrying two parallel transverse lines but no banker’s name must be paid only to",
+    "options": ["the payee in cash", "a banker", "the drawer", "the holder in cash"],
+    "answer": 1,
+    "explain": "This is a general crossing, whose effect is that the paying bank may pay only to a banker and not across the counter.",
+    "section": "crossing-types"
+  },
+  {
+    "id": "cheques-16",
+    "q": "A special crossing on a cheque must contain",
+    "options": ["the words ‘not negotiable’", "two parallel lines only", "the words ‘account payee’", "the name of a banker"],
+    "answer": 3,
+    "explain": "In a special crossing the name of a particular banker is written, and the cheque must be paid only to that banker. It may be made only once.",
+    "section": "crossing-types"
+  },
+  {
+    "id": "cheques-17",
+    "q": "Which statement about special crossing is correct?",
+    "options": ["It can be converted into a general crossing", "It may be made any number of times", "It cannot be converted into a general crossing", "It allows payment across the counter"],
+    "answer": 2,
+    "explain": "A special crossing is permanent: it cannot be turned into a general crossing, and the cheque is payable only to the named banker.",
+    "section": "crossing-types"
+  },
+  {
+    "id": "cheques-18",
+    "q": "What is the effect of a ‘not negotiable’ crossing on a cheque?",
+    "options": ["It stays transferable, but the transferee’s title is no better than the transferor’s", "It can no longer be transferred to anyone", "It becomes payable only to the drawer", "It becomes payable across the counter"],
+    "answer": 0,
+    "explain": "‘Not negotiable’ does not stop transfer; it only means the new holder gets no better title than the person who passed it on.",
+    "section": "crossing-types"
+  },
+  {
+    "id": "cheques-19",
+    "q": "Which crossing is also called restrictive crossing?",
+    "options": ["General crossing", "Special crossing", "Not negotiable crossing", "Account payee crossing"],
+    "answer": 3,
+    "explain": "Account payee crossing restricts payment to the named payee’s account, so the cheque does not remain negotiable.",
+    "section": "crossing-types"
+  },
+  {
+    "id": "cheques-20",
+    "q": "After which of the following crossings does a cheque cease to be negotiable?",
+    "options": ["General crossing", "Account payee crossing", "Special crossing", "Not negotiable crossing"],
+    "answer": 1,
+    "explain": "An ‘account payee’ crossing ends negotiability. A ‘not negotiable’ crossing, despite its name, leaves the cheque transferable.",
+    "section": "crossing-types"
+  },
+  {
+    "id": "cheques-21",
+    "q": "Which of the following is NOT a type of crossing of a cheque?",
+    "options": ["Stale crossing", "General crossing", "Special crossing", "Account payee crossing"],
+    "answer": 0,
+    "explain": "Staleness relates to the age of a cheque, not to crossing. General, special, not negotiable and account payee are crossing types.",
+    "section": "crossing-types"
+  },
+  {
+    "id": "cheques-22",
+    "q": "The words ‘not negotiable’ on a cheque must be accompanied by",
+    "options": ["a post-dated entry", "a general or special crossing", "the payee’s signature", "an endorsement in blank"],
+    "answer": 1,
+    "explain": "A ‘not negotiable’ crossing is added on top of a general or a special crossing.",
+    "section": "crossing-types"
+  },
+  {
+    "id": "cheques-23",
+    "q": "A cheque that bears a date earlier than the date of its actual issue is called",
+    "options": ["Antedated cheque", "Post-dated cheque", "Open cheque", "Order cheque"],
+    "answer": 0,
+    "explain": "A backdated cheque is an antedated cheque. It is not invalid, unless it is so old that it has become stale.",
+    "section": "cheque-dates"
+  },
+  {
+    "id": "cheques-24",
+    "q": "Which statement about a post-dated cheque is correct?",
+    "options": ["It is invalid in law", "It loses its negotiability", "The banker may pay it before the date shown", "It is valid, but the banker must not pay it earlier than its date"],
+    "answer": 3,
+    "explain": "A post-dated cheque is valid and negotiable. Paying it early goes against the drawer’s mandate, so the bank loses its protection.",
+    "section": "cheque-dates"
+  },
+  {
+    "id": "cheques-25",
+    "q": "A cheque presented for payment after three months from the date of issue is called",
+    "options": ["Antedated cheque", "Post-dated cheque", "Stale cheque", "Open cheque"],
+    "answer": 2,
+    "explain": "By banking custom a cheque older than 3 months is stale and is not honoured unless the drawer revalidates it.",
+    "section": "cheque-dates"
+  },
+  {
+    "id": "cheques-26",
+    "q": "For how long are cheques, drafts, pay orders and banker’s cheques valid from the date of the instrument?",
+    "options": ["1 month", "3 months", "4 months", "6 months"],
+    "answer": 1,
+    "explain": "These instruments are valid for 3 months from their date. After that they become stale and need revalidation.",
+    "section": "cheque-dates",
+    "exam": "IBPS Clerk Main 2019"
+  },
+  {
+    "id": "cheques-27",
+    "q": "A stale cheque will be honoured by the drawee banker only if",
+    "options": ["the payee requests the bank in writing", "it is crossed specially", "it is endorsed in blank", "it is revalidated by the drawer"],
+    "answer": 3,
+    "explain": "Because it is out of date, the bank pays a stale cheque only after the drawer revalidates it.",
+    "section": "cheque-dates"
+  },
+  {
+    "id": "cheques-28",
+    "q": "Even after a cheque becomes stale, the drawer or endorser remains liable until the claim is barred by limitation of",
+    "options": ["one year", "two years", "three years", "six years"],
+    "answer": 2,
+    "explain": "A stale cheque does not discharge the drawer; liability ends only when the claim is barred by limitation, which is three years.",
+    "section": "cheque-dates"
+  },
+  {
+    "id": "cheques-29",
+    "q": "Payment of any cheque can be stopped when an injunction is imposed by a",
+    "options": ["Court", "Clearing house", "Notary", "Post office"],
+    "answer": 0,
+    "explain": "A court can impose an injunction against payment of any cheque, in addition to the account holder’s own stop-payment instruction.",
+    "section": "stop-payment"
+  },
+  {
+    "id": "cheques-30",
+    "q": "A bank can stop payment of an account holder’s cheques on hearing the news of his",
+    "options": ["marriage", "change of address", "death, insanity or bankruptcy", "retirement"],
+    "answer": 2,
+    "explain": "Death, insanity and bankruptcy of the customer end the bank’s authority to pay his cheques.",
+    "section": "stop-payment"
+  },
+  {
+    "id": "cheques-31",
+    "q": "Who can file a criminal case against the drawer of a dishonoured cheque?",
+    "options": ["Only the paying banker", "Only the payee", "Only the clearing house", "The payee or the holder in due course"],
+    "answer": 3,
+    "explain": "Both the payee and the holder in due course can proceed against the drawer of a dishonoured cheque; the paying banker cannot.",
+    "section": "stop-payment",
+    "exam": "SBI PO Main 2017"
+  },
+  {
+    "id": "cheques-32",
+    "q": "A stop-payment instruction from the cheque’s maker to the bank can be given",
+    "options": ["only through a court order", "by a written application or by a telephonic message if the bank accepts it", "only through an affidavit before a magistrate", "only after the cheque becomes stale"],
+    "answer": 1,
+    "explain": "The drawer may instruct the bank in writing, or by telephone if the bank is willing to accept such a message.",
+    "section": "stop-payment"
+  },
+  {
+    "id": "cheques-33",
+    "q": "Under the Cheque Truncation System, processing locations in India are consolidated into grids at Chennai, Mumbai and which other city?",
+    "options": ["Hyderabad", "Lucknow", "New Delhi", "Kolkata"],
+    "answer": 2,
+    "explain": "The three CTS grids are Chennai, Mumbai and New Delhi.",
+    "section": "cts-2010",
+    "exam": "IBPS Clerk Mains 2023"
+  },
+  {
+    "id": "cheques-34",
+    "q": "The term ‘CTS-2010 standard’ refers to",
+    "options": ["benchmark security features and field placement prescribed for cheque forms", "the maximum amount payable by a cheque", "the number of days a cheque stays valid", "the format of a bank’s annual report"],
+    "answer": 0,
+    "explain": "CTS-2010 is the collective name for the benchmarks on paper quality, watermark, invisible-ink logo, void pantograph and field placement on cheques.",
+    "section": "cts-2010"
+  },
+  {
+    "id": "cheques-35",
+    "q": "Truncation of cheques means",
+    "options": ["debiting the drawer’s account through the internet", "printing the MICR band on a cheque leaf", "crossing a cheque with two parallel lines", "scanning cheques and sending an electronic image instead of the physical cheque"],
+    "answer": 3,
+    "explain": "In truncation the physical cheque is stopped at the collecting bank and its scanned image travels through clearing.",
+    "section": "cts-2010"
+  },
+  {
+    "id": "cheques-36",
+    "q": "Into how many grids are cheque processing locations consolidated under CTS?",
+    "options": ["Two", "Three", "Four", "Five"],
+    "answer": 1,
+    "explain": "Cheque processing is consolidated into three grids: Chennai, Mumbai and New Delhi.",
+    "section": "cts-2010"
+  },
+  {
+    "id": "cheques-37",
+    "q": "Which of the following is one of the security benchmarks of CTS-2010 cheques?",
+    "options": ["Void pantograph", "Photograph of the payee", "Fingerprint of the drawer", "Seal of the court"],
+    "answer": 0,
+    "explain": "CTS-2010 benchmarks include a watermark, the bank’s logo in invisible ink and a void pantograph, besides standard field placement.",
+    "section": "cts-2010"
+  }
+]

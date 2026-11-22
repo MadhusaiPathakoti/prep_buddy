@@ -1,18 +1,21 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { HeroArt } from '../../components/awareness/ChapterHero'
-import { availableChapterIds, getReadChapters, loadAllQuestions } from '../../lib/computerAwareness/data'
-import { CA_CHAPTERS } from '../../lib/computerAwareness/meta'
-import { THEMES } from '../../lib/computerAwareness/theme'
+import { basePath } from '../../lib/awareness/books'
+import { useBook } from '../../lib/awareness/bookContext'
+import { availableChapterIds, getReadChapters, loadAllQuestions } from '../../lib/awareness/data'
+import { THEMES } from '../../lib/awareness/theme'
 
 export default function BookIndex() {
-  const [read] = useState(() => getReadChapters())
+  const book = useBook()
+  const base = basePath(book)
+  const [read] = useState(() => getReadChapters(book))
   const [counts, setCounts] = useState<Map<string, number> | null>(null)
-  const available = availableChapterIds()
+  const available = availableChapterIds(book)
 
   useEffect(() => {
     let cancelled = false
-    loadAllQuestions()
+    loadAllQuestions(book)
       .then((qs) => {
         if (cancelled) return
         const m = new Map<string, number>()
@@ -25,53 +28,53 @@ export default function BookIndex() {
     return () => {
       cancelled = true
     }
-  }, [])
+  }, [book])
 
-  const readCount = CA_CHAPTERS.filter((c) => read.has(c.id)).length
-  const firstUnread = CA_CHAPTERS.find((c) => available.has(c.id) && !read.has(c.id))
+  const readCount = book.chapters.filter((c) => read.has(c.id)).length
+  const firstUnread = book.chapters.find((c) => available.has(c.id) && !read.has(c.id))
 
   return (
     <div className="mx-auto max-w-3xl px-4 py-10">
-      <Link to="/general-awareness/computer" className="text-sm text-slate-400 dark:text-slate-500 hover:text-slate-600">
-        ← Computer Awareness
+      <Link to={`${base}`} className="text-sm text-slate-400 dark:text-slate-500 hover:text-slate-600">
+        ← {book.name}
       </Link>
 
       {/* the book cover */}
-      <div className="relative mt-2 overflow-hidden rounded-3xl bg-gradient-to-br from-slate-900 via-indigo-900 to-violet-800 p-7 text-white shadow-lg sm:p-10">
-        <HeroArt id="cover" />
+      <div className={`relative mt-2 overflow-hidden rounded-3xl bg-gradient-to-br ${book.coverGradient} p-7 text-white shadow-lg sm:p-10`}>
+        <HeroArt id={`cover-${book.id}`} />
         <div className="relative flex flex-col gap-6 sm:flex-row sm:items-center">
           <div className="flex h-36 w-28 shrink-0 flex-col items-center justify-center rounded-r-2xl rounded-l-md bg-gradient-to-br from-amber-300 to-orange-500 text-slate-900 shadow-2xl ring-1 ring-white/40 sm:h-44 sm:w-36">
             <span className="text-5xl sm:text-6xl" aria-hidden="true">
-              💻
+              {book.coverIcon}
             </span>
-            <span className="mt-2 px-2 text-center text-xs font-extrabold uppercase leading-tight tracking-wide">Computer Awareness</span>
+            <span className="mt-2 px-2 text-center text-xs font-extrabold uppercase leading-tight tracking-wide">{book.name}</span>
           </div>
           <div>
             <div className="text-xs font-bold uppercase tracking-widest text-indigo-200">The complete book</div>
-            <h1 className="mt-1 text-3xl font-extrabold leading-tight sm:text-4xl">Computer Awareness</h1>
+            <h1 className="mt-1 text-3xl font-extrabold leading-tight sm:text-4xl">{book.name}</h1>
             <p className="mt-2 text-indigo-100">
-              {CA_CHAPTERS.length} chapters · diagrams, tables and exam traps · a mind map at the end of every chapter.
+              {book.chapters.length} chapters · diagrams, tables and exam traps · a mind map at the end of every chapter.
             </p>
             <div className="mt-4 flex flex-wrap items-center gap-3">
               {firstUnread && (
-                <Link to={`/general-awareness/computer/book/${firstUnread.id}`} className="rounded-xl bg-white px-4 py-2 text-sm font-bold text-indigo-700 shadow-sm transition hover:bg-indigo-50">
+                <Link to={`${base}/book/${firstUnread.id}`} className="rounded-xl bg-white px-4 py-2 text-sm font-bold text-indigo-700 shadow-sm transition hover:bg-indigo-50">
                   {readCount === 0 ? 'Start reading →' : `Continue: ${firstUnread.title} →`}
                 </Link>
               )}
               <span className="text-sm text-indigo-200">
-                {readCount} of {CA_CHAPTERS.length} read
+                {readCount} of {book.chapters.length} read
               </span>
             </div>
           </div>
         </div>
         <div className="relative mt-6 h-2 overflow-hidden rounded-full bg-white/20">
-          <div className="h-full rounded-full bg-amber-300 transition-all" style={{ width: `${(readCount / CA_CHAPTERS.length) * 100}%` }} />
+          <div className="h-full rounded-full bg-amber-300 transition-all" style={{ width: `${(readCount / book.chapters.length) * 100}%` }} />
         </div>
       </div>
 
       <h2 className="mb-4 mt-10 text-xl font-bold text-slate-900 dark:text-slate-100">Contents</h2>
       <div className="grid gap-4 sm:grid-cols-2">
-        {CA_CHAPTERS.map((c) => {
+        {book.chapters.map((c) => {
           const t = THEMES[c.theme]
           const ready = available.has(c.id)
           const n = counts?.get(c.id)
@@ -98,7 +101,7 @@ export default function BookIndex() {
           return ready ? (
             <Link
               key={c.id}
-              to={`/general-awareness/computer/book/${c.id}`}
+              to={`${base}/book/${c.id}`}
               className="group overflow-hidden rounded-3xl bg-white shadow-sm ring-1 ring-slate-200 transition hover:-translate-y-0.5 hover:shadow-md dark:bg-slate-800 dark:ring-slate-700"
             >
               {body}

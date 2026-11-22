@@ -1,0 +1,247 @@
+[
+  {
+    "id": "bbb-iba-01",
+    "q": "Which body of eminent professionals and officials replaced the Government's Appointments Board for choosing whole-time directors and non-executive chairmen of public sector banks?",
+    "options": ["NITI Aayog", "Bureau of Banking Standards", "Banks Board Bureau", "Financial Stability Board"],
+    "answer": 2,
+    "explain": "The Banks Board Bureau, which began working on 1 April 2016, replaced the Appointments Board and recommends heads of PSBs.",
+    "section": "bbb-genesis"
+  },
+  {
+    "id": "bbb-iba-02",
+    "q": "The Banks Board Bureau was set up on the basis of the recommendations of which committee?",
+    "options": [
+      "P J Nayak Committee",
+      "C Rangarajan Committee",
+      "Lakdawala Committee",
+      "Usha Thorat Committee"
+    ],
+    "answer": 0,
+    "explain": "The Committee to Review Governance of Boards of Banks in India (May 2014), chaired by P J Nayak, recommended the Bureau.",
+    "section": "bbb-genesis"
+  },
+  {
+    "id": "bbb-iba-03",
+    "q": "Besides the Chairman, how many members does the Banks Board Bureau have?",
+    "options": ["Five", "Six", "Seven", "Eight"],
+    "answer": 1,
+    "explain": "It has 3 ex-officio members from the Government and 3 expert members (two from the private sector), i.e. six members besides the Chairman.",
+    "section": "bbb-composition"
+  },
+  {
+    "id": "bbb-iba-04",
+    "q": "From which date did the Banks Board Bureau start functioning?",
+    "options": ["1 April 2013", "1 April 2014", "1 April 2015", "1 April 2016"],
+    "answer": 3,
+    "explain": "The Bureau started working on 1 April 2016. Its constitution and composition had been announced on 28 February 2016.",
+    "section": "bbb-genesis"
+  },
+  {
+    "id": "bbb-iba-05",
+    "q": "Which of the following is NOT a function of the Banks Board Bureau?",
+    "options": [
+      "Recommending appointments of full-time directors of PSBs",
+      "Advising banks on mergers and consolidation",
+      "Approving corporate credit proposals of banks",
+      "Advising PSBs on handling stressed assets"
+    ],
+    "answer": 2,
+    "explain": "Loan approvals are a bank's own business. The BBB recommends heads, advises on fund-raising and stressed assets, and guides on mergers and governance.",
+    "section": "bbb-functions-roles"
+  },
+  {
+    "id": "bbb-iba-06",
+    "q": "In which year was the Indian Banks' Association (IBA) formed?",
+    "options": ["1946", "1942", "1934", "1950"],
+    "answer": 0,
+    "explain": "IBA was formed on 26 September 1946 in Mumbai as a representative body of bank management. 1934 is the year of the RBI Act.",
+    "section": "iba"
+  },
+  {
+    "id": "bbb-iba-07",
+    "q": "Who served as Chairman of the Securities and Exchange Board of India (SEBI) from 2017 to 2022?",
+    "options": ["Urjit Patel", "Ajay Tyagi", "Ram Sewak Sharma", "Harsh Kumar Bhanwala"],
+    "answer": 1,
+    "explain": "Ajay Tyagi headed SEBI from March 2017 to early 2022. Urjit Patel was an RBI Governor and Ram Sewak Sharma has headed TRAI.",
+    "section": "related-bodies",
+    "exam": "IBPS RRB Asst Main 2018"
+  },
+  {
+    "id": "bbb-iba-08",
+    "q": "The National Payments Corporation of India (NPCI) was set up with the guidance and support of which institution?",
+    "options": ["SIDBI", "SBI", "IFCI", "RBI"],
+    "answer": 3,
+    "explain": "NPCI, the umbrella organisation for retail payments, was set up with the guidance and support of the Reserve Bank of India and the IBA.",
+    "section": "related-bodies",
+    "exam": "RBI Grade B 2018"
+  },
+  {
+    "id": "bbb-iba-09",
+    "q": "The National Company Law Tribunal (NCLT) is a quasi-judicial body that adjudicates issues relating to which of the following?",
+    "options": ["Indian individuals", "Institutional investors", "Indian companies", "Multinational companies"],
+    "answer": 2,
+    "explain": "NCLT deals with corporate disputes under company law, i.e. issues of Indian companies such as insolvency, mergers and oppression of minority.",
+    "section": "related-bodies",
+    "exam": "SBI PO Main 2022"
+  },
+  {
+    "id": "bbb-iba-10",
+    "q": "Where was the Indian Banks' Association formed?",
+    "options": ["Delhi", "Kolkata", "Chennai", "Mumbai"],
+    "answer": 3,
+    "explain": "IBA was formed in Mumbai on 26 September 1946.",
+    "section": "iba"
+  },
+  {
+    "id": "bbb-iba-11",
+    "q": "How many banks were represented by the IBA when it was formed in 1946?",
+    "options": ["12", "22", "32", "46"],
+    "answer": 1,
+    "explain": "IBA began with 22 member banks in 1946 and now represents several hundred banking companies (246 per the 2024-25 syllabus book).",
+    "section": "iba"
+  },
+  {
+    "id": "bbb-iba-12",
+    "q": "How many Deputy Chairmen are there in the managing committee of the IBA?",
+    "options": ["1", "2", "3", "5"],
+    "answer": 2,
+    "explain": "The managing committee has 1 Chairman, 3 Deputy Chairmen, 1 Honorary Secretary and 26 members.",
+    "section": "iba"
+  },
+  {
+    "id": "bbb-iba-13",
+    "q": "How many ordinary members, apart from the Chairman, Deputy Chairmen and Honorary Secretary, sit on the IBA managing committee?",
+    "options": ["26", "22", "36", "46"],
+    "answer": 0,
+    "explain": "The committee is 1 + 3 + 1 + 26: the 26 members are in addition to the Chairman, three Deputy Chairmen and one Honorary Secretary.",
+    "section": "iba"
+  },
+  {
+    "id": "bbb-iba-14",
+    "q": "Where is the Banks Board Bureau housed?",
+    "options": [
+      "Finance Ministry office in New Delhi",
+      "The central office of the RBI in Mumbai",
+      "NITI Aayog office in New Delhi",
+      "SEBI Bhavan in Mumbai"
+    ],
+    "answer": 1,
+    "explain": "The BBB is housed in the RBI's central office in Mumbai, though it is a separate autonomous, recommendatory body.",
+    "section": "bbb-genesis"
+  },
+  {
+    "id": "bbb-iba-15",
+    "q": "The Banks Board Bureau is considered the first step towards which institution recommended by the P J Nayak Committee?",
+    "options": [
+      "Asset Reconstruction Company",
+      "Bank Investment Company",
+      "National Bad Bank",
+      "Banking Ombudsman Office"
+    ],
+    "answer": 1,
+    "explain": "The P J Nayak Committee proposed a Bank Investment Company to hold government stakes in PSBs; the BBB is seen as the first step towards it.",
+    "section": "bbb-genesis"
+  },
+  {
+    "id": "bbb-iba-16",
+    "q": "The Banks Board Bureau was announced in August 2015 as part of which programme?",
+    "options": [
+      "Gyan Sangam",
+      "Jan Dhan Mission",
+      "Mission MUDRA",
+      "Indradhanush mission"
+    ],
+    "answer": 3,
+    "explain": "The BBB is one of the seven points of the Indradhanush mission to revamp public sector banks.",
+    "section": "bbb-genesis"
+  },
+  {
+    "id": "bbb-iba-17",
+    "q": "How many ex-officio members (from the Government) are in the Banks Board Bureau besides the Chairman?",
+    "options": ["3", "4", "5", "6"],
+    "answer": 0,
+    "explain": "There are 3 ex-officio members and 3 expert members; six in all besides the Chairman.",
+    "section": "bbb-composition"
+  },
+  {
+    "id": "bbb-iba-18",
+    "q": "Of the three expert members of the Banks Board Bureau, how many are from the private sector?",
+    "options": ["None", "One", "Two", "Three"],
+    "answer": 2,
+    "explain": "Two of the three expert members come from the private sector.",
+    "section": "bbb-composition"
+  },
+  {
+    "id": "bbb-iba-19",
+    "q": "Which description fits the Banks Board Bureau best?",
+    "options": [
+      "A statutory regulator that cancels bank licences",
+      "A section of the Finance Ministry secretariat",
+      "An autonomous recommendatory body for public sector banks",
+      "A private council of bank CEOs"
+    ],
+    "answer": 2,
+    "explain": "The Bureau is autonomous and recommendatory: it advises the Government, which makes the final appointments.",
+    "section": "bbb-genesis"
+  },
+  {
+    "id": "bbb-iba-20",
+    "q": "What happened on 28 February 2016 in the story of the Banks Board Bureau?",
+    "options": [
+      "The Government announced the constitution and composition of the Bureau",
+      "The Bureau began functioning",
+      "The P J Nayak Committee submitted its report",
+      "The Bureau recommended its first bank chief"
+    ],
+    "answer": 0,
+    "explain": "The constitution and composition were announced on 28 February 2016; actual functioning began on 1 April 2016.",
+    "section": "bbb-genesis"
+  },
+  {
+    "id": "bbb-iba-21",
+    "q": "Which body replaced the Banks Board Bureau in 2022 for selecting heads of public sector financial institutions?",
+    "options": [
+      "Financial Stability and Development Council",
+      "Financial Services Institutions Bureau",
+      "Banking Codes and Standards Board of India",
+      "Insolvency and Bankruptcy Board of India"
+    ],
+    "answer": 1,
+    "explain": "The Financial Services Institutions Bureau (FSIB) took over the BBB's selection role in 2022.",
+    "section": "bbb-composition"
+  },
+  {
+    "id": "bbb-iba-22",
+    "q": "Which statement about the Indian Banks' Association is correct?",
+    "options": [
+      "It is a statutory regulator formed under the Banking Regulation Act, 1949",
+      "It represents only public sector banks",
+      "It was set up by the RBI in 2016 to replace the Appointments Board",
+      "It was formed in 1946 as a representative body of bank management"
+    ],
+    "answer": 3,
+    "explain": "IBA is an association of banks and financial institutions formed on 26 September 1946. It is not a regulator and is not limited to public sector banks.",
+    "section": "iba"
+  },
+  {
+    "id": "bbb-iba-23",
+    "q": "Who was the first Chairman of the Banks Board Bureau?",
+    "options": ["Vinod Rai", "Raghuram Rajan", "P J Nayak", "Y V Reddy"],
+    "answer": 0,
+    "explain": "Vinod Rai, a former CAG, was the first Chairman of the BBB. P J Nayak chaired the committee that proposed it.",
+    "section": "bbb-genesis"
+  },
+  {
+    "id": "bbb-iba-24",
+    "q": "Which of these is a task of the Banks Board Bureau?",
+    "options": [
+      "Setting the repo rate",
+      "Issuing banknotes",
+      "Advising PSBs on strategies to raise funds and handle stressed assets",
+      "Fixing the deposit insurance premium"
+    ],
+    "answer": 2,
+    "explain": "The Bureau advises PSBs on fund-raising strategies and stressed assets. Repo rate, banknotes and deposit insurance belong to the RBI and DICGC.",
+    "section": "bbb-functions-roles"
+  }
+]

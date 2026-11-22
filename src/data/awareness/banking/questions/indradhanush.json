@@ -1,0 +1,234 @@
+[
+  {
+    "id": "indradhanush-01",
+    "q": "The Indradhanush mission to revamp public sector banks was launched by which of the following?",
+    "options": ["Rajnath Singh", "Narendra Modi", "Arun Jaitley", "Nirmala Sitharaman"],
+    "answer": 2,
+    "explain": "Indradhanush was launched in August 2015 by the then Finance Minister, Arun Jaitley.",
+    "section": "launch-mission"
+  },
+  {
+    "id": "indradhanush-02",
+    "q": "In which year was the Indradhanush mission launched?",
+    "options": ["2014", "2015", "2016", "2017"],
+    "answer": 1,
+    "explain": "The seven-point plan was launched in August 2015. Indradhanush 2.0 came later, in 2017.",
+    "section": "launch-mission"
+  },
+  {
+    "id": "indradhanush-03",
+    "q": "How many elements does the Indradhanush plan to revamp PSBs have?",
+    "options": ["7", "5", "6", "8"],
+    "answer": 0,
+    "explain": "Indradhanush has seven elements, like the seven colours of a rainbow: Appointments, BBB, Capitalisation, De-stressing, Empowerment, Framework of Accountability and Governance Reforms.",
+    "section": "launch-mission"
+  },
+  {
+    "id": "indradhanush-04",
+    "q": "Which of the following is NOT a component of the Indradhanush mission?",
+    "options": ["Capitalisation", "Empowerment", "Banks Board Bureau", "Demonetisation"],
+    "answer": 3,
+    "explain": "Demonetisation (2016) is a separate measure. The seven prongs are A to G: Appointments, Banks Board Bureau, Capitalisation, De-stressing, Empowerment, Framework of Accountability, Governance Reforms.",
+    "section": "seven-elements"
+  },
+  {
+    "id": "indradhanush-05",
+    "q": "The Banks Board Bureau, announced under Indradhanush, is best described as a(n)",
+    "options": [
+      "statutory regulator of banks",
+      "autonomous body",
+      "private council",
+      "central government board"
+    ],
+    "answer": 1,
+    "explain": "The Bureau is an autonomous, recommendatory body of eminent professionals and officials; it replaced the Appointments Board.",
+    "section": "seven-elements"
+  },
+  {
+    "id": "indradhanush-06",
+    "q": "How many ex-officio members does the Banks Board Bureau have?",
+    "options": ["3", "2", "4", "5"],
+    "answer": 0,
+    "explain": "The Bureau has 3 ex-officio members from the Government and 3 expert members, two of whom are from the private sector.",
+    "section": "seven-elements"
+  },
+  {
+    "id": "indradhanush-07",
+    "q": "Under the Indradhanush roadmap, how much capital did the Government plan to infuse into state-run banks over four years?",
+    "options": ["₹40,000 crore", "₹50,000 crore", "₹60,000 crore", "₹70,000 crore"],
+    "answer": 3,
+    "explain": "The Government planned ₹70,000 crore over four years, and the banks were to raise a further ₹1.1 lakh crore from the market to meet Basel III needs.",
+    "section": "indradhanush-2"
+  },
+  {
+    "id": "indradhanush-08",
+    "q": "What is 'Gyan Sangam' in the context of public sector banks?",
+    "options": [
+      "A meeting of industrialists",
+      "An annual general body meeting of shareholders",
+      "A bankers' retreat or conclave",
+      "A budget consultation with states"
+    ],
+    "answer": 2,
+    "explain": "Gyan Sangam was a conclave of PSBs and financial institutions, attended by the Prime Minister, Finance Minister, RBI Governor and bank CMDs.",
+    "section": "governance-gyan-sangam"
+  },
+  {
+    "id": "indradhanush-09",
+    "q": "In which city was the Gyan Sangam bankers' conclave held in early 2015?",
+    "options": ["Mumbai", "New Delhi", "Hyderabad", "Pune"],
+    "answer": 3,
+    "explain": "Gyan Sangam was organised in Pune at the start of 2015 and started the governance reform process.",
+    "section": "governance-gyan-sangam"
+  },
+  {
+    "id": "indradhanush-10",
+    "q": "Which bank received the highest amount of capital in the 2015-16 capitalisation of public sector banks?",
+    "options": ["State Bank of India", "Bank of India", "IDBI Bank", "Punjab National Bank"],
+    "answer": 0,
+    "explain": "SBI received the largest allocation (about ₹5,531 crore), followed by Bank of India and IDBI Bank.",
+    "section": "capitalisation"
+  },
+  {
+    "id": "indradhanush-11",
+    "q": "Under the Indradhanush roadmap, how much were PSBs expected to raise from the markets to meet capital needs?",
+    "options": ["₹50,000 crore", "₹1.1 lakh crore", "₹2 lakh crore", "₹3 lakh crore"],
+    "answer": 1,
+    "explain": "Besides the Government's ₹70,000 crore, banks had to raise a further ₹1.1 lakh crore from the markets, in line with Basel III.",
+    "section": "indradhanush-2"
+  },
+  {
+    "id": "indradhanush-12",
+    "q": "How much capital were PSBs given in 2015-16 under the Indradhanush plan?",
+    "options": ["₹10,000 crore", "₹35,000 crore", "₹25,000 crore", "₹15,000 crore"],
+    "answer": 2,
+    "explain": "PSBs were given ₹25,000 crore in 2015-16, the first year of the four-year plan.",
+    "section": "indradhanush-2"
+  },
+  {
+    "id": "indradhanush-13",
+    "q": "Over how many years did the Government plan to infuse ₹70,000 crore into PSBs under Indradhanush?",
+    "options": ["Four years", "Two years", "Three years", "Five years"],
+    "answer": 0,
+    "explain": "The ₹70,000 crore was to be infused over four years.",
+    "section": "indradhanush-2"
+  },
+  {
+    "id": "indradhanush-14",
+    "q": "In which year did the Government announce Indradhanush 2.0?",
+    "options": ["2016", "2017", "2018", "2019"],
+    "answer": 1,
+    "explain": "Indradhanush 2.0 came in 2017 as a comprehensive recapitalisation plan, in contrast to the original 2015 launch.",
+    "section": "indradhanush-2"
+  },
+  {
+    "id": "indradhanush-15",
+    "q": "Indradhanush 2.0 was linked to the completion of which RBI exercise?",
+    "options": [
+      "Stress test of NBFCs",
+      "Census of bank branches",
+      "Priority sector audit",
+      "Asset Quality Review"
+    ],
+    "answer": 3,
+    "explain": "The plan followed the Asset Quality Review (AQR) by the RBI and aimed at cleaning PSB balance sheets and revising capitalisation.",
+    "section": "indradhanush-2"
+  },
+  {
+    "id": "indradhanush-16",
+    "q": "Indradhanush 2.0 aimed to help PSBs meet the capital adequacy norms of which framework?",
+    "options": ["Basel I", "Basel II", "Basel III", "Solvency II"],
+    "answer": 2,
+    "explain": "The plan was to recapitalise PSBs so that they remain solvent and comply with the global Basel III capital adequacy norms.",
+    "section": "indradhanush-2"
+  },
+  {
+    "id": "indradhanush-17",
+    "q": "Which statement about the 'Appointments' element of Indradhanush is correct?",
+    "options": [
+      "The Chairman and MD posts were separated, and private-sector candidates may apply for MD and CEO",
+      "The CMD post was abolished only for private banks",
+      "All PSB heads must now be IAS officers",
+      "The RBI Governor must chair every PSB board"
+    ],
+    "answer": 0,
+    "explain": "Separate posts of Chairman and MD/CEO were created in PSBs and private-sector executives can apply for the MD and CEO role.",
+    "section": "seven-elements"
+  },
+  {
+    "id": "indradhanush-18",
+    "q": "Under the 'De-stressing' element of Indradhanush, which institutions were strengthened to deal with bad loans?",
+    "options": [
+      "Credit rating agencies",
+      "Payments banks",
+      "Asset reconstruction companies",
+      "Stock exchanges"
+    ],
+    "answer": 2,
+    "explain": "De-stressing focused on relieving banks of NPAs, and asset reconstruction companies were strengthened to deal with the bad-loan situation.",
+    "section": "seven-elements"
+  },
+  {
+    "id": "indradhanush-19",
+    "q": "Which measure did the Government consider under the 'Empowerment' element for PSB managements?",
+    "options": [
+      "Mandatory voluntary retirement",
+      "Employee Stock Ownership Plans (ESOPs)",
+      "A permanent pay freeze",
+      "Foreign takeover of PSBs"
+    ],
+    "answer": 1,
+    "explain": "Empowerment made hiring easier for PSBs and looked at ESOPs for their managements as incentives.",
+    "section": "seven-elements"
+  },
+  {
+    "id": "indradhanush-20",
+    "q": "What does the 'Framework of Accountability' in Indradhanush introduce?",
+    "options": [
+      "Closure of loss-making branches",
+      "A uniform deposit interest rate",
+      "Mandatory RBI nominees on every board",
+      "Key performance indicators for state-run lenders"
+    ],
+    "answer": 3,
+    "explain": "A new framework of KPIs was announced to boost efficiency, while assuring banks independence in purely commercial decisions.",
+    "section": "seven-elements"
+  },
+  {
+    "id": "indradhanush-21",
+    "q": "As a result of Gyan Sangam, each public sector bank agreed to nominate a senior officer as its",
+    "options": ["Chief Financial Officer", "Chief Vigilance Officer", "Chief Risk Officer", "Chief Compliance Officer"],
+    "answer": 2,
+    "explain": "Gyan Sangam recommendations included strengthening risk management; each bank agreed to nominate a Chief Risk Officer.",
+    "section": "governance-gyan-sangam"
+  },
+  {
+    "id": "indradhanush-22",
+    "q": "By which name is the Indradhanush plan for public sector banks also known?",
+    "options": ["A2G", "B2B", "G2G", "C2C"],
+    "answer": 0,
+    "explain": "Its seven elements run alphabetically from A (Appointments) to G (Governance Reforms), hence the name A2G.",
+    "section": "launch-mission"
+  },
+  {
+    "id": "indradhanush-23",
+    "q": "Which pair of Indradhanush elements and their features is correctly matched?",
+    "options": [
+      "Empowerment – asset reconstruction companies",
+      "De-stressing – ESOPs",
+      "Capitalisation – Gyan Sangam",
+      "Framework of Accountability – key performance indicators"
+    ],
+    "answer": 3,
+    "explain": "KPIs belong to the Framework of Accountability. ARCs belong to de-stressing, ESOPs to empowerment and Gyan Sangam to governance reforms.",
+    "section": "seven-elements"
+  },
+  {
+    "id": "indradhanush-24",
+    "q": "Which of the following banks was among the 13 PSBs capitalised under the 2015-16 Indradhanush allocation?",
+    "options": ["Axis Bank", "Dena Bank", "HDFC Bank", "ICICI Bank"],
+    "answer": 1,
+    "explain": "The allocation went to public sector banks only, including Dena Bank. Axis, HDFC and ICICI are private sector banks.",
+    "section": "capitalisation"
+  }
+]

@@ -1,0 +1,471 @@
+[
+  {
+    "id": "dicgc-01",
+    "q": "The DICGC Act is related to which sector?",
+    "options": [
+      "Agriculture",
+      "Banking",
+      "Industry",
+      "Sports"
+    ],
+    "answer": 1,
+    "explain": "The Deposit Insurance and Credit Guarantee Corporation Act deals with insurance of bank deposits and credit guarantee, so it concerns banking.",
+    "section": "what-is-dicgc",
+    "exam": "RBI Assistant 2015"
+  },
+  {
+    "id": "dicgc-02",
+    "q": "The Deposit Insurance and Credit Guarantee Corporation Act was passed in which year?",
+    "options": [
+      "1985",
+      "1991",
+      "2001",
+      "1961"
+    ],
+    "answer": 3,
+    "explain": "The Act dates from 1961; the Corporation itself was formed in 1978 when DIC and CGCI merged.",
+    "section": "what-is-dicgc"
+  },
+  {
+    "id": "dicgc-03",
+    "q": "Where is the headquarters of DICGC?",
+    "options": [
+      "Mumbai",
+      "Hyderabad",
+      "Kolkata",
+      "Bengaluru"
+    ],
+    "answer": 0,
+    "explain": "DICGC’s head office is in Mumbai.",
+    "section": "dicgc-management"
+  },
+  {
+    "id": "dicgc-04",
+    "q": "The authorised capital of DICGC is ₹50 crore, fully issued and subscribed by whom?",
+    "options": [
+      "State Bank of India",
+      "Life Insurance Corporation",
+      "Reserve Bank of India",
+      "NABARD"
+    ],
+    "answer": 2,
+    "explain": "DICGC is a wholly owned subsidiary of the RBI, which subscribes its entire capital.",
+    "section": "dicgc-management"
+  },
+  {
+    "id": "dicgc-05",
+    "q": "The insurance cover of DICGC per depositor is currently limited to:",
+    "options": [
+      "₹1,000",
+      "₹50,000",
+      "₹1,00,000",
+      "₹5,00,000"
+    ],
+    "answer": 3,
+    "explain": "The cover was raised from ₹1 lakh to ₹5 lakh in February 2020.",
+    "section": "insurance-limit"
+  },
+  {
+    "id": "dicgc-06",
+    "q": "Premium for deposit insurance is to be remitted by the insured bank not later than the last day of May and which other month each year?",
+    "options": [
+      "November",
+      "December",
+      "October",
+      "July"
+    ],
+    "answer": 0,
+    "explain": "Premium is paid half-yearly, by the end of May and the end of November.",
+    "section": "premium-registration"
+  },
+  {
+    "id": "dicgc-07",
+    "q": "The concept of insuring deposits kept with banks first received attention in 1948 after a banking crisis in which region?",
+    "options": [
+      "Kerala",
+      "Maharashtra",
+      "Bengal",
+      "Delhi"
+    ],
+    "answer": 2,
+    "explain": "The crisis in Bengal in 1948 brought the idea of deposit insurance into focus.",
+    "section": "dicgc-history"
+  },
+  {
+    "id": "dicgc-08",
+    "q": "Which committee supported the insuring of banking deposits in 1950?",
+    "options": [
+      "Hilton-Young Commission",
+      "Rural Banking Enquiry Committee",
+      "C Rangarajan Committee",
+      "V K Rao Committee"
+    ],
+    "answer": 1,
+    "explain": "The Rural Banking Enquiry Committee supported deposit insurance in 1950.",
+    "section": "dicgc-history"
+  },
+  {
+    "id": "dicgc-09",
+    "q": "What does the insurance cover under DICGC include?",
+    "options": [
+      "Both principal and interest",
+      "Only the principal amount",
+      "Only the interest accrued",
+      "Principal and interest only for the first three months"
+    ],
+    "answer": 0,
+    "explain": "The ₹5 lakh limit takes in principal plus interest.",
+    "section": "insurance-limit"
+  },
+  {
+    "id": "dicgc-10",
+    "q": "Who pays the deposit insurance premium to DICGC?",
+    "options": [
+      "The customer",
+      "The RBI",
+      "The insured bank",
+      "The nominee of the customer"
+    ],
+    "answer": 2,
+    "explain": "The premium is paid by the insured bank and cannot be passed on to depositors.",
+    "section": "premium-registration"
+  },
+  {
+    "id": "dicgc-11",
+    "q": "DICGC was formed by merging which two bodies?",
+    "options": [
+      "Deposit Insurance Corporation and NABARD",
+      "Deposit Insurance Corporation and Credit Guarantee Corporation of India Ltd.",
+      "RBI and SIDBI",
+      "IRDAI and CGCI"
+    ],
+    "answer": 1,
+    "explain": "DIC and CGCI were merged on 15 July 1978 to integrate deposit insurance and credit guarantee.",
+    "section": "what-is-dicgc"
+  },
+  {
+    "id": "dicgc-12",
+    "q": "On which date was DICGC established?",
+    "options": [
+      "1 January 1962",
+      "14 January 1971",
+      "21 August 1961",
+      "15 July 1978"
+    ],
+    "answer": 3,
+    "explain": "15 July 1978 is the formation date; 1 January 1962 is when the 1961 Act came into force, and 14 January 1971 is when CGCI was promoted.",
+    "section": "what-is-dicgc"
+  },
+  {
+    "id": "dicgc-13",
+    "q": "When was the Credit Guarantee Corporation of India Ltd. (CGCI) promoted by the RBI?",
+    "options": [
+      "15 July 1978",
+      "1 January 1962",
+      "14 January 1971",
+      "7 December 1961"
+    ],
+    "answer": 2,
+    "explain": "CGCI was promoted as a public limited company on 14 January 1971.",
+    "section": "dicgc-history"
+  },
+  {
+    "id": "dicgc-14",
+    "q": "The failure of which banks in 1960 made the RBI and the Government think seriously about deposit insurance?",
+    "options": [
+      "Palai Central Bank and Laxmi Bank",
+      "Global Trust Bank and Lakshmi Vilas Bank",
+      "Bank of Baroda and Bank of India",
+      "Bank of Bengal and Imperial Bank"
+    ],
+    "answer": 0,
+    "explain": "The crash of the Palai Central Bank Ltd. and the Laxmi Bank Ltd. in 1960 triggered serious action.",
+    "section": "dicgc-history"
+  },
+  {
+    "id": "dicgc-15",
+    "q": "When did the Deposit Insurance Act, 1961 come into force?",
+    "options": [
+      "21 August 1961",
+      "7 December 1961",
+      "15 July 1978",
+      "1 January 1962"
+    ],
+    "answer": 3,
+    "explain": "The Bill was introduced on 21 August 1961 and received assent on 7 December 1961, but the Act began on 1 January 1962.",
+    "section": "dicgc-history"
+  },
+  {
+    "id": "dicgc-16",
+    "q": "What was the original insurance cover per depositor under Section 16(1) of the DICGC Act?",
+    "options": [
+      "₹5,000",
+      "₹1,500",
+      "₹10,000",
+      "₹30,000"
+    ],
+    "answer": 1,
+    "explain": "The initial cover was ₹1,500 and was later enhanced several times.",
+    "section": "insurance-limit"
+  },
+  {
+    "id": "dicgc-17",
+    "q": "The deposit insurance limit was raised to ₹30,000 with effect from:",
+    "options": [
+      "1 January 1976",
+      "1 July 1980",
+      "1 May 1993",
+      "1 April 1970"
+    ],
+    "answer": 1,
+    "explain": "₹20,000 applied from 1976, ₹30,000 from July 1980 and ₹1 lakh from May 1993.",
+    "section": "insurance-limit"
+  },
+  {
+    "id": "dicgc-18",
+    "q": "The deposit insurance limit was raised from ₹30,000 to ₹1 lakh in:",
+    "options": [
+      "1985",
+      "2000",
+      "2011",
+      "1993"
+    ],
+    "answer": 3,
+    "explain": "The limit became ₹1,00,000 with effect from 1 May 1993.",
+    "section": "insurance-limit"
+  },
+  {
+    "id": "dicgc-19",
+    "q": "The deposit insurance limit was raised from ₹1 lakh to ₹5 lakh in:",
+    "options": [
+      "February 2020",
+      "May 1993",
+      "April 2011",
+      "March 2016"
+    ],
+    "answer": 0,
+    "explain": "The cover was raised as per the budget provision, effective 4 February 2020.",
+    "section": "insurance-limit"
+  },
+  {
+    "id": "dicgc-20",
+    "q": "Which committee had recommended a five-time increase in the deposit insurance cap to ₹5 lakh?",
+    "options": [
+      "Nachiket Mor Committee",
+      "Narasimham Committee",
+      "Damodaran Committee on Customer Services in Banks",
+      "Urjit Patel Committee"
+    ],
+    "answer": 2,
+    "explain": "The 2011 Damodaran Committee asked for a five-time increase because incomes and deposit sizes had grown.",
+    "section": "insurance-limit"
+  },
+  {
+    "id": "dicgc-21",
+    "q": "The demand for increasing the insurance limit to ₹5 lakh became stronger after the collapse of which bank?",
+    "options": [
+      "Yes Bank",
+      "Lakshmi Vilas Bank",
+      "Global Trust Bank",
+      "Punjab and Maharashtra Co-operative Bank"
+    ],
+    "answer": 3,
+    "explain": "The PMC Bank collapse strengthened the demand for a higher cover.",
+    "section": "insurance-limit"
+  },
+  {
+    "id": "dicgc-22",
+    "q": "What is the deposit insurance limit in 1976?",
+    "options": [
+      "₹20,000",
+      "₹5,000",
+      "₹10,000",
+      "₹30,000"
+    ],
+    "answer": 0,
+    "explain": "The limit stood at ₹5,000 (1968), ₹10,000 (1970), ₹20,000 (1976) and ₹30,000 (1980).",
+    "section": "insurance-limit"
+  },
+  {
+    "id": "dicgc-23",
+    "q": "Which of the following deposits is NOT covered under DICGC insurance?",
+    "options": [
+      "Savings deposits",
+      "Fixed deposits",
+      "Inter-bank deposits",
+      "Recurring deposits"
+    ],
+    "answer": 2,
+    "explain": "Inter-bank deposits are excluded; savings, fixed, current and recurring deposits are covered.",
+    "section": "dicgc-coverage"
+  },
+  {
+    "id": "dicgc-24",
+    "q": "Which of these deposits is excluded from DICGC cover?",
+    "options": [
+      "Current account deposits",
+      "Deposits of Central and State Governments",
+      "Deposits of individuals",
+      "Deposits of private companies"
+    ],
+    "answer": 1,
+    "explain": "Government deposits are not insured. Current accounts and ordinary customers’ deposits are.",
+    "section": "dicgc-coverage"
+  },
+  {
+    "id": "dicgc-25",
+    "q": "Which type of deposit is covered by DICGC?",
+    "options": [
+      "Recurring deposits",
+      "Deposits of foreign governments",
+      "Inter-bank deposits",
+      "Deposits received outside India"
+    ],
+    "answer": 0,
+    "explain": "Recurring deposits are insured; the other three types are excluded.",
+    "section": "dicgc-coverage"
+  },
+  {
+    "id": "dicgc-26",
+    "q": "Which of the following is covered by the Deposit Insurance Scheme of DICGC?",
+    "options": [
+      "Primary co-operative societies",
+      "Non-banking finance companies",
+      "Co-operative banks as defined in Section 2(gg) of the DICGC Act",
+      "Chit funds"
+    ],
+    "answer": 2,
+    "explain": "Eligible co-operative banks are covered; primary co-operative societies are not insured.",
+    "section": "dicgc-coverage"
+  },
+  {
+    "id": "dicgc-27",
+    "q": "Which of the following is NOT insured by DICGC?",
+    "options": [
+      "Regional Rural Banks",
+      "Primary co-operative societies",
+      "Local Area Banks",
+      "Branches of foreign banks in India"
+    ],
+    "answer": 1,
+    "explain": "Primary co-operative societies are outside the scheme, while RRBs, LABs and foreign bank branches are included.",
+    "section": "dicgc-coverage"
+  },
+  {
+    "id": "dicgc-28",
+    "q": "As per the book, DICGC charges a premium of how much on deposits held by a bank?",
+    "options": [
+      "1 paisa per ₹100",
+      "50 paise per ₹100",
+      "₹1 per ₹100",
+      "10 paise per ₹100"
+    ],
+    "answer": 3,
+    "explain": "As per the book the rate is 10 paise per ₹100 of deposits; the rate has since been revised upward, so check the latest figure.",
+    "section": "premium-registration"
+  },
+  {
+    "id": "dicgc-29",
+    "q": "A bank can lose its DICGC registration if it fails to pay premium for how many consecutive half-year periods?",
+    "options": [
+      "One",
+      "Two",
+      "Three",
+      "Four"
+    ],
+    "answer": 2,
+    "explain": "The Corporation can cancel registration after three consecutive half-years of non-payment.",
+    "section": "premium-registration"
+  },
+  {
+    "id": "dicgc-30",
+    "q": "Under which condition can DICGC restore the registration of a de-registered bank?",
+    "options": [
+      "The bank requests it and pays all premium due with interest",
+      "The RBI Governor passes an order",
+      "The bank pays only the latest premium",
+      "The depositors apply for it"
+    ],
+    "answer": 0,
+    "explain": "Restoration needs a request from the bank and payment of all dues from the date of default with interest.",
+    "section": "premium-registration"
+  },
+  {
+    "id": "dicgc-31",
+    "q": "Who is the Chairman of the Board of Directors of DICGC?",
+    "options": [
+      "The RBI Governor",
+      "The Union Finance Minister",
+      "The Chairman of SBI",
+      "A Deputy Governor of the RBI"
+    ],
+    "answer": 3,
+    "explain": "A Deputy Governor of the RBI chairs the Board.",
+    "section": "dicgc-management"
+  },
+  {
+    "id": "dicgc-32",
+    "q": "How many departments does DICGC have?",
+    "options": [
+      "Two",
+      "Four",
+      "Three",
+      "Five"
+    ],
+    "answer": 1,
+    "explain": "The four departments are Accounts, Deposit Insurance, Credit Guarantee and Administration.",
+    "section": "dicgc-management"
+  },
+  {
+    "id": "dicgc-33",
+    "q": "Which fund of DICGC is used for meeting establishment and administrative expenses?",
+    "options": [
+      "Deposit Insurance Fund",
+      "General Fund",
+      "Credit Guarantee Fund",
+      "Premium Reserve Fund"
+    ],
+    "answer": 1,
+    "explain": "The General Fund pays for establishment and administration; the other two settle claims.",
+    "section": "dicgc-management"
+  },
+  {
+    "id": "dicgc-34",
+    "q": "The Credit Guarantee Fund of DICGC is funded by:",
+    "options": [
+      "Insurance premium",
+      "RBI profits",
+      "Government grants",
+      "Guarantee fees received"
+    ],
+    "answer": 3,
+    "explain": "The Deposit Insurance Fund is fed by premium; the Credit Guarantee Fund by guarantee fees.",
+    "section": "dicgc-management"
+  },
+  {
+    "id": "dicgc-35",
+    "q": "Deposit insurance was initially extended to which category of banks?",
+    "options": [
+      "Commercial banks only",
+      "All co-operative banks",
+      "Only the State Bank of India",
+      "Only foreign banks"
+    ],
+    "answer": 0,
+    "explain": "The scheme began with functioning commercial banks, including SBI and its subsidiaries and foreign bank branches.",
+    "section": "dicgc-history"
+  },
+  {
+    "id": "dicgc-36",
+    "q": "The insurance cover is calculated for deposits held in the same right and capacity in:",
+    "options": [
+      "Each branch separately",
+      "Only the head office",
+      "All branches of the bank taken together",
+      "All banks in the country combined"
+    ],
+    "answer": 2,
+    "explain": "The cover applies per depositor per bank across all its branches together.",
+    "section": "insurance-limit"
+  }
+]

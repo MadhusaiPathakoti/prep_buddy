@@ -1,0 +1,410 @@
+{
+  "id": "types-of-banks",
+  "sections": [
+    {
+      "id": "banking-models",
+      "title": "Types of banking (by way of working)",
+      "icon": "🧩",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "Banking can be described in several ways depending on how a bank is organised and whom it serves. These ten labels are common in exams, so know what each one means and how it differs from its neighbour."
+        },
+        {
+          "type": "keyvalue",
+          "title": "Ten types of banking",
+          "rows": [
+            ["Branch banking", "The most common system. Operations run through a **network of branches**, which are the face of the bank where customers meet officials and get services."],
+            ["Unit banking", "Originated in the **USA**. The bank works from a **single branch** and serves the local community; it may have a few branches but all in the same area."],
+            ["Mixed banking", "A bank does **commercial and investment banking** activities together."],
+            ["Chain banking", "A group of persons come together to own and control **three or more independently chartered banks**."],
+            ["Relationship banking", "Going beyond routine services and understanding the customer's needs before offering a special product; knowledge of existing and potential clients is essential."],
+            ["Rural banking", "Banking that serves smaller rural communities. It is integral to Indian financial markets because most of the population still lives in rural or semi-urban areas."],
+            ["Universal banking", "Big banks offer a **variety of services** under one roof: commercial banking, investment banking, mutual funds, merchant banking, insurance and so on."],
+            ["Narrow banking", "The opposite (antonym) of universal banking. It is narrow in the **engagement of funds**, not in activities. In India the **Tarapore Committee** is best known for giving this concept as a solution to the NPA problem."],
+            ["Social banking", "Banking for the poor: easy formal credit, minimum requirements to open accounts, easy access and friendly staff, aimed at their development needs."],
+            ["Virtual banking", "Also called a **direct bank**. It has no branch network and serves customers remotely through online and telephone banking or an independent agent network, and may also give access through ATMs, mail and mobile."]
+          ]
+        },
+        {
+          "type": "mnemonic",
+          "title": "Remember the ten types",
+          "phrase": "Big Uncle Makes Cakes; Real Rural Uncles Never Skip Vegetables: Branch, Unit, Mixed, Chain, Relationship, Rural, Universal, Narrow, Social, Virtual.",
+          "letters": [
+            ["B", "Branch: many branches, most common"],
+            ["U", "Unit: single branch, from the USA"],
+            ["M", "Mixed: commercial + investment together"],
+            ["C", "Chain: three or more banks under common control"],
+            ["R", "Relationship: know the customer first"],
+            ["R", "Rural: serves rural communities"],
+            ["U", "Universal: all financial services in one bank"],
+            ["N", "Narrow: opposite of universal (Tarapore Committee)"],
+            ["S", "Social: banking for the poor"],
+            ["V", "Virtual: no branches, remote services"]
+          ]
+        },
+        {
+          "type": "mnemonic",
+          "title": "Unit vs chain vs mixed",
+          "phrase": "Unit = One office; Chain = Three-plus banks in a linked group; Mixed = two businesses (commercial plus investment) in one bank.",
+          "note": "Chain banking is about common ownership of three or more separately chartered banks, not about having many branches."
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "Universal vs narrow banking",
+          "text": "Universal banking = wide range of services (commercial, investment, mutual funds, merchant banking, insurance). Narrow banking = the antonym, limiting how funds are deployed; the Tarapore Committee linked it to solving NPAs."
+        }
+      ]
+    },
+    {
+      "id": "banking-structure",
+      "title": "Indian banking system and scheduled banks",
+      "icon": "🗺️",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "The organised banking system has three broad categories: the **central bank (RBI)**, the **commercial banks** and the **co-operative banks**. A more common classification splits banks into **scheduled** and **non-scheduled**. The RBI is the supreme monetary and banking authority and controls the banking system; because it keeps the **cash reserves of all scheduled banks** it is known as the 'Reserve Bank'."
+        },
+        {
+          "type": "figure",
+          "kind": "layers",
+          "title": "Structure of banking (top to bottom)",
+          "items": [
+            ["RBI", "Central bank and monetary authority"],
+            ["Scheduled / Non-scheduled", "Split by the Second Schedule of the RBI Act"],
+            ["Commercial and Co-operative", "Scheduled banks include both groups"],
+            ["Public, Private, RRB", "Three kinds of commercial bank"],
+            ["Indian and Foreign", "The private sector has both"],
+            ["State, Central, Primary", "Three tiers of co-operatives"]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "Scheduled vs non-scheduled",
+          "rows": [
+            ["Scheduled bank", "Has paid-up capital and reserves as prescribed by RBI and is **included in the Second Schedule of the RBI Act, 1934**."],
+            ["Non-scheduled bank", "A commercial bank that is **not** included in the Second Schedule of the RBI Act, 1934."]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "remember",
+          "title": "Second Schedule",
+          "text": "The word 'scheduled' comes from the **Second Schedule of the RBI Act, 1934**, not the First Schedule and not the Banking Regulation Act. This is a favourite statement-based question."
+        }
+      ]
+    },
+    {
+      "id": "commercial-banks",
+      "title": "Commercial banks: public, private and foreign",
+      "icon": "🏢",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "A **commercial bank** accepts deposits, makes business loans and offers related services to the general public and businessmen. In India these are mostly public sector and private sector banks, with a few foreign banks. They are profit-making institutions owned by the government, private owners or both. Public sector banks account for more than **80%** of banking business and so dominate commercial banking."
+        },
+        {
+          "type": "table",
+          "title": "The three kinds of commercial bank",
+          "headers": ["Kind", "Meaning", "Examples"],
+          "rows": [
+            ["Public sector banks", "Owned and operated by the government, which holds the major share. Focus is on serving people rather than earning profit. SBI is the largest commercial bank by volume.", "State Bank of India, Punjab National Bank"],
+            ["Private sector banks", "Equity is held by private shareholders; they play a major role in developing the banking industry.", "ICICI Bank, HDFC Bank"],
+            ["Foreign banks", "Head office is abroad; they work in India through wholly-owned subsidiaries or branches.", "Citi Bank, HSBC, Standard Chartered"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "fact",
+          "title": "Dated deal in the news",
+          "text": "On 30 March 2022 Axis Bank announced it would acquire Citigroup's consumer business in India in a deal worth about $1.6 billion (₹12,325 crore). Treat such items as dated facts."
+        },
+        {
+          "type": "callout",
+          "kind": "tip",
+          "title": "Public vs private focus",
+          "text": "Public sector banks: ownership by the government, focus on serving people. Private sector banks: equity held by private shareholders. Foreign banks: head office outside India. A commercial bank may be publicly or privately owned."
+        }
+      ]
+    },
+    {
+      "id": "bank-directory",
+      "title": "Private banks: year and headquarters",
+      "icon": "📍",
+      "blocks": [
+        {
+          "type": "table",
+          "title": "Older private banks (as per the book)",
+          "headers": ["Bank", "Established", "Headquarters"],
+          "rows": [
+            ["City Union Bank", "1904", "Tamil Nadu"],
+            ["Karur Vysya Bank", "1916", "Tamil Nadu"],
+            ["Dhanlaxmi Bank", "1927", "Thrissur (Kerala)"],
+            ["DCB Bank", "1930", "Mumbai (Maharashtra)"],
+            ["Federal Bank", "1931", "Kochi (Kerala)"],
+            ["J and K Bank", "1938", "Srinagar (J and K)"],
+            ["RBL Bank", "1943", "Mumbai (Maharashtra)"]
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Newer banks (as per the book)",
+          "headers": ["Bank", "Established", "Headquarters"],
+          "rows": [
+            ["IDBI Bank", "1964", "Mumbai (Maharashtra)"],
+            ["Axis Bank", "1993", "Mumbai (Maharashtra)"],
+            ["HDFC Bank", "1994", "Mumbai (Maharashtra)"],
+            ["ICICI Bank", "1994", "Mumbai (Maharashtra)"],
+            ["IndusInd Bank", "1994", "Mumbai (Maharashtra)"],
+            ["Kotak Mahindra Bank", "2003", "Mumbai (Maharashtra)"],
+            ["Yes Bank", "2004", "Mumbai (Maharashtra)"],
+            ["Bandhan Bank", "2015", "Kolkata (West Bengal)"],
+            ["IDFC First Bank", "2015", "Mumbai (Maharashtra)"]
+          ]
+        },
+        {
+          "type": "mnemonic",
+          "title": "Old private banks in year order",
+          "phrase": "City Kids Dance, Dream, Fly, Jump, Run: City Union 1904, Karur Vysya 1916, Dhanlaxmi 1927, DCB 1930, Federal 1931, J and K 1938, RBL 1943.",
+          "letters": [
+            ["City", "City Union Bank: 1904 (Tamil Nadu)"],
+            ["Kids", "Karur Vysya Bank: 1916 (Tamil Nadu)"],
+            ["Dance", "Dhanlaxmi Bank: 1927 (Thrissur)"],
+            ["Dream", "DCB Bank: 1930 (Mumbai)"],
+            ["Fly", "Federal Bank: 1931 (Kochi)"],
+            ["Jump", "J and K Bank: 1938 (Srinagar)"],
+            ["Run", "RBL Bank: 1943 (Mumbai)"]
+          ],
+          "note": "The year gaps of 12, 11, 3, 1, 7, 5 are irregular, so rely on the order rather than the gaps."
+        },
+        {
+          "type": "mnemonic",
+          "title": "Newer banks and their years",
+          "phrase": "Axis 93, then the Triple-94 club (HDFC, ICICI, IndusInd); Kotak 2003, Yes 2004; Bandhan and IDFC First share 2015.",
+          "letters": [
+            ["93", "Axis Bank"],
+            ["94", "HDFC, ICICI and IndusInd: all three"],
+            ["03/04", "Kotak Mahindra 2003, Yes Bank 2004"],
+            ["15", "Bandhan (Kolkata) and IDFC First (Mumbai)"]
+          ],
+          "note": "Among the newer banks, Bandhan Bank is the only one headquartered outside Mumbai (it is in Kolkata, West Bengal)."
+        },
+        {
+          "type": "callout",
+          "kind": "remember",
+          "title": "Odd ones out in HQ",
+          "text": "Most banks here are headquartered in Mumbai. Exceptions: Dhanlaxmi (Thrissur), Federal (Kochi), J and K Bank (Srinagar), the two Tamil Nadu banks, and Bandhan (Kolkata)."
+        }
+      ]
+    },
+    {
+      "id": "regional-rural-banks",
+      "title": "Regional Rural Banks (RRBs)",
+      "icon": "🌾",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "RRBs are state-sponsored, regional, rural-oriented banks. They give credit for agriculture and rural development, and their main aim is to develop the rural economy. Their borrowers include small and marginal farmers, agricultural labourers and artisans. **NABARD** holds the apex position in agricultural and rural development."
+        },
+        {
+          "type": "steps",
+          "title": "How RRBs came into being",
+          "items": [
+            "Even after bank nationalisation, commercial banks found it hard to lend to farmers.",
+            "The government set up the **Narasimham Working Group** in **1975**.",
+            "On its recommendation a Regional Rural Banks **Ordinance** was promulgated in **September 1975**.",
+            "The Ordinance was replaced by the **Regional Rural Banks Act, 1976**.",
+            "The first RRB, **Prathama Grameen Bank**, sponsored by **Syndicate Bank**, was established on **2 October 1975** with its head office at **Moradabad**."
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Who owns an RRB",
+          "headers": ["Owner", "Share"],
+          "rows": [
+            ["Central Government", "50%"],
+            ["Sponsor bank", "35%"],
+            ["State Government", "15%"]
+          ]
+        },
+        {
+          "type": "mnemonic",
+          "title": "RRB ownership 50-35-15",
+          "phrase": "Centre holds Half, Sponsor holds a Third-ish, State holds the Rest: 50, 35, 15 (in the order Centre, Sponsor, State).",
+          "letters": [
+            ["Centre", "Central Government: 50%"],
+            ["Sponsor", "Sponsor bank: 35%"],
+            ["State", "State Government: 15%"]
+          ],
+          "note": "The three shares add up to 100: 50 + 35 + 15."
+        },
+        {
+          "type": "mnemonic",
+          "title": "RRB birth dates",
+          "phrase": "Seventy-five starts it, seventy-six seals it: Ordinance Sept 1975 and first RRB on 2 Oct 1975; RRB Act 1976.",
+          "letters": [
+            ["1975", "Narasimham Working Group, Ordinance (September), first RRB (2 October)"],
+            ["1976", "Regional Rural Banks Act replaces the Ordinance"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "remember",
+          "title": "First RRB",
+          "text": "Prathama Grameen Bank: sponsored by Syndicate Bank, set up 2 October 1975, head office Moradabad. As per the book, around 43 RRBs worked with 12 public sector banks as sponsors, across 26 states and 3 Union Territories (Puducherry, Jammu and Kashmir and Ladakh); such counts change over time."
+        }
+      ]
+    },
+    {
+      "id": "rrb-reforms",
+      "title": "RRB Amendment Act 2015 and recapitalisation",
+      "icon": "🛠️",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "The **Regional Rural Banks (Amendment) Act, 2015** amended the original 1976 Act to widen the capital base of RRBs and strengthen their abilities."
+        },
+        {
+          "type": "bullets",
+          "title": "Key amendments",
+          "items": [
+            "The **five-year limit** on financial and managerial support from sponsor banks was removed.",
+            "Authorised capital raised to **₹2,000 crore**, and it must not be reduced below **₹1 crore**.",
+            "Capital can now be raised from sources other than the central government, state governments and sponsor banks.",
+            "The **combined shareholding of the Centre and the sponsor bank** must be fixed at **up to 51%**.",
+            "A director of one RRB cannot sit on the board of another RRB.",
+            "The tenure of such a director was raised to **3 years**, and he holds office at the pleasure of the central government."
+          ]
+        },
+        {
+          "type": "text",
+          "text": "In **March 2020** the Union government approved a **₹1,340 crore recapitalisation plan** for RRBs to improve their **Capital-to-Risk Weighted Assets Ratio (CRAR)**. The central share would be released only if the sponsor bank released its proper share."
+        },
+        {
+          "type": "mnemonic",
+          "title": "Numbers of the 2015 Act",
+          "phrase": "Two thousand crore ceiling, one crore floor; fifty-one per cent for Centre plus sponsor; three-year director term; five-year limit gone.",
+          "letters": [
+            ["2000", "Authorised capital, in crore"],
+            ["1", "Minimum floor, in crore"],
+            ["51%", "Combined cap on Centre + sponsor bank shareholding"],
+            ["3 yrs", "Director tenure"],
+            ["5 yrs", "Sponsor-support time limit removed"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "Do not mix 51% with 50%",
+          "text": "The Centre alone holds 50% of an RRB. The 2015 Act fixes the combined holding of the Centre and the sponsor bank at up to 51% (not 85%, which would be the sum of 50 and 35 under the old pattern)."
+        },
+        {
+          "type": "callout",
+          "kind": "tip",
+          "title": "Recapitalisation purpose",
+          "text": "The 2020 ₹1,340 crore plan was to improve **CRAR**. The central share was tied to the sponsor bank releasing its own share."
+        }
+      ]
+    },
+    {
+      "id": "cooperative-banks",
+      "title": "Co-operative banks",
+      "icon": "🤝",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "Co-operative banks are organised under the provisions of the **Co-operative Credit Societies Act, 1912** of the states. Their major beneficiary is the **agricultural sector** in particular and the rural sector in general. Co-operative credit institutions in India are of two kinds: **agricultural** (dominant) and **non-agricultural**."
+        },
+        {
+          "type": "text",
+          "text": "There are two separate co-operative agencies for agricultural credit: one for **short and medium-term** credit and the other for **long-term** credit. The short and medium-term one has a three-tier, federal structure."
+        },
+        {
+          "type": "figure",
+          "kind": "pyramid",
+          "title": "Three-tier co-operative structure",
+          "items": [
+            ["State Co-operative Banks", "Apex level (SCB)"],
+            ["Central Co-operative Banks", "District level (CCB)"],
+            ["Primary Co-operative Banks", "Base or local level (PCB)"]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "Primary Credit Societies (PCS)",
+          "rows": [
+            ["Where formed", "At the **village or town** level."],
+            ["Membership", "Borrowing and non-borrowing members are decided within one locality."],
+            ["Area of operation", "Restricted to that area or locality only."]
+          ]
+        },
+        {
+          "type": "mnemonic",
+          "title": "Co-operative tiers",
+          "phrase": "State on Top, Central in the Centre (district), Primary at the Base: S-C-P from top to bottom.",
+          "letters": [
+            ["S", "State co-operative banks: apex"],
+            ["C", "Central co-operative banks: district"],
+            ["P", "Primary (credit societies/banks): village or local base"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "remember",
+          "title": "Why 'co-operative'?",
+          "text": "They get the name because they are organised under the Co-operative Credit Societies Act, 1912 of the states, and the agricultural type is the dominant one."
+        }
+      ]
+    }
+  ],
+  "revision": [
+    "Branch banking is the most common system; unit banking (single office) originated in the USA.",
+    "Mixed banking = commercial plus investment banking; chain banking = common control of three or more independent banks.",
+    "Universal banking offers many services (commercial, investment, mutual funds, insurance); narrow banking is its opposite (Tarapore Committee, NPAs).",
+    "Virtual banking (direct bank) has no branches and serves remotely through online, phone, mobile and ATMs.",
+    "Organised banking = RBI + commercial banks + co-operative banks; RBI keeps the cash reserves of scheduled banks.",
+    "A scheduled bank is included in the Second Schedule of the RBI Act, 1934; non-scheduled banks are not.",
+    "Commercial banks: public sector, private sector (Indian and foreign) and RRBs; public sector banks account for over 80% of business.",
+    "Private bank years: City Union 1904, Karur Vysya 1916, Dhanlaxmi 1927, DCB 1930, Federal 1931, J and K 1938, RBL 1943.",
+    "Axis 1993; HDFC, ICICI and IndusInd 1994; Kotak 2003; Yes 2004; Bandhan (Kolkata) and IDFC First 2015.",
+    "RRB: Narasimham Working Group 1975, Ordinance Sept 1975, RRB Act 1976; first RRB Prathama Grameen Bank (2 Oct 1975, Moradabad, Syndicate Bank).",
+    "RRB ownership: Centre 50%, sponsor bank 35%, State 15%.",
+    "RRB Amendment Act 2015: authorised capital 2,000 crore (floor 1 crore), Centre plus sponsor up to 51%, director tenure 3 years.",
+    "March 2020: 1,340 crore RRB recapitalisation plan to improve CRAR.",
+    "Co-operative banks follow the Co-operative Credit Societies Act 1912; structure is State (apex), Central (district), Primary (base)."
+  ],
+  "mindmap": {
+    "center": "Types of Banking in India",
+    "branches": [
+      {
+        "label": "Types of banking",
+        "children": ["Branch and unit", "Mixed and chain", "Universal and narrow", "Social and rural", "Virtual banking"]
+      },
+      {
+        "label": "Banking structure",
+        "children": ["RBI at the top", "Scheduled banks", "Non-scheduled banks", "Second Schedule 1934"]
+      },
+      {
+        "label": "Commercial banks",
+        "children": ["Public sector", "Private sector", "Foreign banks", "80% of business"]
+      },
+      {
+        "label": "Private bank directory",
+        "children": ["Old banks 1904-1943", "Axis 1993", "HDFC, ICICI 1994", "Bandhan, IDFC First 2015"]
+      },
+      {
+        "label": "Regional Rural Banks",
+        "children": ["Narasimham Group 1975", "RRB Act 1976", "Prathama Grameen Bank", "50:35:15 ownership"]
+      },
+      {
+        "label": "RRB reforms",
+        "children": ["2015 Amendment Act", "Capital 2,000 crore", "Cap of 51%", "2020 recapitalisation"]
+      },
+      {
+        "label": "Co-operative banks",
+        "children": ["Act of 1912", "State (apex)", "Central (district)", "Primary (base)", "Primary Credit Societies"]
+      }
+    ]
+  }
+}

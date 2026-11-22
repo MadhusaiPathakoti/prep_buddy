@@ -1,0 +1,330 @@
+{
+  "id": "bank-hq-taglines",
+  "sections": [
+    {
+      "id": "psb-hq-taglines",
+      "title": "Public sector banks: headquarters, taglines and year",
+      "icon": "🏙️",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "As per the 2024-25 syllabus list, there are **12 public sector banks**. Exams love asking where each one sits and what its tagline says, so learn the whole table below as one unit."
+        },
+        {
+          "type": "table",
+          "title": "The 12 public sector banks: bank, headquarters, tagline, year",
+          "headers": ["Bank", "Headquarters", "Tagline", "Year"],
+          "rows": [
+            ["State Bank of India", "Mumbai", "The Nation banks on us; Pure Banking nothing else; With you all the way", "1955"],
+            ["Punjab National Bank", "New Delhi", "The Name you can Bank Upon", "1894 (opened 1895)"],
+            ["Bank of Baroda", "Vadodara", "India’s International Bank", "1908"],
+            ["Bank of India", "Mumbai", "Relationship beyond Banking", "1906"],
+            ["Bank of Maharashtra", "Pune", "One Family One Bank", "1935"],
+            ["Canara Bank", "Bengaluru", "Together We Can", "1906"],
+            ["Central Bank of India", "Mumbai", "Build A Better Life Around Us; Central to you since 1911", "1911"],
+            ["Indian Bank", "Chennai", "Taking Banking Technology to Common Man; Your Tech-friendly bank", "1907"],
+            ["Indian Overseas Bank", "Chennai", "Good people to grow with", "1937"],
+            ["Punjab & Sind Bank", "New Delhi", "Where service is a way of life", "1908"],
+            ["UCO Bank", "Kolkata", "Honours Your Trust", "1943"],
+            ["Union Bank of India", "Mumbai", "Good people to bank with", "1919"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "Check the year column before trusting any list",
+          "text": "Some printed lists show 1910 for Canara Bank and 1840 for Bank of Maharashtra. Canara Bank was founded in 1906 at Mangalore, and Bank of Maharashtra in 1935 at Pune. PNB is usually dated from 1894, when it was incorporated, with business starting in 1895."
+        },
+        {
+          "type": "mnemonic",
+          "title": "Mumbai has four of the twelve",
+          "phrase": "Mumbai’s SBI Bank Central Union: State Bank, Bank of India, Central Bank, Union Bank all sit in Mumbai.",
+          "letters": [
+            ["S", "State Bank of India"],
+            ["B", "Bank of India"],
+            ["C", "Central Bank of India"],
+            ["U", "Union Bank of India"]
+          ],
+          "note": "Four of the twelve PSBs are in Mumbai, which is more than any other city."
+        },
+        {
+          "type": "mnemonic",
+          "title": "Pairs that share a city",
+          "phrase": "The two Punjab banks live in Delhi; the two Indian banks live in Chennai.",
+          "letters": [
+            ["PNB + P&S", "Both in New Delhi (both start with Punjab)"],
+            ["Indian + IOB", "Both in Chennai (both start with Indian)"]
+          ],
+          "note": "Single cities: Baroda sits in Vadodara, Maharashtra in Pune, Canara in Bengaluru, UCO in Kolkata."
+        }
+      ]
+    },
+    {
+      "id": "psb-by-city",
+      "title": "Public sector banks grouped by headquarters city",
+      "icon": "📍",
+      "blocks": [
+        {
+          "type": "keyvalue",
+          "title": "City to banks",
+          "rows": [
+            ["Mumbai", "State Bank of India, Bank of India, Central Bank of India, Union Bank of India"],
+            ["New Delhi", "Punjab National Bank, Punjab & Sind Bank"],
+            ["Chennai", "Indian Bank, Indian Overseas Bank"],
+            ["Vadodara", "Bank of Baroda"],
+            ["Pune", "Bank of Maharashtra"],
+            ["Bengaluru", "Canara Bank"],
+            ["Kolkata", "UCO Bank"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "remember",
+          "title": "Two traps",
+          "text": "Bank of Baroda is headquartered in Vadodara, not Baroda and not Mumbai. Bank of Maharashtra is in Pune, not Mumbai."
+        },
+        {
+          "type": "mnemonic",
+          "title": "One bank, one city",
+          "phrase": "Baroda → Vadodara (same state, old name); Maharashtra → Pune; Canara → Bengaluru; UCO → Kolkata (the ‘Calcutta’ bank).",
+          "letters": [
+            ["BoB", "Vadodara"],
+            ["BoM", "Pune"],
+            ["Canara", "Bengaluru"],
+            ["UCO", "Kolkata"]
+          ],
+          "note": "UCO is short for United Commercial Bank, and it is the one with its head office in the east, at Kolkata."
+        }
+      ]
+    },
+    {
+      "id": "psb-taglines",
+      "title": "Taglines and logo clues",
+      "icon": "🏷️",
+      "blocks": [
+        {
+          "type": "keyvalue",
+          "title": "Taglines by bank",
+          "rows": [
+            ["State Bank of India", "The Nation banks on us; Pure Banking nothing else; With you all the way"],
+            ["Punjab National Bank", "The Name you can Bank Upon"],
+            ["Bank of Baroda", "India’s International Bank"],
+            ["Bank of India", "Relationship beyond Banking (its logo carries a star)"],
+            ["Bank of Maharashtra", "One Family One Bank (Ek Parivar Ek Bank)"],
+            ["Canara Bank", "Together We Can"],
+            ["Central Bank of India", "Build A Better Life Around Us; Central to you since 1911"],
+            ["Indian Bank", "Taking Banking Technology to Common Man; Your Tech-friendly bank"],
+            ["Indian Overseas Bank", "Good people to grow with"],
+            ["Punjab & Sind Bank", "Where service is a way of life"],
+            ["UCO Bank", "Honours Your Trust"],
+            ["Union Bank of India", "Good people to bank with"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "The two ‘Good people’ taglines",
+          "text": "Indian Overseas Bank says Good people to **grow** with. Union Bank of India says Good people to **bank** with. Exams love swapping the last word."
+        },
+        {
+          "type": "mnemonic",
+          "title": "Good people: grow or bank?",
+          "phrase": "Overseas people GROW abroad (IOB); a Union is where people BANK together (Union Bank).",
+          "letters": [
+            ["IOB", "Good people to GROW with"],
+            ["Union", "Good people to BANK with"]
+          ],
+          "note": "Swap the last words and you lose the mark: IOB grows, Union banks."
+        },
+        {
+          "type": "mnemonic",
+          "title": "Tagline word-hooks",
+          "phrase": "Tech = Indian Bank; Trust = UCO (honours) and PNB (name you can bank upon); Family = Maharashtra; International = Baroda; Central says its year.",
+          "letters": [
+            ["Tech", "Indian Bank (Tech-friendly bank)"],
+            ["Trust", "UCO Bank (Honours Your Trust)"],
+            ["Family", "Bank of Maharashtra (One Family One Bank)"],
+            ["Global", "Bank of Baroda (India’s International Bank)"],
+            ["1911", "Central Bank of India (Central to you since 1911)"]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "psb-establishment-years",
+      "title": "When were the public sector banks established?",
+      "icon": "📅",
+      "blocks": [
+        {
+          "type": "timeline",
+          "title": "From oldest to newest",
+          "items": [
+            ["1894-95", "**Punjab National Bank**: incorporated in 1894, started business in 1895."],
+            ["1906", "**Bank of India** and **Canara Bank**."],
+            ["1907", "**Indian Bank**."],
+            ["1908", "**Bank of Baroda** and **Punjab & Sind Bank**."],
+            ["1911", "**Central Bank of India**."],
+            ["1919", "**Union Bank of India**."],
+            ["1935", "**Bank of Maharashtra**."],
+            ["1937", "**Indian Overseas Bank**."],
+            ["1943", "**UCO Bank**."],
+            ["1955", "**State Bank of India** (as the State Bank, successor to the Imperial Bank)."]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "fact",
+          "title": "Canara Bank’s birthplace",
+          "text": "Canara Bank was first set up in 1906 at Mangalore, even though its headquarters is now in Bengaluru."
+        },
+        {
+          "type": "mnemonic",
+          "title": "Six, seven, eight",
+          "phrase": "Six: Bank of India and Canara; Seven: Indian Bank; Eight: Baroda and Punjab & Sind.",
+          "letters": [
+            ["1906", "Bank of India, Canara Bank"],
+            ["1907", "Indian Bank"],
+            ["1908", "Bank of Baroda, Punjab & Sind Bank"]
+          ],
+          "note": "Then 1911 Central, 1919 Union, 1935 Maharashtra, 1937 IOB, 1943 UCO, 1955 SBI."
+        }
+      ]
+    },
+    {
+      "id": "private-foreign-banks",
+      "title": "Private and foreign banks: taglines and headquarters",
+      "icon": "🏦",
+      "blocks": [
+        {
+          "type": "table",
+          "title": "Private and foreign banks asked in exams",
+          "headers": ["Bank", "Headquarters", "Tagline"],
+          "rows": [
+            ["HDFC Bank", "Mumbai", "We understand your world"],
+            ["ICICI Bank", "Mumbai", "Hum Hai Na"],
+            ["HSBC", "London, United Kingdom", "The world’s local bank"],
+            ["Karur Vysya Bank", "Karur, Tamil Nadu", "Smart way to Bank with"],
+            ["Dhanlaxmi Bank", "Thrissur, Kerala", "Tann. Mann. Dhan"],
+            ["Jammu & Kashmir Bank", "Srinagar", "Serving to Empower"]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "Headquarters only",
+          "rows": [
+            ["Karnataka Bank", "Mangaluru (Karnataka)"],
+            ["South Indian Bank", "Thrissur (Kerala)"],
+            ["Federal Bank", "Aluva (Kerala)"],
+            ["Karur Vysya Bank", "Karur (Tamil Nadu)"],
+            ["Lakshmi Vilas Bank", "Karur (Tamil Nadu); it has since merged with DBS Bank India"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "tip",
+          "title": "Kerala trio",
+          "text": "South Indian Bank and Dhanlaxmi Bank are both in Thrissur; Federal Bank is in Aluva. All three are in Kerala."
+        },
+        {
+          "type": "mnemonic",
+          "title": "Where are the south Indian private banks?",
+          "phrase": "Karur has two (KVB and Lakshmi Vilas), Kerala has three (Federal, SIB, Dhanlaxmi), Karnataka Bank is in Mangaluru.",
+          "letters": [
+            ["Karur", "Karur Vysya Bank, Lakshmi Vilas Bank"],
+            ["Kerala", "Federal (Aluva), South Indian and Dhanlaxmi (Thrissur)"],
+            ["Mangaluru", "Karnataka Bank"]
+          ],
+          "note": "Hint: ‘K’ banks KVB and Lakshmi Vilas share Karur; ‘Karnataka Bank’ is the Mangaluru one."
+        }
+      ]
+    },
+    {
+      "id": "international-hqs",
+      "title": "Headquarters of international and special banks",
+      "icon": "🌍",
+      "blocks": [
+        {
+          "type": "table",
+          "title": "Where are they based?",
+          "headers": ["Institution", "Headquarters", "Note"],
+          "rows": [
+            ["Bank for International Settlements (BIS)", "Basel, Switzerland", "Bank for central banks; offices in Hong Kong and Mexico City"],
+            ["Asian Infrastructure Investment Bank (AIIB)", "Beijing, China", "Multilateral development bank for Asia"],
+            ["Asian Development Bank (ADB)", "Manila, Philippines", "Regional development bank for Asia and the Pacific"],
+            ["NongHyup Bank", "Seoul, South Korea", "Added to the Second Schedule of the RBI Act, 1934"],
+            ["Antwerp Diamond Bank", "Antwerp, Belgium", "Serves the diamond and diamond jewellery sector"],
+            ["NSDL Payments Bank", "Mumbai, Maharashtra", "Payments bank offering 3-in-1 accounts (savings, demat, trading)"],
+            ["Federal Bank", "Aluva, Kerala", "Private sector bank"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "remember",
+          "title": "The Basel link",
+          "text": "BIS = Basel (Switzerland). Basel norms are named after the same city, because the committee meets at the BIS."
+        },
+        {
+          "type": "mnemonic",
+          "title": "International HQs in a line",
+          "phrase": "BIS in Basel, AIIB in Beijing, ADB in Manila: B-B, A-B, A-M.",
+          "letters": [
+            ["BIS", "Basel"],
+            ["AIIB", "Beijing"],
+            ["ADB", "Manila (Philippines)"],
+            ["NongHyup", "Seoul"]
+          ],
+          "note": "BIS and AIIB both start with a B-sound city (Basel, Beijing); ADB is the odd one, in Manila."
+        }
+      ]
+    }
+  ],
+  "revision": [
+    "As per the book list there are 12 public sector banks; four have their headquarters in Mumbai: SBI, Bank of India, Central Bank and Union Bank.",
+    "Punjab National Bank and Punjab & Sind Bank are both in New Delhi; Indian Bank and Indian Overseas Bank are both in Chennai.",
+    "Bank of Baroda is in Vadodara, Bank of Maharashtra in Pune, Canara Bank in Bengaluru and UCO Bank in Kolkata.",
+    "SBI: The Nation banks on us. PNB: The Name you can Bank Upon. Baroda: India’s International Bank. BoI: Relationship beyond Banking.",
+    "Bank of Maharashtra: One Family One Bank. Canara: Together We Can. Central: Central to you since 1911.",
+    "Indian Bank: Taking Banking Technology to Common Man; Your Tech-friendly bank. UCO Bank: Honours Your Trust.",
+    "IOB: Good people to grow with. Union Bank: Good people to bank with. Punjab & Sind: Where service is a way of life.",
+    "Establishment years: BoI and Canara 1906, Indian Bank 1907, BoB and P&S 1908, Central 1911, Union 1919, BoM 1935, IOB 1937, UCO 1943, SBI 1955.",
+    "Bank of India’s logo has a star; Canara Bank was first set up at Mangalore in 1906.",
+    "HDFC Bank: We understand your world; ICICI Bank: Hum Hai Na; HSBC: The world’s local bank.",
+    "J&K Bank: Serving to Empower; Dhanlaxmi Bank: Tann. Mann. Dhan; Karur Vysya Bank: Smart way to Bank with.",
+    "Karnataka Bank is at Mangaluru; South Indian Bank at Thrissur; Federal Bank at Aluva; Karur Vysya and Lakshmi Vilas at Karur.",
+    "BIS is at Basel, AIIB at Beijing, ADB at Manila (Philippines), NongHyup Bank at Seoul, Antwerp Diamond Bank at Antwerp.",
+    "NSDL Payments Bank is headquartered in Maharashtra."
+  ],
+  "mindmap": {
+    "center": "Bank HQs and taglines",
+    "branches": [
+      {
+        "label": "Mumbai-based PSBs",
+        "children": ["State Bank of India", "Bank of India", "Central Bank of India", "Union Bank of India"]
+      },
+      {
+        "label": "Other PSB headquarters",
+        "children": ["Delhi: PNB, Punjab & Sind", "Chennai: Indian, IOB", "Vadodara: Baroda", "Pune: Maharashtra", "Bengaluru and Kolkata"]
+      },
+      {
+        "label": "PSB taglines",
+        "children": ["SBI: Nation banks on us", "PNB: Name you can Bank Upon", "Union: bank with", "IOB: grow with", "UCO: Honours Your Trust"]
+      },
+      {
+        "label": "Establishment years",
+        "children": ["1906: BoI, Canara", "1907-08: Indian, BoB, P&S", "1911-19: Central, Union", "1935-43: BoM, IOB, UCO", "1955: SBI"]
+      },
+      {
+        "label": "Private bank taglines",
+        "children": ["HDFC: understand your world", "ICICI: Hum Hai Na", "KVB: Smart way to Bank", "Dhanlaxmi: Tann Mann Dhan", "J&K: Serving to Empower"]
+      },
+      {
+        "label": "South Indian private banks",
+        "children": ["Karnataka Bank: Mangaluru", "South Indian: Thrissur", "Federal: Aluva", "KVB: Karur"]
+      },
+      {
+        "label": "International HQs",
+        "children": ["BIS: Basel", "AIIB: Beijing", "ADB: Manila", "NongHyup: Seoul", "Antwerp Diamond: Antwerp"]
+      }
+    ]
+  }
+}

@@ -1,0 +1,525 @@
+{
+  "id": "types-of-money",
+  "sections": [
+    {
+      "id": "money-basics",
+      "title": "What is Money? Commodity, Representative and Fiat",
+      "icon": "🪙",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "**Money** is anything that people widely accept in exchange for goods and services. Over history, the thing people trusted as money moved from real goods, to tokens that stood for goods, to notes that are valuable simply because the government says so."
+        },
+        {
+          "type": "keyvalue",
+          "title": "Three basic kinds of money",
+          "rows": [
+            ["Commodity money", "A real commodity with intrinsic value, i.e. it is worth something even outside its use as money. The commodity itself is the money. Examples: gold, silver, copper, salt, peppercorns, rice, large stones."],
+            ["Representative money", "A token that stands for money and can be exchanged for a commodity. Examples: token coins and other physical tokens such as certificates."],
+            ["Fiat money", "Money whose value does not come from any intrinsic worth, nor from a promise that it can be converted into a valuable commodity like gold. It has value as money only because the government has decreed it so."]
+          ]
+        },
+        {
+          "type": "mnemonic",
+          "title": "Commodity, Representative, Fiat",
+          "phrase": "Commodity = the thing itself; Representative = a receipt for the thing; Fiat = 'let it be' (a government order).",
+          "letters": [
+            ["Commodity", "Gold, salt, rice: valuable on their own"],
+            ["Represent.", "Token or certificate exchangeable for a commodity"],
+            ["Fiat", "Latin for 'let it be done': value by government decree"]
+          ],
+          "note": "Today's rupee notes and coins are fiat money: no gold or silver backs them one-for-one."
+        },
+        {
+          "type": "callout",
+          "kind": "remember",
+          "title": "Why notes and coins are called fiat money",
+          "text": "Currency notes and coins are fiat money because they do not have intrinsic value like gold or silver. People accept them because the government and the central bank stand behind them."
+        }
+      ]
+    },
+    {
+      "id": "forms-of-money",
+      "title": "Forms of Money: Metallic, Paper, Adjacent, Digital",
+      "icon": "📄",
+      "blocks": [
+        {
+          "type": "keyvalue",
+          "title": "Four forms",
+          "rows": [
+            ["Metallic money", "Coins made of metals such as gold, silver, nickel or copper. The right to mint coins is a monopoly of the government of the country."],
+            ["Paper money", "Currency notes issued by the government or the central bank of a country."],
+            ["Adjacent money", "Not exact money, but very near to it because it is highly liquid compared with other assets. Bonds and government debentures are treated as adjacent money."],
+            ["Digital money (digital currency)", "Any means of payment that exists purely in electronic form. It is not physically tangible like a note or coin and is recorded and transferred through online systems."]
+          ]
+        },
+        {
+          "type": "bullets",
+          "title": "Digital money at a glance",
+          "items": [
+            "Examples: cryptocurrencies, central bank digital currencies (CBDCs) and stablecoins.",
+            "Advantages: can streamline financial infrastructure, make transactions cheaper and faster, and make it easier for central banks to implement monetary policy.",
+            "Risks: it is vulnerable to hacks and can compromise the privacy of users."
+          ]
+        },
+        {
+          "type": "mnemonic",
+          "title": "MPAD: four forms of money",
+          "phrase": "MPAD: Metallic, Paper, Adjacent, Digital.",
+          "letters": [
+            ["M", "Metallic: coins; minting is a government monopoly"],
+            ["P", "Paper: notes from the government or central bank"],
+            ["A", "Adjacent: near-money such as bonds and debentures"],
+            ["D", "Digital: purely electronic (crypto, CBDC, stablecoins)"]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "money-supply",
+      "title": "Money Supply: Reserve Money and M1 to M4",
+      "icon": "📊",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "The RBI manages the amount of money in the economy using several measures of money supply. As per the classification in the 2024-25 book, they run from M0 (reserve money) to M4. Each wider measure adds one more kind of deposit to the one before it."
+        },
+        {
+          "type": "table",
+          "title": "Measures of money supply",
+          "headers": ["Measure", "What it contains"],
+          "rows": [
+            ["M0 (Reserve Money)", "Currency in circulation + bankers' deposits with the RBI + 'other' deposits with the RBI."],
+            ["M1", "Currency with the public + demand deposits with the banking system + 'other' deposits with the RBI."],
+            ["M2", "M1 + savings deposits with post office savings banks."],
+            ["M3 (broad money)", "M1 + time deposits with the banking system."],
+            ["M4", "M3 + all deposits with post office savings banks (excluding National Savings Certificates)."]
+          ]
+        },
+        {
+          "type": "text",
+          "text": "M0 can also be seen from the sources side: net RBI credit to the government + RBI credit to the commercial sector + RBI's claims on banks + RBI's net foreign assets + the government's currency liabilities to the public, minus RBI's net non-monetary liabilities. M3 has a similar sources view built from the banking sector's figures."
+        },
+        {
+          "type": "figure",
+          "kind": "layers",
+          "title": "From most liquid to least liquid",
+          "items": [
+            ["M1", "Narrow money: most liquid, cash and demand deposits"],
+            ["M2", "M1 + post office savings deposits"],
+            ["M3", "Broad money: M1 + time deposits"],
+            ["M4", "M3 + all post office deposits: least liquid"]
+          ]
+        },
+        {
+          "type": "mnemonic",
+          "title": "Climbing the M-ladder",
+          "phrase": "Zero is the Reserve; One is cash plus Demand; Two adds Post savings; Three adds Time; Four adds All post.",
+          "letters": [
+            ["M0", "Reserve money (RBI's base)"],
+            ["M1", "Cash with public + Demand deposits"],
+            ["M2", "M1 + Post office Savings"],
+            ["M3", "M1 + Time deposits (broad money)"],
+            ["M4", "M3 + All post office deposits"]
+          ],
+          "note": "Only M3 and M4 bring in time deposits; only M2 and M4 bring in post office savings."
+        },
+        {
+          "type": "callout",
+          "kind": "remember",
+          "title": "Narrow vs broad money",
+          "text": "Moving from M1 to M4, liquidity (stability, spendability) keeps falling. **M1 is narrow money**: it is so liquid that banks cannot base their lending programmes on it. **M3 is broad money**: it lies with banks for a known period, so banks run their lending on it."
+        },
+        {
+          "type": "callout",
+          "kind": "tip",
+          "title": "Syllabus note",
+          "text": "The RBI later moved to a newer set of liquidity aggregates (NM1, NM2, NM3 and L1 to L3), but exam questions still use the M0 to M4 definitions given here."
+        }
+      ]
+    },
+    {
+      "id": "note-issue-rupee",
+      "title": "Note Issue and the Rupee",
+      "icon": "💵",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "India issues currency notes through the RBI, but the government keeps important powers. The system is based on keeping a fixed minimum of valuable assets as backing, after which the RBI may issue any amount of notes."
+        },
+        {
+          "type": "keyvalue",
+          "title": "Who does what",
+          "rows": [
+            ["Note issue system in use", "Minimum Reserve System. The RBI must hold a minimum reserve of gold coin, bullion and foreign securities (a total of ₹200 crore, of which at least ₹115 crore is gold) and can issue notes of any amount above it."],
+            ["Maximum denomination", "As per the book, Section 24 of the RBI Act, 1934 lets the RBI issue notes up to a maximum denomination of ₹10,000."],
+            ["Design, form and material of notes", "The Central Government is the final authority."],
+            ["Quantity of coins to be minted", "Decided by the Government of India."],
+            ["First notes printed by the RBI", "The RBI began production of notes in 1938. The ₹500 note was re-introduced in 1987."]
+          ]
+        },
+        {
+          "type": "bullets",
+          "title": "Approved assets that back the notes",
+          "items": [
+            "Gold coin, bullion and rupee coin.",
+            "Foreign securities.",
+            "Government of India rupee securities of any maturity.",
+            "Bills of exchange and promissory notes payable in India that are eligible for purchase by the RBI."
+          ]
+        },
+        {
+          "type": "timeline",
+          "title": "How the rupee's external link changed",
+          "items": [
+            ["Bretton Woods era", "As an IMF member, India declared the par value of the rupee in terms of gold."],
+            ["25 Sept 1975", "Rupee was delinked from pound sterling and linked to a basket of currencies."],
+            ["1992", "The rupee's association with pound sterling as the intervention currency was finally broken."]
+          ]
+        },
+        {
+          "type": "mnemonic",
+          "title": "Minimum Reserve System numbers",
+          "phrase": "Two hundred crore floor, 115 of it gold; above the floor, print away.",
+          "letters": [
+            ["200", "Total minimum reserve (₹ crore)"],
+            ["115", "Gold part of the reserve (₹ crore)"],
+            ["Above it", "RBI can issue notes of any amount"]
+          ],
+          "note": "Remember the note-issue system as 'Minimum': a minimum reserve, then flexible issue."
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "Exchange rate is the price of a currency",
+          "text": "When someone buys foreign currency against rupees, banks give the equivalent amount at the prevailing **exchange rate**. Do not confuse it with the bank rate (the RBI's lending rate) or the policy rate."
+        }
+      ]
+    },
+    {
+      "id": "money-market-basics",
+      "title": "The Money Market",
+      "icon": "🏦",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "The **money market** is a short-term credit market where short-term funds are borrowed and lent. It is regulated by the Reserve Bank of India. Its most important feature is that its instruments are liquid and can be turned into money quickly and cheaply. It matches the surplus funds of lenders with the needs of borrowers."
+        },
+        {
+          "type": "keyvalue",
+          "title": "Participants and instruments",
+          "rows": [
+            ["Lenders", "Commercial banks, insurance companies, finance companies and the central bank."],
+            ["Borrowers", "Those who need short-term funds; the market brings lenders and borrowers together."],
+            ["Capital market (for contrast)", "Deals in long-term debt and equity claims, including government securities."]
+          ]
+        },
+        {
+          "type": "figure",
+          "kind": "flow",
+          "title": "Six money market instruments",
+          "items": [
+            ["Treasury Bills", "Government short-term paper"],
+            ["Commercial Papers", "Unsecured notes of top corporates"],
+            ["Certificates of Deposit", "Negotiable bank deposits"],
+            ["Banker's Acceptance", "Bank-guaranteed trade credit"],
+            ["Repurchase Agreement", "Repo: sale with buy-back"],
+            ["Call Money", "Overnight borrowing and lending"]
+          ]
+        },
+        {
+          "type": "mnemonic",
+          "title": "Six instruments in order",
+          "phrase": "Tigers Chase Cubs, Bears Run Cautiously.",
+          "letters": [
+            ["T", "Treasury Bills"],
+            ["C", "Commercial Papers"],
+            ["C", "Certificates of Deposit"],
+            ["B", "Banker's Acceptance"],
+            ["R", "Repurchase Agreement"],
+            ["C", "Call Money"]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "treasury-bills",
+      "title": "Treasury Bills",
+      "icon": "🧾",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "**Treasury bills (T-bills)** are short-term government securities, generally for up to one year. They help manage short-term liquidity. They are issued by the Government of India through auctions; State Governments do not issue T-bills."
+        },
+        {
+          "type": "table",
+          "title": "Treasury bill facts",
+          "headers": ["Point", "Detail"],
+          "rows": [
+            ["Types (as listed in the book)", "14-day, 91-day, 182-day and 364-day."],
+            ["Minimum amount", "₹25,000, and in multiples of ₹25,000."],
+            ["How they are priced", "Issued at a discount and redeemed at par (face value)."],
+            ["Special issue", "T-bills are also issued under the Market Stabilisation Scheme (MSS)."],
+            ["Who issues", "Government of India only, through auctions."]
+          ]
+        },
+        {
+          "type": "mnemonic",
+          "title": "T-bill tenors",
+          "phrase": "A fortnight, a quarter, half a year, a full year: 14, 91, 182, 364.",
+          "letters": [
+            ["14", "Fortnight (two weeks)"],
+            ["91", "About one quarter (3 months)"],
+            ["182", "About half a year"],
+            ["364", "Just under one year"]
+          ],
+          "note": "Today only the 91, 182 and 364-day bills are regularly auctioned; some practice questions mention just these three."
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "Discount in, par out",
+          "text": "A T-bill pays no coupon. You buy it below face value (at a discount) and receive the full face value (par) at maturity. The gain is the difference."
+        }
+      ]
+    },
+    {
+      "id": "cp-and-cd",
+      "title": "Commercial Paper and Certificate of Deposit",
+      "icon": "📑",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "Both CP and CD are short-term money market instruments, but they are issued by different players and have different size and tenor rules. CP is a corporate borrowing tool; CD is a bank deposit that can be traded."
+        },
+        {
+          "type": "table",
+          "title": "CD vs CP",
+          "headers": ["Point", "Certificate of Deposit (CD)", "Commercial Paper (CP)"],
+          "rows": [
+            ["What it is", "Negotiable instrument issued in demat form or as a usance promissory note against funds deposited with a bank or eligible financial institution for a fixed period.", "Unsecured money market instrument issued as a promissory note."],
+            ["Introduced", "CD was organised in 1989.", "CP was introduced in India in 1990 so highly rated corporates could diversify short-term borrowing."],
+            ["Who can issue", "Scheduled commercial banks (excluding RRBs and Local Area Banks) and select all-India FIs permitted by the RBI.", "Corporates, primary dealers (PDs) and all-India financial institutions (FIs)."],
+            ["Minimum amount", "₹1 lakh, and multiples of ₹1 lakh.", "₹5 lakh, or multiples of it."],
+            ["Maturity", "Banks: 7 days to 1 year. FIs: 1 year to 3 years.", "7 days to 1 year, and not beyond the validity of the issuer's credit rating."],
+            ["Who can invest", "Individuals, corporations, companies, trusts, funds, associations. NRIs only on non-repatriable basis; such CDs cannot be endorsed to another NRI in the secondary market.", "Individuals, banking companies, other corporate bodies, unincorporated bodies, NRIs and FIIs (FII investment within SEBI limits)."]
+          ]
+        },
+        {
+          "type": "bullets",
+          "title": "Conditions for a corporate to issue CP",
+          "items": [
+            "Tangible net worth of at least ₹4 crore as per the latest audited balance sheet.",
+            "Working capital limit sanctioned by banks or FIs.",
+            "Borrowal account classified as a Standard Asset by the lending bank or institution.",
+            "Minimum credit rating of 'A-2' as per the SEBI rating symbols.",
+            "Only a scheduled bank can act as the Issuing and Paying Agent (IPA).",
+            "CP may be a promissory note or in demat form; banks, FIs and PDs may hold CP only in demat form."
+          ]
+        },
+        {
+          "type": "bullets",
+          "title": "More on CDs",
+          "items": [
+            "Since 1993 the RBI has allowed financial institutions such as IFCI, IDBI, IRBI (IIBI since 1997) and Exim Bank to issue CDs.",
+            "These institutions may issue CDs with maturities above one year and up to three years."
+          ]
+        },
+        {
+          "type": "mnemonic",
+          "title": "CP 5, CD 1",
+          "phrase": "Corporates need a bigger Cheque: CP = ₹5 lakh, CD = ₹1 lakh.",
+          "letters": [
+            ["CP", "Corporate Paper: minimum ₹5 lakh, 7 days to 1 year"],
+            ["CD", "Certificate of Deposit: minimum ₹1 lakh"],
+            ["Bank CD", "7 days to 1 year"],
+            ["FI CD", "1 to 3 years"]
+          ],
+          "note": "CD for FIs is the only one that runs beyond one year."
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "Unsecured vs negotiable",
+          "text": "CP is **unsecured** (no collateral; it relies on the issuer's rating). CD is a **negotiable** deposit certificate. Also note the issuers: CP by corporates/PDs/FIs, CD by banks (not RRBs or LABs) and permitted FIs."
+        }
+      ]
+    },
+    {
+      "id": "ba-repo-call",
+      "title": "Banker's Acceptance, Repo, Call and Notice Money",
+      "icon": "🔁",
+      "blocks": [
+        {
+          "type": "keyvalue",
+          "title": "Banker's acceptance and repo",
+          "rows": [
+            ["Bankers' acceptance (BA)", "A short-term credit investment created by a non-financial firm and guaranteed by a bank to make payment. It trades at a discount from face value in the secondary market, is considered very safe, and is used widely in foreign trade."],
+            ["Repurchase agreement (repo)", "Sale of securities with an agreement that the seller will buy them back later. The repurchase price is higher than the sale price, and the difference is effectively the interest (the repo rate)."],
+            ["Roles in a repo", "The party that first buys the securities acts as the lender. The original seller acts as the borrower, using the securities as collateral for a secured cash loan at a fixed rate."]
+          ]
+        },
+        {
+          "type": "figure",
+          "kind": "flow",
+          "title": "Call, notice and term money by maturity",
+          "items": [
+            ["Call Money", "Overnight funds"],
+            ["Notice Money", "Funds for 2 to 14 days"],
+            ["Term Money", "Funds for 15 days to 1 year"]
+          ]
+        },
+        {
+          "type": "bullets",
+          "title": "Call and notice money market: who takes part",
+          "items": [
+            "Scheduled commercial banks (excluding RRBs).",
+            "Co-operative banks (other than Land Development Banks).",
+            "Primary Dealers (PDs).",
+            "These participants can be both borrowers and lenders in the call and notice money market."
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "CBLO (now discontinued)",
+          "rows": [
+            ["What it was", "Collateralised Borrowing and Lending Obligation: a money market instrument representing an obligation between a borrower and a lender on the terms of a loan."],
+            ["Features", "A discounted instrument in electronic book entry, with maturity from one day to 90 days (up to 1 year as per RBI guidelines)."],
+            ["Operator", "Clearing Corporation of India Ltd. (CCIL), for entities with no access, or restricted access (caps on borrowing and lending), to the inter-bank call money market."],
+            ["Status", "CBLO was discontinued from November 2018."]
+          ]
+        },
+        {
+          "type": "mnemonic",
+          "title": "Call, Notice, Term",
+          "phrase": "Call = one night; Notice = a fortnight (2 to 14); Term = 15 days to a year.",
+          "letters": [
+            ["Call", "Overnight"],
+            ["Notice", "2 to 14 days"],
+            ["Term", "15 days to 1 year"]
+          ],
+          "note": "Think 'call someone tonight', 'give notice for a couple of weeks', 'a term lasts longer'."
+        }
+      ]
+    },
+    {
+      "id": "unorganised-market",
+      "title": "The Unorganised Money Market",
+      "icon": "🏘️",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "Apart from the regulated money market, there is an **unorganised** segment made up of unregulated non-bank financial intermediaries such as moneylenders, chit funds and nidhis."
+        },
+        {
+          "type": "bullets",
+          "title": "Chit funds",
+          "items": [
+            "Chit funds have regular members who make periodic contributions.",
+            "They are savings institutions of many types and have no standard form.",
+            "Organised chit funds are regulated by the Registrar of Chit Funds under the Chit Funds Act, 1982.",
+            "There is regulatory confusion because Collective Investment Schemes (CISs) must be registered and regulated by SEBI.",
+            "Many chit funds exploit these regulatory loopholes."
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "remember",
+          "title": "Who regulates what",
+          "text": "Money market: RBI. Organised chit funds: Registrar of Chit Funds under the **Chit Funds Act, 1982**. Collective Investment Schemes: **SEBI**."
+        }
+      ]
+    },
+    {
+      "id": "price-terms",
+      "title": "Prices, Inflation and Money Terms",
+      "icon": "📈",
+      "blocks": [
+        {
+          "type": "keyvalue",
+          "title": "Related terms tested with this chapter",
+          "rows": [
+            ["Inflation", "A sustained rise in the general price level, i.e. a fall in the purchasing power of money. When purchasing power falls, the rate of inflation rises."],
+            ["Demand-pull inflation", "Prices rise steadily because aggregate demand grows at an unsustainable rate compared with aggregate supply."],
+            ["Stagflation", "A situation of recession (stagnation) together with inflation."],
+            ["Cheap money", "Money available at a low rate of interest."],
+            ["Deficit financing", "Creating additional paper currency to fill the gap between expenditure and revenue. It aims at development but, if it fails, it generates inflation."],
+            ["Money multiplier", "If banks and the private sector choose to hold less cash, the money multiplier becomes larger."],
+            ["MZM", "Money of zero maturity: money that can be spent at once, with no waiting period."],
+            ["GDP", "The total value of goods and services produced in an economy, measured in money terms."]
+          ]
+        },
+        {
+          "type": "mnemonic",
+          "title": "Stagflation = Stagnation + Inflation",
+          "phrase": "STAG-FLATION: the economy stands still (STAG) while prices keep rising (FLATION).",
+          "letters": [
+            ["Stag", "Stagnation: recession, no growth"],
+            ["Flation", "Inflation: rising prices"]
+          ],
+          "note": "Demand-pull is a different case: demand outruns supply."
+        },
+        {
+          "type": "callout",
+          "kind": "fact",
+          "title": "Deficit financing risk",
+          "text": "Printing money to cover a fiscal gap adds to the money supply. Without matching growth in output it pushes prices up, so the usual result of failed deficit financing is inflation, not deflation."
+        }
+      ]
+    }
+  ],
+  "revision": [
+    "Money is anything widely accepted in exchange for goods and services; fiat money has value only by government decree.",
+    "Commodity money has intrinsic value (gold, salt); representative money is a token exchangeable for a commodity.",
+    "Forms of money: metallic, paper, adjacent (bonds, debentures) and digital (crypto, CBDC, stablecoins).",
+    "M0 = reserve money; M1 = currency with public + demand deposits; M2 = M1 + post office savings; M3 = M1 + time deposits; M4 = M3 + all post office deposits.",
+    "M1 is narrow money; M3 is broad money; liquidity falls from M1 to M4.",
+    "India follows the Minimum Reserve System of note issue; the Central Government has the final say on note design; the Government of India decides coin quantity.",
+    "Rupee was delinked from pound sterling on 25 Sept 1975 and linked to a basket of currencies.",
+    "Money market is a short-term credit market regulated by the RBI; capital market handles long-term debt and equity.",
+    "Six money market instruments: T-bills, CP, CD, banker's acceptance, repo and call money.",
+    "T-bills: issued only by the Government of India at a discount, redeemed at par, minimum ₹25,000 in multiples of ₹25,000.",
+    "CP: unsecured, introduced 1990, minimum ₹5 lakh, 7 days to 1 year, minimum rating A-2, tangible net worth at least ₹4 crore.",
+    "CD: negotiable, minimum ₹1 lakh; banks issue for 7 days to 1 year, FIs for 1 to 3 years.",
+    "Call money is overnight, notice money is 2 to 14 days and term money is 15 days to 1 year.",
+    "CBLO, run by CCIL, was discontinued in November 2018.",
+    "Organised chit funds are regulated under the Chit Funds Act, 1982; CISs fall under SEBI."
+  ],
+  "mindmap": {
+    "center": "Types of Money",
+    "branches": [
+      {
+        "label": "Basic types",
+        "children": ["Commodity money", "Representative money", "Fiat money", "Intrinsic value vs decree"]
+      },
+      {
+        "label": "Forms of money",
+        "children": ["Metallic (coins)", "Paper (notes)", "Adjacent (bonds)", "Digital (crypto, CBDC)"]
+      },
+      {
+        "label": "Money supply",
+        "children": ["M0 reserve money", "M1 narrow money", "M2 plus post savings", "M3 broad money", "M4 plus all post deposits"]
+      },
+      {
+        "label": "Note issue and rupee",
+        "children": ["Minimum Reserve System", "Section 24 limit", "Govt decides design", "Delinked from sterling 1975"]
+      },
+      {
+        "label": "T-bills",
+        "children": ["14/91/182/364 day", "Minimum ₹25,000", "Discount and par", "Govt of India only"]
+      },
+      {
+        "label": "CP and CD",
+        "children": ["CP: ₹5 lakh, 1990", "CD: ₹1 lakh, 1989", "CP rating A-2", "FI CDs 1 to 3 years"]
+      },
+      {
+        "label": "Other instruments",
+        "children": ["Banker's acceptance", "Repo", "Call 1 day", "Notice 2-14 days", "Term 15 days-1 year", "CBLO discontinued"]
+      },
+      {
+        "label": "Unorganised market",
+        "children": ["Moneylenders", "Chit funds", "Nidhis", "Chit Funds Act 1982"]
+      }
+    ]
+  }
+}

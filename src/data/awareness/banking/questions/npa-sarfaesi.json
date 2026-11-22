@@ -1,0 +1,523 @@
+[
+ {
+  "id": "npa-sarfaesi-01",
+  "q": "Bad advances of a bank are called:",
+  "options": [
+   "Standard accounts",
+   "Book debt",
+   "Overdrawn accounts",
+   "Non-performing assets"
+  ],
+  "answer": 3,
+  "explain": "Loans on which principal or interest stays overdue (90 days) are non-performing assets, or NPAs.",
+  "section": "npa-basics",
+  "exam": "IBPS PO Main 2015"
+ },
+ {
+  "id": "npa-sarfaesi-02",
+  "q": "A loan or advance is generally treated as an NPA when its principal or interest remains overdue for:",
+  "options": [
+   "30 days",
+   "60 days",
+   "90 days",
+   "180 days"
+  ],
+  "answer": 2,
+  "explain": "The 90-day overdue rule is the standard NPA test for term loans.",
+  "section": "npa-basics"
+ },
+ {
+  "id": "npa-sarfaesi-03",
+  "q": "Why are non-performing assets given that name?",
+  "options": [
+   "They cease to earn income for the bank",
+   "They are always unsecured",
+   "They are all agricultural loans",
+   "They are not shown in the balance sheet"
+  ],
+  "answer": 0,
+  "explain": "An asset becomes an NPA when it ceases to generate income, such as interest, for the bank.",
+  "section": "npa-basics"
+ },
+ {
+  "id": "npa-sarfaesi-04",
+  "q": "For a term loan, which situation makes the account an NPA?",
+  "options": [
+   "The borrower changing address",
+   "A single cheque returned once",
+   "Interest or principal instalment overdue for more than ninety days",
+   "Loan sanctioned above the market rate"
+  ],
+  "answer": 2,
+  "explain": "A term loan turns NPA when interest and/or an instalment of principal stays overdue for more than 90 days. Either one is enough.",
+  "section": "npa-basics"
+ },
+ {
+  "id": "npa-sarfaesi-05",
+  "q": "As per RBI guidelines, a bank classifies a loan as NPA only if the interest charged during a quarter is not fully serviced within:",
+  "options": [
+   "30 days from the end of the quarter",
+   "60 days from the end of the quarter",
+   "120 days from the end of the quarter",
+   "90 days from the end of the quarter"
+  ],
+  "answer": 3,
+  "explain": "The quarter rule uses 90 days from the end of the quarter in which the interest was charged.",
+  "section": "npa-basics"
+ },
+ {
+  "id": "npa-sarfaesi-06",
+  "q": "A bill purchased or discounted by a bank becomes an NPA if it remains overdue for:",
+  "options": [
+   "More than two crop seasons",
+   "More than thirty days",
+   "More than one year",
+   "More than ninety days"
+  ],
+  "answer": 3,
+  "explain": "Bills purchased and discounted follow the same 90-day overdue test as term loans.",
+  "section": "npa-basics"
+ },
+ {
+  "id": "npa-sarfaesi-07",
+  "q": "A loan for short-duration crops becomes an NPA when an instalment remains overdue for:",
+  "options": [
+   "One crop season",
+   "Two crop seasons",
+   "Three crop seasons",
+   "Four crop seasons"
+  ],
+  "answer": 1,
+  "explain": "Short-duration crop loans are NPAs after two crop seasons overdue; long-duration crops after one season.",
+  "section": "npa-basics"
+ },
+ {
+  "id": "npa-sarfaesi-08",
+  "q": "A loan for long-duration crops becomes an NPA when an instalment of principal or interest remains overdue for:",
+  "options": [
+   "Two crop seasons",
+   "One crop season",
+   "Ninety days",
+   "Six months"
+  ],
+  "answer": 1,
+  "explain": "For long-duration crops the NPA test is one crop season overdue.",
+  "section": "npa-basics"
+ },
+ {
+  "id": "npa-sarfaesi-09",
+  "q": "In overdraft and cash credit accounts, the trigger for NPA status is that the account stays:",
+  "options": [
+   "Dormant",
+   "Out of order",
+   "Joint",
+   "Insured"
+  ],
+  "answer": 1,
+  "explain": "An OD/CC account that remains out of order is an NPA.",
+  "section": "out-of-order-overdue"
+ },
+ {
+  "id": "npa-sarfaesi-10",
+  "q": "Which situation makes an overdraft account 'out of order'?",
+  "options": [
+   "Balance is always below the limit with regular credits",
+   "Outstanding stays continuously above the sanctioned limit or drawing power",
+   "The account holder has two accounts",
+   "The account has a nominee"
+  ],
+  "answer": 1,
+  "explain": "An account is out of order if the outstanding balance remains continuously in excess of the sanctioned limit or drawing power.",
+  "section": "out-of-order-overdue"
+ },
+ {
+  "id": "npa-sarfaesi-11",
+  "q": "An account whose balance is below the limit is still 'out of order' if there are no credits continuously for:",
+  "options": [
+   "Thirty days",
+   "Sixty days",
+   "Ninety days",
+   "One year"
+  ],
+  "answer": 2,
+  "explain": "No credits for ninety days (or credits too small to cover the interest debited) makes the account out of order.",
+  "section": "out-of-order-overdue"
+ },
+ {
+  "id": "npa-sarfaesi-12",
+  "q": "An amount due to the bank under a credit facility is 'overdue' when:",
+  "options": [
+   "It is unsecured",
+   "It exceeds Rs 1 lakh",
+   "It is not paid on the due date fixed by the bank",
+   "It is paid in instalments"
+  ],
+  "answer": 2,
+  "explain": "Overdue simply means the amount has not been paid on the date it was due.",
+  "section": "out-of-order-overdue"
+ },
+ {
+  "id": "npa-sarfaesi-13",
+  "q": "Which statement about the Presidential Ordinance on NPAs is correct?",
+  "options": [
+   "It banned all bank lending",
+   "It removed the RBI's powers over banks",
+   "It empowered the RBI to enforce expeditious resolution of NPAs and linked Bankruptcy Code provisions to the Banking Regulation Act",
+   "It abolished the SARFAESI Act"
+  ],
+  "answer": 2,
+  "explain": "The ordinance gave the RBI stronger powers for NPA resolution and linked the Bankruptcy Code with the Banking Regulation Act.",
+  "section": "presidential-ordinance"
+ },
+ {
+  "id": "npa-sarfaesi-14",
+  "q": "Which of the following empowered the RBI to set up oversight committees for banks with NPAs?",
+  "options": [
+   "Presidential Ordinance",
+   "SARFAESI Act, 2002 alone",
+   "Companies Act, 2013",
+   "Negotiable Instruments Act, 1881"
+  ],
+  "answer": 0,
+  "explain": "The Presidential Ordinance on NPAs allowed the RBI to constitute oversight committees.",
+  "section": "presidential-ordinance"
+ },
+ {
+  "id": "npa-sarfaesi-15",
+  "q": "What political risk was linked to the NPA ordinance giving the Government a role in directing the RBI?",
+  "options": [
+   "Government might be accused of picking and choosing default cases for resolution",
+   "Banks would stop accepting deposits",
+   "The RBI would lose its currency-issue right",
+   "Courts would lose all powers"
+  ],
+  "answer": 0,
+  "explain": "Because the Government can direct the RBI to start resolution, it may be accused of using discretion over which defaults are chosen.",
+  "section": "presidential-ordinance"
+ },
+ {
+  "id": "npa-sarfaesi-16",
+  "q": "Which of the following is NOT a category of non-performing assets?",
+  "options": [
+   "Substandard assets",
+   "Doubtful assets",
+   "Loss assets",
+   "Tangible assets"
+  ],
+  "answer": 3,
+  "explain": "NPAs are classified as substandard, doubtful and loss assets. Tangible assets is just a general accounting term.",
+  "section": "asset-classification"
+ },
+ {
+  "id": "npa-sarfaesi-17",
+  "q": "Which of the following does NOT pertain to non-performing assets?",
+  "options": [
+   "Standard assets",
+   "Doubtful assets",
+   "Loss assets",
+   "Substandard assets"
+  ],
+  "answer": 0,
+  "explain": "Standard assets are performing assets; the other three are NPA categories.",
+  "section": "asset-classification"
+ },
+ {
+  "id": "npa-sarfaesi-18",
+  "q": "Assets that have remained NPA for a period of less than or equal to 12 months are called:",
+  "options": [
+   "Doubtful assets",
+   "Loss assets",
+   "Standard assets",
+   "Substandard assets"
+  ],
+  "answer": 3,
+  "explain": "From 31 March 2005, an asset that has been an NPA for 12 months or less is substandard.",
+  "section": "asset-classification"
+ },
+ {
+  "id": "npa-sarfaesi-19",
+  "q": "An asset is classified as doubtful when it has remained in the substandard category for:",
+  "options": [
+   "Three months",
+   "Six months",
+   "Twelve months",
+   "Thirty-six months"
+  ],
+  "answer": 2,
+  "explain": "A substandard asset that stays in that category for twelve months becomes doubtful.",
+  "section": "asset-classification"
+ },
+ {
+  "id": "npa-sarfaesi-20",
+  "q": "A loss asset is one where the loss has been identified by auditors or the RBI inspection but:",
+  "options": [
+   "The loan is still performing",
+   "It has not been written off wholly",
+   "The borrower has repaid in full",
+   "It has been fully insured"
+  ],
+  "answer": 1,
+  "explain": "Loss assets are considered uncollectible and should be written off, even though some salvage value may remain.",
+  "section": "asset-classification"
+ },
+ {
+  "id": "npa-sarfaesi-21",
+  "q": "What is the correct order of NPA categories as an asset worsens?",
+  "options": [
+   "Loss, doubtful, substandard",
+   "Doubtful, loss, substandard",
+   "Substandard, loss, doubtful",
+   "Substandard, doubtful, loss"
+  ],
+  "answer": 3,
+  "explain": "An NPA starts as substandard, moves to doubtful after 12 months, and ends as a loss asset.",
+  "section": "asset-classification"
+ },
+ {
+  "id": "npa-sarfaesi-22",
+  "q": "As per the book, the provision required for a loss asset that remains on the books is:",
+  "options": [
+   "10 per cent",
+   "20 per cent",
+   "50 per cent",
+   "100 per cent"
+  ],
+  "answer": 3,
+  "explain": "Loss assets should be written off; if retained, 100 per cent of the outstanding must be provided for.",
+  "section": "provisioning"
+ },
+ {
+  "id": "npa-sarfaesi-23",
+  "q": "As per the book, the provision for unsecured doubtful assets is:",
+  "options": [
+   "25 per cent",
+   "50 per cent",
+   "75 per cent",
+   "100 per cent"
+  ],
+  "answer": 3,
+  "explain": "The unsecured portion of a doubtful asset needs a 100 per cent provision.",
+  "section": "provisioning"
+ },
+ {
+  "id": "npa-sarfaesi-24",
+  "q": "As per the book, the general provision on a substandard asset (secured) is:",
+  "options": [
+   "100 per cent",
+   "5 per cent",
+   "0.25 per cent",
+   "10 per cent"
+  ],
+  "answer": 3,
+  "explain": "The book gives a general provision of 10 per cent, rising to 20 per cent in total for unsecured exposure. RBI revises rates from time to time.",
+  "section": "provisioning"
+ },
+ {
+  "id": "npa-sarfaesi-25",
+  "q": "As per the book, standard-asset provision for direct advances to agriculture and SME sectors is:",
+  "options": [
+   "1 per cent",
+   "0.40 per cent",
+   "0.25 per cent",
+   "10 per cent"
+  ],
+  "answer": 2,
+  "explain": "Agriculture and SME advances need 0.25 per cent; specified sectors need 1 per cent; others 0.40 per cent.",
+  "section": "provisioning"
+ },
+ {
+  "id": "npa-sarfaesi-26",
+  "q": "Which of these attracts a 1 per cent standard-asset provision (as per the book)?",
+  "options": [
+   "Direct agricultural advances",
+   "Personal loans and commercial real estate loans",
+   "All other advances not in specified sectors",
+   "Loans to SMEs"
+  ],
+  "answer": 1,
+  "explain": "Personal loans, capital-market exposures, large housing loans and commercial real estate carry 1 per cent.",
+  "section": "provisioning"
+ },
+ {
+  "id": "npa-sarfaesi-27",
+  "q": "As per the book, 'security' for classifying unsecured exposure includes only:",
+  "options": [
+   "Verbal assurances",
+   "Guarantees by directors",
+   "Comfort letters",
+   "Tangible security properly discharged to the bank"
+  ],
+  "answer": 3,
+  "explain": "Intangible securities like guarantees and comfort letters are excluded; only tangible security counts.",
+  "section": "provisioning"
+ },
+ {
+  "id": "npa-sarfaesi-28",
+  "q": "Which Act regulates securitisation, reconstruction of financial assets and enforcement of security interest?",
+  "options": [
+   "Banking Regulation Act, 1949",
+   "Reserve Bank of India Act, 1934",
+   "SARFAESI Act, 2002",
+   "Negotiable Instruments Act, 1881"
+  ],
+  "answer": 2,
+  "explain": "The SARFAESI Act, 2002 deals with securitisation, reconstruction of financial assets and enforcement of security interest.",
+  "section": "sarfaesi-act"
+ },
+ {
+  "id": "npa-sarfaesi-29",
+  "q": "On what date was the SARFAESI Act passed?",
+  "options": [
+   "17 December 2002",
+   "17 December 2012",
+   "5 May 2020",
+   "31 March 2005"
+  ],
+  "answer": 0,
+  "explain": "The Act was passed on 17 December 2002. 31 March 2005 is the NPA classification effective date; 5 May 2020 is the Supreme Court ruling on co-operative banks.",
+  "section": "sarfaesi-act"
+ },
+ {
+  "id": "npa-sarfaesi-30",
+  "q": "Under SARFAESI, after how many days of notice can the lender take possession of a defaulting borrower's secured assets?",
+  "options": [
+   "15 days",
+   "30 days",
+   "60 days",
+   "180 days"
+  ],
+  "answer": 2,
+  "explain": "The borrower gets a notice period of 60 days (two months) to discharge the liability.",
+  "section": "sarfaesi-act"
+ },
+ {
+  "id": "npa-sarfaesi-31",
+  "q": "If a borrower appeals to the DRAT against a DRT decision under SARFAESI, how much of the amount must be deposited?",
+  "options": [
+   "75 per cent",
+   "50 per cent",
+   "25 per cent",
+   "10 per cent"
+  ],
+  "answer": 1,
+  "explain": "An appeal to the Debts Recovery Appellate Tribunal requires a deposit of 50 per cent of the amount.",
+  "section": "sarfaesi-act"
+ },
+ {
+  "id": "npa-sarfaesi-32",
+  "q": "Which of the following is a key power SARFAESI gives to banks?",
+  "options": [
+   "Recover dues from secured assets without going through a court",
+   "Print currency notes",
+   "Fix repo rate",
+   "Merge with other banks without approval"
+  ],
+  "answer": 0,
+  "explain": "A secured creditor can enforce its security interest without the intervention of a court or tribunal.",
+  "section": "sarfaesi-act"
+ },
+ {
+  "id": "npa-sarfaesi-33",
+  "q": "Before the SARFAESI Act, lenders mainly recovered dues through:",
+  "options": [
+   "ARC bidding only",
+   "RBI auctions",
+   "Civil suits in courts",
+   "Government grants"
+  ],
+  "answer": 2,
+  "explain": "Lenders had to take recourse to lengthy civil suits, which the Act made unnecessary for secured loans.",
+  "section": "sarfaesi-act"
+ },
+ {
+  "id": "npa-sarfaesi-34",
+  "q": "A major drawback of the SARFAESI Act is that it is not applicable to:",
+  "options": [
+   "Secured creditors",
+   "Unsecured creditors",
+   "Scheduled commercial banks",
+   "Residential property"
+  ],
+  "answer": 1,
+  "explain": "SARFAESI works for secured loans only; unsecured creditors cannot use it.",
+  "section": "limits-and-arcs"
+ },
+ {
+  "id": "npa-sarfaesi-35",
+  "q": "Gaps in the recovery mechanism of SARFAESI were plugged by which law?",
+  "options": [
+   "Payment and Settlement Systems Act, 2007",
+   "Companies Act, 1956",
+   "Indian Contract Act, 1872",
+   "Insolvency and Bankruptcy Code, 2016"
+  ],
+  "answer": 3,
+  "explain": "The Insolvency and Bankruptcy Code, 2016 covered the drawbacks of earlier recovery mechanisms.",
+  "section": "limits-and-arcs"
+ },
+ {
+  "id": "npa-sarfaesi-36",
+  "q": "Asset Reconstruction Companies (ARCs) are used by banks to:",
+  "options": [
+   "Buy foreign currency",
+   "Offload distressed assets or doubtful debt",
+   "Issue credit cards",
+   "Insure deposits"
+  ],
+  "answer": 1,
+  "explain": "ARCs buy out distressed assets from banks, helping them clean their books.",
+  "section": "limits-and-arcs"
+ },
+ {
+  "id": "npa-sarfaesi-37",
+  "q": "In which year was a notification issued, without amending the law, to bring co-operative banks under SARFAESI?",
+  "options": [
+   "2003",
+   "2008",
+   "2013",
+   "2020"
+  ],
+  "answer": 0,
+  "explain": "A 2003 notification brought them in; the Act itself was amended only in 2013.",
+  "section": "coop-banks-sarfaesi"
+ },
+ {
+  "id": "npa-sarfaesi-38",
+  "q": "In which year did the Government formally amend the SARFAESI Act to include co-operative banks?",
+  "options": [
+   "2003",
+   "2010",
+   "2013",
+   "2020"
+  ],
+  "answer": 2,
+  "explain": "The 2013 amendment formally included co-operative banks in the definition of banks eligible for SARFAESI.",
+  "section": "coop-banks-sarfaesi"
+ },
+ {
+  "id": "npa-sarfaesi-39",
+  "q": "On 5 May 2020, the Supreme Court ruled in favour of which group invoking the SARFAESI Act?",
+  "options": [
+   "Foreign banks",
+   "Co-operative banks",
+   "Payments banks",
+   "Small finance banks"
+  ],
+  "answer": 1,
+  "explain": "The Court upheld the right of co-operative banks to use SARFAESI, resolving petitions about the 2003 notification and the 2013 amendment.",
+  "section": "coop-banks-sarfaesi"
+ },
+ {
+  "id": "npa-sarfaesi-40",
+  "q": "Which two co-operative banks does the book cite as cases of RBI lending and deposit-taking restrictions?",
+  "options": [
+   "NABARD and SIDBI",
+   "SBI and PNB",
+   "HDFC Bank and ICICI Bank",
+   "PMC Bank and CKP Bank"
+  ],
+  "answer": 3,
+  "explain": "PMC Bank and CKP Bank are the examples named for RBI restrictions on co-operative banks.",
+  "section": "coop-banks-sarfaesi"
+ }
+]

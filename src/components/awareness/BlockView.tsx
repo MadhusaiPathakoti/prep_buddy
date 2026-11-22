@@ -1,5 +1,5 @@
-import { THEMES } from '../../lib/computerAwareness/theme'
-import type { CaBlock, CaTheme, CalloutKind } from '../../lib/computerAwareness/types'
+import { THEMES } from '../../lib/awareness/theme'
+import type { CaBlock, CaTheme, CalloutKind } from '../../lib/awareness/types'
 import FigureView from './FigureView'
 import Rich from './Rich'
 
@@ -165,5 +165,37 @@ export default function BlockView({ block, theme }: { block: CaBlock; theme: CaT
 
     case 'figure':
       return <FigureView kind={block.kind} title={block.title} items={block.items} theme={theme} />
+
+    case 'mnemonic':
+      return (
+        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-violet-50 via-fuchsia-50 to-amber-50 p-5 ring-1 ring-fuchsia-200 dark:from-violet-500/10 dark:via-fuchsia-500/10 dark:to-amber-500/10 dark:ring-fuchsia-500/30">
+          <div className="absolute -right-3 -top-3 text-6xl opacity-10" aria-hidden="true">
+            🧠
+          </div>
+          <div className="relative">
+            <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wide text-fuchsia-700 dark:text-fuchsia-300">
+              <span aria-hidden="true">🧠</span> Memory trick · {block.title}
+            </div>
+            <p className="mt-2 text-xl font-extrabold leading-snug text-slate-900 dark:text-slate-100 sm:text-2xl">{block.phrase}</p>
+            {block.letters && (
+              <ul className="mt-3 grid gap-2 sm:grid-cols-2">
+                {block.letters.map(([key, meaning], i) => (
+                  <li key={i} className="flex items-center gap-2.5 rounded-xl bg-white/80 px-3 py-2 ring-1 ring-fuchsia-100 dark:bg-slate-800/80 dark:ring-slate-700">
+                    <span className="flex h-8 min-w-8 shrink-0 items-center justify-center rounded-lg bg-gradient-to-br from-fuchsia-500 to-violet-600 px-1.5 text-sm font-extrabold text-white">{key}</span>
+                    <span className="text-sm leading-snug text-slate-700 dark:text-slate-300">
+                      <Rich text={meaning} />
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            )}
+            {block.note && (
+              <p className="mt-3 text-sm leading-relaxed text-slate-600 dark:text-slate-400">
+                <Rich text={block.note} />
+              </p>
+            )}
+          </div>
+        </div>
+      )
   }
 }

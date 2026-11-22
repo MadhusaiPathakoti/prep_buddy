@@ -1,0 +1,632 @@
+{
+  "id": "financial-markets",
+  "sections": [
+    {
+      "id": "about-financial-market",
+      "title": "What is a financial market?",
+      "icon": "📈",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "A **financial market** is the whole infrastructure that lets people trade **financial securities**: currency, bonds, stocks, derivatives, commodities, forex and so on. Buying or selling shares happens in a financial market; so does trading in forex, derivatives or commodities. Banks, insurance companies, mutual funds and pension trusts are also participants. The market makes **efficient trade of securities and transfer of funds** between lenders and borrowers possible, and it creates the securities that people invest in to earn a return."
+        },
+        {
+          "type": "figure",
+          "kind": "flow",
+          "title": "How money moves through the financial system",
+          "items": [
+            ["Lenders", "People with surplus funds"],
+            ["Financial intermediaries", "Banks, FIs, mutual funds, insurers, brokers"],
+            ["Financial markets", "Money, capital, forex, commodity, derivatives"],
+            ["Securities issued", "T-bills, stocks, bonds, futures, options"],
+            ["Borrowers", "People with a funds deficit"]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "Securities traded in each market",
+          "rows": [
+            ["Money market", "Treasury bills (T-bills) and other short-term paper"],
+            ["Stock market", "Stocks (shares)"],
+            ["Bond market", "Bonds"],
+            ["Derivative market", "Futures and options"],
+            ["Forex market", "Foreign exchange (currencies)"],
+            ["Commodity market", "Commodities such as gold, crude and spices"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "remember",
+          "title": "One-stop shop",
+          "text": "Without a financial market, a lender in Mumbai would have to hunt for a borrower in Delhi on her own. The market becomes a **one-stop shop** for all lenders and borrowers, which makes capital generation and investment efficient."
+        }
+      ]
+    },
+    {
+      "id": "players-and-need",
+      "title": "Lenders, borrowers and intermediaries",
+      "icon": "🤝",
+      "blocks": [
+        {
+          "type": "keyvalue",
+          "title": "The three roles",
+          "rows": [
+            ["Lenders", "Those with **surplus funds**. They invest in securities. Households, businesses and government can all be lenders."],
+            ["Borrowers", "Those in need of funds, or **in capital deficit**. They borrow through the market and its intermediaries. Business, government and households can all be borrowers."],
+            ["Intermediaries", "Agencies in an assisting role. They collect funds from lenders, pass capital to borrowers and handle securities (stocks, mutual fund units, bonds, deposit certificates) on their behalf. Examples: banks, brokers, custodians, depositories and depository participants."]
+          ]
+        },
+        {
+          "type": "text",
+          "text": "Without intermediaries the market cannot run smoothly and efficiently. Financial institutions, mutual funds, insurance companies and pension trusts also act as lenders and intermediaries in the process."
+        },
+        {
+          "type": "bullets",
+          "title": "Why a market is needed",
+          "items": [
+            "Without one, lenders and borrowers can only find each other by **self-search**, which is inefficient.",
+            "Many lenders and borrowers would **miss the chance** to invest or borrow.",
+            "Such an economy is not friendly to economic activity.",
+            "An efficient market is an effective source of **capital generation and investment**."
+          ]
+        },
+        {
+          "type": "mnemonic",
+          "title": "Who is who: L-B-I",
+          "phrase": "Lenders Bring money, Borrowers Burn money, Intermediaries In-between.",
+          "letters": [
+            ["L", "Lenders: surplus funds, invest in securities"],
+            ["B", "Borrowers: capital deficit, issue securities"],
+            ["I", "Intermediaries: banks, brokers, custodians, depositories"]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "structure-money-capital",
+      "title": "Structure: money market and capital market",
+      "icon": "🧩",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "Most trading happens in two main types of financial market: the **money market** for **short-term** borrowing and lending, and the **capital market** for **long-term** investing and capital building. The capital market has two parts: the **primary market** (new issues) and the **secondary market** (stock exchange trading)."
+        },
+        {
+          "type": "table",
+          "title": "Money market vs capital market",
+          "headers": ["Feature", "Money market", "Capital market"],
+          "rows": [
+            ["Purpose", "Short-term borrowing and lending", "Long-term investing and capital building"],
+            ["Maturity", "Less than one year", "Long term"],
+            ["Risk and return", "Low risk, high liquidity, lower yield", "Higher risk, higher return potential"],
+            ["Instruments", "T-bills, CDs, CPs, Repo", "Shares, bonds"],
+            ["Typical common-man route", "Money market mutual funds", "Buying stocks and bonds"]
+          ]
+        },
+        {
+          "type": "mnemonic",
+          "title": "Money vs capital in one line",
+          "phrase": "Money = Minutes to months (under a year). Capital = Calendar years (long term).",
+          "letters": [
+            ["Money", "Short term, less than one year, low yield"],
+            ["Capital", "Long term, shares and bonds, higher return"]
+          ],
+          "note": "Seven markets are covered in this chapter: money, capital, banking, pension, insurance, forex and commodity."
+        }
+      ]
+    },
+    {
+      "id": "money-market",
+      "title": "Money market and STT",
+      "icon": "💵",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "The **money market** trades securities with a **short maturity of less than one year**. These are often risk-free. Because maturity is short (high **liquidity**) and the risk of loss (volatility) is low, their **yield is also low**. An ordinary investor typically enters through **money market mutual funds**."
+        },
+        {
+          "type": "keyvalue",
+          "title": "Money market securities",
+          "rows": [
+            ["T-Bills", "Treasury bills: short-term government securities, original maturity under one year."],
+            ["CDs", "Certificates of Deposit."],
+            ["CPs", "Commercial Papers."],
+            ["Repo", "Repurchase agreement, a short-term borrowing instrument."]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "What is STT?",
+          "rows": [
+            ["Securities Transaction Tax (STT)", "A tax levied on all transactions done on stock exchanges, at rates prescribed by the Central Government from time to time."],
+            ["Rules", "The Government of India notified the **Securities Transaction Tax Rules, 2004**."],
+            ["Effective from", "**1 October 2004**"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "Mutual funds are not a money market instrument",
+          "text": "**T-bills, CDs, CPs and Repo** are money market securities. A general mutual fund is a way to invest, not a money market security; only money market mutual funds are a route into the money market."
+        },
+        {
+          "type": "mnemonic",
+          "title": "Money market instruments: T-C-C-R",
+          "phrase": "Try Cold Coffee, Relax.",
+          "letters": [
+            ["T", "Treasury Bills"],
+            ["C", "Certificates of Deposit"],
+            ["C", "Commercial Papers"],
+            ["R", "Repo"]
+          ],
+          "note": "All of them mature in less than a year."
+        }
+      ]
+    },
+    {
+      "id": "capital-market",
+      "title": "Capital market: primary and secondary",
+      "icon": "🏗️",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "Indian households have small savings, while companies need funds for their capital needs. A household can invest in business through the capital market (stock market) by buying **stocks and bonds**. Investors are either **retail** (individuals investing in personal capacity) or **institutional** (companies, banks, government, mutual funds, insurance and pension trusts). The **company** is the issuer and the source of demand for capital."
+        },
+        {
+          "type": "figure",
+          "kind": "flow",
+          "title": "Journey of a security",
+          "items": [
+            ["Company issues security", "Shares or bonds issued for the first time"],
+            ["Primary market", "Also called the new issue market"],
+            ["Investor buys", "Money goes to the company"],
+            ["Secondary market", "Stock exchange: investors trade among themselves"],
+            ["Investor exits", "Sells to other investors for cash"]
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Primary vs secondary market",
+          "headers": ["Point", "Primary market", "Secondary market"],
+          "rows": [
+            ["Other name", "New issue market", "Stock exchange"],
+            ["What happens", "Companies issue securities to the public for the first time (IPO)", "Already issued securities are traded between buyers and sellers"],
+            ["Money goes to", "The issuing company (capital formation)", "The selling investor (liquidity and exit)"],
+            ["Issuer’s role", "Raises capital", "No intervention; a buyback is done here"]
+          ]
+        },
+        {
+          "type": "bullets",
+          "title": "Types of primary market issues",
+          "items": [
+            "**IPO**: Initial Public Offer, the first issue to the public.",
+            "**FPO**: Further Public Offer or Follow-on Public Offer.",
+            "**Private placement**.",
+            "**Preferential issue**.",
+            "**QIP**: Qualified Institutional Placement.",
+            "**Rights issue** and **bonus issue**."
+          ]
+        },
+        {
+          "type": "mnemonic",
+          "title": "Primary market issues: I-F-P-P-Q-R-B",
+          "phrase": "Ice-creams For Parties, Picnics, Quizzes, Rallies and Birthdays.",
+          "letters": [
+            ["I", "IPO (Initial Public Offer)"],
+            ["F", "FPO (Further / Follow-on Public Offer)"],
+            ["P", "Private placement"],
+            ["P", "Preferential issue"],
+            ["Q", "QIP (Qualified Institutional Placement)"],
+            ["R", "Rights issue"],
+            ["B", "Bonus issue"]
+          ]
+        },
+        {
+          "type": "mnemonic",
+          "title": "Primary vs secondary",
+          "phrase": "Primary = Premiere show (first time sold). Secondary = Second-hand sale (resale on the exchange).",
+          "note": "When someone says “stock exchange”, they mean the secondary market."
+        }
+      ]
+    },
+    {
+      "id": "stock-exchanges-indices",
+      "title": "Stock exchanges and indices",
+      "icon": "📊",
+      "blocks": [
+        {
+          "type": "table",
+          "title": "Major stock indices",
+          "headers": ["Index", "Exchange / country", "Remarks"],
+          "rows": [
+            ["Sensex", "Bombay Stock Exchange (BSE)", "Based on 30 large companies"],
+            ["Nifty (S&P CNX Nifty)", "National Stock Exchange (NSE)", "Based on 50 large companies"],
+            ["Nikkei", "Tokyo Stock Exchange, Japan", "Stock market index of Tokyo"],
+            ["Hang Seng", "Hong Kong", "Records daily changes of the largest Hong Kong companies"],
+            ["NASDAQ", "United States", "National Association of Securities Dealers Automated Quotations, an American stock exchange"]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "Handy terms and facts",
+          "rows": [
+            ["BSE", "Established in **1875**; Asia’s oldest exchange."],
+            ["India INX", "India’s first international exchange, a subsidiary of the Bombay Stock Exchange, located in the IFSC at GIFT City."],
+            ["Gilt-edged market", "The market for safe securities, typically government securities."],
+            ["Bear market", "A falling market: investments fall in value and investors rush to sell."],
+            ["Bull market", "A rising market with optimism and buying."],
+            ["Green bond", "A bond whose proceeds fund environment-friendly projects; the World Bank issued the first in 2008."],
+            ["FSDC", "Financial Stability and Development Council: apex forum for financial stability, inter-regulatory coordination and development."]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "Do not mix up Sensex and Nifty",
+          "text": "**Sensex is BSE** (30 companies); **Nifty is NSE** (50 companies). Neither is regulated by RBI; stock exchanges come under SEBI."
+        },
+        {
+          "type": "mnemonic",
+          "title": "Sensex vs Nifty",
+          "phrase": "Bombay Thirty, National Fifty.",
+          "letters": [
+            ["Sensex", "BSE (Bombay), 30 companies"],
+            ["Nifty", "NSE (National), 50 companies"]
+          ],
+          "note": "BSE was founded in 1875, before NSE."
+        }
+      ]
+    },
+    {
+      "id": "banking-pension-insurance",
+      "title": "Banking, pension and insurance markets",
+      "icon": "🏦",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "The **banking system** is part of the financial market. It consists of commercial banks, co-operative banks, payment banks, small finance banks and more, all regulated by the **Reserve Bank of India**. Banks collect deposits from the public (lenders with surplus money) and give credit as loans to individuals and companies. In this role the bank acts as an **intermediary**, and checks the borrower’s **credit worthiness** before it disburses a loan."
+        },
+        {
+          "type": "text",
+          "title": "Pension market",
+          "text": "The **pension market** serves the elderly with securities designed for them. Most Indians still do not get retirement benefits. Government and private sector employees are covered by **NPS, EPF or PPF**, but most self-employed people are not. The pension market aims to bring even them in. Products include NPS, PPF, retirement plans of insurance companies and mutual funds, and **EPFO**."
+        },
+        {
+          "type": "keyvalue",
+          "title": "Insurance market",
+          "rows": [
+            ["Life insurance", "Three product types: traditional products (term plans, endowment policies, whole life plans), variable products and unit-linked products. They give risk protection and investment benefits."],
+            ["General insurance", "Motor insurance, health insurance, fire insurance and personal accident cover."]
+          ]
+        },
+        {
+          "type": "text",
+          "text": "Insurance penetration in India is small. Many buy life insurance for **tax benefits** and motor insurance because it is **compulsory**. The market is growing with financial literacy and rising purchasing power, and medical, motor and term products are in demand."
+        }
+      ]
+    },
+    {
+      "id": "forex-market",
+      "title": "Foreign exchange (forex) market",
+      "icon": "💱",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "The **forex market** is an online place where currencies are traded. It is the **most liquid** market of all, which is why traders and speculators like it. People trade because exchange rates keep changing and they want to profit from the movement. Every country has its own forex market, and all of them are linked online into one giant, **decentralised global forex market**."
+        },
+        {
+          "type": "bullets",
+          "title": "Forex in India",
+          "items": [
+            "Indian law permits forex trading **only in currency derivatives**.",
+            "**RBI and SEBI** strictly control trading in foreign currencies, so forex trading is less popular than the stock market or money market.",
+            "Currency pairs available for derivative trading: **USD-INR, EUR-INR, GBP-INR and JPY-INR**.",
+            "Currency trading is allowed on **NSE, BSE** and other exchanges such as MSEI.",
+            "To trade, one must open an account with a **broker permitted** to trade currency derivatives, such as Angel Broking, Axis Bank, Bajaj Financial Securities, Bank of India, Bank of Baroda, ICICI Bank and HDFC Bank."
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "Exchanges and clearing bodies for currency trading",
+          "rows": [
+            ["BSE group", "Bombay Stock Exchange Ltd, India International Exchange (IFSC) Ltd, Indian Clearing Corporation Ltd (ICCL)"],
+            ["NSE group", "National Stock Exchange of India Ltd, NSE Clearing Ltd (NSCCL), NSE IFSC Ltd"],
+            ["Metropolitan group", "Metropolitan Stock Exchange and Metropolitan Clearing Corporation"],
+            ["Others", "United Stock Exchange of India Ltd"]
+          ]
+        },
+        {
+          "type": "mnemonic",
+          "title": "Forex pairs available in India",
+          "phrase": "US Eats Great Jam, all with INR.",
+          "letters": [
+            ["US", "USD-INR (US dollar)"],
+            ["Eats", "EUR-INR (euro)"],
+            ["Great", "GBP-INR (British pound)"],
+            ["Jam", "JPY-INR (Japanese yen)"]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "commodity-market",
+      "title": "Commodity market",
+      "icon": "🛢️",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "In the **commodity market**, commodities such as bullion, metals, energy and farm produce are traded on dedicated exchanges. The market for buying and selling precious metals like gold and silver is called the **bullion market**."
+        },
+        {
+          "type": "table",
+          "title": "Commodity exchanges of India",
+          "headers": ["Exchange", "Full name", "Commodities traded"],
+          "rows": [
+            ["MCX", "Multi Commodity Exchange", "Bullion, metals, fibre, energy, spices, plantations, pulses, petrochemicals, cereals and others"],
+            ["ICEX", "Indian Commodity Exchange", "Gold, silver, diamond, copper, lead, crude oil, natural gas, mustard, soya bean, jute, iron ore"],
+            ["NCDEX", "National Commodity and Derivatives Exchange", "Cereals, pulses, fibres, oils and oilseeds, spices, gold, silver, steel, copper, crude and brent crude"],
+            ["NMCE", "National Multi Commodity Exchange", "Castor seed, rapeseed, mustard, soya bean, sesame, copra, black pepper, gram, gold, aluminium, rubber, copper, lead, zinc, jute, coffee"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "fact",
+          "title": "Who regulates commodity trading?",
+          "text": "Commodity futures were once regulated by the **Forward Markets Commission (FMC)**. FMC was merged into **SEBI in 2015**, so SEBI now regulates commodity derivatives. Older exam questions may still show FMC as the answer."
+        },
+        {
+          "type": "mnemonic",
+          "title": "Four commodity exchanges: M-I-N-N",
+          "phrase": "Mom Is Never Nasty.",
+          "letters": [
+            ["M", "MCX: Multi Commodity Exchange"],
+            ["I", "ICEX: Indian Commodity Exchange"],
+            ["N", "NCDEX: National Commodity and Derivatives Exchange"],
+            ["N", "NMCE: National Multi Commodity Exchange"]
+          ],
+          "note": "NCDEX has “Derivatives” in its name; NMCE has “Multi”."
+        }
+      ]
+    },
+    {
+      "id": "derivatives-trade-terms",
+      "title": "Derivatives and trade terms",
+      "icon": "🔬",
+      "blocks": [
+        {
+          "type": "keyvalue",
+          "title": "Derivative contracts",
+          "rows": [
+            ["Option", "Gives the holder the **right but not the obligation** to buy or sell the underlying asset at a predetermined price within or at the end of a specified period."],
+            ["Future", "A standardised exchange-traded contract to buy or sell an asset at a set price on a future date; both sides are **obliged** to complete it."],
+            ["Forward", "A customised, privately agreed contract for a future date."],
+            ["Swap", "An agreement to exchange cash flows between two parties."]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "Trade and exchange-rate terms",
+          "rows": [
+            ["Balance of trade", "The difference in value between a country’s **exports and imports** of goods."],
+            ["Balance of payments", "A wider record of all economic transactions with the rest of the world."],
+            ["Rupee depreciation", "A fall in the rupee’s value against other currencies. **Exporters gain**, since their dollar earnings convert into more rupees."]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "tip",
+          "title": "Option vs future",
+          "text": "An **option** is a right, so the buyer can walk away. A **future** is an obligation for both sides. When the question says “right but not obligation”, think option."
+        }
+      ]
+    },
+    {
+      "id": "government-securities",
+      "title": "Government securities (G-Secs)",
+      "icon": "🏛️",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "A **Government Security (G-Sec)** is a tradable instrument issued by the **Central Government** or a **State Government**. It acknowledges the government’s debt. G-Secs carry practically **no risk of default**, so they are called **risk-free gilt-edged instruments**."
+        },
+        {
+          "type": "table",
+          "title": "Short term and long term G-Secs",
+          "headers": ["Feature", "Treasury bills (T-bills)", "Dated securities / government bonds"],
+          "rows": [
+            ["Original maturity", "Less than one year", "One year or more"],
+            ["Issued by", "Central Government only", "Central Government and State Governments"],
+            ["State issues", "None", "Called State Development Loans (SDLs)"]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "Types of government bonds",
+          "rows": [
+            ["Fixed rate bonds", "Coupon rate stays fixed for the whole life of the bond until maturity."],
+            ["Floating rate bonds (FRB)", "No fixed coupon rate; first issued in India in **September 1995**."],
+            ["Capital indexed bonds", "Principal is linked to an accepted inflation index to protect the investor’s principal."],
+            ["Zero coupon bonds", "No coupon payments."],
+            ["STRIPS", "Separate Trading of Registered Interest and Principal of Securities: cash flows of a regular G-Sec (each semi-annual coupon and the final principal) are separated into individual securities. They are essentially zero coupon bonds."],
+            ["Inflation indexed bonds (IIBs)", "Both coupon flows and principal are protected against inflation, using the Wholesale Price Index (WPI) or Consumer Price Index (CPI)."]
+          ]
+        },
+        {
+          "type": "mnemonic",
+          "title": "Six types of G-Sec bonds",
+          "phrase": "Few Fish Can Zip Swiftly Inside.",
+          "letters": [
+            ["F", "Fixed rate bonds"],
+            ["F", "Floating rate bonds (first issued Sept 1995)"],
+            ["C", "Capital indexed bonds"],
+            ["Z", "Zero coupon bonds"],
+            ["S", "STRIPS"],
+            ["I", "Inflation indexed bonds"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "remember",
+          "title": "Who issues what",
+          "text": "The **Centre** issues both T-bills and dated securities. **States** issue only dated securities, called **SDLs**."
+        }
+      ]
+    },
+    {
+      "id": "trading-in-gsecs",
+      "title": "Trading and players in G-Secs",
+      "icon": "🖥️",
+      "blocks": [
+        {
+          "type": "keyvalue",
+          "title": "Three ways of trading G-Secs in the secondary market",
+          "rows": [
+            ["NDS-OM", "Negotiated Dealing System, Order Matching. An order-driven electronic system where participants trade **anonymously** by placing orders or accepting others’. RBI introduced this screen-based module in **August 2005**."],
+            ["OTC / Telephone market", "A participant contacts a bank, primary dealer or financial institution directly or through a broker and negotiates price and quantity by phone. A deal is struck if both sides agree."],
+            ["NDS-OM-Web", "Launched by RBI on **29 June 2012**. Lets **gilt account holders (GAH)** take part in NDS-OM directly through their **primary members (PM)**. The PM acts only as a risk controller with no role in pricing."]
+          ]
+        },
+        {
+          "type": "bullets",
+          "title": "Benefits of NDS-OM-Web to gilt account holders",
+          "items": [
+            "Same **order book** as primary members.",
+            "Better control of orders: place, modify, cancel, hold and release.",
+            "Real-time live quotes in the market."
+          ]
+        },
+        {
+          "type": "bullets",
+          "title": "Major players in the G-Sec market",
+          "items": [
+            "**Commercial banks** and **primary dealers (PDs)**.",
+            "Institutional investors such as **insurance companies**.",
+            "**Corporates**, to manage their portfolios.",
+            "**Foreign portfolio investors (FPIs)**, within limits fixed from time to time.",
+            "Co-operative banks, regional rural banks, mutual funds, and provident and pension funds."
+          ]
+        },
+        {
+          "type": "mnemonic",
+          "title": "NDS-OM dates",
+          "phrase": "NDS-OM came in “Oh-Five” (August 2005); the Web version came in 2012 (29 June).",
+          "letters": [
+            ["NDS-OM", "August 2005, anonymous screen-based order matching"],
+            ["OTC", "Telephone negotiation through banks, PDs, brokers"],
+            ["NDS-OM-Web", "29 June 2012, for gilt account holders via primary members"]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "regulators-fimmda",
+      "title": "Regulators and FIMMDA",
+      "icon": "🛡️",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "The regulation of the Indian financial market is **top-down**. It starts with the **Ministry of Finance**, headed by the Finance Minister, and the following regulators work under it."
+        },
+        {
+          "type": "figure",
+          "kind": "layers",
+          "title": "Regulation of the financial market",
+          "items": [
+            ["Ministry of Finance", "Headed by the Finance Minister"],
+            ["RBI", "Banks, monetary, forex and credit policy"],
+            ["SEBI", "Primary and secondary securities markets"],
+            ["IRDAI", "Insurance sector and licensing"],
+            ["PFRDA", "Pension sector, NPS"]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "Regulators and their work",
+          "rows": [
+            ["RBI", "Makes and regulates **monetary, forex and credit policies** and regulates all banks. This controls the supply of money and credit and influences interest rates on deposits and loans."],
+            ["SEBI", "Securities and Exchange Board of India: the main regulator of the **primary and secondary markets** (stock exchanges)."],
+            ["IRDAI", "Insurance Regulatory and Development Authority of India: regulates insurance, licenses insurers and regulates how insurance funds are invested. As per the syllabus it also oversaw the Tariff Advisory Committee for general insurance pricing."],
+            ["PFRDA", "Pension Fund Regulatory and Development Authority: regulates the pension sector, designed pension products such as NPS, decided NPS’s constituents and registers pension fund participants (custodians, CRA, trustee bank, fund managers)."]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "FIMMDA",
+          "rows": [
+            ["Full form", "Fixed Income Money Market and Derivatives Association of India."],
+            ["Formed", "Incorporated as a company under Section 25 of the Companies Act, 1956 on **3 June 1998**."],
+            ["Members", "Scheduled commercial banks, public financial institutions, primary dealers and insurance companies, for example SBI, ICICI Bank, HDFC Bank, Bank of America, Citibank, IDFC, EXIM Bank, NABARD, LIC and ICICI Prudential Life."],
+            ["Nature", "A **voluntary** market body for the bond, money and derivatives markets."],
+            ["Role", "Represents members, acts as an **interface with regulators**, and develops the market, for example by introducing **benchmark rates** and new derivative instruments."]
+          ]
+        },
+        {
+          "type": "mnemonic",
+          "title": "Regulators: R-S-I-P",
+          "phrase": "Remember to SIP: RBI = banks, SEBI = shares, IRDAI = insurance, PFRDA = pensions.",
+          "letters": [
+            ["R", "RBI: banks, money, forex and credit"],
+            ["S", "SEBI: securities (stock) markets"],
+            ["I", "IRDAI: insurance"],
+            ["P", "PFRDA: pensions (NPS)"]
+          ]
+        }
+      ]
+    }
+  ],
+  "revision": [
+    "A financial market lets lenders (surplus funds) and borrowers (funds deficit) trade securities through intermediaries.",
+    "Money market: securities with maturity **under one year**; low risk, high liquidity, low yield.",
+    "Money market instruments: **T-Bills, CDs, CPs, Repo**. Mutual funds are not a money market instrument.",
+    "Capital market has two parts: **primary** (new issue market, IPOs) and **secondary** (stock exchange).",
+    "Other primary market activities: FPO, private placement, preferential issue, QIP, rights issue, bonus issue.",
+    "STT (Securities Transaction Tax) came into effect on **1 October 2004**.",
+    "Sensex = BSE (30 companies); Nifty = NSE (50 companies); BSE was set up in 1875.",
+    "Forex trading in India is allowed **only through currency derivatives** (USD, EUR, GBP, JPY with INR).",
+    "Commodity exchanges: **MCX, ICEX, NCDEX, NMCE**; the bullion market trades gold and silver.",
+    "G-Secs are risk-free, gilt-edged: **T-bills under 1 year**, dated securities **1 year or more**.",
+    "The Centre issues T-bills and bonds; **States issue only dated securities (SDLs)**.",
+    "Bond types: fixed, floating (first issued Sept 1995), capital indexed, zero coupon, STRIPS, inflation indexed.",
+    "G-Sec trading: **NDS-OM (Aug 2005)**, OTC/telephone market, **NDS-OM-Web (29 June 2012)**.",
+    "Regulators: **RBI** (banks, forex), **SEBI** (securities), **IRDAI** (insurance), **PFRDA** (pension).",
+    "FIMMDA was incorporated on **3 June 1998** as a voluntary body for bond, money and derivatives markets.",
+    "An option gives the right but not the obligation to buy or sell at a fixed price."
+  ],
+  "mindmap": {
+    "center": "Financial Markets in India",
+    "branches": [
+      {
+        "label": "Basics and players",
+        "children": ["Lenders and borrowers", "Intermediaries", "Securities traded", "One-stop shop"]
+      },
+      {
+        "label": "Money market",
+        "children": ["Under one year", "T-Bills, CDs, CPs, Repo", "Low yield, high liquidity", "STT from 1 Oct 2004"]
+      },
+      {
+        "label": "Capital market",
+        "children": ["Primary: IPO, FPO, QIP", "Rights and bonus issues", "Secondary: stock exchange", "Sensex 30, Nifty 50"]
+      },
+      {
+        "label": "Other markets",
+        "children": ["Banking system", "Pension: NPS, EPF, PPF", "Insurance: life, general", "Forex: derivatives only", "Commodity: MCX, NCDEX"]
+      },
+      {
+        "label": "Government securities",
+        "children": ["T-bills under 1 year", "Dated securities, SDLs", "FRB, STRIPS, IIBs", "Gilt-edged, risk-free"]
+      },
+      {
+        "label": "Trading in G-Secs",
+        "children": ["NDS-OM Aug 2005", "OTC telephone market", "NDS-OM-Web 2012", "Banks, PDs, insurers, FPIs"]
+      },
+      {
+        "label": "Regulators",
+        "children": ["Ministry of Finance", "RBI", "SEBI", "IRDAI", "PFRDA"]
+      },
+      {
+        "label": "FIMMDA",
+        "children": ["Formed 3 June 1998", "Voluntary market body", "Benchmark rates", "Interface with regulators"]
+      }
+    ]
+  }
+}

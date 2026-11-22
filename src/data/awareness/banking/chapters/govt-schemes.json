@@ -1,0 +1,644 @@
+{
+  "id": "govt-schemes",
+  "sections": [
+    {
+      "id": "scheme-calendar",
+      "title": "Scheme launch calendar & overview",
+      "icon": "📅",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "Government schemes are launched to tackle social and economic problems, and banks are the delivery channel for most of them. That is why every banking exam asks about them: who launched what, when, for whom and with what limit. Start with the calendar below, then use the comparison table as your master sheet. (Statistics in this chapter are the figures quoted in the 2024-25 study material and will have moved on since.)"
+        },
+        {
+          "type": "timeline",
+          "title": "Launch calendar",
+          "items": [
+            ["2005", "NREGA enacted; phased in from 200 districts (2006) to the whole country by 2008"],
+            ["2 Oct 2009", "NREGA renamed Mahatma Gandhi NREGS"],
+            ["1 Jan 2013", "Direct Benefit Transfer (DBT) launched"],
+            ["15 Aug 2014", "PM announces Pradhan Mantri Jan Dhan Yojana (PMJDY) as a National Mission on Financial Inclusion"],
+            ["8 Apr 2015", "Pradhan Mantri Mudra Yojana (PMMY) launched"],
+            ["9 May 2015", "PMJJBY, PMSBY and Atal Pension Yojana launched together"],
+            ["5 Nov 2015", "Gold Monetization Scheme, Sovereign Gold Bond Scheme and Indian Gold Coin launched"],
+            ["16 Jan 2016", "Startup India launched"],
+            ["5 Apr 2016", "Stand Up India launched"],
+            ["30 Apr 2016", "Ujala Yojana launched in Bhopal (Madhya Pradesh)"],
+            ["4 May 2017", "Pradhan Mantri Vaya Vandana Yojana (PMVVY) opens for subscription (till 3 May 2018, later extended)"],
+            ["26 Mar 2020", "Rs 500 per month for three months announced for women Jan Dhan account holders (Covid-19 relief)"],
+            ["May 2020", "Atmanirbhar Bharat Abhiyan announced in four tranches"],
+            ["13 Oct 2021", "PM Gati Shakti National Master Plan launched"],
+            ["9 Feb 2022", "NABARD launches the JIVA programme"]
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Master comparison: scheme, launch, eligibility, benefit",
+          "headers": ["Scheme", "Launched", "Eligibility", "Benefit"],
+          "rows": [
+            ["PMJDY", "Announced 15 Aug 2014", "Every unbanked household; no minimum balance", "Basic account, RuPay card with Rs 2 lakh accident cover, overdraft after 6 months"],
+            ["PMJJBY", "9 May 2015", "Age 18-50 with bank account and auto-debit consent", "Rs 2 lakh life cover (death for any reason); premium Rs 330 a year (as per the source)"],
+            ["PMSBY", "9 May 2015", "Age 18-70 with bank account and auto-debit consent", "Rs 2 lakh for accidental death or full disability, Rs 1 lakh partial; premium Rs 12 a year"],
+            ["APY", "9 May 2015", "Age 18-40 with savings or post office savings account", "Guaranteed monthly pension of Rs 1,000 to Rs 5,000 from age 60"],
+            ["PMMY (Mudra)", "8 Apr 2015", "Small and micro businesses, first-generation entrepreneurs", "Collateral-free loans up to Rs 10 lakh (Shishu, Kishore, Tarun)"],
+            ["Stand Up India", "5 Apr 2016", "SC/ST and women entrepreneurs (greenfield enterprises)", "Bank loans of Rs 10 lakh to Rs 1 crore"],
+            ["PMVVY", "May 2017", "Senior citizens aged 60 and above", "Assured 8% return for 10 years, pension up to Rs 10,000 a month"]
+          ]
+        },
+        {
+          "type": "mnemonic",
+          "title": "The 9th May trio",
+          "phrase": "Jan Dhan opens the door; on 9 May three guards walk in: Jeevan, Suraksha, Atal - Life, Accident, Age.",
+          "letters": [
+            ["J", "Jeevan Jyoti Bima Yojana - life cover"],
+            ["S", "Suraksha Bima Yojana - accident cover"],
+            ["A", "Atal Pension Yojana - pension for old age"]
+          ],
+          "note": "Mudra is NOT in the trio: it came a month earlier, on 8 April 2015."
+        }
+      ]
+    },
+    {
+      "id": "pmjdy",
+      "title": "Pradhan Mantri Jan Dhan Yojana (PMJDY)",
+      "icon": "🏦",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "PMJDY was announced by the Prime Minister in his Independence Day speech on **15 August 2014** as the **National Mission on Financial Inclusion**. The aim is comprehensive inclusion of every household: universal access to banking with at least one basic bank account per household, plus financial literacy, access to credit, insurance and pension. The tagline is **Mera Khata Bhagya Vidhata** and the focus unit is the household. Around 1.5 crore accounts were opened on the day of launch."
+        },
+        {
+          "type": "figure",
+          "kind": "flow",
+          "title": "What a Jan Dhan account unlocks",
+          "items": [
+            ["Basic account", "No minimum balance; small account if no KYC papers"],
+            ["RuPay debit card", "Inbuilt accident cover of Rs 2 lakh"],
+            ["Overdraft", "After 6 months of satisfactory operation"],
+            ["Insurance and pension", "PMJJBY, PMSBY and APY via the account"]
+          ]
+        },
+        {
+          "type": "bullets",
+          "title": "Key features",
+          "items": [
+            "A person with no savings account can open one without any minimum balance.",
+            "Anyone who self-certifies that they lack officially valid documents may open a **small account**.",
+            "Over 6 lakh villages were mapped into **1.59 lakh Sub Service Areas (SSAs)**; each SSA typically has 1,000 to 1,500 households.",
+            "In the **1.26 lakh SSAs without a bank branch**, Bank Mitras (business correspondents) were deployed for branchless banking.",
+            "Overdraft facility is available after six months of satisfactory account operation or credit history; the limit was doubled from Rs 5,000 to **Rs 10,000**.",
+            "Financial literacy programmes give the unbanked awareness of financial products."
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "Numbers quoted in the source",
+          "rows": [
+            ["Households with banking access, Census 2011", "14.48 crore of 24.67 crore households (58.7%)"],
+            ["Accounts opened by 26 Jan 2015", "12.55 crore"],
+            ["Accounts as on 27.3.2019", "35.27 crore"],
+            ["Rural accounts", "20.90 crore (60%)"],
+            ["Accounts of women", "18.74 crore (over 53%)"],
+            ["Deposit balance on 27.3.2019", "Rs 96,107 crore"],
+            ["Average deposit per account", "Rs 1,064 (March 2015) to Rs 2,725 (March 2019)"],
+            ["SSAs with banking in 2011", "Only 0.33 lakh"],
+            ["AEPS transactions per Bank Mitra", "52 (2014-15) to 4,291 (2016-17), over eightyfold"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "fact",
+          "title": "Covid-19 relief",
+          "text": "On 26 March 2020, Finance Minister Nirmala Sitharaman announced **Rs 500 per month for three months** to every woman Jan Dhan account holder to offset the loss caused by the Covid-19 outbreak."
+        },
+        {
+          "type": "mnemonic",
+          "title": "What a Jan Dhan account gives you",
+          "phrase": "Jan Dhan gives you a BROI: Basic account, RuPay card, Overdraft, Insurance - 'Bro, I am banked!'",
+          "letters": [
+            ["B", "Basic account with no minimum balance"],
+            ["R", "RuPay debit card"],
+            ["O", "Overdraft of Rs 10,000 after six months"],
+            ["I", "Insurance: Rs 2 lakh accident cover on the card"]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "jan-suraksha-trio",
+      "title": "From Jan Dhan to Jan Suraksha: PMJJBY and PMSBY",
+      "icon": "🛡️",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "To build a universal social security system for the poor and under-privileged, the Prime Minister launched three schemes in insurance and pension on **9 May 2015**: PMJJBY (life insurance), PMSBY (accident insurance) and APY (pension). The two insurance schemes are covered here; the pension scheme has its own section."
+        },
+        {
+          "type": "table",
+          "title": "PMJJBY vs PMSBY",
+          "headers": ["Feature", "PMJJBY", "PMSBY"],
+          "rows": [
+            ["Full name", "Pradhan Mantri Jeevan Jyoti Bima Yojana", "Pradhan Mantri Suraksha Bima Yojana"],
+            ["Type of cover", "Life insurance", "Accidental death and disability insurance"],
+            ["Age group", "18 to 50 years", "18 to 70 years"],
+            ["Cover", "Rs 2 lakh on death of the insured for any reason", "Rs 2 lakh for accidental death or full disability; Rs 1 lakh for partial disability"],
+            ["Premium", "Rs 330 a year (as per the source)", "Rs 12 a year"],
+            ["Offered by", "LIC and other life insurers willing to offer it", "Public sector general insurers and other willing general insurers"],
+            ["Enrolment (31 Mar 2019)", "Over 5.91 crore; 145,763 claims registered, 135,212 paid", "Over 15.47 crore; 40,749 claims registered, 32,176 paid"]
+          ]
+        },
+        {
+          "type": "bullets",
+          "title": "Common rules",
+          "items": [
+            "Both need a bank account; Aadhaar is the primary KYC for that account.",
+            "The subscriber consents to join and enables **auto-debit** on or before 31 May for the coverage year.",
+            "Coverage year is **1 June to 31 May** and renews annually.",
+            "The premium is auto-debited from the account in one instalment.",
+            "Insurers must tie up with banks to offer the product on similar terms."
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "text": "Do not mix the two: **Jeevan = Life** (age limit 50, LIC, Rs 330) and **Suraksha = Safety from accidents** (age limit 70, general insurers, Rs 12). Premiums were revised upward in 2022, so read exam stems for the figure they quote."
+        },
+        {
+          "type": "mnemonic",
+          "title": "Age limits and premiums",
+          "phrase": "Life to Fifty, Safety to Seventy, Atal to Forty - all start at eighteen. Jeevan costs 330, Suraksha just a dozen.",
+          "letters": [
+            ["PMJJBY", "18-50 years; Rs 330; Rs 2 lakh life cover"],
+            ["PMSBY", "18-70 years; Rs 12; Rs 2 lakh / Rs 1 lakh accident cover"],
+            ["APY", "18-40 years; pension Rs 1,000-5,000 from age 60"]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "atal-pension-yojana",
+      "title": "Atal Pension Yojana (APY)",
+      "icon": "👴",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "APY was launched by the Prime Minister on **9 May 2015**. It is open to all savings bank or post office savings bank account holders aged **18 to 40 years**; the contribution depends on the pension amount chosen and the age of joining."
+        },
+        {
+          "type": "keyvalue",
+          "title": "Key facts",
+          "rows": [
+            ["Eligibility", "Savings bank or post office savings bank account holder, age 18-40"],
+            ["Guaranteed monthly pension", "Rs 1,000, Rs 2,000, Rs 3,000, Rs 4,000 or Rs 5,000 at age 60"],
+            ["Who gets the pension", "Subscriber first, then spouse; after both, the corpus accumulated by age 60 goes to the nominee"],
+            ["Guarantee", "The Central Government funds any shortfall if returns are lower than estimated"],
+            ["Upside", "If returns are higher, the subscriber gets enhanced pension benefits"],
+            ["Premature death of subscriber", "Spouse may continue contributing until the subscriber would have turned 60 and gets the same pension"],
+            ["Service providers", "Public sector banks, private banks, Regional Rural Banks, cooperative banks and the Department of Posts"],
+            ["Enrolment (31 Mar 2019)", "149.53 lakh subscribers with total pension wealth of Rs 6,860.30 crore"]
+          ]
+        },
+        {
+          "type": "steps",
+          "title": "Who is paid, in order",
+          "items": [
+            "The subscriber receives the guaranteed monthly pension from age 60.",
+            "After the subscriber's death, the spouse receives the same pension.",
+            "After the death of both, the corpus accumulated till age 60 is returned to the nominee."
+          ]
+        },
+        {
+          "type": "mnemonic",
+          "title": "Order of payment under APY",
+          "phrase": "S-S-N: Subscriber, then Spouse, then Nominee gets the lump sum. Pension is 1 to 5 thousand - count 1-2-3-4-5.",
+          "letters": [
+            ["S", "Subscriber - pension from age 60"],
+            ["S", "Spouse - same pension after the subscriber"],
+            ["N", "Nominee - receives the accumulated corpus"]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mudra-standup",
+      "title": "Mudra Yojana and Stand Up India",
+      "icon": "💼",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "Both schemes push institutional credit to people who normally struggle to borrow. **PMMY (Mudra)** was launched on **8 April 2015** and gives collateral-free loans up to Rs 10 lakh in three bands. **Stand Up India** was launched on **5 April 2016** and backs first-time entrepreneurs from SC/ST and women."
+        },
+        {
+          "type": "figure",
+          "kind": "pyramid",
+          "title": "Mudra loan bands (top to bottom)",
+          "items": [
+            ["Tarun", "Rs 5 lakh to Rs 10 lakh"],
+            ["Kishore", "Rs 50,000 to Rs 5 lakh"],
+            ["Shishu", "Up to Rs 50,000"]
+          ]
+        },
+        {
+          "type": "bullets",
+          "title": "Mudra facts",
+          "items": [
+            "Loans carry no collateral requirement.",
+            "Aim: build the confidence of young, educated or skilled workers to become first-generation entrepreneurs, and help existing small businesses expand.",
+            "Sanctioned by 31.03.2019: Rs 3,21,722 crore in 5.99 crore accounts (Shishu Rs 142,345 crore; Kishore Rs 104,386 crore; Tarun Rs 74,991 crore)."
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "Stand Up India facts",
+          "rows": [
+            ["Launched", "5 April 2016"],
+            ["Loan size", "Rs 10 lakh to Rs 1 crore"],
+            ["Beneficiaries", "At least one SC/ST borrower and at least one woman borrower per bank branch"],
+            ["Purpose", "Setting up greenfield (new) enterprises in manufacturing, services or trading"],
+            ["Delivery", "All Scheduled Commercial Banks; target of at least 2.5 lakh borrowers"],
+            ["Collateral-free cover", "Credit Guarantee Fund for Stand Up India (CGFSI)"],
+            ["Extras", "Handholding support, convergence with Central/State schemes, ready and trainee borrowers covered"],
+            ["Online portal", "Applications can be made on the Stand Up Mitra portal (standupmitra.in)"],
+            ["Progress (31.03.2019)", "Rs 16,085 crore sanctioned in 72,983 accounts (59,429 women, 3,103 ST, 10,451 SC)"]
+          ]
+        },
+        {
+          "type": "mnemonic",
+          "title": "Mudra's three sizes",
+          "phrase": "Baby, Teen, Adult: Shishu is the baby (up to 50k), Kishore the teen (50k-5 lakh), Tarun the young adult (5-10 lakh).",
+          "letters": [
+            ["S", "Shishu - up to Rs 50,000"],
+            ["K", "Kishore - Rs 50,000 to Rs 5 lakh"],
+            ["T", "Tarun - Rs 5 lakh to Rs 10 lakh"]
+          ],
+          "note": "Stand Up India is a '1+1' scheme: one SC/ST and one woman borrower per branch, Rs 10 lakh to Rs 1 crore."
+        }
+      ]
+    },
+    {
+      "id": "senior-citizen-schemes",
+      "title": "Senior citizens: PMVVY and SCSS",
+      "icon": "🧓",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "The **Pradhan Mantri Vaya Vandana Yojana (PMVVY)** protects people aged **60 years and above** from a fall in interest income when market conditions are uncertain, and gives social security in old age. It is implemented through the **Life Insurance Corporation of India (LIC)**."
+        },
+        {
+          "type": "keyvalue",
+          "title": "PMVVY details",
+          "rows": [
+            ["Eligibility", "Age 60 years and above"],
+            ["Return", "Assured return of 8% per annum for 10 years"],
+            ["Pension mode", "Monthly, quarterly, half-yearly or annual, as chosen by the subscriber"],
+            ["First subscription window", "4 May 2017 to 3 May 2018"],
+            ["Original limits", "Minimum purchase price Rs 1.5 lakh per family for Rs 1,000 a month; maximum Rs 7.5 lakh per family for Rs 5,000 a month"],
+            ["Budget 2018-19 change", "Extended up to 31 March 2020; cap raised to Rs 15 lakh per senior citizen"],
+            ["Maximum pension after change", "Rs 10,000 per month"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "fact",
+          "title": "Senior Citizens Savings Scheme (SCSS)",
+          "text": "The maximum deposit limit under SCSS was raised from **Rs 15 lakh to Rs 30 lakh**, effective **1 April 2023**, in line with Budget 2023. SCSS is one of the government small savings schemes, which exist to give the public safe, attractive investment options while mobilising resources for development."
+        },
+        {
+          "type": "mnemonic",
+          "title": "PMVVY in three numbers",
+          "phrase": "Sixty, Eight, Ten: sixty-year-olds get eight per cent for ten years - and LIC pays the bill.",
+          "letters": [
+            ["60", "Minimum age to join"],
+            ["8", "Assured return, per cent a year"],
+            ["10", "Policy term in years (max pension Rs 10,000 a month)"]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "gold-and-bonds",
+      "title": "Gold schemes and tax-free bonds",
+      "icon": "🪙",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "Three gold schemes were announced in Budget 2015-16 and launched by the Prime Minister on **5 November 2015**. Together they aim to mobilise India's idle gold, give households a paper alternative to physical gold, and promote Indian-minted coins."
+        },
+        {
+          "type": "table",
+          "title": "The three gold schemes",
+          "headers": ["Scheme", "Purpose", "Beneficiaries / links"],
+          "rows": [
+            ["Gold Monetization Scheme", "Mobilise gold lying idle with households and trusts and use it productively", "Gold jewellery makers (mostly small and medium units) get gold; common people earn interest on their gold"],
+            ["Sovereign Gold Bond Scheme", "New investment instrument; reduce the demand for physical gold", "In the long run cuts gold imports; first tranche open 6-30 Nov 2015 raised about Rs 250 crore"],
+            ["Indian Gold Coin", "Promote indigenously minted national gold coins", "Aligned with the Make in India programme"]
+          ]
+        },
+        {
+          "type": "bullets",
+          "title": "Tax-free bonds (FY 2015-16)",
+          "items": [
+            "Government allowed tax-free bonds worth **Rs 40,000 crore** in 2015-16.",
+            "Issuers include NHAI, IRFC, HUDCO, IREDA, PFC, REC and NTPC.",
+            "Tenures: **10, 15 or 20 years**.",
+            "Eligible investors: retail individual investors (RIIs), qualified institutional buyers (QIBs), corporates including statutory corporations, trusts, partnership firms, LLPs, cooperative banks, Regional Rural Banks and other legal entities, and high net-worth individuals (HNIs)."
+          ]
+        },
+        {
+          "type": "mnemonic",
+          "title": "Tax-free bond issuers",
+          "phrase": "New India Houses In Pretty Rural Neighbourhoods.",
+          "letters": [
+            ["N", "NHAI - National Highways Authority of India"],
+            ["I", "IRFC - Indian Railways Finance Corporation"],
+            ["H", "HUDCO - Housing and Urban Development Corporation"],
+            ["I", "IREDA - Indian Renewable Energy Development Agency"],
+            ["P", "PFC - Power Finance Corporation"],
+            ["R", "REC - Rural Electrification Corporation"],
+            ["N", "NTPC - National Thermal Power Corporation"]
+          ],
+          "note": "The three gold schemes share one date: 5 November 2015."
+        }
+      ]
+    },
+    {
+      "id": "startup-green",
+      "title": "Startup India, Sustainable Finance and JIVA",
+      "icon": "🚀",
+      "blocks": [
+        {
+          "type": "keyvalue",
+          "title": "Startup India",
+          "rows": [
+            ["Launched", "16 January 2016"],
+            ["Nature", "Flagship initiative to catalyse startup culture and build an inclusive ecosystem for innovation and entrepreneurship"],
+            ["Vision", "Turn India into a country of job creators instead of job seekers"],
+            ["Managed by", "A dedicated Startup India Team reporting to the Department for Promotion of Industry and Internal Trade (DPIIT); the source writes it as Industrial Policy and Promotion"],
+            ["Objective", "Build a strong ecosystem for startup growth, sustainable economic growth and large-scale employment"],
+            ["19-Point Action Plan", "Incubation centres, easier patent filing, tax exemptions, ease of setting up a business, a Rs 10,000 crore corpus fund and a faster exit mechanism"]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "SIDBI Sustainable Finance Scheme",
+          "rows": [
+            ["Offered by", "SIDBI"],
+            ["Purpose", "Fund sustainable development projects (energy efficiency, cleaner production) not covered by international or bilateral credit lines"],
+            ["Typical projects", "Renewable energy, BEE star rating, green microfinance, green buildings, eco-friendly labelling"],
+            ["Who can apply", "New or existing MSMEs as defined under the MSMED Act 2006"],
+            ["Conditions", "Satisfactory track record and sound finances, no default to banks, minimum credit rating of investment grade"],
+            ["Also covered", "Renewable plants (solar, wind, mini hydel, biomass gasifier), waste-management cleaner-production investments, and OEMs of green machinery that are MSMEs or supply many MSMEs"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "remember",
+          "title": "JIVA programme",
+          "text": "**NABARD** launched JIVA on **9 February 2022** to promote **natural farming** under its watershed and wadi programmes. It is an agro-ecology-based programme in **11 states** across five agro-ecological zones that are ecologically fragile and rain-fed."
+        },
+        {
+          "type": "mnemonic",
+          "title": "Who runs which green scheme",
+          "phrase": "SIDBI keeps Small industry Sustainable; NABARD farms Naturally with JIVA - 'Bank for Agriculture' = natural farming.",
+          "letters": [
+            ["SIDBI", "Sustainable Finance Scheme for MSMEs"],
+            ["NABARD", "JIVA natural-farming programme (11 states)"],
+            ["DPIIT", "Home of the Startup India team"]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "infra-relief",
+      "title": "Gati Shakti, Atmanirbhar Bharat and Ujala",
+      "icon": "🏗️",
+      "blocks": [
+        {
+          "type": "keyvalue",
+          "title": "PM Gati Shakti - National Master Plan",
+          "rows": [
+            ["Launched", "13 October 2021 by PM Narendra Modi at Pragati Maidan, New Delhi"],
+            ["Aim", "Multi-modal connectivity and integrated planning of infrastructure"],
+            ["Digital platform", "Brings 16 ministries, including rail and roadways, together"],
+            ["Schemes absorbed", "Infrastructure schemes of ministries and states such as Bharatmala, Sagarmala and UDAN"],
+            ["Zones covered", "Textile clusters, pharmaceutical clusters, defence corridors, fishing clusters, Agrizones"]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "Atmanirbhar Bharat Abhiyan (Self-Reliant India)",
+          "rows": [
+            ["Announced", "May 2020, in four tranches, by Finance Minister Nirmala Sitharaman"],
+            ["Size", "Economic stimulus and relief package of about Rs 20 lakh crore"],
+            ["Sectors", "MSMEs, cottage industries, middle class, migrants, industry and more"]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "Ujala Yojana",
+          "rows": [
+            ["Launched", "30 April 2016 in Bhopal, Madhya Pradesh (as per the source)"],
+            ["Implemented by", "Energy Efficiency Services Limited (EESL), a joint venture of PSUs under the Union Ministry of Power"],
+            ["Motive", "Promote energy efficiency; cut consumers' electricity bills, support energy security and protect the environment"]
+          ]
+        },
+        {
+          "type": "mnemonic",
+          "title": "Sixteen ministries on one platform",
+          "phrase": "Gati Shakti = speed plus power: 13-10-2021, sixteen ministries, one digital map.",
+          "letters": [
+            ["13 Oct", "Launch date at Pragati Maidan"],
+            ["2021", "Launch year"],
+            ["16", "Ministries on the digital platform"]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dbt-mgnregs",
+      "title": "DBT and MGNREGS",
+      "icon": "🧾",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "**Direct Benefit Transfer (DBT)** was launched on **1 January 2013**. Subsidies under various social schemes are sent directly into the bank accounts of beneficiaries, with the Aadhaar number linked to the beneficiary database so that ghost and duplicate names are weeded out."
+        },
+        {
+          "type": "figure",
+          "kind": "flow",
+          "title": "How a DBT payment travels",
+          "items": [
+            ["Beneficiary database", "Linked with the Aadhaar number"],
+            ["Ghosts weeded out", "Duplicates removed; only genuine names remain"],
+            ["Aadhaar Payment Bridge", "APB moves funds on the Aadhaar number"],
+            ["Aadhaar-enabled account", "Subsidy credited straight to the person"]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "MGNREGS facts",
+          "rows": [
+            ["Act", "National Rural Employment Guarantee Act (NREGA), enacted in 2005"],
+            ["Rollout", "Three phases: 200 districts in 2006, whole country by 2008"],
+            ["Renamed", "Mahatma Gandhi NREGS on 2 October 2009"],
+            ["Guarantee", "At least 100 days of wage employment a year (150 days for tribals) to at least one adult member of every rural household willing to do unskilled manual work"],
+            ["Women", "At least 33% of beneficiaries must be women"]
+          ]
+        },
+        {
+          "type": "mnemonic",
+          "title": "MGNREGS numbers",
+          "phrase": "A century of days and a third for women: 100 days, 33% women, 150 for tribals; renamed on Gandhi Jayanti, 2 October.",
+          "letters": [
+            ["100", "Guaranteed days of work a year"],
+            ["150", "Days for tribal households"],
+            ["33%", "Minimum share of women"],
+            ["2 Oct", "Renaming date (2009) - Gandhi Jayanti"]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "farmers-fishers",
+      "title": "Farmer and fishermen schemes",
+      "icon": "🌾",
+      "blocks": [
+        {
+          "type": "keyvalue",
+          "title": "PM-KISAN (Pradhan Mantri Kisan Samman Nidhi)",
+          "rows": [
+            ["Benefit", "Rs 6,000 a year to eligible farmer families in three equal 4-monthly instalments of Rs 2,000"],
+            ["Budget 2022-23 allocation", "Rs 68,000 crore (Budget Estimate for 2021-22 was Rs 65,000 crore; Revised Estimate Rs 67,500 crore)"],
+            ["Face authentication app", "The PM-Kisan mobile app with face authentication for e-KYC was launched by the Union Ministry of Agriculture and Farmers Welfare"],
+            ["State version", "Namo Shetkari Mahasanman Yojana (Maharashtra) tops up the Rs 6,000 to Rs 12,000 a year"]
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Pradhan Mantri Fasal Bima Yojana (PM Crop Insurance Scheme)",
+          "headers": ["Feature", "Detail"],
+          "rows": [
+            ["Premium for kharif crops", "2%"],
+            ["Premium for rabi crops", "1.5%"],
+            ["Premium for commercial and horticultural crops", "5%"],
+            ["Unit of insurance", "The individual farmer, not the whole village"],
+            ["Other features", "Lowest-ever premium, post-harvest cover, mandatory use of technology for quick claim settlement, compensation if sowing is prevented by natural calamities"],
+            ["Start", "Kharif crop cycle beginning in June"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "fact",
+          "title": "PM Matsya Sampada Yojana (PMMSY)",
+          "text": "Introduced as part of the Atmanirbhar Bharat package with an investment of **Rs 20,050 crore**, the highest ever in the fishery sector. Fishermen get insurance cover, financial assistance and Kisan Credit Card facility."
+        },
+        {
+          "type": "mnemonic",
+          "title": "PMFBY premium ladder",
+          "phrase": "Two for Kharif, one-and-a-half for Rabi, five for cash crops: 2 - 1.5 - 5.",
+          "letters": [
+            ["2%", "Kharif (monsoon) crops"],
+            ["1.5%", "Rabi (winter) crops"],
+            ["5%", "Commercial and horticultural crops"]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "exam-updates",
+      "title": "Recent items asked in exams",
+      "icon": "📰",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "These are items that appeared in recent bank, RRB and RBI papers. They are one-liners, so memorise the who, what and how much."
+        },
+        {
+          "type": "table",
+          "title": "One-line facts",
+          "headers": ["Item", "Fact"],
+          "rows": [
+            ["Vivad se Vishwas II (Contractual Disputes)", "Settlement scheme for contractual disputes with government suppliers; launched by the Ministry of Finance (Department of Expenditure)"],
+            ["Integrated Pensioners' Portal", "To be created by the Department of Pension and Pensioners' Welfare under the Ministry of Personnel by combining pension portals (bank portals, ANUBHAV, CPENGRAMS, CGHS)"],
+            ["Mukhyamantri Ladli Behna Yojana", "Madhya Pradesh scheme giving women Rs 1,000 a month"],
+            ["Namo Shetkari Mahasanman Yojana", "Maharashtra farmer income-support scheme on the lines of PM-Kisan"],
+            ["UPI limit for Retail Direct and IPOs", "Raised to Rs 5 lakh in December 2021"],
+            ["SCSS deposit limit", "Rs 30 lakh (from Rs 15 lakh) from 1 April 2023"],
+            ["e-Rupee (digital rupee, CBDC)", "RBI retail pilot launched 1 December 2022; one-to-one with fiat currency, held in a digital wallet on mobile devices"],
+            ["Insurance for All by 2047", "IRDAI mission so that every citizen has life, health and property cover"],
+            ["Kisan Vikas Patra (KVP)", "Minimum Rs 1,000, no maximum limit; lock-in of 30 months"],
+            ["Economic Survey 2016-17", "Recommended a Universal Basic Income as an alternative to many subsidy-based welfare schemes"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "tip",
+          "text": "For state-level scheme questions, pair the scheme with the state in one picture: **Ladli Behna = Madhya Pradesh (women, Rs 1,000)**, **Namo Shetkari = Maharashtra (farmers)**. For central schemes, pair the scheme with the ministry or agency that runs it."
+        },
+        {
+          "type": "mnemonic",
+          "title": "State schemes pair-up",
+          "phrase": "Ladli Behna lives in the heart of India (Madhya Pradesh); Namo Shetkari ploughs in Maharashtra.",
+          "letters": [
+            ["Ladli", "Ladli Behna - Madhya Pradesh, Rs 1,000 a month to women"],
+            ["Namo", "Namo Shetkari - Maharashtra, Rs 6,000 top-up for farmers"]
+          ]
+        }
+      ]
+    }
+  ],
+  "revision": [
+    "PMJDY was announced on 15 August 2014 as the National Mission on Financial Inclusion; tagline Mera Khata Bhagya Vidhata.",
+    "Jan Dhan account: no minimum balance, RuPay card with Rs 2 lakh accident cover, overdraft (Rs 10,000) after six months.",
+    "PMJJBY, PMSBY and APY were all launched on 9 May 2015.",
+    "PMJJBY: age 18-50, Rs 2 lakh life cover, Rs 330 a year; offered by LIC and other life insurers.",
+    "PMSBY: age 18-70, Rs 2 lakh accidental death/full disability, Rs 1 lakh partial, Rs 12 a year; general insurers.",
+    "Insurance coverage year is 1 June to 31 May, with auto-debit consent on or before 31 May.",
+    "APY: age 18-40, guaranteed pension Rs 1,000-5,000 a month from age 60; Government funds any shortfall.",
+    "Mudra (8 April 2015): Shishu up to Rs 50,000, Kishore to Rs 5 lakh, Tarun to Rs 10 lakh; no collateral.",
+    "Stand Up India (5 April 2016): Rs 10 lakh to Rs 1 crore for at least one SC/ST and one woman borrower per branch; greenfield units.",
+    "PMVVY: age 60 and above, 8% assured return for 10 years, via LIC; maximum pension Rs 10,000 a month.",
+    "Gold Monetization, Sovereign Gold Bond and Indian Gold Coin were all launched on 5 November 2015.",
+    "Startup India launched 16 January 2016; 19-point action plan with a Rs 10,000 crore corpus fund; team reports to DPIIT.",
+    "DBT launched 1 January 2013 and uses the Aadhaar Payment Bridge (APB).",
+    "MGNREGS: 100 days (150 for tribals), at least 33% women; renamed on 2 October 2009.",
+    "PM-KISAN pays Rs 6,000 a year in three instalments of Rs 2,000; PMFBY premium is 2% kharif, 1.5% rabi, 5% commercial."
+  ],
+  "mindmap": {
+    "center": "Financial Schemes of Govt",
+    "branches": [
+      {
+        "label": "Jan Dhan and social security",
+        "children": ["PMJDY (15 Aug 2014)", "PMJJBY: 18-50, Rs 330", "PMSBY: 18-70, Rs 12", "APY: 18-40, pension at 60", "Launched 9 May 2015"]
+      },
+      {
+        "label": "Business loans",
+        "children": ["Mudra: Shishu, Kishore, Tarun", "Stand Up India: Rs 10L-1Cr", "Startup India (16 Jan 2016)", "SIDBI Sustainable Finance"]
+      },
+      {
+        "label": "Senior citizens",
+        "children": ["PMVVY: 60+, 8% for 10 years", "Run through LIC", "Max pension Rs 10,000", "SCSS limit Rs 30 lakh"]
+      },
+      {
+        "label": "Gold and bonds",
+        "children": ["Gold Monetization Scheme", "Sovereign Gold Bond", "Indian Gold Coin", "Tax-free bonds Rs 40,000 Cr", "All gold schemes: 5 Nov 2015"]
+      },
+      {
+        "label": "Infrastructure and relief",
+        "children": ["PM Gati Shakti (13 Oct 2021)", "Atmanirbhar Bharat Rs 20 lakh Cr", "Ujala (EESL)", "JIVA (NABARD)"]
+      },
+      {
+        "label": "DBT and rural jobs",
+        "children": ["DBT (1 Jan 2013)", "Aadhaar Payment Bridge", "MGNREGS: 100 days", "33% women"]
+      },
+      {
+        "label": "Farm and fisher schemes",
+        "children": ["PM-KISAN Rs 6,000", "PMFBY premium 2% / 1.5% / 5%", "PMMSY Rs 20,050 crore", "KVP: no maximum limit"]
+      },
+      {
+        "label": "Recent exam items",
+        "children": ["Ladli Behna: Madhya Pradesh", "Namo Shetkari: Maharashtra", "Vivad se Vishwas II: Finance", "e-Rupee pilot 1 Dec 2022", "UPI limit Rs 5 lakh"]
+      }
+    ]
+  }
+}

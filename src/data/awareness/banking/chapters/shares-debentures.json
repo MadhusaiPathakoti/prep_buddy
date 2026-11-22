@@ -1,0 +1,308 @@
+{
+  "id": "shares-debentures",
+  "sections": [
+    {
+      "id": "shares-basics",
+      "title": "What are shares?",
+      "icon": "📃",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "**Shares** are small equal slices of a company's capital. When a company goes public for the first time and lists on the stock exchanges to raise money from the market, investors buy one or more shares. Buying shares makes you a **part owner** of the company, in proportion to the percentage of shares you hold."
+        },
+        {
+          "type": "bullets",
+          "title": "What a shareholder gets and risks",
+          "items": [
+            "**Ownership** share in proportion to holding; a holding of 50 per cent or more makes a shareholder the biggest owner.",
+            "**Voting rights** in the company.",
+            "**Dividends** from profits; they can be paid only if the company earns profits. Otherwise the shareholder can trade the shares in the stock market to realise value.",
+            "**Risk**: owners stand to lose if the company falls into debt or goes into liquidation, because shareholders are paid out **last**."
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "remember",
+          "title": "Owners come last",
+          "text": "Shareholders are **owners** of the company. In liquidation, outside creditors (banks, debenture holders and others) are paid first; shareholders, whatever their contribution, are paid last."
+        },
+        {
+          "type": "mnemonic",
+          "title": "Who gets paid first?",
+          "phrase": "Creditors Pay Early: Creditors, then Preference shareholders, then Equity shareholders.",
+          "letters": [
+            ["C", "Creditors (banks, debenture holders and others) are repaid first"],
+            ["P", "Preference shareholders come next in liquidation"],
+            ["E", "Equity (ordinary) shareholders come last"]
+          ],
+          "note": "The higher the risk, the later you are paid and the more voting power you usually get."
+        }
+      ]
+    },
+    {
+      "id": "types-of-shares",
+      "title": "Equity and preference shares",
+      "icon": "🏷️",
+      "blocks": [
+        {
+          "type": "table",
+          "title": "Equity versus preference shares",
+          "headers": ["Point", "Equity (ordinary) shares", "Preference shares"],
+          "rows": [
+            ["Trading", "Traded on the stock exchange; the most common type", "Give 'preference' to their holders"],
+            ["Voting rights", "Yes", "Generally no voting rights"],
+            ["Dividend", "Entitled to dividends; amount varies with profits", "Fixed dividend, paid ahead of equity shareholders"],
+            ["On liquidation", "Paid last", "Priority over equity shareholders"],
+            ["Conversion", "Not applicable", "Convertible preference shares can be converted into equity shares later"]
+          ]
+        },
+        {
+          "type": "text",
+          "text": "The no-voting limitation applies only to preference shares issued by **public companies** or private companies that have a public subsidiary. A private company can, through its **articles of association**, issue preference shares carrying similar voting rights."
+        },
+        {
+          "type": "keyvalue",
+          "title": "Handy share terms",
+          "rows": [
+            ["Cumulative preference share", "Holders can claim **arrears of dividend** from future profits."],
+            ["Non-cumulative preference share", "Unpaid dividend for a year is not carried forward."],
+            ["Participating preference share", "Holder shares in **surplus profits** beyond the fixed dividend."],
+            ["Non-participating preference share", "Does **not** carry the right to share in surplus profits."],
+            ["Sweat equity shares", "Issued to employees or directors for know-how or intellectual property rights."],
+            ["Private placement", "Shares offered to select investors; the company does **not invite the public**."],
+            ["Issue at a discount", "Issue of shares at a price lower than their face value."]
+          ]
+        },
+        {
+          "type": "mnemonic",
+          "title": "Equity versus preference",
+          "phrase": "Equity = Everything at risk, Entitled to vote. Preference = Priority pay, but Poor voice (no vote).",
+          "letters": [
+            ["Equity", "Voting rights, variable dividend, paid last"],
+            ["Preference", "Fixed dividend, priority in dividend and liquidation, no vote usually"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "Redeemable equity",
+          "text": "A company **cannot** issue redeemable equity shares. It can issue redeemable preference shares and redeemable debentures."
+        }
+      ]
+    },
+    {
+      "id": "debentures",
+      "title": "What are debentures?",
+      "icon": "🧾",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "**Debentures** are long-term **debt instruments** that a company issues under its seal. They are **borrowed capital**: like a loan from the debenture holders, to be repaid with interest in due time. Holders are paid interest at regular intervals."
+        },
+        {
+          "type": "bullets",
+          "title": "Key points",
+          "items": [
+            "Debenture holders are **creditors** of the company, not owners, and rank above shareholders.",
+            "Interest is paid **over and above profits**, so it is paid even when the company runs at a loss.",
+            "In liquidation, creditors including banks and debenture holders are repaid first; shareholders last.",
+            "Debenture holders have **no voting rights**: the main feature that tells debentures apart from shares."
+          ]
+        },
+        {
+          "type": "mnemonic",
+          "title": "Debenture = Debt",
+          "phrase": "DEBenture = DEBt = DEBtor company owes you; you are a Creditor, not an owner.",
+          "letters": [
+            ["Share", "Owned fund; holder is an owner; gets dividend"],
+            ["Debenture", "Borrowed fund; holder is a creditor; gets interest"]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "types-of-debentures",
+      "title": "Types of debentures",
+      "icon": "🔖",
+      "blocks": [
+        {
+          "type": "table",
+          "title": "Five pairs of debentures",
+          "headers": ["Pair", "First kind", "Second kind"],
+          "rows": [
+            ["Registered / bearer", "**Registered**: recorded with the company, transferred by a transfer deed", "**Bearer**: no record in company registers, transferred by mere delivery"],
+            ["Secured / unsecured", "**Secured**: carry a charge on the company's assets; holders can recover principal and unpaid interest from the mortgaged assets", "**Unsecured**: no such charge or rights"],
+            ["Redeemable / non-redeemable", "**Redeemable**: principal repaid after a fixed time", "**Non-redeemable**: repaid only on liquidation, not in the company's lifetime"],
+            ["First / second", "**First debentures**: repaid before other debentures", "**Second debentures**: repaid thereafter"],
+            ["Convertible / non-convertible", "**Convertible**: can be converted into shares on pre-decided terms", "**Non-convertible**: cannot be converted into shares"]
+          ]
+        },
+        {
+          "type": "mnemonic",
+          "title": "Five debenture pairs",
+          "phrase": "Rich Secure Retirees Find Capital: Registered, Secured, Redeemable, First, Convertible.",
+          "letters": [
+            ["R", "Registered (versus bearer)"],
+            ["S", "Secured (versus unsecured)"],
+            ["R", "Redeemable (versus non-redeemable)"],
+            ["F", "First (versus second)"],
+            ["C", "Convertible (versus non-convertible)"]
+          ],
+          "note": "Bearer debentures move by delivery; registered ones need a transfer deed."
+        }
+      ]
+    },
+    {
+      "id": "share-capital",
+      "title": "Types of share capital",
+      "icon": "🏛️",
+      "blocks": [
+        {
+          "type": "keyvalue",
+          "title": "From authorised to paid-up",
+          "rows": [
+            ["Authorised (nominal) share capital", "The **maximum** amount of capital a company can issue; it can be increased from time to time."],
+            ["Issued share capital", "The part of authorised capital that is **offered to investors**."],
+            ["Subscribed share capital", "The part of issued capital that investors have **accepted and agreed** to take."],
+            ["Paid-up capital", "The part of subscribed capital that investors have **actually paid**; the money truly invested in the business."]
+          ]
+        },
+        {
+          "type": "figure",
+          "kind": "pyramid",
+          "title": "Share capital pyramid (largest to smallest)",
+          "items": [
+            ["Authorised capital", "Maximum a company may issue"],
+            ["Issued capital", "Part offered to investors"],
+            ["Subscribed capital", "Part investors agreed to take"],
+            ["Paid-up capital", "Part actually paid in"]
+          ]
+        },
+        {
+          "type": "mnemonic",
+          "title": "Capital ladder",
+          "phrase": "All Investors Should Pay: Authorised, Issued, Subscribed, Paid-up.",
+          "letters": [
+            ["A", "Authorised: the ceiling"],
+            ["I", "Issued: offered"],
+            ["S", "Subscribed: accepted"],
+            ["P", "Paid-up: money actually received"]
+          ],
+          "note": "Usually companies take full payment in one go, so issued, subscribed and paid-up capital often become the same."
+        },
+        {
+          "type": "callout",
+          "kind": "tip",
+          "title": "Balance sheet check",
+          "text": "Authorised, issued, subscribed and paid-up capital are shown under share capital. **Reserve capital** is not shown under the 'Share Capital' heading."
+        }
+      ]
+    },
+    {
+      "id": "shares-vs-debentures",
+      "title": "Shares versus debentures",
+      "icon": "⚖️",
+      "blocks": [
+        {
+          "type": "table",
+          "title": "Key differences",
+          "headers": ["Point", "Shares", "Debentures"],
+          "rows": [
+            ["Capital or debt", "Capital of the company", "Debt of the company"],
+            ["Holder", "Shareholder", "Debenture holder"],
+            ["Status", "Owners", "Creditors"],
+            ["Funds", "Owned funds", "Borrowed funds"],
+            ["Deduction from profit", "Dividend is an appropriation of profit, not a deduction", "Interest is a business expense, allowed as a deduction from profit"],
+            ["Security", "No security", "Usually secured"],
+            ["Voting", "Holders have voting rights", "No voting rights"],
+            ["Return", "Dividend", "Interest"],
+            ["Payment", "Dividend only out of profits", "Interest even if there is no profit"],
+            ["Repayment", "After all liabilities are paid", "Priority over shares; repaid before them"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "remember",
+          "title": "One-line contrast",
+          "text": "Shares: owners, dividend, voting, repaid last. Debentures: creditors, interest, no voting, repaid first."
+        }
+      ]
+    },
+    {
+      "id": "etf-and-terms",
+      "title": "ETFs and related terms",
+      "icon": "📊",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "An **Exchange-Traded Fund (ETF)** is a collection of investments such as equities or bonds that trades on an exchange like a share. It combines the **diversification of mutual funds** with the **ease of trading equities**, lets you invest in many securities at once, and often has lower fees than other funds."
+        },
+        {
+          "type": "keyvalue",
+          "title": "Related terms",
+          "rows": [
+            ["NAV (net asset value)", "Calculated daily; the price at which mutual fund units are bought (new purchases) and sold (redemptions), including exchanges between schemes of the same fund family."],
+            ["Market share (marketing share)", "A company's share of business volume compared with other companies."],
+            ["Bharat Bond ETF", "Debt ETF with fixed maturity options of **3 years and 10 years**, as asked in an exam."]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "Do not mix these up",
+          "text": "Market share is about **business volume**, not the share price quoted in the market, paid-up capital or the Sensex."
+        }
+      ]
+    }
+  ],
+  "revision": [
+    "Shares are small units of a company's capital; shareholders are part owners with voting rights and dividends.",
+    "In liquidation, creditors are repaid first, then preference shareholders, then equity shareholders last.",
+    "Equity shares are the ordinary shares traded on exchanges; they carry voting rights.",
+    "Preference shares carry a fixed dividend and priority over equity, but generally no voting rights.",
+    "Convertible preference shares can be converted into equity shares later.",
+    "Cumulative preference shares carry the right to arrears of dividend; non-participating ones do not share surplus profits.",
+    "A company cannot issue redeemable equity shares.",
+    "Debentures are long-term debt instruments issued under the company's seal; holders are creditors, not owners.",
+    "Debenture interest is payable even without profit and is a business expense; dividend is paid only from profit.",
+    "Debenture holders have no voting rights.",
+    "Debenture pairs: registered/bearer, secured/unsecured, redeemable/non-redeemable, first/second, convertible/non-convertible.",
+    "Bearer debentures transfer by delivery; registered ones by a transfer deed.",
+    "Share capital order: authorised, issued, subscribed, paid-up; authorised capital is the maximum and can be raised.",
+    "Sweat equity shares go to employees or directors for know-how or IPR; issue below face value is an issue at a discount.",
+    "ETFs combine mutual fund diversification with the ease of trading equities; NAV is the price for mutual fund transactions."
+  ],
+  "mindmap": {
+    "center": "Shares & Debentures",
+    "branches": [
+      {
+        "label": "Shares",
+        "children": ["Part ownership", "Voting rights", "Dividend from profit", "Paid last"]
+      },
+      {
+        "label": "Equity shares",
+        "children": ["Ordinary shares", "Traded on exchanges", "Variable dividend", "Cannot be redeemable"]
+      },
+      {
+        "label": "Preference shares",
+        "children": ["Fixed dividend", "Priority payment", "No vote usually", "Cumulative, participating", "Convertible"]
+      },
+      {
+        "label": "Debentures",
+        "children": ["Long-term debt", "Creditors", "Interest even in loss", "No voting"]
+      },
+      {
+        "label": "Debenture types",
+        "children": ["Registered / bearer", "Secured / unsecured", "Redeemable / not", "First / second", "Convertible / not"]
+      },
+      {
+        "label": "Share capital",
+        "children": ["Authorised", "Issued", "Subscribed", "Paid-up"]
+      },
+      {
+        "label": "ETF and terms",
+        "children": ["ETF meaning", "Bharat Bond ETF", "NAV", "Market share"]
+      }
+    ]
+  }
+}

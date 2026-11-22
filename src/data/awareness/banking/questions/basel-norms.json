@@ -1,0 +1,457 @@
+[
+  {
+    "id": "basel-norms-01",
+    "q": "In which country is the city of Basel, the seat of the Bank for International Settlements, located?",
+    "options": [
+      "Germany",
+      "Belgium",
+      "Austria",
+      "Switzerland"
+    ],
+    "answer": 3,
+    "explain": "Basel is a Swiss city and the headquarters of the BIS.",
+    "section": "bis-bcbs"
+  },
+  {
+    "id": "basel-norms-02",
+    "q": "What is the full form of BCBS?",
+    "options": [
+      "Basel Committee on Bureau Success",
+      "Basel Committee on Banking Supervision",
+      "Basel Committee on Bureau Supervision",
+      "Basel Committee on Banking Society"
+    ],
+    "answer": 1,
+    "explain": "BCBS is the Basel Committee on Banking Supervision, which frames the Basel accords.",
+    "section": "bis-bcbs"
+  },
+  {
+    "id": "basel-norms-03",
+    "q": "What is the main purpose of the Basel accords?",
+    "options": [
+      "To ensure banks hold enough capital to meet obligations and absorb unexpected losses",
+      "To fix the repo rate for all countries",
+      "To set exchange rates between currencies",
+      "To regulate stock exchanges"
+    ],
+    "answer": 0,
+    "explain": "The accords mainly address risks to banks and the financial system by requiring adequate capital.",
+    "section": "bis-bcbs"
+  },
+  {
+    "id": "basel-norms-04",
+    "q": "The first Basel Concordat was concerned with",
+    "options": [
+      "The capital adequacy of banks",
+      "Off-balance-sheet activities of banks",
+      "The division of supervisory responsibilities among national authorities",
+      "The leverage ratio of banks"
+    ],
+    "answer": 2,
+    "explain": "The 1975 Concordat dealt with who supervises what among national authorities; capital rules came with Basel I in 1988.",
+    "section": "bis-bcbs"
+  },
+  {
+    "id": "basel-norms-05",
+    "q": "Which of these is the risk of losses on on-balance sheet and off-balance sheet positions arising from movements in market prices?",
+    "options": [
+      "Market risk",
+      "Credit risk",
+      "Pricing risk",
+      "Liquidity risk"
+    ],
+    "answer": 0,
+    "explain": "Market risk covers losses from price movements. Credit risk is about borrower default.",
+    "section": "bis-bcbs"
+  },
+  {
+    "id": "basel-norms-06",
+    "q": "In which year did the BCBS introduce the Basel I capital accord?",
+    "options": [
+      "1975",
+      "2004",
+      "1988",
+      "2010"
+    ],
+    "answer": 2,
+    "explain": "Basel I came in 1988; Basel II in 2004; Basel III in 2010.",
+    "section": "basel-1"
+  },
+  {
+    "id": "basel-norms-07",
+    "q": "What minimum capital requirement did Basel I fix?",
+    "options": [
+      "4% of total deposits",
+      "8% of risk weighted assets",
+      "12% of total loans",
+      "5% of net profit"
+    ],
+    "answer": 1,
+    "explain": "Basel I set capital at 8% of RWA.",
+    "section": "basel-1"
+  },
+  {
+    "id": "basel-norms-08",
+    "q": "Basel I mainly focused on which risk?",
+    "options": [
+      "Operational risk",
+      "Liquidity risk",
+      "Reputational risk",
+      "Credit risk"
+    ],
+    "answer": 3,
+    "explain": "Basel I focused almost entirely on credit risk and defined capital and the structure of risk weights.",
+    "section": "basel-1"
+  },
+  {
+    "id": "basel-norms-09",
+    "q": "Why does a collateral-backed loan carry a lower risk weight than an unsecured personal loan?",
+    "options": [
+      "It is always free of interest",
+      "It is guaranteed by the RBI",
+      "It is given only to the government",
+      "Collateral reduces the loss if the borrower defaults"
+    ],
+    "answer": 3,
+    "explain": "Risk weighted assets give different weights to assets with different risk profiles.",
+    "section": "basel-1"
+  },
+  {
+    "id": "basel-norms-10",
+    "q": "In which year were the Basel II guidelines published by the BCBS?",
+    "options": [
+      "1988",
+      "2004",
+      "1999",
+      "2010"
+    ],
+    "answer": 1,
+    "explain": "Basel II was published in 2004 as a refined and reformed version of Basel I.",
+    "section": "basel-2"
+  },
+  {
+    "id": "basel-norms-11",
+    "q": "Which of these was NOT one of the three parameters of Basel II?",
+    "options": [
+      "A liquidity coverage ratio",
+      "Minimum capital adequacy of 8% of risk assets",
+      "Better risk management techniques",
+      "Increased disclosure requirements"
+    ],
+    "answer": 0,
+    "explain": "The liquidity ratios belong to Basel III. Basel II covered capital, risk management and disclosure.",
+    "section": "basel-2"
+  },
+  {
+    "id": "basel-norms-12",
+    "q": "In India the Basel II minimum capital adequacy practice is equivalent to maintaining",
+    "options": [
+      "Cash Reserve Ratio (CRR)",
+      "Statutory Liquidity Ratio (SLR)",
+      "Capital Adequacy Ratio (CAR)",
+      "Loan to Value ratio (LTV)"
+    ],
+    "answer": 2,
+    "explain": "CAR is the Indian version of capital against risk-weighted assets; CRR and SLR are reserve requirements.",
+    "section": "basel-2"
+  },
+  {
+    "id": "basel-norms-13",
+    "q": "What does the Basel II disclosure requirement aim to raise?",
+    "options": [
+      "Confidence of investors and depositors in the bank",
+      "The repo rate",
+      "Interest rates on loans",
+      "The number of branches"
+    ],
+    "answer": 0,
+    "explain": "More transparent banks are deemed more stable, which raises confidence.",
+    "section": "basel-2"
+  },
+  {
+    "id": "basel-norms-14",
+    "q": "Which Basel II pillar deals with market discipline through disclosure?",
+    "options": [
+      "Pillar 1",
+      "Pillar 2",
+      "Pillar 3",
+      "Pillar 4"
+    ],
+    "answer": 2,
+    "explain": "Pillar 1 is minimum capital, Pillar 2 supervisory review and Pillar 3 market discipline.",
+    "section": "basel-2"
+  },
+  {
+    "id": "basel-norms-15",
+    "q": "How often does the RBI publish its Financial Stability Report, as mentioned in the study material?",
+    "options": [
+      "Every month",
+      "Twice a year (bi-annual)",
+      "Every quarter",
+      "Once in five years"
+    ],
+    "answer": 1,
+    "explain": "The RBI publishes the Financial Stability Report bi-annually.",
+    "section": "basel-2"
+  },
+  {
+    "id": "basel-norms-16",
+    "q": "The Basel III guidelines were introduced in response to which event?",
+    "options": [
+      "The Asian crisis of 1997",
+      "The dot-com bust of 2000",
+      "The oil shock of 1973",
+      "The financial crisis of 2008"
+    ],
+    "answer": 3,
+    "explain": "Basel III came in 2010 after the 2008 global financial crisis.",
+    "section": "basel-3"
+  },
+  {
+    "id": "basel-norms-17",
+    "q": "Basel III capital regulations were released by the BCBS as a global regulatory framework in",
+    "options": [
+      "March 2011",
+      "December 2011",
+      "December 2012",
+      "December 2010"
+    ],
+    "answer": 3,
+    "explain": "The BCBS released Basel III in December 2010; RBI’s own guidelines followed on 2 May 2012.",
+    "section": "basel-3"
+  },
+  {
+    "id": "basel-norms-18",
+    "q": "On which date did the RBI release its guidelines on Basel III capital regulation?",
+    "options": [
+      "1 April 2013",
+      "2 May 2012",
+      "31 March 2014",
+      "1 January 2023"
+    ],
+    "answer": 1,
+    "explain": "RBI released the guidelines on 2 May 2012; implementation began on 1 April 2013.",
+    "section": "basel-3"
+  },
+  {
+    "id": "basel-norms-19",
+    "q": "As per the Basel III implementation in India, minimum Tier 1 capital must be what percent of risk weighted assets on an ongoing basis?",
+    "options": [
+      "7%",
+      "5.5%",
+      "9%",
+      "11%"
+    ],
+    "answer": 0,
+    "explain": "Tier 1 must be at least 7%, while total capital (Tier 1 + Tier 2) must be at least 9%.",
+    "section": "basel-3"
+  },
+  {
+    "id": "basel-norms-20",
+    "q": "What is the minimum total capital ratio (Tier 1 plus Tier 2) under the RBI’s Basel III guidelines?",
+    "options": [
+      "7%",
+      "8.5%",
+      "9%",
+      "12%"
+    ],
+    "answer": 2,
+    "explain": "RBI set total capital at 9% of RWA and Tier 1 at 7%.",
+    "section": "basel-3"
+  },
+  {
+    "id": "basel-norms-21",
+    "q": "Under Basel III the common equity requirement rose to 4.5% from what level under Basel II?",
+    "options": [
+      "2%",
+      "1%",
+      "3%",
+      "4%"
+    ],
+    "answer": 0,
+    "explain": "Common equity was raised from 2% to 4.5%, more than doubling the requirement.",
+    "section": "basel-3"
+  },
+  {
+    "id": "basel-norms-22",
+    "q": "What does leverage mean in banking?",
+    "options": [
+      "Holding extra cash in the vault",
+      "Lending only against gold",
+      "Buying assets with borrowed money to multiply gains",
+      "Paying dividends from reserves"
+    ],
+    "answer": 2,
+    "explain": "Leverage is risky, so Basel III puts a limit on it.",
+    "section": "basel-3"
+  },
+  {
+    "id": "basel-norms-23",
+    "q": "The collapse of which institution is cited as an example of a run-like liquidity failure behind the 2008 recession?",
+    "options": [
+      "Barings Bank",
+      "Lehman Brothers",
+      "Bank of England",
+      "Enron"
+    ],
+    "answer": 1,
+    "explain": "Lehman Brothers’ failure triggered the 2008 recession and showed why banks need liquid assets.",
+    "section": "basel-3"
+  },
+  {
+    "id": "basel-norms-24",
+    "q": "In India, the Basel III liquid-asset practice can be correlated with maintaining",
+    "options": [
+      "MCLR and EBLR",
+      "Repo and reverse repo",
+      "KYC and AML",
+      "CRR and SLR"
+    ],
+    "answer": 3,
+    "explain": "CRR and SLR are the Indian forms of keeping liquid assets with the central bank and in securities.",
+    "section": "basel-3"
+  },
+  {
+    "id": "basel-norms-25",
+    "q": "The Liquidity Coverage Ratio (LCR) is built around which time horizon?",
+    "options": [
+      "7 days",
+      "90 days",
+      "1 year",
+      "30 days"
+    ],
+    "answer": 3,
+    "explain": "LCR covers a 30-day stress. The Net Stable Funding Ratio looks at one year.",
+    "section": "basel-3"
+  },
+  {
+    "id": "basel-norms-26",
+    "q": "The Net Stable Funding Ratio (NSFR) looks at funding stability over which horizon?",
+    "options": [
+      "30 days",
+      "One year",
+      "One week",
+      "Ten years"
+    ],
+    "answer": 1,
+    "explain": "NSFR covers a one-year horizon, unlike the 30-day LCR.",
+    "section": "basel-3"
+  },
+  {
+    "id": "basel-norms-27",
+    "q": "What is the capital conservation buffer under Basel III in India?",
+    "options": [
+      "2.5%",
+      "1%",
+      "5.5%",
+      "9%"
+    ],
+    "answer": 0,
+    "explain": "The capital conservation buffer is an extra 2.5% cushion on top of minimum capital.",
+    "section": "basel-3"
+  },
+  {
+    "id": "basel-norms-28",
+    "q": "From which date did the RBI implement the Basel III recommendations in India?",
+    "options": [
+      "1 January 2013",
+      "31 March 2014",
+      "1 April 2013",
+      "30 September 2014"
+    ],
+    "answer": 2,
+    "explain": "RBI began Basel III implementation on 1 April 2013 in phases.",
+    "section": "india-implementation"
+  },
+  {
+    "id": "basel-norms-29",
+    "q": "Which group of banks depends mostly on the Government for raising extra capital under Basel III?",
+    "options": [
+      "Public sector banks",
+      "Private sector banks",
+      "Foreign banks",
+      "Payments banks"
+    ],
+    "answer": 0,
+    "explain": "Private banks can raise capital from markets; PSBs rely largely on government infusion.",
+    "section": "india-implementation"
+  },
+  {
+    "id": "basel-norms-30",
+    "q": "Why may the higher liquid-asset requirement of Basel III reduce a bank’s operating profit margin?",
+    "options": [
+      "Liquid assets are taxed heavily",
+      "Liquid assets are illegal to hold",
+      "Liquid assets usually give low returns",
+      "Liquid assets raise loan interest rates"
+    ],
+    "answer": 2,
+    "explain": "Banks must hold more low-yielding liquid assets, which can also crowd out private investment.",
+    "section": "india-implementation"
+  },
+  {
+    "id": "basel-norms-31",
+    "q": "Which of these is NOT a challenge listed for implementing Basel III in India?",
+    "options": [
+      "Higher capital requirement for banks",
+      "Lower capital requirement for banks",
+      "More technology deployment",
+      "Liquidity crunch"
+    ],
+    "answer": 1,
+    "explain": "Basel III raises capital needs; the challenges are capital, technology and liquidity.",
+    "section": "india-implementation"
+  },
+  {
+    "id": "basel-norms-32",
+    "q": "The implementation date of the Basel III standards finalised in December 2017 was deferred by one year to",
+    "options": [
+      "1 January 2022",
+      "1 April 2013",
+      "1 January 2028",
+      "1 January 2023"
+    ],
+    "answer": 3,
+    "explain": "The BCBS’s GHOS deferred it by a year because of the coronavirus pandemic.",
+    "section": "deferral"
+  },
+  {
+    "id": "basel-norms-33",
+    "q": "The transitional arrangements for the output floor were extended to",
+    "options": [
+      "1 January 2023",
+      "1 January 2025",
+      "1 January 2030",
+      "1 January 2028"
+    ],
+    "answer": 3,
+    "explain": "The output floor transition was also extended by one year, to 1 January 2028.",
+    "section": "deferral"
+  },
+  {
+    "id": "basel-norms-34",
+    "q": "What does GHOS stand for in the Basel framework?",
+    "options": [
+      "Global Hub of Supervisory Offices",
+      "Group of Central Bank Governors and Heads of Supervision",
+      "Group of Home Offices of Supervisors",
+      "Governors’ Hub for Operational Standards"
+    ],
+    "answer": 1,
+    "explain": "GHOS is the oversight body of the Basel Committee.",
+    "section": "deferral"
+  },
+  {
+    "id": "basel-norms-35",
+    "q": "Which event led the Basel Committee to defer implementation of the Basel III standards in 2020?",
+    "options": [
+      "The coronavirus pandemic",
+      "The 2008 financial crisis",
+      "The Brexit vote",
+      "A change in the BCBS membership"
+    ],
+    "answer": 0,
+    "explain": "The pandemic prompted a one-year deferral of the scheduled January 2022 start.",
+    "section": "deferral"
+  }
+]

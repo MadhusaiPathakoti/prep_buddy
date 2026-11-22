@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react'
-import { THEMES } from '../../lib/computerAwareness/theme'
-import type { CaChapterMeta } from '../../lib/computerAwareness/types'
+import { THEMES } from '../../lib/awareness/theme'
+import type { CaChapterMeta } from '../../lib/awareness/types'
 
 /** Decorative backdrop: a soft dotted grid, a few translucent rings and a circuit-trace squiggle. Pure SVG, no assets. */
 export function HeroArt({ id }: { id: string }) {

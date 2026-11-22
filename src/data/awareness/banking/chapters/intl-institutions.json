@@ -1,0 +1,438 @@
+{
+  "id": "intl-institutions",
+  "sections": [
+    {
+      "id": "world-bank",
+      "title": "The World Bank",
+      "icon": "🌍",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "The **World Bank** is an international organisation that gives **financing, advice and research** to developing nations to help their economic progress. Its main fight is against **poverty**, through development assistance to **middle- and low-income countries**."
+        },
+        {
+          "type": "bullets",
+          "title": "What it does",
+          "items": [
+            "Gives qualifying governments **low-interest loans, zero-interest credits and grants** to support their economies",
+            "Money helps in areas such as **education, healthcare, public administration, infrastructure and private-sector development**",
+            "Shares knowledge through **policy advice, research and analysis, and technical assistance**",
+            "Offers advice and training to both the **public and private** sectors"
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "Quick facts",
+          "rows": [
+            ["Headquarters", "**Washington, D.C.**, USA"],
+            ["Size (as per the source)", "More than **10,000** employees in more than **170** countries, with **189** member countries."],
+            ["Origin", "The World Bank and the **IMF** were founded together under the **Bretton Woods Agreement**, with broadly the same aim of serving governments worldwide."],
+            ["Structure", "Has grown from one institution into a group of **five** institutions called the **World Bank Group**."]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "remember",
+          "title": "Must-know",
+          "text": "World Bank and IMF: both born at **Bretton Woods** and both headquartered in **Washington, D.C.** The World Bank lends for **development**, the IMF protects **monetary stability**."
+        }
+      ]
+    },
+    {
+      "id": "wb-group",
+      "title": "The World Bank Group (five institutions)",
+      "icon": "🏛️",
+      "blocks": [
+        {
+          "type": "table",
+          "title": "Five members of the group",
+          "headers": ["Institution", "Role", "Set up"],
+          "rows": [
+            ["International Bank for Reconstruction and Development (IBRD)", "Debt financing to middle-income countries", "1944"],
+            ["International Development Association (IDA)", "Interest-free (concessional) loans to governments of poor countries", "1960"],
+            ["International Finance Corporation (IFC)", "Investment financing and advisory services for developing countries; the private-sector arm", "1956"],
+            ["International Centre for Settlement of Investment Disputes (ICSID)", "Arbitration of international investment disputes", "1966"],
+            ["Multilateral Investment Guarantee Agency (MIGA)", "Promotes foreign direct investment in developing countries through guarantees (insurance)", "1988"]
+          ]
+        },
+        {
+          "type": "figure",
+          "kind": "layers",
+          "title": "Who does what in the World Bank Group",
+          "items": [
+            ["IBRD", "Loans to middle-income countries"],
+            ["IDA", "Soft loans to the poorest countries"],
+            ["IFC", "Private sector finance and advice"],
+            ["MIGA", "Guarantees to encourage FDI"],
+            ["ICSID", "Settles investment disputes"]
+          ]
+        },
+        {
+          "type": "mnemonic",
+          "title": "Five members: Bank, Aid, Firms, Guarantee, Court",
+          "phrase": "Bank for the middle, Aid for the poor, Firms for the private sector, Guarantee for FDI, Court for disputes.",
+          "letters": [
+            ["IBRD", "Bank: debt financing to middle-income countries"],
+            ["IDA", "Aid: interest-free loans to the poorest"],
+            ["IFC", "Firms: investment finance for the private sector"],
+            ["MIGA", "Guarantee: promotes FDI (political risk insurance)"],
+            ["ICSID", "Court: arbitration of investment disputes"]
+          ],
+          "note": "IDA is the soft loan window of the World Bank, and MIGA is the insurance arm."
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "Do not mix up",
+          "text": "**IDA** is the **soft loan window**, **IFC** deals with the **private sector**, and **MIGA** gives **guarantees**. The IMF is **not** a part of the World Bank Group."
+        }
+      ]
+    },
+    {
+      "id": "imf",
+      "title": "International Monetary Fund (IMF)",
+      "icon": "💱",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "The **IMF** is an organisation of **189 countries** (as per the source) working to foster global monetary cooperation, secure financial stability, ease international trade, promote high employment and sustainable growth, and reduce poverty. It is governed by and accountable to its member countries. Its **headquarters** is in **Washington, D.C.**"
+        },
+        {
+          "type": "timeline",
+          "title": "Birth of the IMF",
+          "items": [
+            ["1 to 22 July 1944", "**Bretton Woods Conference** (officially the UN Monetary and Financial Conference): delegates from **44 nations** met at Bretton Woods, New Hampshire, to set new rules for the post-war monetary system."],
+            ["1944", "Two main results: creation of the **IMF** and the **IBRD**."],
+            ["1945", "The IMF came into being (as per the source, created in 1945)."],
+            ["1947", "France became the first borrower from the IMF."],
+            ["1969", "IMF created **Special Drawing Rights (SDRs)**."],
+            ["2012", "The IMF mandate was updated to cover all macroeconomic and financial sector issues bearing on global stability."]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "How the IMF works",
+          "rows": [
+            ["Primary purpose", "Keep the **international monetary system** stable: the system of exchange rates and international payments that lets countries transact with each other."],
+            ["Management", "A management team and **17 departments** do its country, policy, analytical and technical work."],
+            ["Resources", "Most IMF loan resources come from **member countries**, mainly through payment of **quotas**."],
+            ["Voting", "Votes are in proportion to the **quota** of each country, not one country one vote."],
+            ["Lending", "Lends only to **member nations** facing difficulties such as balance-of-payments problems."],
+            ["Report", "Publishes the **World Economic Outlook**."]
+          ]
+        },
+        {
+          "type": "figure",
+          "kind": "flow",
+          "title": "Quotas to votes to loans",
+          "items": [
+            ["Members pay quotas", "Main source of IMF resources"],
+            ["Quota fixes voting power", "Not one country, one vote"],
+            ["Pooled IMF resources", "Capital comes from member nations"],
+            ["Loans to members", "Help with balance-of-payments problems"]
+          ]
+        },
+        {
+          "type": "mnemonic",
+          "title": "Bretton Woods numbers",
+          "phrase": "Forty-four nations, July first to twenty-second, 1944: two babies born, IMF and IBRD.",
+          "letters": [
+            ["44", "Number of nations at the conference"],
+            ["1-22 July", "Dates of the conference in 1944"],
+            ["Two", "Main results: IMF and IBRD"],
+            ["17", "Departments in the IMF"]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sdr",
+      "title": "Special Drawing Rights (SDRs)",
+      "icon": "🪙",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "An **SDR** is an **international reserve asset** created by the **IMF in 1969** to supplement the official reserves of its member countries. SDRs can be exchanged for freely usable currencies. Its value is based on a **basket of five key currencies**."
+        },
+        {
+          "type": "bullets",
+          "title": "The SDR basket (five currencies)",
+          "items": [
+            "US dollar",
+            "Euro",
+            "Chinese Renminbi (added in **2016**)",
+            "Japanese yen",
+            "Pound sterling"
+          ]
+        },
+        {
+          "type": "mnemonic",
+          "title": "SDR basket: DYPER",
+          "phrase": "Don’t Yell, Please Eat Rice: Dollar, Yen, Pound, Euro, Renminbi.",
+          "letters": [
+            ["D", "Dollar (US)"],
+            ["Y", "Yen (Japan)"],
+            ["P", "Pound sterling (UK)"],
+            ["E", "Euro"],
+            ["R", "Renminbi (China), the newest member since 2016"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "Who controls SDRs?",
+          "text": "SDRs are created and managed by the **IMF**, not by the World Bank, ADB or the US Federal Reserve. The Indian rupee is **not** in the basket."
+        }
+      ]
+    },
+    {
+      "id": "ida",
+      "title": "International Development Association (IDA)",
+      "icon": "🤲",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "The **IDA** is one of the five institutions of the World Bank Group. It is one of the largest sources of assistance for the world’s **76 poorest countries** (as per the source) and the single largest source of donor funds for **basic social services** in them. It aims to cut poverty with loans and grants that boost growth, reduce inequality and improve living conditions."
+        },
+        {
+          "type": "keyvalue",
+          "title": "How IDA lends",
+          "rows": [
+            ["Terms", "**Concessional**: zero or very low interest charge."],
+            ["Repayment", "Stretched over **30 to 38 years**, including a **5 to 10 year grace** period."],
+            ["Grants", "Given to countries at risk of **debt distress**."],
+            ["Debt relief", "Through the **HIPC Initiative** (Heavily Indebted Poor Countries) and the **MDRI** (Multilateral Debt Relief Initiative)."],
+            ["Work areas", "Primary education, basic health, clean water and sanitation, agriculture, business climate, infrastructure and institutional reforms."],
+            ["Headquarters", "**Washington, D.C.**"]
+          ]
+        },
+        {
+          "type": "text",
+          "text": "IDA complements the World Bank’s original lending arm, the **IBRD**, which was set up to work as a **self-sustaining business** and lends to middle-income and credit-worthy poor countries. The IDA is administered by the IBRD."
+        },
+        {
+          "type": "callout",
+          "kind": "remember",
+          "title": "Soft loan window",
+          "text": "**IDA = soft loan window** of the World Bank: interest-free or very low interest, long repayment (30 to 38 years), for the poorest countries."
+        }
+      ]
+    },
+    {
+      "id": "regional-banks",
+      "title": "ADB, NDB and AIIB",
+      "icon": "🏗️",
+      "blocks": [
+        {
+          "type": "table",
+          "title": "Asian and BRICS development banks",
+          "headers": ["Bank", "Key facts", "Headquarters"],
+          "rows": [
+            ["Asian Development Bank (ADB)", "Regional development bank; set up on **19 December 1966**; members of UNESCAP and non-regional developed countries; **68** members (as per the source)", "Mandaluyong, Metro Manila, Philippines"],
+            ["New Development Bank (NDB)", "Set up by **Brazil, Russia, India, China and South Africa (BRICS)**; agreement signed at the **sixth BRICS Summit, Fortaleza (2014)**; BRICS share of votes never below **55%**", "Shanghai, China"],
+            ["Asian Infrastructure Investment Bank (AIIB)", "Began operations in **January 2016**; **57** founding members; **102** approved members (as per the source); India a member since 2016", "Beijing, China"]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "What each bank does",
+          "rows": [
+            ["ADB", "Loans, technical assistance, grants and **equity investments** for social and economic development; policy dialogue, advisory services and co-financing. Aims at a prosperous, inclusive, resilient and sustainable Asia and the Pacific, and ending extreme poverty."],
+            ["NDB", "Mobilises resources for **infrastructure and sustainable development** projects in BRICS and other emerging and developing economies; offers technical help and exchanges, aiming at environmental and social sustainability. All UN members can join."],
+            ["AIIB", "Invests in **sustainable infrastructure** and other productive sectors in Asia and beyond to connect people, services and markets. Set up by a multilateral treaty (Articles of Agreement)."]
+          ]
+        },
+        {
+          "type": "mnemonic",
+          "title": "Headquarters of the Asian trio",
+          "phrase": "Many Sheep Bleat: Manila (Mandaluyong) for ADB, Shanghai for NDB, Beijing for AIIB.",
+          "letters": [
+            ["M", "ADB: Mandaluyong, Metro Manila, Philippines"],
+            ["S", "NDB: Shanghai, China"],
+            ["B", "AIIB: Beijing, China"]
+          ],
+          "note": "The three Washington, D.C. institutions are the World Bank, IMF and IDA."
+        },
+        {
+          "type": "callout",
+          "kind": "fact",
+          "title": "BRICS link",
+          "text": "NDB = **BRICS** bank (Brazil, Russia, India, China, South Africa). AIIB = **China-led**, Beijing. ADB = the older (1966), **Manila-based** Asian bank."
+        }
+      ]
+    },
+    {
+      "id": "global-groups",
+      "title": "G-7, G-15, G-20, E-9 and FATF",
+      "icon": "🤝",
+      "blocks": [
+        {
+          "type": "keyvalue",
+          "title": "Groups of countries",
+          "rows": [
+            ["G-7", "Inter-governmental forum of the most advanced economies: **USA, Canada, Germany, Britain, France, Italy, Japan** (and the European Union). Russia joined in **1997** and was expelled after the annexation of Crimea in **2014**."],
+            ["FATF", "**Financial Action Task Force**: inter-governmental body founded in **1989** on the G-7’s initiative to develop policies against **money laundering**."],
+            ["G-15", "Informal forum to foster cooperation and give input to groups like the WTO, G-20 and G-7. Headquartered in **Geneva**, Switzerland; **18** member states as of June 2021."],
+            ["G-20", "**19 countries plus the European Union**; represents about **90%** of global gross national product, **80%** of world trade and **two-thirds** of world population. Began as a Finance Ministers’ forum in **1999**. India is a member."],
+            ["E-9", "Forum of **nine** countries formed for UNESCO’s **Education For All (EFA)** initiative. **E** stands for Education."]
+          ]
+        },
+        {
+          "type": "bullets",
+          "title": "G-20 members (19 countries, besides the EU)",
+          "items": [
+            "Argentina, Australia, Brazil, Canada, China",
+            "France, Germany, India, Indonesia, Italy",
+            "Japan, Mexico, Russia, Saudi Arabia, South Africa",
+            "Republic of Korea, Turkey, United Kingdom, United States",
+            "European Union (the 20th member)"
+          ]
+        },
+        {
+          "type": "bullets",
+          "title": "E-9 countries",
+          "items": ["Bangladesh", "Brazil", "China", "Egypt", "India", "Indonesia", "Mexico", "Nigeria", "Pakistan"]
+        },
+        {
+          "type": "text",
+          "text": "As per the source, the 2021 G-20 Summit was to be hosted by Italy (Rome, 30-31 October) and the 2023 summit was hosted by **India**. In 2023 the African Union also joined the G-20 as a permanent member, so check the latest membership."
+        },
+        {
+          "type": "mnemonic",
+          "title": "G-7: CUB-J FIG",
+          "phrase": "A CUB munches a Japanese FIG.",
+          "letters": [
+            ["C", "Canada"],
+            ["U", "USA"],
+            ["B", "Britain"],
+            ["J", "Japan"],
+            ["F", "France"],
+            ["I", "Italy"],
+            ["G", "Germany"]
+          ],
+          "note": "Seven countries; Russia is no longer in the group after 2014."
+        },
+        {
+          "type": "mnemonic",
+          "title": "E-9 is alphabetical",
+          "phrase": "B-B-C-E-I-I-M-N-P: Bangladesh, Brazil, China, Egypt, India, Indonesia, Mexico, Nigeria, Pakistan.",
+          "letters": [
+            ["B", "Bangladesh and Brazil"],
+            ["C", "China"],
+            ["E", "Egypt"],
+            ["I", "India and Indonesia"],
+            ["M", "Mexico"],
+            ["N", "Nigeria"],
+            ["P", "Pakistan"]
+          ],
+          "note": "Just list them in A to Z order; India and Indonesia are neighbours in the list."
+        },
+        {
+          "type": "mnemonic",
+          "title": "The upside-down years",
+          "phrase": "66, 69, 89, 99: only digits that survive a flip! ADB 1966, SDR 1969, FATF 1989, G-20 1999.",
+          "letters": [
+            ["1966", "ADB set up (19 December)"],
+            ["1969", "SDR created by the IMF"],
+            ["1989", "FATF founded"],
+            ["1999", "G-20 begins as finance ministers’ forum"]
+          ],
+          "note": "Digits 6, 9, 8 and 1 stay readable when flipped upside down, so all four years look alike."
+        }
+      ]
+    },
+    {
+      "id": "other-bodies",
+      "title": "Other bodies and one-line facts",
+      "icon": "📌",
+      "blocks": [
+        {
+          "type": "keyvalue",
+          "title": "Frequently asked pairs",
+          "rows": [
+            ["Federal Reserve (Fed)", "Central banking system of the **USA**."],
+            ["European Investment Bank (EIB)", "The EU’s non-profit long-term lending institution, set up in **1958** under the Treaty of Rome; headquarters in **Luxembourg**."],
+            ["World Trade Organization (WTO)", "Headquartered in **Geneva**; deals with multilateral trade relations, trade policy review and settling trade disputes."],
+            ["International Fund for Agricultural Development (IFAD)", "Headquartered in **Rome**, Italy."],
+            ["World Economic Outlook", "Report published by the **IMF**."],
+            ["Bondi bond", "Blockchain Offered New Debt Instrument, issued by the **World Bank**, with the Commonwealth Bank of Australia as organiser and main buyer."]
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Where is the headquarters?",
+          "headers": ["Institution", "Headquarters"],
+          "rows": [
+            ["World Bank, IMF, IDA", "Washington, D.C., USA"],
+            ["Asian Development Bank", "Mandaluyong, Metro Manila, Philippines"],
+            ["New Development Bank", "Shanghai, China"],
+            ["Asian Infrastructure Investment Bank", "Beijing, China"],
+            ["WTO and G-15", "Geneva, Switzerland"],
+            ["IFAD", "Rome, Italy"],
+            ["European Investment Bank", "Luxembourg"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "tip",
+          "title": "Study tip",
+          "text": "Use the headquarters table as a flash card: **Washington** for the big three, **Asia** for ADB, NDB and AIIB, **Geneva** for WTO and G-15, and **Rome** for IFAD."
+        }
+      ]
+    }
+  ],
+  "revision": [
+    "World Bank: headquartered in **Washington, D.C.**; 189 members (as per the source); fights poverty in middle- and low-income countries.",
+    "World Bank Group has **five** members: IBRD, IDA, IFC, ICSID and MIGA.",
+    "IBRD lends to middle-income countries; **IDA** gives interest-free loans to poor countries (soft loan window).",
+    "**IFC** supports the private sector, **ICSID** arbitrates investment disputes, **MIGA** promotes FDI through guarantees.",
+    "IMF and IBRD were created at **Bretton Woods** (1 to 22 July 1944, 44 nations); IMF HQ is **Washington, D.C.**",
+    "IMF voting follows **quotas**; its resources come mainly from members’ quotas; it has **17** departments.",
+    "**SDR** created in **1969** by the IMF; basket of five currencies; the Renminbi was added in **2016**.",
+    "IDA loans run **30 to 38 years** with a 5 to 10 year grace period; IDA serves the 76 poorest countries.",
+    "**ADB**: set up 19 December 1966; HQ Mandaluyong, Manila; 68 members (as per the source).",
+    "**NDB**: set up by BRICS (2014, Fortaleza); BRICS votes never below 55%; HQ **Shanghai**.",
+    "**AIIB**: began January 2016 with 57 founding members; HQ **Beijing**; India a member since 2016.",
+    "G-7 has seven countries; Russia was expelled in **2014**. FATF was founded in **1989** to fight money laundering.",
+    "G-20: 19 countries plus the EU; began in 1999; **India hosted** the 2023 summit. G-15 HQ is **Geneva**.",
+    "E-9 (nine countries) is linked to UNESCO’s **Education For All**.",
+    "European Investment Bank: Luxembourg (1958). WTO: Geneva. IFAD: Rome. World Economic Outlook: IMF."
+  ],
+  "mindmap": {
+    "center": "World Bank, IMF & Global Banks",
+    "branches": [
+      {
+        "label": "World Bank",
+        "children": ["HQ Washington, D.C.", "189 members (per source)", "Fights poverty", "Loans, credits, grants"]
+      },
+      {
+        "label": "World Bank Group",
+        "children": ["IBRD: middle income", "IDA: poorest, soft loans", "IFC: private sector", "ICSID: disputes", "MIGA: FDI guarantees"]
+      },
+      {
+        "label": "IMF",
+        "children": ["Bretton Woods 1944", "189 members (per source)", "Quota-based voting", "17 departments", "HQ Washington, D.C."]
+      },
+      {
+        "label": "SDR",
+        "children": ["Created 1969", "Basket of five currencies", "Renminbi added 2016", "Reserve asset"]
+      },
+      {
+        "label": "IDA",
+        "children": ["76 poorest countries", "30 to 38 year repayment", "Grace of 5 to 10 years", "HIPC and MDRI relief"]
+      },
+      {
+        "label": "Asian development banks",
+        "children": ["ADB 1966, Manila", "NDB (BRICS), Shanghai", "AIIB 2016, Beijing", "NDB: BRICS 55% votes"]
+      },
+      {
+        "label": "Groups of countries",
+        "children": ["G-7 (Russia expelled 2014)", "FATF 1989", "G-15, Geneva", "G-20: 19 plus EU", "E-9: Education For All"]
+      },
+      {
+        "label": "Other bodies",
+        "children": ["EIB: Luxembourg, 1958", "WTO: Geneva", "IFAD: Rome", "Fed: USA central bank"]
+      }
+    ]
+  }
+}

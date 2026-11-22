@@ -1,19 +1,25 @@
-// Checks the Computer Awareness book data: every chapter file and question file must match the shapes in
-// src/lib/computerAwareness/types.ts and the content rules below.
+// Checks a General Awareness book's data: every chapter file and question file must match the shapes in
+// src/lib/awareness/types.ts and the content rules below.
 //
-//   npx tsx scripts/verify-computer-awareness.ts                 # every chapter in meta.ts
-//   npx tsx scripts/verify-computer-awareness.ts memory email    # just those chapters (by id)
+//   npx tsx scripts/verify-awareness.ts computer                  # every chapter of the Computer Awareness book
+//   npx tsx scripts/verify-awareness.ts banking rbi monetary-policy   # just those chapters (by id)
 import { existsSync, readFileSync } from 'node:fs'
 import { join } from 'node:path'
-import { CA_CHAPTERS } from '../src/lib/computerAwareness/meta'
+import { getBook } from '../src/lib/awareness/books'
 
-const DIR = join(import.meta.dirname, '..', 'src', 'data', 'computerAwareness')
-const BLOCKS = new Set(['text', 'bullets', 'keyvalue', 'table', 'steps', 'timeline', 'callout', 'figure'])
+const bookId = process.argv[2]
+const book = getBook(bookId)
+if (!book) {
+  console.error('Usage: verify-awareness.ts <book: computer | banking> [chapter ids…]')
+  process.exit(2)
+}
+const DIR = join(import.meta.dirname, '..', 'src', 'data', 'awareness', book.id)
+const BLOCKS = new Set(['text', 'bullets', 'keyvalue', 'table', 'steps', 'timeline', 'callout', 'figure', 'mnemonic'])
 const CALLOUTS = new Set(['remember', 'trap', 'tip', 'fact'])
 const FIGURES = new Set(['flow', 'layers', 'pyramid', 'cycle'])
 
-const wanted = process.argv.slice(2)
-const chapters = wanted.length ? CA_CHAPTERS.filter((c) => wanted.includes(c.id)) : CA_CHAPTERS
+const wanted = process.argv.slice(3)
+const chapters = wanted.length ? book.chapters.filter((c) => wanted.includes(c.id)) : book.chapters
 const problems: string[] = []
 let questionCount = 0
 
@@ -49,7 +55,7 @@ for (const meta of chapters) {
 
   const sectionIds = new Set<string>()
   const sections = Array.isArray(book.sections) ? book.sections : []
-  if (sections.length < 5 || sections.length > 16) bad(`needs 5-16 sections, has ${sections.length}`)
+  if (sections.length < 4 || sections.length > 16) bad(`needs 4-16 sections, has ${sections.length}`)
   for (const [si, s] of sections.entries()) {
     const where = `section ${si + 1}`
     if (!isObj(s)) {
@@ -91,6 +97,12 @@ for (const meta of chapters) {
           if (typeof b.kind !== 'string' || !CALLOUTS.has(b.kind)) bad(`${w}: callout kind must be remember|trap|tip|fact`)
           if (!isStr(b.text, 5, 700)) bad(`${w}: callout text missing or over 700 chars`)
           break
+        case 'mnemonic':
+          if (!isStr(b.title, 2, 80)) bad(`${w}: mnemonic title missing`)
+          if (!isStr(b.phrase, 3, 200)) bad(`${w}: mnemonic phrase missing (max 200 chars)`)
+          if (b.letters !== undefined && (!Array.isArray(b.letters) || b.letters.length < 2 || b.letters.length > 14 || !b.letters.every((r) => Array.isArray(r) && r.length === 2 && isStr(r[0], 1, 12) && isStr(r[1], 1, 160)))) bad(`${w}: mnemonic letters must be 2-14 pairs of [letter, meaning] (letter max 12 chars, meaning max 160)`)
+          if (b.note !== undefined && !isStr(b.note, 2, 400)) bad(`${w}: mnemonic note max 400 chars`)
+          break
         case 'figure':
           if (typeof b.kind !== 'string' || !FIGURES.has(b.kind)) bad(`${w}: figure kind must be flow|layers|pyramid|cycle`)
           if (!isStr(b.title, 3, 80)) bad(`${w}: figure title missing`)
@@ -99,6 +111,11 @@ for (const meta of chapters) {
       }
       if ('title' in b && b.title !== undefined && !isStr(b.title, 2, 90)) bad(`${w}: title must be 2-90 chars`)
     }
+  }
+
+  if (book.id === 'banking') {
+    const mnemonics = sections.reduce((n: number, sec) => n + (isObj(sec) && Array.isArray(sec.blocks) ? sec.blocks.filter((b) => isObj(b) && b.type === 'mnemonic').length : 0), 0)
+    if (mnemonics < 2) bad(`banking chapters need at least 2 mnemonic blocks, has ${mnemonics}`)
   }
 
   const rev = book.revision
@@ -152,6 +169,7 @@ for (const meta of chapters) {
     }
     if (!Number.isInteger(q.answer) || (q.answer as number) < 0 || (q.answer as number) > 3) bad(`${w}: answer must be 0-3`)
     else answerSpread[q.answer as number]++
+    if (q.exam !== undefined && !isStr(q.exam, 2, 60)) bad(`${w}: exam must be a short string like "SBI PO 2019"`)
     if (!isStr(q.explain, 10, 500)) bad(`${w}: explain missing or over 500 chars`)
     if (!isStr(q.section, 2, 60) || !sectionIds.has(q.section as string)) bad(`${w}: section "${String(q.section)}" is not a section id of this chapter`)
   }

@@ -1,0 +1,338 @@
+{
+  "id": "cheques",
+  "sections": [
+    {
+      "id": "cheque-basics",
+      "title": "What a Cheque Is and Who Is Involved",
+      "icon": "🧾",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "A cheque is a written order to a bank to pay a stated sum of money from the account of the person who signs it. Legally, it is a **bill of exchange drawn on a specified banker and payable only on demand**. It is written on a specially printed form and is meant to make payments safe and convenient, with far less risk of loss than carrying cash."
+        },
+        {
+          "type": "keyvalue",
+          "title": "The three parties",
+          "rows": [
+            ["Drawer", "The account holder who writes the cheque (amount, date, payee), signs it and orders his bank to pay. He keeps his money in a transaction account with that bank."],
+            ["Drawee", "The drawer’s bank, which is directed to pay the amount."],
+            ["Payee", "The person or company to whom the amount is to be paid."]
+          ]
+        },
+        {
+          "type": "mnemonic",
+          "title": "Who does what on a cheque",
+          "phrase": "The Drawer DRAWS the cheque, the Drawee DOES the paying, the Payee PICKS UP the money.",
+          "letters": [
+            ["Drawer", "Draws up and signs the cheque"],
+            ["Drawee", "Does the paying (the bank)"],
+            ["Payee", "Picks up the payment"]
+          ],
+          "note": "The drawer is always a customer of the bank; the drawee is always a bank."
+        },
+        {
+          "type": "callout",
+          "kind": "remember",
+          "title": "Cheque in one line",
+          "text": "Every cheque is a bill of exchange, but not every bill of exchange is a cheque: a cheque must be drawn on a specified banker AND must be payable on demand."
+        },
+        {
+          "type": "figure",
+          "kind": "flow",
+          "title": "How a cheque payment moves",
+          "items": [
+            ["Drawer writes and signs", "Amount, date and payee are filled in"],
+            ["Cheque handed to payee", "Payee holds the order to pay"],
+            ["Payee presents it", "Over the counter or into his own account"],
+            ["Drawee bank pays", "Money is debited from the drawer’s account"]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "bearer-order",
+      "title": "Bearer Cheque and Order Cheque",
+      "icon": "🔀",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "On the basis of how the payee is described, a cheque is mainly classified into two kinds: the **bearer cheque** and the **order cheque**. Each of them can further be drawn as an open or a crossed cheque."
+        },
+        {
+          "type": "table",
+          "title": "Bearer versus order",
+          "headers": ["Point", "Bearer cheque", "Order cheque"],
+          "rows": [
+            ["Payable to", "Whoever bears (holds) the cheque", "The named payee or the person he orders"],
+            ["Wording", "Payable to bearer", "The words ‘or order’ follow the payee’s name"],
+            ["How it is transferred", "By mere delivery of the cheque", "By endorsement and delivery"],
+            ["Banker’s protection", "Safe if he pays the bearer in due course", "Safe if he pays the payee or endorsee in due course"],
+            ["Endorsement effect", "No endorsement can make it payable to anyone but the bearer", "Endorsee must also sign to receive the payment"]
+          ]
+        },
+        {
+          "type": "bullets",
+          "title": "Key points",
+          "items": [
+            "A bearer cheque stays a bearer cheque unless the way it was drawn is changed to ‘order’ by the drawer.",
+            "In an order cheque, the drawee is bound to pay only the payee or the person ordered by him.",
+            "When an order cheque is endorsed by the payee in favour of another person, the endorsee must also sign it to get the payment, and the bank is discharged by payment in due course."
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "Do not mix up the transfer methods",
+          "text": "Bearer cheque = transfer by delivery alone. Order cheque = endorsement plus delivery. Endorsement does not convert a bearer cheque into an order cheque."
+        }
+      ]
+    },
+    {
+      "id": "open-crossed",
+      "title": "Open Cheque and Crossed Cheque",
+      "icon": "🪪",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "Cheques are also classified as **open** or **crossed**. The difference decides how the money can be collected and how safe the cheque is if it is lost or stolen."
+        },
+        {
+          "type": "table",
+          "title": "Open versus crossed",
+          "headers": ["Feature", "Open cheque", "Crossed cheque"],
+          "rows": [
+            ["Marking", "No crossing on the face", "Two parallel lines drawn on the top corner, usually with ‘account payee’ written"],
+            ["How it is paid", "Can be collected by the payee over the counter of the bank", "Paid only into a bank account of the person named on the cheque"],
+            ["Cash payment", "Possible across the counter", "Not possible; money is credited to the payee’s account"],
+            ["Safety", "Less safe", "Considered safer than an open cheque"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "remember",
+          "title": "Effect of crossing",
+          "text": "Crossing a cheque means the payee can get payment only through a bank account. He cannot encash it across the counter, and he is not forced to endorse it to a bank."
+        },
+        {
+          "type": "figure",
+          "kind": "layers",
+          "title": "Cheque classification",
+          "items": [
+            ["Cheque", "A bill of exchange drawn on a banker, payable on demand"],
+            ["Bearer or order", "Decided by how the payee is described"],
+            ["Open or crossed", "Decided by the presence of crossing lines"],
+            ["Type of crossing", "General, special, not negotiable, account payee"]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "crossing-types",
+      "title": "Types of Crossing",
+      "icon": "✖️",
+      "blocks": [
+        {
+          "type": "table",
+          "title": "Four types of crossing",
+          "headers": ["Type", "What must be on the cheque", "Effect"],
+          "rows": [
+            ["General crossing", "Two parallel transverse lines, which can be placed anywhere (usually on the top left)", "The cheque must be paid only to a banker, not across the counter"],
+            ["Special crossing", "The name of a particular banker; it may be made only once", "The cheque must be paid only to the banker to whom it is crossed"],
+            ["Not negotiable crossing", "The words ‘not negotiable’, with a general or special crossing", "Cheque stays transferable, but the transferee’s title is no better than the transferor’s"],
+            ["Account payee crossing", "The words ‘account payee’ or ‘account payee only’, with a general or special crossing", "The cheque does not remain negotiable any more; also called restrictive crossing"]
+          ]
+        },
+        {
+          "type": "mnemonic",
+          "title": "Four crossings in order",
+          "phrase": "Good Students Never Argue: General, Special, Not negotiable, Account payee.",
+          "letters": [
+            ["G", "General crossing: two parallel lines"],
+            ["S", "Special crossing: a banker’s name, only once"],
+            ["N", "Not negotiable: title stays no better than before"],
+            ["A", "Account payee: restrictive crossing, no longer negotiable"]
+          ],
+          "note": "The classification chart also lists ‘not transferable’ crossing; the four above are the ones explained in detail."
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "Special can never become general",
+          "text": "A general crossing may later be made special by adding a banker’s name, but a special crossing cannot be converted into a general crossing. Also, ‘not negotiable’ does NOT stop transfer; ‘account payee’ does remove negotiability."
+        },
+        {
+          "type": "mnemonic",
+          "title": "Which crossing kills negotiability?",
+          "phrase": "NOT negotiable still travels; ACCOUNT payee stops at the account.",
+          "note": "Not negotiable = transferable but with a weak title; account payee = restrictive, cheque no longer negotiable."
+        }
+      ]
+    },
+    {
+      "id": "cheque-dates",
+      "title": "Antedated, Post-dated and Stale Cheques",
+      "icon": "📅",
+      "blocks": [
+        {
+          "type": "table",
+          "title": "Cheques by date",
+          "headers": ["Cheque", "Meaning", "Position"],
+          "rows": [
+            ["Antedated (backdated)", "Bears a date earlier than the date on which it was issued", "Not invalid; but if antedated by more than 3 months it is treated as stale"],
+            ["Post-dated", "Bears a future date as its date of issue", "Valid and negotiable, but the banker cannot pay before the date shown"],
+            ["Stale", "Remains in circulation for more than 3 months from its date", "Not honoured by the drawee banker unless revalidated by the drawer"]
+          ]
+        },
+        {
+          "type": "bullets",
+          "title": "Details worth remembering",
+          "items": [
+            "Post-dated cheque: the drawer’s mandate is not to pay earlier. If the bank pays before the date on the cheque, it is not a payment in due course, loses legal protection and is liable to its customer for any loss.",
+            "Stale cheque: as per banking custom, a cheque becomes stale after 3 months. There is no legal sanction for this period; it is a banking practice.",
+            "Even after a cheque turns stale, the drawer or endorser is not discharged from liability unless the claim is barred by limitation of three years."
+          ]
+        },
+        {
+          "type": "mnemonic",
+          "title": "Ante, Post, Stale",
+          "phrase": "ANTE = Ago (a date in the past), POST = Pending (a date in the future), STALE = Spoiled after 3 months.",
+          "letters": [
+            ["Ante", "Date before the day of issue (backdated)"],
+            ["Post", "Date after the day of issue (future date)"],
+            ["Stale", "Older than 3 months, so out of date"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "remember",
+          "title": "The 3-month rule",
+          "text": "A cheque (and also drafts, pay orders and banker’s cheques) is valid for 3 months from the date of the instrument. Presented after that, it is a stale cheque."
+        }
+      ]
+    },
+    {
+      "id": "stop-payment",
+      "title": "Stop Payment and Dishonour",
+      "icon": "🛑",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "‘Stop payment’ is an instruction to the bank not to pay a cheque that has already been issued. It can come from the cheque’s maker by a written application, or by a telephonic message if the bank accepts it."
+        },
+        {
+          "type": "bullets",
+          "title": "Who can stop payment of a cheque",
+          "items": [
+            "The account holder (the drawer) can direct the bank to stop payment of his own cheque.",
+            "A court can impose an injunction against the payment of any cheque.",
+            "The bank can itself stop payment on an account holder’s cheques on hearing of his death, insanity or bankruptcy."
+          ]
+        },
+        {
+          "type": "mnemonic",
+          "title": "Who can halt a cheque",
+          "phrase": "A-C-B halts a cheque: Account holder, Court, Bank (on Death, Insanity or Bankruptcy).",
+          "letters": [
+            ["A", "Account holder: stops his own cheque"],
+            ["C", "Court: issues an injunction"],
+            ["B", "Bank: after news of death, insanity or bankruptcy"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "fact",
+          "title": "Dishonoured cheque",
+          "text": "When a cheque is dishonoured, the payee or the holder in due course may file a criminal case against the drawer. A forged cheque is one where the drawer’s signature is not genuine."
+        }
+      ]
+    },
+    {
+      "id": "cts-2010",
+      "title": "CTS-2010 Standard and Truncation",
+      "icon": "🖨️",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "Standardising cheque leaves (size, MICR band, paper quality and so on) was a key step towards mechanised cheque processing. The benchmarks prescribed for all banks cover paper quality, watermark, the bank’s logo in invisible ink, a void pantograph and fixed placement of fields. Together they are called the **CTS-2010 standard**."
+        },
+        {
+          "type": "bullets",
+          "title": "Why it matters",
+          "items": [
+            "Uniform security features act as a deterrent against cheque frauds.",
+            "Standard field placement allows straight-through processing using optical or image character recognition technology.",
+            "All banks providing cheque facilities have been advised to issue only CTS-2010 standard cheques."
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "Cheque truncation",
+          "rows": [
+            ["Truncation", "Scanning the cheque and sending its electronic image through the clearing cycle instead of the physical cheque."],
+            ["CTS", "Cheque Truncation System; banks have been advised to connect all their branches to it."],
+            ["Processing grids", "Cheque processing locations in India are consolidated into three grids: Chennai, Mumbai and New Delhi."]
+          ]
+        },
+        {
+          "type": "mnemonic",
+          "title": "Three CTS grids",
+          "phrase": "Chennai, Mumbai, Delhi: C-M-D, ‘Cheques Moving Digitally’.",
+          "letters": [
+            ["C", "Chennai"],
+            ["M", "Mumbai"],
+            ["D", "New Delhi"]
+          ]
+        }
+      ]
+    }
+  ],
+  "revision": [
+    "A cheque is a bill of exchange drawn on a specified banker and payable only on demand.",
+    "The drawer writes and signs the cheque; the drawee is his bank; the payee receives the money.",
+    "Cheques are mainly classified as bearer cheques and order cheques.",
+    "A bearer cheque passes by mere delivery; an order cheque needs endorsement and delivery.",
+    "An open cheque can be encashed over the counter; a crossed cheque is paid only through a bank account.",
+    "General crossing means two parallel transverse lines; the cheque must be paid only to a banker.",
+    "Special crossing carries a banker’s name, may be made only once, and can never be turned into a general crossing.",
+    "Not negotiable crossing: the cheque remains transferable but the transferee gets no better title than the transferor.",
+    "Account payee crossing is restrictive: the cheque does not remain negotiable any more.",
+    "An antedated cheque bears an earlier date and is not invalid; a post-dated cheque bears a future date and cannot be paid before it.",
+    "A cheque turns stale after 3 months from its date; banks do not honour it unless the drawer revalidates it.",
+    "Stop payment can be ordered by the account holder or a court; the bank can stop on death, insanity or bankruptcy.",
+    "CTS-2010 is the standard for cheque security features and field placement.",
+    "Under cheque truncation, an electronic image replaces the physical cheque; the three grids are Chennai, Mumbai and New Delhi."
+  ],
+  "mindmap": {
+    "center": "Cheques and their types",
+    "branches": [
+      {
+        "label": "Basics",
+        "children": ["Bill of exchange on banker", "Payable on demand", "Drawer, drawee, payee"]
+      },
+      {
+        "label": "Bearer and order",
+        "children": ["Bearer: delivery transfer", "Order: endorsement needed", "‘Or order’ wording", "Banker paid in due course"]
+      },
+      {
+        "label": "Open and crossed",
+        "children": ["Open: cash over counter", "Crossed: two parallel lines", "Paid via bank account only", "Crossed is safer"]
+      },
+      {
+        "label": "Types of crossing",
+        "children": ["General", "Special (banker’s name)", "Not negotiable", "Account payee (restrictive)"]
+      },
+      {
+        "label": "Cheques by date",
+        "children": ["Antedated: earlier date", "Post-dated: future date", "Stale: over 3 months", "Revalidation by drawer"]
+      },
+      {
+        "label": "Stop payment",
+        "children": ["Account holder", "Court injunction", "Bank: death, insanity", "Bank: bankruptcy"]
+      },
+      {
+        "label": "CTS and truncation",
+        "children": ["CTS-2010 standard", "Void pantograph, watermark", "Electronic image clearing", "Grids: Chennai, Mumbai, Delhi"]
+      }
+    ]
+  }
+}

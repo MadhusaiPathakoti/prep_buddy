@@ -1,0 +1,376 @@
+{
+  "id": "npa-sarfaesi",
+  "sections": [
+    {
+      "id": "npa-basics",
+      "title": "What is an NPA?",
+      "icon": "📉",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "A **Non-Performing Asset (NPA)** is a loan or advance on which the principal or interest has stayed overdue for **90 days**. An asset, including a leased asset, turns into an NPA when it stops generating income for the bank. Colloquially, NPAs are the bank's 'bad loans' or bad advances."
+        },
+        {
+          "type": "table",
+          "title": "When does an account become an NPA?",
+          "headers": ["Type of facility", "NPA test"],
+          "rows": [
+            ["Term loan", "Interest and/or instalment of principal overdue for **more than 90 days**"],
+            ["Overdraft / cash credit (OD/CC)", "The account stays '**out of order**'"],
+            ["Bills purchased and discounted", "The bill remains overdue for **more than 90 days**"],
+            ["Short-duration crops", "An instalment of principal or interest overdue for **two crop seasons**"],
+            ["Long-duration crops", "An instalment of principal or interest overdue for **one crop season**"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "remember",
+          "title": "Quarter rule",
+          "text": "A bank should classify an account as an NPA only if the interest charged during a quarter is **not fully serviced within 90 days from the end of that quarter**. Ninety days is the magic number."
+        },
+        {
+          "type": "mnemonic",
+          "title": "Crop seasons",
+          "phrase": "Short crop, two seasons of wait; long crop, just one.",
+          "letters": [
+            ["Short", "Short-duration crops: NPA after **two** crop seasons overdue"],
+            ["Long", "Long-duration crops: NPA after **one** crop season overdue"]
+          ],
+          "note": "The longer the crop takes to grow, the less patience the rule allows: opposite of what you might guess."
+        }
+      ]
+    },
+    {
+      "id": "out-of-order-overdue",
+      "title": "'Out of order' and 'overdue'",
+      "icon": "🚦",
+      "blocks": [
+        {
+          "type": "keyvalue",
+          "title": "Two key terms",
+          "rows": [
+            ["Overdue", "Any amount due to the bank under a credit facility that is **not paid on the due date** fixed by the bank."],
+            ["Out of order", "An OD/CC account is out of order if the outstanding balance stays **continuously above the sanctioned limit or drawing power**."]
+          ]
+        },
+        {
+          "type": "bullets",
+          "title": "Another way an account is 'out of order'",
+          "items": [
+            "The outstanding balance is **below** the sanctioned limit or drawing power, but there are **no credits continuously for ninety days** as on the date of the balance sheet.",
+            "Or the credits during that period are **not enough to cover the interest** debited in the same period."
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "tip",
+          "title": "Link to NPA",
+          "text": "'Out of order' is the NPA trigger for **overdraft and cash credit** accounts, just as '90 days overdue' is the trigger for term loans and bills."
+        }
+      ]
+    },
+    {
+      "id": "presidential-ordinance",
+      "title": "Presidential Ordinance on NPAs",
+      "icon": "📜",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "A Presidential Ordinance (promulgated in 2017, amending the Banking Regulation Act, 1949) strengthened the RBI's hand against bad loans. It empowered the RBI to enforce **expeditious resolution** of banks' NPAs and boosted the central bank's legal empowerment to crack down on them."
+        },
+        {
+          "type": "bullets",
+          "title": "Key features and effects",
+          "items": [
+            "The Union Government empowered itself to direct the RBI to start the NPA resolution process once a default is established.",
+            "It lets the political establishment act as a proactive agent in bank NPA resolution.",
+            "It carries a political risk: the Government may be accused of picking and choosing which default cases go for resolution.",
+            "The provisions of the **Bankruptcy Code** were linked to the **Banking Regulation Act**.",
+            "It allows the RBI to set up **oversight committees** for banks with NPAs.",
+            "It was expected to affect the economy, banks' lending behaviour and the investment climate."
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "Who allowed oversight committees?",
+          "text": "The power to set up oversight committees for banks with NPAs came from the **Presidential Ordinance**, not from the original RBI Act, 1934 or the Banking Regulation Act, 1949 as such."
+        }
+      ]
+    },
+    {
+      "id": "asset-classification",
+      "title": "Categories of NPAs",
+      "icon": "🗂️",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "Banks sort NPAs into **three categories** based on how long the asset has been non-performing and how realisable the dues are. The rules below apply with effect from **31 March 2005**."
+        },
+        {
+          "type": "table",
+          "title": "Three NPA categories",
+          "headers": ["Category", "Meaning"],
+          "rows": [
+            ["Substandard asset", "Has remained an NPA for **12 months or less**"],
+            ["Doubtful asset", "Has remained in the substandard category for **12 months**"],
+            ["Loss asset", "Loss identified by the bank's internal or external auditors or the RBI inspection, but **not yet written off wholly**; considered uncollectible, though some salvage value may remain"]
+          ]
+        },
+        {
+          "type": "figure",
+          "kind": "flow",
+          "title": "Slide of an asset after default",
+          "items": [
+            ["Standard (performing)", "Earns income normally"],
+            ["Substandard NPA", "NPA for 12 months or less"],
+            ["Doubtful NPA", "12 months in substandard"],
+            ["Loss asset", "Uncollectible; should be written off"]
+          ]
+        },
+        {
+          "type": "mnemonic",
+          "title": "Order of NPA categories",
+          "phrase": "SDL: Slowly Deteriorating Loan - Substandard, then Doubtful, then Loss.",
+          "letters": [
+            ["S", "Substandard: NPA up to 12 months"],
+            ["D", "Doubtful: 12 months as substandard"],
+            ["L", "Loss: uncollectible, to be written off"]
+          ],
+          "note": "Tangible assets and standard assets are NOT NPA categories; standard assets are performing."
+        }
+      ]
+    },
+    {
+      "id": "provisioning",
+      "title": "Provisioning norms",
+      "icon": "🧮",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "**Provisioning** means setting aside part of profits to cover possible loan losses. The rates below are as given in the 2024-25 book and the RBI revises them from time to time, so use them as the exam reference but check for later circulars."
+        },
+        {
+          "type": "table",
+          "title": "Provisioning by asset type (as per the book)",
+          "headers": ["Asset type", "Provision required"],
+          "rows": [
+            ["Loss asset", "Write off; if kept on books, provide **100 per cent** of the outstanding"],
+            ["Doubtful asset, unsecured part", "**100 per cent** of the extent not covered by the realisable value of security"],
+            ["Doubtful asset, secured part", "From **20 per cent to 100 per cent** of the secured portion, depending on how long it has been doubtful"],
+            ["Substandard asset", "General provision of **10 per cent** of total outstanding, with no allowance for ECGC cover or security"],
+            ["Unsecured substandard exposure", "Additional 10 per cent, so a total of **20 per cent**"]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "Standard asset provisions (general provisions on funded outstanding)",
+          "rows": [
+            ["Agriculture and SME direct advances", "**0.25 per cent**"],
+            ["Specific sectors", "**1 per cent** for personal loans, capital-market exposures, residential housing loans beyond Rs 20 lakh and commercial real estate loans"],
+            ["All other advances", "**0.40 per cent**"],
+            ["Additional facilities under a BIFR or term-lender package", "No provision needed for **one year** from the date of disbursement"]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "Unsecured exposure and security",
+          "rows": [
+            ["Unsecured exposure", "Exposure where the realisable value of the security is **not more than 10 per cent** ab initio of the outstanding exposure."],
+            ["Exposure", "Includes all funded and non-funded exposures (including underwriting and similar commitments)."],
+            ["Security", "Only **tangible** security properly discharged to the bank; guarantees, comfort letters and similar items do not count."]
+          ]
+        },
+        {
+          "type": "mnemonic",
+          "title": "Standard asset rates",
+          "phrase": "Farmers pay a quarter, risky-personal-property pays one, the rest pay forty paise.",
+          "letters": [
+            ["0.25", "Agriculture and SME (a quarter of a per cent)"],
+            ["1", "Personal loans, capital-market exposures, large housing (beyond Rs 20 lakh), commercial real estate"],
+            ["0.40", "All other advances"]
+          ]
+        },
+        {
+          "type": "mnemonic",
+          "title": "Where 100 appears",
+          "phrase": "When the money is gone or unsecured and doubtful, provide a full hundred.",
+          "letters": [
+            ["Loss", "100 per cent if kept on the books"],
+            ["Doubtful", "100 per cent on the unsecured part"]
+          ],
+          "note": "Substandard is the mild one: 10 per cent, or 20 per cent if unsecured."
+        }
+      ]
+    },
+    {
+      "id": "sarfaesi-act",
+      "title": "SARFAESI Act, 2002",
+      "icon": "⚖️",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "The **Securitisation and Reconstruction of Financial Assets and Enforcement of Security Interest (SARFAESI) Act, 2002** was enacted to regulate securitisation and reconstruction of financial assets and to enforce security interests created over them, so that such assets can be realised. It was passed on **17 December 2002**."
+        },
+        {
+          "type": "bullets",
+          "title": "Why it matters",
+          "items": [
+            "A secured creditor can enforce its security interest **without the intervention of a court or tribunal**.",
+            "Before the Act, lenders had to file **civil suits** in courts, a long and time-consuming route.",
+            "Banks and financial institutions can directly **auction pledged residential or commercial property** to recover loans."
+          ]
+        },
+        {
+          "type": "steps",
+          "title": "Recovery under SARFAESI",
+          "items": [
+            "The borrower defaults on a loan that is backed by collateral.",
+            "The secured creditor serves a **notice**; the borrower gets **60 days (2 months)** to repay.",
+            "If the borrower still does not pay, the lender can **take possession** of the pledged assets.",
+            "The lender can take over management of the assets, appoint a person to manage them, or ask the borrower's debtors to pay their dues for that asset.",
+            "An aggrieved borrower can approach the **Debts Recovery Tribunal (DRT)**; to appeal against the DRT decision before the **DRAT** (Debts Recovery Appellate Tribunal) the borrower must deposit **50 per cent** of the amount."
+          ]
+        },
+        {
+          "type": "mnemonic",
+          "title": "SARFAESI numbers",
+          "phrase": "2002 Act, 17 December; 60 days notice; 50 per cent deposit to appeal at DRAT.",
+          "letters": [
+            ["2002", "Year of the SARFAESI Act (passed 17 December)"],
+            ["60", "Days of notice (two months) to the borrower"],
+            ["50%", "Deposit needed for an appeal to the DRAT"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "remember",
+          "title": "Tribunal ladder",
+          "text": "SARFAESI recovery itself avoids courts. Appeals go first to the **DRT**, then to the **DRAT** (with the 50 per cent deposit)."
+        }
+      ]
+    },
+    {
+      "id": "limits-and-arcs",
+      "title": "Drawbacks, IBC and ARCs",
+      "icon": "🏗️",
+      "blocks": [
+        {
+          "type": "bullets",
+          "title": "Drawbacks and answers",
+          "items": [
+            "A major drawback: the Act does **not apply to unsecured creditors**.",
+            "This and other gaps in the recovery mechanism were plugged by the **Insolvency and Bankruptcy Code, 2016**.",
+            "**Asset Reconstruction Companies (ARCs)** buy out distressed assets, giving banks another way to offload doubtful debt for more focused and efficient resolution."
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "Three recovery routes",
+          "rows": [
+            ["SARFAESI Act, 2002", "Enforcement of security by secured creditors without going to court."],
+            ["Insolvency and Bankruptcy Code, 2016", "Covers gaps in recovery, including cases involving unsecured creditors."],
+            ["Asset Reconstruction Companies", "Buy distressed assets from banks so that banks can clean up their books."]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "Secured only",
+          "text": "SARFAESI works only where the loan is **secured by collateral**. Unsecured creditors cannot use it, which is why the Insolvency and Bankruptcy Code, 2016 was needed."
+        }
+      ]
+    },
+    {
+      "id": "coop-banks-sarfaesi",
+      "title": "Co-operative banks and SARFAESI",
+      "icon": "🏘️",
+      "blocks": [
+        {
+          "type": "timeline",
+          "title": "Co-operative banks join SARFAESI",
+          "items": [
+            ["2002", "Co-operative banks are initially not covered by the definition of banks eligible for SARFAESI."],
+            ["2003", "A **notification** (without amending the law) brings co-operative banks into the class of banks entitled to use SARFAESI."],
+            ["2013", "The Government **amends the Act** to include co-operative banks formally in the definition of banks."],
+            ["5 May 2020", "The **Supreme Court** rules in favour of co-operative banks invoking SARFAESI, settling petitions that questioned the notification and Parliament's power to amend."]
+          ]
+        },
+        {
+          "type": "bullets",
+          "title": "Why it is important",
+          "items": [
+            "The Indian banking system has **more than 1,500 urban co-operative banks (UCBs)** and about **1 lakh rural co-operative banks**, with large retail deposits (as per the book).",
+            "Speedy recovery of bad loans is vital for their smooth functioning; SARFAESI avoids long delays in civil courts and co-operative tribunals.",
+            "The RBI has placed lending and deposit-taking restrictions on several co-operative banks, with **PMC Bank** and **CKP Bank** cited as cases.",
+            "When a co-operative bank comes under RBI restrictions, depositors' money is often stuck for years; easier recovery through SARFAESI can speed up liquidation or resolution and supports the safety of deposits."
+          ]
+        },
+        {
+          "type": "mnemonic",
+          "title": "Three dates for co-op banks",
+          "phrase": "03 notified, 13 amended, 20 settled: notification, Act change, then the Supreme Court.",
+          "letters": [
+            ["2003", "Notification brings co-operative banks under SARFAESI"],
+            ["2013", "Act amended to include co-operative banks formally"],
+            ["2020", "Supreme Court upholds it on 5 May"]
+          ]
+        }
+      ]
+    }
+  ],
+  "revision": [
+    "An NPA is a loan whose principal or interest remains overdue for 90 days.",
+    "NPA tests: term loan over 90 days; OD/CC out of order; bills over 90 days; crops: two seasons (short) or one season (long).",
+    "Classify as NPA only if interest charged in a quarter is not fully serviced within 90 days of quarter-end.",
+    "Out of order: balance continuously above limit or drawing power, or no credits for 90 days or credits less than interest.",
+    "Three NPA categories: substandard, doubtful and loss. Standard assets are not NPAs.",
+    "Substandard: NPA up to 12 months. Doubtful: 12 months as substandard. Loss: uncollectible, not yet written off.",
+    "Provisioning per the book: substandard 10 per cent (20 per cent if unsecured); unsecured doubtful and loss assets 100 per cent.",
+    "Standard asset provisions: 0.25 per cent for agriculture and SME, 1 per cent for specified sectors, 0.40 per cent for others.",
+    "The Presidential Ordinance empowered the RBI to push NPA resolution and set up oversight committees; Bankruptcy Code linked to the Banking Regulation Act.",
+    "SARFAESI Act 2002 (passed 17 Dec 2002) lets secured creditors recover dues without courts or tribunals.",
+    "SARFAESI: 60-day notice, then possession and management of pledged assets.",
+    "Appeal to DRAT against a DRT decision requires a deposit of 50 per cent of the amount.",
+    "SARFAESI does not cover unsecured creditors; gaps were plugged by the Insolvency and Bankruptcy Code, 2016.",
+    "ARCs buy distressed assets from banks to clean their books.",
+    "Co-operative banks: notified 2003, Act amended 2013, Supreme Court ruling 5 May 2020."
+  ],
+  "mindmap": {
+    "center": "NPA & SARFAESI",
+    "branches": [
+      {
+        "label": "NPA basics",
+        "children": ["90 days overdue", "Quarter rule", "Term loan and bills", "Crop seasons"]
+      },
+      {
+        "label": "Out of order and overdue",
+        "children": ["Above limit or drawing power", "No credits 90 days", "Overdue meaning"]
+      },
+      {
+        "label": "Presidential Ordinance",
+        "children": ["RBI resolution power", "Oversight committees", "Bankruptcy Code link", "Political risk"]
+      },
+      {
+        "label": "NPA categories",
+        "children": ["Substandard", "Doubtful", "Loss", "12-month rule"]
+      },
+      {
+        "label": "Provisioning",
+        "children": ["Substandard 10 per cent", "Unsecured 20 per cent", "Doubtful and loss 100 per cent", "Standard 0.25, 1, 0.40"]
+      },
+      {
+        "label": "SARFAESI Act",
+        "children": ["Passed 17 Dec 2002", "60-day notice", "No court needed", "DRT and DRAT"]
+      },
+      {
+        "label": "Drawbacks and ARCs",
+        "children": ["Secured creditors only", "IBC 2016", "Asset Reconstruction Cos"]
+      },
+      {
+        "label": "Co-operative banks",
+        "children": ["2003 notification", "2013 amendment", "2020 Supreme Court", "PMC and CKP cases"]
+      }
+    ]
+  }
+}

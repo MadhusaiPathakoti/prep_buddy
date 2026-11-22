@@ -1,0 +1,531 @@
+[
+  {
+    "id": "bank-hq-taglines-01",
+    "q": "Where is the headquarters of Indian Bank?",
+    "options": [
+      "Mumbai",
+      "Chennai",
+      "Delhi",
+      "Bengaluru"
+    ],
+    "answer": 1,
+    "explain": "Indian Bank is headquartered in Chennai, as is Indian Overseas Bank.",
+    "section": "psb-hq-taglines",
+    "exam": "IBPS PO Main 2015"
+  },
+  {
+    "id": "bank-hq-taglines-02",
+    "q": "Where is the headquarters of Central Bank of India located?",
+    "options": [
+      "New Delhi",
+      "Pune",
+      "Bengaluru",
+      "Mumbai"
+    ],
+    "answer": 3,
+    "explain": "Central Bank of India has its head office in Mumbai.",
+    "section": "psb-hq-taglines",
+    "exam": "IBPS PO Main 2015"
+  },
+  {
+    "id": "bank-hq-taglines-03",
+    "q": "The Antwerp Diamond Bank specialises in serving the diamond and diamond jewellery sector. Where is its headquarters?",
+    "options": [
+      "Antwerp, Belgium",
+      "Vienna, Austria",
+      "Frankfurt, Germany",
+      "Beijing, China"
+    ],
+    "answer": 0,
+    "explain": "As the name suggests, the bank is based in Antwerp, Belgium, the diamond-trading city.",
+    "section": "international-hqs",
+    "exam": "SBI PO Main 2016"
+  },
+  {
+    "id": "bank-hq-taglines-04",
+    "q": "Where is the headquarters of the Asian Infrastructure Investment Bank (AIIB)?",
+    "options": [
+      "Cape Town",
+      "New Delhi",
+      "Beijing",
+      "Rio de Janeiro"
+    ],
+    "answer": 2,
+    "explain": "AIIB is headquartered in Beijing, China.",
+    "section": "international-hqs",
+    "exam": "RBI Grade B 2018"
+  },
+  {
+    "id": "bank-hq-taglines-05",
+    "q": "Where is the headquarters of the Asian Development Bank (ADB) situated?",
+    "options": [
+      "Laos",
+      "Thailand",
+      "Brunei",
+      "Philippines"
+    ],
+    "answer": 3,
+    "explain": "ADB is headquartered in Manila, in the Philippines.",
+    "section": "international-hqs",
+    "exam": "IBPS RRB Clerk Main 2019"
+  },
+  {
+    "id": "bank-hq-taglines-06",
+    "q": "Where is the headquarters of the Bank for International Settlements (BIS) located?",
+    "options": [
+      "Basel, Switzerland",
+      "Algiers, Algeria",
+      "Harare, Zimbabwe",
+      "Moroni, Comoros"
+    ],
+    "answer": 0,
+    "explain": "BIS serves central banks and is based in Basel, Switzerland, with representative offices in Hong Kong and Mexico City.",
+    "section": "international-hqs",
+    "exam": "IBPS Clerk Mains 2023"
+  },
+  {
+    "id": "bank-hq-taglines-07",
+    "q": "NongHyup Bank, which was added to the Second Schedule of the RBI Act, 1934, has its headquarters in which country?",
+    "options": [
+      "Russia",
+      "Japan",
+      "South Korea",
+      "China"
+    ],
+    "answer": 2,
+    "explain": "NongHyup Bank is a commercial bank in Seoul, South Korea.",
+    "section": "international-hqs",
+    "exam": "IBPS Clerk Mains 2023"
+  },
+  {
+    "id": "bank-hq-taglines-08",
+    "q": "In which state is the headquarters of NSDL Payments Bank situated?",
+    "options": [
+      "Tamil Nadu",
+      "Maharashtra",
+      "Karnataka",
+      "Sikkim"
+    ],
+    "answer": 1,
+    "explain": "NSDL Payments Bank is headquartered in Maharashtra (Mumbai).",
+    "section": "international-hqs",
+    "exam": "RRB Officer Scale-I Mains 2023"
+  },
+  {
+    "id": "bank-hq-taglines-09",
+    "q": "In which state is the headquarters of Federal Bank located?",
+    "options": [
+      "Kerala",
+      "Uttar Pradesh",
+      "Maharashtra",
+      "Tamil Nadu"
+    ],
+    "answer": 0,
+    "explain": "Federal Bank is a private sector bank headquartered at Aluva in Kerala.",
+    "section": "private-foreign-banks",
+    "exam": "RBI Grade B Prelim 2023"
+  },
+  {
+    "id": "bank-hq-taglines-10",
+    "q": "Where was Canara Bank first set up in 1906?",
+    "options": [
+      "Varanasi",
+      "Madras",
+      "Mangalore",
+      "Lahore"
+    ],
+    "answer": 2,
+    "explain": "Canara Bank began in Mangalore in 1906; its headquarters is now in Bengaluru.",
+    "section": "psb-establishment-years"
+  },
+  {
+    "id": "bank-hq-taglines-11",
+    "q": "Which public sector bank has the tagline ‘Your Tech-friendly bank’?",
+    "options": [
+      "Bank of Baroda",
+      "Indian Bank",
+      "Punjab National Bank",
+      "UCO Bank"
+    ],
+    "answer": 1,
+    "explain": "Indian Bank’s tagline is ‘Taking Banking Technology to Common Man; Your Tech-friendly bank’.",
+    "section": "psb-taglines"
+  },
+  {
+    "id": "bank-hq-taglines-12",
+    "q": "Where is the head office of Indian Overseas Bank located?",
+    "options": [
+      "Madurai",
+      "Gurgaon",
+      "Patna",
+      "Chennai"
+    ],
+    "answer": 3,
+    "explain": "IOB’s head office is in Chennai.",
+    "section": "psb-hq-taglines"
+  },
+  {
+    "id": "bank-hq-taglines-13",
+    "q": "Where is the headquarters of UCO Bank?",
+    "options": [
+      "New Delhi",
+      "Mumbai",
+      "Kolkata",
+      "Chennai"
+    ],
+    "answer": 2,
+    "explain": "UCO Bank is the public sector bank headquartered in Kolkata.",
+    "section": "psb-hq-taglines"
+  },
+  {
+    "id": "bank-hq-taglines-14",
+    "q": "The logo of which of the following banks has a star in it?",
+    "options": [
+      "Bank of India",
+      "Bank of Maharashtra",
+      "Bank of Baroda",
+      "State Bank of India"
+    ],
+    "answer": 0,
+    "explain": "The Bank of India logo carries a star, and its tagline is ‘Relationship beyond Banking’.",
+    "section": "psb-taglines"
+  },
+  {
+    "id": "bank-hq-taglines-15",
+    "q": "What is the tagline of Karur Vysya Bank?",
+    "options": [
+      "Taking Banking Technology to Common Man",
+      "Good people to grow with",
+      "The Changing face of prosperity",
+      "Smart way to Bank with"
+    ],
+    "answer": 3,
+    "explain": "KVB’s tagline is ‘Smart way to Bank with’. The other options belong to Indian Bank and Indian Overseas Bank.",
+    "section": "private-foreign-banks"
+  },
+  {
+    "id": "bank-hq-taglines-16",
+    "q": "‘Taking Banking Technology to Common Man’ is the tagline used by which bank?",
+    "options": [
+      "Indian Overseas Bank",
+      "Indian Bank",
+      "UCO Bank",
+      "Punjab National Bank"
+    ],
+    "answer": 1,
+    "explain": "It belongs to Indian Bank, not Indian Overseas Bank, whose line is ‘Good people to grow with’.",
+    "section": "psb-taglines"
+  },
+  {
+    "id": "bank-hq-taglines-17",
+    "q": "Central Bank of India started functioning in which year?",
+    "options": [
+      "1921",
+      "1911",
+      "1935",
+      "1929"
+    ],
+    "answer": 1,
+    "explain": "Central Bank of India dates from 1911, which is why its tagline says ‘Central to you since 1911’.",
+    "section": "psb-establishment-years"
+  },
+  {
+    "id": "bank-hq-taglines-18",
+    "q": "What is the tagline of HDFC Bank?",
+    "options": [
+      "Good people to bank with",
+      "Hum Hai Na",
+      "A Tradition of Trust",
+      "We understand your world"
+    ],
+    "answer": 3,
+    "explain": "HDFC Bank’s line is ‘We understand your world’. ‘Good people to bank with’ is Union Bank of India.",
+    "section": "private-foreign-banks"
+  },
+  {
+    "id": "bank-hq-taglines-19",
+    "q": "Where is the headquarters of Canara Bank?",
+    "options": [
+      "Bengaluru",
+      "Chennai",
+      "Kolkata",
+      "Pune"
+    ],
+    "answer": 0,
+    "explain": "Canara Bank is headquartered in Bengaluru though it started in Mangalore.",
+    "section": "psb-hq-taglines"
+  },
+  {
+    "id": "bank-hq-taglines-20",
+    "q": "‘World’s Local Bank’ is the tagline of which bank?",
+    "options": [
+      "South Indian Bank",
+      "Federal Bank",
+      "HSBC",
+      "Karnataka Bank"
+    ],
+    "answer": 2,
+    "explain": "HSBC uses the line ‘The world’s local bank’.",
+    "section": "private-foreign-banks"
+  },
+  {
+    "id": "bank-hq-taglines-21",
+    "q": "Which bank is headquartered in Mangaluru?",
+    "options": [
+      "Federal Bank",
+      "HSBC",
+      "Bandhan Bank",
+      "Karnataka Bank"
+    ],
+    "answer": 3,
+    "explain": "Karnataka Bank has its head office in Mangaluru; Federal Bank is in Aluva (Kerala).",
+    "section": "private-foreign-banks"
+  },
+  {
+    "id": "bank-hq-taglines-22",
+    "q": "What is the tagline of Dhanlaxmi Bank?",
+    "options": [
+      "Tann. Mann. Dhan",
+      "Serving to Empower",
+      "Serving to society",
+      "Together We Can"
+    ],
+    "answer": 0,
+    "explain": "Dhanlaxmi Bank uses ‘Tann. Mann. Dhan’. ‘Serving to Empower’ is J&K Bank’s line.",
+    "section": "private-foreign-banks"
+  },
+  {
+    "id": "bank-hq-taglines-23",
+    "q": "What is the tagline of Bank of Baroda?",
+    "options": [
+      "World’s Local Bank",
+      "Prosperity to all",
+      "India’s International Bank",
+      "One Family One Bank"
+    ],
+    "answer": 2,
+    "explain": "Bank of Baroda says ‘India’s International Bank’. ‘One Family One Bank’ is Bank of Maharashtra.",
+    "section": "psb-taglines"
+  },
+  {
+    "id": "bank-hq-taglines-24",
+    "q": "Which pair of banks is headquartered in Karur?",
+    "options": [
+      "Bank of Maharashtra and HSBC",
+      "Lakshmi Vilas Bank and Karur Vysya Bank",
+      "Canara Bank and Karur Vysya Bank",
+      "Lakshmi Vilas Bank and Vijaya Bank"
+    ],
+    "answer": 1,
+    "explain": "Both Karur Vysya Bank and Lakshmi Vilas Bank were based in Karur, Tamil Nadu. Lakshmi Vilas Bank has since merged with DBS Bank India.",
+    "section": "private-foreign-banks"
+  },
+  {
+    "id": "bank-hq-taglines-25",
+    "q": "Select the correct tagline of ICICI Bank.",
+    "options": [
+      "Hum Hai Na",
+      "Banking for All",
+      "We Make You Feel Richer",
+      "Tann. Mann. Dhan"
+    ],
+    "answer": 0,
+    "explain": "ICICI Bank’s line is ‘Hum Hai Na’.",
+    "section": "private-foreign-banks"
+  },
+  {
+    "id": "bank-hq-taglines-26",
+    "q": "Where is the headquarters of South Indian Bank?",
+    "options": [
+      "Mangalore",
+      "Srinagar",
+      "Thrissur",
+      "Kochi"
+    ],
+    "answer": 2,
+    "explain": "South Indian Bank is headquartered at Thrissur in Kerala.",
+    "section": "private-foreign-banks"
+  },
+  {
+    "id": "bank-hq-taglines-27",
+    "q": "What is the tagline of Jammu & Kashmir Bank?",
+    "options": [
+      "Prosperity to all",
+      "Serving to Empower",
+      "Together we can",
+      "Smart way to Bank with"
+    ],
+    "answer": 1,
+    "explain": "J&K Bank’s tagline is ‘Serving to Empower’.",
+    "section": "private-foreign-banks"
+  },
+  {
+    "id": "bank-hq-taglines-28",
+    "q": "Where is the headquarters of State Bank of India?",
+    "options": [
+      "New Delhi",
+      "Kolkata",
+      "Chennai",
+      "Mumbai"
+    ],
+    "answer": 3,
+    "explain": "SBI is headquartered in Mumbai.",
+    "section": "psb-hq-taglines"
+  },
+  {
+    "id": "bank-hq-taglines-29",
+    "q": "Where is the headquarters of Punjab National Bank?",
+    "options": [
+      "Chandigarh",
+      "Mumbai",
+      "New Delhi",
+      "Lahore"
+    ],
+    "answer": 2,
+    "explain": "PNB has its headquarters in New Delhi, as does Punjab & Sind Bank.",
+    "section": "psb-hq-taglines"
+  },
+  {
+    "id": "bank-hq-taglines-30",
+    "q": "In which city is Bank of Baroda headquartered?",
+    "options": [
+      "Vadodara",
+      "Mumbai",
+      "Ahmedabad",
+      "Surat"
+    ],
+    "answer": 0,
+    "explain": "Bank of Baroda’s head office is in Vadodara, Gujarat.",
+    "section": "psb-by-city"
+  },
+  {
+    "id": "bank-hq-taglines-31",
+    "q": "Which public sector bank has its headquarters in Pune?",
+    "options": [
+      "Bank of India",
+      "Canara Bank",
+      "Union Bank of India",
+      "Bank of Maharashtra"
+    ],
+    "answer": 3,
+    "explain": "Bank of Maharashtra is the public sector bank with its head office in Pune.",
+    "section": "psb-by-city"
+  },
+  {
+    "id": "bank-hq-taglines-32",
+    "q": "Which of these public sector banks is NOT headquartered in Mumbai?",
+    "options": [
+      "Bank of India",
+      "Punjab National Bank",
+      "Union Bank of India",
+      "Central Bank of India"
+    ],
+    "answer": 1,
+    "explain": "PNB is in New Delhi. Bank of India, Union Bank and Central Bank are in Mumbai.",
+    "section": "psb-by-city"
+  },
+  {
+    "id": "bank-hq-taglines-33",
+    "q": "Which pair of public sector banks has headquarters in the same city, Chennai?",
+    "options": [
+      "Punjab National Bank and Punjab & Sind Bank",
+      "Indian Bank and Indian Overseas Bank",
+      "Canara Bank and Union Bank of India",
+      "UCO Bank and Bank of India"
+    ],
+    "answer": 1,
+    "explain": "Both banks with ‘Indian’ in the name are in Chennai. The two Punjab banks are in New Delhi.",
+    "section": "psb-by-city"
+  },
+  {
+    "id": "bank-hq-taglines-34",
+    "q": "‘Good people to bank with’ is the tagline of which bank?",
+    "options": [
+      "Indian Overseas Bank",
+      "UCO Bank",
+      "Punjab & Sind Bank",
+      "Union Bank of India"
+    ],
+    "answer": 3,
+    "explain": "Union Bank of India says ‘Good people to bank with’, while IOB says ‘Good people to grow with’.",
+    "section": "psb-taglines"
+  },
+  {
+    "id": "bank-hq-taglines-35",
+    "q": "‘Honours Your Trust’ is the tagline of which public sector bank?",
+    "options": [
+      "UCO Bank",
+      "Punjab National Bank",
+      "Bank of India",
+      "Canara Bank"
+    ],
+    "answer": 0,
+    "explain": "UCO Bank uses ‘Honours Your Trust’.",
+    "section": "psb-taglines"
+  },
+  {
+    "id": "bank-hq-taglines-36",
+    "q": "‘One Family One Bank’ is the tagline of which public sector bank?",
+    "options": [
+      "Bank of Baroda",
+      "Central Bank of India",
+      "Bank of Maharashtra",
+      "Indian Bank"
+    ],
+    "answer": 2,
+    "explain": "Bank of Maharashtra’s tagline is ‘One Family One Bank’.",
+    "section": "psb-taglines"
+  },
+  {
+    "id": "bank-hq-taglines-37",
+    "q": "‘Where service is a way of life’ is the tagline of:",
+    "options": [
+      "Canara Bank",
+      "UCO Bank",
+      "Union Bank of India",
+      "Punjab & Sind Bank"
+    ],
+    "answer": 3,
+    "explain": "This is Punjab & Sind Bank’s line.",
+    "section": "psb-taglines"
+  },
+  {
+    "id": "bank-hq-taglines-38",
+    "q": "Which public sector bank was established in 1943?",
+    "options": [
+      "UCO Bank",
+      "Indian Overseas Bank",
+      "Union Bank of India",
+      "Central Bank of India"
+    ],
+    "answer": 0,
+    "explain": "UCO Bank dates from 1943, IOB from 1937 and Union Bank from 1919.",
+    "section": "psb-establishment-years"
+  },
+  {
+    "id": "bank-hq-taglines-39",
+    "q": "Which two public sector banks were both established in 1908?",
+    "options": [
+      "Bank of India and Canara Bank",
+      "Indian Bank and Central Bank of India",
+      "Bank of Baroda and Punjab & Sind Bank",
+      "Union Bank of India and UCO Bank"
+    ],
+    "answer": 2,
+    "explain": "Bank of Baroda and Punjab & Sind Bank were set up in 1908. Bank of India and Canara Bank share 1906.",
+    "section": "psb-establishment-years"
+  },
+  {
+    "id": "bank-hq-taglines-40",
+    "q": "Which tagline matches Central Bank of India?",
+    "options": [
+      "The Nation banks on us",
+      "Build A Better Life Around Us; Central to you since 1911",
+      "Relationship beyond Banking",
+      "Together We Can"
+    ],
+    "answer": 1,
+    "explain": "Central Bank’s taglines refer to building a better life and its year of birth, 1911.",
+    "section": "psb-taglines"
+  }
+]

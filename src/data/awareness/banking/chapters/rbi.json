@@ -1,0 +1,791 @@
+{
+  "id": "rbi",
+  "sections": [
+    {
+      "id": "rbi-history",
+      "title": "RBI: birth, history and ownership",
+      "icon": "🏛️",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "The **Reserve Bank of India (RBI)** is the country’s central bank. It was created under the **RBI Act, 1934** and began working on **1 April 1935**, following the recommendation of the **Hilton Young Commission** (the Royal Commission on Indian Currency and Finance, 1926). It started life as a privately owned bank, but since **nationalisation in 1949** it has been fully owned by the Government of India."
+        },
+        {
+          "type": "keyvalue",
+          "title": "RBI at a glance",
+          "rows": [
+            ["Established", "1 April 1935, under the RBI Act, 1934"],
+            ["Recommended by", "Hilton Young Commission (Royal Commission on Indian Currency and Finance), 1926"],
+            ["First Governor", "Sir Osborne Smith (1 April 1935 to 30 June 1937)"],
+            ["First Indian Governor", "C. D. Deshmukh (from 11 August 1943)"],
+            ["First head office", "Calcutta (Kolkata); moved permanently to Mumbai in 1937 (Shaheed Bhagat Singh Marg)"],
+            ["Opening share capital", "₹5 crore, in fully paid-up shares of ₹100 each"],
+            ["Who subscribed", "Private shareholders took ₹4,97,80,000; the Central Government subscribed ₹2,20,000"],
+            ["Ownership today", "100% Government of India (from 1 January 1949)"]
+          ]
+        },
+        {
+          "type": "timeline",
+          "title": "Brief history of the RBI",
+          "items": [
+            ["1926", "Hilton Young Commission reports to the British Government of India and recommends a central bank. Aims: separate the control of currency and credit from the government, and spread banking facilities across the country."],
+            ["1933", "The White Paper on Indian Constitutional Reforms recommends a Reserve Bank; a fresh Bill is introduced in the Legislative Assembly."],
+            ["1934", "The Bill is passed and receives the Governor General’s assent, becoming the RBI Act, 1934."],
+            ["1 April 1935", "RBI starts operations as the banker to the Central Government, as a privately owned bank."],
+            ["1937", "Head office shifted from Kolkata to Mumbai."],
+            ["1942", "RBI ceases to be the currency-issuing authority of Burma (now Myanmar)."],
+            ["1947", "RBI stops acting as banker to the Government of Burma."],
+            ["1948", "RBI stops providing central banking services to Pakistan."],
+            ["1949", "Government nationalises RBI under the Reserve Bank (Transfer of Public Ownership) Act, 1948, paying compensation to private shareholders; from 1 January 1949 it works as a government-owned central bank. The Banking Regulation Act is also enacted in 1949."]
+          ]
+        },
+        {
+          "type": "mnemonic",
+          "title": "Date ladder for RBI’s story",
+          "phrase": "Hilton ’26 → Act ’34 → Start ’35 → Mumbai ’37 → Govt’s own ’49",
+          "letters": [
+            ["1926", "Hilton Young Commission recommends a central bank"],
+            ["1934", "RBI Act passed"],
+            ["1935", "Operations begin on 1 April"],
+            ["1937", "Head office moves from Kolkata to Mumbai"],
+            ["1949", "Nationalised on 1 January; Banking Regulation Act enacted"]
+          ],
+          "note": "Pair the years as 34-35 (Act, then start), 37 (move), 49 (nationalised). The year 1948 belongs only to the Transfer of Public Ownership Act."
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "Established vs nationalised",
+          "text": "RBI was **established in 1935** but **nationalised in 1949** (1 January 1949). Do not mix them up with 1969 and 1980, which are the years when commercial banks were nationalised."
+        },
+        {
+          "type": "callout",
+          "kind": "fact",
+          "title": "Accounting year",
+          "text": "RBI used to follow a July to June accounting year. From 2020-21 it follows the April to March year used by banks and the government."
+        }
+      ]
+    },
+    {
+      "id": "board-and-offices",
+      "title": "Board, office holders and institutions",
+      "icon": "🧑‍💼",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "RBI’s affairs are run by a **Central Board of Directors** appointed by the Government of India in line with the RBI Act. The board has **20 members** and is appointed or nominated for **four years**. The Governor leads the board, and the four Deputy Governors report to the Governor directly."
+        },
+        {
+          "type": "figure",
+          "kind": "layers",
+          "title": "Central Board of Directors (20 members)",
+          "items": [
+            ["Governor", "1 member, heads the board"],
+            ["Deputy Governors", "4 members"],
+            ["Directors", "4 members"],
+            ["Executive Directors", "10 members (as per the exam table)"],
+            ["Government official", "1 member nominated by the Centre"]
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Office holders (2024-25 syllabus snapshot)",
+          "headers": ["Name", "Post"],
+          "rows": [
+            ["Shri Shaktikanta Das", "Governor"],
+            ["Shri T. Rabi Sankar", "Deputy Governor"],
+            ["Shri M. Rajeshwar Rao", "Deputy Governor"],
+            ["Shri Mahesh Kumar Jain", "Deputy Governor"],
+            ["Dr. M. D. Patra", "Deputy Governor"]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "Offices",
+          "rows": [
+            ["Regional offices", "27"],
+            ["Sub-offices", "4"],
+            ["Training establishments", "6 (listed below)"]
+          ]
+        },
+        {
+          "type": "bullets",
+          "title": "Training establishments",
+          "items": [
+            "RBI Academy",
+            "College of Agricultural Banking",
+            "Reserve Bank of India Staff College",
+            "National Institute for Bank Management (NIBM)",
+            "Indira Gandhi Institute for Development Research (IGIDR)",
+            "Institute for Development and Research in Banking Technology (IDRBT)"
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "Fully owned subsidiaries of the RBI",
+          "rows": [
+            ["DICGC", "Deposit Insurance and Credit Guarantee Corporation of India"],
+            ["BRBNMPL", "Bharatiya Reserve Bank Note Mudran Private Limited, which prints currency notes"],
+            ["ReBIT", "Reserve Bank Information Technology Private Limited"],
+            ["IFTAS", "Indian Financial Technology and Allied Services"]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "functions",
+      "title": "Functions of the RBI",
+      "icon": "🎯",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "The RBI wears seven hats. Each role has its own objective, from keeping prices stable to making sure the public always has good-quality currency."
+        },
+        {
+          "type": "table",
+          "title": "Seven roles of the RBI",
+          "headers": ["Role", "What it does", "Objective"],
+          "rows": [
+            ["Monetary authority", "Formulates, implements and monitors monetary policy", "Price stability and an adequate flow of credit to productive sectors"],
+            ["Regulator and supervisor of the financial system", "Sets broad parameters within which banks and the financial system work", "Public confidence, protection of depositors’ interest, cost-effective banking services"],
+            ["Manager of foreign exchange", "Administers the Foreign Exchange Management Act, 1999 (FEMA)", "Facilitate external trade and payments; orderly development of the forex market"],
+            ["Issuer of currency", "Issues and exchanges notes and coins, and destroys those unfit for circulation", "Adequate supply of good-quality notes and coins"],
+            ["Developmental role", "Performs a wide range of promotional functions", "Support national objectives"],
+            ["Banker to the government", "Acts as banker (and merchant banker) to the central and state governments", "Handle government receipts, payments and public debt"],
+            ["Banker to banks", "Maintains the accounts of all scheduled banks", "Custodian of banks’ cash reserves; lender of last resort"]
+          ]
+        },
+        {
+          "type": "figure",
+          "kind": "cycle",
+          "title": "The seven roles around the RBI",
+          "items": [
+            ["Monetary authority", "Policy and price stability"],
+            ["Regulator and supervisor", "Banks and financial system"],
+            ["Forex manager", "FEMA, 1999"],
+            ["Issuer of currency", "Notes and coins"],
+            ["Developmental role", "Promotional functions"],
+            ["Banker to government", "Centre and states"],
+            ["Banker to banks", "Scheduled banks’ accounts"]
+          ]
+        },
+        {
+          "type": "mnemonic",
+          "title": "Seven roles of the RBI",
+          "phrase": "Mighty Indian Rupee Fights, Develops, Guards Banks",
+          "letters": [
+            ["M", "Monetary authority"],
+            ["I", "Issuer of currency"],
+            ["R", "Regulator and supervisor of the financial system"],
+            ["F", "Foreign exchange manager"],
+            ["D", "Developmental role"],
+            ["G", "Government’s banker"],
+            ["B", "Bankers’ bank"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "What the RBI does NOT do",
+          "text": "RBI does **not accept deposits from, or lend to, the general public**, and it does not present the Budget or set fiscal policy (that is the government’s job). Overall **monetary policy** is its responsibility, and it is the **banker to the government, not SBI**."
+        },
+        {
+          "type": "callout",
+          "kind": "fact",
+          "title": "Emblem",
+          "text": "The RBI emblem shows a **tiger** standing under a palm tree."
+        }
+      ]
+    },
+    {
+      "id": "policy-toolkit",
+      "title": "Monetary policy tools at a glance",
+      "icon": "🧰",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "Instruments of monetary policy are the tools the monetary authority uses to reach its predetermined objectives. **Quantitative (general) tools** control the total volume and cost of credit. **Qualitative (selective) tools** steer credit towards or away from particular uses and sectors."
+        },
+        {
+          "type": "table",
+          "title": "Quantitative vs qualitative tools",
+          "headers": ["Quantitative measures", "Qualitative measures"],
+          "rows": [
+            ["Bank rate", "Rationing of credit"],
+            ["Open market operations (OMO)", "Moral suasion"],
+            ["Cash reserve ratio (CRR)", "Direct action"],
+            ["Statutory liquidity ratio (SLR)", "Regulation of consumer credit"],
+            ["Repo and reverse repo (LAF)", "Margin requirements"],
+            ["Marginal Standing Facility (MSF)", "RBI guidelines"]
+          ]
+        },
+        {
+          "type": "figure",
+          "kind": "flow",
+          "title": "How RBI tightens liquidity",
+          "items": [
+            ["RBI raises repo, CRR or SLR", "Tools make money costlier or scarcer"],
+            ["Banks keep more, lend less", "Less credit flows into the system"],
+            ["Money supply falls", "Liquidity in the economy comes down"],
+            ["Demand and prices cool", "Inflation eases"]
+          ]
+        },
+        {
+          "type": "mnemonic",
+          "title": "Core quantitative tools",
+          "phrase": "Big Owls Catch Snakes",
+          "letters": [
+            ["B", "Bank rate"],
+            ["O", "Open market operations"],
+            ["C", "Cash reserve ratio"],
+            ["S", "Statutory liquidity ratio"]
+          ],
+          "note": "Add repo, reverse repo, LAF and MSF as the newer quantitative tools."
+        },
+        {
+          "type": "mnemonic",
+          "title": "Six qualitative tools",
+          "phrase": "Rita Meets Dad, Chats, Munches Gulab-jamun",
+          "letters": [
+            ["R", "Rationing of credit"],
+            ["M", "Moral suasion"],
+            ["D", "Direct action"],
+            ["C", "Consumer credit regulation"],
+            ["M", "Margin requirements"],
+            ["G", "RBI guidelines"]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "rates-and-ratios",
+      "title": "Repo, reverse repo, CRR, SLR, OMO and bank rate",
+      "icon": "📊",
+      "blocks": [
+        {
+          "type": "keyvalue",
+          "title": "The main quantitative tools",
+          "rows": [
+            ["Repo rate", "Rate at which the RBI lends short-term funds to banks against government securities (a sale of securities with a promise to repurchase at a fixed price). A higher repo rate makes funds costlier for banks, so loans to customers get costlier and less credit flows, which brings liquidity down."],
+            ["Reverse repo rate", "Rate at which the RBI borrows short-term funds from banks by selling them government securities with a promise to buy them back later. Raising it encourages banks to park cash with the RBI, so liquidity in the system falls."],
+            ["Cash Reserve Ratio (CRR)", "Percentage of a bank’s total deposits that must be kept as cash with the RBI. A high CRR leaves banks less to lend and curbs liquidity; a low CRR does the opposite."],
+            ["Statutory Liquidity Ratio (SLR)", "Percentage of deposits (net demand and time liabilities, NDTL) that banks must hold as liquid assets: cash, gold and unencumbered government-approved securities. A lower SLR means more funds to lend. Banks report SLR to the RBI every alternate Friday and pay penalties for any shortfall."],
+            ["Open Market Operations (OMO)", "Buying and selling of government securities by the RBI to manage short-term money supply. Buying injects funds; selling absorbs cash from banks. RBI uses it regularly, even outside its policy reviews."],
+            ["Bank rate", "The re-discounting rate at which the RBI lends to banks against bills of exchange, commercial papers and other approved securities. In recent years the repo rate, not the bank rate, guides banks’ own rates; the bank rate follows the repo."]
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Which way does RBI move the tool?",
+          "headers": ["Tool", "To reduce liquidity", "To increase liquidity"],
+          "rows": [
+            ["Repo rate", "Raise", "Cut"],
+            ["Reverse repo rate", "Raise", "Cut"],
+            ["CRR", "Raise", "Lower"],
+            ["SLR", "Raise", "Lower"],
+            ["OMO", "Sell government securities", "Buy government securities"]
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Current rates as given in the 2024-25 syllabus",
+          "headers": ["Instrument", "Rate"],
+          "rows": [
+            ["CRR", "4.50%"],
+            ["SLR", "18%"],
+            ["Repo rate", "6.50%"],
+            ["Reverse repo rate", "3.35%"],
+            ["MSF rate and Bank rate", "6.75%"]
+          ]
+        },
+        {
+          "type": "mnemonic",
+          "title": "Repo vs reverse repo",
+          "phrase": "Repo: banks Rent cash from RBI. Reverse repo: RBI Rents (parks) cash from banks.",
+          "letters": [
+            ["Repo", "RBI lends to banks; they repay with interest. Higher repo means costlier loans and less liquidity."],
+            ["Reverse repo", "RBI borrows from banks. Higher reverse repo means banks park more cash, so liquidity is absorbed."],
+            ["Ladder", "MSF = Bank rate, then Repo, then Reverse repo (6.75, 6.50, 3.35 in the snapshot)"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "CRR vs SLR",
+          "text": "**CRR** is kept **as cash with the RBI**. **SLR** is held by the **bank itself** in cash, gold or approved securities. Both are percentages of NDTL, and both are mandatory."
+        },
+        {
+          "type": "callout",
+          "kind": "remember",
+          "title": "Rates change",
+          "text": "The figures above are the values given in the 2024-25 syllabus. RBI changes them at its policy reviews, so always check the latest announcement before an exam."
+        }
+      ]
+    },
+    {
+      "id": "qualitative-tools",
+      "title": "Qualitative (selective) credit controls",
+      "icon": "🎛️",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "Qualitative tools are used for selective purposes: they regulate the flow of credit and its cost to specific sectors rather than to the whole economy."
+        },
+        {
+          "type": "keyvalue",
+          "title": "The six qualitative tools",
+          "rows": [
+            ["Margin requirements", "The difference between the value of the security offered and the amount borrowed from the bank."],
+            ["Consumer credit regulation", "Rules on down payments and maximum maturities of instalment credit for buying goods."],
+            ["RBI guidelines", "Oral and written statements, appeals, guidelines and warnings issued to banks."],
+            ["Rationing of credit", "RBI controls the credit granted or allocated by commercial banks."],
+            ["Moral suasion", "Psychological and informal means of selective credit control; persuasion rather than orders."],
+            ["Direct action", "Step taken against banks that do not fulfil conditions: RBI may refuse to rediscount their papers, or charge a penal rate over and above the bank rate for credit demanded beyond a limit."]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "tip",
+          "title": "Soft to hard",
+          "text": "Moral suasion and guidelines are the **softest** tools (requests). Direct action is the **hardest** (penalties)."
+        }
+      ]
+    },
+    {
+      "id": "laf-msf-psl-mclr",
+      "title": "LAF, MSF, PSL and MCLR",
+      "icon": "🔧",
+      "blocks": [
+        {
+          "type": "keyvalue",
+          "title": "Other important tools",
+          "rows": [
+            ["Liquidity Adjustment Facility (LAF)", "A monetary policy tool that lets banks borrow through repurchase agreements. It helps banks adjust day-to-day mismatches in liquidity and works through the repo and reverse repo windows."],
+            ["Marginal Standing Facility (MSF)", "The penal rate at which banks can borrow from the central bank. Announced in the Monetary Policy 2011-12; effective from 9 May 2014. When introduced it was set 1 percentage point above the repo rate."],
+            ["Priority Sector Lending (PSL)", "System under which banks must increase financing of priority sectors such as agriculture and small industries."],
+            ["Marginal Cost of funds based Lending Rate (MCLR)", "New RBI guidelines for how banks set lending rates. It applies to floating-rate home loans and term loans to small and medium enterprises and mid-level corporates, and replaced the Base Rate system from April 2016."]
+          ]
+        },
+        {
+          "type": "timeline",
+          "title": "Dates to remember",
+          "items": [
+            ["June 2000", "LAF introduced for the first time."],
+            ["July 2010", "Base Rate system for loans introduced; each bank fixed its own base rate."],
+            ["2011-12", "MSF announced in the Monetary Policy."],
+            ["25 Aug 2011", "RBI sets up a committee under M. V. Nair to re-examine priority sector lending classification and suggest revised guidelines."],
+            ["9 May 2014", "MSF comes into effect."],
+            ["April 2016", "MCLR replaces the Base Rate system."]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "remember",
+          "title": "Lending-rate ladder",
+          "text": "Lending-rate systems in order: **Base Rate (2010)** then **MCLR (April 2016)**. MSF is a **penal** rate: it sits above the repo rate (6.75% against 6.50% in the 2024-25 snapshot)."
+        }
+      ]
+    },
+    {
+      "id": "mpc",
+      "title": "Monetary Policy Committee (MPC)",
+      "icon": "🗳️",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "The **Monetary Policy Committee** is a committee of the RBI responsible for fixing the benchmark interest rate. It was brought in through an amendment of the RBI Act (the framework dates from 2015) to add transparency and accountability to India’s monetary policy."
+        },
+        {
+          "type": "keyvalue",
+          "title": "MPC facts",
+          "rows": [
+            ["Members", "Six: three RBI officials and three external members nominated by the Government of India"],
+            ["Chairperson", "RBI Governor (ex-officio)"],
+            ["Decisions", "By majority; the Governor has a casting vote in case of a tie"],
+            ["Inflation mandate", "4% annual inflation, with an upper tolerance of 6% and a lower tolerance of 2% (the mandate stated in the syllabus ran until 31 March 2021)"],
+            ["Meetings", "At least four times a year"],
+            ["Legal basis", "Section 45ZB of the RBI Act, 1934"],
+            ["Minutes", "Record the resolution adopted and the vote of each member"],
+            ["Who recommended it", "Strongly the Urjit Patel panel; earlier the Financial Sector Legislative Reforms Commission (FSLRC) headed by B. N. Srikrishna"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "remember",
+          "title": "MPC numbers",
+          "text": "**6 members = 3 + 3**. **4% target, 2% to 6% band.** **At least 4 meetings** a year. The Governor chairs and holds the **casting vote**."
+        }
+      ]
+    },
+    {
+      "id": "govt-banker-currency",
+      "title": "Banker to the government and issuer of currency",
+      "icon": "💰",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "As banker to the government, RBI receives and pays money for the Centre, carries out exchange, remittance and other banking operations, and manages the public debt of the Union. For states it works under agreements; as per the syllabus such agreements exist with all state governments except Sikkim."
+        },
+        {
+          "type": "keyvalue",
+          "title": "Sections of the RBI Act to remember",
+          "rows": [
+            ["Section 20", "RBI must undertake the receipts and payments of the Central Government, and manage the public debt of the Union"],
+            ["Section 21A", "State government transactions are carried out under agreements with each state"],
+            ["Section 22", "RBI has the sole right to issue bank notes"],
+            ["Section 45ZB", "Constitutes the Monetary Policy Committee"],
+            ["Section 53(2)", "Report of the Central Board on RBI’s working is submitted to the Central Government"]
+          ]
+        },
+        {
+          "type": "bullets",
+          "title": "Currency and government-banking facts",
+          "items": [
+            "RBI issues and exchanges notes and coins and destroys those not fit for circulation.",
+            "**One rupee notes and coins are issued by the Government of India**, not by the RBI; the government decides how many coins are minted.",
+            "RBI gives **Ways and Means Advances (WMA)** to both the Central and the State Governments.",
+            "RBI’s stake in the State Bank of India was transferred to the Government of India."
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "Who is the government’s banker?",
+          "text": "The government’s banker is the **RBI**, even though SBI conducts a lot of government business as an agent."
+        }
+      ]
+    },
+    {
+      "id": "demonetisation",
+      "title": "Demonetisation of 2016",
+      "icon": "💸",
+      "blocks": [
+        {
+          "type": "timeline",
+          "title": "What happened",
+          "items": [
+            ["7 Nov 2016", "The government advises the RBI to withdraw the ₹500 and ₹1,000 notes."],
+            ["8 Nov 2016", "RBI’s Central Board meets the very next day and, after deliberation, recommends that the legal tender status of ₹500 and ₹1,000 notes be withdrawn."],
+            ["Later", "RBI reports that 99.3% of demonetised currency has come back: ₹15.31 lakh crore out of ₹15.41 lakh crore."],
+            ["Later", "Household financial savings in currency touch 2.8% of gross national disposable income, the highest in six years."]
+          ]
+        },
+        {
+          "type": "figure",
+          "kind": "flow",
+          "title": "Demonetisation sequence",
+          "items": [
+            ["Government advice", "7 November 2016"],
+            ["Central Board meets", "Next day, 8 November"],
+            ["Board recommendation", "Withdraw legal tender status"],
+            ["₹500 and ₹1,000 notes", "Withdrawn from circulation"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "remember",
+          "title": "Key numbers",
+          "text": "Notes withdrawn: **₹500 and ₹1,000**. Advice on **7 Nov 2016**, board meeting **8 Nov 2016**. Return rate: **99.3%** (₹15.31 lakh crore of ₹15.41 lakh crore)."
+        }
+      ]
+    },
+    {
+      "id": "governors",
+      "title": "Governors of the RBI",
+      "icon": "🧾",
+      "blocks": [
+        {
+          "type": "table",
+          "title": "Governors 1 to 12",
+          "headers": ["No.", "Governor", "Term of office"],
+          "rows": [
+            ["1", "Osborne Smith", "1 April 1935 to 30 June 1937"],
+            ["2", "James Braid Taylor", "1 July 1937 to 17 February 1943"],
+            ["3", "C. D. Deshmukh", "11 August 1943 to 30 June 1949"],
+            ["4", "Benegal Rama Rau", "1 July 1949 to 14 January 1957"],
+            ["5", "K. G. Ambegaonkar", "14 January 1957 to 28 February 1957"],
+            ["6", "H. V. R. Iyengar", "1 March 1957 to 28 February 1962"],
+            ["7", "P. C. Bhattacharya", "1 March 1962 to 30 June 1967"],
+            ["8", "L. K. Jha", "1 July 1967 to 3 May 1970"],
+            ["9", "B. N. Adarkar", "4 May 1970 to 15 June 1970"],
+            ["10", "S. Jagannathan", "16 June 1970 to 19 May 1975"],
+            ["11", "N. C. Sen Gupta", "19 May 1975 to 19 August 1975"],
+            ["12", "K. R. Puri", "20 August 1975 to 2 May 1977"]
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Governors 13 to 25",
+          "headers": ["No.", "Governor", "Term of office"],
+          "rows": [
+            ["13", "M. Narasimham", "3 May 1977 to 30 November 1977"],
+            ["14", "I. G. Patel", "1 December 1977 to 15 September 1982"],
+            ["15", "Manmohan Singh", "16 September 1982 to 14 January 1985"],
+            ["16", "Amitav Ghosh", "15 January 1985 to 4 February 1985"],
+            ["17", "R. N. Malhotra", "4 February 1985 to 22 December 1990"],
+            ["18", "S. Venkitaramanan", "22 December 1990 to 21 December 1992"],
+            ["19", "C. Rangarajan", "22 December 1992 to 21 November 1997"],
+            ["20", "Bimal Jalan", "22 November 1997 to 6 September 2003"],
+            ["21", "Y. V. Reddy", "6 September 2003 to 5 September 2008"],
+            ["22", "D. Subbarao", "5 September 2008 to 4 September 2013"],
+            ["23", "Raghuram Rajan", "4 September 2013 to 4 September 2016"],
+            ["24", "Urjit Patel", "4 September 2016 to 11 December 2018"],
+            ["25", "Shaktikanta Das", "11 December 2018 until the syllabus date (incumbent)"]
+          ]
+        },
+        {
+          "type": "mnemonic",
+          "title": "Governors since 1990",
+          "phrase": "Very Rare Jewels Reward Smart Rich Persons Daily",
+          "letters": [
+            ["V", "S. Venkitaramanan (1990-92)"],
+            ["R", "C. Rangarajan (1992-97)"],
+            ["J", "Bimal Jalan (1997-2003)"],
+            ["R", "Y. V. Reddy (2003-08)"],
+            ["S", "D. Subbarao (2008-13)"],
+            ["R", "Raghuram Rajan (2013-16)"],
+            ["P", "Urjit Patel (2016-18)"],
+            ["D", "Shaktikanta Das (2018 onwards)"]
+          ],
+          "note": "Early trio: Osborne Smith, James Taylor, C. D. Deshmukh (first Indian Governor)."
+        },
+        {
+          "type": "callout",
+          "kind": "fact",
+          "title": "Quick records from the table",
+          "text": "Shortest tenure: **Amitav Ghosh** (15 January to 4 February 1985). Longest tenure: **Benegal Rama Rau** (1949-57). **Manmohan Singh** (later Prime Minister) was Governor from 1982 to 1985."
+        },
+        {
+          "type": "callout",
+          "kind": "tip",
+          "title": "After the syllabus date",
+          "text": "Sanjay Malhotra took over as Governor on 11 December 2024, succeeding Shaktikanta Das. Check the latest office holders before an exam."
+        }
+      ]
+    },
+    {
+      "id": "acts",
+      "title": "Acts administered by the RBI",
+      "icon": "📜",
+      "blocks": [
+        {
+          "type": "bullets",
+          "title": "Acts administered by the RBI",
+          "items": [
+            "Reserve Bank of India Act, 1934",
+            "Public Debt Act, 1944 / Government Securities Act, 2006",
+            "Government Securities Regulations, 2007",
+            "Banking Regulation Act, 1949",
+            "Foreign Exchange Management Act, 1999 (FEMA)",
+            "Securitisation and Reconstruction of Financial Assets and Enforcement of Security Interest Act, 2002 (SARFAESI)",
+            "Credit Information Companies (Regulation) Act, 2005",
+            "Payment and Settlement Systems Act, 2007, with the Payment and Settlement Systems Regulations, 2008 (amended up to 2011) and the BPSS Regulations, 2008",
+            "Payment and Settlement Systems (Amendment) Act, 2015 (No. 18 of 2015)",
+            "Factoring Regulation Act, 2011"
+          ]
+        },
+        {
+          "type": "bullets",
+          "title": "Other relevant Acts (first group)",
+          "items": [
+            "Negotiable Instruments Act, 1881",
+            "Bankers’ Books Evidence Act, 1891",
+            "State Bank of India Act, 1955",
+            "Companies Act, 1956 / Companies Act, 2013",
+            "Securities Contract (Regulation) Act, 1956",
+            "State Bank of India (Subsidiary Banks) Act, 1959",
+            "Deposit Insurance and Credit Guarantee Corporation Act, 1961",
+            "Banking Companies (Acquisition and Transfer of Undertakings) Act, 1970",
+            "Regional Rural Banks Act, 1976",
+            "Banking Companies (Acquisition and Transfer of Undertakings) Act, 1980"
+          ]
+        },
+        {
+          "type": "bullets",
+          "title": "Other relevant Acts (second group)",
+          "items": [
+            "National Bank for Agriculture and Rural Development Act, 1981",
+            "Recovery of Debts Due to Banks and Financial Institutions Act, 1993",
+            "Competition Act, 2002",
+            "Indian Coinage Act, 2011, which governs currency and coins",
+            "Banking Secrecy Act",
+            "The Industrial Development Bank (Transfer of Undertaking and Repeal) Act, 2003",
+            "The Industrial Finance Corporation (Transfer of Undertaking and Repeal) Act, 1993"
+          ]
+        },
+        {
+          "type": "mnemonic",
+          "title": "Three Acts to anchor",
+          "phrase": "Thirty-four builds the bank, Forty-nine rules the banks, Ninety-nine handles the money abroad",
+          "letters": [
+            ["1934", "RBI Act: creates the RBI"],
+            ["1949", "Banking Regulation Act: regulates banks"],
+            ["1999", "FEMA: foreign exchange management"]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "committees",
+      "title": "RBI committees (2011 to 2019)",
+      "icon": "🧩",
+      "blocks": [
+        {
+          "type": "table",
+          "title": "Committees, 2019 to 2016",
+          "headers": ["Committee", "Date", "Headed by"],
+          "rows": [
+            ["Working Group on Core Investment Companies (CICs)", "October 2019", "Tapan Ray"],
+            ["To Review Agricultural Credit", "September 2019", "Mahesh Kumar Jain"],
+            ["Development of Housing Finance Securitisation Market", "September 2019", "Dr. Harsh Vardhan"],
+            ["Development of Secondary Market for Corporate Loans", "August 2019", "T. N. Manoharan"],
+            ["To Review the Extant Economic Capital Framework of the RBI", "August 2019", "Dr. Bimal Jalan"],
+            ["On Offshore Rupee Markets", "July 2019", "Usha Thorat"],
+            ["Report on MSMEs", "June 2019", "U. K. Sinha"],
+            ["On Deepening of Digital Payments", "May 2019", "Nandan Nilekani"],
+            ["On Public Credit Registry for India", "June 2018", "Y. M. Deosthalee"],
+            ["Inter-Regulatory Working Group on FinTech and Digital Banking", "February 2018", "Sudarshan Sen"],
+            ["Review of Guidelines for Hedging of Commodity Price Risk by Residents in Overseas Markets", "November 2017", "Chandan Sinha"],
+            ["Household Finance Committee (facets of household finance; benchmarking India’s position)", "August 2016 (a second printed entry shows August 2017)", "Dr. Tarun Ramadorai"],
+            ["To Speed up the Process of Recalibration of ATMs", "November 2016", "S. S. Mundra"],
+            ["To study regulatory issues relating to FinTech and Digital Banking in India", "June 2016", "Sudarshan Sen"]
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Committees, 2016 to 2011",
+          "headers": ["Committee", "Date", "Headed by"],
+          "rows": [
+            ["Development of Corporate Bond market", "August 2016", "H. R. Khan"],
+            ["Working Group on Import Data Processing and Monitoring System", "April 2016", "A. K. Pandey"],
+            ["Working Group on Interest Rate Options", "February 2016", "P. G. Apte"],
+            ["Committee on Differential Premium System for Banks in India", "September 2015", "Jasbir Singh"],
+            ["Working Group on Compilation of Flow of Funds Accounts for the Indian Economy", "August 2015", "D. K. Mohanty"],
+            ["High Powered Committee on Urban Co-operative Banks (UCBs)", "June 2015", "R. Gandhi"],
+            ["Committee on Data Standardization", "March 2015", "L. P. Parthasarathi"],
+            ["Committee on Capacity Building in Banks and Non Banks", "September 2014", "G. Gopalakrishna"],
+            ["Committee on Implementation of Countercyclical Capital Buffer", "July 2014", "B. Mahapatra"],
+            ["Committee on Data and Information Management in the RBI", "July 2014", "D. K. Mohanty"],
+            ["Committee on Productivity Growth for the Indian Economy", "June 2014", "B. N. Goldar"],
+            ["Committee to Review Governance of Boards of Banks in India", "May 2014", "P. J. Nayak"],
+            ["Working Group on Resolution Regime for Financial Institutions", "May 2014", "Anand Sinha"],
+            ["Committee on Licensing of New Urban Cooperative Banks", "September 2011", "Malegam Committee"],
+            ["Committee on Issues and Concerns in the NBFC Sector", "August 2011", "Usha Thorat"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "tip",
+          "title": "Committee shortcuts",
+          "text": "Link the person to the topic: **Nilekani** = digital payments, **Deosthalee** = Public Credit Registry, **P. J. Nayak** = bank board governance, **Bimal Jalan** = economic capital, **U. K. Sinha** = MSMEs, **Malegam** = new UCB licences."
+        }
+      ]
+    },
+    {
+      "id": "recent-initiatives",
+      "title": "Recent initiatives and exam-special facts",
+      "icon": "🆕",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "These facts come from exam questions of 2018 to 2023 and are part of the 2024-25 syllabus. Figures and deadlines can date quickly, so treat them as syllabus snapshots."
+        },
+        {
+          "type": "keyvalue",
+          "title": "Supervision, technology and surveys",
+          "rows": [
+            ["Utkarsh 2022", "RBI’s three-year medium-term strategy roadmap to improve regulation and supervision, among other functions"],
+            ["Utkarsh 2.0", "Medium-term strategy framework for 2023-2025, launched by Governor Shaktikanta Das; keeps the six Vision statements, Core Purpose, Values and Mission of Utkarsh 2022"],
+            ["DAKSH", "Reserve Bank’s Advanced Supervisory Monitoring System, a SupTech initiative to make supervision more robust"],
+            ["AI and ML for supervision", "RBI selected McKinsey and Company India and Accenture Solutions India to build artificial intelligence and machine learning systems for supervising banks and NBFCs"],
+            ["OBICUS", "Order Books, Inventories and Capacity Utilisation Survey of the manufacturing sector, conducted quarterly since 2008"]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "Deposits, bonds and payments",
+          "rows": [
+            ["UDGAM", "Unclaimed Deposits – Gateway to Access inforMation: a central web portal, developed by ReBIT, to help the public find unclaimed deposits across banks"],
+            ["Unclaimed deposits", "Savings or current account balances not operated for 10 years, or term deposits not claimed within 10 years of maturity; banks transfer them to the Depositor Education and Awareness (DEA) Fund maintained by the RBI"],
+            ["Antardrishti", "Financial inclusion dashboard launched by the Governor to monitor financial inclusion progress"],
+            ["FRSB 2020 (T)", "Floating Rate Savings Bonds 2020 (Taxable), offered to retail investors on the RBI Retail Direct portal; 7-year bonds"],
+            ["Non-callable term deposits", "Minimum amount raised from ₹15 lakh to ₹1 crore"],
+            ["PIDF", "Payments Infrastructure Development Fund scheme extended by two years, up to 31 December 2025"],
+            ["RBI-DPI weights", "Payment Enablers 25%, Payment Infrastructure demand-side factors 10%, supply-side factors 15%, Payment Performance 45%, Consumer Centricity 5%"],
+            ["IPPB", "India Post Payments Bank, included in the Second Schedule of the RBI Act, 1934; licence received 19 August 2015, opened in 2018"]
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "Lending and regulation",
+          "rows": [
+            ["CRILC", "Central Repository of Information on Large Credits: banks report borrowers with aggregate fund-based and non-fund-based exposure of ₹5 crore and above, along with SMA status"],
+            ["Matured SHGs", "Loans can go beyond 4 times the savings at the bank’s discretion; cash credit or overdraft for 3 to 5 years suggested"],
+            ["Property documents", "Banks and NBFCs pay the borrower ₹5,000 per day of delay in releasing property documents after loan closure; issued under the Banking Regulation Act"],
+            ["Public Credit Registry (PCR)", "High Level Task Force headed by Y. M. Deosthalee; PCR stands for Public Credit Registry"],
+            ["NBFC layers", "NBFCs regulated in four layers: Base, Middle, Upper and Top"],
+            ["Housing Finance Companies", "Revised norms notified on 22 October 2020: at least 60% of total assets in housing finance by 31 March 2024"],
+            ["LRS and IFSCs", "Resident individuals allowed to remit funds to International Financial Services Centres under the Liberalised Remittance Scheme"],
+            ["Special Vostro Rupee Accounts", "As of 2023, banks from 18 countries allowed to open them to settle payments in rupees"],
+            ["Incremental CRR", "I-CRR withdrawn in phases: 25% on 9 September 2023, 25% on 23 September 2023, remaining 50% on 7 October 2023"],
+            ["CIC", "Core Investment Company"]
+          ]
+        }
+      ]
+    }
+  ],
+  "revision": [
+    "RBI was set up under the RBI Act, 1934, began on 1 April 1935, and was recommended by the Hilton Young Commission (1926).",
+    "Head office: Calcutta first, Mumbai from 1937. Nationalised on 1 January 1949 under the 1948 Transfer of Public Ownership Act.",
+    "First Governor: Sir Osborne Smith. First Indian Governor: C. D. Deshmukh. Shortest tenure: Amitav Ghosh (1985).",
+    "Central Board has 20 members (Governor, 4 Deputy Governors, 4 Directors, 10 Executive Directors, 1 government official) for four years.",
+    "Seven roles: monetary authority, regulator, forex manager, issuer of currency, developmental role, banker to government, banker to banks.",
+    "Quantitative tools: bank rate, OMO, CRR, SLR (plus repo, reverse repo, LAF, MSF). Qualitative: rationing, moral suasion, direct action, consumer credit, margins, guidelines.",
+    "Repo is the rate at which RBI lends to banks; reverse repo is the rate at which RBI borrows from banks and absorbs liquidity.",
+    "CRR is kept as cash with the RBI; SLR is held by the bank in cash, gold or approved securities. Both are percentages of NDTL.",
+    "2024-25 snapshot: CRR 4.50%, SLR 18%, repo 6.50%, reverse repo 3.35%, MSF and bank rate 6.75%.",
+    "LAF came in June 2000; MSF took effect on 9 May 2014; MCLR replaced the Base Rate in April 2016.",
+    "MPC: 6 members (3 RBI + 3 external), Governor chairs with casting vote, 4% inflation target with 2% to 6% band, at least 4 meetings a year, Section 45ZB.",
+    "Section 20 covers central government business, Section 21A state business, Section 22 the sole right of note issue.",
+    "One rupee notes and coins come from the Government of India, not the RBI.",
+    "Demonetisation: advice on 7 Nov 2016, Board met on 8 Nov; 99.3% (₹15.31 of ₹15.41 lakh crore) returned.",
+    "UDGAM helps trace unclaimed deposits (10 years); Antardrishti tracks financial inclusion; Utkarsh 2022 is RBI’s three-year strategy."
+  ],
+  "mindmap": {
+    "center": "RBI and its Functions",
+    "branches": [
+      {
+        "label": "History and ownership",
+        "children": ["Hilton Young 1926", "RBI Act 1934", "Started 1 April 1935", "HQ to Mumbai 1937", "Nationalised 1 Jan 1949"]
+      },
+      {
+        "label": "Board and offices",
+        "children": ["Central Board: 20 members", "4 Deputy Governors", "27 regional offices", "6 training institutions", "4 subsidiaries"]
+      },
+      {
+        "label": "Seven functions",
+        "children": ["Monetary authority", "Regulator and supervisor", "Forex manager (FEMA)", "Issuer of currency", "Developmental role", "Banker to govt and banks"]
+      },
+      {
+        "label": "Quantitative tools",
+        "children": ["Repo and reverse repo", "CRR and SLR", "Open market operations", "Bank rate", "LAF and MSF"]
+      },
+      {
+        "label": "Qualitative tools",
+        "children": ["Rationing of credit", "Moral suasion", "Direct action", "Margin requirements", "Consumer credit rules", "RBI guidelines"]
+      },
+      {
+        "label": "Monetary Policy Committee",
+        "children": ["6 members: 3 plus 3", "Governor, casting vote", "4% target, 2-6% band", "Meets 4 times a year", "Section 45ZB"]
+      },
+      {
+        "label": "Lending rates and PSL",
+        "children": ["Base Rate (2010)", "MCLR (April 2016)", "LAF June 2000", "MSF 9 May 2014", "Nair Committee on PSL"]
+      },
+      {
+        "label": "People, Acts, committees",
+        "children": ["Osborne Smith first", "Deshmukh first Indian", "BR Act 1949, FEMA 1999", "Nilekani: digital payments", "Deosthalee: PCR"]
+      }
+    ]
+  }
+}

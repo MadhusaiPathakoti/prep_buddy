@@ -1,0 +1,773 @@
+[
+ {
+  "id": "types-of-banks-01",
+  "q": "Which type of banking operates through a network of branches and is the most common banking system?",
+  "options": [
+   "Unit banking",
+   "Chain banking",
+   "Branch banking",
+   "Virtual banking"
+  ],
+  "answer": 2,
+  "explain": "Branch banking uses a branch network, the face of the bank where customers meet officials; it is the most common type.",
+  "section": "banking-models"
+ },
+ {
+  "id": "types-of-banks-02",
+  "q": "Unit banking, where a bank works from a single branch for the local community, originated in:",
+  "options": [
+   "The USA",
+   "The UK",
+   "Germany",
+   "India"
+  ],
+  "answer": 0,
+  "explain": "Unit banking originated in the USA and focuses on the local community, usually from one office or a few branches in one area.",
+  "section": "banking-models"
+ },
+ {
+  "id": "types-of-banks-03",
+  "q": "When a bank undertakes commercial banking and investment banking activities together, it is called:",
+  "options": [
+   "Narrow banking",
+   "Chain banking",
+   "Social banking",
+   "Mixed banking"
+  ],
+  "answer": 3,
+  "explain": "Mixed banking combines commercial and investment banking under one bank.",
+  "section": "banking-models"
+ },
+ {
+  "id": "types-of-banks-04",
+  "q": "When a group of persons owns and controls three or more independently chartered banks, the system is called:",
+  "options": [
+   "Unit banking",
+   "Chain banking",
+   "Mixed banking",
+   "Relationship banking"
+  ],
+  "answer": 1,
+  "explain": "Chain banking means common ownership and control of three or more separately chartered banks.",
+  "section": "banking-models"
+ },
+ {
+  "id": "types-of-banks-05",
+  "q": "Which type of banking involves understanding a customer's needs before offering a special product or service?",
+  "options": [
+   "Relationship banking",
+   "Unit banking",
+   "Rural banking",
+   "Virtual banking"
+  ],
+  "answer": 0,
+  "explain": "Relationship banking goes beyond the normal services and relies on knowing existing and potential clients.",
+  "section": "banking-models"
+ },
+ {
+  "id": "types-of-banks-06",
+  "q": "Under which system do big banks offer commercial banking, investment banking, mutual funds, merchant banking and insurance together?",
+  "options": [
+   "Narrow banking",
+   "Mixed banking",
+   "Universal banking",
+   "Unit banking"
+  ],
+  "answer": 2,
+  "explain": "Universal banking provides a wide variety of financial services under one roof. Mixed banking is only commercial plus investment.",
+  "section": "banking-models"
+ },
+ {
+  "id": "types-of-banks-07",
+  "q": "Which committee is best known in India for giving the concept of narrow banking as a solution to the NPA problem?",
+  "options": [
+   "Narasimham Committee",
+   "Tarapore Committee",
+   "Hilton-Young Commission",
+   "Gadgil Committee"
+  ],
+  "answer": 1,
+  "explain": "The Tarapore Committee is associated with narrow banking in the context of NPAs.",
+  "section": "banking-models"
+ },
+ {
+  "id": "types-of-banks-08",
+  "q": "Narrow banking is best described as:",
+  "options": [
+   "Banking limited to one branch",
+   "Banking only for rural customers",
+   "Banking only through online channels",
+   "The antonym of universal banking, narrow in the engagement of funds"
+  ],
+  "answer": 3,
+  "explain": "Narrow banking is the opposite of universal banking; it is narrow in how funds are engaged, not about the number of branches.",
+  "section": "banking-models"
+ },
+ {
+  "id": "types-of-banks-09",
+  "q": "The type of banking aimed at giving the poor easy formal credit, minimum account-opening requirements and friendly staff is:",
+  "options": [
+   "Relationship banking",
+   "Mixed banking",
+   "Social banking",
+   "Universal banking"
+  ],
+  "answer": 2,
+  "explain": "Social banking focuses on the development needs of the poor with easy access and credit.",
+  "section": "banking-models"
+ },
+ {
+  "id": "types-of-banks-10",
+  "q": "A bank with no branch network that offers services through online and telephone banking is known as:",
+  "options": [
+   "A virtual (direct) bank",
+   "A unit bank",
+   "A chain bank",
+   "A lead bank"
+  ],
+  "answer": 0,
+  "explain": "Virtual banking, also called direct banking, works remotely through online, telephone and agent networks, with ATM access possible.",
+  "section": "banking-models"
+ },
+ {
+  "id": "types-of-banks-11",
+  "q": "Which statement about unit banking is correct?",
+  "options": [
+   "The bank owns three independently chartered banks",
+   "The bank offers insurance and mutual funds",
+   "The bank has no physical presence at all",
+   "The bank works from a single branch or a few branches in the same area"
+  ],
+  "answer": 3,
+  "explain": "Unit banking serves a local community, often from one office; the other options describe chain, universal and virtual banking.",
+  "section": "banking-models"
+ },
+ {
+  "id": "types-of-banks-12",
+  "q": "Rural banking has become integral to Indian financial markets mainly because:",
+  "options": [
+   "Rural banks earn the highest profit",
+   "A majority of Indians live in rural or semi-urban areas",
+   "Urban banking is not allowed by law",
+   "Rural banks are all foreign owned"
+  ],
+  "answer": 1,
+  "explain": "A majority of the Indian population still lives in rural or semi-urban areas, so rural banking is vital.",
+  "section": "banking-models"
+ },
+ {
+  "id": "types-of-banks-13",
+  "q": "Which of the following is NOT one of the three broad categories of the organised banking system in India?",
+  "options": [
+   "Investment trusts",
+   "The central bank",
+   "Commercial banks",
+   "Co-operative banks"
+  ],
+  "answer": 0,
+  "explain": "The organised system is the RBI, commercial banks and co-operative banks.",
+  "section": "banking-structure"
+ },
+ {
+  "id": "types-of-banks-14",
+  "q": "The RBI is called the Reserve Bank because it:",
+  "options": [
+   "Prints coins for the government",
+   "Gives agricultural loans to farmers",
+   "Keeps the cash reserves of all scheduled banks",
+   "Insures all deposits up to a limit"
+  ],
+  "answer": 2,
+  "explain": "RBI holds the cash reserves of scheduled banks, hence the name.",
+  "section": "banking-structure"
+ },
+ {
+  "id": "types-of-banks-15",
+  "q": "A bank is a scheduled bank when it is included in:",
+  "options": [
+   "The First Schedule of the RBI Act, 1934",
+   "The Second Schedule of the RBI Act, 1934",
+   "The Second Schedule of the Constitution",
+   "The Second Schedule of the Banking Regulation Act"
+  ],
+  "answer": 1,
+  "explain": "Scheduled status comes from inclusion in the Second Schedule of the RBI Act, 1934, along with RBI-prescribed capital and reserves.",
+  "section": "banking-structure"
+ },
+ {
+  "id": "types-of-banks-16",
+  "q": "Non-scheduled banks are those commercial banks that:",
+  "options": [
+   "Are owned only by foreign companies",
+   "Are not regulated by any law",
+   "Are included in the First Schedule of the RBI Act",
+   "Are not included in the Second Schedule of the RBI Act, 1934"
+  ],
+  "answer": 3,
+  "explain": "Non-scheduled banks are simply the ones outside the Second Schedule of the RBI Act, 1934.",
+  "section": "banking-structure"
+ },
+ {
+  "id": "types-of-banks-17",
+  "q": "Which of the following is NOT part of the scheduled banking structure in India?",
+  "options": [
+   "Public sector banks",
+   "Regional rural banks",
+   "Money lenders",
+   "State co-operative banks"
+  ],
+  "answer": 2,
+  "explain": "Scheduled banks include commercial banks (public, private, RRBs) and some co-operative banks. Money lenders are not part of it.",
+  "section": "banking-structure"
+ },
+ {
+  "id": "types-of-banks-18",
+  "q": "Which institution is the supreme monetary and banking authority of India?",
+  "options": [
+   "Reserve Bank of India",
+   "State Bank of India",
+   "NABARD",
+   "Ministry of Finance"
+  ],
+  "answer": 0,
+  "explain": "RBI controls the banking system and is the monetary authority.",
+  "section": "banking-structure"
+ },
+ {
+  "id": "types-of-banks-19",
+  "q": "Which of the following banking activities is NOT a feature of a commercial bank?",
+  "options": [
+   "Accepting deposits",
+   "Making business loans",
+   "Offering financial products",
+   "Issuing currency notes"
+  ],
+  "answer": 3,
+  "explain": "Currency issue is a central bank function; commercial banks take deposits, lend and sell financial products.",
+  "section": "commercial-banks"
+ },
+ {
+  "id": "types-of-banks-20",
+  "q": "Which of the following banks is generally NOT considered a commercial bank?",
+  "options": [
+   "A public sector bank",
+   "A development bank",
+   "A private sector bank",
+   "A foreign bank operating in India"
+  ],
+  "answer": 1,
+  "explain": "Development banks give long-term project finance rather than ordinary commercial banking.",
+  "section": "commercial-banks",
+  "exam": "SBI PO Main 2017"
+ },
+ {
+  "id": "types-of-banks-21",
+  "q": "Public sector banks account for roughly what share of the banking business in India, as per the book?",
+  "options": [
+   "More than 80 per cent",
+   "About 40 per cent",
+   "About 60 per cent",
+   "Less than 25 per cent"
+  ],
+  "answer": 0,
+  "explain": "The book says public sector banks account for over 80% of banking business and dominate commercial banking.",
+  "section": "commercial-banks"
+ },
+ {
+  "id": "types-of-banks-22",
+  "q": "Which is the largest commercial bank of India in terms of volume?",
+  "options": [
+   "ICICI Bank",
+   "HDFC Bank",
+   "State Bank of India",
+   "Punjab National Bank"
+  ],
+  "answer": 2,
+  "explain": "SBI is the largest commercial bank in terms of volume among all commercial banks.",
+  "section": "commercial-banks"
+ },
+ {
+  "id": "types-of-banks-23",
+  "q": "Foreign banks in India can operate through:",
+  "options": [
+   "Only through co-operative societies",
+   "Wholly-owned subsidiaries or branches",
+   "Only through RRBs",
+   "Only through post offices"
+  ],
+  "answer": 1,
+  "explain": "Foreign banks have their head offices abroad and operate in India via branches or wholly-owned subsidiaries.",
+  "section": "commercial-banks"
+ },
+ {
+  "id": "types-of-banks-24",
+  "q": "Which of the following is an example of a foreign bank in India?",
+  "options": [
+   "ICICI Bank",
+   "Federal Bank",
+   "Canara Bank",
+   "HSBC"
+  ],
+  "answer": 3,
+  "explain": "HSBC, Citi Bank and Standard Chartered are foreign banks operating in India.",
+  "section": "commercial-banks"
+ },
+ {
+  "id": "types-of-banks-25",
+  "q": "Private sector banks are those whose equity is held by:",
+  "options": [
+   "The central government",
+   "State governments",
+   "Private shareholders",
+   "Co-operative members"
+  ],
+  "answer": 2,
+  "explain": "Private sector banks have equity held by private shareholders; ICICI and HDFC are examples.",
+  "section": "commercial-banks"
+ },
+ {
+  "id": "types-of-banks-26",
+  "q": "Which bank announced on 30 March 2022 that it would acquire Citigroup's consumer business in India for about $1.6 billion?",
+  "options": [
+   "Axis Bank",
+   "HDFC Bank",
+   "ICICI Bank",
+   "Kotak Mahindra Bank"
+  ],
+  "answer": 0,
+  "explain": "Axis Bank announced the deal worth about ₹12,325 crore.",
+  "section": "commercial-banks"
+ },
+ {
+  "id": "types-of-banks-27",
+  "q": "YONO (You Only Need One) app was launched by which bank?",
+  "options": [
+   "ICICI Bank",
+   "Bank of Baroda",
+   "HDFC Bank",
+   "State Bank of India"
+  ],
+  "answer": 3,
+  "explain": "YONO is SBI's digital banking platform.",
+  "section": "commercial-banks",
+  "exam": "SBI PO Main 2018"
+ },
+ {
+  "id": "types-of-banks-28",
+  "q": "Which of the following is the correct pair of bank and year of establishment, as per the book?",
+  "options": [
+   "DCB Bank: 1927",
+   "Federal Bank: 1931",
+   "City Union Bank: 1916",
+   "J and K Bank: 1943"
+  ],
+  "answer": 1,
+  "explain": "Federal Bank 1931 (Kochi). DCB is 1930, City Union 1904 and J and K 1938.",
+  "section": "bank-directory"
+ },
+ {
+  "id": "types-of-banks-29",
+  "q": "Which of these banks is the oldest, as per the list in the book?",
+  "options": [
+   "City Union Bank",
+   "Karur Vysya Bank",
+   "Federal Bank",
+   "RBL Bank"
+  ],
+  "answer": 0,
+  "explain": "City Union Bank (1904) is the oldest in the list; Karur Vysya was 1916, Federal 1931 and RBL 1943.",
+  "section": "bank-directory"
+ },
+ {
+  "id": "types-of-banks-30",
+  "q": "Dhanlaxmi Bank has its headquarters in:",
+  "options": [
+   "Kochi (Kerala)",
+   "Srinagar (J and K)",
+   "Thrissur (Kerala)",
+   "Mumbai (Maharashtra)"
+  ],
+  "answer": 2,
+  "explain": "Dhanlaxmi Bank (1927) is headquartered in Thrissur; Federal Bank is in Kochi.",
+  "section": "bank-directory"
+ },
+ {
+  "id": "types-of-banks-31",
+  "q": "Which bank is headquartered in Srinagar?",
+  "options": [
+   "Federal Bank",
+   "J and K Bank",
+   "DCB Bank",
+   "RBL Bank"
+  ],
+  "answer": 1,
+  "explain": "J and K Bank, established in 1938, is headquartered in Srinagar.",
+  "section": "bank-directory"
+ },
+ {
+  "id": "types-of-banks-32",
+  "q": "Which of the following banks has its headquarters in Kolkata?",
+  "options": [
+   "IDFC First Bank",
+   "IndusInd Bank",
+   "Yes Bank",
+   "Bandhan Bank"
+  ],
+  "answer": 3,
+  "explain": "Bandhan Bank (2015) is headquartered in Kolkata. IDFC First, IndusInd and Yes are in Mumbai.",
+  "section": "bank-directory"
+ },
+ {
+  "id": "types-of-banks-33",
+  "q": "Which three banks in the book's table were all established in 1994?",
+  "options": [
+   "Axis Bank, HDFC Bank and ICICI Bank",
+   "IDBI Bank, Axis Bank and Yes Bank",
+   "HDFC Bank, ICICI Bank and IndusInd Bank",
+   "Kotak Mahindra Bank, Yes Bank and Bandhan Bank"
+  ],
+  "answer": 2,
+  "explain": "HDFC, ICICI and IndusInd were all set up in 1994. Axis is 1993.",
+  "section": "bank-directory"
+ },
+ {
+  "id": "types-of-banks-34",
+  "q": "Which two banks were established in 2015?",
+  "options": [
+   "Bandhan Bank and IDFC First Bank",
+   "Kotak Mahindra Bank and Yes Bank",
+   "Axis Bank and IndusInd Bank",
+   "IDBI Bank and RBL Bank"
+  ],
+  "answer": 0,
+  "explain": "Bandhan Bank and IDFC First Bank were both set up in 2015; Kotak (2003) and Yes (2004) are earlier.",
+  "section": "bank-directory"
+ },
+ {
+  "id": "types-of-banks-35",
+  "q": "Kotak Mahindra Bank was established in which year, per the book?",
+  "options": [
+   "1994",
+   "2004",
+   "2015",
+   "2003"
+  ],
+  "answer": 3,
+  "explain": "Kotak Mahindra Bank dates from 2003 and Yes Bank from 2004.",
+  "section": "bank-directory"
+ },
+ {
+  "id": "types-of-banks-36",
+  "q": "Which bank was established in 1964 and is headquartered in Mumbai, as per the table?",
+  "options": [
+   "Axis Bank",
+   "IDBI Bank",
+   "DCB Bank",
+   "Yes Bank"
+  ],
+  "answer": 1,
+  "explain": "IDBI Bank is listed as established in 1964.",
+  "section": "bank-directory"
+ },
+ {
+  "id": "types-of-banks-37",
+  "q": "Regional Rural Banks (RRBs) mainly provide credit to:",
+  "options": [
+   "Small and marginal farmers, agricultural labourers and artisans",
+   "Large industrial houses",
+   "Stock exchanges",
+   "Foreign trading firms"
+  ],
+  "answer": 0,
+  "explain": "RRBs are aimed at developing the rural economy and lend to small farmers, labourers and artisans.",
+  "section": "regional-rural-banks"
+ },
+ {
+  "id": "types-of-banks-38",
+  "q": "Which committee's recommendations led to the setting up of Regional Rural Banks?",
+  "options": [
+   "Tarapore Committee",
+   "Hilton-Young Commission",
+   "Narasimham Working Group",
+   "Rangarajan Committee"
+  ],
+  "answer": 2,
+  "explain": "The government set up the Narasimham Working Group in 1975; its report led to the RRB Ordinance and the 1976 Act.",
+  "section": "regional-rural-banks"
+ },
+ {
+  "id": "types-of-banks-39",
+  "q": "The Regional Rural Banks Act was passed in which year?",
+  "options": [
+   "1975",
+   "1976",
+   "1970",
+   "1982"
+  ],
+  "answer": 1,
+  "explain": "The Ordinance of September 1975 was replaced by the RRB Act, 1976.",
+  "section": "regional-rural-banks"
+ },
+ {
+  "id": "types-of-banks-40",
+  "q": "The first Regional Rural Bank, set up on 2 October 1975, was:",
+  "options": [
+   "Allahabad UP Gramin Bank",
+   "Arunachal Pradesh Rural Bank",
+   "Assam Gramin Vikash Bank",
+   "Prathama Grameen Bank"
+  ],
+  "answer": 3,
+  "explain": "Prathama Grameen Bank, sponsored by Syndicate Bank, started with its head office at Moradabad.",
+  "section": "regional-rural-banks"
+ },
+ {
+  "id": "types-of-banks-41",
+  "q": "The first RRB, Prathama Grameen Bank, was sponsored by which bank?",
+  "options": [
+   "State Bank of India",
+   "Punjab National Bank",
+   "Syndicate Bank",
+   "Canara Bank"
+  ],
+  "answer": 2,
+  "explain": "Syndicate Bank sponsored Prathama Grameen Bank, with its head office at Moradabad.",
+  "section": "regional-rural-banks"
+ },
+ {
+  "id": "types-of-banks-42",
+  "q": "What is the ownership pattern of an RRB (Centre : sponsor bank : State)?",
+  "options": [
+   "50% : 35% : 15%",
+   "50% : 15% : 35%",
+   "35% : 50% : 15%",
+   "51% : 25% : 24%"
+  ],
+  "answer": 0,
+  "explain": "Central Government holds 50%, the sponsor bank 35% and the State Government 15%.",
+  "section": "regional-rural-banks"
+ },
+ {
+  "id": "types-of-banks-43",
+  "q": "Which institution holds the apex position in agricultural and rural development, including refinance for RRBs?",
+  "options": [
+   "SIDBI",
+   "EXIM Bank",
+   "IDBI",
+   "NABARD"
+  ],
+  "answer": 3,
+  "explain": "NABARD is the apex institution for agriculture and rural development.",
+  "section": "regional-rural-banks"
+ },
+ {
+  "id": "types-of-banks-44",
+  "q": "Which of the following is NOT a function of NABARD?",
+  "options": [
+   "Refinancing co-operative banks and RRBs",
+   "Providing direct loans to individual agricultural farmers",
+   "Promotion and development of rural credit",
+   "Monitoring and supervision of rural credit institutions"
+  ],
+  "answer": 1,
+  "explain": "NABARD refinances co-operative banks and RRBs and does development and supervision work, but does not lend directly to individual farmers.",
+  "section": "regional-rural-banks",
+  "exam": "SBI PO Main 2022"
+ },
+ {
+  "id": "types-of-banks-45",
+  "q": "Which of the following Union Territories has Regional Rural Banks, as per the book's explanation?",
+  "options": [
+   "Puducherry, Jammu and Kashmir and Ladakh",
+   "Delhi, Jammu and Kashmir and Ladakh",
+   "Chandigarh, Ladakh and Lakshadweep",
+   "Goa, Puducherry and Ladakh"
+  ],
+  "answer": 0,
+  "explain": "RRBs work across 26 states and 3 UTs: Puducherry, Jammu and Kashmir and Ladakh.",
+  "section": "regional-rural-banks",
+  "exam": "SBI Clerk Mains 2023"
+ },
+ {
+  "id": "types-of-banks-46",
+  "q": "The Regional Rural Banks (Amendment) Act, 2015 raised the authorised capital of RRBs to:",
+  "options": [
+   "₹200 crore",
+   "₹1,000 crore",
+   "₹2,000 crore",
+   "₹5,000 crore"
+  ],
+  "answer": 2,
+  "explain": "The Act raised authorised capital to ₹2,000 crore, not to be reduced below ₹1 crore.",
+  "section": "rrb-reforms"
+ },
+ {
+  "id": "types-of-banks-47",
+  "q": "Under the 2015 Amendment, the combined shareholding of the Centre and the sponsor bank in an RRB must be fixed at:",
+  "options": [
+   "Up to 85 per cent",
+   "Up to 51 per cent",
+   "At least 75 per cent",
+   "Exactly 50 per cent"
+  ],
+  "answer": 1,
+  "explain": "The combined holding of the Centre and the sponsor bank is fixed at up to 51%.",
+  "section": "rrb-reforms"
+ },
+ {
+  "id": "types-of-banks-48",
+  "q": "What is the tenure of a director of an RRB after the 2015 amendment?",
+  "options": [
+   "1 year",
+   "5 years",
+   "7 years",
+   "3 years"
+  ],
+  "answer": 3,
+  "explain": "The amendment raised director tenure to 3 years, at the pleasure of the central government.",
+  "section": "rrb-reforms"
+ },
+ {
+  "id": "types-of-banks-49",
+  "q": "Which statement about RRB directors under the 2015 Act is correct?",
+  "options": [
+   "A director may hold seats on any number of RRB boards",
+   "Directors serve for life",
+   "A director of one RRB cannot be on the board of another RRB",
+   "Directors are elected by customers"
+  ],
+  "answer": 2,
+  "explain": "The Act bars a director of one RRB from being on the board of another.",
+  "section": "rrb-reforms"
+ },
+ {
+  "id": "types-of-banks-50",
+  "q": "In March 2020 the Union government approved a recapitalisation plan for RRBs of about:",
+  "options": [
+   "₹1,340 crore",
+   "₹340 crore",
+   "₹2,000 crore",
+   "₹13,400 crore"
+  ],
+  "answer": 0,
+  "explain": "The ₹1,340 crore plan aimed at improving the RRBs' CRAR; the central share was linked to the sponsor bank releasing its share.",
+  "section": "rrb-reforms"
+ },
+ {
+  "id": "types-of-banks-51",
+  "q": "The 2020 RRB recapitalisation plan was meant to improve which ratio?",
+  "options": [
+   "Cash Reserve Ratio",
+   "Statutory Liquidity Ratio",
+   "Loan-to-deposit ratio",
+   "Capital-to-Risk Weighted Assets Ratio (CRAR)"
+  ],
+  "answer": 3,
+  "explain": "The recapitalisation was meant to strengthen CRAR.",
+  "section": "rrb-reforms"
+ },
+ {
+  "id": "types-of-banks-52",
+  "q": "Co-operative banks are organised under which Act, as per the book?",
+  "options": [
+   "Banking Regulation Act, 1949",
+   "Co-operative Credit Societies Act, 1912",
+   "RBI Act, 1934",
+   "Regional Rural Banks Act, 1976"
+  ],
+  "answer": 1,
+  "explain": "Co-operative banks are organised under the Co-operative Credit Societies Act, 1912 of the states.",
+  "section": "cooperative-banks"
+ },
+ {
+  "id": "types-of-banks-53",
+  "q": "The major beneficiary of co-operative banking is:",
+  "options": [
+   "The agricultural sector",
+   "The corporate sector",
+   "The foreign trade sector",
+   "The IT sector"
+  ],
+  "answer": 0,
+  "explain": "Co-operative banking mainly benefits agriculture and, in general, the rural sector.",
+  "section": "cooperative-banks"
+ },
+ {
+  "id": "types-of-banks-54",
+  "q": "Which is the apex level of the three-tier short and medium-term co-operative credit structure?",
+  "options": [
+   "Central co-operative banks",
+   "Primary credit societies",
+   "State co-operative banks",
+   "Land development banks"
+  ],
+  "answer": 2,
+  "explain": "State co-operative banks are at the apex, central co-operative banks at district level and primary societies at the base.",
+  "section": "cooperative-banks"
+ },
+ {
+  "id": "types-of-banks-55",
+  "q": "Central co-operative banks (CCBs) operate at which level?",
+  "options": [
+   "State level",
+   "District level",
+   "Village level",
+   "National level"
+  ],
+  "answer": 1,
+  "explain": "CCBs work at district level between the state apex banks and primary societies.",
+  "section": "cooperative-banks"
+ },
+ {
+  "id": "types-of-banks-56",
+  "q": "Primary Credit Societies are formed at the:",
+  "options": [
+   "District level",
+   "State level",
+   "National level",
+   "Village or town level"
+  ],
+  "answer": 3,
+  "explain": "PCS operate in one locality, with borrowing and non-borrowing members decided locally.",
+  "section": "cooperative-banks"
+ },
+ {
+  "id": "types-of-banks-57",
+  "q": "The cooperative credit institutions in India are mainly of which two kinds?",
+  "options": [
+   "Urban and metropolitan",
+   "Short and long-term only",
+   "Agricultural and non-agricultural",
+   "Public and foreign"
+  ],
+  "answer": 2,
+  "explain": "Agricultural co-operatives are dominant; there are also non-agricultural ones.",
+  "section": "cooperative-banks"
+ },
+ {
+  "id": "types-of-banks-58",
+  "q": "Which of the following is NOT required to open a bank account?",
+  "options": [
+   "Domicile certificate",
+   "Identity proof",
+   "Address proof",
+   "Recent photographs"
+  ],
+  "answer": 0,
+  "explain": "Opening an account needs KYC documents such as identity and address proof and photographs, not a domicile certificate.",
+  "section": "commercial-banks"
+ },
+ {
+  "id": "types-of-banks-59",
+  "q": "What is the full form of BCSBI?",
+  "options": [
+   "Banking Credit and Standards Board of India",
+   "Banking Codes and Service Board of India",
+   "Banking Credit and Service Board of India",
+   "Banking Codes and Standards Board of India"
+  ],
+  "answer": 3,
+  "explain": "BCSBI stands for Banking Codes and Standards Board of India, set up for voluntary registration of banks.",
+  "section": "banking-structure"
+ }
+]

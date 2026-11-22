@@ -1,0 +1,469 @@
+[
+  {
+    "id": "monetary-policy-01",
+    "q": "What is the primary objective of the monetary policy conducted by the RBI?",
+    "options": ["Maximising government revenue", "Maintaining price stability while keeping growth in mind", "Fixing the exchange rate permanently", "Controlling the prices of shares"],
+    "answer": 1,
+    "explain": "The RBI Act mandates price stability as the primary objective, keeping the objective of growth in mind.",
+    "section": "what-is-monetary-policy"
+  },
+  {
+    "id": "monetary-policy-02",
+    "q": "The responsibility of conducting monetary policy in India is explicitly given to the RBI under which law?",
+    "options": ["Reserve Bank of India Act, 1934", "Banking Regulation Act, 1949", "Companies Act, 2013", "Foreign Exchange Management Act, 1999"],
+    "answer": 0,
+    "explain": "The RBI Act, 1934 explicitly mandates the RBI to conduct monetary policy.",
+    "section": "what-is-monetary-policy"
+  },
+  {
+    "id": "monetary-policy-03",
+    "q": "Which authority has the sole right to mint coins of all denominations in India?",
+    "options": ["Reserve Bank of India", "State Bank of India", "Indian Banks' Association", "Government of India"],
+    "answer": 3,
+    "explain": "Coins are minted by the Government of India, whereas the RBI issues notes and runs monetary policy.",
+    "section": "what-is-monetary-policy",
+    "exam": "IBPS RRB Main 2017"
+  },
+  {
+    "id": "monetary-policy-04",
+    "q": "Monetary and credit policy in India is the responsibility of which of the following?",
+    "options": ["Planning Commission", "Finance Ministry", "National Advisory Council", "Reserve Bank of India"],
+    "answer": 3,
+    "explain": "The RBI formulates and implements monetary and credit policy; the Finance Ministry handles fiscal policy.",
+    "section": "what-is-monetary-policy"
+  },
+  {
+    "id": "monetary-policy-05",
+    "q": "Why does the RBI treat price stability as a precondition for its other goal?",
+    "options": ["It guarantees higher bank profits", "It is a necessary precondition for sustainable growth", "It removes the need for any liquidity operations", "It fixes the CRR automatically"],
+    "answer": 1,
+    "explain": "Stable prices are a necessary precondition for sustainable growth, so the two goals are linked.",
+    "section": "what-is-monetary-policy"
+  },
+  {
+    "id": "monetary-policy-06",
+    "q": "The interest rate at which the RBI lends to commercial banks in the short term to maintain liquidity is called the:",
+    "options": ["Reverse repo rate", "Bank deposit rate", "Repo rate", "Prime lending rate"],
+    "answer": 2,
+    "explain": "Repo rate is the fixed rate at which the RBI provides overnight liquidity to banks against government and approved securities.",
+    "section": "policy-rates"
+  },
+  {
+    "id": "monetary-policy-07",
+    "q": "At which rate does the RBI absorb surplus overnight liquidity from banks against eligible government securities?",
+    "options": ["Repo rate", "Reverse repo rate", "Bank Rate", "MSF rate"],
+    "answer": 1,
+    "explain": "In a reverse repo the RBI borrows from banks, so it pays the reverse repo rate. In a repo the RBI lends.",
+    "section": "policy-rates"
+  },
+  {
+    "id": "monetary-policy-08",
+    "q": "The RBI introduced the Marginal Standing Facility mainly to contain instability in which of these?",
+    "options": ["Long-term bond yields", "The overnight inter-bank rates", "Foreign exchange reserves", "Gold prices"],
+    "answer": 1,
+    "explain": "MSF is a safety valve that lets banks borrow extra overnight money, containing instability in overnight inter-bank rates.",
+    "section": "policy-rates"
+  },
+  {
+    "id": "monetary-policy-09",
+    "q": "Under the Marginal Standing Facility, scheduled commercial banks borrow extra overnight money by dipping into their:",
+    "options": ["CRR balance", "Fixed deposits", "Statutory Liquidity Ratio portfolio", "Gold loan book"],
+    "answer": 2,
+    "explain": "MSF lets banks borrow up to a limit against their SLR portfolio, at a penal rate of interest.",
+    "section": "policy-rates"
+  },
+  {
+    "id": "monetary-policy-10",
+    "q": "Which pair of rates forms the corridor for the daily movement of the weighted average call money rate?",
+    "options": ["Repo rate and Bank Rate", "CRR and SLR", "Bank Rate and reverse repo rate only", "MSF rate and reverse repo rate"],
+    "answer": 3,
+    "explain": "The MSF rate (upper bound) and the reverse repo rate (lower bound) set the corridor for the call money rate.",
+    "section": "policy-rates"
+  },
+  {
+    "id": "monetary-policy-11",
+    "q": "Bank Rate is the rate at which the RBI is ready to:",
+    "options": ["Buy or rediscount bills of exchange and other commercial paper", "Lend overnight against government securities", "Accept overnight deposits from banks", "Fix lending rates of commercial banks"],
+    "answer": 0,
+    "explain": "Bank Rate is the standard rate for buying or rediscounting bills of exchange and other eligible commercial paper under the RBI Act, 1934.",
+    "section": "policy-rates"
+  },
+  {
+    "id": "monetary-policy-12",
+    "q": "Under which section of the RBI Act, 1934 is the Bank Rate published?",
+    "options": ["Section 17", "Section 45ZB", "Section 49", "Section 35A"],
+    "answer": 2,
+    "explain": "Bank Rate is published under Section 49. Section 45ZB is the one that provides for the MPC.",
+    "section": "policy-rates"
+  },
+  {
+    "id": "monetary-policy-13",
+    "q": "Bank Rate has been aligned to which other rate, so that it changes automatically when that rate changes?",
+    "options": ["Reverse repo rate", "MSF rate", "Savings deposit rate", "Base rate of banks"],
+    "answer": 1,
+    "explain": "Bank Rate is aligned to the MSF rate, so it moves whenever the MSF rate moves along with the policy repo rate.",
+    "section": "policy-rates"
+  },
+  {
+    "id": "monetary-policy-14",
+    "q": "Which of the following is set by the RBI and not by market forces of demand and supply?",
+    "options": ["Bank Rate", "Inflation rate", "Share price index", "Gold price"],
+    "answer": 0,
+    "explain": "Bank Rate is a policy rate announced by the RBI. The inflation rate, by contrast, is decided by market conditions.",
+    "section": "policy-rates"
+  },
+  {
+    "id": "monetary-policy-15",
+    "q": "As of April 2023, after the Monetary Policy Committee meeting, what was the policy repo rate?",
+    "options": ["6.2 per cent", "6.8 per cent", "7.2 per cent", "6.5 per cent"],
+    "answer": 3,
+    "explain": "In April 2023 the MPC paused after six hikes and kept the repo rate unchanged at 6.5 per cent. This is a dated figure.",
+    "section": "snapshot-and-traps",
+    "exam": "RBI Grade B Prelim 2023"
+  },
+  {
+    "id": "monetary-policy-16",
+    "q": "Which of these facilities carries a penal rate of interest for banks borrowing from the RBI?",
+    "options": ["Reverse repo", "Term deposit with RBI", "Marginal Standing Facility", "Fixed-rate reverse repo auction"],
+    "answer": 2,
+    "explain": "MSF is a penal-rate window meant for emergencies; the repo rate is lower and the reverse repo rate is lower still.",
+    "section": "policy-rates"
+  },
+  {
+    "id": "monetary-policy-17",
+    "q": "Repo rate loans from the RBI to banks are given against the collateral of:",
+    "options": ["Government and other approved securities", "Gold jewellery of customers", "Fixed assets of the bank", "Shares of listed companies"],
+    "answer": 0,
+    "explain": "Under the LAF the RBI lends overnight against government and other approved securities.",
+    "section": "policy-rates"
+  },
+  {
+    "id": "monetary-policy-18",
+    "q": "What is the full form of CRR as used in banking?",
+    "options": ["Crucial Reserve Rate", "Compulsory Return Rate", "Credit and Reserve Ratio", "Cash Reserve Ratio"],
+    "answer": 3,
+    "explain": "CRR stands for Cash Reserve Ratio, the share of NDTL banks must keep as cash with the RBI.",
+    "section": "crr-slr"
+  },
+  {
+    "id": "monetary-policy-19",
+    "q": "Banks in India must keep a portion of their demand and time liabilities as cash with the RBI. This portion is called:",
+    "options": ["Statutory liquidity ratio", "Cash reserve ratio", "Reverse repo", "Bank deposit"],
+    "answer": 1,
+    "explain": "The portion of NDTL held with the RBI is the cash reserve ratio. SLR is held by the bank itself.",
+    "section": "crr-slr"
+  },
+  {
+    "id": "monetary-policy-20",
+    "q": "CRR refers to the share of ________ that banks have to maintain with the RBI out of their net demand and time liabilities.",
+    "options": ["Gold", "Forex reserves", "Government securities", "Liquid cash"],
+    "answer": 3,
+    "explain": "CRR is a share of NDTL kept as liquid cash balance with the RBI.",
+    "section": "crr-slr",
+    "exam": "Practice MCQ"
+  },
+  {
+    "id": "monetary-policy-21",
+    "q": "The percentage of a bank's deposits (NDTL) that it must keep with itself in liquid assets is called:",
+    "options": ["Statutory Liquidity Ratio", "Cash Reserve Ratio", "Repo ratio", "Capital adequacy ratio"],
+    "answer": 0,
+    "explain": "SLR is the share of NDTL a bank keeps in safe, liquid assets such as G-secs, cash and gold with itself.",
+    "section": "crr-slr"
+  },
+  {
+    "id": "monetary-policy-22",
+    "q": "Which of the following is NOT an asset in which banks can hold their SLR?",
+    "options": ["Unencumbered government securities", "Equity shares of private companies", "Cash", "Gold"],
+    "answer": 1,
+    "explain": "SLR must be held in safe liquid assets: unencumbered government securities, cash and gold. Equity shares are not eligible.",
+    "section": "crr-slr"
+  },
+  {
+    "id": "monetary-policy-23",
+    "q": "If the RBI lowers the cash reserve ratio, the likely impact on credit creation will be to:",
+    "options": ["Decrease it", "Leave it unchanged", "Make it zero", "Increase it"],
+    "answer": 3,
+    "explain": "A lower CRR frees more cash for banks to lend, so credit creation goes up.",
+    "section": "crr-slr"
+  },
+  {
+    "id": "monetary-policy-24",
+    "q": "Banks must keep a certain amount of liquid assets such as cash, gold and short-term securities at all times. This requirement is known as:",
+    "options": ["CRR", "SLR", "PLR", "Fixed asset ratio"],
+    "answer": 1,
+    "explain": "Keeping liquid assets (cash, gold, G-secs) with the bank itself is the Statutory Liquidity Ratio.",
+    "section": "crr-slr"
+  },
+  {
+    "id": "monetary-policy-25",
+    "q": "Where does the RBI notify changes in the CRR percentage?",
+    "options": ["Economic Survey", "The Gazette of India", "Union Budget speech", "SEBI circulars"],
+    "answer": 1,
+    "explain": "The CRR is notified from time to time in the Gazette of India as a per cent of NDTL.",
+    "section": "crr-slr"
+  },
+  {
+    "id": "monetary-policy-26",
+    "q": "Which statement about CRR and SLR is correct?",
+    "options": ["Both are kept with the RBI", "SLR is kept with the RBI and CRR with the bank", "CRR is kept with the RBI and SLR with the bank itself", "Both are kept with the Government"],
+    "answer": 2,
+    "explain": "CRR is a cash balance with the RBI, while SLR assets stay with the bank itself.",
+    "section": "crr-slr"
+  },
+  {
+    "id": "monetary-policy-27",
+    "q": "The base on which CRR and SLR percentages are calculated is a bank's:",
+    "options": ["Paid-up capital", "Net demand and time liabilities", "Total advances", "Net profit"],
+    "answer": 1,
+    "explain": "Both ratios are fixed as a share of Net Demand and Time Liabilities (NDTL).",
+    "section": "crr-slr"
+  },
+  {
+    "id": "monetary-policy-28",
+    "q": "The Liquidity Adjustment Facility consists of:",
+    "options": ["Only overnight reverse repo", "Overnight as well as term repo auctions", "Only CRR changes", "Only open market operations"],
+    "answer": 1,
+    "explain": "The LAF includes overnight and term repo auctions, with increasing use of variable-rate repo auctions.",
+    "section": "liquidity-tools"
+  },
+  {
+    "id": "monetary-policy-29",
+    "q": "What is the aim of term repo auctions under the LAF?",
+    "options": ["To fix CRR for banks", "To raise the Bank Rate automatically", "To develop the inter-bank term money market and improve transmission", "To print more currency"],
+    "answer": 2,
+    "explain": "Term repo helps develop the inter-bank term money market, which can set market benchmarks for loan and deposit pricing.",
+    "section": "liquidity-tools"
+  },
+  {
+    "id": "monetary-policy-30",
+    "q": "Open Market Operations of the RBI involve:",
+    "options": ["Outright purchase and sale of government securities", "Changes in the CRR only", "Issue of new currency notes", "Fixing deposit rates of banks"],
+    "answer": 0,
+    "explain": "OMOs are outright purchases (inject durable liquidity) and sales (absorb durable liquidity) of government securities.",
+    "section": "liquidity-tools"
+  },
+  {
+    "id": "monetary-policy-31",
+    "q": "In which year was the Market Stabilisation Scheme (MSS) introduced?",
+    "options": ["1994", "1999", "2004", "2016"],
+    "answer": 2,
+    "explain": "The MSS was introduced in 2004 to absorb surplus liquidity arising from large capital inflows.",
+    "section": "liquidity-tools"
+  },
+  {
+    "id": "monetary-policy-32",
+    "q": "Under the MSS, the cash mobilised by selling short-dated government securities and treasury bills is held:",
+    "options": ["In each bank's CRR account", "In a separate government account with the RBI", "In the Consolidated Fund of a State", "In the Deposit Insurance fund"],
+    "answer": 1,
+    "explain": "The cash mopped up through MSS is held in a separate government account with the Reserve Bank.",
+    "section": "liquidity-tools"
+  },
+  {
+    "id": "monetary-policy-33",
+    "q": "Which of the following is a quantitative (general) instrument of monetary policy?",
+    "options": ["Moral suasion", "Credit rationing", "Cash Reserve Ratio", "Margin requirements"],
+    "answer": 2,
+    "explain": "CRR changes the overall volume of credit. Moral suasion, credit rationing and margin requirements are qualitative (selective) tools.",
+    "section": "instrument-types"
+  },
+  {
+    "id": "monetary-policy-34",
+    "q": "Which of the following is NOT a measure adopted by the Government or RBI to control inflation?",
+    "options": ["Monetary policy", "Fiscal policy", "Price control", "Financial inclusion"],
+    "answer": 3,
+    "explain": "Financial inclusion aims at access to banking services, not at controlling inflation. The other three can all be used against inflation.",
+    "section": "instrument-types"
+  },
+  {
+    "id": "monetary-policy-35",
+    "q": "Which of the following is decided by market conditions and not by the RBI?",
+    "options": ["Inflation rate", "Statutory liquidity ratio", "Cash reserve ratio", "Bank Rate"],
+    "answer": 0,
+    "explain": "CRR, SLR and Bank Rate are RBI-determined policy instruments, but the inflation rate is a market outcome.",
+    "section": "instrument-types"
+  },
+  {
+    "id": "monetary-policy-36",
+    "q": "Which of these is a qualitative (selective) credit control tool?",
+    "options": ["Statutory liquidity ratio", "Bank Rate", "Open market operations", "Margin requirement on loans against securities"],
+    "answer": 3,
+    "explain": "Margin requirements target credit for specific uses, so they are selective. The others work on credit as a whole.",
+    "section": "instrument-types"
+  },
+  {
+    "id": "monetary-policy-37",
+    "q": "When the RBI raises the policy repo rate, which result is most likely?",
+    "options": ["Borrowing becomes costlier, helping to cool demand", "Borrowing becomes cheaper for everyone", "Banks must open more branches", "The CRR falls automatically"],
+    "answer": 0,
+    "explain": "A higher repo rate raises funding costs, which transmits to higher loan rates and softer demand.",
+    "section": "instrument-types"
+  },
+  {
+    "id": "monetary-policy-38",
+    "q": "Who sets the inflation target for the monetary policy framework in India?",
+    "options": ["The RBI alone", "The Government of India in consultation with the RBI", "SEBI", "The Finance Commission"],
+    "answer": 1,
+    "explain": "The amended RBI Act says the Government, in consultation with the RBI, sets the inflation target once every five years.",
+    "section": "inflation-targeting"
+  },
+  {
+    "id": "monetary-policy-39",
+    "q": "The first notified inflation target (5 August 2016 to 31 March 2021) was ________ per cent CPI inflation with a band of 2 to 6 per cent.",
+    "options": ["2", "6", "4", "5"],
+    "answer": 2,
+    "explain": "The target was 4 per cent CPI with a lower tolerance limit of 2 per cent and an upper limit of 6 per cent.",
+    "section": "inflation-targeting"
+  },
+  {
+    "id": "monetary-policy-40",
+    "q": "The RBI is regarded as having failed to meet the inflation target when average inflation is outside the tolerance band for:",
+    "options": ["One quarter", "Two consecutive quarters", "Three consecutive quarters", "Four consecutive quarters"],
+    "answer": 2,
+    "explain": "Failure means average inflation is above the upper limit or below the lower limit for three consecutive quarters.",
+    "section": "inflation-targeting"
+  },
+  {
+    "id": "monetary-policy-41",
+    "q": "In which year was the RBI Act, 1934 amended to give flexible inflation targeting a statutory basis?",
+    "options": ["2012", "2014", "2018", "2016"],
+    "answer": 3,
+    "explain": "The May 2016 amendment gave the framework a legal basis; earlier it relied on a Feb 2015 agreement between the Government and RBI.",
+    "section": "inflation-targeting"
+  },
+  {
+    "id": "monetary-policy-42",
+    "q": "Before May 2016, flexible inflation targeting was governed by which arrangement?",
+    "options": ["An Agreement on Monetary Policy Framework dated 20 February 2015", "A Presidential Ordinance of 2010", "The Banking Regulation Act, 1949", "A Supreme Court order"],
+    "answer": 0,
+    "explain": "The Agreement on Monetary Policy Framework between the Government and the RBI (20 February 2015) preceded the amendment.",
+    "section": "inflation-targeting"
+  },
+  {
+    "id": "monetary-policy-43",
+    "q": "Which inflation measure is used for the target under the flexible inflation targeting framework?",
+    "options": ["Wholesale Price Index", "Consumer Price Index", "GDP deflator", "Index of Industrial Production"],
+    "answer": 1,
+    "explain": "The notified target is for CPI (Consumer Price Index) inflation.",
+    "section": "inflation-targeting"
+  },
+  {
+    "id": "monetary-policy-44",
+    "q": "The operating target that the RBI tries to keep close to the policy repo rate is the:",
+    "options": ["Bank Rate", "CRR", "Weighted average call rate", "SLR"],
+    "answer": 2,
+    "explain": "Daily liquidity management aims to anchor the weighted average call rate (WACR) around the repo rate.",
+    "section": "inflation-targeting"
+  },
+  {
+    "id": "monetary-policy-45",
+    "q": "Which section of the amended RBI Act provides for the Monetary Policy Committee?",
+    "options": ["Section 49", "Section 45ZB", "Section 17", "Section 22"],
+    "answer": 1,
+    "explain": "Section 45ZB provides for the six-member MPC constituted by the Central Government.",
+    "section": "mpc-structure"
+  },
+  {
+    "id": "monetary-policy-46",
+    "q": "How many members does the Monetary Policy Committee have?",
+    "options": ["Five", "Six", "Seven", "Nine"],
+    "answer": 1,
+    "explain": "The MPC is a six-member body: three from the RBI and three external members appointed by the Central Government.",
+    "section": "mpc-structure"
+  },
+  {
+    "id": "monetary-policy-47",
+    "q": "Who is the ex officio Chairperson of the MPC?",
+    "options": ["Finance Minister", "Governor of the RBI", "Chief Economic Adviser", "Chairman of SEBI"],
+    "answer": 1,
+    "explain": "The RBI Governor chairs the MPC ex officio.",
+    "section": "mpc-structure"
+  },
+  {
+    "id": "monetary-policy-48",
+    "q": "The three non-RBI members of the MPC hold office for a period of:",
+    "options": ["Two years", "Three years", "Five years", "Four years"],
+    "answer": 3,
+    "explain": "External members serve four years or until further orders, whichever is earlier.",
+    "section": "mpc-structure"
+  },
+  {
+    "id": "monetary-policy-49",
+    "q": "Who constitutes the Monetary Policy Committee by notification in the Official Gazette?",
+    "options": ["The Central Government", "The RBI Central Board", "The Parliament Standing Committee", "The Finance Commission"],
+    "answer": 0,
+    "explain": "The Central Government constitutes the MPC; the RBI Central Board only nominates one RBI officer as a member.",
+    "section": "mpc-structure"
+  },
+  {
+    "id": "monetary-policy-50",
+    "q": "Who nominates the one RBI officer who sits on the MPC?",
+    "options": ["Central Government", "Governor alone", "RBI Central Board", "Finance Ministry"],
+    "answer": 2,
+    "explain": "The officer of the RBI on the MPC is nominated by the RBI's Central Board and is an ex officio member.",
+    "section": "mpc-structure"
+  },
+  {
+    "id": "monetary-policy-51",
+    "q": "How many times must the MPC meet at minimum in a year?",
+    "options": ["Two", "Three", "Six", "Four"],
+    "answer": 3,
+    "explain": "The MPC must meet at least four times a year; the RBI usually holds about six meetings.",
+    "section": "mpc-process"
+  },
+  {
+    "id": "monetary-policy-52",
+    "q": "What is the quorum for a meeting of the MPC?",
+    "options": ["Three members", "Four members", "Five members", "All six members"],
+    "answer": 1,
+    "explain": "Four members form the quorum for an MPC meeting.",
+    "section": "mpc-process"
+  },
+  {
+    "id": "monetary-policy-53",
+    "q": "In the event of an equality of votes in the MPC, who has a second or casting vote?",
+    "options": ["Deputy Governor", "Finance Secretary", "Eldest external member", "Governor"],
+    "answer": 3,
+    "explain": "Every member has one vote, and the Governor holds a casting vote in a tie.",
+    "section": "mpc-process"
+  },
+  {
+    "id": "monetary-policy-54",
+    "q": "On which day after an MPC meeting are the minutes of the proceedings published?",
+    "options": ["7th day", "14th day", "21st day", "30th day"],
+    "answer": 1,
+    "explain": "The minutes, with each member's vote and statement, are published on the 14th day after the meeting.",
+    "section": "mpc-process"
+  },
+  {
+    "id": "monetary-policy-55",
+    "q": "The RBI must publish the Monetary Policy Report once in every:",
+    "options": ["Month", "Quarter", "Six months", "Year"],
+    "answer": 2,
+    "explain": "The Monetary Policy Report comes out every six months and explains inflation sources and forecasts inflation 6 to 18 months ahead.",
+    "section": "mpc-process"
+  },
+  {
+    "id": "monetary-policy-56",
+    "q": "Which RBI body meets daily to review liquidity conditions and keep the operating target close to the repo rate?",
+    "options": ["Technical Advisory Committee", "Financial Markets Committee", "Central Board of Directors", "Board for Financial Supervision"],
+    "answer": 1,
+    "explain": "The Financial Markets Committee (FMC) meets daily; the Technical Advisory Committee ceased to exist once the MPC was formed.",
+    "section": "mpc-process"
+  },
+  {
+    "id": "monetary-policy-57",
+    "q": "What happened to the Technical Advisory Committee on Monetary Policy after the MPC was formed?",
+    "options": ["It became the MPC's secretariat", "It was made the Chair of MPC", "It ceased to exist", "It started setting the repo rate"],
+    "answer": 2,
+    "explain": "The TAC was only advisory and ceased to exist when the MPC took over policy rate decisions.",
+    "section": "mpc-process"
+  },
+  {
+    "id": "monetary-policy-58",
+    "q": "In April 2023 the MPC paused its rate hike cycle after raising the repo rate in how many consecutive policies?",
+    "options": ["Two", "Four", "Six", "Eight"],
+    "answer": 2,
+    "explain": "After six consecutive hikes, the MPC paused in April 2023 and kept the repo rate at 6.5 per cent. This is a dated figure.",
+    "section": "snapshot-and-traps"
+  }
+]

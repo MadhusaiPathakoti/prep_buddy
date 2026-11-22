@@ -1,0 +1,621 @@
+{
+  "id": "sfb-payments-banks",
+  "sections": [
+    {
+      "id": "differentiated-banks",
+      "title": "Why RBI Created Differentiated Banks",
+      "icon": "🎯",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "To speed up **financial inclusion**, RBI built a licensing framework for **small banks, payments banks and other differentiated banks**. These niche banks (together with local area banks) are meant to serve small businesses, the unorganised sector, low-income households, farmers and the migrant workforce – people who need small-ticket credit, savings and remittance services."
+        },
+        {
+          "type": "text",
+          "text": "The idea is not brand new. Urban Co-operative Banks (UCBs), Primary Agricultural Credit Societies (PACS), Regional Rural Banks (RRBs) and Local Area Banks (LABs) already work in localised areas, so in a sense they were the first differentiated banks. The **present concept** was first discussed in **2007** and again in an RBI paper, **Banking Structure in India – The Way Forward** (August 2013)."
+        },
+        {
+          "type": "timeline",
+          "title": "Road to the new banks",
+          "items": [
+            ["2007", "Concept of differentiated banks first discussed"],
+            ["Aug 2013", "RBI paper ‘Banking Structure in India – The Way Forward’"],
+            ["27 Nov 2014", "RBI releases guidelines for licensing payments banks (and small banks)"],
+            ["Aug 2015", "In-principle approvals for payments banks (11 entities in RBI’s announcement)"],
+            ["Sep 2015", "In-principle approvals for 10 small finance banks"],
+            ["2016-2018", "First wave of SFBs and payments banks begins operations"],
+            ["2021", "Shivalik and Unity SFBs begin operations (per the book’s table)"]
+          ]
+        },
+        {
+          "type": "figure",
+          "kind": "flow",
+          "title": "How differentiated banking arrived",
+          "items": [
+            ["Idea floated (2007)", "Niche banks for the excluded"],
+            ["RBI paper (Aug 2013)", "Banking structure – way forward"],
+            ["Guidelines (Nov 2014)", "Licensing norms published"],
+            ["In-principle nods (2015)", "Payments banks Aug, SFBs Sep"],
+            ["Launches (2016-18)", "Banks start operating"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "fact",
+          "title": "First payments bank to go live",
+          "text": "**Airtel** was the first entity to launch a payments bank service in India, starting in **Rajasthan in 2017**. (The book’s text says March 2017 while its table says January 2017 – remember simply ‘Airtel, Rajasthan, 2017’.)"
+        }
+      ]
+    },
+    {
+      "id": "bank-directory",
+      "title": "Who’s Who: SFBs and Payments Banks",
+      "icon": "🗺️",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "Below are the active small finance banks and payments banks as listed in the 2024-25 syllabus book. The ‘established’ column is the year each bank began operating. Lists like this change over time, so treat it as a snapshot."
+        },
+        {
+          "type": "table",
+          "title": "Small Finance Banks (SFBs)",
+          "headers": ["Bank", "Headquarters", "Established"],
+          "rows": [
+            ["Capital Small Finance Bank", "Jalandhar (Punjab)", "2016"],
+            ["AU Small Finance Bank", "Jaipur (Rajasthan)", "2017"],
+            ["ESAF Small Finance Bank", "Thrissur (Kerala)", "2017"],
+            ["Ujjivan Small Finance Bank", "Bengaluru (Karnataka)", "2017"],
+            ["North East Small Finance Bank", "Guwahati (Assam)", "2017"],
+            ["Jana Small Finance Bank", "Bengaluru (Karnataka)", "2018"],
+            ["Fincare Small Finance Bank", "Bengaluru (Karnataka)", "2017"],
+            ["Utkarsh Small Finance Bank", "Varanasi (Uttar Pradesh)", "2017"],
+            ["Suryoday Small Finance Bank", "Navi Mumbai", "2017"],
+            ["Equitas Small Finance Bank", "Chennai (Tamil Nadu)", "2016"],
+            ["Shivalik Small Finance Bank", "Noida (Uttar Pradesh)", "2021"],
+            ["Unity Small Finance Bank", "New Delhi", "2021"]
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Payments Banks",
+          "headers": ["Bank", "Headquarters", "Started"],
+          "rows": [
+            ["Airtel Payments Bank", "New Delhi", "Jan 2017"],
+            ["Paytm Payments Bank", "Noida", "Nov 2017"],
+            ["Fino Payments Bank", "Navi Mumbai", "Apr 2017"],
+            ["India Post Payments Bank", "New Delhi", "Sep 2018"],
+            ["Jio Payments Bank", "Navi Mumbai", "Apr 2018"],
+            ["NSDL Payments Bank", "Mumbai", "Oct 2018"]
+          ]
+        },
+        {
+          "type": "mnemonic",
+          "title": "Bengaluru trio and the two J cities",
+          "phrase": "UJF live in Bengaluru; Capital–Jalandhar and AU–Jaipur are the J pair; Shivalik and Unity arrived in 2021.",
+          "letters": [
+            ["U", "Ujjivan SFB – Bengaluru"],
+            ["J", "Jana SFB – Bengaluru (started 2018, the only 2018 entry)"],
+            ["F", "Fincare SFB – Bengaluru"],
+            ["Capital", "Jalandhar (Punjab) – a J city, started 2016 along with Equitas (Chennai)"],
+            ["AU", "Jaipur (Rajasthan) – the other J city"],
+            ["2021 pair", "Shivalik (Noida) and Unity (New Delhi) both began in 2021"]
+          ],
+          "note": "Rest of the map: ESAF – Thrissur, North East – Guwahati, Utkarsh – Varanasi, Suryoday – Navi Mumbai."
+        },
+        {
+          "type": "mnemonic",
+          "title": "Order in which payments banks started",
+          "phrase": "A Fine Pay Journey, India’s Network – Airtel, Fino, Paytm, Jio, IPPB, NSDL.",
+          "letters": [
+            ["A", "Airtel – Jan 2017"],
+            ["F", "Fino – Apr 2017"],
+            ["P", "Paytm – Nov 2017"],
+            ["J", "Jio – Apr 2018"],
+            ["I", "India Post Payments Bank – Sep 2018"],
+            ["N", "NSDL – Oct 2018"]
+          ],
+          "note": "Years: three in 2017, three in 2018 – and the last two are the Sep/Oct 2018 pair."
+        },
+        {
+          "type": "callout",
+          "kind": "tip",
+          "title": "Keep the lists current",
+          "text": "Licences, mergers and restrictions on individual banks keep changing (for example, RBI placed business restrictions on Paytm Payments Bank in 2024). Use this table for exam-style ‘which is where’ questions and check news for the latest status."
+        }
+      ]
+    },
+    {
+      "id": "sfb-rules",
+      "title": "Small Finance Banks: Rules and Role",
+      "icon": "🏘️",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "Small finance banks are **niche banks** that serve a particular demographic segment. They were recommended by the **Nachiket Mor Committee** on financial inclusion. Their aim is to promote inclusion by (1) providing **savings vehicles** and (2) supplying **credit to small business units, small and marginal farmers, micro and small industries and other unorganised-sector entities**, using high-technology, low-cost operations."
+        },
+        {
+          "type": "keyvalue",
+          "title": "Core scope and licensing norms",
+          "rows": [
+            ["Main activity", "Basic banking – accept deposits and lend to unserved and underserved sections"],
+            ["Area of operation", "No restriction on the area in which an SFB may operate"],
+            ["Who can set up", "Individuals/professionals with 10 years of experience in finance, NBFCs, micro finance companies and local area banks"],
+            ["Minimum paid-up equity", "₹100 crore (as per the original guidelines in the book)"],
+            ["Promoter stake", "At least 40% initially, to be brought down to 26% within 12 years of starting business"],
+            ["Foreign holding", "As per the FDI policy for private sector banks, as amended from time to time"],
+            ["Priority sector lending", "75% of Adjusted Net Bank Credit (ANBC) must go to PSL-eligible sectors"],
+            ["Loan profile", "At least 50% of the loan portfolio must be loans and advances of up to ₹25 lakh"],
+            ["Reserves", "Must maintain CRR and SLR as per RBI norms"]
+          ]
+        },
+        {
+          "type": "table",
+          "title": "What an SFB can and cannot do",
+          "headers": ["Can do", "Cannot do"],
+          "rows": [
+            ["Sell forex to customers", "Extend large loans"],
+            ["Sell mutual funds, insurance and pensions", "Float subsidiaries or deal in sophisticated products"],
+            ["Convert into a full-fledged bank", "Set up subsidiaries to undertake non-banking activities"]
+          ]
+        },
+        {
+          "type": "bullets",
+          "title": "Challenges SFBs face",
+          "items": [
+            "They must compete with existing public sector banks and RRBs.",
+            "Microfinance institutions and NBFCs specialise in micro lending with little banking exposure, so they must hire and train talent from the banking industry.",
+            "The cost of mobilising deposits is higher because they serve rural and underserved segments."
+          ]
+        },
+        {
+          "type": "mnemonic",
+          "title": "SFB numbers: 75 – 50 – 25",
+          "phrase": "SFB = 75-50-25: 75% to priority sector, 50% of loans small, and the small means up to ₹25 lakh.",
+          "letters": [
+            ["75", "% of ANBC to be lent to priority sector"],
+            ["50", "% of the loan book must be loans up to ₹25 lakh"],
+            ["25", "lakh – the ceiling of those small loans"],
+            ["40→26", "Promoter stake falls from 40% to 26% within 12 years"],
+            ["100", "₹100 crore minimum paid-up equity (original norm)"]
+          ],
+          "note": "Later RBI licensing guidelines have revised capital norms for newer licences, so check the latest rules; the figures here follow the exam book."
+        }
+      ]
+    },
+    {
+      "id": "payments-bank-rules",
+      "title": "Payments Banks: Rules and Role",
+      "icon": "📲",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "Payments banks aim to further financial inclusion by offering **small savings accounts** and **payment/remittance services** to migrant labour, low-income households, small businesses, other unorganised-sector entities and other users. The big rule: they **cannot lend**. Their funds must be deployed in government papers and bank deposits."
+        },
+        {
+          "type": "keyvalue",
+          "title": "Norms for payments banks",
+          "rows": [
+            ["Minimum paid-up equity", "₹100 crore"],
+            ["Deposit limit", "Demand deposits (savings and current) per individual customer – initially ₹1 lakh, raised to ₹2 lakh by RBI in 2021 (the book gives ₹2 lakh)"],
+            ["Where deposits are kept", "Minimum 75% in government bonds/T-bills, maximum 25% in deposits with other scheduled commercial banks"],
+            ["Promoter stake", "At least 40% for the first five years from commencement of business"],
+            ["Promoter track record", "‘Fit and proper’ with sound professional record or running a business for at least five years"],
+            ["Eligible applicants", "Non-bank prepaid payment instrument (PPI) issuers; individuals/professionals; NBFCs; corporate business correspondents; mobile telephone companies; supermarket chains; real sector cooperatives; public sector entities – all owned and controlled by residents"],
+            ["Grievances", "A high-powered Customer Grievances Cell is required"],
+            ["Technology", "Operations must be fully networked and technology driven from the start"]
+          ]
+        },
+        {
+          "type": "figure",
+          "kind": "layers",
+          "title": "Where a payments bank parks its deposits",
+          "items": [
+            ["Government bonds / T-bills", "Minimum 75% of deposit balances"],
+            ["Other scheduled banks", "Maximum 25% as current and time deposits"],
+            ["Lending to customers", "Not allowed at all"]
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Payments bank – can and cannot",
+          "headers": ["Can do", "Cannot do"],
+          "rows": [
+            ["Internet banking; sell mutual funds, insurance and pensions", "Offer credit cards"],
+            ["Run business correspondents and ATMs; issue ATM/debit cards", "Extend loans"],
+            ["Bill payments and mobile-phone transfers and remittances", "Handle cross-border remittances"],
+            ["Offer forex services at charges lower than banks; forex cards for travellers", "Accept NRI deposits"],
+            ["Offer a card-acceptance mechanism to third parties such as Apple Pay", "Undertake any lending activity"]
+          ]
+        },
+        {
+          "type": "bullets",
+          "title": "Challenges for payments banks",
+          "items": [
+            "Low revenue: with no lending, income initially comes from remittance charges and operating efficiency.",
+            "The 75% government-securities requirement limits earnings from the deposit base.",
+            "Banks already offer most services payments banks can, so a differentiated offer is hard.",
+            "Instruments like Kisan Vikas Patra and gold bonds give better returns.",
+            "Jan Dhan experience shows many no-frills accounts stay dormant, hurting viability."
+          ]
+        },
+        {
+          "type": "mnemonic",
+          "title": "What a payments bank cannot do",
+          "phrase": "Cats Love Rich Nuts – Credit cards, Loans, cRoss-border remittances, NRI deposits.",
+          "letters": [
+            ["Cats", "Credit cards – not allowed (debit/ATM cards are fine)"],
+            ["Love", "Loans – no lending of any kind"],
+            ["Rich", "cRoss-border remittances – cannot handle them"],
+            ["Nuts", "NRI deposits – cannot accept them"]
+          ],
+          "note": "Split of deposits: 75/25 – three-quarters in government securities, one-quarter with other banks."
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "Debit yes, credit no",
+          "text": "A payments bank **can** issue ATM/debit cards but **cannot** issue credit cards. It can sell mutual funds and insurance (non-risk-sharing products), but it cannot lend."
+        }
+      ]
+    },
+    {
+      "id": "sfb-vs-payments",
+      "title": "SFB vs Payments Bank at a Glance",
+      "icon": "⚖️",
+      "blocks": [
+        {
+          "type": "table",
+          "title": "Side-by-side comparison",
+          "headers": ["Feature", "Small Finance Bank", "Payments Bank"],
+          "rows": [
+            ["Lending", "Yes – small loans to unserved/underserved", "No lending at all"],
+            ["Deposits", "Accepts deposits, no per-person cap", "Demand deposits only, capped per person"],
+            ["Minimum paid-up equity", "₹100 crore (original norm)", "₹100 crore"],
+            ["Promoter stake", "40%, falling to 26% in 12 years", "40% for first five years"],
+            ["Priority sector lending", "75% of ANBC", "Not applicable (no loans)"],
+            ["Where funds go", "Loans to small units; CRR/SLR as per norms", "Minimum 75% in government securities"],
+            ["Credit cards", "Not highlighted in the book", "Not allowed"],
+            ["Area of operation", "No restriction", "Pan-India services via channels and BCs"],
+            ["Recommended by", "Nachiket Mor Committee", "Framework published 27 Nov 2014"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "remember",
+          "title": "One-line difference",
+          "text": "**SFB = savings plus small loans. Payments bank = savings and payments, no loans.** Both aim at financial inclusion and both need ₹100 crore minimum paid-up equity under the original norms."
+        }
+      ]
+    },
+    {
+      "id": "ippb",
+      "title": "India Post Payments Bank (IPPB)",
+      "icon": "📮",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "**India Post Payments Bank** was launched by **PM Narendra Modi on 1 September 2018**. It is a payments bank that aims to take banking services to people’s doorsteps through the postal network. The government announced its establishment in the **Budget of 2015-16**."
+        },
+        {
+          "type": "keyvalue",
+          "title": "IPPB snapshot",
+          "rows": [
+            ["Launch", "1 September 2018, by PM Narendra Modi"],
+            ["Ownership", "Wholly-owned subsidiary of the Department of Posts – 100% Government of India equity"],
+            ["Regulator", "Governed by RBI"],
+            ["Announced", "Union Budget 2015-16"],
+            ["Savings balance limit", "₹2 lakh per person as per the book (the original payments-bank limit was ₹1 lakh)"],
+            ["Headquarters", "New Delhi"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "Two limits, two eras",
+          "text": "Older exam keys quote **₹1 lakh** as the payments-bank balance limit; the updated figure is **₹2 lakh** (raised in 2021). Read the question’s date and wording before choosing."
+        }
+      ]
+    },
+    {
+      "id": "microfinance",
+      "title": "Micro-Finance Banking",
+      "icon": "🤲",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "**Micro-finance** (micro-credit) is a banking service for unemployed or low-income individuals and groups who would otherwise have no access to financial services. It was **pioneered by Nobel laureate Muhammad Yunus** and gives the marginalised the capital to start a business and work towards independence. In India, **all loans below ₹1 lakh** can be considered micro-loans."
+        },
+        {
+          "type": "bullets",
+          "title": "Two delivery mechanisms",
+          "items": [
+            "Relationship-based banking for individual entrepreneurs and small businesses.",
+            "Group-based models, where several entrepreneurs together apply for loans and other services."
+          ]
+        },
+        {
+          "type": "keyvalue",
+          "title": "Group models in India",
+          "rows": [
+            ["Self Help Group (SHG)", "Informal group of small entrepreneurs (including women) with similar socio-economic backgrounds who create a common fund for emergency business needs – a savings-oriented group"],
+            ["Joint Liability Group (JLG)", "Concept started by NABARD; a group of 4-10 small farmers or rural entrepreneurs from the same village/locality with the same background – income-generation, activity-oriented"]
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Important micro-finance companies",
+          "headers": ["Company", "Headquarters", "Established"],
+          "rows": [
+            ["Bandhan Financial Services Limited", "Kolkata", "1995"],
+            ["Ujjivan Financial Services", "Bengaluru", "2004"],
+            ["Annapurna Finance Pvt. Ltd.", "Bhubaneswar", "2009"],
+            ["Arohan Financial Services Limited", "Kolkata", "2006"],
+            ["Muthoot Micro-Finance Ltd.", "Kochi", "2015"]
+          ]
+        },
+        {
+          "type": "mnemonic",
+          "title": "SHG vs JLG",
+          "phrase": "SHG = Savings Help Group; JLG = Jointly Liable, 4 to 10, started by NABARD, aimed at Jobs (income).",
+          "letters": [
+            ["SHG", "Self Help Group – common savings fund for emergencies, savings-oriented"],
+            ["JLG", "Joint Liability Group – 4-10 members, NABARD’s concept"],
+            ["Income", "JLG is activity-oriented, for income generation"]
+          ],
+          "note": "Micro-loan ceiling to remember: below ₹1 lakh."
+        }
+      ]
+    },
+    {
+      "id": "local-area-banks",
+      "title": "Local Area Banks",
+      "icon": "📍",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "The **Local Area Bank (LAB) Scheme** was introduced in **August 1996**, following the then Finance Minister **P. Chidambaram’s** budget announcement of new private local banks with jurisdiction over **two or three contiguous districts**. Their main objective is to **mobilise rural savings and invest them in productive sectors of the rural economy**."
+        },
+        {
+          "type": "keyvalue",
+          "title": "LAB quick facts",
+          "rows": [
+            ["Introduced", "August 1996"],
+            ["Announced by", "Finance Minister P. Chidambaram in his budget speech"],
+            ["Area", "Two or three contiguous districts"],
+            ["Who can set up", "Any individual, corporate house, Trust or Society"],
+            ["Minimum paid-up capital", "₹5 crore"],
+            ["Objective", "Mobilise rural savings and invest in productive rural sectors"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "remember",
+          "title": "LAB in a line",
+          "text": "**1996, Chidambaram, 2-3 contiguous districts, ₹5 crore.** A local area bank is also counted as an eligible entity to set up a small finance bank."
+        }
+      ]
+    },
+    {
+      "id": "mutual-islamic",
+      "title": "Mutual and Islamic Banking",
+      "icon": "🕌",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "**Mutual banking**: a financial institution chartered by a central or regional government, **without capital stock**, owned by its **members who subscribe to a common fund**. Claims and loans are paid from this fund and profits are shared among members. It offers a safe place to save and to invest those savings in mortgages, loans, stocks, bonds and other securities, sharing in any profit or loss. The members own the business."
+        },
+        {
+          "type": "text",
+          "text": "**Islamic banking** follows the principles of Islamic law (Shariah) and Islamic economics. The two basic principles are **profit-and-loss sharing** and, most significantly, the **prohibition of collecting and paying interest**."
+        },
+        {
+          "type": "timeline",
+          "title": "Islamic banking milestones",
+          "items": [
+            ["1975", "Dubai Islamic Bank founded – the world’s first full-fledged Islamic bank"],
+            ["1 Jun 2016", "Islamic Development Bank (Saudi Arabia) opened its first branch in India at Ahmedabad, Gujarat (per the book)"],
+            ["In India", "First Islamic banking service started in Sholapur, Maharashtra, at the Bashri branch of Lokmangal Bank (per the book)"]
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Mutual vs Islamic banking",
+          "headers": ["Feature", "Mutual banking", "Islamic banking"],
+          "rows": [
+            ["Ownership", "Owned by members, no capital stock", "Conventional ownership with Shariah governance"],
+            ["Key idea", "Common fund, shared profits and losses", "Profit-and-loss sharing; no interest"],
+            ["Source of rules", "Charter from a government", "Islamic law (Shariah) and Islamic economics"]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "rbi-guidelines",
+      "title": "RBI Guidelines: New Banks, Branches, NBFCs, Minors",
+      "icon": "📜",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "RBI released guidelines for **Licensing of New Banks in the Private Sector** in **February 2013**. The sub-points below are the parameters laid down in those norms."
+        },
+        {
+          "type": "keyvalue",
+          "title": "New private banks – 2013 norms",
+          "rows": [
+            ["Track record", "Applicant must have sound credentials and integrity, be financially sound, with a successful track record of 10 years"],
+            ["NOFHC stake", "Non-Operative Financial Holding Company must hold at least 40% of the bank’s paid-up voting equity, locked in for five years, then brought down to 15% within 12 years"],
+            ["Minimum capital", "Initial minimum paid-up voting equity capital of ₹500 crore (₹5 billion)"],
+            ["Rural presence", "25% of branches in unbanked rural areas (population up to 9,999)"],
+            ["Priority sector", "New bank must achieve a PSL target of 40%"],
+            ["FDI", "Capped at 49% for the first five years, later as per extended norms"]
+          ]
+        },
+        {
+          "type": "bullets",
+          "title": "Other guidelines mentioned",
+          "items": [
+            "Branches in urban areas: banks may merge, shift or close them at their own discretion; this freedom is not valid for rural areas.",
+            "Closing, merging or shifting a rural branch or a sole semi-urban branch needs prior approval of the District Level Review Committee (DLRC) or District Consultative Committee (DCC).",
+            "NBFC mergers: NBFCs (deposit-taking and non-deposit-taking) need RBI’s prior approval before buying shares of other NBFCs or merging/acquiring; infringement can cost the registration.",
+            "Prior written RBI clearance is also required before approaching a Court or Tribunal for a merger or amalgamation order.",
+            "Minors above 10 years can open and independently operate savings accounts and use ATM and cheque facilities.",
+            "All minors can open savings, fixed or recurring deposits through a natural or legally appointed guardian; banks decide the minimum documents."
+          ]
+        },
+        {
+          "type": "mnemonic",
+          "title": "New private bank numbers",
+          "phrase": "10 years’ record, 40 to 15 over 12 years, 25% rural branches, 49% FDI, ₹500 crore capital.",
+          "letters": [
+            ["10", "Years of successful track record needed"],
+            ["40→15", "NOFHC stake: 40% (locked 5 years) down to 15% within 12 years"],
+            ["25", "% of branches in unbanked rural centres up to 9,999 population"],
+            ["49", "% FDI cap for the first five years"],
+            ["500", "₹500 crore (₹5 billion) minimum paid-up voting equity"]
+          ],
+          "note": "Compare with SFB promoter stake: 40% falls to 26%, not 15%."
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "26% or 15%?",
+          "text": "The promoter of a **small finance bank** goes from 40% to **26%**; the **NOFHC of a new universal private bank** goes from 40% to **15%**. Both timelines are 12 years."
+        }
+      ]
+    },
+    {
+      "id": "payments-quick-facts",
+      "title": "Instant-Payment Quick Facts",
+      "icon": "⚡",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "Payments banks live in the world of digital and instant payments, so exams often add questions on the payment tools. These are the facts that appeared with this topic in past papers."
+        },
+        {
+          "type": "keyvalue",
+          "title": "Payment tools and who is behind them",
+          "rows": [
+            ["UPI", "Unified Payments Interface – system that powers multiple bank accounts into a single mobile app, merging banking features, seamless fund routing and merchant payments"],
+            ["BHIM", "Bharat Interface for Money – a UPI-based app enabling real-time fund transfer with a single identity such as name or mobile number"],
+            ["RuPay", "Domestic card scheme launched by NPCI (National Payments Corporation of India)"],
+            ["Bharat QR", "Common QR-code system for payments across merchant outlets; launched by NPCI"],
+            ["MMID", "Mobile Money Identification Number – a 7-digit number whose first four digits identify the bank offering IMPS"],
+            ["MOPAD", "Multi Option Payment Acceptance Device – launched by State Bank of India for digital payments"]
+          ]
+        },
+        {
+          "type": "mnemonic",
+          "title": "Seven digits, four for the bank",
+          "phrase": "MMID is a lucky 7: the first 4 digits are the bank’s code, the last 3 belong to you.",
+          "letters": [
+            ["7", "Total digits in the Mobile Money Identification Number"],
+            ["4", "Leading digits that identify the bank (IMPS)"],
+            ["NPCI", "RuPay and Bharat QR – both launched by NPCI"]
+          ],
+          "note": "Think N-P-C-I: National Payments Corporation of India builds the national payment rails."
+        },
+        {
+          "type": "callout",
+          "kind": "fact",
+          "title": "Latest-status caution",
+          "text": "Facts such as which bank launched a particular device or portal are as per past-paper keys at the time of writing. Treat them as exam trivia and check for later updates."
+        }
+      ]
+    },
+    {
+      "id": "banking-bits",
+      "title": "Related Banking Facts from Past Papers",
+      "icon": "🧩",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "Past-year papers on this topic also asked a mix of general banking facts. Here is the cleaned-up list that is safe to learn."
+        },
+        {
+          "type": "keyvalue",
+          "title": "Institutions and terms",
+          "rows": [
+            ["SIDBI", "Small Industries Development Bank of India – promotes the Micro, Small and Medium (MSME) sector; an all-India financial institution, not a regulator"],
+            ["NARCL", "National Asset Reconstruction Company Ltd – popularly called the ‘bad bank’; incorporated July 2021 to take over stressed assets of commercial banks"],
+            ["Project Sashakt", "Inter-creditor agreement among banks to resolve the problem of mounting NPAs (non-performing assets)"],
+            ["IDA", "International Development Association – the World Bank arm set up in 1960 to give interest-free loans and grants to the poorest countries"],
+            ["CIC", "Credit Information Companies – under the CIC Act 2005 they need a Certificate of Registration from RBI"],
+            ["UCB tiers", "RBI’s regulatory framework for Urban Co-operative Banks has four tiers"],
+            ["Inoperative account", "A savings or current account with no customer-initiated transactions for two years"],
+            ["Reverse mortgage", "Home loan for older homeowners that needs no monthly mortgage payments"]
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Merger snapshot",
+          "headers": ["Bank", "Merged with"],
+          "rows": [
+            ["Global Trust Bank (GTB)", "Oriental Bank of Commerce (2004)"],
+            ["Allahabad Bank", "Indian Bank (effective 1 April 2020)"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "tip",
+          "title": "Not a regulator",
+          "text": "RBI, SEBI and CCI are regulators. **SIDBI is a development finance institution, not a regulator.** Merchant banking in India is regulated by SEBI."
+        }
+      ]
+    }
+  ],
+  "revision": [
+    "RBI released licensing guidelines for payments banks on 27 November 2014; the concept was first discussed in 2007.",
+    "In-principle approvals: payments banks in August 2015 and 10 small finance banks in September 2015.",
+    "SFBs were recommended by the Nachiket Mor Committee on financial inclusion.",
+    "SFB: ₹100 crore minimum paid-up equity (original norm); promoter stake 40% falling to 26% in 12 years.",
+    "SFB must lend 75% of ANBC to priority sector and keep at least 50% of loans at up to ₹25 lakh.",
+    "SFBs can sell forex, mutual funds and insurance and may convert into a full bank; they cannot set up non-banking subsidiaries.",
+    "Payments bank: ₹100 crore capital; at least 75% in government securities and at most 25% with other banks.",
+    "Payments banks hold demand deposits up to ₹2 lakh per person (earlier ₹1 lakh) and promoters keep 40% for five years.",
+    "Payments banks cannot lend, issue credit cards, handle cross-border remittances or accept NRI deposits.",
+    "Airtel was the first to launch a payments bank (Rajasthan, 2017); IPPB was launched on 1 September 2018 and is 100% government owned.",
+    "Micro-loans in India are those below ₹1 lakh; Muhammad Yunus pioneered micro-finance; a JLG has 4-10 members and was started by NABARD.",
+    "Local Area Bank scheme: August 1996, two or three contiguous districts, minimum capital ₹5 crore.",
+    "New private banks (Feb 2013): NOFHC holds 40% for five years then 15% in 12 years; ₹500 crore capital; 25% rural branches; 40% PSL target.",
+    "Minors above 10 years can operate savings accounts independently; accounts become inoperative after two years without transactions.",
+    "Dubai Islamic Bank (1975) was the first full-fledged Islamic bank; Islamic banking forbids interest and promotes profit-and-loss sharing."
+  ],
+  "mindmap": {
+    "center": "SFBs & Payments Banks",
+    "branches": [
+      {
+        "label": "Differentiated banks",
+        "children": ["Nov 2014 guidelines", "Concept first in 2007", "Aug 2013 RBI paper", "Nachiket Mor Committee", "Financial inclusion goal"]
+      },
+      {
+        "label": "Small finance banks",
+        "children": ["₹100 crore capital", "75% PSL of ANBC", "50% loans up to ₹25 lakh", "Promoter 40% to 26%", "Can convert to full bank"]
+      },
+      {
+        "label": "Payments banks",
+        "children": ["No lending", "75% in G-secs", "₹2 lakh deposit cap", "No credit cards", "Airtel first (2017)"]
+      },
+      {
+        "label": "IPPB",
+        "children": ["Launched 1 Sep 2018", "Dept of Posts 100%", "Budget 2015-16", "Doorstep banking"]
+      },
+      {
+        "label": "Micro-finance",
+        "children": ["Yunus pioneer", "Loans below ₹1 lakh", "SHG savings group", "JLG 4-10 members", "Bandhan, Ujjivan, Arohan"]
+      },
+      {
+        "label": "LAB, mutual, Islamic",
+        "children": ["LAB 1996, ₹5 crore", "2-3 contiguous districts", "Mutual: member owned", "Islamic: no interest", "Dubai Islamic Bank 1975"]
+      },
+      {
+        "label": "RBI guidelines",
+        "children": ["NOFHC 40% to 15%", "₹500 crore capital", "25% rural branches", "Urban branch freedom", "Minors above 10 years"]
+      },
+      {
+        "label": "Payment tools & facts",
+        "children": ["UPI and BHIM", "RuPay, Bharat QR: NPCI", "MMID 7 digits", "NARCL bad bank", "Dormant after 2 years"]
+      }
+    ]
+  }
+}

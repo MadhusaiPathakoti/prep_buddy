@@ -1,0 +1,417 @@
+{
+  "id": "banking-risks",
+  "sections": [
+    {
+      "id": "why-risks-matter",
+      "title": "Why Banking Risks Matter",
+      "icon": "⚠️",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "Some banks are so large that over-exposure to risk can make them fail and hurt millions of people. If governments understand the risks that banks run, they can frame better rules that push banks towards prudent decisions. A bank’s skill at managing risk also shapes investor behaviour: even a bank that earns large revenues can see profits fall if loan losses are not controlled, and value investors prefer banks that earn profits without risking heavy losses."
+        },
+        {
+          "type": "bullets",
+          "title": "Where banking risks come from",
+          "items": [
+            "Expected or unexpected events in the economy or in the financial markets.",
+            "Staff oversight or mala fide (dishonest) intention, which erodes asset values and so reduces the bank’s intrinsic value."
+          ]
+        },
+        {
+          "type": "mnemonic",
+          "title": "Eight headline risks in order",
+          "phrase": "Large Crocodiles Move Carefully, Only Chasing Real Snacks.",
+          "letters": [
+            ["Large", "Liquidity risk"],
+            ["Crocodiles", "Credit risk"],
+            ["Move", "Market risk"],
+            ["Carefully", "Concentration risk"],
+            ["Only", "Operational risk"],
+            ["Chasing", "Compliance risk"],
+            ["Real", "Reputational risk"],
+            ["Snacks", "Strategic risk"]
+          ],
+          "note": "Residual, dilution, settlement and counterparty risks sit in the credit-risk family; interest-rate and exchange-rate risks sit with market risk."
+        },
+        {
+          "type": "callout",
+          "kind": "remember",
+          "title": "Big idea",
+          "text": "Every risk is defined as the possibility of an adverse effect on the bank’s financial result and capital. Only the cause changes: default, cash shortage, rate move, fraud, rule-breaking, lost trust and so on."
+        }
+      ]
+    },
+    {
+      "id": "risk-management-system",
+      "title": "The Risk Management System",
+      "icon": "🛡️",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "Banks cannot remove risk, so they build a system to spot, measure and control it. A sound risk management system has six parts."
+        },
+        {
+          "type": "steps",
+          "title": "Six parts of a risk management system",
+          "items": [
+            "Risk management strategy and policies, with procedures to identify and measure risk (risk assessment and management).",
+            "An appropriate internal organisation, that is, the bank’s organisational structure.",
+            "An effective and efficient risk management process covering all risks the bank is, or may be, exposed to in its operations.",
+            "An adequate internal controls system.",
+            "An appropriate information system.",
+            "An adequate process of internal capital adequacy assessment."
+          ]
+        },
+        {
+          "type": "mnemonic",
+          "title": "Six pillars of risk management",
+          "phrase": "Sam Offers Pizza, Cola, Ice-cream and Cake.",
+          "letters": [
+            ["Sam", "Strategy and policies"],
+            ["Offers", "Organisation (structure)"],
+            ["Pizza", "Process covering all risks"],
+            ["Cola", "Controls (internal)"],
+            ["Ice-cream", "Information system"],
+            ["Cake", "Capital adequacy assessment (internal)"]
+          ]
+        },
+        {
+          "type": "figure",
+          "kind": "flow",
+          "title": "Managing a risk step by step",
+          "items": [
+            ["Identify", "Spot where the bank is exposed"],
+            ["Measure", "Assess the size of the possible loss"],
+            ["Control", "Use internal controls and policies"],
+            ["Hold capital", "Assess internal capital adequacy"]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "liquidity-risk",
+      "title": "Liquidity Risk",
+      "icon": "💧",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "**Liquidity risk** is the risk of adverse effects on the bank’s financial result and capital because the bank cannot meet its due liabilities. It happens when current sources of funding are withdrawn and the bank cannot raise new funds."
+        },
+        {
+          "type": "keyvalue",
+          "title": "Two faces of liquidity risk",
+          "rows": [
+            ["Funding liquidity risk", "The bank cannot raise new funds when its existing sources of funding are withdrawn."],
+            ["Market liquidity risk", "The bank cannot easily convert property or assets into liquid assets because of market disruption."],
+            ["Availability of cash risk", "Rising NPAs make banks afraid to lend, so less money flows in the market and liquidity falls."]
+          ]
+        },
+        {
+          "type": "figure",
+          "kind": "flow",
+          "title": "How rising NPAs squeeze liquidity",
+          "items": [
+            ["Rising NPAs", "Risk of non-repayment of credit grows"],
+            ["Lower credit capacity", "Bank fears giving loans"],
+            ["Less cash inflow", "Less money flows in the market"],
+            ["Liquidity shortage", "Genuine customers do not get loans"]
+          ]
+        },
+        {
+          "type": "mnemonic",
+          "title": "Funding versus market liquidity",
+          "phrase": "FUNDING = Fresh money can’t be raised; MARKET = Meltdown makes assets hard to cash.",
+          "note": "Liquidity risk is also a consequence of large credit loss and business loss on the bank’s investments."
+        }
+      ]
+    },
+    {
+      "id": "credit-risk-family",
+      "title": "Credit Risk and Its Relatives",
+      "icon": "🏦",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "**Credit risk** is the possibility of adverse effects on the bank’s financial result and capital because a debtor defaults on its obligations to the bank. Several related risks are defined around it."
+        },
+        {
+          "type": "table",
+          "title": "Credit risk and related risks",
+          "headers": ["Risk", "Meaning"],
+          "rows": [
+            ["Credit risk", "Debtor’s default in meeting its obligations to the bank"],
+            ["Residual risk", "Credit risk mitigation techniques turn out less efficient than expected, or do not reduce risk enough"],
+            ["Dilution risk", "Purchased receivables lose value because of cash or non-cash liabilities of the former creditor to the borrower"],
+            ["Settlement or delivery risk", "Unsettled transactions, or the counterparty fails to deliver in free-delivery transactions on the due date"],
+            ["Counterparty credit risk", "Counterparty fails to settle its liabilities in a transaction before the final settlement of cash flows"]
+          ]
+        },
+        {
+          "type": "mnemonic",
+          "title": "Credit’s four relatives",
+          "phrase": "Real Dogs Sit Calmly: Residual, Dilution, Settlement, Counterparty.",
+          "letters": [
+            ["Real", "Residual risk: safeguards weaker than expected"],
+            ["Dogs", "Dilution risk: receivables lose value"],
+            ["Sit", "Settlement risk: delivery or settlement fails"],
+            ["Calmly", "Counterparty credit risk: other side fails to settle"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "trap",
+          "title": "Residual versus dilution",
+          "text": "Residual risk is about collateral or other mitigation tools working worse than hoped. Dilution risk is about purchased receivables becoming worth less because of the seller’s own liabilities to the borrower."
+        }
+      ]
+    },
+    {
+      "id": "market-rate-fx-risk",
+      "title": "Market, Interest Rate and Exchange Risk",
+      "icon": "📈",
+      "blocks": [
+        {
+          "type": "keyvalue",
+          "title": "Price-related risks",
+          "rows": [
+            ["Market risk", "Covers foreign exchange risk, price risk on debt securities, price risk on equity securities and commodity risk."],
+            ["Interest rate risk", "Adverse effect on the bank’s financial result and capital, on banking book items, caused by changes in interest rates."],
+            ["Foreign exchange risk", "Adverse effect on financial result and capital because of changes in foreign exchange rates. Also called currency risk or exchange-rate risk."]
+          ]
+        },
+        {
+          "type": "mnemonic",
+          "title": "Four parts of market risk",
+          "phrase": "Four Elephants Drink Cola: Forex, Equity price, Debt price, Commodity.",
+          "letters": [
+            ["Four", "Foreign exchange risk"],
+            ["Elephants", "Equity securities: price risk"],
+            ["Drink", "Debt securities: price risk"],
+            ["Cola", "Commodity risk"]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "tip",
+          "title": "Currency risk has a second name",
+          "text": "Currency risk, the risk of loss from fluctuating foreign exchange rates, is also known as exchange-rate risk. It affects anyone with exposure to foreign currency or to investments traded in foreign currency."
+        }
+      ]
+    },
+    {
+      "id": "exposure-country-risk",
+      "title": "Concentration, Exposure and Country Risk",
+      "icon": "🌍",
+      "blocks": [
+        {
+          "type": "keyvalue",
+          "title": "Exposure-linked risks",
+          "rows": [
+            ["Concentration risk", "Arises directly or indirectly from the bank’s exposure to the same or similar source of risk, or the same or similar type of risk."],
+            ["Bank exposure risk", "Risks of the bank’s exposure towards a single person or a group of related persons."],
+            ["Bank’s investment risk", "Risks of its investments in non-financial sector entities, fixed assets and investment property."],
+            ["Country risk", "Risk linked to the country of origin of the person to whom the bank is exposed: the bank cannot collect receivables because of political, economic or social conditions there."]
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "remember",
+          "title": "Do not put all eggs in one basket",
+          "text": "Concentration risk is the danger of too much exposure to one borrower, group, source or type of risk. Spreading exposure is the natural cure."
+        },
+        {
+          "type": "mnemonic",
+          "title": "Remembering the exposure group",
+          "phrase": "CEIC: Concentration, Exposure, Investment, Country.",
+          "letters": [
+            ["C", "Concentration risk: same or similar source or type"],
+            ["E", "Exposure risk: single person or related group"],
+            ["I", "Investment risk: non-financial entities, fixed assets"],
+            ["C", "Country risk: political, economic, social conditions"]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "operational-legal-compliance",
+      "title": "Operational, Legal and Compliance Risk",
+      "icon": "⚙️",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "**Operational risk** is the possible adverse effect on a bank’s financial result and capital caused by omissions (unintentional or intentional) in employees’ work, inadequate internal procedures, poor management of processes, information and other systems, and unforeseeable external events. Operational risk also includes legal risk."
+        },
+        {
+          "type": "table",
+          "title": "Operational family",
+          "headers": ["Risk", "Meaning"],
+          "rows": [
+            ["Operational risk", "Employee omissions, weak procedures, system failures or unforeseeable external events"],
+            ["Legal risk", "Loss from penalties and sanctions after court disputes over breach of contractual and legal obligations, and sanctions imposed by a regulator"],
+            ["Compliance risk", "Loss because operations do not comply with laws, regulations, standards, anti-money laundering and counter-terrorist financing procedures, and other rules"]
+          ]
+        },
+        {
+          "type": "bullets",
+          "title": "What compliance failure can lead to",
+          "items": [
+            "Sanctions by the regulatory authority.",
+            "Financial losses.",
+            "Reputational damage."
+          ]
+        },
+        {
+          "type": "mnemonic",
+          "title": "Operational risk sources",
+          "phrase": "PEOPLE, PROCESS, SYSTEMS, EVENTS: the four ways operations go wrong.",
+          "letters": [
+            ["People", "Omissions in employees’ work, intentional or not"],
+            ["Process", "Inadequate internal procedures and processes"],
+            ["Systems", "Poor management of information and other systems"],
+            ["Events", "Unforeseeable external events"]
+          ],
+          "note": "Legal risk is counted inside operational risk."
+        }
+      ]
+    },
+    {
+      "id": "reputational-strategic",
+      "title": "Reputational and Strategic Risk",
+      "icon": "📰",
+      "blocks": [
+        {
+          "type": "keyvalue",
+          "title": "Image and direction risks",
+          "rows": [
+            ["Reputational risk", "Possibility of losses because of adverse effects on the bank’s market positioning."],
+            ["Strategic risk", "Adverse effect on financial result and capital due to lack of suitable policies and strategies, poor implementation, or failure to respond to changes in the bank’s operating environment."]
+          ]
+        },
+        {
+          "type": "text",
+          "text": "Reputational risk can arise from negative public opinion after a big fraud or scam, and when the bank cannot control its operational risk. Such events lead to non-repayment of loans, large debt and rising NPAs, and create a negative image of the bank. The PNB and ICICI Bank cases are cited as examples."
+        },
+        {
+          "type": "figure",
+          "kind": "flow",
+          "title": "How a scam turns into reputation loss",
+          "items": [
+            ["Big fraud or scam", "Operational risk not controlled"],
+            ["No repayment, large debt", "Loans go bad"],
+            ["Rising NPA", "Credit loss and business loss"],
+            ["Negative image", "Reputation loss for the bank"]
+          ]
+        },
+        {
+          "type": "mnemonic",
+          "title": "Reputation formula",
+          "phrase": "Credit loss + Business loss = Reputation loss.",
+          "note": "A scam does not just cost money; it costs customers’ trust, which hits business."
+        }
+      ]
+    },
+    {
+      "id": "capital-and-bad-loans",
+      "title": "Capital Adequacy, Stressed Assets and Recovery",
+      "icon": "💰",
+      "blocks": [
+        {
+          "type": "keyvalue",
+          "title": "Capital terms linked to risk",
+          "rows": [
+            ["Capital Adequacy Ratio (CAR)", "A bank’s capital measured against its risk-weighted assets; it shows how much cushion the bank has against risk."],
+            ["Tier-I capital", "Core capital: paid-up capital, statutory reserves and capital reserves."],
+            ["Tier-II capital", "Supplementary capital, which includes subordinated debt."],
+            ["Risk-weighted assets", "Assets weighted for credit risk, market risk and operational risk."],
+            ["Basel III norms", "Capital norms that raise the level of capital banks must hold."]
+          ]
+        },
+        {
+          "type": "mnemonic",
+          "title": "Tier-I versus Tier-II",
+          "phrase": "Tier-I is PSC: Paid-up capital, Statutory reserves, Capital reserves. Debt is second-tier: subordinated debt sits in Tier-II.",
+          "letters": [
+            ["P", "Paid-up capital (Tier-I)"],
+            ["S", "Statutory reserves (Tier-I)"],
+            ["C", "Capital reserves (Tier-I)"],
+            ["Sub-debt", "Subordinated debt (Tier-II)"]
+          ]
+        },
+        {
+          "type": "bullets",
+          "title": "Bad loans and their treatment",
+          "items": [
+            "Stressed assets show up through signs such as bounced cheques, stock shortages and deterioration in asset quality.",
+            "Restructured assets are loans that get a longer repayment period at a reduced interest rate.",
+            "The SARFAESI Act was framed to help banks recover bad loans and deal better with non-performing assets.",
+            "Under Strategic Debt Restructuring (SDR), lenders to a corporate borrower can convert the whole or part of their loans into equity shares.",
+            "The Reserve Bank of India is the regulator that controls banking and financial services in India.",
+            "SIDBI, the small industries bank, has its headquarters at Lucknow."
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "fact",
+          "title": "Minimum CAR",
+          "text": "As per the 2024-25 syllabus, scheduled commercial banks in India are required to maintain a minimum CAR of 9%. The figure is a regulatory norm and can be revised by the RBI."
+        }
+      ]
+    }
+  ],
+  "revision": [
+    "Banking risks are possible adverse effects on a bank’s financial result and capital.",
+    "A risk management system has strategy, organisation, process, internal controls, information system and capital assessment.",
+    "Liquidity risk is the inability to meet due liabilities; funding liquidity and market liquidity are its two forms.",
+    "Rising NPAs make banks scared to lend, which reduces liquidity in the market.",
+    "Credit risk is a debtor’s default; residual, dilution, settlement and counterparty risks belong to its family.",
+    "Market risk covers forex risk, price risk on debt and equity securities, and commodity risk.",
+    "Interest rate risk arises on banking book items when interest rates change.",
+    "Currency risk is also called exchange-rate risk.",
+    "Concentration risk comes from exposure to the same or similar source or type of risk.",
+    "Country risk is the inability to collect dues because of political, economic or social conditions abroad.",
+    "Operational risk comes from people, processes, systems and external events, and includes legal risk.",
+    "Compliance risk includes anti-money laundering and counter-terrorist financing failures and can bring sanctions.",
+    "Credit loss plus business loss equals reputation loss.",
+    "Strategic risk is the absence of proper policies or the failure to respond to a changing environment.",
+    "Tier-I capital: paid-up capital, statutory reserves, capital reserves; subordinated debt is Tier-II.",
+    "SARFAESI Act helps banks recover bad loans; RBI regulates banking in India; SIDBI is headquartered at Lucknow."
+  ],
+  "mindmap": {
+    "center": "Risks in the Banking Sector",
+    "branches": [
+      {
+        "label": "Risk management system",
+        "children": ["Strategy and policies", "Organisation", "Process and controls", "Information system", "Capital adequacy check"]
+      },
+      {
+        "label": "Liquidity risk",
+        "children": ["Funding liquidity", "Market liquidity", "Availability of cash", "Rising NPA effect"]
+      },
+      {
+        "label": "Credit risk family",
+        "children": ["Credit risk", "Residual risk", "Dilution risk", "Settlement risk", "Counterparty credit risk"]
+      },
+      {
+        "label": "Market risk",
+        "children": ["Forex or exchange risk", "Price risk: debt securities", "Price risk: equity", "Commodity risk", "Interest rate risk"]
+      },
+      {
+        "label": "Exposure risks",
+        "children": ["Concentration risk", "Bank exposure risk", "Investment risk", "Country risk"]
+      },
+      {
+        "label": "Operational family",
+        "children": ["Operational risk", "Legal risk", "Compliance risk"]
+      },
+      {
+        "label": "Image and strategy",
+        "children": ["Reputational risk", "Strategic risk", "Scams hurt trust"]
+      },
+      {
+        "label": "Capital and bad loans",
+        "children": ["CAR and risk-weighted assets", "Tier-I and Tier-II", "Stressed and restructured", "SARFAESI, SDR"]
+      }
+    ]
+  }
+}
