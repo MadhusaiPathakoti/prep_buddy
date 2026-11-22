@@ -29,6 +29,7 @@
     "verify:letter-pairs": "tsx scripts/verify-letter-pairs.ts",
     "verify:number-arrangement": "tsx scripts/verify-number-arrangement.ts",
     "verify:puzzle":"tsx scripts/verify-puzzle-solver.ts",
+    "verify:family": "tsx scripts/verify-family-tree.ts",
     "verify:syllogism": "tsx scripts/verify-syllogism-solver.ts",
     "preview": "vite preview",
     "verify:qbank-delete": "tsx scripts/verify-qb-delete.ts"

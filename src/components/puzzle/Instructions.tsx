@@ -51,6 +51,28 @@ const GROUPS: Group[] = [
     ],
   },
   {
+    heading: 'Family trees (blood relations)',
+    rules: [
+      {
+        title: 'Who and and',
+        text: `"who / whom / whose" refers to the person named just before it; "and / but" refers to the first person of the sentence. "N is the brother-in-law of A, who has only one daughter" — the daughter is A's.`,
+        example: `R, who has no siblings, is the mother of P  →  R has no brothers or sisters; R is P's mother.`,
+      },
+      {
+        title: 'The family is the people named',
+        text: 'Only the people in the text exist: "A has only one daughter" counts daughters among them. The parents of the oldest generation are outside the puzzle, so brothers and sisters there are shown joined by a bracket.',
+      },
+      {
+        title: 'Generations and genders',
+        text: 'Everyone is in one of the stated generations, each generation is used, and nobody in the top one has parents in the family. A gender is fixed only when the text says so or a relation forces it (mother, uncle, wife …) — a name or a letter tells nothing.',
+      },
+      {
+        title: 'Ambiguous relations',
+        text: `A brother-in-law is a spouse's brother or a sister's husband; an uncle is a parent's brother or the husband of a parent's sister. Every reading is tried and the clues decide. Married couples are a man and a woman of one generation who are not blood relatives.`,
+      },
+    ],
+  },
+  {
     heading: 'Tips',
     rules: [
       { title: 'Paste everything', text: 'Include the introduction lines (who, how many, what attributes): the solver needs them as much as the clues.' },

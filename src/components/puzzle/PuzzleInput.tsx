@@ -1,6 +1,8 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
+import FamilyPanel from './FamilyPanel'
 import Instructions from './Instructions'
+import { isFamilyPuzzle } from '../../lib/familyTree/parse'
 import { Ctx } from '../../lib/puzzleSolver/core'
 import { ACCEPTED_TYPES, readPuzzleImage } from '../../lib/puzzleSolver/ocrApi'
 import { parsePuzzle } from '../../lib/puzzleSolver/parse'
@@ -18,7 +20,8 @@ interface PuzzleInputProps {
 type OcrState = { kind: 'idle' } | { kind: 'reading' } | { kind: 'error'; message: string } | { kind: 'done'; previous: string }
 
 export default function PuzzleInput({ text, onText, onSolve, busy, error }: PuzzleInputProps) {
-  const parsed = useMemo(() => parsePuzzle(text), [text])
+  const family = useMemo(() => isFamilyPuzzle(text), [text])
+  const parsed = useMemo(() => (family ? parsePuzzle('') : parsePuzzle(text)), [text, family])
   const [ocr, setOcr] = useState<OcrState>({ kind: 'idle' })
   const [preview, setPreview] = useState<string | null>(null)
   const [dragging, setDragging] = useState(false)
@@ -159,6 +162,10 @@ export default function PuzzleInput({ text, onText, onSolve, busy, error }: Puzz
         <p className="mt-1 text-[11px] text-slate-400 dark:text-slate-500">Screenshots are read by an AI service (Google Gemini) through this app's server — only the picture is sent, and nothing is saved.</p>
       </div>
 
+      {family && hasText ? (
+        <FamilyPanel text={text} />
+      ) : (
+        <>
       {hasText && (
         <div className="mt-4 rounded-3xl bg-white p-5 shadow-sm ring-1 ring-slate-200 dark:bg-slate-800 dark:ring-slate-700">
           <h2 className="text-xs font-bold uppercase tracking-wide text-slate-400 dark:text-slate-500">What I understood</h2>
@@ -229,6 +236,8 @@ export default function PuzzleInput({ text, onText, onSolve, busy, error }: Puzz
       >
         {busy ? 'Solving…' : puzzle ? (unparsed.length ? `Solve with the ${puzzle.clues.length} clues I understood` : 'Solve it, step by step') : 'Solve it, step by step'}
       </button>
+        </>
+      )}
     </div>
   )
 }

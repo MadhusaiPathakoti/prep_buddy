@@ -6,6 +6,8 @@ export interface SamplePuzzle {
   text: string
   /** the clues deliberately leave several arrangements open (the answer key lists the alternatives) */
   multi?: boolean
+  /** a family-tree (blood relation) puzzle: solved by src/lib/familyTree, not by the logic-grid engine */
+  family?: boolean
 }
 
 export const SAMPLES: SamplePuzzle[] = [
@@ -450,5 +452,11 @@ Two persons are sitting between S and W. X and W are immediate neighbors. Y is n
     text: `Nine events U, S, R, Q, O, E, M, N & P are held on 7th, 19th and 28th of different months (June, July and August) in the same year. Events, whose name starts with consonant, are held in different states among Mizoram, Lakshadweep, Ladakh, Chandigarh, Odisha and Manipur.
 
 Three events are held between N and M, which is held in Ladakh. N is not held in Mizoram. O and E are held after R, which is not held on 7th June. Event in Manipur is held immediately after N, which is held in August. Q is held in Chandigarh. Event in Odisha is held immediately before U, but in different months. P is held after S.`,
+  },
+  {
+    id: 'family-tree',
+    title: 'Family tree (blood relations)',
+    family: true,
+    text: `There is a family of seven people spread across two generations. N is the brother-in-law of A, who has only one daughter. R, who does not have any siblings is the mother of P. A is the uncle of H, who is a male. T is the mother-in-law of G, who is married to H.`,
   },
 ]

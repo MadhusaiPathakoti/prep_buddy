@@ -599,7 +599,7 @@ runParserTable(ORDER_HEADER, ORDER_EXTRA)
 }
 
 // the two built-in samples must be understood completely and have exactly one solution
-for (const s of SAMPLES) {
+for (const s of SAMPLES.filter((x) => !x.family)) {
   const r = parsePuzzle(s.text)
   if (!r.puzzle || r.unparsed.length || r.errors.length) fail(`sample "${s.title}" did not parse cleanly`)
   else {
@@ -1562,7 +1562,7 @@ for (let run = 0; run < RUNS; run++) {
 }
 
 // the built-in samples go through the same trace checks
-for (const s of SAMPLES) {
+for (const s of SAMPLES.filter((x) => !x.family)) {
   const r = parsePuzzle(s.text)
   if (!r.puzzle) continue
   const trace = buildTrace(r.puzzle)
