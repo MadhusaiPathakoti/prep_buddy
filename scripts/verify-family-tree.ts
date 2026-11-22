@@ -7,8 +7,8 @@
 
 import { holds, famKey, siblings, type Gender, type World } from '../src/lib/familyTree/model'
 import { describeFact, isFamilyPuzzle, parseFamily } from '../src/lib/familyTree/parse'
-import { bloodRelated, clueHolds, solveFamily, type Fact, type FamilyPuzzle } from '../src/lib/familyTree/solve'
-import { analyzeFamily } from '../src/lib/familyTree/analyze'
+import { bloodRelated, clueHolds, factHolds, solveFamily, type Fact, type FamilyPuzzle } from '../src/lib/familyTree/solve'
+import { analyzeFamily, refineAnalysis } from '../src/lib/familyTree/analyze'
 import { layoutFamily } from '../src/lib/familyTree/layout'
 import { SAMPLES } from '../src/lib/puzzleSolver/sample'
 
@@ -63,6 +63,12 @@ const phr: [string, string][] = [
   ['A has two sons.', 'A has exactly 2 sons'],
   ['A is not the brother of B.', 'A is not the brother of B'],
   ['A is a woman.', 'A is female'],
+  ['A is the only sister of B.', 'A is the sister of B ; B has exactly one sister'],
+  ['A is the aunt of B, who is the only son of C.', 'A is the aunt of B ; B is the son of C ; C has exactly one son'],
+  ["A is the brother-in-law of B, who is married to C's brother.", 'A is the brother-in-law of B ; B is married to the brother of C'],
+  ['A and B are of the opposite gender, and C is unmarried.', 'A and B are of opposite gender ; C is unmarried'],
+  ['A and B are of the same gender.', 'A and B are of the same gender'],
+  ['A is married.', 'A is married'],
   ['A is the brother in law of B.', 'A is the brother-in-law of B'],
 ]
 for (const [s, want] of phr) {
@@ -79,6 +85,76 @@ for (const [s, want] of phr) {
 }
 check(isFamilyPuzzle(SAMPLES.find((x) => x.id === 'family-tree')!.text), 'the family sample should be recognised')
 check(!isFamilyPuzzle('Eight persons A, B, C, D, E, F, G, H live on eight floors. A lives above B.'), 'a floor puzzle is not a family puzzle')
+
+// ── rules about the whole family, a listed set of people, bullets
+{
+  const t = `There is a family of six people (\`A, B, C, D, E, F\`) spread across two generations, with two married couples and no single parents. Every couple in the first generation has at least one child.
+* A is the father of C.
+* B is the wife of A.
+* D is the mother of E, who is the only son of F.
+* There are more males than females in the family.`
+  const r = parseFamily(t)
+  const p = r.puzzle
+  if (!p || r.unparsed.length) fail(`rules puzzle not understood: ${r.errors.join('; ')} ${r.unparsed.join(' | ')}`)
+  else {
+    check(p.names.join('') === 'ABCDEF', 'listed people')
+    check(JSON.stringify(p.rules) === JSON.stringify({ couples: 2, noSingleParents: true, couplesHaveChildren: [1], genderBalance: 'moreM' }), `rules read: ${JSON.stringify(p.rules)}`)
+    const found = solveFamily(p)
+    check(found.worlds.length > 0, 'rules puzzle should have trees')
+    for (const w of found.worlds) {
+      const males = w.gender.filter((g) => g === 'M').length
+      const couples = w.spouse.filter((x, i) => x > i).length
+      check(males > w.n - males && couples === 2, 'every tree has 2 couples and more men than women')
+      check(w.gen.every((g) => g === 1 || (w.father[w.gen.indexOf(g)] !== undefined)), 'generation sanity')
+      for (let i = 0; i < w.n; i++) check((w.father[i] >= 0) === (w.mother[i] >= 0), 'no single parents')
+    }
+  }
+}
+
+// ── the 11-person puzzle: read completely; its clues contradict each other, and the reference picture breaks four statements
+{
+  const t = `There is a family of eleven people (\`B, C, D, F, J, K, L, M, Q, V, W\`) spread across three generations, with four married couples and no single parents. Every couple in the first two generations has at least one child.
+
+* W is the grandfather of Q, who is the only sister of D.
+* C is the sister-in-law of K, who has no siblings.
+* L is the mother-in-law of M, who is the father of D.
+* B is the aunt of F, who is the only son of V.
+* J is the brother-in-law of V, who is married to B's brother.
+* K and W are of the opposite gender, and Q is unmarried.
+* There are more females than males in the family.`
+  const r = parseFamily(t)
+  const p = r.puzzle
+  if (!p || r.unparsed.length) fail(`11-person puzzle not understood: ${r.errors.join('; ')} ${r.unparsed.join(' | ')}`)
+  else {
+    check(p.names.length === 11 && p.gens === 3 && p.clues.length === 6, '11-person puzzle: people, generations, clues')
+    check(p.rules?.couples === 4 && p.rules.noSingleParents === true && JSON.stringify(p.rules.couplesHaveChildren) === '[1,2]' && p.rules.genderBalance === 'moreF', '11-person puzzle: rules')
+    const strict = solveFamily(p, { deadlineMs: 20000 })
+    check(strict.complete && strict.worlds.length === 0, '11-person puzzle: no tree fits the usual meanings')
+    const wide = solveFamily(p, { relaxed: true, deadlineMs: 20000 })
+    check(wide.complete && wide.worlds.length === 0, '11-person puzzle: no tree fits the wider in-law meanings either')
+    // the reference picture: W=L with sons M and J; M=K; J=C; V=B with son F; Q and D children of M and K
+    const I = (c: string) => p.names.indexOf(c)
+    const n = p.names.length
+    const w: World = { n, names: p.names, gender: Array(n).fill('M'), gen: Array(n).fill(2), spouse: Array(n).fill(-1), father: Array(n).fill(-1), mother: Array(n).fill(-1), ext: Array(n).fill(-1), relaxed: true }
+    for (const c of 'LKCBQ') w.gender[I(c)] = 'F'
+    for (const c of 'WL') w.gen[I(c)] = 1
+    for (const c of 'QDF') w.gen[I(c)] = 3
+    const marry = (a: string, b: string) => ((w.spouse[I(a)] = I(b)), (w.spouse[I(b)] = I(a)))
+    marry('W', 'L'); marry('M', 'K'); marry('J', 'C'); marry('V', 'B')
+    for (const c of 'MJ') ((w.father[I(c)] = I('W')), (w.mother[I(c)] = I('L')))
+    for (const c of 'QD') ((w.father[I(c)] = I('M')), (w.mother[I(c)] = I('K')))
+    w.father[I('F')] = I('V'); w.mother[I('F')] = I('B')
+    let e = 0
+    for (let i = 0; i < n; i++) if (w.father[i] < 0 && w.mother[i] < 0) w.ext[i] = e++
+    const failed = p.clues.flatMap((c) => c.facts.filter((f) => !factHolds(w, f)).map((f) => describeFact(f, (i) => p.names[i])))
+    check(failed.join(' | ') === 'L is the mother-in-law of M | B is the aunt of F | J is the brother-in-law of V | V is married to the brother of B', `reference picture breaks: ${failed.join(' | ')}`)
+    const a = analyzeFamily(p)
+    check(a.status === 'none' && a.searchedAll, '11-person puzzle analysis: contradiction')
+    let last = a
+    for (const x of refineAnalysis(p, a)) last = x
+    check(!last.pending && last.culpritFacts.some((c) => c.fact === 'C is the sister-in-law of K'), `11-person puzzle: the clash is named (${JSON.stringify(last.culpritFacts)})`)
+  }
+}
 
 // ── the example: exactly the tree of the answer picture
 {
@@ -98,8 +174,10 @@ check(!isFamilyPuzzle('Eight persons A, B, C, D, E, F, G, H live on eight floors
       check(w.father[p.names.indexOf('P')] === p.names.indexOf('A') && w.mother[p.names.indexOf('P')] === p.names.indexOf('R'), 'family sample: P is the child of A and R')
       check(w.father[p.names.indexOf('H')] === p.names.indexOf('N') && w.mother[p.names.indexOf('H')] === p.names.indexOf('T'), 'family sample: H is the child of N and T')
       check(siblings(w, p.names.indexOf('A'), p.names.indexOf('T')), 'family sample: A and T are brother and sister')
-      const a = analyzeFamily(p)
-      check(a.status === 'unique' && a.clues.length === 4, 'family sample analysis')
+      const a0 = analyzeFamily(p)
+      let a = a0
+      for (const x of refineAnalysis(p, a0)) a = x
+      check(a.status === 'unique' && a.clues.length === 4 && !a.pending && a.clues.every((c) => c.without >= 0), 'family sample analysis')
       check(a.clues.every((c) => c.facts.every((f) => f.fact.length > 0)), 'family sample: every fact described')
       const L = layoutFamily(w)
       check(L.nodes.length === 7 && L.marriages.length === 3 && L.sibGroups.length === 1 && L.rows === 2, 'family sample: layout')

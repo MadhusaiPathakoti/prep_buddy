@@ -23,6 +23,8 @@ export interface World {
   mother: number[]
   /** people whose parents are both outside the family share an ext group when they are brothers / sisters; -1 otherwise */
   ext: number[]
+  /** also accept the wider meaning of brother / sister-in-law: the husband / wife of one's spouse's brother / sister */
+  relaxed?: boolean
 }
 
 export const male = (w: World, i: number): boolean => w.gender[i] === 'M'
@@ -164,6 +166,7 @@ function inLawSibling(g: Gender): RelationDef {
       const sy = w.spouse[y]
       if (sy >= 0 && siblings(w, x, sy)) return `${nm(x)} is a brother or sister of ${nm(sy)}, who is married to ${nm(y)}`
       for (const s of siblingsOf(w, y)) if (w.spouse[s] === x) return `${nm(x)} is married to ${nm(s)}, a brother or sister of ${nm(y)}`
+      if (w.relaxed && sy >= 0) for (const s of siblingsOf(w, sy)) if (w.spouse[s] === x) return `${nm(x)} is married to ${nm(s)}, a brother or sister of ${nm(sy)}, who is married to ${nm(y)}`
       return null
     },
   }

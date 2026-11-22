@@ -15,6 +15,12 @@ export type Fact =
   | { t: 'gender'; x: number; g: Gender }
   // x has exactly / at least n people of that kind ("A has only one daughter", "R has no siblings")
   | { t: 'count'; x: number; what: CountKind; n: number; atLeast?: boolean }
+  // x and y are of opposite (or, with `same`, the same) gender
+  | { t: 'opposite'; x: number; y: number; same?: boolean }
+  // x is unmarried / married
+  | { t: 'single'; x: number; married?: boolean }
+  // x is married to the <rel> of y ("V, who is married to B's brother")
+  | { t: 'marriedTo'; x: number; rel: string; y: number }
 
 export interface FamilyClue {
   id: number
@@ -22,12 +28,35 @@ export interface FamilyClue {
   facts: Fact[]
 }
 
+/** statements about the whole family ("four married couples", "no single parents", "more females than males") */
+export interface FamilyRules {
+  /** exactly this many married couples */
+  couples?: number
+  /** a child's parents are both among the people (a married couple), never one parent alone */
+  noSingleParents?: boolean
+  /** every married couple of these generations has at least one child (the list is empty-free; undefined = no such rule) */
+  couplesHaveChildren?: number[]
+  genderBalance?: 'moreF' | 'moreM' | 'equal'
+}
+
 export interface FamilyPuzzle {
   names: string[]
   /** how many generations the people are spread across */
   gens: number
   clues: FamilyClue[]
+  rules?: FamilyRules
 }
+
+export function describeRules(r: FamilyRules | undefined, gens: number): string[] {
+  const out: string[] = []
+  if (!r) return out
+  if (r.couples !== undefined) out.push(`${r.couples} married couple${r.couples === 1 ? '' : 's'}`)
+  if (r.noSingleParents) out.push('no single parents')
+  if (r.couplesHaveChildren) out.push(r.couplesHaveChildren.length >= gens ? 'every couple has a child' : `every couple in generation${r.couplesHaveChildren.length > 1 ? 's' : ''} ${r.couplesHaveChildren.join(', ')} has a child`)
+  if (r.genderBalance) out.push(r.genderBalance === 'moreF' ? 'more women than men' : r.genderBalance === 'moreM' ? 'more men than women' : 'as many men as women')
+  return out
+}
+
 
 const COUNT_REL: Record<CountKind, string> = { son: 'son', daughter: 'daughter', child: 'child', brother: 'brother', sister: 'sister', sibling: 'sibling' }
 
@@ -46,6 +75,14 @@ export function factHolds(w: World, f: Fact): boolean {
     case 'count': {
       const c = countOf(w, f.x, f.what)
       return f.atLeast ? c >= f.n : c === f.n
+    }
+    case 'opposite':
+      return (w.gender[f.x] === w.gender[f.y]) === !!f.same
+    case 'single':
+      return (w.spouse[f.x] >= 0) === !!f.married
+    case 'marriedTo': {
+      const z = w.spouse[f.x]
+      return z >= 0 && holds(w, f.rel, z, f.y) !== null
     }
   }
 }
@@ -76,6 +113,10 @@ interface Options {
   nodeCap?: number
   /** clue ids left out of the search ("what if this clue were missing") */
   skip?: Set<number>
+  /** use the wider meaning of in-laws (see World.relaxed) */
+  relaxed?: boolean
+  /** stop searching after this many milliseconds (the result is then incomplete) */
+  deadlineMs?: number
 }
 
 export function solveFamily(p: FamilyPuzzle, opts: Options = {}): FamilySearch {
@@ -83,6 +124,8 @@ export function solveFamily(p: FamilyPuzzle, opts: Options = {}): FamilySearch {
   const G = p.gens
   const limit = opts.limit ?? 50
   const nodeCap = opts.nodeCap ?? 4_000_000
+  const t0 = Date.now()
+  const deadline = opts.deadlineMs ?? Infinity
   const clues = p.clues.filter((c) => !opts.skip?.has(c.id))
   const facts = clues.flatMap((c) => c.facts)
   const relFacts = facts.filter((f): f is Extract<Fact, { t: 'rel' }> => f.t === 'rel' && !f.neg)
@@ -108,12 +151,15 @@ export function solveFamily(p: FamilyPuzzle, opts: Options = {}): FamilySearch {
   const father: number[] = Array(n).fill(-1)
   const mother: number[] = Array(n).fill(-1)
   const ext: number[] = Array(n).fill(-1)
-  const w: World = { n, names: p.names, gender, gen, spouse, father, mother, ext }
+  const w: World = { n, names: p.names, gender, gen, spouse, father, mother, ext, relaxed: opts.relaxed }
   const worlds: World[] = []
   let nodes = 0
   let complete = true
   const stop = () => worlds.length >= limit || !complete
 
+  const rules = p.rules ?? {}
+  const oppFacts = facts.filter((f): f is Extract<Fact, { t: 'opposite' }> => f.t === 'opposite')
+  const singleFacts = facts.filter((f): f is Extract<Fact, { t: 'single' }> => f.t === 'single')
   const spouseFacts = relFacts.filter((f) => RELATIONS[f.rel].direct === 'spouse')
   const parentFacts = relFacts.filter((f) => RELATIONS[f.rel].direct === 'parent' || RELATIONS[f.rel].direct === 'child')
 
@@ -147,12 +193,19 @@ export function solveFamily(p: FamilyPuzzle, opts: Options = {}): FamilySearch {
       for (const s of siblingsOf(w, i)) join(i, s)
     }
     for (let i = 1; i < n; i++) if (find(i) !== find(0)) return
+    // every couple of the stated generations has a child
+    if (rules.couplesHaveChildren) {
+      for (let i = 0; i < n; i++) {
+        if (gender[i] !== 'M' || spouse[i] < 0 || !rules.couplesHaveChildren.includes(gen[i])) continue
+        if (!childrenOf(w, i).length) return
+      }
+    }
     for (const c of clues) if (!clueHolds(w, c)) return
     worlds.push({ ...w, gender: [...gender], gen: [...gen], spouse: spouse.map((s) => (s < 0 ? -1 : s)), father: [...father], mother: [...mother], ext: [...ext] })
   }
   const parentsDfs = (k: number): void => {
     if (stop()) return
-    if (++nodes > nodeCap) {
+    if (++nodes > nodeCap || ((nodes & 255) === 0 && Date.now() - t0 > deadline)) {
       complete = false
       return
     }
@@ -172,7 +225,7 @@ export function solveFamily(p: FamilyPuzzle, opts: Options = {}): FamilySearch {
           mother[i] = m
         })
       }
-      for (let x = 0; x < n; x++) {
+      for (let x = 0; x < n && !rules.noSingleParents; x++) {
         if (gen[x] !== gen[i] - 1 || spouse[x] >= 0) continue
         options.push(() => {
           if (gender[x] === 'M') father[i] = x
@@ -210,10 +263,17 @@ export function solveFamily(p: FamilyPuzzle, opts: Options = {}): FamilySearch {
   }
 
   // ── layer 2: marriages ──
+  let pairs = 0
   const spouseDfs = (i: number): void => {
     if (stop()) return
+    if ((++nodes & 255) === 0 && Date.now() - t0 > deadline) {
+      complete = false
+      return
+    }
     if (i === n) {
       for (const f of spouseFacts) if (spouse[f.x] !== f.y) return
+      for (const f of singleFacts) if ((spouse[f.x] >= 0) !== !!f.married) return
+      if (rules.couples !== undefined && pairs !== rules.couples) return
       order.sort((a, b) => gen[a] - gen[b] || a - b)
       extNext = 0
       parentsDfs(0)
@@ -224,9 +284,12 @@ export function solveFamily(p: FamilyPuzzle, opts: Options = {}): FamilySearch {
     spouseDfs(i + 1)
     for (let j = i + 1; j < n; j++) {
       if (spouse[j] !== -2 || gen[j] !== gen[i] || gender[j] === gender[i]) continue
+      if (rules.couples !== undefined && pairs >= rules.couples) break
       spouse[i] = j
       spouse[j] = i
+      pairs++
       spouseDfs(i + 1)
+      pairs--
       spouse[j] = -2
       if (stop()) break
     }
@@ -238,7 +301,13 @@ export function solveFamily(p: FamilyPuzzle, opts: Options = {}): FamilySearch {
     if (stop()) return
     if (i === n) {
       for (let g = 1; g <= G; g++) if (!gen.includes(g)) return
+      if (rules.genderBalance) {
+        const f = gender.filter((x) => x === 'F').length
+        const m = n - f
+        if (rules.genderBalance === 'moreF' ? f <= m : rules.genderBalance === 'moreM' ? m <= f : f !== m) return
+      }
       spouse.fill(-2)
+      pairs = 0
       spouseDfs(0)
       return
     }
@@ -253,6 +322,10 @@ export function solveFamily(p: FamilyPuzzle, opts: Options = {}): FamilySearch {
             ok = false
             break
           }
+        }
+        for (const f of oppFacts) {
+          if (!ok || f.x > i || f.y > i || (f.x !== i && f.y !== i)) continue
+          if ((gender[f.x] === gender[f.y]) !== !!f.same) ok = false
         }
         if (ok) genDfs(i + 1)
         if (stop()) return

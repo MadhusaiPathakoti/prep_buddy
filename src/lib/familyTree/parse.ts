@@ -5,7 +5,7 @@
 // person of the sentence (the usual blood-relation rule). Anything that is not understood is listed, never guessed at.
 
 import { RELATION_ALIASES, RELATION_WORDS, RELATIONS } from './model'
-import type { CountKind, Fact, FamilyClue, FamilyPuzzle } from './solve'
+import type { CountKind, Fact, FamilyClue, FamilyPuzzle, FamilyRules } from './solve'
 
 export interface FamilyParse {
   puzzle: FamilyPuzzle | null
@@ -29,6 +29,8 @@ function normalize(raw: string): string {
     .replace(/[‘’]/g, "'")
     .replace(/[“”]/g, '"')
     .replace(/[‐-―−]/g, '-')
+    .replace(/`/g, '')
+    .replace(/(^|\n)\s*[*•]\s+/g, ' ¶ ') // bullets start a new statement
     .replace(/\s+/g, ' ')
     .trim()
   t = t.replace(/\b(brother|sister|father|mother|son|daughter)[\s-]+in[\s-]+law\b/gi, (_m, a: string) => `${a.toLowerCase()}-in-law`)
@@ -38,7 +40,7 @@ function normalize(raw: string): string {
 
 function splitSentences(t: string): string[] {
   return t
-    .split(/(?<=[.!?])\s+(?=[A-Z])|\n+/)
+    .split(/(?<=[.!?])\s+(?=[A-Z])|\s*¶\s*|\n+/)
     .map((x) => x.trim().replace(/[.!]+$/, '').trim())
     .filter(Boolean)
 }
@@ -64,11 +66,37 @@ export function describeFact(f: Fact, nm: (i: number) => string): string {
       const plural = f.n === 1 ? word : word === 'child' ? 'children' : `${word}s`
       return `${nm(f.x)} has ${f.atLeast ? 'at least' : 'exactly'} ${f.n === 1 ? 'one' : f.n} ${plural}`
     }
+    case 'opposite':
+      return `${nm(f.x)} and ${nm(f.y)} are of ${f.same ? 'the same' : 'opposite'} gender`
+    case 'single':
+      return `${nm(f.x)} is ${f.married ? 'married' : 'unmarried'}`
+    case 'marriedTo':
+      return `${nm(f.x)} is married to the ${f.rel} of ${nm(f.y)}`
   }
 }
 
 const COUNT_WORDS = '(sons?|daughters?|child|brothers?|sisters?|sibling)'
 const singularCount = (w: string): CountKind => w.replace(/s$/, '') as CountKind
+
+/** the rules about the whole family in a piece of text ("four married couples", "no single parents", "every couple in the first two generations has at least one child", "more females than males") */
+function ruleParts(text: string, gens: number): FamilyRules {
+  const t = text.toLowerCase()
+  const rules: FamilyRules = {}
+  const cm = t.match(/\b(one|two|three|four|five|six|seven|eight|\d+)\s+married\s+couples?\b/)
+  if (cm) rules.couples = NUMS[cm[1]] ?? Number(cm[1])
+  if (/\bno\s+single\s+parents?\b|\bnobody\s+is\s+a\s+single\s+parent\b/.test(t)) rules.noSingleParents = true
+  const ch = t.match(/\bevery\s+(?:married\s+)?couple(?:\s+in\s+the\s+(?:first|top|oldest)(?:\s+(one|two|three|four|\d+))?\s+generations?)?\s+(?:has|have)\s+at\s+least\s+one\s+child\b/)
+  if (ch) {
+    const k = ch[1] ? (NUMS[ch[1]] ?? Number(ch[1])) : /\bin\s+the\s+(?:first|top|oldest)\s+generation\b/.test(t) ? 1 : gens
+    rules.couplesHaveChildren = Array.from({ length: Math.min(k, gens) }, (_, i) => i + 1)
+  }
+  if (/\bmore\s+(?:females|women|ladies|girls)\s+than\s+(?:males|men|gents|boys)\b/.test(t)) rules.genderBalance = 'moreF'
+  else if (/\bmore\s+(?:males|men|gents|boys)\s+than\s+(?:females|women|ladies|girls)\b/.test(t)) rules.genderBalance = 'moreM'
+  else if (/\b(?:equal|same)\s+number\s+of\s+(?:males|men)\s+and\s+(?:females|women)\b/.test(t)) rules.genderBalance = 'equal'
+  return rules
+}
+
+const RULE_SENTENCE = /\bmarried\s+couples?\b|\bno\s+single\s+parents?\b|\bevery\s+(?:married\s+)?couple\b|\bmore\s+(?:females|women|males|men)\s+than\b|\b(?:equal|same)\s+number\s+of\s+(?:males|men)\b/i
 
 export function parseFamily(raw: string): FamilyParse {
   const out: FamilyParse = { puzzle: null, errors: [], warnings: [], unparsed: [], header: {} }
@@ -80,17 +108,40 @@ export function parseFamily(raw: string): FamilyParse {
   const sentences = splitSentences(text)
   const isHeader = (s: string) => /\b(?:family|generations?)\b/i.test(s) && /\b(?:people|persons|members|generations?)\b/i.test(s) && !/\bis the\b/i.test(s)
   const headerIdx = sentences.findIndex(isHeader)
+  let listed: string[] | null = null
+  let headerText = ''
   if (headerIdx >= 0) {
     const h = sentences[headerIdx]
+    headerText = h
     const pm = h.match(/\b(one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|\d+)\s+(?:people|persons|members)\b/i)
     const gm = h.match(/\b(one|two|three|four|five|six|seven|eight|nine|ten|\d+)\s+generations?\b/i)
     if (pm) out.header.people = NUMS[pm[1].toLowerCase()] ?? Number(pm[1])
     if (gm) out.header.generations = NUMS[gm[1].toLowerCase()] ?? Number(gm[1])
+    // "(B, C, D, F)" or "- B, C, D, F -": the people are listed
+    const lm = h.match(/[(:-]\s*([A-Z](?:\s*(?:,|&|and)\s*[A-Z])+)\s*[):.,-]/) ?? h.match(/\(([A-Z](?:\s*(?:,|&|and)\s*[A-Z])+)\)/)
+    if (lm) listed = [...new Set(lm[1].split(/\s*(?:,|&|and)\s*/).map((x) => x.trim()).filter(Boolean))]
   }
-  const body = sentences.filter((_, i) => i !== headerIdx)
+  // sentences that are rules about the whole family, not clues
+  const ruleSentences: string[] = []
+  const body = sentences.filter((s, i) => {
+    if (i === headerIdx) return false
+    if (RULE_SENTENCE.test(s) && !/(?<![A-Za-z0-9'])[A-Z](?![A-Za-z0-9'])/.test(s)) {
+      ruleSentences.push(s)
+      return false
+    }
+    return true
+  })
   const letters = new Set<string>()
-  for (const s of body) for (const l of s.matchAll(/(?<![A-Za-z0-9'])([A-Z])(?![A-Za-z0-9'])/g)) letters.add(l[1])
-  const names = [...letters].sort()
+  for (const s of body) for (const l of s.matchAll(/(?<![A-Za-z0-9'])([A-Z])(?![A-Za-z0-9]|'(?!s\b))/g)) letters.add(l[1])
+  let names = [...letters].sort()
+  if (listed && listed.length >= 2) {
+    const extra = names.filter((l) => !listed!.includes(l))
+    if (extra.length) {
+      out.errors.push(`The clues name ${extra.join(', ')}, who ${extra.length === 1 ? 'is' : 'are'} not in the list of people.`)
+      return out
+    }
+    names = [...listed].sort()
+  }
   if (names.length < 2) {
     out.errors.push('I could not find the people — in these puzzles they are single capital letters (A, B, C …) used in the clues.')
     return out
@@ -108,24 +159,33 @@ export function parseFamily(raw: string): FamilyParse {
     out.errors.push('Between 1 and 5 generations are supported.')
     return out
   }
-  if (names.length > 10) {
-    out.errors.push('Up to 10 people are supported in a family-tree puzzle.')
+  if (names.length > 12) {
+    out.errors.push('Up to 12 people are supported in a family-tree puzzle.')
     return out
   }
   const idx = new Map(names.map((nm, i) => [nm, i]))
+  const rules = ruleParts([headerText, ...ruleSentences].join(' '), gens)
 
   const clues: FamilyClue[] = []
   for (const s of body) {
-    const marked = s.replace(/(?<![A-Za-z0-9'])([A-Z])(?![A-Za-z0-9'])/g, (_m, l: string) => `@${idx.get(l)}`).toLowerCase().replace(/\bchildren\b/g, 'child').replace(/\bsiblings\b/g, 'sibling')
-    const facts = parseSentence(marked)
-    if (facts && facts.length) clues.push({ id: clues.length + 1, text: s, facts })
+    const marked = s.replace(/(?<![A-Za-z0-9'])([A-Z])(?![A-Za-z0-9]|'(?!s\b))/g, (_m, l: string) => `@${idx.get(l)}`).toLowerCase().replace(/\bchildren\b/g, 'child').replace(/\bsiblings\b/g, 'sibling')
+    // "K and W are of the opposite gender, and Q is unmarried": two statements
+    const parts = marked.split(/\s*,\s*and\s+(?=@\d+\s+(?:is|are|was|were|has|have)\b)/)
+    const facts: Fact[] = []
+    let ok = true
+    for (const part of parts) {
+      const f = parseSentence(part)
+      if (f && f.length) facts.push(...f)
+      else ok = false
+    }
+    if (ok && facts.length) clues.push({ id: clues.length + 1, text: s, facts })
     else out.unparsed.push(s)
   }
   if (!clues.length) {
     out.errors.push('I could not read any clues from the text.')
     return out
   }
-  out.puzzle = { names, gens, clues }
+  out.puzzle = { names, gens, clues, ...(Object.keys(rules).length ? { rules } : {}) }
   return out
 }
 
@@ -136,6 +196,10 @@ const P = (s: string) => Number(s.slice(1))
 function parseSentence(s: string): Fact[] | null {
   s = s.replace(/\s+/g, ' ').replace(/^(?:also|further|moreover),?\s+/, '').trim()
   let m: RegExpMatchArray | null
+
+  // "@a and @b are of the opposite gender"
+  m = s.match(/^(@\d+) and (@\d+) (?:are|were) (?:of )?(?:the )?(opposite|same|different) genders?$/)
+  if (m) return [{ t: 'opposite', x: P(m[1]), y: P(m[2]), same: m[3] === 'same' }]
 
   // "@a and @b are married / brothers / the children of @c"
   m = s.match(/^(@\d+) and (@\d+) (?:are|were) (?:a\s+)?(?:married(?: couple)?|husband and wife|couple)$/)
@@ -158,11 +222,11 @@ function parseSentence(s: string): Fact[] | null {
   }
 
   // "@a (, who …) is the REL of @b (, who …) (and the REL of @c)"
-  m = s.match(new RegExp(`^(@\\d+)(.*?)\\b(?:is|was|are|were)\\s+(?:the\\s+|a\\s+|an\\s+)?(${RELRE})\\s+of\\s+(@\\d+)(.*)$`))
+  m = s.match(new RegExp(`^(@\\d+)(.*?)\\b(?:is|was|are|were)\\s+(?:the\\s+|a\\s+|an\\s+)?(only\\s+)?(${RELRE})\\s+of\\s+(@\\d+)(.*)$`))
   if (m) {
     const x = P(m[1])
-    const y = P(m[4])
-    const facts: Fact[] = [{ t: 'rel', rel: m[3], x, y }]
+    const y = P(m[5])
+    const facts: Fact[] = relFacts(m[4], !!m[3], x, y)
     const mid = m[2].trim().replace(/^[,;]\s*/, '').replace(/[,;]\s*$/, '')
     if (mid) {
       const clause = mid.replace(/^(?:who|whose|which)\s+/, '')
@@ -170,7 +234,7 @@ function parseSentence(s: string): Fact[] | null {
       if (!f) return null
       facts.push(...f)
     }
-    const tail = tailFacts(x, y, m[5])
+    const tail = tailFacts(x, y, m[6])
     if (!tail) return null
     return [...facts, ...tail]
   }
@@ -198,6 +262,13 @@ function parseSentence(s: string): Fact[] | null {
   return null
 }
 
+/** "x is the <rel> of y" (and, for "the only <rel>", y has exactly one such person) */
+function relFacts(rel: string, only: boolean, x: number, y: number): Fact[] {
+  const f: Fact[] = [{ t: 'rel', rel, x, y }]
+  if (only && (rel === 'son' || rel === 'daughter' || rel === 'brother' || rel === 'sister' || rel === 'child')) f.push({ t: 'count', x: y, what: rel as CountKind, n: 1 })
+  return f
+}
+
 /** what follows the second person: ", who has …" (about that person), "and the REL of @c", "and is …" (about the first person) */
 function tailFacts(subject: number, last: number, tailIn: string): Fact[] | null {
   let rest = tailIn.trim()
@@ -214,11 +285,11 @@ function tailFacts(subject: number, last: number, tailIn: string): Fact[] | null
       facts.push(...f)
       return facts
     }
-    m = rest.match(new RegExp(`^(?:and|but)\\s+(?:is\\s+|was\\s+)?(?:the\\s+|a\\s+|an\\s+)?(${RELRE})\\s+of\\s+(@\\d+)(.*)$`))
+    m = rest.match(new RegExp(`^(?:and|but)\\s+(?:is\\s+|was\\s+)?(?:the\\s+|a\\s+|an\\s+)?(only\\s+)?(${RELRE})\\s+of\\s+(@\\d+)(.*)$`))
     if (m) {
-      facts.push({ t: 'rel', rel: m[1], x: subject, y: P(m[2]) })
-      who = P(m[2])
-      rest = m[3].trim()
+      facts.push(...relFacts(m[2], !!m[1], subject, P(m[3])))
+      who = P(m[3])
+      rest = m[4].trim()
       continue
     }
     m = rest.match(/^(?:and|but)\s+(.+)$/)
@@ -245,12 +316,21 @@ function clauseFacts(p: number, textIn: string): Fact[] | null {
       facts.push({ t: 'gender', x: p, g: /^(?:male|man|boy)$/.test(m[1]) ? 'M' : 'F' })
       continue
     }
+    if ((m = c.match(new RegExp(`^(?:is|was)\\s+married\\s+to\\s+(@\\d+)'s\\s+(${RELRE})$`)))) {
+      facts.push({ t: 'marriedTo', x: p, rel: m[2], y: P(m[1]) })
+      continue
+    }
+    if ((m = c.match(/^(?:is|was)\s+(?:(not)\s+married|(unmarried|single)|(married))$/))) {
+      facts.push({ t: 'single', x: p, married: !!m[3] })
+      continue
+    }
     if ((m = c.match(/^(?:is|was)\s+(not\s+)?married\s+to\s+(@\d+)$/))) {
       facts.push({ t: 'rel', rel: 'spouse', x: p, y: P(m[2]), neg: !!m[1] })
       continue
     }
-    if ((m = c.match(new RegExp(`^(?:is|was)\\s+(not\\s+)?(?:the\\s+|a\\s+|an\\s+)?(${RELRE})\\s+of\\s+(@\\d+)$`)))) {
-      facts.push({ t: 'rel', rel: m[2], x: p, y: P(m[3]), neg: !!m[1] })
+    if ((m = c.match(new RegExp(`^(?:is|was)\\s+(not\\s+)?(?:the\\s+|a\\s+|an\\s+)?(only\\s+)?(${RELRE})\\s+of\\s+(@\\d+)$`)))) {
+      if (m[1]) facts.push({ t: 'rel', rel: m[3], x: p, y: P(m[4]), neg: true })
+      else facts.push(...relFacts(m[3], !!m[2], p, P(m[4])))
       continue
     }
     if ((m = c.match(new RegExp(`^(?:has|have)\\s+(?:only\\s+|exactly\\s+)?(one|two|three|four|[1-4])\\s+${COUNT_WORDS}$`)))) {

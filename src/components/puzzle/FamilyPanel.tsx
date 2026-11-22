@@ -1,8 +1,9 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import FamilyTreeDiagram from './FamilyTreeDiagram'
-import { analyzeFamily, siblingGroups, type FamilyAnalysis } from '../../lib/familyTree/analyze'
+import { analyzeFamily, refineAnalysis, siblingGroups, type FamilyAnalysis } from '../../lib/familyTree/analyze'
 import type { World } from '../../lib/familyTree/model'
 import { describeFact, parseFamily } from '../../lib/familyTree/parse'
+import { describeRules } from '../../lib/familyTree/solve'
 
 const card = 'mt-4 rounded-3xl bg-white p-5 shadow-sm ring-1 ring-slate-200 dark:bg-slate-800 dark:ring-slate-700'
 const chip = 'rounded-full bg-slate-100 px-2.5 py-1 font-semibold text-slate-700 dark:bg-slate-700 dark:text-slate-200'
@@ -61,9 +62,13 @@ export default function FamilyPanel({ text }: { text: string }) {
   const [busy, setBusy] = useState(false)
   const [tab, setTab] = useState(0)
   const timer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined)
+  const run = useRef(0)
   useEffect(() => {
+    run.current++
+    clearTimeout(timer.current)
     setResult(null)
     setTab(0)
+    setBusy(false)
   }, [text])
   useEffect(() => () => clearTimeout(timer.current), [])
 
@@ -72,10 +77,22 @@ export default function FamilyPanel({ text }: { text: string }) {
   const solve = () => {
     if (!puzzle) return
     setBusy(true)
+    const mine = ++run.current
     timer.current = setTimeout(() => {
-      setResult(analyzeFamily(puzzle))
+      const first = analyzeFamily(puzzle)
+      setResult(first)
       setTab(0)
       setBusy(false)
+      // the slower parts, one small search per repaint
+      const steps = refineAnalysis(puzzle, first)
+      const next = () => {
+        if (run.current !== mine) return
+        const n = steps.next()
+        if (n.done) return
+        setResult(n.value)
+        timer.current = setTimeout(next, 0)
+      }
+      timer.current = setTimeout(next, 0)
     }, 30)
   }
 
@@ -102,6 +119,11 @@ export default function FamilyPanel({ text }: { text: string }) {
               <span className={chip}>
                 {puzzle.gens} generation{puzzle.gens === 1 ? '' : 's'}
               </span>
+              {describeRules(puzzle.rules, puzzle.gens).map((r) => (
+                <span key={r} className={chip}>
+                  {r}
+                </span>
+              ))}
               <span className="rounded-full bg-emerald-100 px-2.5 py-1 font-semibold text-emerald-700 dark:bg-emerald-500/20 dark:text-emerald-300">{puzzle.clues.length} clues understood</span>
             </div>
             {warnings.map((w) => (
@@ -152,15 +174,29 @@ export default function FamilyPanel({ text }: { text: string }) {
             <>
               <h2 className="text-lg font-extrabold text-slate-900 dark:text-slate-100">The clues contradict each other</h2>
               <p className="mt-1 text-sm text-slate-600 dark:text-slate-300">No family of {puzzle.names.length} people in {puzzle.gens} generation{puzzle.gens === 1 ? '' : 's'} satisfies every clue as I read it. That usually means a clue was misread or mistyped.</p>
-              {result.culprits.length > 0 && (
+              {result.culpritFacts.length > 0 ? (
+                <div className="mt-2 text-sm text-amber-700 dark:text-amber-300">
+                  Leaving out any one of these statements makes it solvable — check how {result.culpritFacts.length > 1 ? 'they were' : 'it was'} read:
+                  <ul className="mt-1 list-disc pl-5">
+                    {result.culpritFacts.map((c) => (
+                      <li key={c.fact}>
+                        {c.fact} <span className="text-xs text-slate-400">(clue {c.clue})</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ) : result.culprits.length > 0 ? (
                 <p className="mt-2 text-sm text-amber-700 dark:text-amber-300">
                   Leaving out any one of clue{result.culprits.length > 1 ? 's' : ''} {result.culprits.join(', ')} makes it solvable — check how {result.culprits.length > 1 ? 'they were' : 'it was'} read.
                 </p>
-              )}
+              ) : null}
+              {result.pending && result.searchedAll && <p className="mt-2 animate-pulse text-xs font-semibold text-indigo-600 dark:text-indigo-300">Looking for the clues that clash…</p>}
+              {!result.searchedAll && <p className="mt-2 text-xs text-amber-700 dark:text-amber-300">The search ran out of time before covering every family, so this may not be a real contradiction.</p>}
             </>
           ) : (
             <>
               <h2 className="text-lg font-extrabold text-slate-900 dark:text-slate-100">{result.status === 'unique' ? 'The family tree' : `${result.worlds.length}${result.partial ? '+' : ''} family trees fit the clues`}</h2>
+              {result.relaxed && <p className="mt-1 text-xs text-amber-700 dark:text-amber-300">No tree fits the usual meanings of brother-in-law / sister-in-law (a spouse's brother or sister, or a brother's or sister's spouse), so this one also allows the husband or wife of a spouse's brother or sister.</p>}
               {result.status === 'several' && (
                 <>
                   <p className="mt-1 text-sm text-slate-600 dark:text-slate-300">The clues, as I read them, do not decide between these trees. Either a clue is missing or one was read differently from how it was meant.</p>
@@ -214,7 +250,7 @@ export default function FamilyPanel({ text }: { text: string }) {
                         </div>
                       ))}
                       <div className="mt-0.5 text-xs text-slate-400 dark:text-slate-500">
-                        {c.without === 0 ? 'Without this clue no family fits the others.' : c.without === 1 && !c.more ? 'Without this clue the others still give exactly one tree.' : `Without this clue ${c.more ? `${c.without}+` : c.without} trees would fit${result.status === 'unique' ? ' — it helps to pin the tree down' : ''}.`}
+                        {c.without < 0 ? (result.pending ? 'Working out how much this clue matters…' : '') : c.without === 0 ? 'Without this clue no family fits the others.' : c.without === 1 && !c.more ? 'Without this clue the others still give exactly one tree.' : `Without this clue ${c.more ? `${c.without}+` : c.without} trees would fit${result.status === 'unique' ? ' — it helps to pin the tree down' : ''}.`}
                       </div>
                     </div>
                   </li>
