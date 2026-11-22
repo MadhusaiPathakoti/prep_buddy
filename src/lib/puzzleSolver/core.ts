@@ -88,7 +88,8 @@ export class Ctx {
 
   /** a table with corners and sides: +1 when the people at the corners face the centre, -1 when they face outside, 0 otherwise */
   get cornerRight(): number {
-    return this.p.square ? (this.p.cornersIn ? 1 : -1) : 0
+    // a table whose people each face their own way (dirCat) has no fixed corner / side rule: left and right follow each person's facing
+    return this.p.square && this.p.dirCat === undefined ? (this.p.cornersIn ? 1 : -1) : 0
   }
   get tableName(): string {
     return `${this.p.shape ?? 'square'} table`
@@ -743,7 +744,7 @@ export function atomTest(a: Atom, n = 0, circ = false, cols = 1, m = 0, sq = 0, 
         const flip = a.ref && (dirOf(a.y) as (v: number[]) => number)(v) === 1 ? -1 : 1
         // `ds`: any of several distances ("not more than six persons between U and V, counted from the right of U")
         const dd = a.ds ?? [a.d]
-        return circ ? dd.some((d) => md(x - y) === md(d * right(y))) : grp(x) === grp(y) && dd.some((d) => idx(x) - idx(y) === d * flip)
+        return circ ? dd.some((d) => md(x - y) === md(d * right(y) * flip)) : grp(x) === grp(y) && dd.some((d) => idx(x) - idx(y) === d * flip)
       }
       break
     case 'rank':

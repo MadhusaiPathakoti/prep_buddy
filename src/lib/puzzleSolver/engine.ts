@@ -474,6 +474,58 @@ export class Engine {
     }
   }
 
+  /** "Not more than four persons are facing inside the centre": limits how many people have one direction. */
+  private facingRule(): void {
+    const c = this.ctx
+    const r = c.p.facingCount
+    if (!r || c.dirK < 0) return
+    const d = r.dir
+    const bit = 1 << d
+    let sure = 0
+    let possible = 0
+    for (let i = 0; i < c.n; i++) {
+      const row = this.grid.row(0, i, c.dirK)
+      if (row & bit) {
+        possible++
+        if (row === bit) sure++
+      }
+    }
+    const name = c.lab(c.dirK, d)
+    if (r.max !== undefined) {
+      if (sure > r.max) {
+        this.setContra(`${sure} people face ${name}, but at most ${r.max} may`)
+        return
+      }
+      if (sure === r.max) {
+        for (let i = 0; i < c.n; i++) {
+          const row = this.grid.row(0, i, c.dirK)
+          if (!(row & bit) || row === bit) continue
+          this.newGroup()
+          this.clear(0, i, c.dirK, d, { kind: 'trans', text: this.quiet ? '' : `${r.max} people already face ${name}, and at most ${r.max} may` })
+          if (this.contra) return
+        }
+      }
+    }
+    if (r.min !== undefined) {
+      if (possible < r.min) {
+        this.setContra(`only ${possible} people can still face ${name}, but at least ${r.min} must`)
+        return
+      }
+      if (possible === r.min) {
+        for (let i = 0; i < c.n; i++) {
+          const row = this.grid.row(0, i, c.dirK)
+          if (!(row & bit) || row === bit) continue
+          this.newGroup()
+          const other = row & ~bit
+          for (const j of bits(other)) {
+            this.clear(0, i, c.dirK, j, { kind: 'trans', text: this.quiet ? '' : `exactly ${r.min} people can still face ${name}, so all of them must` })
+            if (this.contra) return
+          }
+        }
+      }
+    }
+  }
+
   /** "Not more than two known persons sit on adjacent seats": among any run of (max + 1) neighbouring seats at least one is unnamed. */
   private runRule(): void {
     const c = this.ctx
@@ -612,6 +664,8 @@ export class Engine {
       if (this.contra) return false
       this.runRule()
       if (this.contra) return false
+      this.facingRule()
+      if (this.contra) return false
     } while (this.changed && ++guard < 1000)
     return !this.contra
   }
@@ -680,7 +734,7 @@ export function failedClues(puzzle: Puzzle, sol: Solution): number[] {
               ? sol.val[puzzle.dirCat as number][personOf(atom.y)] === dirVal(atom.x)
               : personOf(atom.x) === personOf(atom.y) && personOf(atom.x) >= 0
         if (atom.neg ? same : !same) ok = false
-      } else if (!atomTest(atom, n, puzzle.axis === 'circle', puzzle.cols ?? 1, puzzle.axis === 'tworow' ? (puzzle.rowLen ?? 0) : 0, puzzle.square ? (puzzle.cornersIn ? 1 : -1) : 0, puzzle.values, puzzle.slotCat !== undefined ? puzzle.cats[puzzle.slotCat].values.length : undefined)(atomVars(atom).map(posOf))) ok = false
+      } else if (!atomTest(atom, n, puzzle.axis === 'circle', puzzle.cols ?? 1, puzzle.axis === 'tworow' ? (puzzle.rowLen ?? 0) : 0, puzzle.square && puzzle.dirCat === undefined ? (puzzle.cornersIn ? 1 : -1) : 0, puzzle.values, puzzle.slotCat !== undefined ? puzzle.cats[puzzle.slotCat].values.length : undefined)(atomVars(atom).map(posOf))) ok = false
     }
     if (!ok) bad.push(clue.id)
   }

@@ -935,6 +935,23 @@ for (const s of SAMPLES.filter((x) => !x.family)) {
   }
 }
 
+// a square table where each person faces the centre or away: one arrangement (the answer figure), and the limit on those facing inside is applied
+{
+  const sample = SAMPLES.find((x) => x.id === 'square-mixed-facing')
+  const r = sample ? parsePuzzle(sample.text) : null
+  const e = r?.puzzle ? enumerate(r.puzzle, 50) : null
+  if (!r?.puzzle || r.unparsed.length || !e) fail('square table, mixed facing: not understood')
+  else if (e.sols.length !== 1 || r.puzzle.dirCat === undefined || r.puzzle.facingCount?.max !== 4) fail(`square table, mixed facing: expected one arrangement, got ${e.sols.length}`)
+  else {
+    const s0 = e.sols[0]
+    const line = r.puzzle.people.map((nm, i) => ({ nm, pos: s0.pos[i], d: s0.val[r.puzzle!.dirCat as number][i] })).sort((a, b) => a.pos - b.pos).map((o) => `${o.nm}${o.d === 0 ? 'i' : 'o'}`).join(' ')
+    // the figure read anticlockwise from corner A: A, D, B, C, F, H, G, E (A, B, C, D, H face away; E, F, G face the centre)
+    if (line !== 'Ao Do Bo Co Fi Ho Gi Ei') fail(`square table, mixed facing: wrong arrangement ${line}`)
+    const loose = { ...r.puzzle, facingCount: { dir: 0, max: 2 } }
+    if (enumerate(loose, 5).sols.length !== 0) fail('square table, mixed facing: "not more than two facing inside" should leave no arrangement')
+  }
+}
+
 // mistakes in the input are reported, not guessed at
 for (const [label, text, needle] of [
   ['no people', 'Hello there. A lives above B.', 'list of people'],

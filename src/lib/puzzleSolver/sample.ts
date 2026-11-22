@@ -459,4 +459,13 @@ Three events are held between N and M, which is held in Ladakh. N is not held in
     family: true,
     text: `There is a family of seven people spread across two generations. N is the brother-in-law of A, who has only one daughter. R, who does not have any siblings is the mother of P. A is the uncle of H, who is a male. T is the mother-in-law of G, who is married to H.`,
   },
+  {
+    id: 'square-mixed-facing',
+    title: 'Square table, facing either way',
+    text: `Eight persons are sitting around a square table such that, one person sits on each corner and one on each side. Some of them are facing towards the centre and some of them are facing away from the centre. Some clues regarding the arrangement are as follows.
+
+Not more than four persons are facing inside the centre. One person is sitting between E and D.
+E and G are facing same direction. B and D are sitting immediate next to each other facing same direction.
+D is sitting second to the right of E. E is sitting second to the left of H. F is sitting second to the left of B. A who is sitting at corner is sitting fifth to the left of C. G is sitting second to the right of A and second to the right of F. Two persons are sitting between A and H.`,
+  },
 ]

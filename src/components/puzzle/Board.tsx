@@ -106,6 +106,7 @@ function RoundTable({
     return { x: cx + r * Math.cos(a), y: cy - r * Math.sin(a), ang: Math.atan2(-Math.sin(a), Math.cos(a)) };
   };
   const cornersFaceOut = !p.cornersIn;
+  const mixed = p.dirCat !== undefined; // each person faces the centre or away on their own: the arrow shows it once it is known
   return (
     <svg
       viewBox="0 0 300 300"
@@ -134,7 +135,7 @@ function RoundTable({
         textAnchor="middle"
         className="fill-slate-400 text-[10px] font-semibold dark:fill-slate-500"
       >
-        {sq ? `corners face ${cornersFaceOut ? "outside" : "the centre"}, sides face ${cornersFaceOut ? "the centre" : "outside"}` : `everyone faces ${out ? "outside" : "the centre"}`}
+        {mixed ? "arrows show the way each faces" : sq ? `corners face ${cornersFaceOut ? "outside" : "the centre"}, sides face ${cornersFaceOut ? "the centre" : "outside"}` : `everyone faces ${out ? "outside" : "the centre"}`}
       </text>
       <text
         x={cx}
@@ -149,15 +150,18 @@ function RoundTable({
         const ang = pt ? pt.ang : ((-90 + (dir * f * 360) / n) * Math.PI) / 180;
         const x = pt ? pt.x : cx + R * Math.cos(ang);
         const y = pt ? pt.y : cy + R * Math.sin(ang);
-        const outward = sq ? (f % 2 === 0) === cornersFaceOut : out; // corners and sides face opposite ways
         const mask = grid.row(1, f, 0);
         const locked = pop(mask) === 1;
+        const facingRow = mixed && locked ? grid.row(0, bits(mask)[0], ctx.dirK) : 0;
+        const faceKnown = !mixed || pop(facingRow) === 1;
+        const outward = mixed ? facingRow === 2 : sq ? (f % 2 === 0) === cornersFaceOut : out; // corners and sides face opposite ways
+
         const person = locked ? ctx.lab(0, bits(mask)[0]) : null;
         const justFixed = locked && fixed.has(`0.${bits(mask)[0]}.1.${f}`);
         // a small arrow beside each seat showing the way that person faces
         const deg = (ang * 180) / Math.PI;
-        const ax = sq ? x + (outward ? 31 : -31) * Math.cos(ang) : cx + (R + (out ? 31 : -31)) * Math.cos(ang);
-        const ay = sq ? y + (outward ? 31 : -31) * Math.sin(ang) : cy + (R + (out ? 31 : -31)) * Math.sin(ang);
+        const ax = sq || mixed ? x + (outward ? 31 : -31) * Math.cos(ang) : cx + (R + (out ? 31 : -31)) * Math.cos(ang);
+        const ay = sq || mixed ? y + (outward ? 31 : -31) * Math.sin(ang) : cy + (R + (out ? 31 : -31)) * Math.sin(ang);
         return (
           <g key={f}>
             <circle
@@ -197,11 +201,13 @@ function RoundTable({
             >
               {person ?? "?"}
             </text>
-            <polygon
-              points="0,-5 4,3 -4,3"
-              transform={`translate(${ax} ${ay}) rotate(${deg + (outward ? 90 : -90)})`}
-              className="fill-slate-300 dark:fill-slate-600"
-            />
+            {faceKnown && (
+              <polygon
+                points="0,-5 4,3 -4,3"
+                transform={`translate(${ax} ${ay}) rotate(${deg + (outward ? 90 : -90)})`}
+                className="fill-slate-300 dark:fill-slate-600"
+              />
+            )}
           </g>
         );
       })}

@@ -1247,6 +1247,21 @@ function parseClueText(sentence: string, lex: Lexicon): Atom[] | null {
       if (a1 && a2) return [...atoms, ...a1, ...a2]
     }
     // "S is held immediately before U, but in different months": the relation, then the same / different month of the two people it names
+    // "A who is sitting at corner is sitting fifth to the left of C": a place for A, then the relation
+    const whoAt = s.match(/^(@\d+)\s+who\s+((?:is|are)\s+(?:sitting|placed|seated)\s+(?:at|on|in)\s+[a-z ]+?)\s+(?:is|are)\s+((?:sitting|placed|seated)\s+.+)$/)
+    if (whoAt) {
+      const a1 = interpretClause(`${whoAt[1]} ${whoAt[2]}`, ments, lex)
+      const a2 = interpretClause(`${whoAt[1]} is ${whoAt[3]}`, ments, lex)
+      if (a1 && a2) return [...atoms, ...a1, ...a2]
+    }
+    // "B and D are sitting immediately next to each other facing same direction": the relation, then the same direction
+    const sameDir = lex.dirCat !== undefined ? s.match(/^(.+?)\s+(?:and\s+)?facing\s+(?:the\s+)?same\s+direction$/) : null
+    if (sameDir && (sameDir[1].match(/@\d+/g) ?? []).length === 2) {
+      const [e0, e1] = sameDir[1].match(/@\d+/g) as string[]
+      const a1 = interpretClause(sameDir[1], ments, lex)
+      const a2 = interpretClause(`${e0} and ${e1} face the same direction`, ments, lex)
+      if (a1 && a2) return [...atoms, ...a1, ...a2]
+    }
     const monthTail = s.match(/^(.+?)\s+but\s+(?:in|on)\s+(different|the same)\s+months?$/)
     if (monthTail && (monthTail[1].match(/@\d+/g) ?? []).length === 2 && !/\b(?:same|different)\b/.test(monthTail[1])) {
       const [e0, e1] = monthTail[1].match(/@\d+/g) as string[]
@@ -1393,7 +1408,7 @@ function orderFromList(values: string[]): OrderInfo | null {
 /** statements that only restate the setup ("Each person was born in one month only.") — nothing to solve, so nothing to warn about */
 const isFiller = (s: string): boolean =>
   /^each corner\b/i.test(s) || /^the base year\b/i.test(s) || /\bon which no (?:one|person|candidate|friend)\b/i.test(s) || /^only one (?:person|friend|candidate|student)\b[^.]*\b(?:given|each|one) day\b/i.test(s) || /^(?:they|all of them|each of them)\b[^.]*\b\d+(?:st|nd|rd|th)\b[^.]*\b(?:each|every) month\b/i.test(s) || /^the week (?:is )?(?:start|begin)/i.test(s) || /^(?:all of them|everyone|everybody|each of them|they all)\s+(?:are\s+)?fac(?:e|es|ing)\b/i.test(s) || /^(?:one|two|three|four|only|exactly|no|any)\b[^.]*\b(?:dates?|days?)\b[^.]*\b(?:vacant|empty|free|unoccupied)\b/i.test(s) || /^(?:each|every)\s+(?:day|date)\b[^.]*\bonly one\b/i.test(s) || /^the distance between\b/i.test(s) || /^the (?:persons?|people),? who (?:sit|sits|are sitting) at the (?:side|corner)s?\b/i.test(s) || /^\w+\s+(?:people|persons)\s+(?:are\s+)?sitting\s+at\s+the\s+corners\b/i.test(s) || /^no seat is\b/i.test(s) || /^(?:the\s+)?(?:people|persons)\s+(?:sitting|seated)\s+(?:at|on)\s+the\s+corners\b/i.test(s) ||
-  /^some of them (?:are )?facing\b/i.test(s) || /^each of them (?:likes?|has|have|owns?|plays?|drinks?|eats?|prefers?)\s+(?:one|a|an)\s+[a-z]+\s*\.?$/i.test(s) ||
+  /^some of them (?:are )?facing\b/i.test(s) || /^some clues\b/i.test(s) || /^each of them (?:likes?|has|have|owns?|plays?|drinks?|eats?|prefers?)\s+(?:one|a|an)\s+[a-z]+\s*\.?$/i.test(s) ||
   /^(?:not more than|at most|only) one (?:person|box|friend|student)\b[^.]*\bsame\b/i.test(s) || /^(?:each|every)\s+(?:person|one|of them|friend|student)\b[^.]*\b(?:only|exactly one)\b/i.test(s) || /^no\s+two\b/i.test(s) || /\bwith respect to\b[^.]*\bfacing\b/i.test(s) || /^\(?\s*left and right\b/i.test(s) || /^\(?\s*(?:the\s+)?(?:bottommost|lowermost|lowest|ground|topmost|position 1)\b[^.]*\b(?:numbered|is the bottom)\b/i.test(s)
 
 /** sentences that only describe how the building is laid out ("Flat A is to the west of Flat B", "All the flats are of same size") */
@@ -1642,6 +1657,8 @@ function parsePuzzleFixed(raw: string): ParseResult {
     result.errors.push('Only people facing north or south are supported (not east or west).')
     return result
   }
+  // a round / square table where some people face the centre and some face away: left and right follow each person's own facing
+  const mixedCircle = circle && !tworow && /\bsome\b[^.]*?\bfacing\b[^.]*?\b(?:cent(?:re|er)|inside)\b[^.]*?\bsome\b[^.]*?\bfacing\b[^.]*?\b(?:away|outside)/i.test(text)
   let axisGuess: Axis = rowScore > floorScore || mixedLine ? 'row' : 'floor'
   const topDownText = /(?:topmost|top)\s+floor[^.]*?\bnumbered\s*(?:as\s*)?1\b/i.test(text) ||/numbered\s+(?:from|starting from|beginning from)\s+(?:the\s+)?top/i.test(text)
 
@@ -1733,6 +1750,18 @@ function parsePuzzleFixed(raw: string): ParseResult {
     } else result.warnings.push(`I found ${vals.length} ${name}s in the clues (${vals.join(', ')}) but there are ${n} people, so the ${name} clues cannot be read.`)
   }
   let dirCat: number | undefined
+  if (mixedCircle && !mixedLine && !result.errors.length) {
+    cats.push({
+      name: 'direction',
+      values: ['centre', 'outside'],
+      aliases: [
+        ['inside the centre', 'inside the center', 'towards the centre', 'toward the centre', 'towards the center', 'toward the center', 'inside', 'the centre', 'the center'],
+        ['away from the centre', 'away from the center', 'outside the centre', 'outside the center', 'outside', 'away'],
+      ],
+    })
+    dirCat = cats.length - 1
+    result.warnings.push('Some people face the centre and some face away from it: "left" and "right" are taken as seen by the person the clue is about (facing the centre, the right is the next seat anticlockwise; facing away it is the other way).')
+  }
   if (mixedLine && !result.errors.length) {
     cats.push({ name: 'direction', values: ['north', 'south'] })
     dirCat = cats.length - 1
@@ -1801,6 +1830,7 @@ function parsePuzzleFixed(raw: string): ParseResult {
     lex.posRe = null
   }
   const clues: Clue[] = []
+  let facingCount: { dir: number; max?: number; min?: number } | undefined
   sentences.forEach((s, k) => {
     const listed = rowSentence.get(k)
     if (listed !== undefined && rowLen) {
@@ -1822,6 +1852,20 @@ function parsePuzzleFixed(raw: string): ParseResult {
     }
     if (/^\(?[a-e]\)\s/i.test(s)) return // answer options
     if (isFiller(s) || (building && isGridFiller(s))) return
+    // "Not more than four persons are facing inside the centre": a limit on how many people face one way
+    const fc = lex.dirCat !== undefined ? s.match(/^(not more than|no more than|at most|at least|not less than|exactly|only)\s+(\w+)\s+(?:persons?|people)\s+(?:are\s+)?facing\s+(.+)$/i) : null
+    if (fc) {
+      const k = NUM[fc[2].toLowerCase()] ?? Number(fc[2])
+      const cat = cats[lex.dirCat as number]
+      const idxDir = cat.aliases ? cat.aliases.findIndex((al) => al.some((x) => fc[3].toLowerCase().includes(x))) : cat.values.findIndex((v) => fc[3].toLowerCase().includes(v))
+      if (Number.isFinite(k) && idxDir >= 0) {
+        const q = fc[1].toLowerCase()
+        const bound = /^(?:at least|not less than)$/.test(q) ? { min: k } : /^(?:exactly|only)$/.test(q) ? { min: k, max: k } : { max: k }
+        facingCount = { dir: idxDir, ...bound }
+        clues.push({ id: clues.length + 1, text: s, atoms: [] }) // applied by the engine itself (no atom)
+        return
+      }
+    }
     const atoms = parseClueText(s, lex)
     if (atoms && atoms.length) clues.push({ id: clues.length + 1, text: s, atoms })
     else result.unparsed.push(s)
@@ -1836,7 +1880,7 @@ function parsePuzzleFixed(raw: string): ParseResult {
   const extra = order ? { labels: order.labels, unit: order.unit, on: order.on, verb: slotCat !== undefined ? undefined : verbWord ? `was ${verbWord[1].toLowerCase()}` : bday ? 'was born' : unordered ? unorderedVerb : undefined, ...(bday ? { cols: bday.dates.length } : {}), ...(unordered ? { unordered: true } : {}), ...(weekSlots ? { slotUnit: 'day' } : floorSlots ? { slotUnit: 'floor' } : {}) } : {}
   const stack = boxes && axis === 'floor' ? { noun: 'box', place: 'place' } : boxes ? { noun: 'box' } : {}
   result.summary = { people, axis, topDown, cats, labels: order?.labels, unit: order?.unit, facing, cols: building?.cols, flats: building?.flats, rowLen, hierarchy: numbered ? { unit: numbered.noun, up: /\bsenior\b/i.test(text) ? 'senior to' : `in a higher ${numbered.noun} than`, down: /\bjunior\b/i.test(text) ? 'junior to' : `in a lower ${numbered.noun} than` } : undefined, mirror: mirror || undefined, unordered: unordered || undefined, dates: slotCat !== undefined ? (bday ? bday.labels : weekSlots ?? floorSlots ?? undefined) : undefined, slotUnit: weekSlots ? 'day' : floorSlots ? 'floor' : bday ? 'date' : undefined, mixed: dirCat !== undefined || undefined, square: square || undefined, shape: shape?.name, cornersIn: square ? cornersIn : undefined, ...stack }
-  result.puzzle = { n, axis, topDown, people, cats, clues, ...extra, ...(dirCat !== undefined ? { dirCat } : {}), ...(mirror ? { mirror: true } : {}), ...(calValues ? { values: calValues, ...(yearValues && baseYear ? { baseYear: Number(baseYear[1]) } : {}) } : {}), ...(numbered ? { hierarchy: { unit: numbered.noun, up: /\bsenior\b/i.test(text) ? 'senior to' : `in a higher ${numbered.noun} than`, down: /\bjunior\b/i.test(text) ? 'junior to' : `in a lower ${numbered.noun} than` } } : {}), ...(slotCat !== undefined ? { slotCat } : {}), ...(circle ? { facing } : {}), ...(square ? { square: true, shape: shape?.name, cornersIn } : {}), ...(building ? { cols: building.cols, flats: building.flats } : {}), ...(rowLen ? { rowLen } : {}), ...stack }
+  result.puzzle = { n, axis, topDown, people, cats, clues, ...extra, ...(dirCat !== undefined ? { dirCat } : {}), ...(facingCount ? { facingCount } : {}), ...(mirror ? { mirror: true } : {}), ...(calValues ? { values: calValues, ...(yearValues && baseYear ? { baseYear: Number(baseYear[1]) } : {}) } : {}), ...(numbered ? { hierarchy: { unit: numbered.noun, up: /\bsenior\b/i.test(text) ? 'senior to' : `in a higher ${numbered.noun} than`, down: /\bjunior\b/i.test(text) ? 'junior to' : `in a lower ${numbered.noun} than` } } : {}), ...(slotCat !== undefined ? { slotCat } : {}), ...(circle ? { facing } : {}), ...(square ? { square: true, shape: shape?.name, cornersIn } : {}), ...(building ? { cols: building.cols, flats: building.flats } : {}), ...(rowLen ? { rowLen } : {}), ...stack }
   return result
 }
 

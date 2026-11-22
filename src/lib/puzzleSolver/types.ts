@@ -116,6 +116,8 @@ export interface Puzzle {
    * "to the left of" means a higher position. (The parser swaps left and right; this flag swaps them back when the clues are shown.)
    */
   mirror?: boolean
+  /** with `dirCat`: how many people may face one way ("not more than four persons are facing inside the centre"): value index in the direction category, and the bounds */
+  facingCount?: { dir: number; max?: number; min?: number }
   /** a line of people some of whom face north and some south: index (within `cats`) of the category 'direction' (values north, south) */
   dirCat?: number
   /**
