@@ -117,6 +117,8 @@ interface Options {
   relaxed?: boolean
   /** stop searching after this many milliseconds (the result is then incomplete) */
   deadlineMs?: number
+  /** families in which person x is in generation g are left out ("is x certainly not in generation g?" — used to find what the clues settle) */
+  ban?: { x: number; g: number }[]
 }
 
 export function solveFamily(p: FamilyPuzzle, opts: Options = {}): FamilySearch {
@@ -161,6 +163,9 @@ export function solveFamily(p: FamilyPuzzle, opts: Options = {}): FamilySearch {
   const oppFacts = facts.filter((f): f is Extract<Fact, { t: 'opposite' }> => f.t === 'opposite')
   const singleFacts = facts.filter((f): f is Extract<Fact, { t: 'single' }> => f.t === 'single')
   const spouseFacts = relFacts.filter((f) => RELATIONS[f.rel].direct === 'spouse')
+  // "x is not married to y" can be checked as soon as the marriages are fixed
+  const notSpouse = facts.filter((f): f is Extract<Fact, { t: 'rel' }> => f.t === 'rel' && !!f.neg && RELATIONS[f.rel].direct === 'spouse')
+  const banned = opts.ban ?? []
   const parentFacts = relFacts.filter((f) => RELATIONS[f.rel].direct === 'parent' || RELATIONS[f.rel].direct === 'child')
 
   // ── layer 3: parents ──
@@ -272,6 +277,7 @@ export function solveFamily(p: FamilyPuzzle, opts: Options = {}): FamilySearch {
     }
     if (i === n) {
       for (const f of spouseFacts) if (spouse[f.x] !== f.y) return
+      for (const f of notSpouse) if (spouse[f.x] === f.y || spouse[f.y] === f.x) return
       for (const f of singleFacts) if ((spouse[f.x] >= 0) !== !!f.married) return
       if (rules.couples !== undefined && pairs !== rules.couples) return
       order.sort((a, b) => gen[a] - gen[b] || a - b)
@@ -315,6 +321,7 @@ export function solveFamily(p: FamilyPuzzle, opts: Options = {}): FamilySearch {
       gender[i] = g
       for (let k = 1; k <= G; k++) {
         gen[i] = k
+        if (banned.some((b) => b.x === i && b.g === k)) continue
         let ok = true
         for (const f of relFacts) {
           if (f.x > i || f.y > i || (f.x !== i && f.y !== i)) continue

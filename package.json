@@ -32,6 +32,7 @@
     "verify:puzzle":"tsx scripts/verify-puzzle-solver.ts",
     "verify:family": "tsx scripts/verify-family-tree.ts",
     "verify:family-game": "tsx scripts/verify-family-game.ts",
+    "verify:family-steps": "tsx scripts/verify-family-steps.ts",
     "verify:syllogism": "tsx scripts/verify-syllogism-solver.ts",
     "preview": "vite preview",
     "verify:qbank-delete": "tsx scripts/verify-qb-delete.ts"

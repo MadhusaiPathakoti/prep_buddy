@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
+import FamilyBuildUp from './FamilyBuildUp'
 import FamilyTreeDiagram from './FamilyTreeDiagram'
 import { analyzeFamily, refineAnalysis, type FamilyAnalysis } from '../../lib/familyTree/analyze'
 import { treeInWords } from '../../lib/familyTree/describe'
@@ -28,6 +29,7 @@ export default function FamilyPanel({ text, autoSolve, onBackToGame }: { text: s
   const [result, setResult] = useState<FamilyAnalysis | null>(null)
   const [busy, setBusy] = useState(false)
   const [tab, setTab] = useState(0)
+  const [view, setView] = useState<'tree' | 'build'>('tree')
   const timer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined)
   const run = useRef(0)
   const resultRef = useRef<HTMLDivElement>(null)
@@ -37,6 +39,7 @@ export default function FamilyPanel({ text, autoSolve, onBackToGame }: { text: s
     clearTimeout(timer.current)
     setResult(null)
     setTab(0)
+    setView('tree')
     setBusy(false)
     scrolled.current = false
     if (autoSolve && parsed.puzzle) solve() // a puzzle handed over by a game: draw the tree without waiting for a click
@@ -193,6 +196,19 @@ export default function FamilyPanel({ text, autoSolve, onBackToGame }: { text: s
                   </div>
                 </>
               )}
+              <div className="mt-3 inline-flex rounded-xl bg-slate-100 p-1 text-sm font-semibold dark:bg-slate-700" role="tablist" aria-label="How to show the tree">
+                {([['tree', 'The tree'], ['build', '▶ Clue by clue']] as const).map(([id, label]) => (
+                  <button key={id} role="tab" aria-selected={view === id} onClick={() => setView(id)} className={['rounded-lg px-3 py-1.5 transition', view === id ? 'bg-white text-indigo-700 shadow-sm dark:bg-slate-900 dark:text-indigo-300' : 'text-slate-600 hover:text-slate-900 dark:text-slate-300'].join(' ')}>
+                    {label}
+                  </button>
+                ))}
+              </div>
+              {view === 'build' ? (
+                <div className="mt-3">
+                  <FamilyBuildUp key={`${tab}|${text}`} puzzle={puzzle} world={result.worlds[Math.min(tab, result.worlds.length - 1)]} relaxed={result.relaxed} />
+                </div>
+              ) : (
+                <>
               <div className="mt-3 overflow-x-auto rounded-2xl bg-slate-50 p-3 dark:bg-slate-900/50">
                 <FamilyTreeDiagram world={result.worlds[Math.min(tab, result.worlds.length - 1)]} />
                 <div className="mt-2 flex flex-wrap items-center justify-center gap-x-4 gap-y-1 text-xs text-slate-500 dark:text-slate-400">
@@ -214,6 +230,8 @@ export default function FamilyPanel({ text, autoSolve, onBackToGame }: { text: s
                   <li key={l}>• {l}</li>
                 ))}
               </ul>
+                </>
+              )}
 
               <h3 className="mt-5 text-xs font-bold uppercase tracking-wide text-slate-400 dark:text-slate-500">Clue by clue</h3>
               <ol className="mt-2 space-y-3 text-sm">
