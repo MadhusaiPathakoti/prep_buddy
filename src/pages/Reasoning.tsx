@@ -31,6 +31,13 @@ export const REASONING_GAMES = [
     icon: '123',
   },
   {
+    id: 'digit-operations',
+    title: 'Digit Operations',
+    description: 'Add or subtract from odd, even or prime digits of a long number, delete repeats or sort — then find the Nth digit, a sum or a product. Quick-solve tips included.',
+    to: '/reasoning/digit-operations',
+    icon: '±7',
+  },
+  {
     id: 'statement-conclusions',
     title: 'Statement & Conclusions',
     description: 'Coded inequality chains, e.g. F > R ≥ T = E — decide which conclusions definitely follow.',

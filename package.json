@@ -28,6 +28,7 @@
     "verify:alpha-series": "tsx scripts/verify-alpha-series.ts",
     "verify:letter-pairs": "tsx scripts/verify-letter-pairs.ts",
     "verify:number-arrangement": "tsx scripts/verify-number-arrangement.ts",
+    "verify:digit-operations": "tsx scripts/verify-digit-operations.ts",
     "verify:puzzle":"tsx scripts/verify-puzzle-solver.ts",
     "verify:family": "tsx scripts/verify-family-tree.ts",
     "verify:syllogism": "tsx scripts/verify-syllogism-solver.ts",

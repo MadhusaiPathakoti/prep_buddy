@@ -41,6 +41,7 @@ const AlphaNumericTest = lazy(() => import('./pages/games/AlphaNumericTest'))
 const AlphaNumSeries = lazy(() => import('./pages/games/AlphaNumSeries'))
 const LetterPairs = lazy(() => import('./pages/games/LetterPairs'))
 const NumberArrangement = lazy(() => import('./pages/games/NumberArrangement'))
+const DigitOperations = lazy(() => import('./pages/games/DigitOperations'))
 const StatementConclusions = lazy(() => import('./pages/games/StatementConclusions'))
 const NumberLetterSeries = lazy(() => import('./pages/games/NumberLetterSeries'))
 const CodingDecoding = lazy(() => import('./pages/games/CodingDecoding'))
@@ -170,6 +171,7 @@ export default function App() {
           <Route path="/reasoning/alpha-num-series" element={<AlphaNumSeries />} />
           <Route path="/reasoning/letter-pairs" element={<LetterPairs />} />
           <Route path="/reasoning/number-arrangement" element={<NumberArrangement />} />
+          <Route path="/reasoning/digit-operations" element={<DigitOperations />} />
           <Route path="/reasoning/statement-conclusions" element={<StatementConclusions />} />
           <Route path="/reasoning/number-letter-series" element={<NumberLetterSeries />} />
           <Route path="/reasoning/coding-decoding" element={<CodingDecoding />} />
