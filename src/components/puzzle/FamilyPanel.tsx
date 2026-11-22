@@ -1,46 +1,13 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import FamilyTreeDiagram from './FamilyTreeDiagram'
-import { analyzeFamily, refineAnalysis, siblingGroups, type FamilyAnalysis } from '../../lib/familyTree/analyze'
+import { analyzeFamily, refineAnalysis, type FamilyAnalysis } from '../../lib/familyTree/analyze'
+import { treeInWords } from '../../lib/familyTree/describe'
 import type { World } from '../../lib/familyTree/model'
 import { describeFact, parseFamily } from '../../lib/familyTree/parse'
 import { describeRules } from '../../lib/familyTree/solve'
 
 const card = 'mt-4 rounded-3xl bg-white p-5 shadow-sm ring-1 ring-slate-200 dark:bg-slate-800 dark:ring-slate-700'
 const chip = 'rounded-full bg-slate-100 px-2.5 py-1 font-semibold text-slate-700 dark:bg-slate-700 dark:text-slate-200'
-
-/** the tree in words: who is married to whom, whose children are whose, who are brothers and sisters */
-function treeInWords(w: World): string[] {
-  const nm = (i: number) => w.names[i]
-  const lines: string[] = []
-  for (const g of [...new Set(w.gen)].sort((a, b) => a - b)) {
-    const people = w.names.map((_, i) => i).filter((i) => w.gen[i] === g)
-    const parts: string[] = []
-    const done = new Set<number>()
-    for (const i of people) {
-      if (done.has(i)) continue
-      done.add(i)
-      const s = w.spouse[i]
-      if (s >= 0) {
-        done.add(s)
-        parts.push(`${nm(w.gender[i] === 'M' ? i : s)} (husband) = ${nm(w.gender[i] === 'M' ? s : i)} (wife)`)
-      } else parts.push(`${nm(i)} (${w.gender[i] === 'M' ? 'man' : 'woman'}, not married)`)
-    }
-    lines.push(`Generation ${g}: ${parts.join('; ')}`)
-  }
-  const kids = new Map<string, number[]>()
-  for (let i = 0; i < w.n; i++) {
-    if (w.father[i] < 0 && w.mother[i] < 0) continue
-    const key = `${w.father[i]}.${w.mother[i]}`
-    kids.set(key, [...(kids.get(key) ?? []), i])
-  }
-  for (const [key, children] of kids) {
-    const [f, m] = key.split('.').map(Number)
-    const who = [f, m].filter((x) => x >= 0).map(nm).join(' and ')
-    lines.push(`${who} ${f >= 0 && m >= 0 ? 'have' : 'has'} ${children.map((c) => `${nm(c)} (${w.gender[c] === 'M' ? 'son' : 'daughter'})`).join(', ')}`)
-  }
-  for (const g of siblingGroups(w)) lines.push(`${g.map(nm).join(', ')} ${g.length === 2 ? 'are' : 'are all'} brothers and sisters`)
-  return lines
-}
 
 function differences(ws: World[]): string[] {
   const out: string[] = []
@@ -56,20 +23,32 @@ function differences(ws: World[]): string[] {
   return out
 }
 
-export default function FamilyPanel({ text }: { text: string }) {
+export default function FamilyPanel({ text, autoSolve, onBackToGame }: { text: string; autoSolve?: boolean; onBackToGame?: () => void }) {
   const parsed = useMemo(() => parseFamily(text), [text])
   const [result, setResult] = useState<FamilyAnalysis | null>(null)
   const [busy, setBusy] = useState(false)
   const [tab, setTab] = useState(0)
   const timer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined)
   const run = useRef(0)
+  const resultRef = useRef<HTMLDivElement>(null)
+  const scrolled = useRef(false)
   useEffect(() => {
     run.current++
     clearTimeout(timer.current)
     setResult(null)
     setTab(0)
     setBusy(false)
+    scrolled.current = false
+    if (autoSolve && parsed.puzzle) solve() // a puzzle handed over by a game: draw the tree without waiting for a click
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [text])
+  // bring the tree into view the first time it appears
+  useEffect(() => {
+    if (autoSolve && result && !scrolled.current) {
+      scrolled.current = true
+      resultRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    }
+  }, [autoSolve, result])
   useEffect(() => () => clearTimeout(timer.current), [])
 
   const { puzzle, errors, warnings, unparsed } = parsed
@@ -169,7 +148,7 @@ export default function FamilyPanel({ text }: { text: string }) {
       </button>
 
       {result && puzzle && (
-        <div className={card}>
+        <div ref={resultRef} className={[card, 'scroll-mt-20'].join(' ')}>
           {result.status === 'none' ? (
             <>
               <h2 className="text-lg font-extrabold text-slate-900 dark:text-slate-100">The clues contradict each other</h2>
@@ -256,6 +235,11 @@ export default function FamilyPanel({ text }: { text: string }) {
                   </li>
                 ))}
               </ol>
+              {onBackToGame && (
+                <button onClick={onBackToGame} className="mt-5 w-full rounded-xl bg-indigo-600 px-4 py-3 font-semibold text-white shadow-sm transition hover:bg-indigo-500 active:scale-[0.99]">
+                  ← Back to the question
+                </button>
+              )}
               <p className="mt-4 text-xs text-slate-400 dark:text-slate-500">
                 Rules used: the people are the whole family (a relative who is not named does not exist, except the parents of the oldest people, who are outside the puzzle); a married couple is a man and a woman of the same generation who are not blood relatives; brothers and sisters have the same parents.
               </p>

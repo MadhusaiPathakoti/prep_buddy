@@ -15,11 +15,15 @@ interface PuzzleInputProps {
   onSolve: (p: Puzzle) => void
   busy: boolean
   error: string | null
+  /** set when a game handed the puzzle over: shows a way back to the question */
+  onBackToGame?: () => void
+  /** draw the family tree straight away (for a family puzzle handed over by a game) */
+  autoSolve?: boolean
 }
 
 type OcrState = { kind: 'idle' } | { kind: 'reading' } | { kind: 'error'; message: string } | { kind: 'done'; previous: string }
 
-export default function PuzzleInput({ text, onText, onSolve, busy, error }: PuzzleInputProps) {
+export default function PuzzleInput({ text, onText, onSolve, busy, error, onBackToGame, autoSolve }: PuzzleInputProps) {
   const family = useMemo(() => isFamilyPuzzle(text), [text])
   const parsed = useMemo(() => (family ? parsePuzzle('') : parsePuzzle(text)), [text, family])
   const [ocr, setOcr] = useState<OcrState>({ kind: 'idle' })
@@ -70,9 +74,18 @@ export default function PuzzleInput({ text, onText, onSolve, busy, error }: Puzz
 
   return (
     <div className="mx-auto max-w-3xl px-4 py-10">
-      <Link to="/reasoning" className="text-sm text-slate-400 hover:text-slate-600 dark:text-slate-500">
-        ← Reasoning
-      </Link>
+      {onBackToGame ? (
+        <div className="sticky top-2 z-10 flex flex-wrap items-center justify-between gap-2 rounded-2xl bg-indigo-50 px-4 py-3 shadow-sm ring-1 ring-indigo-200 dark:bg-indigo-950 dark:ring-indigo-500/40">
+          <span className="text-sm text-indigo-900 dark:text-indigo-200">Opened from the game — look at the tree, then go back to the same question.</span>
+          <button onClick={onBackToGame} className="rounded-xl bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 active:scale-95">
+            ← Back to the question
+          </button>
+        </div>
+      ) : (
+        <Link to="/reasoning" className="text-sm text-slate-400 hover:text-slate-600 dark:text-slate-500">
+          ← Reasoning
+        </Link>
+      )}
       <div className="mt-2 flex flex-wrap items-center justify-between gap-3">
         <h1 className="text-3xl font-extrabold text-slate-900 dark:text-slate-100">Puzzle Solver</h1>
         <Instructions />
@@ -163,7 +176,7 @@ export default function PuzzleInput({ text, onText, onSolve, busy, error }: Puzz
       </div>
 
       {family && hasText ? (
-        <FamilyPanel text={text} />
+        <FamilyPanel text={text} autoSolve={autoSolve} onBackToGame={onBackToGame} />
       ) : (
         <>
       {hasText && (

@@ -38,6 +38,13 @@ export const REASONING_GAMES = [
     icon: '±7',
   },
   {
+    id: 'family-tree',
+    title: 'Family Tree',
+    description: 'A family of seven in two generations — "N is the brother-in-law of A, who has only one daughter…". Work out how people are related; open the Puzzle Solver to see the tree, then come back. Easy, medium and hard.',
+    to: '/reasoning/family-tree',
+    icon: '🌳',
+  },
+  {
     id: 'statement-conclusions',
     title: 'Statement & Conclusions',
     description: 'Coded inequality chains, e.g. F > R ≥ T = E — decide which conclusions definitely follow.',

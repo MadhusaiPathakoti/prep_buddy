@@ -31,6 +31,7 @@
     "verify:digit-operations": "tsx scripts/verify-digit-operations.ts",
     "verify:puzzle":"tsx scripts/verify-puzzle-solver.ts",
     "verify:family": "tsx scripts/verify-family-tree.ts",
+    "verify:family-game": "tsx scripts/verify-family-game.ts",
     "verify:syllogism": "tsx scripts/verify-syllogism-solver.ts",
     "preview": "vite preview",
     "verify:qbank-delete": "tsx scripts/verify-qb-delete.ts"

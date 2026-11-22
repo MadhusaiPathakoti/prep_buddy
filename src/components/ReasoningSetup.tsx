@@ -41,7 +41,7 @@ interface ReasoningSetupProps {
   counts?: number[]
   defaultCount?: number
   /** Builds a fresh set of questions from the chosen option ids (keyed by group key). */
-  generate: (choice: Record<string, string>, count: number) => MCQQuestion[]
+  generate: (choice: Record<string, string>, count: number) => MCQQuestion[] | Promise<MCQQuestion[]>
   /** Adds a "check with solver" button to each question; the solver can send the player back to the quiz. */
   solver?: SolverLink
   /** Tips shown between the intro and the options, e.g. a <TipsCard />. */
@@ -78,10 +78,28 @@ export default function ReasoningSetup({ gameId, title, intro, groups, counts = 
   const [initial, setInitial] = useState<RunnerSnapshot | null>(saved?.snapshot ?? null)
   const [sessionKey, setSessionKey] = useState(0)
 
-  function begin() {
-    setQuestions(generate(choice, count))
+  const [preparing, setPreparing] = useState(false)
+
+  function start(qs: MCQQuestion[]) {
+    setQuestions(qs)
     setInitial(null)
     setSessionKey((k) => k + 1)
+  }
+
+  function begin() {
+    if (preparing) return
+    const made = generate(choice, count)
+    if (Array.isArray(made)) {
+      start(made)
+      return
+    }
+    // a game that needs a moment to build its questions: show the setup screen with a waiting button meanwhile
+    setQuestions(null)
+    setPreparing(true)
+    made
+      .then(start)
+      .catch(() => undefined)
+      .finally(() => setPreparing(false))
   }
 
   function checkWithSolver(q: MCQQuestion, snapshot: RunnerSnapshot) {
@@ -160,9 +178,10 @@ export default function ReasoningSetup({ gameId, title, intro, groups, counts = 
 
         <button
           onClick={begin}
-          className="mt-8 w-full rounded-xl bg-indigo-600 px-4 py-3 font-semibold text-white shadow-sm transition hover:bg-indigo-500 active:scale-[0.99]"
+          disabled={preparing}
+          className="mt-8 w-full rounded-xl bg-indigo-600 px-4 py-3 font-semibold text-white shadow-sm transition hover:bg-indigo-500 active:scale-[0.99] disabled:cursor-wait disabled:opacity-60"
         >
-          Start{difficultyLabel ? ` · ${difficultyLabel}` : ''} · {count} questions
+          {preparing ? 'Preparing your questions…' : `Start${difficultyLabel ? ` · ${difficultyLabel}` : ''} · ${count} questions`}
         </button>
       </div>
     </div>
