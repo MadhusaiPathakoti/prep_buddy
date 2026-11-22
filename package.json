@@ -27,6 +27,7 @@
     "verify:powers": "tsx scripts/verify-powers.ts",
     "verify:alpha-series": "tsx scripts/verify-alpha-series.ts",
     "verify:letter-pairs": "tsx scripts/verify-letter-pairs.ts",
+    "verify:number-arrangement": "tsx scripts/verify-number-arrangement.ts",
     "verify:puzzle":"tsx scripts/verify-puzzle-solver.ts",
     "verify:syllogism": "tsx scripts/verify-syllogism-solver.ts",
     "preview": "vite preview",

@@ -24,6 +24,13 @@ export const REASONING_GAMES = [
     icon: 'A·C',
   },
   {
+    id: 'number-arrangement',
+    title: 'Number Arrangement',
+    description: 'Five three-digit numbers: the third lowest, the one beside it, digit tests, "if 3 is added to each…", swapped digits — with quick-solve tips.',
+    to: '/reasoning/number-arrangement',
+    icon: '123',
+  },
+  {
     id: 'statement-conclusions',
     title: 'Statement & Conclusions',
     description: 'Coded inequality chains, e.g. F > R ≥ T = E — decide which conclusions definitely follow.',
