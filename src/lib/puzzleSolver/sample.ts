@@ -468,4 +468,18 @@ Not more than four persons are facing inside the centre. One person is sitting b
 E and G are facing same direction. B and D are sitting immediate next to each other facing same direction.
 D is sitting second to the right of E. E is sitting second to the left of H. F is sitting second to the left of B. A who is sitting at corner is sitting fifth to the left of C. G is sitting second to the right of A and second to the right of F. Two persons are sitting between A and H.`,
   },
+  {
+    id: 'two-rows-north-south',
+    title: 'Two rows, 6 face north / 6 south',
+    text: `Twelve persons—N, O, P, Q, R, S, T, U, V, W, X and Y—are standing in two parallel rows, with six persons in each row.
+Six persons are facing north, while the remaining six are facing south.
+The persons in the two parallel rows face each other.
+The distance between any two adjacent persons in the same row is equal.
+N faces W, who stands second to the left of V.
+V faces Y, who stands fourth to the left of Q.
+Q faces north and does not stand at either end of the row.
+O stands second to the right of T, who faces U.
+U stands adjacent to W.
+R stands third to the left of S, who faces X.`,
+  },
 ]

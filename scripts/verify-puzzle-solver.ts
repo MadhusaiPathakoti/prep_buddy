@@ -952,6 +952,21 @@ for (const s of SAMPLES.filter((x) => !x.family)) {
   }
 }
 
+// two rows told apart only by the way they face ("Q faces north"; six face north, the rest south): the answer figure
+{
+  const sample = SAMPLES.find((x) => x.id === 'two-rows-north-south')
+  const r = sample ? parsePuzzle(sample.text) : null
+  const e = r?.puzzle ? enumerate(r.puzzle, 50) : null
+  if (!r?.puzzle || r.unparsed.length || !e) fail('two rows by facing: not understood')
+  else if (e.sols.length !== 1) fail(`two rows by facing: expected one arrangement, got ${e.sols.length}`)
+  else {
+    const m = r.puzzle.rowLen as number
+    const row = (k: number) => r.puzzle!.people.map((nm, i) => ({ nm, p: e.sols[0].pos[i] })).filter((o) => Math.floor(o.p / m) === k).sort((a, b) => a.p - b.p).map((o) => o.nm).join('')
+    // figure: top row (facing south) V S W U R P from the west, bottom row (facing north) Y X N T Q O; seat 1 is each person's own left end
+    if (row(0) !== 'PRUWSV' || row(1) !== 'YXNTQO') fail(`two rows by facing: wrong arrangement ${row(0)} / ${row(1)}`)
+  }
+}
+
 // mistakes in the input are reported, not guessed at
 for (const [label, text, needle] of [
   ['no people', 'Hello there. A lives above B.', 'list of people'],

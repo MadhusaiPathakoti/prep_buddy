@@ -734,6 +734,14 @@ function interpretClauseRaw(s: string, ments: Term[], lex: Lexicon): Atom[] | nu
 
   // two facing rows: "x sits in the same row as y", "x and y sit in different rows"
   if (lex.axis === 'tworow') {
+    // "Q faces north": the row facing north (row 2; row 1 faces south) — the people of one row all face the same way
+    m = s.match(new RegExp(`^${ENT}\\s+(?:is\\s+)?(?:[a-z]+\\s+){0,2}?(?:faces?|facing)\\s+(?:towards?\\s+)?(?:the\\s+)?(north|south)(?:\\s+direction)?$`))
+    if (m && lex.rowLen) {
+      const x = M(m[1])
+      const len = lex.rowLen
+      const row = m[2] === 'north' ? 1 : 0
+      return [{ t: 'set', x, fs: Array.from({ length: len }, (_, i) => row * len + i), neg }]
+    }
     m = s.match(new RegExp(`^${ENT}\\s+and\\s+${ENT}\\s+(?:[a-z]+\\s+){0,3}?(?:in\\s+)?(?:the\\s+)?(same|different)\\s+rows?\\b`))
     if (m) return [{ t: 'samerow', x: M(m[1]), y: M(m[2]), neg: (m[3] === 'different') !== !!neg ? true : undefined }]
     m = s.match(new RegExp(`${ENT}\\s+(?:[a-z]+\\s+){0,3}?(?:in\\s+)?(?:the\\s+)?same row as\\s+${ENT}`))
@@ -1408,7 +1416,7 @@ function orderFromList(values: string[]): OrderInfo | null {
 /** statements that only restate the setup ("Each person was born in one month only.") — nothing to solve, so nothing to warn about */
 const isFiller = (s: string): boolean =>
   /^each corner\b/i.test(s) || /^the base year\b/i.test(s) || /\bon which no (?:one|person|candidate|friend)\b/i.test(s) || /^only one (?:person|friend|candidate|student)\b[^.]*\b(?:given|each|one) day\b/i.test(s) || /^(?:they|all of them|each of them)\b[^.]*\b\d+(?:st|nd|rd|th)\b[^.]*\b(?:each|every) month\b/i.test(s) || /^the week (?:is )?(?:start|begin)/i.test(s) || /^(?:all of them|everyone|everybody|each of them|they all)\s+(?:are\s+)?fac(?:e|es|ing)\b/i.test(s) || /^(?:one|two|three|four|only|exactly|no|any)\b[^.]*\b(?:dates?|days?)\b[^.]*\b(?:vacant|empty|free|unoccupied)\b/i.test(s) || /^(?:each|every)\s+(?:day|date)\b[^.]*\bonly one\b/i.test(s) || /^the distance between\b/i.test(s) || /^the (?:persons?|people),? who (?:sit|sits|are sitting) at the (?:side|corner)s?\b/i.test(s) || /^\w+\s+(?:people|persons)\s+(?:are\s+)?sitting\s+at\s+the\s+corners\b/i.test(s) || /^no seat is\b/i.test(s) || /^(?:the\s+)?(?:people|persons)\s+(?:sitting|seated)\s+(?:at|on)\s+the\s+corners\b/i.test(s) ||
-  /^some of them (?:are )?facing\b/i.test(s) || /^some clues\b/i.test(s) || /^each of them (?:likes?|has|have|owns?|plays?|drinks?|eats?|prefers?)\s+(?:one|a|an)\s+[a-z]+\s*\.?$/i.test(s) ||
+  /^some of them (?:are )?facing\b/i.test(s) || /^some clues\b/i.test(s) || /^(?:\w+)\s+(?:persons?|people)\s+(?:are\s+)?facing\s+(?:north|south)\b[^.]*\b(?:remaining|rest|others?)\b[^.]*\bfacing\s+(?:north|south)/i.test(s) || /^each of them (?:likes?|has|have|owns?|plays?|drinks?|eats?|prefers?)\s+(?:one|a|an)\s+[a-z]+\s*\.?$/i.test(s) ||
   /^(?:not more than|at most|only) one (?:person|box|friend|student)\b[^.]*\bsame\b/i.test(s) || /^(?:each|every)\s+(?:person|one|of them|friend|student)\b[^.]*\b(?:only|exactly one)\b/i.test(s) || /^no\s+two\b/i.test(s) || /\bwith respect to\b[^.]*\bfacing\b/i.test(s) || /^\(?\s*left and right\b/i.test(s) || /^\(?\s*(?:the\s+)?(?:bottommost|lowermost|lowest|ground|topmost|position 1)\b[^.]*\b(?:numbered|is the bottom)\b/i.test(s)
 
 /** sentences that only describe how the building is laid out ("Flat A is to the west of Flat B", "All the flats are of same size") */
